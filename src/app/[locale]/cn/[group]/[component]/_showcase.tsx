@@ -122,6 +122,10 @@ import { StatusBadge }    from '@/components/ui/cn/status-badge/StatusBadge'
 import { Rating }         from '@/components/ui/cn/rating/Rating'
 import { ScrollArea }     from '@/components/ui/cn/scroll-area/ScrollArea'
 import { VirtualList }    from '@/components/ui/cn/virtual-list/VirtualList'
+import { Button }         from '@/components/ui/cn/button/Button'
+import { Badge }          from '@/components/ui/cn/badge/Badge'
+import { Input }          from '@/components/ui/cn/input/Input'
+import { Label }          from '@/components/ui/cn/label/Label'
 
 interface ShowcaseProps {
   group: string
@@ -2609,10 +2613,193 @@ function AnimatedListDemo() {
   )
 }
 
+function LabelDemo() {
+  return (
+    <Frame label="Label — Tier 0 Primitive">
+      <div className="flex flex-col gap-6 w-full max-w-sm">
+        <Label>Default Label</Label>
+        <Label required>Required Field</Label>
+        <Label optional>Optional Field</Label>
+        <Label size="sm">Small Label</Label>
+        <Label size="lg">Large Label</Label>
+        <Label hint="This field accepts your full legal name.">With Hint</Label>
+        <Label disabled>Disabled Label</Label>
+      </div>
+    </Frame>
+  )
+}
+
+function InputDemo() {
+  const [val, setVal] = React.useState('')
+  return (
+    <Frame label="Input — Tier 0 Primitive">
+      <div className="flex flex-col gap-6 w-full max-w-sm">
+        {/* Variants */}
+        <Input label="Outline (default)" placeholder="Type something..." variant="outline" />
+        <Input label="Filled" placeholder="Type something..." variant="filled" />
+        <Input label="Flushed" placeholder="Type something..." variant="flushed" />
+
+        {/* Sizes */}
+        <Input label="Small" size="sm" placeholder="Small input" />
+        <Input label="Medium" size="md" placeholder="Medium input" />
+        <Input label="Large" size="lg" placeholder="Large input" />
+
+        {/* Status */}
+        <Input label="Error state" status="error" error="This field is required." defaultValue="bad value" />
+        <Input label="Success state" status="success" hint="Looks good!" defaultValue="valid@email.com" />
+        <Input label="Warning state" status="warning" hint="Password strength: weak." />
+
+        {/* Icon slots */}
+        <Input
+          label="With icon left"
+          iconLeft={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>}
+          placeholder="Search..."
+        />
+        <Input
+          label="With icon right"
+          iconRight={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>}
+          type="password"
+          placeholder="••••••••"
+        />
+
+        {/* Prefix / Suffix */}
+        <Input label="With prefix" prefix="https://" placeholder="example.com" />
+        <Input label="With suffix" suffix=".com" placeholder="mysite" />
+
+        {/* Character count */}
+        <div className="flex flex-col gap-1">
+          <Input
+            label="With character count"
+            value={val}
+            onChange={e => setVal(e.target.value)}
+            maxLength={50}
+            placeholder="Max 50 chars"
+            hint={`${val.length} / 50`}
+          />
+        </div>
+
+        {/* Disabled */}
+        <Input label="Disabled" disabled placeholder="Cannot edit" />
+      </div>
+    </Frame>
+  )
+}
+
+function BadgeDemo() {
+  const [dismissed, setDismissed] = React.useState<string[]>([])
+  return (
+    <Frame label="Badge — Tier 0 Primitive">
+      <div className="flex flex-col gap-6 w-full">
+        {/* Variants */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <Badge variant="solid">Solid</Badge>
+          <Badge variant="outline">Outline</Badge>
+          <Badge variant="soft">Soft</Badge>
+          <Badge variant="dot">Dot</Badge>
+        </div>
+
+        {/* Sizes */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <Badge size="sm">SM</Badge>
+          <Badge size="md">MD</Badge>
+          <Badge size="lg">LG</Badge>
+        </div>
+
+        {/* Intents */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <Badge intent="primary">Primary</Badge>
+          <Badge intent="secondary">Secondary</Badge>
+          <Badge intent="danger">Danger</Badge>
+          <Badge intent="success">Success</Badge>
+          <Badge intent="warning">Warning</Badge>
+          <Badge intent="info">Info</Badge>
+          <Badge intent="neutral" variant="outline">Neutral</Badge>
+        </div>
+
+        {/* Dot variants with all intents */}
+        <div className="flex flex-wrap gap-2 items-center">
+          {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+            <Badge key={i} variant="dot" intent={i}>{i}</Badge>
+          ))}
+        </div>
+
+        {/* Dismissible */}
+        <div className="flex flex-wrap gap-2 items-center">
+          {(['primary','danger','success'] as const).map(i =>
+            dismissed.includes(i) ? null : (
+              <Badge key={i} intent={i} onDismiss={() => setDismissed(p => [...p, i])}>{i}</Badge>
+            )
+          )}
+          {dismissed.length > 0 && (
+            <button className="text-body-caption text-muted underline" onClick={() => setDismissed([])}>reset</button>
+          )}
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
+function ButtonDemo() {
+  return (
+    <Frame label="Button — Tier 0 Primitive">
+      <div className="flex flex-col gap-6 w-full">
+        {/* Variants — primary intent */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button variant="solid">Solid</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="soft">Soft</Button>
+        </div>
+
+        {/* Sizes */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button size="xs">XS</Button>
+          <Button size="sm">SM</Button>
+          <Button size="md">MD</Button>
+          <Button size="lg">LG</Button>
+          <Button size="xl">XL</Button>
+        </div>
+
+        {/* Intents */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button intent="primary">Primary</Button>
+          <Button intent="secondary">Secondary</Button>
+          <Button intent="danger">Danger</Button>
+          <Button intent="success">Success</Button>
+          <Button intent="warning">Warning</Button>
+          <Button intent="info">Info</Button>
+          <Button intent="neutral" variant="outline">Neutral</Button>
+        </div>
+
+        {/* States */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button loading>Loading</Button>
+          <Button disabled>Disabled</Button>
+          <Button fullWidth>Full Width</Button>
+        </div>
+
+        {/* Icon variants */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button iconLeft={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>}>
+            Add Item
+          </Button>
+          <Button variant="outline" intent="danger" iconRight={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>}>
+            Delete
+          </Button>
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
   'tokens/colors':     ColorsTokens,
   'tokens/typography': TypographyTokens,
+  'inputs/button':     ButtonDemo,
+  'inputs/badge':      BadgeDemo,
+  'inputs/input':      InputDemo,
+  'inputs/label':      LabelDemo,
   'inputs/autocomplete':      AutocompleteDemo,
   'inputs/color-picker':      ColorPickerDemo,
   'inputs/combobox':          ComboboxDemo,
