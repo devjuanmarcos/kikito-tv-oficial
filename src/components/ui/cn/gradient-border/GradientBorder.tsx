@@ -2,7 +2,7 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import type { GradientBorderProps } from './gradient-border.types'
 
-const DEFAULT_COLORS = ['#7c6af7', '#4facfe', '#00f2fe', '#43e97b', '#fa709a']
+const DEFAULT_COLORS = ['var(--ks-violet)', 'var(--ks-patina)', 'var(--ks-kinpaku)', 'var(--ks-rose)']
 
 export function GradientBorder({
   children,

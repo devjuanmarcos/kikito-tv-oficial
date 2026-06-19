@@ -19,7 +19,7 @@ const SIZE_DOT: Record<string, string> = {
 }
 
 const SIZE_LABEL: Record<string, string> = {
-  sm: 'text-[0.75rem]', md: 'text-[0.8125rem]', lg: 'text-[0.875rem]',
+  sm: 'text-body-caption', md: 'text-body-callout', lg: 'text-body-callout',
 }
 
 export function StatusBadge({

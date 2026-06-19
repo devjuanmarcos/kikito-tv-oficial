@@ -22,9 +22,9 @@ const SPECIAL: Record<string, string> = {
 }
 
 const SIZE_CLASSES = {
-  sm: 'text-[0.5625rem] px-1 py-0.5',
-  md: 'text-[0.6875rem] px-1.5 py-0.5',
-  lg: 'text-[0.875rem] px-2 py-1',
+  sm: 'text-body-caption px-1 py-0.5',
+  md: 'text-body-caption px-1.5 py-0.5',
+  lg: 'text-body-callout px-2 py-1',
 }
 
 export function ShortcutKey({
@@ -40,7 +40,7 @@ export function ShortcutKey({
     <span className={cn('inline-flex items-center gap-0.5', className)} style={style}>
       {formatted.map((k, i) => (
         <React.Fragment key={i}>
-          {i > 0 && <span className="text-faint text-[0.625rem] px-0.5">+</span>}
+          {i > 0 && <span className="text-faint text-body-caption px-0.5">+</span>}
           <kbd
             className={cn(
               'inline-flex items-center justify-center rounded font-mono font-bold leading-none',

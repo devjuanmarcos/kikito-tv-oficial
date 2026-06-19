@@ -3,8 +3,8 @@ import type { TextGradientAs, TextGradientProps } from './text-gradient.types'
 
 export function TextGradient({
   children,
-  from = '#a78bfa',
-  to = '#38bdf8',
+  from = 'var(--ks-violet)',
+  to = 'var(--ks-rose)',
   via,
   direction = '90deg',
   animate = false,

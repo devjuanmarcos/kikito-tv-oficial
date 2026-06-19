@@ -47,11 +47,11 @@ export function TableOfContents({
 
   return (
     <nav
-      className={cn('w-full text-[0.8125rem]', sticky && 'sticky top-6', className)}
+      className={cn('w-full text-body-callout', sticky && 'sticky top-6', className)}
       style={style}
       aria-label="Table of contents"
     >
-      {title && <div className="text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-faint mb-[10px]">{title}</div>}
+      {title && <div className="text-body-caption font-bold tracking-[0.08em] uppercase text-faint mb-[10px]">{title}</div>}
       <ul className="list-none m-0 p-0 flex flex-col gap-[2px]">
         {filtered.map(item => {
           const isActive = activeId === item.id

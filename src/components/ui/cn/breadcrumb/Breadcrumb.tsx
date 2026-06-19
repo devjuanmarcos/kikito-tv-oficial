@@ -18,9 +18,9 @@ function buildVisible(items: BreadcrumbItem[], maxItems?: number): (BreadcrumbIt
 }
 
 const SIZE_CLS: Record<string, string> = {
-  sm: 'text-[0.75rem]',
-  md: 'text-[0.875rem]',
-  lg: 'text-[1rem]',
+  sm: 'text-body-caption',
+  md: 'text-body-callout',
+  lg: 'text-body-paragraph',
 }
 
 const interactiveCls = 'inline-flex items-center gap-[0.3125rem] py-[0.375rem] text-faint no-underline bg-none border-none font-[inherit] cursor-pointer rounded-sm transition-colors duration-[140ms] whitespace-nowrap hover:text-foreground'

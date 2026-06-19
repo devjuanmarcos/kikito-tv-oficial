@@ -62,7 +62,7 @@ export function Timeline({
         return (
           <li key={item.id ?? i} className="grid gap-x-4" style={{ gridTemplateColumns: 'auto 1fr' }}>
             <div className={cn('flex flex-col items-center shrink-0', stemW)}>
-              <span className={cn('rounded-full flex items-center justify-center shrink-0 font-[0.875rem] relative z-[1] transition-[background] duration-[160ms]', nodeSz, NODE_STATUS_CLS[status])}>
+              <span className={cn('rounded-full flex items-center justify-center shrink-0 text-body-callout relative z-[1] transition-[background] duration-[160ms]', nodeSz, NODE_STATUS_CLS[status])}>
                 {item.icon ?? DEFAULT_ICONS[status]}
               </span>
               {(!isLast || lastLine) && (
@@ -73,19 +73,19 @@ export function Timeline({
             <div className={cn('min-w-0', isLast ? 'pb-0' : isCompact ? 'pb-[0.875rem]' : 'pb-6')}>
               <div className={cn('flex items-start justify-between gap-3 min-h-8 pt-1', isReverse && 'flex-row-reverse')}>
                 <div className="flex items-center gap-2 flex-wrap min-w-0">
-                  <span className={cn('font-semibold leading-snug', isCompact ? 'text-[0.875rem]' : 'text-[0.9375rem]', TITLE_STATUS_CLS[status])}>
+                  <span className={cn('font-semibold leading-snug', isCompact ? 'text-body-callout' : 'text-body-paragraph', TITLE_STATUS_CLS[status])}>
                     {item.title}
                   </span>
                   {item.badge && <span className="shrink-0">{item.badge}</span>}
                 </div>
                 {item.timestamp && (
-                  <time className="text-[0.75rem] text-faint whitespace-nowrap shrink-0 pt-[3px] tabular-nums">
+                  <time className="text-body-caption text-faint whitespace-nowrap shrink-0 pt-[3px] tabular-nums">
                     {item.timestamp}
                   </time>
                 )}
               </div>
               {item.description && (
-                <div className={cn('text-muted leading-relaxed mt-1', isCompact ? 'text-[0.8125rem]' : 'text-[0.875rem]')}>
+                <div className={cn('text-muted leading-relaxed mt-1 text-body-callout')}>
                   {item.description}
                 </div>
               )}

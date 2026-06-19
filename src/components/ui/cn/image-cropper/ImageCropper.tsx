@@ -106,7 +106,7 @@ export function ImageCropper({
           top: `${crop.y}%`,
           width: `${crop.width}%`,
           height: `${crop.height}%`,
-          boxShadow: '0 0 0 9999px oklch(0% 0 0 / 0.5)',
+          boxShadow: '0 0 0 9999px color-mix(in srgb, var(--ks-lacquer-deep) 50%, transparent)',
         }}
         onMouseDown={e => onMouseDown(e, 'move')}
       >
@@ -116,7 +116,7 @@ export function ImageCropper({
         <div className="absolute w-[10px] h-[10px] bg-patina rounded-[2px] -bottom-[5px] -right-[5px] cursor-nwse-resize" onMouseDown={e => onMouseDown(e, 'br')} />
       </div>
 
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-foreground text-[0.6875rem] px-[10px] py-[3px] rounded-pill whitespace-nowrap pointer-events-none">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-canvas/70 text-foreground text-body-caption px-[10px] py-[3px] rounded-pill whitespace-nowrap pointer-events-none">
         {Math.round(crop.width)}% × {Math.round(crop.height)}%
       </div>
     </div>

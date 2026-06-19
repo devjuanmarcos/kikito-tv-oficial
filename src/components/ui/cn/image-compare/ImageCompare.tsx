@@ -84,11 +84,11 @@ export function ImageCompare({
 
       {/* Handle */}
       <div
-        className="absolute bg-white/80 backdrop-blur-sm"
+        className="absolute bg-raised/80 backdrop-blur-sm"
         style={{ ...handleStyle, position: 'absolute' }}
       >
         <div
-          className="absolute w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center text-[0.75rem] font-bold text-graphite"
+          className="absolute w-8 h-8 rounded-full bg-raised shadow-lg flex items-center justify-center text-body-caption font-bold text-foreground"
           style={knobStyle}
         >
           {direction === 'horizontal' ? '⇔' : '⇕'}
@@ -96,10 +96,10 @@ export function ImageCompare({
       </div>
 
       {/* Labels */}
-      <span className="absolute top-2 left-2 bg-black/50 text-white text-[0.6875rem] font-medium px-2 py-0.5 rounded pointer-events-none">
+      <span className="absolute top-2 left-2 bg-canvas/70 text-foreground text-body-caption font-medium px-2 py-0.5 rounded pointer-events-none">
         {beforeLabel}
       </span>
-      <span className="absolute top-2 right-2 bg-black/50 text-white text-[0.6875rem] font-medium px-2 py-0.5 rounded pointer-events-none">
+      <span className="absolute top-2 right-2 bg-canvas/70 text-foreground text-body-caption font-medium px-2 py-0.5 rounded pointer-events-none">
         {afterLabel}
       </span>
     </div>

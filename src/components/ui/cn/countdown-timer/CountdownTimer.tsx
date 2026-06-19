@@ -76,17 +76,17 @@ export function CountdownTimer({
       {parts.map((p, i) => (
         <React.Fragment key={p.label}>
           <div className="flex flex-col items-center min-w-[48px]">
-            <span className={cn('text-[2rem] font-extrabold leading-none tabular-nums', time.done ? 'text-danger' : 'text-foreground')}>
+            <span className={cn('text-heading-04 font-extrabold leading-none tabular-nums', time.done ? 'text-danger' : 'text-foreground')}>
               {pad(p.value)}
             </span>
             {showLabels && (
-              <span className="text-[0.625rem] font-semibold text-muted uppercase tracking-[0.06em] opacity-50 mt-1">
+              <span className="text-body-caption font-semibold text-muted uppercase tracking-[0.06em] opacity-50 mt-1">
                 {p.label}
               </span>
             )}
           </div>
           {i < parts.length - 1 && (
-            <span className="text-[1.75rem] font-extrabold text-patina self-start pt-0.5 select-none" aria-hidden="true">
+            <span className="text-heading-04 font-extrabold text-patina self-start pt-0.5 select-none" aria-hidden="true">
               {separator}
             </span>
           )}

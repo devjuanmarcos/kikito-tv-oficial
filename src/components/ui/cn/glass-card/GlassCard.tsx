@@ -14,10 +14,10 @@ export function GlassCard({
     <div
       className={cn('rounded-[--radius-lg] overflow-hidden', className)}
       style={{
-        background: `rgba(255,255,255,${opacity})`,
+        background: `color-mix(in srgb, var(--ks-lacquer-raised) ${Math.round(opacity * 100)}%, transparent)`,
         backdropFilter: `blur(${blur}px)`,
         WebkitBackdropFilter: `blur(${blur}px)`,
-        border: border ? '1px solid rgba(255,255,255,0.2)' : 'none',
+        border: border ? '1px solid color-mix(in srgb, var(--ks-lacquer-raised) 20%, transparent)' : 'none',
         ...style,
       }}
     >

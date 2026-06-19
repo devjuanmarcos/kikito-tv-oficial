@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils'
 import type { MarqueeTextProps } from './marquee-text.types'
 
-const SIZE_MAP = {
-  sm: '0.875rem',
-  md: '1.25rem',
-  lg: '2rem',
-  xl: '3rem',
+const SIZE_CLASSES = {
+  sm: 'text-body-callout',
+  md: 'text-body-title',
+  lg: 'text-heading-03',
+  xl: 'text-heading-02',
 }
 
 export function MarqueeText({
@@ -33,8 +33,8 @@ export function MarqueeText({
         .mq-item { display: inline-block; padding-right: 2em; }
       `}</style>
       <div
-        className={cn('mq-root', className)}
-        style={{ fontSize: SIZE_MAP[size], ...style }}
+        className={cn('mq-root', SIZE_CLASSES[size], className)}
+        style={style}
       >
         <div className="mq-track" style={{ animationDuration: duration }}>
           {items.map((t, i) => (

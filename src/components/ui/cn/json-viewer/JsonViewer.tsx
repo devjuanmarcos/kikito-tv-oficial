@@ -43,7 +43,7 @@ function JsonNode({ name, value, depth, defaultExpandDepth }: NodeProps) {
           className="text-faint hover:text-foreground transition-colors"
         >
           <span className="text-muted">{openB}</span>
-          <span className="text-kinpaku/70 px-1 text-[0.6875rem]">
+          <span className="text-kinpaku/70 px-1 text-body-caption">
             {entries.length} {isArray ? 'items' : 'keys'}
           </span>
           <span className="text-muted">{closeB}</span>
@@ -74,7 +74,7 @@ function JsonNode({ name, value, depth, defaultExpandDepth }: NodeProps) {
 export function JsonViewer({ data, defaultExpandDepth = 2, name, className, style }: JsonViewerProps) {
   return (
     <div
-      className={cn('font-mono text-[0.8125rem] leading-relaxed bg-canvas rounded-[--radius-md] border border-rule p-4 overflow-auto', className)}
+      className={cn('font-mono text-body-callout leading-relaxed bg-canvas rounded-[--radius-md] border border-rule p-4 overflow-auto', className)}
       style={style}
     >
       <JsonNode name={name} value={data} depth={0} defaultExpandDepth={defaultExpandDepth} />

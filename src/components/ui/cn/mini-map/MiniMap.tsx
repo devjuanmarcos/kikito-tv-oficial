@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { cn } from '@/lib/utils'
 import type { MiniMapProps } from './mini-map.types'
@@ -32,7 +34,7 @@ export function MiniMap({
               aria-current={isActive ? 'true' : undefined}
             >
               {position === 'right' && (
-                <span className={cn('text-[0.6875rem] text-right opacity-0 group-hover:opacity-100 transition-opacity text-muted max-w-[5rem] truncate', isActive && 'opacity-100 text-patina font-semibold')}>
+                <span className={cn('text-body-caption text-right opacity-0 group-hover:opacity-100 transition-opacity text-muted max-w-[5rem] truncate', isActive && 'opacity-100 text-patina font-semibold')}>
                   {section.label}
                 </span>
               )}
@@ -41,7 +43,7 @@ export function MiniMap({
                 isActive ? 'w-3 h-3 bg-patina' : 'w-2 h-2 bg-rule group-hover:bg-muted'
               )} />
               {position === 'left' && (
-                <span className={cn('text-[0.6875rem] text-left opacity-0 group-hover:opacity-100 transition-opacity text-muted max-w-[5rem] truncate', isActive && 'opacity-100 text-patina font-semibold')}>
+                <span className={cn('text-body-caption text-left opacity-0 group-hover:opacity-100 transition-opacity text-muted max-w-[5rem] truncate', isActive && 'opacity-100 text-patina font-semibold')}>
                   {section.label}
                 </span>
               )}

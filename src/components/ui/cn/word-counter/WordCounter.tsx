@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Label } from '@/components/ui/cn/label/Label'
 import type { WordCounterProps } from './word-counter.types'
 
 function countWords(text: string): number {
@@ -55,11 +56,11 @@ export function WordCounter({
 
   return (
     <div className={cn('flex flex-col gap-2', className)} style={style}>
-      {label && <div className="text-[0.8125rem] font-semibold text-foreground">{label}</div>}
+      {label && <Label size="md">{label}</Label>}
 
       <textarea
         className={cn(
-          'w-full px-[14px] py-[10px] border-[1.5px] border-rule rounded-[--radius-md] bg-sunken text-foreground text-[0.875rem] leading-[1.6] resize-y font-[inherit] outline-none box-border transition-[border-color] duration-[150ms] focus:border-patina',
+          'w-full px-[14px] py-[10px] border-[1.5px] border-rule rounded-[--radius-md] bg-sunken text-foreground text-body-callout leading-[1.6] resize-y font-[inherit] outline-none box-border transition-[border-color] duration-[150ms] focus:border-patina',
           isOver && 'border-danger!',
         )}
         value={text}
@@ -85,10 +86,10 @@ export function WordCounter({
           ...(showReadTime && words > 0 ? [{ value: String(readTime), label: 'min read', over: false }] : []),
         ].map(s => (
           <div key={s.label} className="flex flex-col items-center gap-[2px] min-w-[60px]">
-            <span className={cn('text-[18px] font-bold tabular-nums text-foreground leading-none', s.over && 'text-danger')}>
+            <span className={cn('text-body-title font-bold tabular-nums text-foreground leading-none', s.over && 'text-danger')}>
               {s.value}
             </span>
-            <span className="text-[0.6875rem] opacity-40 uppercase tracking-[0.05em]">{s.label}</span>
+            <span className="text-body-caption opacity-40 uppercase tracking-[0.05em]">{s.label}</span>
           </div>
         ))}
       </div>

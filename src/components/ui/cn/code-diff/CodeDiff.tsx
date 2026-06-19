@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import type { CodeDiffProps, DiffLine } from './code-diff.types'
@@ -61,13 +63,13 @@ export function CodeDiff({
 
   return (
     <div
-      className={cn('rounded-[--radius-md] border border-rule bg-canvas overflow-hidden font-mono text-[0.8125rem]', className)}
+      className={cn('rounded-[--radius-md] border border-rule bg-canvas overflow-hidden font-mono text-body-callout', className)}
       style={style}
     >
       {(filename || language) && (
         <div className="flex items-center gap-2 px-4 py-2 border-b border-rule bg-raised">
           {filename && <span className="text-foreground font-medium">{filename}</span>}
-          {language && <span className="text-faint text-[0.75rem] ml-auto">{language}</span>}
+          {language && <span className="text-faint text-body-caption ml-auto">{language}</span>}
         </div>
       )}
 
@@ -78,7 +80,7 @@ export function CodeDiff({
               const lines = side === 'before' ? beforeLines : afterLines
               return (
                 <div key={side}>
-                  <div className="px-4 py-1 bg-raised border-b border-rule text-faint text-[0.6875rem] font-semibold uppercase tracking-wide">
+                  <div className="px-4 py-1 bg-raised border-b border-rule text-faint text-body-caption font-semibold uppercase tracking-wide">
                     {side === 'before' ? '− Before' : '+ After'}
                   </div>
                   <table className="w-full border-collapse">
@@ -86,7 +88,7 @@ export function CodeDiff({
                       {lines.map((content, idx) => (
                         <tr key={idx} className="hover:bg-raised/50">
                           {showLineNumbers && (
-                            <td className="select-none w-10 text-right pr-3 py-0.5 text-faint text-[0.75rem] border-r border-rule/50">
+                            <td className="select-none w-10 text-right pr-3 py-0.5 text-faint text-body-caption border-r border-rule/50">
                               {idx + 1}
                             </td>
                           )}
@@ -106,10 +108,10 @@ export function CodeDiff({
                 <tr key={idx} className={LINE_BG[line.type]}>
                   {showLineNumbers && (
                     <>
-                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-[0.75rem] border-r border-rule/50">
+                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
                         {line.type !== 'added' ? (line.oldNum ?? '') : ''}
                       </td>
-                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-[0.75rem] border-r border-rule/50">
+                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
                         {line.type !== 'removed' ? (line.newNum ?? '') : ''}
                       </td>
                     </>

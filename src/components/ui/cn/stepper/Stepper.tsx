@@ -64,17 +64,17 @@ export function Stepper({
                 <div className={cn('absolute left-[1.0625rem] top-9 bottom-0 w-[2px] transition-[background] duration-[300ms]', status === 'completed' ? 'bg-patina' : 'bg-rule')} />
               )}
               <div
-                className={cn('w-9 h-9 rounded-full border-2 flex items-center justify-center text-[0.8125rem] font-bold shrink-0 relative z-[1] transition-[border-color,background,color] duration-[200ms]', CIRCLE_STATUS_CLS[status])}
+                className={cn('w-9 h-9 rounded-full border-2 flex items-center justify-center text-body-callout font-bold shrink-0 relative z-[1] transition-[border-color,background,color] duration-[200ms]', CIRCLE_STATUS_CLS[status])}
                 onClick={() => clickable && status === 'completed' && goTo(idx)}
                 style={clickable && status === 'completed' ? { cursor: 'pointer' } : undefined}
               >
                 <CircleContent status={status} num={idx} />
               </div>
               <div className="flex-1 pt-1">
-                <p className={cn('text-[0.875rem] font-semibold transition-[color] duration-[200ms] m-0', LABEL_STATUS_CLS[status])}>
+                <p className={cn('text-body-callout font-semibold transition-[color] duration-[200ms] m-0', LABEL_STATUS_CLS[status])}>
                   {step.label}{step.optional && <span className="font-normal opacity-60"> (optional)</span>}
                 </p>
-                {step.description && <p className="text-[0.8125rem] text-faint mt-[2px] m-0">{step.description}</p>}
+                {step.description && <p className="text-body-callout text-faint mt-[2px] m-0">{step.description}</p>}
                 {status === 'active' && step.content && <div className="mt-3">{step.content}</div>}
               </div>
             </div>
@@ -103,17 +103,17 @@ export function Stepper({
               )}
             >
               <div
-                className={cn('w-9 h-9 rounded-full border-2 flex items-center justify-center text-[0.8125rem] font-bold shrink-0 relative z-[1] transition-[border-color,background,color] duration-[200ms]', CIRCLE_STATUS_CLS[status])}
+                className={cn('w-9 h-9 rounded-full border-2 flex items-center justify-center text-body-callout font-bold shrink-0 relative z-[1] transition-[border-color,background,color] duration-[200ms]', CIRCLE_STATUS_CLS[status])}
                 onClick={() => clickable && status === 'completed' && goTo(idx)}
                 style={clickable && status === 'completed' ? { cursor: 'pointer' } : undefined}
               >
                 <CircleContent status={status} num={idx} />
               </div>
-              <span className={cn('text-[0.75rem] font-semibold mt-[0.4rem] text-center transition-[color] duration-[200ms]', LABEL_STATUS_CLS[status])}>
+              <span className={cn('text-body-caption font-semibold mt-[0.4rem] text-center transition-[color] duration-[200ms]', LABEL_STATUS_CLS[status])}>
                 {step.label}{step.optional && <span className="font-normal opacity-60"> *</span>}
               </span>
               {step.description && (
-                <span className="text-[0.6875rem] text-faint text-center mt-0.5">{step.description}</span>
+                <span className="text-body-caption text-faint text-center mt-0.5">{step.description}</span>
               )}
             </div>
           )

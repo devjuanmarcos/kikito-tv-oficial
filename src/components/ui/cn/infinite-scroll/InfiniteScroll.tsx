@@ -47,7 +47,7 @@ export function InfiniteScroll({
       )}
 
       {!hasMore && endMessage && (
-        <div className="flex justify-center py-4 text-[0.875rem] text-faint">
+        <div className="flex justify-center py-4 text-body-callout text-faint">
           {endMessage}
         </div>
       )}

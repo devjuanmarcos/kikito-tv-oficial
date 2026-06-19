@@ -54,7 +54,7 @@ export function TiltCard({
             ref={glareRef}
             className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200"
             style={{
-              background: 'radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), rgba(255,255,255,0.18) 0%, transparent 65%)',
+              background: 'radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), color-mix(in srgb, white 18%, transparent) 0%, transparent 65%)',
             }}
           />
         )}

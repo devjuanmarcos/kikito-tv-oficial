@@ -6,7 +6,7 @@ import type { SpotlightProps } from './spotlight.types'
 
 export function Spotlight({
   children,
-  color = 'rgba(120,80,255,0.35)',
+  color = 'var(--ks-violet-soft)',
   size = 300,
   className,
   style,

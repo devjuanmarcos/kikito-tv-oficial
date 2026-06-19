@@ -36,7 +36,7 @@ export function ScrollSpy({ items, offset = 80, className, style }: ScrollSpyPro
               document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })
             }}
             className={cn(
-              'flex items-center gap-2.5 text-left px-3 py-1.5 rounded-[--radius-sm] text-[0.8125rem] transition-colors duration-150 w-full',
+              'flex items-center gap-2.5 text-left px-3 py-1.5 rounded-[--radius-sm] text-body-callout transition-colors duration-150 w-full',
               isDeep && 'pl-6',
               isActive
                 ? 'text-patina font-semibold bg-patina/8'

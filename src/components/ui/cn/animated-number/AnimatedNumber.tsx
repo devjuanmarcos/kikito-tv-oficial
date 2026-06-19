@@ -1,4 +1,6 @@
-﻿import { useEffect, useRef, useState } from 'react'
+﻿'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import type { AnimatedNumberProps } from './animated-number.types'
 
 export function AnimatedNumber({

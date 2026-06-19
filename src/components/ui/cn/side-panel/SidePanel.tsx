@@ -49,7 +49,7 @@ export function SidePanel({
         <button
           onClick={toggle}
           className={cn(
-            'absolute top-1/2 -translate-y-1/2 z-10 w-5 h-10 flex items-center justify-center rounded-[--radius-sm] border border-rule bg-raised text-muted hover:text-foreground hover:bg-graphite transition-colors text-xs',
+            'absolute top-1/2 -translate-y-1/2 z-10 w-5 h-10 flex items-center justify-center rounded-[--radius-sm] border border-rule bg-raised text-muted hover:text-foreground hover:bg-graphite transition-colors text-body-caption',
             isLeft ? '-right-2.5' : '-left-2.5'
           )}
           aria-label={isOpen ? 'Collapse panel' : 'Expand panel'}
