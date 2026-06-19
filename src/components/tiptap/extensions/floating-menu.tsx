@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   Heading1,
@@ -357,7 +357,7 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
                         <span className="text-sm font-medium">{item.title}</span>
                         <span className="text-xs text-muted-foreground">{item.description}</span>
                       </div>
-                      <kbd className="ml-auto flex h-5 items-center rounded bg-muted px-1.5 text-xs text-muted-foreground">
+                      <kbd className="ml-auto flex h-5 items-center rounded bg-muted-surface px-1.5 text-xs text-muted-foreground">
                         ↵
                       </kbd>
                     </CommandItem>

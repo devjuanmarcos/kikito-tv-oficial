@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
@@ -42,7 +42,7 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted group-data-[vaul-drawer-direction=right]:hidden group-data-[vaul-drawer-direction=left]:hidden group-data-[vaul-drawer-direction=top]:hidden" />
+      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted-surface group-data-[vaul-drawer-direction=right]:hidden group-data-[vaul-drawer-direction=left]:hidden group-data-[vaul-drawer-direction=top]:hidden" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

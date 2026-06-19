@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useCallback } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -185,7 +185,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           {isFocused && (
             <div className="flex items-center justify-between">
               <span className="body-caption text-muted-foreground">
-                Pressione <kbd className="px-1 py-0.5 rounded border border-border bg-muted body-caption">Enter</kbd> para enviar, <kbd className="px-1 py-0.5 rounded border border-border bg-muted body-caption">Shift+Enter</kbd> para nova linha
+                Pressione <kbd className="px-1 py-0.5 rounded border border-border bg-muted-surface body-caption">Enter</kbd> para enviar, <kbd className="px-1 py-0.5 rounded border border-border bg-muted-surface body-caption">Shift+Enter</kbd> para nova linha
               </span>
               <div className="flex gap-1">
                 <Button

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Check, Upload, X } from "lucide-react";
 import * as React from "react";
@@ -1859,7 +1859,7 @@ export function FileCell<TData>({
                         <div
                           key={file.id}
                           data-pending={isFilePending ? "" : undefined}
-                          className="flex items-center gap-2 rounded-md border bg-muted/50 px-2 py-1.5 data-pending:opacity-60"
+                          className="flex items-center gap-2 rounded-md border bg-muted-surface/50 px-2 py-1.5 data-pending:opacity-60"
                         >
                           {FileIcon && <FileIcon className="size-4 shrink-0 text-muted-foreground" />}
                           <div className="flex-1 overflow-hidden">

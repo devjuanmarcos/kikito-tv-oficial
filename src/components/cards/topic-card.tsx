@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Button } from "../ui/button";
 import { PostWithComments } from "./post-with-comments";
 import { Users, ArrowRight } from "lucide-react";
@@ -87,7 +87,7 @@ export const TopicCard: React.FC<TopicCardProps> = ({
                   {relatedTopics.map((topic, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                      className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted-surface/30 hover:bg-muted-surface/50 transition-colors"
                     >
                       <Link className="body-paragraph-medium flex-1" href={`/topics/${topic.id}`}>
                         {topic.name}

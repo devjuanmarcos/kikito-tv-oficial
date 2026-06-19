@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   /* Color System */
   --editor-text-default: hsl(240 10% 3.9%);
   --editor-text-gray: hsl(240 3.8% 46.1%);
@@ -14,7 +14,7 @@
   /* Background Colors */
   --editor-bg-default: hsl(0 0% 100%);
   --editor-bg-subtle: hsl(0 0% 98%);
-  --editor-bg-muted: hsl(240 5% 96%);
+  --editor-bg-muted-surface: hsl(240 5% 96%);
 
   /* Highlight Colors */
   --editor-highlight-default: hsl(0 0% 98%);
@@ -74,7 +74,7 @@
 
   --editor-bg-default: hsl(240 10% 3.9%);
   --editor-bg-subtle: hsl(240 3.7% 15.9%);
-  --editor-bg-muted: hsl(240 5% 26%);
+  --editor-bg-muted-surface: hsl(240 5% 26%);
 
   --editor-highlight-default: hsl(240 3.7% 15.9%);
   --editor-highlight-gray: hsl(240 5% 26%);
@@ -194,7 +194,7 @@
 .ProseMirror code {
   font-family: var(--editor-font-mono);
   font-size: 0.9em;
-  background-color: var(--editor-bg-muted);
+  background-color: var(--editor-bg-muted-surface);
   padding: 0.2em 0.4em;
   border-radius: 4px;
   color: var(--editor-text-default);
@@ -367,7 +367,7 @@
 }
 
 .toolbar-button.active {
-  background-color: var(--editor-bg-muted);
+  background-color: var(--editor-bg-muted-surface);
   color: var(--editor-text-blue);
 }
 

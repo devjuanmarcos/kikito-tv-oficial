@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from "class-variance-authority";
+﻿import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -112,7 +112,7 @@ const badgeVariants = cva(
         warning: solidVariants.warning,
         success: solidVariants.success,
         info: solidVariants.info,
-        muted: "border-transparent bg-muted text-muted-foreground",
+        muted: "border-transparent bg-muted-surface text-muted-foreground",
         outline: "border-border bg-transparent text-foreground",
         outlinePrimary: outlineVariants.primary,
         outlineDestructive: outlineVariants.destructive,
@@ -121,7 +121,7 @@ const badgeVariants = cva(
         outlineInfo: outlineVariants.info,
         ghost: "border-transparent bg-transparent text-foreground",
         statusOpen: "border-transparent bg-success-soft text-success-soft-foreground",
-        statusClosed: "border-transparent bg-muted text-muted-foreground",
+        statusClosed: "border-transparent bg-muted-surface text-muted-foreground",
       },
       size: {
         xs: "h-5 px-1.5 body-caption",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -81,7 +81,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
       <div className="flex gap-3 items-start group">
         <Avatar className="size-8 mt-0.5 shrink-0">
           <AvatarImage src={comment.imageUrl} alt={comment.name} />
-          <AvatarFallback className="body-caption bg-muted text-muted-foreground">
+          <AvatarFallback className="body-caption bg-muted-surface text-muted-foreground">
             {getInitials(comment.name)}
           </AvatarFallback>
         </Avatar>
