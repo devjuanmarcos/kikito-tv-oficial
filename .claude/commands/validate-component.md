@@ -183,9 +183,62 @@ Execute cada gate em sequência. Se um gate falhar, **pare**, liste o que precis
 5. **Campos de formulário** têm `id` + `<label htmlFor>` ou `aria-label`
 6. **Estados interativos** (loading, disabled, error) têm `aria-*` correspondente: `aria-disabled`, `aria-busy`, `aria-invalid`
 7. **Focus ring** visível — não suprimir `outline` sem alternativa; usar `:focus-visible` do globals.css
-8. **Contraste mínimo** — texto sobre superfície usa token que garante contraste (verificar combinações non-obvious: `text-muted` sobre `bg-graphite`, etc.)
+8. **Contraste mínimo WCAG** — verificar as combinações de cor texto/fundo usadas no componente:
 
-**Critério de aprovação:** Nenhum item crítico (1, 2, 5, 7) com falha. Itens menores anotados como melhorias futuras.
+### Regras de contraste obrigatórias (WCAG 2.1 AA)
+
+| Contexto | Ratio mínimo | Ratio AAA |
+|----------|-------------|-----------|
+| Texto normal (< 18px / < 14px bold) | **4.5 : 1** | 7 : 1 |
+| Texto grande (≥ 18px / ≥ 14px bold) | **3 : 1** | 4.5 : 1 |
+| Componentes UI e ícones informativos | **3 : 1** | — |
+| Texto desabilitado (`disabled`) | Isento | — |
+| Texto decorativo (sem significado) | Isento | — |
+
+### Pares de tokens permitidos (pré-validados)
+
+Estes pares já foram verificados e passam WCAG AA em ambos os modos:
+
+| Texto | Fundo | Modo | Status |
+|-------|-------|------|--------|
+| `text-foreground` | `bg-canvas / bg-base / bg-raised` | dark + light | ✅ AA |
+| `text-patina-fg` | `bg-patina` | dark + light | ✅ AA |
+| `text-kinpaku-fg` | `bg-kinpaku` | dark + light | ✅ AA |
+| `text-violet-fg` | `bg-violet` | dark + light | ✅ AA |
+| `text-danger-fg` | `bg-danger` | dark + light | ✅ AA |
+| `text-success-fg` | `bg-success` | dark + light | ✅ AA |
+| `text-warning-fg` | `bg-warning` | dark + light | ✅ AA |
+| `text-info-fg` | `bg-info` | dark + light | ✅ AA |
+| `text-neutral-fg` | `bg-neutral` | dark + light | ✅ AA |
+
+### Pares que exigem verificação manual
+
+Verificar com [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) ou DevTools > Accessibility:
+
+| Combinação | Risco | O que checar |
+|------------|-------|-------------|
+| `text-muted` sobre `bg-raised` | Médio | muted-foreground vs card — pode falhar em light |
+| `text-faint` sobre qualquer fundo | Alto | faint é muito claro — só usar para texto decorativo/label secundário |
+| `text-patina` (não -fg) sobre `bg-raised` | Médio | patina puro sobre branco pode falhar em light mode |
+| `text-kinpaku` sobre `bg-raised` | Alto | kinpaku é amarelo — ratio geralmente < 3:1 sobre branco |
+| Cor sobre `bg-graphite` | Médio | graphite intermediário — checar sempre |
+| `text-*-soft-fg` sobre `bg-*-soft` | Baixo | pré-definidos para combinar, mas confirmar |
+
+### Como verificar no DevTools
+
+```
+1. Chrome DevTools → Elements → selecionar elemento de texto
+2. Computed → color: copiar valor hex
+3. Computed → background-color: copiar valor hex
+4. Ou: DevTools → Accessibility → Contrast ratio (exibido automaticamente)
+5. Alternativa CLI: npx @accessibility/contrast-checker --fg "#hex" --bg "#hex"
+```
+
+### Regra de ouro para `text-faint`
+
+`text-faint` (`--ks-text-faint`) aponta para `muted-foreground` — **nunca usar para texto de conteúdo primário**. Restrito a: labels secundários, placeholders, metadados de suporte. Se o texto carrega informação essencial, usar `text-muted` ou `text-foreground`.
+
+**Critério de aprovação:** Nenhum item crítico (1, 2, 5, 7, 8) com falha. Combinações de `text-faint` em conteúdo primário são bloqueantes. Pares não listados na tabela "permitidos" devem ser verificados e resultado documentado no relatório.
 
 ---
 
