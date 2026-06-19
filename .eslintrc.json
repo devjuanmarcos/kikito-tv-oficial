@@ -1,0 +1,59 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "sonarjs", "jsx-a11y", "import"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      { "prefer": "type-imports", "fixStyle": "inline-type-imports" }
+    ],
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-empty-object-type": "warn",
+    "sonarjs/no-all-duplicated-branches": "warn",
+    "sonarjs/no-identical-functions": "warn",
+    "sonarjs/no-redundant-boolean": "warn",
+    "sonarjs/prefer-single-boolean-return": "warn",
+    "sonarjs/no-nested-template-literals": "warn",
+    "sonarjs/no-use-of-empty-return-value": "warn",
+    "jsx-a11y/no-redundant-roles": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/media-has-caption": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/interactive-supports-focus": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ],
+    "sonarjs/cognitive-complexity": ["warn", 25],
+    "sonarjs/no-duplicate-string": ["warn", { "threshold": 5 }],
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/alt-text": "error",
+    "jsx-a11y/aria-props": "error",
+    "jsx-a11y/aria-role": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.{ts,tsx}", "*.spec.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "sonarjs/no-duplicate-string": "off"
+      }
+    }
+  ]
+}

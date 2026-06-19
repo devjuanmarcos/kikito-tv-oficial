@@ -1,0 +1,15 @@
+{
+  "name": "Biomob",
+  "short_name": "Biomob",
+  "icons": [
+    { "src": "/icon192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "/icon512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1e4a7a",
+  "background_color": "#18181b",
+  "categories": ["education", "health"]
+}
