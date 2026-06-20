@@ -116,7 +116,7 @@ function SpinnerIcon({ cls }: { cls: string }) {
   return (
     <span
       className={cn(
-        "border-[1.5px] border-current border-t-transparent rounded-full shrink-0 animate-[--animate-spin-btn]",
+        "border-[1.5px] border-current border-t-transparent rounded-full shrink-0 animate-spin-btn motion-reduce:animate-none",
         cls
       )}
       aria-hidden="true"
@@ -134,7 +134,7 @@ function CheckIcon({ cls }: { cls: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={cn("shrink-0 animate-[--animate-status-in]", cls)}
+      className={cn("shrink-0 animate-status-in", cls)}
     >
       <circle cx="12" cy="12" r="9" />
       <path d="M9 12l2 2 4-4" />
@@ -152,11 +152,27 @@ function ErrorIcon({ cls }: { cls: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={cn("shrink-0 animate-[--animate-status-err]", cls)}
+      className={cn("shrink-0 animate-status-err", cls)}
     >
       <circle cx="12" cy="12" r="9" />
       <path d="M15 9l-6 6M9 9l6 6" />
     </svg>
+  );
+}
+
+/* ── State layer: all states stack in one grid cell (stable width) and crossfade ── */
+function StateLayer({ active, children }: { active: boolean; children: React.ReactNode }) {
+  return (
+    <span
+      aria-hidden={!active}
+      className={cn(
+        "[grid-area:1/1] inline-flex items-center justify-center gap-[0.45em] whitespace-nowrap",
+        "transition-[opacity,transform,filter] duration-200 ease-out motion-reduce:transition-none",
+        active ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-[0.4em] blur-[1px] pointer-events-none"
+      )}
+    >
+      {children}
+    </span>
   );
 }
 
@@ -231,71 +247,78 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
       : "!bg-danger !border-transparent !text-danger-fg shadow-[0_4px_16px_-3px_color-mix(in_oklch,var(--ks-danger)_45%,transparent)]"
     : "";
 
-  /* Overlay mode: replace content while preserving button width */
-  const useOverlay = (isLoading && loadingPosition === "replace") || isSuccess || isError;
+  /* Stateful buttons (declared loading/status/success/error) reserve width across
+     every state via a grid stack → button size never changes when the label swaps,
+     and each state crossfades smoothly. */
+  const reserve = loading || statusProp !== undefined || successText !== undefined || errorText !== undefined;
+
+  const rootProps = {
+    ...props,
+    disabled: disabled || undefined,
+    "data-status": status !== "idle" ? status : undefined,
+    "aria-busy": isLoading || undefined,
+    "aria-disabled": disabled || isBusy || undefined,
+    onClick: handleClick,
+    className: cn(
+      reserve ? "inline-grid place-items-center" : "inline-flex items-center justify-center",
+      "font-medium border relative overflow-hidden",
+      "transition-[background-color,color,border-color,box-shadow,transform] duration-150 select-none cursor-pointer",
+      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
+      "active:scale-[0.98]",
+      "disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100",
+      // status states block interaction WITHOUT dimming — animation stays fully visible
+      isBusy && "pointer-events-none active:scale-100",
+      iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
+      radiusCls,
+      intentCls,
+      errorOverrideCls,
+      fullWidth && "w-full",
+      className
+    ),
+  };
+
+  const idleContent = (
+    <>
+      {iconLeft && (
+        <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
+          {iconLeft}
+        </span>
+      )}
+      {!iconOnly && children && <span className="truncate">{children}</span>}
+      {iconRight && (
+        <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
+          {iconRight}
+        </span>
+      )}
+    </>
+  );
+
+  if (!reserve) {
+    return (
+      <Root ref={ref} {...rootProps}>
+        {idleContent}
+      </Root>
+    );
+  }
 
   return (
-    <Root
-      ref={ref}
-      {...props}
-      disabled={disabled || undefined}
-      data-status={status !== "idle" ? status : undefined}
-      aria-busy={isLoading || undefined}
-      aria-disabled={disabled || isBusy || undefined}
-      onClick={handleClick}
-      className={cn(
-        "inline-flex items-center justify-center font-medium border relative overflow-hidden",
-        "transition-[background-color,color,border-color,box-shadow,transform] duration-150 select-none cursor-pointer",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
-        "active:scale-[0.98]",
-        "disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100",
-        // status states block interaction WITHOUT dimming — animation stays fully visible
-        isBusy && "pointer-events-none active:scale-100",
-        iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
-        radiusCls,
-        intentCls,
-        errorOverrideCls,
-        fullWidth && "w-full",
-        className
-      )}
-    >
-      {useOverlay ? (
-        <>
-          {/* Ghost: preserves button width, invisible */}
-          <span className="contents invisible" aria-hidden="true">
-            {iconLeft && <span className={cn("shrink-0", iconSizeCls)}>{iconLeft}</span>}
-            {!iconOnly && <span>{children}</span>}
-            {iconRight && <span className={cn("shrink-0", iconSizeCls)}>{iconRight}</span>}
-          </span>
-          {/* Overlay: status indicator centered */}
-          <span className="absolute inset-0 flex items-center justify-center gap-[0.4em]" aria-hidden="true">
-            {isLoading && <SpinnerIcon cls={iconSizeCls} />}
-            {isSuccess && <CheckIcon cls={iconSizeCls} />}
-            {isError && <ErrorIcon cls={iconSizeCls} />}
-            {isSuccess && successText && <span>{successText}</span>}
-            {isError && errorText && <span>{errorText}</span>}
-          </span>
-        </>
-      ) : isLoading && loadingPosition === "left" ? (
-        <>
-          <SpinnerIcon cls={iconSizeCls} />
-          {!iconOnly && <span className="truncate">{loadingText ?? children}</span>}
-        </>
-      ) : (
-        <>
-          {iconLeft && (
-            <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
-              {iconLeft}
-            </span>
-          )}
-          {!iconOnly && children && <span className="truncate">{children}</span>}
-          {iconRight && (
-            <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
-              {iconRight}
-            </span>
-          )}
-        </>
-      )}
+    <Root ref={ref} {...rootProps}>
+      <StateLayer active={isIdle}>{idleContent}</StateLayer>
+
+      <StateLayer active={isLoading}>
+        <SpinnerIcon cls={iconSizeCls} />
+        {!iconOnly && loadingPosition === "left" && <span>{loadingText ?? children}</span>}
+      </StateLayer>
+
+      <StateLayer active={isSuccess}>
+        <CheckIcon key={isSuccess ? "on" : "off"} cls={iconSizeCls} />
+        {!iconOnly && successText && <span>{successText}</span>}
+      </StateLayer>
+
+      <StateLayer active={isError}>
+        <ErrorIcon key={isError ? "on" : "off"} cls={iconSizeCls} />
+        {!iconOnly && errorText && <span>{errorText}</span>}
+      </StateLayer>
     </Root>
   );
 });
