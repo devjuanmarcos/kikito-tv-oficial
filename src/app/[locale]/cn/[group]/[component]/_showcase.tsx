@@ -6,6 +6,7 @@ import { AccordionGroup } from "@/components/ui/cn/accordion-group/AccordionGrou
 import { AcernityCardsDemo3 } from "@/components/ui/cn/aceternity-cards-demo-3/AcernityCardsDemo3";
 import { AcernityFeaturesSection } from "@/components/ui/cn/aceternity-features-section/AcernityFeaturesSection";
 import { ActivityFeed } from "@/components/ui/cn/activity-feed/ActivityFeed";
+import { Alert } from "@/components/ui/cn/alert/Alert";
 import { AlertDialog } from "@/components/ui/cn/alert-dialog/AlertDialog";
 import { AnimatedList } from "@/components/ui/cn/animated-list/AnimatedList";
 import { AnimatedNumber } from "@/components/ui/cn/animated-number/AnimatedNumber";
@@ -13,6 +14,7 @@ import { AreaChart } from "@/components/ui/cn/area-chart/AreaChart";
 import { AspectRatio } from "@/components/ui/cn/aspect-ratio/AspectRatio";
 import { AudioWaveform } from "@/components/ui/cn/audio-waveform/AudioWaveform";
 import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
+import { Avatar } from "@/components/ui/cn/avatar/Avatar";
 import { AvatarGroup } from "@/components/ui/cn/avatar-group/AvatarGroup";
 import { Badge } from "@/components/ui/cn/badge/Badge";
 import { Banner } from "@/components/ui/cn/banner/Banner";
@@ -22,11 +24,19 @@ import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
 import { Button } from "@/components/ui/cn/button/Button";
 import { Calendar } from "@/components/ui/cn/calendar/Calendar";
 import { Callout } from "@/components/ui/cn/callout/Callout";
+import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/cn/card/Card";
 import { CardStack } from "@/components/ui/cn/card-stack/CardStack";
 import { Carousel } from "@/components/ui/cn/carousel/Carousel";
 import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
+import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
+import { Checklist } from "@/components/ui/cn/checklist/Checklist";
+import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
 import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
+import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
+import { Combobox } from "@/components/ui/cn/combobox/Combobox";
 import { Command } from "@/components/ui/cn/command/Command";
+import { ComparisonTable } from "@/components/ui/cn/comparison-table/ComparisonTable";
+import { ContextMenu } from "@/components/ui/cn/context-menu/ContextMenu";
 import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
@@ -40,11 +50,11 @@ import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimelin
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
 import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { Draggable } from "@/components/ui/cn/draggable/Draggable";
-import { ContextMenu } from "@/components/ui/cn/context-menu/ContextMenu";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
+import { StepForm } from "@/components/ui/cn/step-form/StepForm";
 import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
 import { DateRangePicker } from "@/components/ui/cn/date-range-picker/DateRangePicker";
@@ -57,7 +67,6 @@ import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
 import { FlipCard } from "@/components/ui/cn/flip-card/FlipCard";
 import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
-import { ComparisonTable } from "@/components/ui/cn/comparison-table/ComparisonTable";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { ConfirmButton } from "@/components/ui/cn/confirm-button/ConfirmButton";
@@ -73,7 +82,6 @@ import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { ConfettiButton } from "@/components/ui/cn/confetti-button/ConfettiButton";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
-import { StepForm } from "@/components/ui/cn/step-form/StepForm";
 import { FeedbackWidget } from "@/components/ui/cn/feedback-widget/FeedbackWidget";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
 import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
@@ -139,10 +147,6 @@ import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { Checklist } from "@/components/ui/cn/checklist/Checklist";
-import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
-import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
-import { Combobox } from "@/components/ui/cn/combobox/Combobox";
 import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
 import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
 import { Gauge } from "@/components/ui/cn/gauge/Gauge";
@@ -160,7 +164,6 @@ import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
 import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
-import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { Switch } from "@/components/ui/cn/switch/Switch";
 
@@ -4958,6 +4961,177 @@ function SwitchDemo() {
   );
 }
 
+function AlertDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents (soft)" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-lg">
+            {(["info", "success", "warning", "danger", "neutral"] as const).map((i) => (
+              <Alert key={i} intent={i} title={i.charAt(0).toUpperCase() + i.slice(1)} variant="soft">
+                This is a {i} alert with a short description.
+              </Alert>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label="soft · outline · solid · left-accent" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-lg">
+            <Alert intent="info" variant="soft" title="Soft">
+              Soft appearance with light background.
+            </Alert>
+            <Alert intent="info" variant="outline" title="Outline">
+              Outline border with transparent background.
+            </Alert>
+            <Alert intent="info" variant="solid" title="Solid">
+              Solid fill with high contrast.
+            </Alert>
+            <Alert intent="info" variant="left-accent" title="Left Accent">
+              Left border accent strip.
+            </Alert>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Features">
+        <Frame label="Dismissible · with action" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-lg">
+            <Alert
+              intent="warning"
+              title="Action required"
+              dismissible
+              actions={
+                <Button size="sm" variant="outline" intent="warning">
+                  Resolve
+                </Button>
+              }
+            >
+              Your account will be suspended in 3 days.
+            </Alert>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function CardDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="default · outlined · elevated · filled · ghost">
+          <div className="flex flex-wrap gap-4 justify-center">
+            {(["default", "outlined", "elevated", "filled", "ghost"] as const).map((v) => (
+              <Card key={v} variant={v} className="w-36">
+                <CardBody>
+                  <p className="text-body-callout font-medium text-foreground capitalize">{v}</p>
+                  <p className="text-body-caption text-faint mt-1">Card variant</p>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="With CardHeader / CardBody / CardFooter">
+        <Frame label="Full composition">
+          <Card className="w-full max-w-sm">
+            <CardHeader
+              title="Project Alpha"
+              description="UI component library"
+              badge={
+                <Badge intent="success" size="sm">
+                  Active
+                </Badge>
+              }
+            />
+            <CardBody>
+              <p className="text-body-callout text-muted">
+                A design system with 150+ components for building product UIs.
+              </p>
+            </CardBody>
+            <CardFooter>
+              <Button size="sm" variant="outline">
+                Cancel
+              </Button>
+              <Button size="sm" intent="primary">
+                Open
+              </Button>
+            </CardFooter>
+          </Card>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Hoverable / Clickable">
+        <Frame label="Interactive cards">
+          <div className="flex gap-4">
+            <Card hoverable className="w-40">
+              <CardBody>
+                <p className="text-body-callout font-medium text-foreground">Hoverable</p>
+                <p className="text-body-caption text-faint mt-1">Elevates on hover</p>
+              </CardBody>
+            </Card>
+            <Card clickable onClick={() => {}} className="w-40">
+              <CardBody>
+                <p className="text-body-callout font-medium text-foreground">Clickable</p>
+                <p className="text-body-caption text-faint mt-1">Pointer cursor + focus</p>
+              </CardBody>
+            </Card>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function AvatarDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Sizes">
+        <Frame label="xs · sm · md · lg · xl · 2xl">
+          <div className="flex items-end gap-4">
+            {(["xs", "sm", "md", "lg", "xl", "2xl"] as const).map((s) => (
+              <Avatar key={s} name="Kikito" size={s} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label="circle · rounded · square">
+          <div className="flex gap-4">
+            <Avatar name="CK" size="lg" variant="circle" />
+            <Avatar name="CK" size="lg" variant="rounded" />
+            <Avatar name="CK" size="lg" variant="square" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Status">
+        <Frame label="online · offline · away · busy">
+          <div className="flex gap-4">
+            {(["online", "offline", "away", "busy"] as const).map((s) => (
+              <Avatar key={s} name={s[0].toUpperCase()} size="lg" status={s} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Fallbacks">
+        <Frame label="initials · icon · image">
+          <div className="flex gap-4 items-center">
+            <Avatar name="João Marcos" size="xl" />
+            <Avatar
+              icon={
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                  <path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+                </svg>
+              }
+              size="xl"
+            />
+            <Avatar src="https://i.pravatar.cc/80?img=12" alt="User" size="xl" status="online" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
   "tokens/colors": ColorsTokens,
@@ -5078,7 +5252,10 @@ const DEMOS: Record<string, React.ComponentType> = {
   "layout/scroll-area": ScrollAreaDemo,
   "data/virtual-list": VirtualListDemo,
   "feedback/banner": BannerDemo,
+  "feedback/alert": AlertDemo,
   "display/callout": CalloutDemo,
+  "display/card": CardDemo,
+  "display/avatar": AvatarDemo,
   "display/checklist": ChecklistDemo,
   "display/breadcrumb": BreadcrumbDemo,
   "display/copy-button": CopyButtonDemo,
