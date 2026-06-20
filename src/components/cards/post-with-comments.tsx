@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import { CategoryBadge } from "../CategoryBadge";
 import { Button, buttonVariants } from "../ui/button";

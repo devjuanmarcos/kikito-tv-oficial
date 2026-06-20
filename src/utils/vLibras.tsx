@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect } from "react";
 
 type ExpectedReadyState = ReadonlyArray<DocumentReadyState> | DocumentReadyState | undefined;
