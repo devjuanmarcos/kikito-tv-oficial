@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { CN_GROUPS, CN_REGISTRY } from '@/lib/cn-registry'
-import type { CnComponentMeta } from '@/lib/cn-registry'
-import { CnThemeToggle } from '@/components/ui/cn/cn-theme-toggle'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+
+import { CN_GROUPS, CN_REGISTRY } from "@/lib/cn-registry";
+import type { CnComponentMeta } from "@/lib/cn-registry";
+import { cn } from "@/lib/utils";
 
 const GROUP_ICONS: Record<string, string> = {
-  inputs:   '▤',
-  display:  '◲',
-  data:     '⊟',
-  feedback: '◫',
-  layout:   '▭',
-  overlays: '◆',
-  charts:   '◑',
-}
+  inputs: "▤",
+  display: "◲",
+  data: "⊟",
+  feedback: "◫",
+  layout: "▭",
+  overlays: "◆",
+  charts: "◑",
+};
 
 /* ── SidebarGroup ─────────────────────────────────────────────────────── */
 function SidebarGroup({
@@ -28,78 +28,72 @@ function SidebarGroup({
   query,
   defaultOpen,
 }: {
-  groupId: string
-  label: string
-  icon: string
-  components: CnComponentMeta[]
-  pathname: string
-  query: string
-  defaultOpen: boolean
+  groupId: string;
+  label: string;
+  icon: string;
+  components: CnComponentMeta[];
+  pathname: string;
+  query: string;
+  defaultOpen: boolean;
 }) {
-  const [open, setOpen] = useState(defaultOpen)
+  const [open, setOpen] = useState(defaultOpen);
 
-  const filtered = query
-    ? components.filter(c => c.title.toLowerCase().includes(query.toLowerCase()))
-    : components
+  const filtered = query ? components.filter((c) => c.title.toLowerCase().includes(query.toLowerCase())) : components;
 
-  if (query && filtered.length === 0) return null
+  if (query && filtered.length === 0) return null;
 
-  const hasActive = components.some(c => pathname.endsWith(`/cn/${c.group}/${c.name}`))
-  const isOpen = open || !!query
+  const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
+  const isOpen = open || !!query;
 
   return (
     <div className="cns-group" key={groupId}>
       <button
-        className={cn('cns-group-header', hasActive && 'cns-group-header--active')}
-        onClick={() => setOpen(o => !o)}
+        className={cn("cns-group-header", hasActive && "cns-group-header--active")}
+        onClick={() => setOpen((o) => !o)}
         aria-expanded={isOpen}
       >
         <span className="cns-group-icon">{icon}</span>
         <span className="cns-group-label">{label}</span>
         <span className="cns-count">{components.length}</span>
-        <span className={cn('cns-chevron', isOpen && 'cns-chevron--open')}>▾</span>
+        <span className={cn("cns-chevron", isOpen && "cns-chevron--open")}>▾</span>
       </button>
 
-      <div className={cn('cns-items-grid', isOpen && 'cns-items-grid--open')}>
+      <div className={cn("cns-items-grid", isOpen && "cns-items-grid--open")}>
         <div>
           <div className="cns-items-inner">
-            {filtered.map(comp => {
-              const href = `/cn/${comp.group}/${comp.name}`
-              const isActive = pathname.endsWith(`/cn/${comp.group}/${comp.name}`)
+            {filtered.map((comp) => {
+              const href = `/cn/${comp.group}/${comp.name}`;
+              const isActive = pathname.endsWith(`/cn/${comp.group}/${comp.name}`);
               return (
-                <Link
-                  key={comp.name}
-                  href={href}
-                  className={cn('cns-item', isActive && 'cns-item--active')}
-                >
+                <Link key={comp.name} href={href} className={cn("cns-item", isActive && "cns-item--active")}>
                   {isActive && <span className="cns-active-dot" aria-hidden />}
                   {comp.title}
                 </Link>
-              )
+              );
             })}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ── CnSidebar ────────────────────────────────────────────────────────── */
 export function CnSidebar() {
-  const pathname = usePathname()
-  const [query, setQuery] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
+  const pathname = usePathname();
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        inputRef.current?.focus()
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
       }
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [])
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <>
@@ -204,30 +198,21 @@ export function CnSidebar() {
         .cns-scroll::-webkit-scrollbar-thumb:hover { background: var(--ks-text-faint); }
       `}</style>
 
-      {/* ── Logo / header ─────────────────────────────────────────────── */}
-      <div className="px-4 pt-5 pb-4 border-b border-rule flex-shrink-0 flex items-center justify-between gap-2">
-        <Link href="/cn" className="block min-w-0">
-          <span className="text-[0.5625rem] font-bold tracking-[0.16em] uppercase text-faint">Kikito</span>
-          <div className="flex items-baseline gap-1.5 mt-[3px]">
-            <span className="text-body-title font-bold text-foreground leading-none tracking-tight">CN</span>
-            <span className="text-[0.6rem] font-bold tracking-[0.04em] uppercase text-patina leading-none">
-              Design System
-            </span>
-          </div>
-        </Link>
-        <CnThemeToggle />
-      </div>
-
       {/* ── Search ────────────────────────────────────────────────────── */}
-      <div className="px-3 pt-3 pb-1.5 flex-shrink-0">
+      <div className="px-3 pt-4 pb-1.5 flex-shrink-0">
         <div className="relative">
           <svg
             className="absolute left-[0.5625rem] top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ color: 'var(--ks-text-faint)' }}
-            width="12" height="12" viewBox="0 0 16 16" fill="none"
-            stroke="currentColor" strokeWidth="2"
+            style={{ color: "var(--ks-text-faint)" }}
+            width="12"
+            height="12"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            <circle cx="7" cy="7" r="5"/><path d="m12.5 12.5-3-3"/>
+            <circle cx="7" cy="7" r="5" />
+            <path d="m12.5 12.5-3-3" />
           </svg>
           <input
             ref={inputRef}
@@ -235,13 +220,13 @@ export function CnSidebar() {
             className="cns-search"
             placeholder="Buscar componentes…"
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             aria-label="Buscar componentes"
           />
           {query && (
             <button
               className="absolute right-[0.5625rem] top-1/2 -translate-y-1/2 text-[0.625rem] leading-none text-faint hover:text-foreground transition-colors"
-              onClick={() => setQuery('')}
+              onClick={() => setQuery("")}
               aria-label="Limpar busca"
             >
               ✕
@@ -257,22 +242,22 @@ export function CnSidebar() {
 
       {/* ── Nav groups ────────────────────────────────────────────────── */}
       <nav className="cns-scroll flex-1 overflow-y-auto py-1 pb-6" aria-label="Componentes CN">
-        {CN_GROUPS.map(group => {
-          const components = CN_REGISTRY.filter(c => c.group === group.id)
-          if (components.length === 0) return null
-          const hasActive = components.some(c => pathname.endsWith(`/cn/${c.group}/${c.name}`))
+        {CN_GROUPS.map((group) => {
+          const components = CN_REGISTRY.filter((c) => c.group === group.id);
+          if (components.length === 0) return null;
+          const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
           return (
             <SidebarGroup
               key={group.id}
               groupId={group.id}
               label={group.label}
-              icon={GROUP_ICONS[group.id] ?? '◈'}
+              icon={GROUP_ICONS[group.id] ?? "◈"}
               components={components}
               pathname={pathname}
               query={query}
               defaultOpen={hasActive}
             />
-          )
+          );
         })}
       </nav>
 
@@ -281,5 +266,5 @@ export function CnSidebar() {
         <p className="text-body-caption text-faint">v0.1 · kikito.com.br</p>
       </div>
     </>
-  )
+  );
 }
