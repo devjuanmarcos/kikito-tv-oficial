@@ -43,7 +43,7 @@ export default async function CnComponentPage({ params }: Props) {
       <div className="mt-8 pt-6 border-t border-rule">
         <Link
           href={`/cn/${group}`}
-          className="inline-flex items-center gap-1.5 text-[0.8125rem] text-muted hover:text-foreground transition-colors duration-100"
+          className="inline-flex items-center gap-1.5 text-body-callout text-muted hover:text-foreground transition-colors duration-100"
         >
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"
             width={13} height={13} aria-hidden>

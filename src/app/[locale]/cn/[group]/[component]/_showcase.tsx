@@ -136,7 +136,7 @@ function Frame({ children, label }: { children: React.ReactNode; label?: string 
   return (
     <div className="mb-6">
       {label && (
-        <p className="text-[0.75rem] font-semibold text-faint uppercase tracking-[0.08em] mb-3">{label}</p>
+        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em] mb-3">{label}</p>
       )}
       <div className="rounded-[--radius-lg] border border-rule bg-raised p-8 flex items-center justify-center min-h-[180px]">
         {children}
@@ -251,20 +251,17 @@ function AnimatedNumberDemo() {
           <AnimatedNumber
             value={val / 10}
             format={v => `${v.toFixed(1)}%`}
-            className="text-[2rem] font-bold text-patina tabular-nums"
+            className="text-heading-03 font-bold text-patina tabular-nums"
           />
           <AnimatedNumber
             value={val / 100}
             format={v => `#${Math.round(v)}`}
-            className="text-[2rem] font-bold text-kinpaku tabular-nums"
+            className="text-heading-03 font-bold text-kinpaku tabular-nums"
           />
         </div>
-        <button
-          onClick={() => setVal(v => v === 1234567 ? 9876543 : 1234567)}
-          className="px-4 py-2 rounded-[--radius-sm] bg-patina text-patina-fg text-[0.8125rem] font-medium"
-        >
+        <Button onClick={() => setVal(v => v === 1234567 ? 9876543 : 1234567)} intent="primary" size="sm">
           Toggle value
-        </button>
+        </Button>
       </div>
     </Frame>
   )
@@ -276,8 +273,8 @@ function CardStackDemo() {
       id: 'a',
       content: (
         <div className="rounded-[--radius-lg] bg-patina text-patina-fg p-6 h-40 w-64 flex flex-col justify-between">
-          <p className="text-[0.75rem] opacity-70">Project Alpha</p>
-          <p className="text-[1.25rem] font-bold">Q4 Launch Ready</p>
+          <p className="text-body-caption opacity-70">Project Alpha</p>
+          <p className="text-body-title font-bold">Q4 Launch Ready</p>
         </div>
       ),
     },
@@ -285,8 +282,8 @@ function CardStackDemo() {
       id: 'b',
       content: (
         <div className="rounded-[--radius-lg] bg-kinpaku text-kinpaku-fg p-6 h-40 w-64 flex flex-col justify-between">
-          <p className="text-[0.75rem] opacity-70">Project Beta</p>
-          <p className="text-[1.25rem] font-bold">In Review</p>
+          <p className="text-body-caption opacity-70">Project Beta</p>
+          <p className="text-body-title font-bold">In Review</p>
         </div>
       ),
     },
@@ -294,8 +291,8 @@ function CardStackDemo() {
       id: 'c',
       content: (
         <div className="rounded-[--radius-lg] bg-violet text-violet-fg p-6 h-40 w-64 flex flex-col justify-between">
-          <p className="text-[0.75rem] opacity-70">Project Gamma</p>
-          <p className="text-[1.25rem] font-bold">Planned</p>
+          <p className="text-body-caption opacity-70">Project Gamma</p>
+          <p className="text-body-title font-bold">Planned</p>
         </div>
       ),
     },
@@ -309,10 +306,10 @@ function CardStackDemo() {
 
 function CarouselDemo() {
   const items = [
-    { id: '1', content: <div className="rounded-[--radius-lg] bg-patina-soft border border-patina h-48 w-full flex items-center justify-center text-patina text-[1.25rem] font-bold">Slide 1</div> },
-    { id: '2', content: <div className="rounded-[--radius-lg] bg-kinpaku-soft border border-kinpaku h-48 w-full flex items-center justify-center text-kinpaku text-[1.25rem] font-bold">Slide 2</div> },
-    { id: '3', content: <div className="rounded-[--radius-lg] bg-violet-soft border border-violet h-48 w-full flex items-center justify-center text-violet text-[1.25rem] font-bold">Slide 3</div> },
-    { id: '4', content: <div className="rounded-[--radius-lg] bg-rose-soft border border-rose h-48 w-full flex items-center justify-center text-rose text-[1.25rem] font-bold">Slide 4</div> },
+    { id: '1', content: <div className="rounded-[--radius-lg] bg-patina-soft border border-patina h-48 w-full flex items-center justify-center text-patina text-body-title font-bold">Slide 1</div> },
+    { id: '2', content: <div className="rounded-[--radius-lg] bg-kinpaku-soft border border-kinpaku h-48 w-full flex items-center justify-center text-kinpaku text-body-title font-bold">Slide 2</div> },
+    { id: '3', content: <div className="rounded-[--radius-lg] bg-violet-soft border border-violet h-48 w-full flex items-center justify-center text-violet text-body-title font-bold">Slide 3</div> },
+    { id: '4', content: <div className="rounded-[--radius-lg] bg-rose-soft border border-rose h-48 w-full flex items-center justify-center text-rose text-body-title font-bold">Slide 4</div> },
   ]
   return (
     <Frame label="Horizontal with dots">
@@ -426,10 +423,10 @@ function DataListDemo() {
 
 function DraggableDemo() {
   const initial = [
-    { id: '1', content: <span className="text-[0.875rem] text-foreground">First item</span> },
-    { id: '2', content: <span className="text-[0.875rem] text-foreground">Second item</span> },
-    { id: '3', content: <span className="text-[0.875rem] text-foreground">Third item</span> },
-    { id: '4', content: <span className="text-[0.875rem] text-foreground">Fourth item</span> },
+    { id: '1', content: <span className="text-body-callout text-foreground">First item</span> },
+    { id: '2', content: <span className="text-body-callout text-foreground">Second item</span> },
+    { id: '3', content: <span className="text-body-callout text-foreground">Third item</span> },
+    { id: '4', content: <span className="text-body-callout text-foreground">Fourth item</span> },
   ]
   return (
     <Frame label="Drag to reorder">
@@ -481,7 +478,7 @@ function ContextMenuDemo() {
   return (
     <Frame label="Right-click the area below">
       <ContextMenu groups={groups}>
-        <div className="w-64 h-24 rounded-[--radius-md] border-2 border-dashed border-rule flex items-center justify-center text-[0.8125rem] text-muted select-none cursor-context-menu hover:border-patina hover:text-foreground transition-colors">
+        <div className="w-64 h-24 rounded-[--radius-md] border-2 border-dashed border-rule flex items-center justify-center text-body-callout text-muted select-none cursor-context-menu hover:border-patina hover:text-foreground transition-colors">
           Right-click here
         </div>
       </ContextMenu>
@@ -503,7 +500,7 @@ function SpotlightSearchDemo() {
       <div className="flex flex-col items-center gap-4">
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-3 px-4 py-2 rounded-[--radius-sm] border border-rule bg-raised text-muted hover:text-foreground hover:border-patina text-[0.875rem] transition-colors duration-150 min-w-[220px]"
+          className="flex items-center gap-3 px-4 py-2 rounded-[--radius-sm] border border-rule bg-raised text-muted hover:text-foreground hover:border-patina text-body-callout transition-colors duration-150 min-w-[220px]"
         >
           <span>🔍</span>
           <span className="flex-1 text-left">Search everything…</span>
@@ -536,7 +533,7 @@ function MultiSelectDemo() {
           onChange={setValues}
           placeholder="Select technologies…"
         />
-        <p className="text-[0.75rem] text-faint">Selected: {values.join(', ') || 'none'}</p>
+        <p className="text-body-caption text-faint">Selected: {values.join(', ') || 'none'}</p>
       </div>
     </Frame>
   )
@@ -559,7 +556,7 @@ function RichSelectDemo() {
           onChange={setValue}
           placeholder="Choose a color token…"
         />
-        <p className="text-[0.75rem] text-faint">Selected: {value}</p>
+        <p className="text-body-caption text-faint">Selected: {value}</p>
       </div>
     </Frame>
   )
@@ -593,7 +590,7 @@ function DateRangePickerDemo() {
     <Frame label="Date Range Picker — select start and end dates">
       <div className="w-full flex flex-col items-center gap-4">
         <DateRangePicker value={range} onChange={setRange} />
-        <p className="text-[0.75rem] text-faint">
+        <p className="text-body-caption text-faint">
           {range.start && range.end
             ? `${range.start.toLocaleDateString()} → ${range.end.toLocaleDateString()}`
             : 'No range selected'}
@@ -730,7 +727,7 @@ function ImageCropperDemo() {
           aspectRatio={16 / 9}
         />
         {cropArea && (
-          <p className="text-[0.75rem] text-faint text-center">
+          <p className="text-body-caption text-faint text-center">
             Crop: x={Math.round(cropArea.x)} y={Math.round(cropArea.y)} {Math.round(cropArea.width)}×{Math.round(cropArea.height)}
           </p>
         )}
@@ -745,12 +742,12 @@ function ResizableDemo() {
       <div className="w-full h-[320px]">
         <Resizable direction="horizontal" initialSize={50} minSize={20} maxSize={80}>
           <div className="h-full bg-raised rounded-[--radius-sm] p-4 flex flex-col gap-2">
-            <p className="text-[0.75rem] font-semibold text-muted uppercase tracking-wide">Panel A</p>
-            <p className="text-[0.875rem] text-foreground">Drag the divider ↔</p>
+            <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel A</p>
+            <p className="text-body-callout text-foreground">Drag the divider ↔</p>
           </div>
           <div className="h-full bg-raised rounded-[--radius-sm] p-4 flex flex-col gap-2">
-            <p className="text-[0.75rem] font-semibold text-muted uppercase tracking-wide">Panel B</p>
-            <p className="text-[0.875rem] text-foreground">This panel resizes too</p>
+            <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel B</p>
+            <p className="text-body-callout text-foreground">This panel resizes too</p>
           </div>
         </Resizable>
       </div>
@@ -883,15 +880,15 @@ function GlowCardDemo() {
         <GlowCard glowColor="var(--ks-patina)" radius={12} padding={24}>
           <div className="flex flex-col gap-2 text-foreground w-48">
             <span className="text-2xl">🚀</span>
-            <p className="font-semibold text-[0.875rem]">Patina Glow</p>
-            <p className="text-[0.75rem] text-muted">Hover to see the effect</p>
+            <p className="font-semibold text-body-callout">Patina Glow</p>
+            <p className="text-body-caption text-muted">Hover to see the effect</p>
           </div>
         </GlowCard>
         <GlowCard glowColor="var(--ks-kinpaku)" glowOpacity={0.2} radius={12} padding={24}>
           <div className="flex flex-col gap-2 text-foreground w-48">
             <span className="text-2xl">⚡</span>
-            <p className="font-semibold text-[0.875rem]">Kinpaku Glow</p>
-            <p className="text-[0.75rem] text-muted">Hover to see the effect</p>
+            <p className="font-semibold text-body-callout">Kinpaku Glow</p>
+            <p className="text-body-caption text-muted">Hover to see the effect</p>
           </div>
         </GlowCard>
       </div>
@@ -1038,11 +1035,11 @@ function ScrollProgressDemo() {
     <Frame label="Scroll Progress — tracks page scroll with a fixed top bar">
       <div className="flex flex-col gap-4 items-center">
         <ScrollProgress position="top" color="var(--ks-patina)" height={3} />
-        <p className="text-[0.875rem] text-muted text-center">
+        <p className="text-body-callout text-muted text-center">
           Scroll the page to see the progress bar fill at the top of the viewport.
         </p>
         <div className="flex gap-3">
-          <span className="inline-flex items-center gap-1.5 text-[0.75rem] text-faint">
+          <span className="inline-flex items-center gap-1.5 text-body-caption text-faint">
             <span className="inline-block w-12 h-1 rounded-full bg-patina" /> Patina (default)
           </span>
         </div>
@@ -1072,11 +1069,11 @@ function TimePickerDemo() {
     <Frame label="Time Picker — dropdown hour/minute selector">
       <div className="flex flex-wrap gap-6 justify-center">
         <div className="flex flex-col gap-2">
-          <p className="text-[0.75rem] font-semibold text-muted">24-hour format</p>
+          <p className="text-body-caption font-semibold text-muted">24-hour format</p>
           <TimePicker value={val24} onChange={setVal24} format="24" />
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-[0.75rem] font-semibold text-muted">12-hour format</p>
+          <p className="text-body-caption font-semibold text-muted">12-hour format</p>
           <TimePicker value={val12} onChange={setVal12} format="12" />
         </div>
       </div>
@@ -1160,19 +1157,19 @@ function GradientBorderDemo() {
         <GradientBorder variant="spin" speed={3} borderRadius={12}>
           <div className="px-6 py-4 text-center">
             <p className="font-semibold text-foreground">Spin</p>
-            <p className="text-[0.75rem] text-muted">Conic gradient</p>
+            <p className="text-body-caption text-muted">Conic gradient</p>
           </div>
         </GradientBorder>
         <GradientBorder variant="pulse" colors={['var(--ks-patina)', 'var(--ks-kinpaku)', 'var(--ks-violet)']} speed={2}>
           <div className="px-6 py-4 text-center">
             <p className="font-semibold text-foreground">Pulse</p>
-            <p className="text-[0.75rem] text-muted">Token colors</p>
+            <p className="text-body-caption text-muted">Token colors</p>
           </div>
         </GradientBorder>
         <GradientBorder variant="static" borderWidth={3}>
           <div className="px-6 py-4 text-center">
             <p className="font-semibold text-foreground">Static</p>
-            <p className="text-[0.75rem] text-muted">Linear gradient</p>
+            <p className="text-body-caption text-muted">Linear gradient</p>
           </div>
         </GradientBorder>
       </div>
@@ -1188,12 +1185,12 @@ function GlassCardDemo() {
         style={{ background: 'linear-gradient(135deg, var(--ks-patina), var(--ks-kinpaku), var(--ks-violet))' }}
       >
         <GlassCard className="px-6 py-5">
-          <p className="font-semibold text-white text-[0.875rem]">blur: 12px</p>
-          <p className="text-white/70 text-[0.75rem]">opacity: 0.1</p>
+          <p className="font-semibold text-white text-body-callout">blur: 12px</p>
+          <p className="text-white/70 text-body-caption">opacity: 0.1</p>
         </GlassCard>
         <GlassCard blur={24} opacity={0.2} className="px-6 py-5">
-          <p className="font-semibold text-white text-[0.875rem]">blur: 24px</p>
-          <p className="text-white/70 text-[0.75rem]">opacity: 0.2</p>
+          <p className="font-semibold text-white text-body-callout">blur: 24px</p>
+          <p className="text-white/70 text-body-caption">opacity: 0.2</p>
         </GlassCard>
       </div>
     </Frame>
@@ -1218,19 +1215,19 @@ function ShortcutKeyDemo() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <ShortcutKey keys={['cmd', 'k']} />
-          <span className="text-[0.875rem] text-muted">Open command palette</span>
+          <span className="text-body-callout text-muted">Open command palette</span>
         </div>
         <div className="flex items-center gap-3">
           <ShortcutKey keys={['ctrl', 'shift', 's']} size="lg" />
-          <span className="text-[0.875rem] text-muted">Save all files</span>
+          <span className="text-body-callout text-muted">Save all files</span>
         </div>
         <div className="flex items-center gap-3">
           <ShortcutKey keys={['esc']} size="sm" variant="filled" />
-          <span className="text-[0.875rem] text-muted">Close dialog</span>
+          <span className="text-body-callout text-muted">Close dialog</span>
         </div>
         <div className="flex items-center gap-3">
           <ShortcutKey keys={['alt', 'left']} />
-          <span className="text-[0.875rem] text-muted">Navigate back</span>
+          <span className="text-body-callout text-muted">Navigate back</span>
         </div>
       </div>
     </Frame>
@@ -1262,28 +1259,28 @@ function BentoGridDemo() {
       children: <div className="h-full flex flex-col gap-2 p-5 bg-patina/8">
         <span className="text-3xl">🚀</span>
         <p className="font-semibold text-foreground">Featured Item</p>
-        <p className="text-[0.75rem] text-muted">This cell spans 2 columns and 2 rows</p>
+        <p className="text-body-caption text-muted">This cell spans 2 columns and 2 rows</p>
       </div>,
     },
     {
       id: 2,
       children: <div className="h-full flex flex-col gap-1 p-4 bg-kinpaku/8">
         <span className="text-2xl">📊</span>
-        <p className="font-medium text-foreground text-[0.875rem]">Analytics</p>
+        <p className="font-medium text-foreground text-body-callout">Analytics</p>
       </div>,
     },
     {
       id: 3,
       children: <div className="h-full flex flex-col gap-1 p-4 bg-success/8">
         <span className="text-2xl">✅</span>
-        <p className="font-medium text-foreground text-[0.875rem]">Status</p>
+        <p className="font-medium text-foreground text-body-callout">Status</p>
       </div>,
     },
     {
       id: 4, colSpan: 3 as const,
       children: <div className="h-full flex items-center gap-3 p-4 bg-violet/8">
         <span className="text-2xl">🎨</span>
-        <p className="font-medium text-foreground text-[0.875rem]">Wide card — spans full row</p>
+        <p className="font-medium text-foreground text-body-callout">Wide card — spans full row</p>
       </div>,
     },
   ]
@@ -1343,8 +1340,8 @@ function StepFormDemo() {
       description: 'Set up your account credentials.',
       content: (
         <div className="flex flex-col gap-3">
-          <input placeholder="Email address" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-[0.875rem] outline-none focus:border-patina/60 placeholder:text-faint" />
-          <input type="password" placeholder="Password" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-[0.875rem] outline-none focus:border-patina/60 placeholder:text-faint" />
+          <input placeholder="Email address" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint" />
+          <input type="password" placeholder="Password" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint" />
         </div>
       ),
     },
@@ -1354,8 +1351,8 @@ function StepFormDemo() {
       description: 'Tell us a bit about yourself.',
       content: (
         <div className="flex flex-col gap-3">
-          <input placeholder="Full name" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-[0.875rem] outline-none focus:border-patina/60 placeholder:text-faint" />
-          <textarea rows={3} placeholder="Short bio…" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-[0.875rem] outline-none focus:border-patina/60 resize-none placeholder:text-faint" />
+          <input placeholder="Full name" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint" />
+          <textarea rows={3} placeholder="Short bio…" className="px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 resize-none placeholder:text-faint" />
         </div>
       ),
     },
@@ -1364,7 +1361,7 @@ function StepFormDemo() {
       title: 'Confirm',
       description: 'Review and finalize your setup.',
       content: (
-        <p className="text-[0.875rem] text-muted">Everything looks good! Click <strong>Complete</strong> to finish.</p>
+        <p className="text-body-callout text-muted">Everything looks good! Click <strong>Complete</strong> to finish.</p>
       ),
     },
   ]
@@ -1420,7 +1417,7 @@ function InfiniteScrollDemo() {
           endMessage={<span>All {items.length} items loaded</span>}
         >
           {items.map(n => (
-            <div key={n} className="px-4 py-3 border-b border-rule text-[0.875rem] text-foreground">
+            <div key={n} className="px-4 py-3 border-b border-rule text-body-callout text-foreground">
               Item #{n}
             </div>
           ))}
@@ -1434,7 +1431,7 @@ function MorphingTextDemo() {
   return (
     <Frame label="Morphing Text — cycling animated words">
       <div className="flex flex-col items-center gap-4">
-        <p className="text-[1.5rem] font-bold text-foreground">
+        <p className="text-heading-05 font-bold text-foreground">
           We build{' '}
           <MorphingText
             words={['interfaces', 'experiences', 'products', 'systems']}
@@ -1442,7 +1439,7 @@ function MorphingTextDemo() {
             className="text-patina"
           />
         </p>
-        <p className="text-[0.875rem] text-muted">
+        <p className="text-body-callout text-muted">
           Fast{' '}
           <MorphingText
             words={['delivery', 'iteration', 'feedback', 'learning']}
@@ -1464,7 +1461,7 @@ function CurrencyInputDemo() {
       <div className="flex flex-col gap-4 w-72">
         <CurrencyInput value={usd} onChange={setUsd} currency="USD" locale="en-US" label="Amount (USD)" min={0} />
         <CurrencyInput value={eur} onChange={setEur} currency="EUR" locale="de-DE" label="Amount (EUR)" min={0} max={10000} />
-        <p className="text-[0.75rem] text-faint">USD: {usd} · EUR: {eur}</p>
+        <p className="text-body-caption text-faint">USD: {usd} · EUR: {eur}</p>
       </div>
     </Frame>
   )
@@ -1483,11 +1480,11 @@ function PricingToggleDemo() {
         <div className="flex gap-8 text-center">
           <div>
             <p className="text-2xl font-bold text-foreground">${billing === 'yearly' ? '15' : '19'}</p>
-            <p className="text-[0.75rem] text-muted">Pro / {billing === 'yearly' ? 'year' : 'month'}</p>
+            <p className="text-body-caption text-muted">Pro / {billing === 'yearly' ? 'year' : 'month'}</p>
           </div>
           <div>
             <p className="text-2xl font-bold text-foreground">${billing === 'yearly' ? '39' : '49'}</p>
-            <p className="text-[0.75rem] text-muted">Team / {billing === 'yearly' ? 'year' : 'month'}</p>
+            <p className="text-body-caption text-muted">Team / {billing === 'yearly' ? 'year' : 'month'}</p>
           </div>
         </div>
       </div>
@@ -1512,12 +1509,9 @@ function SwipeCardDemo() {
           onSwipe={(item, dir) => console.log('Swiped', item.id, dir)}
           onEmpty={() => setStack(initial)}
         />
-        <button
-          onClick={() => setStack(initial)}
-          className="text-[0.75rem] text-faint hover:text-foreground transition-colors"
-        >
+        <Button onClick={() => setStack(initial)} variant="ghost" size="xs">
           Reset stack
-        </button>
+        </Button>
       </div>
     </Frame>
   )
@@ -1539,7 +1533,7 @@ function TypewriterDemo() {
   return (
     <Frame label="Typewriter — type, pause, delete, loop">
       <div className="flex flex-col items-center gap-6">
-        <p className="text-[1.5rem] font-bold text-foreground">
+        <p className="text-heading-05 font-bold text-foreground">
           We design{' '}
           <Typewriter
             texts={['interfaces.', 'experiences.', 'systems.', 'products.']}
@@ -1548,7 +1542,7 @@ function TypewriterDemo() {
             className="text-patina"
           />
         </p>
-        <p className="text-[1rem] text-muted">
+        <p className="text-body-paragraph text-muted">
           <Typewriter
             texts={['Fast.', 'Reliable.', 'Beautiful.', 'Accessible.']}
             speed={80}
@@ -1572,12 +1566,9 @@ function AudioWaveformDemo() {
           <AudioWaveform playing={playing} bars={12} color="var(--ks-kinpaku)" height={36} />
           <AudioWaveform playing={playing} bars={16} color="var(--ks-violet)" height={42} />
         </div>
-        <button
-          onClick={() => setPlaying(p => !p)}
-          className="flex items-center gap-2 px-5 py-2 rounded-[--radius-sm] bg-patina text-patina-fg text-[0.875rem] font-medium hover:bg-patina/90 transition-colors"
-        >
+        <Button onClick={() => setPlaying(p => !p)} intent="primary" size="sm">
           {playing ? '⏸ Pause' : '▶ Play'}
-        </button>
+        </Button>
       </div>
     </Frame>
   )
@@ -1590,19 +1581,19 @@ function TiltCardDemo() {
         <TiltCard maxTilt={12} glare>
           <div className="w-48 h-36 rounded-2xl bg-patina flex flex-col items-center justify-center gap-2">
             <span className="text-3xl">🚀</span>
-            <p className="font-semibold text-patina-fg text-[0.875rem]">Hover me</p>
+            <p className="font-semibold text-patina-fg text-body-callout">Hover me</p>
           </div>
         </TiltCard>
         <TiltCard maxTilt={18} scale={1.06} glare>
           <div className="w-48 h-36 rounded-2xl bg-gradient-to-br from-kinpaku to-violet flex flex-col items-center justify-center gap-2">
             <span className="text-3xl">✨</span>
-            <p className="font-semibold text-white text-[0.875rem]">Gradient</p>
+            <p className="font-semibold text-white text-body-callout">Gradient</p>
           </div>
         </TiltCard>
         <TiltCard maxTilt={8} glare={false}>
           <div className="w-48 h-36 rounded-2xl border border-rule bg-raised flex flex-col items-center justify-center gap-2">
             <span className="text-3xl">🎯</span>
-            <p className="font-semibold text-foreground text-[0.875rem]">No glare</p>
+            <p className="font-semibold text-foreground text-body-callout">No glare</p>
           </div>
         </TiltCard>
       </div>
@@ -1616,18 +1607,18 @@ function OtpInputDemo() {
     <Frame label="OTP Input — digit cells with paste and navigation">
       <div className="flex flex-col items-center gap-6">
         <div className="flex flex-col gap-4 items-center">
-          <p className="text-[0.75rem] font-semibold text-muted">Outline (default)</p>
+          <p className="text-body-caption font-semibold text-muted">Outline (default)</p>
           <OtpInput length={6} onChange={setVal} onComplete={v => console.log('OTP:', v)} />
         </div>
         <div className="flex flex-col gap-4 items-center">
-          <p className="text-[0.75rem] font-semibold text-muted">Filled — large — masked</p>
+          <p className="text-body-caption font-semibold text-muted">Filled — large — masked</p>
           <OtpInput length={4} variant="filled" size="lg" mask />
         </div>
         <div className="flex flex-col gap-4 items-center">
-          <p className="text-[0.75rem] font-semibold text-muted">Underline — small</p>
+          <p className="text-body-caption font-semibold text-muted">Underline — small</p>
           <OtpInput length={6} variant="underline" size="sm" />
         </div>
-        {val && <p className="text-[0.75rem] text-faint">Value: {val}</p>}
+        {val && <p className="text-body-caption text-faint">Value: {val}</p>}
       </div>
     </Frame>
   )
@@ -1640,7 +1631,7 @@ function PhoneInputDemo() {
       <div className="w-full max-w-xs flex flex-col gap-4">
         <PhoneInput onChange={setPhone} defaultCountry="BR" />
         <PhoneInput onChange={setPhone} defaultCountry="US" size="sm" placeholder="(555) 000-0000" />
-        {phone && <p className="text-[0.75rem] text-faint">{phone}</p>}
+        {phone && <p className="text-body-caption text-faint">{phone}</p>}
       </div>
     </Frame>
   )
@@ -1656,9 +1647,7 @@ function CountdownTimerDemo() {
         ) : (
           <div className="flex flex-col items-center gap-3">
             <p className="text-danger font-bold text-lg">Time&apos;s up!</p>
-            <button onClick={() => setDone(false)} className="text-[0.75rem] text-faint hover:text-foreground transition-colors">
-              Reset
-            </button>
+            <Button onClick={() => setDone(false)} variant="ghost" size="xs">Reset</Button>
           </div>
         )}
         <CountdownTimer
@@ -1685,7 +1674,7 @@ function ScrollSpyDemo() {
         <div className="w-44 shrink-0">
           <ScrollSpy items={items} />
         </div>
-        <div className="flex-1 text-[0.8125rem] text-muted">
+        <div className="flex-1 text-body-callout text-muted">
           <p>Scroll the page to see the active item update. Attach item IDs to heading elements in your content.</p>
         </div>
       </div>
@@ -1701,9 +1690,9 @@ function SidePanelDemo() {
           panelWidth={180}
           panel={
             <div className="p-4 flex flex-col gap-2 h-full">
-              <p className="text-[0.75rem] font-semibold text-muted uppercase tracking-wide">Navigation</p>
+              <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Navigation</p>
               {['Overview', 'Components', 'Tokens', 'Docs'].map(item => (
-                <button key={item} className="text-left text-[0.8125rem] text-foreground hover:text-patina transition-colors py-1 px-2 rounded-[--radius-sm] hover:bg-patina/8">
+                <button key={item} className="text-left text-body-callout text-foreground hover:text-patina transition-colors py-1 px-2 rounded-[--radius-sm] hover:bg-patina/8">
                   {item}
                 </button>
               ))}
@@ -1711,8 +1700,8 @@ function SidePanelDemo() {
           }
         >
           <div className="p-6 h-full flex flex-col gap-3">
-            <p className="text-[0.875rem] font-semibold text-foreground">Main Content</p>
-            <p className="text-[0.8125rem] text-muted">Click the toggle button on the panel edge to collapse/expand the side panel.</p>
+            <p className="text-body-callout font-semibold text-foreground">Main Content</p>
+            <p className="text-body-callout text-muted">Click the toggle button on the panel edge to collapse/expand the side panel.</p>
           </div>
         </SidePanel>
       </div>
@@ -1741,20 +1730,23 @@ function ToastDemoInner() {
     <Frame label="Toast — notification system with context provider">
       <div className="flex flex-wrap gap-3 justify-center">
         {(['info', 'success', 'warning', 'danger', 'neutral'] as const).map(intent => (
-          <button
+          <Button
             key={intent}
+            variant="outline"
+            size="sm"
             onClick={() => toast({ intent, title: `${intent.charAt(0).toUpperCase() + intent.slice(1)}`, message: `This is a ${intent} toast notification.` })}
-            className="capitalize px-3 py-1.5 rounded-[--radius-sm] border border-rule text-[0.8125rem] text-foreground hover:bg-graphite transition-colors"
+            className="capitalize"
           >
             {intent}
-          </button>
+          </Button>
         ))}
-        <button
+        <Button
+          intent="primary"
+          size="sm"
           onClick={() => toast({ intent: 'success', variant: 'solid', title: 'Solid variant', message: 'Same toast, solid background.' })}
-          className="px-3 py-1.5 rounded-[--radius-sm] bg-patina text-patina-fg text-[0.8125rem] hover:bg-patina/90 transition-colors"
         >
           Solid
-        </button>
+        </Button>
       </div>
     </Frame>
   )
@@ -1776,7 +1768,7 @@ function ScrollRevealDemo() {
       <div className="flex flex-wrap gap-4 justify-center">
         {(['fade', 'slide-up', 'slide-left', 'zoom'] as const).map(anim => (
           <ScrollReveal key={anim} animation={anim} duration={500}>
-            <div className="w-32 h-20 rounded-[--radius-md] bg-raised border border-rule flex items-center justify-center text-[0.75rem] text-muted font-medium capitalize">
+            <div className="w-32 h-20 rounded-[--radius-md] bg-raised border border-rule flex items-center justify-center text-body-caption text-muted font-medium capitalize">
               {anim}
             </div>
           </ScrollReveal>
@@ -1790,13 +1782,13 @@ function TextGradientDemo() {
   return (
     <Frame label="Text Gradient — gradient text with optional animation">
       <div className="flex flex-col items-center gap-4">
-        <TextGradient from="var(--ks-patina)" to="var(--ks-kinpaku)" as="h2" className="text-[2.5rem] font-extrabold">
+        <TextGradient from="var(--ks-patina)" to="var(--ks-kinpaku)" as="h2" className="text-heading-02 font-extrabold">
           Kikito Design
         </TextGradient>
-        <TextGradient from="#a78bfa" to="#38bdf8" direction="135deg" as="h3" className="text-[1.5rem] font-bold">
+        <TextGradient from="#a78bfa" to="#38bdf8" direction="135deg" as="h3" className="text-heading-05 font-bold">
           Purple to Sky
         </TextGradient>
-        <TextGradient from="var(--ks-patina)" via="var(--ks-violet)" to="var(--ks-kinpaku)" animate as="p" className="text-[1.25rem] font-semibold">
+        <TextGradient from="var(--ks-patina)" via="var(--ks-violet)" to="var(--ks-kinpaku)" animate as="p" className="text-body-title font-semibold">
           Animated gradient flow
         </TextGradient>
       </div>
@@ -1810,7 +1802,7 @@ function NumberPadDemo() {
     <Frame label="Number Pad — PIN input with masked dots">
       <div className="flex flex-col items-center gap-4">
         <NumberPad maxLength={4} onChange={setPin} onComplete={v => alert(`PIN: ${v}`)} />
-        {pin && <p className="text-[0.75rem] text-faint">Length: {pin.length}/4</p>}
+        {pin && <p className="text-body-caption text-faint">Length: {pin.length}/4</p>}
       </div>
     </Frame>
   )
@@ -1821,8 +1813,8 @@ function SpotlightDemo() {
     <Frame label="Spotlight — mouse-tracked radial glow overlay">
       <Spotlight color="rgba(120,80,255,0.3)" size={320} className="w-full rounded-[--radius-lg] bg-[#0a0a0f] p-12">
         <div className="flex flex-col items-center gap-3 text-center">
-          <p className="text-[1.5rem] font-bold text-white">Spotlight Effect</p>
-          <p className="text-white/50 text-[0.875rem]">Move your cursor over this area</p>
+          <p className="text-heading-05 font-bold text-white">Spotlight Effect</p>
+          <p className="text-white/50 text-body-callout">Move your cursor over this area</p>
         </div>
       </Spotlight>
     </Frame>
@@ -1836,7 +1828,7 @@ function GridPatternDemo() {
         {(['dots', 'grid', 'cross', 'lines'] as const).map(type => (
           <GridPattern key={type} type={type} size={20} color="var(--ks-patina)" opacity={0.3} className="w-32 h-24 rounded-[--radius-md] border border-rule">
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[0.75rem] font-semibold text-foreground bg-raised/80 px-2 py-0.5 rounded">
+              <span className="text-body-caption font-semibold text-foreground bg-raised/80 px-2 py-0.5 rounded">
                 {type}
               </span>
             </div>
@@ -1907,11 +1899,11 @@ function QuickActionsDemo() {
       <div className="flex flex-wrap gap-12 justify-center py-8">
         <div className="flex flex-col items-center gap-2">
           <QuickActions actions={actions} placement="top" triggerIcon={<PlusIcon />} />
-          <span className="text-[0.75rem] text-faint mt-2">top</span>
+          <span className="text-body-caption text-faint mt-2">top</span>
         </div>
         <div className="flex flex-col items-center gap-2">
           <QuickActions actions={actions} placement="right" triggerIcon={<PlusIcon />} />
-          <span className="text-[0.75rem] text-faint mt-2">right</span>
+          <span className="text-body-caption text-faint mt-2">right</span>
         </div>
       </div>
     </Frame>
@@ -1957,7 +1949,7 @@ function ThemeSelectorDemo() {
     <Frame label="Theme Selector — color palette picker with active checkmark">
       <div className="flex flex-col gap-3 w-full max-w-lg">
         <ThemeSelector themes={themes} value={theme} onChange={setTheme} />
-        <p className="text-[0.8125rem] text-muted">Selected: <code className="text-patina">{theme}</code></p>
+        <p className="text-body-callout text-muted">Selected: <code className="text-patina">{theme}</code></p>
       </div>
     </Frame>
   )
@@ -1977,12 +1969,9 @@ function CreditCardDemo() {
           variant="dark"
           showBack={showBack}
         />
-        <button
-          onClick={() => setShowBack(v => !v)}
-          className="px-4 py-1.5 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-muted bg-raised hover:bg-graphite transition-colors cursor-pointer font-[inherit]"
-        >
+        <Button onClick={() => setShowBack(v => !v)} variant="outline" intent="neutral" size="sm">
           {showBack ? 'Show Front' : 'Show Back'}
-        </button>
+        </Button>
       </div>
     </Frame>
   )
@@ -2022,9 +2011,7 @@ function EmptyStateDemo() {
         title="No results found"
         description="Try adjusting your search filters or add new items to see them here."
         action={
-          <button className="px-4 py-1.5 text-[0.8125rem] font-semibold rounded-[--radius] bg-patina text-patina-fg cursor-pointer font-[inherit]">
-            Add item
-          </button>
+          <Button intent="primary" size="sm">Add item</Button>
         }
       />
     </Frame>
@@ -2061,20 +2048,12 @@ function StepperDemo() {
       <div className="flex flex-col gap-6 w-full max-w-lg">
         <Stepper steps={steps} activeStep={ctrl.step} clickable />
         <div className="flex justify-between">
-          <button
-            onClick={ctrl.prev}
-            disabled={ctrl.isFirst}
-            className="px-4 py-1.5 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-muted bg-raised hover:bg-graphite disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer font-[inherit]"
-          >
+          <Button onClick={ctrl.prev} disabled={ctrl.isFirst} variant="outline" intent="neutral" size="sm">
             Back
-          </button>
-          <button
-            onClick={ctrl.next}
-            disabled={ctrl.isLast}
-            className="px-4 py-1.5 text-[0.8125rem] font-semibold rounded-[--radius] bg-patina text-patina-fg hover:brightness-[1.08] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer font-[inherit]"
-          >
+          </Button>
+          <Button onClick={ctrl.next} disabled={ctrl.isLast} intent="primary" size="sm">
             {ctrl.isLast ? 'Finish' : 'Next'}
-          </button>
+          </Button>
         </div>
       </div>
     </Frame>
@@ -2115,7 +2094,7 @@ function MasonryDemo() {
           {items.map((item, i) => (
             <div
               key={i}
-              className="rounded-[--radius] flex items-center justify-center text-[0.75rem] font-semibold text-foreground"
+              className="rounded-[--radius] flex items-center justify-center text-body-caption font-semibold text-foreground"
               style={{ height: item.h, background: item.bg }}
             >
               {item.label}
@@ -2143,17 +2122,13 @@ function RichTooltipDemo() {
           action={{ label: 'Learn more →', onClick: () => {} }}
           placement="top"
         >
-          <button className="px-4 py-2 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-foreground bg-raised hover:bg-graphite cursor-pointer font-[inherit]">
-            Hover me (top)
-          </button>
+          <Button variant="outline" size="sm">Hover me (top)</Button>
         </RichTooltip>
         <RichTooltip
           content="A minimal tooltip with just body text and no header."
           placement="right"
         >
-          <button className="px-4 py-2 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-foreground bg-raised hover:bg-graphite cursor-pointer font-[inherit]">
-            Hover me (right)
-          </button>
+          <Button variant="outline" size="sm">Hover me (right)</Button>
         </RichTooltip>
       </div>
     </Frame>
@@ -2167,15 +2142,14 @@ function DrawerDemo() {
     <Frame label="Drawer — slide-in panel from left/right/bottom sides">
       <div className="flex flex-wrap gap-2 justify-center">
         {(['right','left','bottom'] as const).map(s => (
-          <button key={s} onClick={() => { setSide(s); setOpen(true) }}
-            className="px-4 py-2 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-foreground bg-raised hover:bg-graphite cursor-pointer font-[inherit] capitalize">
+          <Button key={s} variant="outline" size="sm" onClick={() => { setSide(s); setOpen(true) }} className="capitalize">
             Open {s}
-          </button>
+          </Button>
         ))}
       </div>
       <Drawer open={open} onClose={() => setOpen(false)} side={side} title="Drawer Panel" description="This is a slide-in drawer component."
-        footer={<><button onClick={() => setOpen(false)} className="px-4 py-2 text-[0.8125rem] rounded-[--radius] border border-rule text-muted bg-raised hover:bg-graphite cursor-pointer font-[inherit]">Cancel</button><button onClick={() => setOpen(false)} className="px-4 py-2 text-[0.8125rem] font-semibold rounded-[--radius] bg-patina text-patina-fg cursor-pointer font-[inherit]">Confirm</button></>}>
-        <p className="text-[0.875rem] text-muted leading-relaxed">Drawer content goes here. You can put any content inside — forms, settings panels, detail views, etc.</p>
+        footer={<><Button variant="outline" intent="neutral" size="sm" onClick={() => setOpen(false)}>Cancel</Button><Button intent="primary" size="sm" onClick={() => setOpen(false)}>Confirm</Button></>}>
+        <p className="text-body-callout text-muted leading-relaxed">Drawer content goes here. You can put any content inside — forms, settings panels, detail views, etc.</p>
       </Drawer>
     </Frame>
   )
@@ -2188,10 +2162,9 @@ function AlertDialogDemo() {
     <Frame label="Alert Dialog — confirmation modal with intent variants">
       <div className="flex flex-wrap gap-2 justify-center">
         {(['danger','warning','primary'] as const).map(i => (
-          <button key={i} onClick={() => { setIntent(i); setOpen(true) }}
-            className="px-4 py-2 text-[0.8125rem] font-semibold rounded-[--radius] border border-rule text-foreground bg-raised hover:bg-graphite cursor-pointer font-[inherit] capitalize">
+          <Button key={i} variant="outline" size="sm" onClick={() => { setIntent(i); setOpen(true) }} className="capitalize">
             {i}
-          </button>
+          </Button>
         ))}
       </div>
       <AlertDialog open={open} onOpenChange={setOpen} intent={intent}
@@ -2209,19 +2182,19 @@ function ContextCardDemo() {
       <div className="flex items-center gap-12">
         <ContextCard
           placement="top"
-          trigger={<span className="text-[0.875rem] font-semibold text-patina underline decoration-dashed cursor-help">Hover me</span>}
+          trigger={<span className="text-body-callout font-semibold text-patina underline decoration-dashed cursor-help">Hover me</span>}
         >
           <div className="p-4">
-            <p className="text-[0.875rem] font-semibold text-foreground mb-1">Context Card</p>
-            <p className="text-[0.8125rem] text-muted">Rich popup with any custom content.</p>
+            <p className="text-body-callout font-semibold text-foreground mb-1">Context Card</p>
+            <p className="text-body-callout text-muted">Rich popup with any custom content.</p>
           </div>
         </ContextCard>
         <ContextCard
           placement="right"
-          trigger={<span className="text-[0.875rem] font-semibold text-kinpaku underline decoration-dashed cursor-help">Right side</span>}
+          trigger={<span className="text-body-callout font-semibold text-kinpaku underline decoration-dashed cursor-help">Right side</span>}
         >
           <div className="p-4">
-            <p className="text-[0.8125rem] text-muted">Opens to the right of the trigger element.</p>
+            <p className="text-body-callout text-muted">Opens to the right of the trigger element.</p>
           </div>
         </ContextCard>
       </div>
@@ -2320,7 +2293,7 @@ function RatingDemo() {
       <div className="flex flex-col items-center gap-5">
         <div className="flex flex-col items-center gap-2">
           <Rating value={val} onChange={setVal} size="lg" allowHalf />
-          <p className="text-[0.8125rem] text-muted">Value: <code className="text-patina">{val}</code></p>
+          <p className="text-body-callout text-muted">Value: <code className="text-patina">{val}</code></p>
         </div>
         <div className="flex items-center gap-6">
           <Rating value={4} readOnly size="sm" />
@@ -2339,7 +2312,7 @@ function ScrollAreaDemo() {
         <div className="w-48 border border-rule rounded-[--radius]">
           <ScrollArea maxHeight={200}>
             {Array.from({ length: 20 }, (_, i) => (
-              <div key={i} className="px-4 py-2 text-[0.8125rem] text-muted border-b border-rule last:border-0">
+              <div key={i} className="px-4 py-2 text-body-callout text-muted border-b border-rule last:border-0">
                 Item {i + 1}
               </div>
             ))}
@@ -2349,7 +2322,7 @@ function ScrollAreaDemo() {
           <ScrollArea orientation="horizontal" maxWidth={240}>
             <div className="flex gap-3 p-4" style={{ width: 640 }}>
               {Array.from({ length: 10 }, (_, i) => (
-                <div key={i} className="w-16 h-16 rounded-[--radius] bg-graphite shrink-0 flex items-center justify-center text-[0.75rem] font-semibold text-muted">
+                <div key={i} className="w-16 h-16 rounded-[--radius] bg-graphite shrink-0 flex items-center justify-center text-body-caption font-semibold text-muted">
                   {i + 1}
                 </div>
               ))}
@@ -2372,8 +2345,8 @@ function VirtualListDemo() {
           height={280}
           renderItem={(item) => (
             <div className="flex flex-col justify-center px-4 py-2 border-b border-rule h-full">
-              <span className="text-[0.875rem] font-semibold text-foreground">{item.label}</span>
-              <span className="text-[0.75rem] text-faint">{item.desc}</span>
+              <span className="text-body-callout font-semibold text-foreground">{item.label}</span>
+              <span className="text-body-caption text-faint">{item.desc}</span>
             </div>
           )}
         />
@@ -2395,7 +2368,7 @@ function BannerDemo() {
       <Banner
         intent="primary"
         icon={<span>🚀</span>}
-        action={<button className="ml-auto shrink-0 text-[0.75rem] font-semibold underline">Learn more</button>}
+        action={<Button variant="link" size="xs" className="ml-auto shrink-0">Learn more</Button>}
       >
         Banner with custom icon and action button.
       </Banner>
@@ -2407,7 +2380,7 @@ function CalloutDemo() {
   return (
     <div className="flex flex-col gap-6 w-full max-w-xl">
       <div className="flex flex-col gap-3">
-        <p className="text-[0.75rem] font-semibold text-faint uppercase tracking-[0.08em]">Soft (default)</p>
+        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em]">Soft (default)</p>
         {(['info', 'success', 'warning', 'danger'] as const).map(intent => (
           <Callout key={intent} intent={intent} title={intent.charAt(0).toUpperCase() + intent.slice(1)} appearance="soft">
             This is a {intent} callout with soft appearance.
@@ -2415,7 +2388,7 @@ function CalloutDemo() {
         ))}
       </div>
       <div className="flex flex-col gap-3">
-        <p className="text-[0.75rem] font-semibold text-faint uppercase tracking-[0.08em]">Outline</p>
+        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em]">Outline</p>
         <Callout intent="warning" title="Heads up" appearance="outline">
           Review your changes before submitting. This action may affect other users.
         </Callout>
@@ -2545,7 +2518,7 @@ function TableOfContentsDemo() {
             onItemClick={setActive}
           />
         </div>
-        <div className="flex-1 text-[0.8125rem] text-muted leading-relaxed">
+        <div className="flex-1 text-body-callout text-muted leading-relaxed">
           Click an item in the TOC to set it as active. In real use, IntersectionObserver drives the active ID as you scroll.
         </div>
       </div>
@@ -2592,18 +2565,20 @@ function AnimatedListDemo() {
       <div className="flex flex-col gap-6 w-full max-w-md">
         <div className="flex gap-2 flex-wrap justify-center">
           {directions.map(d => (
-            <button
+            <Button
               key={d}
               onClick={() => { setDir(d); setKey(k => k + 1) }}
-              className={`px-3 py-1 rounded-[--radius-sm] text-[0.75rem] font-semibold border transition-colors ${d === dir ? 'bg-patina text-patina-fg border-patina' : 'bg-raised border-rule text-muted hover:text-foreground'}`}
+              variant={d === dir ? 'solid' : 'outline'}
+              intent={d === dir ? 'primary' : 'neutral'}
+              size="xs"
             >
               {d}
-            </button>
+            </Button>
           ))}
         </div>
         <AnimatedList key={key} direction={dir} staggerMs={80} animationMs={320}>
           {['Design System', 'Token Bridge', 'Dark Mode', 'Accessibility', 'SSG Routes'].map(item => (
-            <div key={item} className="px-4 py-2.5 rounded-[--radius-sm] bg-raised border border-rule text-[0.875rem] text-foreground">
+            <div key={item} className="px-4 py-2.5 rounded-[--radius-sm] bg-raised border border-rule text-body-callout text-foreground">
               {item}
             </div>
           ))}
@@ -2731,7 +2706,7 @@ function BadgeDemo() {
             )
           )}
           {dismissed.length > 0 && (
-            <button className="text-body-caption text-muted underline" onClick={() => setDismissed([])}>reset</button>
+            <Button variant="link" size="xs" intent="neutral" onClick={() => setDismissed([])}>reset</Button>
           )}
         </div>
       </div>
@@ -2933,9 +2908,9 @@ export function CnShowcase({ group, component }: ShowcaseProps) {
 
   return (
     <div className="rounded-[--radius-lg] border-2 border-dashed border-rule p-12 flex flex-col items-center justify-center gap-3 min-h-[280px]">
-      <span className="text-[2rem]">🚧</span>
-      <p className="text-[0.875rem] font-medium text-foreground">Demo coming soon</p>
-      <p className="text-[0.75rem] text-faint">Add a demo component to DEMOS in _showcase.tsx for <code className="bg-raised px-1 rounded text-patina">{key}</code></p>
+      <span className="text-heading-03">🚧</span>
+      <p className="text-body-callout font-medium text-foreground">Demo coming soon</p>
+      <p className="text-body-caption text-faint">Add a demo component to DEMOS in _showcase.tsx for <code className="bg-raised px-1 rounded text-patina">{key}</code></p>
     </div>
   )
 }
