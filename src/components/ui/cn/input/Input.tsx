@@ -34,10 +34,13 @@ const SIZE_PADDING_RIGHT_2: Record<InputSize, string> = {
   lg: 'pr-18',
 }
 
+const FLUSHED_CLS = 'bg-transparent border-0 border-b border-rule rounded-none focus:border-patina px-0'
+
 const VARIANT: Record<InputVariant, string> = {
   outline: 'bg-sunken border border-rule focus:border-patina',
   filled:  'bg-graphite border border-transparent focus:border-patina focus:bg-sunken',
-  flushed: 'bg-transparent border-0 border-b border-rule rounded-none focus:border-patina px-0',
+  flushed: FLUSHED_CLS,
+  ghost:   FLUSHED_CLS,
 }
 
 const STATUS_BORDER: Record<InputStatus, string> = {
@@ -89,9 +92,14 @@ export function Input({
   size      = 'md',
   variant   = 'outline',
   status    = 'default',
+  state,
   label,
   hint,
+  helperText,
   error,
+  errorText,
+  successText,
+  warningText,
   iconLeft,
   iconRight,
   prefix,
@@ -111,9 +119,17 @@ export function Input({
   const [id] = useState(() => idProp ?? uniqueId('ks-input'))
   const [revealed, setRevealed] = useState(false)
 
-  const hintId = hint || error ? `${id}-hint` : undefined
-  const displayHint = error || hint
-  const resolvedStatus: InputStatus = error ? 'error' : status
+  const resolvedError = error ?? errorText
+  const resolvedHint  = hint ?? helperText
+  const resolvedStatus: InputStatus = resolvedError ? 'error' : state ?? status
+
+  const displayHint =
+    resolvedStatus === 'error'   ? resolvedError :
+    resolvedStatus === 'success' ? (successText ?? resolvedHint) :
+    resolvedStatus === 'warning' ? (warningText ?? resolvedHint) :
+    resolvedHint
+
+  const hintId = displayHint ? `${id}-hint` : undefined
 
   const hasIconLeft  = !!iconLeft
   const hasPrefix    = !!prefix

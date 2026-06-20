@@ -2,12 +2,26 @@
 
 import React from 'react'
 import { cn } from '@/lib/utils'
-import type { BadgeProps, BadgeVariant, BadgeSize, BadgeIntent } from './badge.types'
+import type { BadgeProps, BadgeVariant, BadgeSize, BadgeRounded, BadgeIntent } from './badge.types'
 
 const SIZE: Record<BadgeSize, string> = {
-  sm: 'h-4   px-1.5 gap-1   text-[0.625rem] leading-none rounded-[--radius-xs]',
-  md: 'h-5   px-2   gap-1   text-body-caption rounded-[--radius-xs]',
-  lg: 'h-6   px-2.5 gap-1.5 text-body-callout rounded-[--radius-sm]',
+  sm: 'h-4   px-1.5 gap-1   text-[0.625rem] leading-none',
+  md: 'h-5   px-2   gap-1   text-body-caption',
+  lg: 'h-6   px-2.5 gap-1.5 text-body-callout',
+}
+
+const SIZE_RADIUS: Record<BadgeSize, string> = {
+  sm: 'rounded-[--radius-xs]',
+  md: 'rounded-[--radius-xs]',
+  lg: 'rounded-[--radius-sm]',
+}
+
+const ROUNDED_MAP: Record<BadgeRounded, string> = {
+  none: 'rounded-none',
+  sm:   'rounded-[--radius-xs]',
+  md:   'rounded-[--radius-sm]',
+  lg:   'rounded-[--radius-md]',
+  full: 'rounded-full',
 }
 
 const DOT_SIZE: Record<BadgeSize, string> = {
@@ -80,10 +94,12 @@ const DOT_COLOR: Record<BadgeIntent, string> = {
 }
 
 export function Badge({
-  variant  = 'soft',
-  size     = 'md',
-  intent   = 'primary',
+  variant    = 'soft',
+  size       = 'md',
+  intent     = 'primary',
+  rounded,
   dot,
+  dismissible,
   iconLeft,
   iconRight,
   onDismiss,
@@ -93,6 +109,7 @@ export function Badge({
 }: BadgeProps) {
   const key = `${intent}/${variant}` as IntentVariantKey
   const intentCls = INTENT_VARIANT[key] ?? INTENT_VARIANT['neutral/soft']
+  const radiusCls = rounded ? ROUNDED_MAP[rounded] : SIZE_RADIUS[size]
   const showDot = dot || variant === 'dot'
 
   return (
@@ -101,6 +118,7 @@ export function Badge({
       className={cn(
         'inline-flex items-center font-medium border select-none whitespace-nowrap',
         SIZE[size],
+        radiusCls,
         intentCls,
         className,
       )}
@@ -126,7 +144,7 @@ export function Badge({
         </span>
       )}
 
-      {onDismiss && (
+      {(dismissible || onDismiss) && (
         <button
           type="button"
           aria-label="Dismiss"
