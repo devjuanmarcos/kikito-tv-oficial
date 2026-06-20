@@ -1,4 +1,6 @@
-﻿import { useState, useEffect, useRef, useMemo } from 'react'
+﻿'use client'
+
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/utils'
 import type { CommandProps, CommandItem } from './command.types'
@@ -117,7 +119,7 @@ export function Command({
           <span className="flex items-center text-faint flex-shrink-0"><SearchIcon /></span>
           <input
             ref={inputRef}
-            className="flex-1 h-12 bg-transparent border-none outline-none text-[0.9375rem] text-foreground caret-patina placeholder:text-faint"
+            className="flex-1 h-12 bg-transparent border-none outline-none text-body-paragraph text-foreground caret-patina placeholder:text-faint"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={placeholder}
@@ -136,7 +138,7 @@ export function Command({
 
         <div className="flex-1 overflow-y-auto overscroll-contain p-[0.375rem]" ref={listRef} role="listbox">
           {filteredGroups.length === 0 ? (
-            <div className="flex flex-col items-center gap-2 py-10 px-4 text-faint text-[0.875rem] text-center">{emptyMessage}</div>
+            <div className="flex flex-col items-center gap-2 py-10 px-4 text-faint text-body-callout text-center">{emptyMessage}</div>
           ) : filteredGroups.map((group, gi) => (
             <div key={gi} className="[&+div]:border-t [&+div]:border-rule [&+div]:mt-1 [&+div]:pt-1">
               {group.heading && (
@@ -167,15 +169,15 @@ export function Command({
                       </span>
                     )}
                     <span className="flex-1 min-w-0 flex flex-col gap-[0.125rem]">
-                      <span className="text-[0.875rem] font-medium text-foreground whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
+                      <span className="text-body-callout font-medium text-foreground whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>
                       {item.description && (
-                        <span className="text-[0.75rem] text-faint whitespace-nowrap overflow-hidden text-ellipsis">{item.description}</span>
+                        <span className="text-body-caption text-faint whitespace-nowrap overflow-hidden text-ellipsis">{item.description}</span>
                       )}
                     </span>
                     {item.shortcut && (
                       <span className="flex gap-1 flex-shrink-0" aria-label={`Shortcut: ${item.shortcut}`}>
                         {item.shortcut.split('+').map((k, ki) => (
-                          <kbd key={ki} className="inline-flex items-center justify-center min-w-5 h-5 px-[0.3125rem] bg-graphite border border-rule border-b-2 rounded-[--radius-sm] text-[0.6875rem] font-medium text-faint">{k}</kbd>
+                          <kbd key={ki} className="inline-flex items-center justify-center min-w-5 h-5 px-[0.3125rem] bg-graphite border border-rule border-b-2 rounded-[--radius-sm] text-body-caption font-medium text-faint">{k}</kbd>
                         ))}
                       </span>
                     )}
@@ -188,8 +190,8 @@ export function Command({
 
         <div className="flex items-center gap-4 py-2 px-[0.875rem] border-t border-rule flex-shrink-0">
           {[['↑↓', 'navigate'], ['↵', 'select'], ['Esc', 'close']].map(([key, hint]) => (
-            <span key={hint} className="flex items-center gap-[0.3125rem] text-[0.6875rem] text-faint">
-              <kbd className="inline-flex items-center justify-center min-w-5 h-5 px-[0.3125rem] bg-graphite border border-rule border-b-2 rounded-[--radius-sm] text-[0.6875rem] font-medium text-faint">{key}</kbd>
+            <span key={hint} className="flex items-center gap-[0.3125rem] text-body-caption text-faint">
+              <kbd className="inline-flex items-center justify-center min-w-5 h-5 px-[0.3125rem] bg-graphite border border-rule border-b-2 rounded-[--radius-sm] text-body-caption font-medium text-faint">{key}</kbd>
               {hint}
             </span>
           ))}

@@ -209,7 +209,7 @@ export function CnSidebar() {
         <Link href="/cn" className="block min-w-0">
           <span className="text-[0.5625rem] font-bold tracking-[0.16em] uppercase text-faint">Kikito</span>
           <div className="flex items-baseline gap-1.5 mt-[3px]">
-            <span className="text-[1.0625rem] font-bold text-foreground leading-none tracking-tight">CN</span>
+            <span className="text-body-title font-bold text-foreground leading-none tracking-tight">CN</span>
             <span className="text-[0.6rem] font-bold tracking-[0.04em] uppercase text-patina leading-none">
               Design System
             </span>
@@ -252,7 +252,7 @@ export function CnSidebar() {
 
       {/* ── Count ─────────────────────────────────────────────────────── */}
       <div className="px-4 pb-1.5 flex-shrink-0">
-        <span className="text-[0.6875rem] text-faint">{CN_REGISTRY.length} componentes</span>
+        <span className="text-body-caption text-faint">{CN_REGISTRY.length} componentes</span>
       </div>
 
       {/* ── Nav groups ────────────────────────────────────────────────── */}
@@ -278,7 +278,7 @@ export function CnSidebar() {
 
       {/* ── Footer ────────────────────────────────────────────────────── */}
       <div className="px-4 py-3 border-t border-rule flex-shrink-0">
-        <p className="text-[0.6875rem] text-faint">v0.1 · kikito.com.br</p>
+        <p className="text-body-caption text-faint">v0.1 · kikito.com.br</p>
       </div>
     </>
   )
