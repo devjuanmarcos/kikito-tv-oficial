@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Label } from "@/components/ui/cn/label/Label";
+import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { cn } from "@/lib/utils";
 
 import type { WordCounterProps } from "./word-counter.types";
@@ -60,11 +61,10 @@ export function WordCounter({
     <div className={cn("flex flex-col gap-2", className)} style={style}>
       {label && <Label size="md">{label}</Label>}
 
-      <textarea
-        className={cn(
-          "w-full px-[14px] py-[10px] border-[1.5px] border-rule rounded-(--radius-md) bg-sunken text-foreground text-body-callout leading-[1.6] resize-y font-[inherit] outline-none box-border transition-[border-color] duration-[150ms] focus:border-patina",
-          isOver && "border-danger!"
-        )}
+      <Textarea
+        className="w-full"
+        state={isOver ? "error" : "default"}
+        resize="vertical"
         value={text}
         onChange={handleChange}
         rows={rows}

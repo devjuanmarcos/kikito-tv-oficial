@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/cn/button";
+import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { cn } from "@/lib/utils";
 
 import type { FeedbackWidgetProps } from "./feedback-widget.types";
@@ -119,12 +120,13 @@ export function FeedbackWidget({
         </div>
       )}
 
-      <textarea
+      <Textarea
+        className="w-full"
         rows={3}
+        resize="none"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas text-foreground text-body-callout placeholder:text-faint outline-none focus:border-patina/60 resize-none transition-colors"
       />
 
       <Button intent="primary" variant="solid" fullWidth onClick={handleSubmit} disabled={score === null}>
