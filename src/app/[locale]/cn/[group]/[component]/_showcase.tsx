@@ -8,17 +8,6 @@ import { AcernityFeaturesSection } from "@/components/ui/cn/aceternity-features-
 import { ActivityFeed } from "@/components/ui/cn/activity-feed/ActivityFeed";
 import { AlertDialog } from "@/components/ui/cn/alert-dialog/AlertDialog";
 import { AnimatedList } from "@/components/ui/cn/animated-list/AnimatedList";
-import { Checklist } from "@/components/ui/cn/checklist/Checklist";
-import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
-import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
-import { Gauge } from "@/components/ui/cn/gauge/Gauge";
-import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
-import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
-import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
-
-import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
-import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
-import { Combobox } from "@/components/ui/cn/combobox/Combobox";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
 import { FilterBar } from "@/components/ui/cn/filter-bar/FilterBar";
@@ -129,9 +118,9 @@ import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { FloatingLabelInput } from "@/components/ui/cn/floating-label-input/FloatingLabelInput";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { AspectRatio } from "@/components/ui/cn/aspect-ratio/AspectRatio";
+import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
 import { Banner } from "@/components/ui/cn/banner/Banner";
-import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
-import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
+import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { FloatingBar } from "@/components/ui/cn/floating-bar/FloatingBar";
@@ -150,15 +139,25 @@ import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
 import { Calendar } from "@/components/ui/cn/calendar/Calendar";
 import { Callout } from "@/components/ui/cn/callout/Callout";
-import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
+import { Checklist } from "@/components/ui/cn/checklist/Checklist";
+import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
+import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
+import { Combobox } from "@/components/ui/cn/combobox/Combobox";
+import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
+import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
+import { Gauge } from "@/components/ui/cn/gauge/Gauge";
 import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
 import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
-import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
 import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
+import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
+import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
+import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
+import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
 import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
 import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
 import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
+import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
 
 interface ShowcaseProps {
   group: string;
@@ -633,7 +632,7 @@ function MultiSelectDemo() {
   return (
     <Frame label="Multi Select — select multiple values">
       <div className="w-full max-w-md mx-auto flex flex-col gap-4">
-        <MultiSelect options={options} values={values} onChange={setValues} placeholder="Select technologies…" />
+        <MultiSelect options={options} value={values} onChange={setValues} placeholder="Select technologies…" />
         <p className="text-body-caption text-faint">Selected: {values.join(", ") || "none"}</p>
       </div>
     </Frame>
@@ -706,12 +705,22 @@ function EventCalendarDemo() {
   const y = today.getFullYear();
   const m = today.getMonth();
   const events = [
-    { id: "1", title: "Team standup", date: new Date(y, m, 3), intent: "primary" as const },
-    { id: "2", title: "Design review", date: new Date(y, m, 7), intent: "secondary" as const },
-    { id: "3", title: "Release v2", date: new Date(y, m, 12), intent: "success" as const },
-    { id: "4", title: "On-call week", date: new Date(y, m, 15), intent: "warning" as const },
-    { id: "5", title: "All hands", date: new Date(y, m, 20), intent: "info" as const },
-    { id: "6", title: "Incident", date: new Date(y, m, 25), intent: "danger" as const },
+    { id: "1", title: "Team standup", date: new Date(y, m, 3).toISOString().split("T")[0], intent: "primary" as const },
+    {
+      id: "2",
+      title: "Design review",
+      date: new Date(y, m, 7).toISOString().split("T")[0],
+      intent: "secondary" as const,
+    },
+    { id: "3", title: "Release v2", date: new Date(y, m, 12).toISOString().split("T")[0], intent: "success" as const },
+    {
+      id: "4",
+      title: "On-call week",
+      date: new Date(y, m, 15).toISOString().split("T")[0],
+      intent: "warning" as const,
+    },
+    { id: "5", title: "All hands", date: new Date(y, m, 20).toISOString().split("T")[0], intent: "info" as const },
+    { id: "6", title: "Incident", date: new Date(y, m, 25).toISOString().split("T")[0], intent: "danger" as const },
   ];
   return (
     <Frame label="Event Calendar — monthly grid with color-coded events">
@@ -731,7 +740,7 @@ function ImageViewerDemo() {
   ];
   return (
     <Frame label="Image Viewer — thumbnail grid with full-screen lightbox">
-      <ImageViewer images={images} columns={4} />
+      <ImageViewer images={images} />
     </Frame>
   );
 }
@@ -790,66 +799,63 @@ function TableDemo() {
   ];
   return (
     <Frame label="DataTable — filters, sort, bulk actions, pagination">
-      <DataTable<Row> columns={columns} rows={rows} rowKey={(r) => r.id} pageSize={4} selectable striped />
+      <DataTable<Row>
+        columns={columns}
+        data={rows}
+        getRowId={(r) => String(r.id)}
+        defaultPageSize={4}
+        selectable
+        striped
+      />
     </Frame>
   );
 }
 
 function TreeTableDemo() {
-  type Node = { id: string; name: string; type: string; size: string; children?: Node[] };
+  type NodeData = { name: string; type: string; size: string };
   const columns = [
-    { key: "name" as const, header: "Name" },
-    { key: "type" as const, header: "Type" },
-    { key: "size" as const, header: "Size" },
+    { key: "name", header: "Name", render: (d: NodeData) => d.name },
+    { key: "type", header: "Type", render: (d: NodeData) => d.type },
+    { key: "size", header: "Size", render: (d: NodeData) => d.size },
   ];
-  const rows: Node[] = [
+  const rows = [
     {
       id: "1",
-      name: "src",
-      type: "folder",
-      size: "—",
+      data: { name: "src", type: "folder", size: "—" },
       children: [
         {
           id: "1-1",
-          name: "components",
-          type: "folder",
-          size: "—",
+          data: { name: "components", type: "folder", size: "—" },
           children: [
-            { id: "1-1-1", name: "Button.tsx", type: "file", size: "4.2 KB" },
-            { id: "1-1-2", name: "Input.tsx", type: "file", size: "3.1 KB" },
+            { id: "1-1-1", data: { name: "Button.tsx", type: "file", size: "4.2 KB" } },
+            { id: "1-1-2", data: { name: "Input.tsx", type: "file", size: "3.1 KB" } },
           ],
         },
         {
           id: "1-2",
-          name: "lib",
-          type: "folder",
-          size: "—",
-          children: [{ id: "1-2-1", name: "utils.ts", type: "file", size: "1.8 KB" }],
+          data: { name: "lib", type: "folder", size: "—" },
+          children: [{ id: "1-2-1", data: { name: "utils.ts", type: "file", size: "1.8 KB" } }],
         },
         {
           id: "1-3",
-          name: "app",
-          type: "folder",
-          size: "—",
+          data: { name: "app", type: "folder", size: "—" },
           children: [
-            { id: "1-3-1", name: "page.tsx", type: "file", size: "2.5 KB" },
-            { id: "1-3-2", name: "layout.tsx", type: "file", size: "1.2 KB" },
+            { id: "1-3-1", data: { name: "page.tsx", type: "file", size: "2.5 KB" } },
+            { id: "1-3-2", data: { name: "layout.tsx", type: "file", size: "1.2 KB" } },
           ],
         },
       ],
     },
     {
       id: "2",
-      name: "public",
-      type: "folder",
-      size: "—",
-      children: [{ id: "2-1", name: "favicon.ico", type: "file", size: "14 KB" }],
+      data: { name: "public", type: "folder", size: "—" },
+      children: [{ id: "2-1", data: { name: "favicon.ico", type: "file", size: "14 KB" } }],
     },
-    { id: "3", name: "package.json", type: "file", size: "1.6 KB" },
+    { id: "3", data: { name: "package.json", type: "file", size: "1.6 KB" } },
   ];
   return (
     <Frame label="Tree Table — expandable hierarchy with toggle controls">
-      <TreeTable<Node> columns={columns} rows={rows} rowKey={(r) => r.id} childKey="children" />
+      <TreeTable<NodeData> columns={columns} rows={rows} />
     </Frame>
   );
 }
@@ -859,7 +865,7 @@ function ImageCropperDemo() {
   return (
     <Frame label="Image Cropper — drag handles to define crop area">
       <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
-        <ImageCropper src="https://picsum.photos/seed/crop/800/500" onCropChange={setCropArea} aspectRatio={16 / 9} />
+        <ImageCropper src="https://picsum.photos/seed/crop/800/500" onCrop={setCropArea} aspect={16 / 9} />
         {cropArea && (
           <p className="text-body-caption text-faint text-center">
             Crop: x={Math.round(cropArea.x)} y={Math.round(cropArea.y)} {Math.round(cropArea.width)}×
@@ -875,7 +881,7 @@ function ResizableDemo() {
   return (
     <Frame label="Resizable — drag the divider to resize panels">
       <div className="w-full h-[320px]">
-        <Resizable direction="horizontal" initialSize={50} minSize={20} maxSize={80}>
+        <Resizable direction="horizontal" defaultSize={50} minSize={20} maxSize={80}>
           <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
             <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel A</p>
             <p className="text-body-callout text-foreground">Drag the divider ↔</p>
@@ -1673,16 +1679,8 @@ function CurrencyInputDemo() {
   return (
     <Frame label="Currency Input — formatted display, raw edit on focus">
       <div className="flex flex-col gap-4 w-72">
-        <CurrencyInput value={usd} onChange={setUsd} currency="USD" locale="en-US" label="Amount (USD)" min={0} />
-        <CurrencyInput
-          value={eur}
-          onChange={setEur}
-          currency="EUR"
-          locale="de-DE"
-          label="Amount (EUR)"
-          min={0}
-          max={10000}
-        />
+        <CurrencyInput value={usd} onChange={setUsd} currency="USD" locale="en-US" min={0} />
+        <CurrencyInput value={eur} onChange={setEur} currency="EUR" locale="de-DE" min={0} max={10000} />
         <p className="text-body-caption text-faint">
           USD: {usd} · EUR: {eur}
         </p>
@@ -1716,27 +1714,43 @@ function SwipeCardDemo() {
   const initial = [
     {
       id: "1",
-      title: "Design Tokens",
-      subtitle: "Color, spacing, typography",
-      content: "Systematic design decisions captured as variables.",
+      children: (
+        <div className="p-6 bg-raised rounded-(--radius-lg) border border-rule text-center w-72">
+          <p className="font-semibold text-foreground">Design Tokens</p>
+          <p className="text-body-caption text-faint mt-1">Color, spacing, typography</p>
+          <p className="text-body-callout text-muted mt-2">Systematic design decisions captured as variables.</p>
+        </div>
+      ),
     },
     {
       id: "2",
-      title: "Component API",
-      subtitle: "Props and variants",
-      content: "Consistent, composable component interfaces.",
+      children: (
+        <div className="p-6 bg-raised rounded-(--radius-lg) border border-rule text-center w-72">
+          <p className="font-semibold text-foreground">Component API</p>
+          <p className="text-body-caption text-faint mt-1">Props and variants</p>
+          <p className="text-body-callout text-muted mt-2">Consistent, composable component interfaces.</p>
+        </div>
+      ),
     },
     {
       id: "3",
-      title: "Accessibility",
-      subtitle: "ARIA and keyboard",
-      content: "Built-in screen reader and keyboard support.",
+      children: (
+        <div className="p-6 bg-raised rounded-(--radius-lg) border border-rule text-center w-72">
+          <p className="font-semibold text-foreground">Accessibility</p>
+          <p className="text-body-caption text-faint mt-1">ARIA and keyboard</p>
+          <p className="text-body-callout text-muted mt-2">Built-in screen reader and keyboard support.</p>
+        </div>
+      ),
     },
     {
       id: "4",
-      title: "Dark Mode",
-      subtitle: "CSS custom properties",
-      content: "Automatic theme switching with token aliases.",
+      children: (
+        <div className="p-6 bg-raised rounded-(--radius-lg) border border-rule text-center w-72">
+          <p className="font-semibold text-foreground">Dark Mode</p>
+          <p className="text-body-caption text-faint mt-1">CSS custom properties</p>
+          <p className="text-body-callout text-muted mt-2">Automatic theme switching with token aliases.</p>
+        </div>
+      ),
     },
   ];
   const [stack, setStack] = useState(initial);
@@ -1746,8 +1760,8 @@ function SwipeCardDemo() {
       <div className="flex flex-col items-center gap-12">
         <SwipeCard
           items={stack}
-          onSwipe={(item, dir) => console.log("Swiped", item.id, dir)}
-          onEmpty={() => setStack(initial)}
+          onSwipeLeft={(id) => setStack((s) => s.filter((i) => i.id !== id))}
+          onSwipeRight={(id) => setStack((s) => s.filter((i) => i.id !== id))}
         />
         <Button onClick={() => setStack(initial)} variant="ghost" size="xs">
           Reset stack
@@ -2860,7 +2874,7 @@ function BannerDemo() {
         </Banner>
       ))}
       <Banner
-        intent="primary"
+        intent="info"
         icon={<span>🚀</span>}
         action={
           <Button variant="link" size="xs" className="ml-auto shrink-0">
@@ -3593,6 +3607,11 @@ function FabDemo() {
         <Frame label="Speed-dial (bottom-right)">
           <div className="relative w-72 h-56 rounded-(--radius-lg) border border-rule bg-base overflow-hidden">
             <Fab
+              icon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              }
               position="bottom-right"
               actions={[
                 {
@@ -3623,7 +3642,6 @@ function FabDemo() {
                   ),
                   label: "Delete",
                   onClick: () => {},
-                  intent: "danger",
                 },
               ]}
             />
@@ -3636,6 +3654,11 @@ function FabDemo() {
             {(["primary", "secondary", "success", "danger"] as const).map((i) => (
               <Fab
                 key={i}
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                }
                 position="bottom-right"
                 intent={i}
                 className="static!"
@@ -3701,7 +3724,7 @@ function RibbonDemo() {
       <ShowcaseSection title="Intents">
         <Frame label="All intent colors">
           <div className="flex flex-wrap gap-4">
-            {(["primary", "secondary", "success", "warning", "danger", "info"] as const).map((i) => (
+            {(["primary", "secondary", "success", "warning", "danger", "neutral"] as const).map((i) => (
               <Ribbon key={i} label={i} intent={i}>
                 <div className="w-28 h-20 rounded-(--radius-md) border border-rule bg-raised flex items-center justify-center text-body-caption text-muted capitalize">
                   {i}
@@ -3765,10 +3788,10 @@ function NotificationBellDemo() {
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
         <Frame label="Bell with unread badge + panel">
-          <NotificationBell items={items} />
+          <NotificationBell notifications={items} />
         </Frame>
         <Frame label="No unread notifications">
-          <NotificationBell items={items.map((i) => ({ ...i, read: true }))} />
+          <NotificationBell notifications={items.map((i) => ({ ...i, read: true }))} />
         </Frame>
       </ShowcaseSection>
     </div>
@@ -3812,15 +3835,15 @@ function AspectRatioDemo() {
 }
 
 function ChipGroupDemo() {
-  const [single, setSingle] = useState("react");
+  const [single, setSingle] = useState<string[]>(["react"]);
   const [multi, setMulti] = useState<string[]>(["ts", "tailwind"]);
 
   const chips = [
-    { value: "react", label: "React" },
-    { value: "vue", label: "Vue" },
-    { value: "svelte", label: "Svelte" },
-    { value: "ts", label: "TypeScript" },
-    { value: "tailwind", label: "Tailwind" },
+    { id: "react", label: "React" },
+    { id: "vue", label: "Vue" },
+    { id: "svelte", label: "Svelte" },
+    { id: "ts", label: "TypeScript" },
+    { id: "tailwind", label: "Tailwind" },
   ];
 
   return (
@@ -3828,13 +3851,13 @@ function ChipGroupDemo() {
       <ShowcaseSection title="Selection modes">
         <Frame label="Single select">
           <div className="flex flex-col gap-3 items-center">
-            <ChipGroup chips={chips} value={single} onChange={(v) => setSingle(v as string)} />
-            <p className="text-body-caption text-faint">Selected: {single}</p>
+            <ChipGroup chips={chips} value={single} onChange={setSingle} />
+            <p className="text-body-caption text-faint">Selected: {single.join(", ") || "none"}</p>
           </div>
         </Frame>
         <Frame label="Multi select">
           <div className="flex flex-col gap-3 items-center">
-            <ChipGroup chips={chips} value={multi} onChange={(v) => setMulti(v as string[])} multiSelect />
+            <ChipGroup chips={chips} value={multi} onChange={setMulti} multiSelect />
             <p className="text-body-caption text-faint">Selected: {multi.join(", ")}</p>
           </div>
         </Frame>
@@ -3842,24 +3865,9 @@ function ChipGroupDemo() {
       <ShowcaseSection title="Intents">
         <Frame label="Primary (default) · success · danger">
           <div className="flex flex-col gap-3">
-            <ChipGroup
-              chips={chips.slice(0, 3)}
-              value={single}
-              onChange={(v) => setSingle(v as string)}
-              intent="primary"
-            />
-            <ChipGroup
-              chips={chips.slice(0, 3)}
-              value={single}
-              onChange={(v) => setSingle(v as string)}
-              intent="success"
-            />
-            <ChipGroup
-              chips={chips.slice(0, 3)}
-              value={single}
-              onChange={(v) => setSingle(v as string)}
-              intent="danger"
-            />
+            <ChipGroup chips={chips.slice(0, 3)} value={single} onChange={setSingle} intent="primary" />
+            <ChipGroup chips={chips.slice(0, 3)} value={single} onChange={setSingle} intent="success" />
+            <ChipGroup chips={chips.slice(0, 3)} value={single} onChange={setSingle} intent="danger" />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -3884,10 +3892,10 @@ function TagCloudDemo() {
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
         <Frame label="Weight-scaled tags">
-          <TagCloud tags={tags} minSize={12} maxSize={24} />
+          <TagCloud items={tags} minSize={12} maxSize={24} />
         </Frame>
         <Frame label="Rotated (randomized angles)">
-          <TagCloud tags={tags} minSize={11} maxSize={22} rotate />
+          <TagCloud items={tags} minSize={11} maxSize={22} randomRotate />
         </Frame>
       </ShowcaseSection>
     </div>
@@ -3895,7 +3903,7 @@ function TagCloudDemo() {
 }
 
 function AccordionGroupDemo() {
-  const items = [
+  const rawItems = [
     {
       id: "1",
       title: "What is Kikito CN?",
@@ -3913,6 +3921,11 @@ function AccordionGroupDemo() {
       content: "Yes — all tokens adapt via CSS custom properties. Toggle .dark on the root element.",
     },
   ];
+  const items = rawItems.map((i) => ({
+    id: i.id,
+    trigger: <span>{i.title}</span>,
+    content: <p className="text-muted">{i.content}</p>,
+  }));
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Types">
@@ -3923,15 +3936,15 @@ function AccordionGroupDemo() {
         </Frame>
         <Frame label="Multiple open" align="start">
           <div className="w-full max-w-lg">
-            <AccordionGroup items={items} type="multiple" defaultOpen={["1", "2"]} />
+            <AccordionGroup items={items} type="multi" defaultOpen={["1", "2"]} />
           </div>
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Variants">
-        <Frame label="Default · bordered · flush" align="start">
+        <Frame label="Default · card · flush" align="start">
           <div className="w-full max-w-lg flex flex-col gap-6">
             <AccordionGroup items={items.slice(0, 2)} variant="default" />
-            <AccordionGroup items={items.slice(0, 2)} variant="bordered" />
+            <AccordionGroup items={items.slice(0, 2)} variant="card" />
             <AccordionGroup items={items.slice(0, 2)} variant="flush" />
           </div>
         </Frame>
@@ -3947,7 +3960,7 @@ function DotStepperDemo() {
       <ShowcaseSection title="Variants">
         <Frame label="Dot (default)">
           <div className="flex flex-col gap-4 items-center">
-            <DotStepper steps={5} currentStep={step} variant="dot" onStepClick={setStep} />
+            <DotStepper steps={5} current={step} variant="dot" onChange={setStep} />
             <div className="flex gap-2">
               <Button size="xs" variant="outline" intent="neutral" onClick={() => setStep((s) => Math.max(0, s - 1))}>
                 Prev
@@ -3959,11 +3972,11 @@ function DotStepperDemo() {
           </div>
         </Frame>
         <Frame label="Dash">
-          <DotStepper steps={5} currentStep={step} variant="dash" />
+          <DotStepper steps={5} current={step} variant="dash" />
         </Frame>
         <Frame label="Progress bar">
           <div className="w-72">
-            <DotStepper steps={5} currentStep={step} variant="progress" />
+            <DotStepper steps={5} current={step} variant="progress" />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -3983,17 +3996,17 @@ function ProgressStepsDemo() {
       <ShowcaseSection title="Orientation">
         <Frame label="Horizontal (step 2 active)">
           <div className="w-full max-w-2xl">
-            <ProgressSteps steps={steps} currentStep={2} />
+            <ProgressSteps steps={steps} current={2} />
           </div>
         </Frame>
         <Frame label="Vertical" align="start">
-          <ProgressSteps steps={steps} currentStep={2} orientation="vertical" />
+          <ProgressSteps steps={steps} current={2} orientation="vertical" />
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Completed state">
         <Frame label="All steps done">
           <div className="w-full max-w-2xl">
-            <ProgressSteps steps={steps} currentStep={4} />
+            <ProgressSteps steps={steps} current={4} />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4077,9 +4090,9 @@ function FloatingMenuDemo() {
                   </Button>
                 }
                 items={[
-                  { label: "Edit", onClick: () => {} },
-                  { label: "Duplicate", onClick: () => {} },
-                  { label: "Delete", onClick: () => {}, danger: true },
+                  { id: "edit", label: "Edit", onClick: () => {} },
+                  { id: "dup", label: "Duplicate", onClick: () => {} },
+                  { id: "del", label: "Delete", onClick: () => {}, intent: "danger" as const },
                 ]}
               />
             ))}
@@ -4097,21 +4110,21 @@ function MetricCardDemo() {
       <ShowcaseSection title="Trend variants">
         <Frame label="Up · down · neutral">
           <div className="flex flex-wrap gap-4">
-            <MetricCard title="Revenue" value="$42,890" trend="up" trendValue="+12%" sparklineData={data} />
+            <MetricCard label="Revenue" value="$42,890" trend="up" trendValue="+12%" sparkline={data} />
             <MetricCard
-              title="Churn Rate"
+              label="Churn Rate"
               value="2.1%"
               trend="down"
               trendValue="-0.4%"
-              sparklineData={data.map((v) => 60 - v)}
+              sparkline={data.map((v) => 60 - v)}
               intent="success"
             />
             <MetricCard
-              title="Sessions"
+              label="Sessions"
               value="8,214"
-              trend="neutral"
+              trend="flat"
               trendValue="0%"
-              sparklineData={[30, 32, 29, 31, 30, 33, 31, 30]}
+              sparkline={[30, 32, 29, 31, 30, 33, 31, 30]}
               intent="info"
             />
           </div>
@@ -4119,7 +4132,7 @@ function MetricCardDemo() {
       </ShowcaseSection>
       <ShowcaseSection title="Loading">
         <Frame label="Skeleton state">
-          <MetricCard title="" value="" loading />
+          <MetricCard label="" value="" loading />
         </Frame>
       </ShowcaseSection>
     </div>
@@ -4162,12 +4175,10 @@ function NoteCardDemo() {
         <Frame label="All 6 pastel colors">
           <div className="flex flex-wrap gap-4">
             {(["yellow", "pink", "blue", "green", "purple", "orange"] as const).map((color) => (
-              <NoteCard
-                key={color}
-                color={color}
-                title={color}
-                content="Quick sticky note with pin decoration and optional rotation."
-              />
+              <NoteCard key={color} color={color}>
+                <p className="font-semibold capitalize">{color}</p>
+                <p className="text-sm mt-1">Quick sticky note with pin decoration and optional rotation.</p>
+              </NoteCard>
             ))}
           </div>
         </Frame>
@@ -4175,9 +4186,18 @@ function NoteCardDemo() {
       <ShowcaseSection title="Rotation">
         <Frame label="Rotated (skewed layout)">
           <div className="flex flex-wrap gap-4">
-            <NoteCard color="yellow" title="Note A" content="Slight tilt." rotate />
-            <NoteCard color="pink" title="Note B" content="Different angle." rotate />
-            <NoteCard color="blue" title="Note C" content="Random rotation." rotate />
+            <NoteCard color="yellow" rotate={-3}>
+              <p className="font-semibold">Note A</p>
+              <p className="text-sm">Slight tilt.</p>
+            </NoteCard>
+            <NoteCard color="pink" rotate={2}>
+              <p className="font-semibold">Note B</p>
+              <p className="text-sm">Different angle.</p>
+            </NoteCard>
+            <NoteCard color="blue" rotate={-1}>
+              <p className="font-semibold">Note C</p>
+              <p className="text-sm">Random rotation.</p>
+            </NoteCard>
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4187,15 +4207,23 @@ function NoteCardDemo() {
 
 function ReceiptCardDemo() {
   const items = [
-    { label: "Coffee (×2)", amount: 7.0 },
-    { label: "Croissant", amount: 3.5 },
-    { label: "Orange juice", amount: 4.25 },
+    { label: "Coffee (×2)", value: 7.0 },
+    { label: "Croissant", value: 3.5 },
+    { label: "Orange juice", value: 4.25 },
   ];
+  const subtotal = items.reduce((s, i) => s + Number(i.value), 0);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
         <Frame label="Receipt card with total">
-          <ReceiptCard merchant="The Coffee House" date={new Date()} items={items} tax={0.08} currency="USD" />
+          <ReceiptCard
+            from="The Coffee House"
+            date={new Date()}
+            items={items}
+            tax={0.08}
+            currency="USD"
+            total={subtotal * 1.08}
+          />
         </Frame>
       </ShowcaseSection>
     </div>
@@ -4215,17 +4243,17 @@ function PricingCardDemo() {
       <ShowcaseSection title="Plans">
         <Frame label="Regular · Highlighted">
           <div className="flex flex-wrap gap-4">
-            <PricingCard name="Starter" price={9} period="mo" features={features} ctaLabel="Get started" />
+            <PricingCard name="Starter" price="9" period="mo" features={features} cta="Get started" />
             <PricingCard
               name="Pro"
-              price={29}
+              price="29"
               period="mo"
               features={[
                 ...features,
                 { label: "Priority support", included: true },
                 { label: "Custom domain", included: true },
               ]}
-              ctaLabel="Start free trial"
+              cta="Start free trial"
               highlighted
               badge="Most popular"
             />
@@ -4238,29 +4266,29 @@ function PricingCardDemo() {
 
 function FeatureListDemo() {
   const features = [
-    { label: "Unlimited projects" },
-    { label: "API access" },
-    { label: "Priority support" },
-    { label: "Custom domains" },
+    { title: "Unlimited projects" },
+    { title: "API access" },
+    { title: "Priority support" },
+    { title: "Custom domains" },
   ];
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Variants">
         <Frame label="Check (default)">
-          <FeatureList features={features} variant="check" />
+          <FeatureList items={features} variant="check" />
         </Frame>
         <Frame label="Numbered">
-          <FeatureList features={features} variant="numbered" />
+          <FeatureList items={features} variant="numbered" />
         </Frame>
         <Frame label="Icon (custom)">
-          <FeatureList features={features.map((f) => ({ ...f, icon: "⚡" }))} variant="icon" />
+          <FeatureList items={features.map((f) => ({ ...f, icon: <span>⚡</span> }))} variant="icon" />
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Intents">
         <Frame label="All intent colors">
           <div className="flex flex-wrap gap-8">
             {(["primary", "success", "danger"] as const).map((i) => (
-              <FeatureList key={i} features={features.slice(0, 3)} intent={i} />
+              <FeatureList key={i} items={features.slice(0, 3)} intent={i} />
             ))}
           </div>
         </Frame>
@@ -4303,15 +4331,15 @@ function ChatBubbleDemo() {
       <ShowcaseSection title="Bubbles">
         <Frame label="Sent · received" align="start">
           <div className="flex flex-col gap-3 w-full max-w-sm">
-            <ChatBubble message="Hey! How's the project going?" side="left" author="Alice" />
+            <ChatBubble message="Hey! How's the project going?" side="left" senderName="Alice" />
             <ChatBubble message="Great! Almost done with the new components 🎉" side="right" status="read" />
-            <ChatBubble message="Can't wait to see them!" side="left" author="Alice" />
+            <ChatBubble message="Can't wait to see them!" side="left" senderName="Alice" />
           </div>
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Typing indicator">
         <Frame label="Animated dots">
-          <ChatBubble isTyping side="left" author="Alice" />
+          <ChatBubble message="" isTyping side="left" senderName="Alice" />
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Message status">
@@ -4328,24 +4356,24 @@ function ChatBubbleDemo() {
 }
 
 function TerminalBlockDemo() {
-  const lines = [
-    "$ npm install @kikito/cn",
-    "> Installing packages…",
-    "> Added 42 packages in 2.1s",
-    "$ npm run dev",
-    "> Ready on http://localhost:3000",
+  const lines: import("@/components/ui/cn/terminal-block/TerminalBlock").TerminalLine[] = [
+    { text: "$ npm install @kikito/cn", type: "command" },
+    { text: "> Installing packages…", type: "output" },
+    { text: "> Added 42 packages in 2.1s", type: "success" },
+    { text: "$ npm run dev", type: "command" },
+    { text: "> Ready on http://localhost:3000", type: "info" },
   ];
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="macOS chrome">
+        <Frame label="Terminal block">
           <div className="w-full max-w-lg">
-            <TerminalBlock lines={lines} title="Terminal" chrome="macos" />
+            <TerminalBlock lines={lines} title="Terminal" />
           </div>
         </Frame>
         <Frame label="Animated typing">
           <div className="w-full max-w-lg">
-            <TerminalBlock lines={lines} title="Output" chrome="macos" animate />
+            <TerminalBlock lines={lines} title="Output" animate />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4367,7 +4395,7 @@ function PasswordStrengthDemo() {
               onChange={(e) => setPwd(e.target.value)}
               placeholder="Enter a password…"
             />
-            <PasswordStrength password={pwd} />
+            <PasswordStrength value={pwd} />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4381,7 +4409,7 @@ function WindowFrameDemo() {
       <ShowcaseSection title="Chrome styles">
         <Frame label="macOS">
           <div className="w-full max-w-md">
-            <WindowFrame chrome="macos" title="index.tsx">
+            <WindowFrame variant="macos" title="index.tsx">
               <div className="p-4 font-mono text-body-caption text-foreground bg-[#0d1117]">
                 <span className="text-[#79c0ff]">const</span> <span className="text-[#e6edf3]">greeting</span>{" "}
                 <span className="text-[#ff7b72]">=</span>{" "}
@@ -4392,14 +4420,14 @@ function WindowFrameDemo() {
         </Frame>
         <Frame label="Windows">
           <div className="w-full max-w-md">
-            <WindowFrame chrome="windows" title="Notepad — untitled.txt">
+            <WindowFrame variant="windows" title="Notepad — untitled.txt">
               <div className="p-4 text-body-callout text-foreground bg-canvas">Hello, world!</div>
             </WindowFrame>
           </div>
         </Frame>
         <Frame label="Minimal">
           <div className="w-full max-w-md">
-            <WindowFrame chrome="minimal">
+            <WindowFrame variant="minimal">
               <div className="p-4 text-body-callout text-muted">Content goes here</div>
             </WindowFrame>
           </div>
@@ -4411,12 +4439,22 @@ function WindowFrameDemo() {
 
 function KeyboardShortcutsDemo() {
   const [open, setOpen] = useState(false);
-  const shortcuts = [
-    { keys: ["⌘", "K"], description: "Open command palette", category: "Navigation" },
-    { keys: ["⌘", "/"], description: "Toggle sidebar", category: "Navigation" },
-    { keys: ["⌘", "S"], description: "Save file", category: "Editing" },
-    { keys: ["⌘", "Z"], description: "Undo", category: "Editing" },
-    { keys: ["⌘", "Shift", "Z"], description: "Redo", category: "Editing" },
+  const groups = [
+    {
+      title: "Navigation",
+      shortcuts: [
+        { label: "Open command palette", keys: ["⌘", "K"] },
+        { label: "Toggle sidebar", keys: ["⌘", "/"] },
+      ],
+    },
+    {
+      title: "Editing",
+      shortcuts: [
+        { label: "Save file", keys: ["⌘", "S"] },
+        { label: "Undo", keys: ["⌘", "Z"] },
+        { label: "Redo", keys: ["⌘", "Shift", "Z"] },
+      ],
+    },
   ];
   return (
     <div className="flex flex-col">
@@ -4427,7 +4465,7 @@ function KeyboardShortcutsDemo() {
               Show keyboard shortcuts
             </Button>
             <p className="text-body-caption text-faint">Press ? to open</p>
-            <KeyboardShortcuts shortcuts={shortcuts} open={open} onClose={() => setOpen(false)} />
+            <KeyboardShortcuts groups={groups} isOpen={open} onClose={() => setOpen(false)} />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4439,9 +4477,14 @@ function CalendarDemo() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const today = new Date();
   const events = [
-    { date: new Date(today.getFullYear(), today.getMonth(), 5), label: "Team sync", color: "var(--ks-patina)" },
-    { date: new Date(today.getFullYear(), today.getMonth(), 12), label: "Release", color: "var(--ks-success)" },
-    { date: new Date(today.getFullYear(), today.getMonth(), 20), label: "All-hands", color: "var(--ks-warning)" },
+    { id: 1, date: new Date(today.getFullYear(), today.getMonth(), 5), title: "Team sync", color: "var(--ks-patina)" },
+    { id: 2, date: new Date(today.getFullYear(), today.getMonth(), 12), title: "Release", color: "var(--ks-success)" },
+    {
+      id: 3,
+      date: new Date(today.getFullYear(), today.getMonth(), 20),
+      title: "All-hands",
+      color: "var(--ks-warning)",
+    },
   ];
   return (
     <div className="flex flex-col">
@@ -4458,23 +4501,19 @@ function CalendarDemo() {
 }
 
 function SortableListDemo() {
-  const [items, setItems] = useState([
-    { id: "1", label: "Design tokens" },
-    { id: "2", label: "Button component" },
-    { id: "3", label: "Input component" },
-    { id: "4", label: "Badge component" },
-    { id: "5", label: "Modal overlay" },
+  const [items, setItems] = useState<import("@/components/ui/cn/sortable-list/SortableList").SortableItem[]>([
+    { id: "1", content: <span className="text-body-callout text-foreground">Design tokens</span> },
+    { id: "2", content: <span className="text-body-callout text-foreground">Button component</span> },
+    { id: "3", content: <span className="text-body-callout text-foreground">Input component</span> },
+    { id: "4", content: <span className="text-body-callout text-foreground">Badge component</span> },
+    { id: "5", content: <span className="text-body-callout text-foreground">Modal overlay</span> },
   ]);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
         <Frame label="Drag to reorder" align="start">
           <div className="w-full max-w-sm">
-            <SortableList
-              items={items}
-              onChange={setItems}
-              renderItem={(item) => <span className="text-body-callout text-foreground">{item.label}</span>}
-            />
+            <SortableList items={items} onChange={setItems} />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4488,12 +4527,12 @@ function MediaPlayerDemo() {
       <ShowcaseSection title="Default">
         <Frame label="Simulated audio player">
           <div className="w-full max-w-md">
-            <MediaPlayer type="audio" title="Ambient Track 01" artist="Kikito Studio" duration={215} />
+            <MediaPlayer type="audio" title="Ambient Track 01" artist="Kikito Studio" />
           </div>
         </Frame>
         <Frame label="Video player">
           <div className="w-full max-w-md">
-            <MediaPlayer type="video" title="Intro to CN" duration={180} />
+            <MediaPlayer type="video" title="Intro to CN" />
           </div>
         </Frame>
       </ShowcaseSection>
@@ -4616,7 +4655,12 @@ function OnboardingTourDemo() {
               Start Tour
             </Button>
             {running && (
-              <OnboardingTour steps={steps} onComplete={() => setRunning(false)} onSkip={() => setRunning(false)} />
+              <OnboardingTour
+                steps={steps}
+                isOpen={running}
+                onClose={() => setRunning(false)}
+                onComplete={() => setRunning(false)}
+              />
             )}
           </div>
         </Frame>
