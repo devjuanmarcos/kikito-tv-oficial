@@ -48,11 +48,11 @@ export function SkillBar({
           <div key={i} className="flex flex-col gap-[6px]">
             <div className="flex items-baseline justify-between">
               <div>
-                <span className="text-[0.8125rem] font-semibold text-foreground">{skill.label}</span>
-                {skill.sublabel && <span className="text-[0.6875rem] opacity-40"> — {skill.sublabel}</span>}
+                <span className="text-body-callout font-semibold text-foreground">{skill.label}</span>
+                {skill.sublabel && <span className="text-body-caption opacity-40"> — {skill.sublabel}</span>}
               </div>
               {showValues && (
-                <span className="text-[0.75rem] font-bold opacity-60 tabular-nums">
+                <span className="text-body-caption font-bold opacity-60 tabular-nums">
                   {skill.value}{max !== 100 ? `/${max}` : '%'}
                 </span>
               )}

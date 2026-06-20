@@ -46,7 +46,7 @@ export function Stat({
       style={style}
     >
       <div className="flex items-start justify-between gap-2">
-        <span className="text-[0.8125rem] font-medium text-muted tracking-[0.01em] leading-snug">{label}</span>
+        <span className="text-body-callout font-medium text-muted tracking-[0.01em] leading-snug">{label}</span>
         {icon && (
           <span className={cn('w-9 h-9 rounded-[--radius-sm] flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]', ACCENT_CLS[intent] ?? ACCENT_CLS.default)}>
             {icon}
@@ -57,7 +57,7 @@ export function Stat({
       {loading ? (
         <div className="h-8 w-20 bg-graphite rounded animate-pulse" />
       ) : (
-        <div className="text-[2.25rem] font-bold text-foreground leading-none tabular-nums tracking-tight">
+        <div className="text-heading-03 font-bold text-foreground leading-none tabular-nums tracking-tight">
           {value}
         </div>
       )}
@@ -67,13 +67,13 @@ export function Stat({
           {loading ? (
             <div className="h-5 w-16 bg-graphite rounded-full animate-pulse" />
           ) : trend && (
-            <span className={cn('inline-flex items-center gap-[3px] text-[0.75rem] font-semibold py-0.5 px-2 rounded-full', TREND_CLS[trend])}>
+            <span className={cn('inline-flex items-center gap-[3px] text-body-caption font-semibold py-0.5 px-2 rounded-full', TREND_CLS[trend])}>
               {TREND_ICONS[trend]}
               {trendValue}
             </span>
           )}
           {!loading && description && (
-            <span className="text-[0.75rem] text-faint leading-snug">{description}</span>
+            <span className="text-body-caption text-faint leading-snug">{description}</span>
           )}
         </div>
       )}

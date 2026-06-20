@@ -1,4 +1,6 @@
-﻿import { useState, useRef } from 'react'
+﻿'use client'
+
+import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import type { DraggableProps, DraggableItem } from './draggable.types'
 
@@ -34,7 +36,7 @@ export function Draggable({
         <div
           key={item.id}
           className={cn(
-            'flex items-center gap-2 px-[14px] py-[10px] bg-raised border border-rule rounded-[--radius-md] select-none transition-[box-shadow,background,opacity] duration-[150ms] text-foreground text-[0.875rem] active:cursor-grabbing',
+            'flex items-center gap-2 px-[14px] py-[10px] bg-raised border border-rule rounded-[--radius-md] select-none transition-[box-shadow,background,opacity] duration-[150ms] text-foreground text-body-callout active:cursor-grabbing',
             isHoriz ? 'mr-1 last:mr-0 flex-shrink-0' : 'mb-1 last:mb-0',
             !handle && 'cursor-grab',
             draggingId === item.id && 'opacity-40',

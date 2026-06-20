@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
 import type { Lap, StopwatchProps } from './stopwatch.types'
 
 function fmt(ms: number) {
@@ -75,42 +76,29 @@ export function Stopwatch({
 
   return (
     <div className={cn('flex flex-col items-center gap-4', className)} style={style}>
-      <div className="font-mono text-5xl font-bold tabular-nums tracking-tight text-foreground">
+      <div className="font-mono text-heading-01 font-bold tabular-nums tracking-tight text-foreground">
         {hh}{mm}:{ss}
-        <span className="text-3xl text-muted">.{ms}</span>
+        <span className="text-heading-04 text-muted">.{ms}</span>
       </div>
 
       <div className="flex gap-2">
         {!running ? (
-          <button
-            onClick={start}
-            className="px-5 py-2 rounded-[--radius-sm] bg-patina text-patina-fg font-medium text-[0.875rem] hover:bg-patina/90 transition-colors"
-          >
-            Start
-          </button>
+          <Button intent="primary" variant="solid" size="md" onClick={start}>Start</Button>
         ) : (
-          <button
-            onClick={pause}
-            className="px-5 py-2 rounded-[--radius-sm] bg-warning text-warning-fg font-medium text-[0.875rem] hover:bg-warning/90 transition-colors"
-          >
-            Pause
-          </button>
+          <Button intent="warning" variant="solid" size="md" onClick={pause}>Pause</Button>
         )}
         {running && (
-          <button
-            onClick={lap}
-            className="px-5 py-2 rounded-[--radius-sm] border border-rule bg-raised text-foreground font-medium text-[0.875rem] hover:bg-graphite transition-colors"
-          >
-            Lap
-          </button>
+          <Button intent="neutral" variant="outline" size="md" onClick={lap}>Lap</Button>
         )}
-        <button
+        <Button
+          intent="neutral"
+          variant="ghost"
+          size="md"
           onClick={reset}
           disabled={elapsed === 0 && !running}
-          className="px-5 py-2 rounded-[--radius-sm] border border-rule bg-raised text-muted font-medium text-[0.875rem] hover:bg-graphite transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Reset
-        </button>
+        </Button>
       </div>
 
       {showLaps && laps.length > 0 && (
@@ -119,7 +107,7 @@ export function Stopwatch({
             const t = fmt(l.time)
             const d = fmt(l.delta)
             return (
-              <div key={l.index} className="flex items-center justify-between px-4 py-2 text-[0.8125rem] hover:bg-raised transition-colors">
+              <div key={l.index} className="flex items-center justify-between px-4 py-2 text-body-callout hover:bg-raised transition-colors">
                 <span className="text-faint font-medium w-14">Lap {l.index}</span>
                 <span className="font-mono text-patina">+{d.mm}:{d.ss}.{d.ms}</span>
                 <span className="font-mono text-muted">{t.hh}{t.mm}:{t.ss}.{t.ms}</span>

@@ -35,7 +35,7 @@ export function Checklist({
     <div className={cn('flex flex-col gap-3', INTENT_CLS[intent], className)} style={style}>
       {showProgress && (
         <div className="flex flex-col gap-1.5">
-          <div className="flex justify-between text-[0.75rem] opacity-50">
+          <div className="flex justify-between text-body-caption opacity-50">
             <span>{done} de {items.length} concluídos</span>
             <span>{Math.round(pct)}%</span>
           </div>
@@ -70,7 +70,7 @@ export function Checklist({
             <div className="flex-1">
               <div
                 className={cn(
-                  'text-[0.875rem] text-foreground leading-snug transition-[opacity] duration-[150ms]',
+                  'text-body-callout text-foreground leading-snug transition-[opacity] duration-[150ms]',
                   item.checked && 'opacity-40',
                   item.checked && strikethrough && 'line-through',
                 )}
@@ -78,7 +78,7 @@ export function Checklist({
                 {item.label}
               </div>
               {item.description && (
-                <div className="text-[0.75rem] opacity-40 mt-[2px]">{item.description}</div>
+                <div className="text-body-caption opacity-40 mt-[2px]">{item.description}</div>
               )}
             </div>
           </div>

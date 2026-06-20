@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
 import type { MagneticButtonProps } from './magnetic-button.types'
 
 export function MagneticButton({
@@ -41,15 +42,16 @@ export function MagneticButton({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
-      <button
+      <Button
         ref={btnRef}
-        className="px-6 py-2.5 rounded-[--radius-sm] bg-patina text-patina-fg font-medium text-[0.875rem] cursor-pointer transition-transform duration-150 ease-out disabled:opacity-50 disabled:cursor-not-allowed"
+        intent="primary"
+        variant="solid"
+        className="![transition:background-color,border-color,color,transform_150ms_cubic-bezier(0.2,0.8,0.4,1)]"
         disabled={disabled}
         onClick={onClick}
-        style={{ transition: 'transform 0.15s cubic-bezier(0.2,0.8,0.4,1)' }}
       >
         {children}
-      </button>
+      </Button>
     </span>
   )
 }

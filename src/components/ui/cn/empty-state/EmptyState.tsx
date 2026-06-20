@@ -3,9 +3,9 @@ import { cn } from '@/lib/utils'
 import type { EmptyStateProps } from './empty-state.types'
 
 const SIZE_CLS: Record<string, { pad: string; gap: string; icon: string; title: string; desc: string }> = {
-  sm: { pad: 'p-6',       gap: 'gap-2', icon: 'w-8 h-8',   title: 'text-[0.875rem]',  desc: 'text-[0.75rem]' },
-  md: { pad: 'p-12',      gap: 'gap-3', icon: 'w-12 h-12', title: 'text-base',        desc: 'text-[0.875rem]' },
-  lg: { pad: 'p-[4.5rem]', gap: 'gap-4', icon: 'w-16 h-16', title: 'text-xl',         desc: 'text-[0.9375rem]' },
+  sm: { pad: 'p-6',        gap: 'gap-2', icon: 'w-8 h-8',   title: 'text-body-callout',   desc: 'text-body-caption' },
+  md: { pad: 'p-12',       gap: 'gap-3', icon: 'w-12 h-12', title: 'text-body-paragraph', desc: 'text-body-callout' },
+  lg: { pad: 'p-[4.5rem]', gap: 'gap-4', icon: 'w-16 h-16', title: 'text-body-title',     desc: 'text-body-paragraph' },
 }
 
 export function EmptyState({

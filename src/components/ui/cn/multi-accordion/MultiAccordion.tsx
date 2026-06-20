@@ -1,4 +1,6 @@
-﻿import { useState } from 'react'
+﻿'use client'
+
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { MultiAccordionProps } from './multi-accordion.types'
 
@@ -60,7 +62,7 @@ export function MultiAccordion({
             <button
               type="button"
               className={cn(
-                'w-full flex items-center justify-between gap-3 px-4 py-[14px] bg-transparent border-none text-foreground text-[0.875rem] font-semibold cursor-pointer text-left transition-[background] duration-[120ms] hover:bg-raised outline-none',
+                'w-full flex items-center justify-between gap-3 px-4 py-[14px] bg-transparent border-none text-foreground text-body-callout font-semibold cursor-pointer text-left transition-[background] duration-[120ms] hover:bg-raised outline-none',
                 isOpen && 'text-patina',
                 isOpen && (INTENT_OPEN_BORDER[intent] ?? ''),
                 item.disabled && 'opacity-40 cursor-not-allowed',
@@ -71,12 +73,12 @@ export function MultiAccordion({
             >
               {item.title}
               <span
-                className={cn('flex-shrink-0 text-[0.75rem] text-faint transition-transform duration-200', isOpen && 'rotate-180')}
+                className={cn('flex-shrink-0 text-body-caption text-faint transition-transform duration-200', isOpen && 'rotate-180')}
                 aria-hidden
               >▾</span>
             </button>
             {isOpen && (
-              <div className="px-4 pb-[14px] text-[0.8125rem] text-muted leading-[1.6]" role="region">
+              <div className="px-4 pb-[14px] text-body-callout text-muted leading-[1.6]" role="region">
                 {item.content}
               </div>
             )}

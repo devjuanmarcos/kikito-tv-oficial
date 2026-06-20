@@ -40,7 +40,7 @@ export function Banner({
   return (
     <div
       className={cn(
-        'flex items-center gap-3 px-4 py-[0.625rem] text-[0.8125rem] rounded-[--radius-base] border',
+        'flex items-center gap-3 px-4 py-[0.625rem] text-body-callout rounded-[--radius-base] border',
         INTENT_CLS[intent],
         className,
       )}

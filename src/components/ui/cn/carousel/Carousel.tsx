@@ -1,4 +1,6 @@
-﻿import { useState, useEffect, useCallback, useRef } from 'react'
+﻿'use client'
+
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import type { CarouselProps } from './carousel.types'
 

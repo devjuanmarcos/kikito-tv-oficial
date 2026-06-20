@@ -1,4 +1,6 @@
-﻿import { useState } from 'react'
+﻿'use client'
+
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { FilterBarProps } from './filter-bar.types'
 
@@ -37,7 +39,7 @@ export function FilterBar({
             key={opt.value}
             type="button"
             className={cn(
-              'inline-flex items-center gap-[5px] py-[5px] px-3 rounded-pill text-[0.8125rem] font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none',
+              'inline-flex items-center gap-[5px] py-[5px] px-3 rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none',
               'hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-patina)_8%,transparent)]',
               isActive && 'border-patina bg-[color-mix(in_srgb,var(--ks-patina)_15%,transparent)] text-patina font-semibold',
             )}
@@ -46,7 +48,7 @@ export function FilterBar({
             {opt.label}
             {opt.count !== undefined && (
               <span className={cn(
-                'bg-raised rounded-pill px-[6px] py-[1px] text-[0.6875rem] font-bold text-muted min-w-[18px] text-center',
+                'bg-raised rounded-pill px-[6px] py-[1px] text-body-caption font-bold text-muted min-w-[18px] text-center',
                 isActive && 'bg-[color-mix(in_srgb,var(--ks-patina)_25%,transparent)] text-patina',
               )}>
                 {opt.count}
@@ -58,7 +60,7 @@ export function FilterBar({
       {clearable && selected.length > 0 && (
         <button
           type="button"
-          className="inline-flex items-center gap-1 py-[5px] px-[10px] rounded-pill text-[0.75rem] cursor-pointer border border-dashed border-rule bg-transparent text-muted transition-[color,border-color] hover:text-danger hover:border-danger"
+          className="inline-flex items-center gap-1 py-[5px] px-[10px] rounded-pill text-body-caption cursor-pointer border border-dashed border-rule bg-transparent text-muted transition-[color,border-color] hover:text-danger hover:border-danger"
           onClick={clear}
         >
           ✕ Clear

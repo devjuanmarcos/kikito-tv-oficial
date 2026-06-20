@@ -24,7 +24,7 @@ export function PricingToggle({
   return (
     <div className={cn('flex items-center gap-3', className)} style={style}>
       <span
-        className={cn('text-[0.875rem] font-medium cursor-pointer transition-colors', current === 'monthly' ? 'text-foreground' : 'text-faint')}
+        className={cn('text-body-callout font-medium cursor-pointer transition-colors', current === 'monthly' ? 'text-foreground' : 'text-faint')}
         onClick={() => toggle('monthly')}
       >
         {monthlyLabel}
@@ -44,14 +44,14 @@ export function PricingToggle({
       </button>
 
       <span
-        className={cn('text-[0.875rem] font-medium cursor-pointer transition-colors', current === 'yearly' ? 'text-foreground' : 'text-faint')}
+        className={cn('text-body-callout font-medium cursor-pointer transition-colors', current === 'yearly' ? 'text-foreground' : 'text-faint')}
         onClick={() => toggle('yearly')}
       >
         {yearlyLabel}
       </span>
 
       {savingsLabel && current === 'yearly' && (
-        <span className="text-[0.75rem] font-semibold px-2 py-0.5 rounded-full bg-success/15 text-success">
+        <span className="text-body-caption font-semibold px-2 py-0.5 rounded-full bg-success/15 text-success">
           {savingsLabel}
         </span>
       )}

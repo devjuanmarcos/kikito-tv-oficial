@@ -104,11 +104,12 @@ export function PinBoard({
             top: note.y ?? 0,
             transform: `rotate(${note.rotate ?? 0}deg)`,
             background: note.color ?? COLORS[0],
+            color: 'color-mix(in srgb, black 80%, transparent)',
             cursor: 'grab',
             userSelect: 'none',
             zIndex: dragState.current?.id === note.id ? 10 : 1,
           }}
-          className="w-32 min-h-[7rem] p-3 shadow-md rounded-[--radius-sm] text-[0.8125rem] text-neutral-800 leading-snug"
+          className="w-32 min-h-[7rem] p-3 shadow-md rounded-[--radius-sm] text-body-callout leading-snug"
           title="Double-click to delete"
         >
           {note.content}
@@ -117,7 +118,7 @@ export function PinBoard({
 
       <button
         onClick={addNote}
-        className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-patina text-patina-fg flex items-center justify-center text-xl shadow-md hover:bg-patina/90 transition-colors"
+        className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-patina text-patina-fg flex items-center justify-center text-body-title shadow-md hover:bg-patina/90 transition-colors"
         title="Add note"
       >
         +

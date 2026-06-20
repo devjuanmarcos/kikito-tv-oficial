@@ -41,7 +41,7 @@ export function SwipeCard({
 
   if (stack.length === 0) {
     return (
-      <div className={cn('flex items-center justify-center h-48 text-faint text-[0.875rem]', className)} style={style}>
+      <div className={cn('flex items-center justify-center h-48 text-faint text-body-callout', className)} style={style}>
         No more cards
       </div>
     )
@@ -88,17 +88,17 @@ export function SwipeCard({
             )}
             <div className="p-4">
               <p className="font-semibold text-foreground">{item.title}</p>
-              {item.subtitle && <p className="text-[0.8125rem] text-muted mt-0.5">{item.subtitle}</p>}
-              {item.content && <div className="mt-2 text-[0.875rem] text-muted">{item.content}</div>}
+              {item.subtitle && <p className="text-body-callout text-muted mt-0.5">{item.subtitle}</p>}
+              {item.content && <div className="mt-2 text-body-callout text-muted">{item.content}</div>}
             </div>
 
             {isTop && drag && drag.x > 20 && (
-              <div className="absolute top-4 left-4 px-2 py-0.5 rounded border-2 border-success text-success font-bold text-sm rotate-[-15deg]">
+              <div className="absolute top-4 left-4 px-2 py-0.5 rounded border-2 border-success text-success font-bold text-body-callout rotate-[-15deg]">
                 KEEP
               </div>
             )}
             {isTop && drag && drag.x < -20 && (
-              <div className="absolute top-4 right-4 px-2 py-0.5 rounded border-2 border-danger text-danger font-bold text-sm rotate-[15deg]">
+              <div className="absolute top-4 right-4 px-2 py-0.5 rounded border-2 border-danger text-danger font-bold text-body-callout rotate-[15deg]">
                 SKIP
               </div>
             )}

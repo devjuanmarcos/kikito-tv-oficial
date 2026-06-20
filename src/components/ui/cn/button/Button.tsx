@@ -84,7 +84,7 @@ function SpinnerIcon({ className }: { className?: string }) {
   )
 }
 
-export function Button({
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button({
   variant  = 'solid',
   size     = 'md',
   intent   = 'primary',
@@ -96,12 +96,13 @@ export function Button({
   className,
   children,
   ...props
-}: ButtonProps) {
+}: ButtonProps, ref) {
   const key = `${intent}/${variant}` as IntentVariantKey
   const intentCls = INTENT_VARIANT[key] ?? INTENT_VARIANT['neutral/solid']
 
   return (
     <button
+      ref={ref}
       {...props}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
@@ -139,5 +140,6 @@ export function Button({
     </button>
   )
 }
+)
 
 Button.displayName = 'Button'

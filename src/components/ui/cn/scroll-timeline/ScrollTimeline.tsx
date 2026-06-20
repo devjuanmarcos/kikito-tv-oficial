@@ -52,14 +52,14 @@ export function ScrollTimeline({
             )}
             role="listitem"
           >
-            <div className={cn('w-9 h-9 rounded-full bg-raised border-2 border-rule flex items-center justify-center flex-shrink-0 z-[1] text-[1rem] text-muted transition-[border-color] duration-200', dotCls)}>
+            <div className={cn('w-9 h-9 rounded-full bg-raised border-2 border-rule flex items-center justify-center flex-shrink-0 z-[1] text-body-paragraph text-muted transition-[border-color] duration-200', dotCls)}>
               {event.icon ?? '●'}
             </div>
             <div className="flex-1 bg-raised border border-rule rounded-[--radius-md] px-4 py-3 min-w-0">
-              <div className="text-[0.6875rem] text-muted mb-1 font-semibold uppercase tracking-[0.06em]">{event.date}</div>
-              <div className="text-[0.875rem] font-semibold text-foreground mb-1">{event.title}</div>
+              <div className="text-body-caption text-muted mb-1 font-semibold uppercase tracking-[0.06em]">{event.date}</div>
+              <div className="text-body-callout font-semibold text-foreground mb-1">{event.title}</div>
               {event.description && (
-                <div className="text-[0.8125rem] text-muted leading-[1.5]">{event.description}</div>
+                <div className="text-body-callout text-muted leading-[1.5]">{event.description}</div>
               )}
             </div>
           </div>

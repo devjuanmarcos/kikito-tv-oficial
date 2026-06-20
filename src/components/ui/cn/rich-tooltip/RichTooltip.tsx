@@ -51,13 +51,13 @@ export function RichTooltip({
           {(title || icon) && (
             <div className="flex items-center gap-2">
               {icon && <span className="text-patina shrink-0 [&>svg]:w-4 [&>svg]:h-4">{icon}</span>}
-              {title && <span className="text-[0.875rem] font-semibold text-foreground leading-snug">{title}</span>}
+              {title && <span className="text-body-callout font-semibold text-foreground leading-snug">{title}</span>}
             </div>
           )}
-          <div className="text-[0.8125rem] text-muted leading-relaxed">{content}</div>
+          <div className="text-body-callout text-muted leading-relaxed">{content}</div>
           {action && (
             <button
-              className="text-[0.8125rem] text-patina font-semibold text-left hover:underline bg-transparent border-none p-0 cursor-pointer font-[inherit]"
+              className="text-body-callout text-patina font-semibold text-left hover:underline bg-transparent border-none p-0 cursor-pointer font-[inherit]"
               onClick={action.onClick}
             >
               {action.label}

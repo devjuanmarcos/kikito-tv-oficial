@@ -2,23 +2,12 @@
 
 import { useCallback, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
+import type { ButtonIntent, ButtonSize } from '@/components/ui/cn/button'
 import type { ConfettiButtonProps } from './confetti-button.types'
 
+// Canvas 2D fillStyle requires raw hex strings — CSS vars not supported in canvas context
 const COLORS = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#1dd1a1']
-
-const INTENT_CLASSES: Record<string, string> = {
-  primary:   'bg-patina text-patina-fg hover:bg-patina/90',
-  secondary: 'bg-kinpaku text-kinpaku-fg hover:bg-kinpaku/90',
-  danger:    'bg-danger text-danger-fg hover:bg-danger/90',
-  success:   'bg-success text-success-fg hover:bg-success/90',
-  warning:   'bg-warning text-warning-fg hover:bg-warning/90',
-}
-
-const SIZE_CLASSES: Record<string, string> = {
-  sm: 'px-3 py-1.5 text-[0.8125rem]',
-  md: 'px-5 py-2.5 text-[0.875rem]',
-  lg: 'px-7 py-3 text-base',
-}
 
 export function ConfettiButton({
   children,
@@ -82,18 +71,15 @@ export function ConfettiButton({
 
   return (
     <span className={cn('relative inline-flex', className)} style={style}>
-      <button
-        className={cn(
-          'relative rounded-[--radius-sm] font-medium transition-colors cursor-pointer',
-          INTENT_CLASSES[intent],
-          SIZE_CLASSES[size],
-          disabled && 'opacity-50 cursor-not-allowed'
-        )}
+      <Button
+        intent={intent as ButtonIntent}
+        variant="solid"
+        size={size as ButtonSize}
         disabled={disabled}
         onClick={handleClick}
       >
         {children}
-      </button>
+      </Button>
       <canvas
         ref={canvasRef}
         className="pointer-events-none absolute -top-[100px] -left-[75px] z-50"

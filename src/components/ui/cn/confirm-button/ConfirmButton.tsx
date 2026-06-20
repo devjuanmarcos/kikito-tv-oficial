@@ -93,7 +93,7 @@ export function ConfirmButton({
     <button
       {...rest}
       className={cn(
-        'relative overflow-hidden px-4 py-2 rounded-[--radius-sm] text-[0.875rem] font-medium',
+        'relative overflow-hidden px-4 py-2 rounded-[--radius-sm] text-body-callout font-medium',
         'transition-all duration-200 cursor-pointer select-none',
         variantCls,
         confirming && 'ring-2 ring-current ring-offset-1',

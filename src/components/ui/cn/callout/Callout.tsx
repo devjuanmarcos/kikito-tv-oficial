@@ -69,12 +69,12 @@ export function Callout({
 
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         {title && (
-          <p className={cn('font-semibold text-[0.875rem] leading-snug', isSolid ? 'text-[--i-fg]' : 'text-[--i]')}>
+          <p className={cn('font-semibold text-body-callout leading-snug', isSolid ? 'text-[--i-fg]' : 'text-[--i]')}>
             {title}
           </p>
         )}
         {children && (
-          <div className={cn('text-[0.875rem] leading-relaxed', isSolid ? 'text-[color-mix(in_oklch,var(--i-fg)_85%,transparent)]' : 'text-muted')}>
+          <div className={cn('text-body-callout leading-relaxed', isSolid ? 'text-[color-mix(in_oklch,var(--i-fg)_85%,transparent)]' : 'text-muted')}>
             {children}
           </div>
         )}
