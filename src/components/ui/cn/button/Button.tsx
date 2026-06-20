@@ -170,7 +170,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     successText,
     errorText,
     loadingText,
-    loadingPosition = "replace",
+    loadingPosition = "left",
     iconLeft,
     iconRight,
     iconOnly = false,
@@ -193,6 +193,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   const isSuccess = status === "success";
   const isError = status === "error";
   const isIdle = !isLoading && !isSuccess && !isError;
+  const isBusy = isLoading || isSuccess || isError;
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -227,7 +228,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   const errorOverrideCls = isError
     ? variant === "outline" || variant === "ghost" || variant === "dashed"
       ? "!bg-danger-soft !border-danger !text-danger"
-      : "!bg-danger !border-transparent !text-danger-fg"
+      : "!bg-danger !border-transparent !text-danger-fg shadow-[0_4px_16px_-3px_color-mix(in_oklch,var(--ks-danger)_45%,transparent)]"
     : "";
 
   /* Overlay mode: replace content while preserving button width */
@@ -237,15 +238,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     <Root
       ref={ref}
       {...props}
-      disabled={disabled || isLoading || isSuccess || isError}
+      disabled={disabled || undefined}
+      data-status={status !== "idle" ? status : undefined}
       aria-busy={isLoading || undefined}
-      aria-disabled={disabled || isLoading || isSuccess || isError || undefined}
+      aria-disabled={disabled || isBusy || undefined}
       onClick={handleClick}
       className={cn(
-        "inline-flex items-center justify-center font-medium border relative",
-        "transition-colors duration-150 select-none cursor-pointer",
+        "inline-flex items-center justify-center font-medium border relative overflow-hidden",
+        "transition-[background-color,color,border-color,box-shadow,transform] duration-150 select-none cursor-pointer",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
-        "disabled:opacity-50 disabled:pointer-events-none",
+        "active:scale-[0.98]",
+        "disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100",
+        // status states block interaction WITHOUT dimming — animation stays fully visible
+        isBusy && "pointer-events-none active:scale-100",
         iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
         radiusCls,
         intentCls,

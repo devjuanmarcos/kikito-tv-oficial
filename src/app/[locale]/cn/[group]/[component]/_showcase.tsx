@@ -61,6 +61,16 @@ import { FeatureList } from "@/components/ui/cn/feature-list/FeatureList";
 import { FeedbackWidget } from "@/components/ui/cn/feedback-widget/FeedbackWidget";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
 import { FilterBar } from "@/components/ui/cn/filter-bar/FilterBar";
+import { FlipCard } from "@/components/ui/cn/flip-card/FlipCard";
+import { FloatingBar } from "@/components/ui/cn/floating-bar/FloatingBar";
+import { FloatingLabelInput } from "@/components/ui/cn/floating-label-input/FloatingLabelInput";
+import { FloatingMenu } from "@/components/ui/cn/floating-menu/FloatingMenu";
+import { FormField } from "@/components/ui/cn/form-field/FormField";
+import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
+import { Gauge } from "@/components/ui/cn/gauge/Gauge";
+import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
+import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
+import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
 import { LineChart } from "@/components/ui/cn/line-chart/LineChart";
@@ -83,22 +93,17 @@ import { DataTable } from "@/components/ui/cn/table/Table";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
-import { FlipCard } from "@/components/ui/cn/flip-card/FlipCard";
-import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
-import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
 import { LogViewer } from "@/components/ui/cn/log-viewer/LogViewer";
 import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
-import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
 import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButton";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
-import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
 import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
@@ -135,14 +140,10 @@ import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
 import { Input } from "@/components/ui/cn/input/Input";
 import { Label } from "@/components/ui/cn/label/Label";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
-import { FormField } from "@/components/ui/cn/form-field/FormField";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
-import { FloatingLabelInput } from "@/components/ui/cn/floating-label-input/FloatingLabelInput";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
-import { FloatingBar } from "@/components/ui/cn/floating-bar/FloatingBar";
-import { FloatingMenu } from "@/components/ui/cn/floating-menu/FloatingMenu";
 import { MetricCard } from "@/components/ui/cn/metric-card/MetricCard";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
@@ -152,7 +153,6 @@ import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { Gauge } from "@/components/ui/cn/gauge/Gauge";
 import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
 import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
 import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
@@ -3536,24 +3536,42 @@ function ButtonDemo() {
       </ShowcaseSection>
 
       <ShowcaseSection title="Loading States">
-        <Frame label="Loading (spinner replaces icon)">
+        <Frame label="Loading — spinner beside text (default, keeps label)">
           <div className="flex flex-wrap gap-3">
-            <Button loading>Loading…</Button>
+            <Button loading>Salvando…</Button>
             <Button loading variant="outline">
               Saving
             </Button>
-            <Button loading loadingText="Uploading…" intent="secondary">
+            <Button loading loadingText="Enviando…" intent="secondary">
               Upload
             </Button>
           </div>
         </Frame>
-        <Frame label="Success / Error (auto from async onClick)">
+        <Frame label="Loading — replace mode (spinner only, preserves width)">
           <div className="flex flex-wrap gap-3">
-            <Button onClick={() => new Promise((r) => setTimeout(r, 1200))} successText="Saved!">
+            <Button loading loadingPosition="replace">
+              Salvar
+            </Button>
+            <Button loading loadingPosition="replace" variant="outline" intent="secondary">
+              Enviar
+            </Button>
+          </div>
+        </Frame>
+        <Frame label="Success / Error — animated check & X (auto from async onClick)">
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={() => new Promise((r) => setTimeout(r, 1400))} successText="Salvo!">
               Save (auto success)
             </Button>
-            <Button intent="danger" onClick={() => new Promise((_, rej) => setTimeout(rej, 1200))} errorText="Failed!">
+            <Button intent="danger" onClick={() => new Promise((_, rej) => setTimeout(rej, 1400))} errorText="Falhou!">
               Delete (auto error)
+            </Button>
+            <Button
+              variant="soft"
+              intent="secondary"
+              onClick={() => new Promise((r) => setTimeout(r, 1400))}
+              successText="Pronto"
+            >
+              Baixar
             </Button>
           </div>
         </Frame>

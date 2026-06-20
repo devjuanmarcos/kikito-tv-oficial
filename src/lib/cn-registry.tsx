@@ -429,8 +429,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "loadingPosition",
         type: "'replace' | 'left'",
-        default: "'replace'",
-        description: "Posição do spinner: replace preserva largura, left mostra inline",
+        default: "'left'",
+        description:
+          "Posição do spinner: left mostra inline ao lado do texto, replace troca o conteúdo preservando a largura",
       },
       { name: "iconLeft", type: "ReactNode", default: "undefined", description: "Ícone exibido à esquerda do texto" },
       { name: "iconRight", type: "ReactNode", default: "undefined", description: "Ícone exibido à direita do texto" },
