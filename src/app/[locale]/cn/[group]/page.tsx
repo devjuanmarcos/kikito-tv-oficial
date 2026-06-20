@@ -1,15 +1,15 @@
 ﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getGroup, getComponentsByGroup, CN_GROUPS } from "@/lib/cn-registry";
+import { getGroup, getComponentsByGroup } from "@/lib/cn-registry";
 
 interface Props {
   params: Promise<{ locale: string; group: string }>;
 }
 
-export async function generateStaticParams() {
-  return CN_GROUPS.map((g) => ({ group: g.id }));
-}
+// Layout chain (root [locale]/layout) é dinâmico (getServerSession + getMessages),
+// então estas páginas não podem ser pré-geradas estaticamente. Render on-demand.
+export const dynamic = "force-dynamic";
 
 export default async function CnGroupPage({ params }: Props) {
   const { group } = await params;

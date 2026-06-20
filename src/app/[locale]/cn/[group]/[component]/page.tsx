@@ -6,7 +6,7 @@ import { CnInstallBlock } from "@/components/ui/cn/cn-install-block";
 import { CnPageHeader } from "@/components/ui/cn/cn-page-header";
 import { CnPropsTable } from "@/components/ui/cn/cn-props-table";
 import { CnSourceBlock } from "@/components/ui/cn/cn-source-block";
-import { getComponent, generateStaticComponentParams, CN_GROUPS } from "@/lib/cn-registry";
+import { getComponent, CN_GROUPS } from "@/lib/cn-registry";
 import { getComponentSource } from "@/lib/cn-source";
 
 import { CnShowcase } from "./_showcase";
@@ -15,9 +15,9 @@ interface Props {
   params: Promise<{ locale: string; group: string; component: string }>;
 }
 
-export async function generateStaticParams() {
-  return generateStaticComponentParams();
-}
+// Layout chain (root [locale]/layout) é dinâmico (getServerSession + getMessages),
+// então estas páginas não podem ser pré-geradas estaticamente. Render on-demand.
+export const dynamic = "force-dynamic";
 
 export default async function CnComponentPage({ params }: Props) {
   const { group, component } = await params;
