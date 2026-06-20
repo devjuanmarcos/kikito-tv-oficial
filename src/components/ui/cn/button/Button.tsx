@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import type { ButtonProps, ButtonVariant, ButtonSize, ButtonIntent, ButtonStatus, ButtonRounded } from "./button.types";
+import type { ButtonProps, ButtonVariant, ButtonSize, ButtonIntent, ButtonRounded } from "./button.types";
 
 /* ── Size scale ── */
 const SIZE: Record<ButtonSize, string> = {
@@ -31,7 +31,6 @@ const ICON_SIZE: Record<ButtonSize, string> = {
   xl: "w-5   h-5",
 };
 
-/* Default radius per size (overridable by `rounded` prop) */
 const SIZE_RADIUS: Record<ButtonSize, string> = {
   xs: "rounded-(--radius-sm)",
   sm: "rounded-(--radius-sm)",
@@ -112,53 +111,51 @@ const INTENT_VARIANT: Record<IntentVariantKey, string> = {
     "bg-transparent text-muted border-transparent underline-offset-4 hover:underline hover:text-foreground px-0 h-auto",
 };
 
-/* ── Icons ── */
-function SpinnerIcon({ className }: { className?: string }) {
+/* ── Status icons ── */
+function SpinnerIcon({ cls }: { cls: string }) {
   return (
-    <svg
+    <span
+      className={cn(
+        "border-[1.5px] border-current border-t-transparent rounded-full shrink-0 animate-[--animate-spin-btn]",
+        cls
+      )}
       aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      className={cn("animate-spin-icon", className)}
-    >
-      <path d="M12 2a10 10 0 0 1 10 10" />
-    </svg>
+    />
   );
 }
 
-function CheckIcon({ className }: { className?: string }) {
+function CheckIcon({ cls }: { cls: string }) {
   return (
     <svg
-      aria-hidden="true"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      aria-hidden="true"
+      className={cn("shrink-0 animate-[--animate-status-in]", cls)}
     >
-      <polyline points="20 6 9 17 4 12" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9 12l2 2 4-4" />
     </svg>
   );
 }
 
-function XIcon({ className }: { className?: string }) {
+function ErrorIcon({ cls }: { cls: string }) {
   return (
     <svg
-      aria-hidden="true"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      aria-hidden="true"
+      className={cn("shrink-0 animate-[--animate-status-err]", cls)}
     >
-      <path d="M18 6L6 18M6 6l12 12" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15 9l-6 6M9 9l6 6" />
     </svg>
   );
 }
@@ -191,14 +188,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   const [internalStatus, setInternalStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* Controlled takes precedence; otherwise use internal async-managed state */
   const status = statusProp ?? internalStatus;
   const isLoading = loading || status === "loading";
   const isSuccess = status === "success";
   const isError = status === "error";
-  const isActive = isLoading || isSuccess || isError;
+  const isIdle = !isLoading && !isSuccess && !isError;
 
-  /* Wrap onClick to auto-manage success/error state from async handlers */
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       if (!onClick || statusProp !== undefined) {
@@ -226,76 +221,75 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   const key = `${intent}/${variant}` as IntentVariantKey;
   const intentCls = INTENT_VARIANT[key] ?? INTENT_VARIANT["neutral/solid"];
   const radiusCls = rounded ? ROUNDED_MAP[rounded] : SIZE_RADIUS[size];
+  const iconSizeCls = ICON_SIZE[size];
 
-  /* Leading slot content */
-  const leadingIcon = isLoading ? (
-    loadingPosition !== "replace" ? (
-      <SpinnerIcon className={ICON_SIZE[size]} />
-    ) : null
-  ) : isSuccess ? (
-    <CheckIcon className={ICON_SIZE[size]} />
-  ) : isError ? (
-    <XIcon className={ICON_SIZE[size]} />
-  ) : iconLeft ? (
-    <span aria-hidden="true" className={cn("shrink-0", ICON_SIZE[size])}>
-      {iconLeft}
-    </span>
-  ) : null;
+  /* Error state overrides button colors to danger */
+  const errorOverrideCls = isError
+    ? variant === "outline" || variant === "ghost" || variant === "dashed"
+      ? "!bg-danger-soft !border-danger !text-danger"
+      : "!bg-danger !border-transparent !text-danger-fg"
+    : "";
 
-  /* Text content */
-  const textContent =
-    isLoading && loadingText
-      ? loadingText
-      : isSuccess && successText
-        ? successText
-        : isError && errorText
-          ? errorText
-          : children;
+  /* Overlay mode: replace content while preserving button width */
+  const useOverlay = (isLoading && loadingPosition === "replace") || isSuccess || isError;
 
   return (
     <Root
       ref={ref}
       {...props}
-      disabled={disabled || isActive}
+      disabled={disabled || isLoading || isSuccess || isError}
       aria-busy={isLoading || undefined}
-      aria-disabled={disabled || isActive || undefined}
+      aria-disabled={disabled || isLoading || isSuccess || isError || undefined}
       onClick={handleClick}
       className={cn(
-        "inline-flex items-center justify-center font-medium border",
+        "inline-flex items-center justify-center font-medium border relative",
         "transition-colors duration-150 select-none cursor-pointer",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
         "disabled:opacity-50 disabled:pointer-events-none",
-        /* size */
         iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
-        /* radius */
         radiusCls,
-        /* intent × variant */
         intentCls,
-        /* full width */
+        errorOverrideCls,
         fullWidth && "w-full",
         className
       )}
     >
-      {/* Leading: spinner replaces icon in "replace" mode, or spinner is left of icon in "left" mode */}
-      {loadingPosition === "replace" ? (
-        leadingIcon
+      {useOverlay ? (
+        <>
+          {/* Ghost: preserves button width, invisible */}
+          <span className="contents invisible" aria-hidden="true">
+            {iconLeft && <span className={cn("shrink-0", iconSizeCls)}>{iconLeft}</span>}
+            {!iconOnly && <span>{children}</span>}
+            {iconRight && <span className={cn("shrink-0", iconSizeCls)}>{iconRight}</span>}
+          </span>
+          {/* Overlay: status indicator centered */}
+          <span className="absolute inset-0 flex items-center justify-center gap-[0.4em]" aria-hidden="true">
+            {isLoading && <SpinnerIcon cls={iconSizeCls} />}
+            {isSuccess && <CheckIcon cls={iconSizeCls} />}
+            {isError && <ErrorIcon cls={iconSizeCls} />}
+            {isSuccess && successText && <span>{successText}</span>}
+            {isError && errorText && <span>{errorText}</span>}
+          </span>
+        </>
+      ) : isLoading && loadingPosition === "left" ? (
+        <>
+          <SpinnerIcon cls={iconSizeCls} />
+          {!iconOnly && <span className="truncate">{loadingText ?? children}</span>}
+        </>
       ) : (
         <>
-          {isLoading && <SpinnerIcon className={ICON_SIZE[size]} />}
-          {!isLoading && iconLeft && (
-            <span aria-hidden="true" className={cn("shrink-0", ICON_SIZE[size])}>
+          {iconLeft && (
+            <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
               {iconLeft}
             </span>
           )}
+          {!iconOnly && children && <span className="truncate">{children}</span>}
+          {iconRight && (
+            <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
+              {iconRight}
+            </span>
+          )}
         </>
-      )}
-
-      {!iconOnly && textContent && <span className="truncate">{textContent}</span>}
-
-      {!isLoading && !isSuccess && !isError && !iconOnly && iconRight && (
-        <span aria-hidden="true" className={cn("shrink-0", ICON_SIZE[size])}>
-          {iconRight}
-        </span>
       )}
     </Root>
   );
