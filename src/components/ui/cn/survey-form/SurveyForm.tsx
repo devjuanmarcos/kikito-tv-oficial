@@ -3,6 +3,10 @@
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/cn/button";
+import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
+import { Input } from "@/components/ui/cn/input/Input";
+import { RadioGroup } from "@/components/ui/cn/radio/Radio";
+import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { cn } from "@/lib/utils";
 
 import type { SurveyFormProps } from "./survey-form.types";
@@ -47,8 +51,8 @@ export function SurveyForm({
             </label>
 
             {q.type === "text" && (
-              <input
-                className="bg-sunken border border-rule rounded-(--radius-md) px-3 py-[9px] text-foreground text-body-callout outline-none transition-colors duration-150 focus:border-patina placeholder:text-faint font-[inherit]"
+              <Input
+                fullWidth
                 placeholder={q.placeholder}
                 required={q.required}
                 value={String(answers[q.id] ?? "")}
@@ -57,8 +61,9 @@ export function SurveyForm({
             )}
 
             {q.type === "textarea" && (
-              <textarea
-                className="bg-sunken border border-rule rounded-(--radius-md) px-3 py-[9px] text-foreground text-body-callout outline-none transition-colors duration-150 focus:border-patina placeholder:text-faint font-[inherit] resize-y min-h-[100px]"
+              <Textarea
+                className="w-full"
+                resize="vertical"
                 placeholder={q.placeholder}
                 required={q.required}
                 value={String(answers[q.id] ?? "")}
@@ -67,22 +72,12 @@ export function SurveyForm({
             )}
 
             {q.type === "radio" && (
-              <div className="flex flex-col gap-2">
-                {(q.options ?? []).map((opt) => (
-                  <label key={opt} className="flex items-center gap-2 cursor-pointer text-body-callout text-foreground">
-                    <input
-                      type="radio"
-                      name={q.id}
-                      value={opt}
-                      required={q.required}
-                      checked={answers[q.id] === opt}
-                      onChange={() => set(q.id, opt)}
-                      className="accent-patina"
-                    />
-                    {opt}
-                  </label>
-                ))}
-              </div>
+              <RadioGroup
+                name={q.id}
+                options={(q.options ?? []).map((opt) => ({ value: opt, label: opt }))}
+                value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : undefined}
+                onChange={(v) => set(q.id, v)}
+              />
             )}
 
             {q.type === "checkbox" && (
@@ -90,21 +85,15 @@ export function SurveyForm({
                 {(q.options ?? []).map((opt) => {
                   const checked = ((answers[q.id] as string[]) ?? []).includes(opt);
                   return (
-                    <label
+                    <Checkbox
                       key={opt}
-                      className="flex items-center gap-2 cursor-pointer text-body-callout text-foreground"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        onChange={() => {
-                          const cur = (answers[q.id] as string[]) ?? [];
-                          set(q.id, checked ? cur.filter((x) => x !== opt) : [...cur, opt]);
-                        }}
-                        className="accent-patina"
-                      />
-                      {opt}
-                    </label>
+                      label={opt}
+                      checked={checked}
+                      onChange={() => {
+                        const cur = (answers[q.id] as string[]) ?? [];
+                        set(q.id, checked ? cur.filter((x) => x !== opt) : [...cur, opt]);
+                      }}
+                    />
                   );
                 })}
               </div>

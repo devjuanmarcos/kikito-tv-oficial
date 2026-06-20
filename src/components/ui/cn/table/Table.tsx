@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback, type ReactNode, type CSSProperties } from "react";
 
+import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { cn } from "@/lib/utils";
 
 import type { ColumnDef, DataTableProps, FilterOption, SortDir } from "./table.types";
@@ -897,14 +898,10 @@ export function DataTable<TRow extends object>({
             <tr>
               {selectable && (
                 <th className={cn(thCls, "w-10 pr-1")}>
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 border border-rule rounded-[3px] bg-transparent cursor-pointer accent-patina"
+                  <Checkbox
                     checked={allSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = someSelected;
-                    }}
-                    onChange={toggleAll}
+                    indeterminate={someSelected}
+                    onChange={() => toggleAll()}
                     aria-label="Select all rows"
                   />
                 </th>
@@ -999,20 +996,8 @@ export function DataTable<TRow extends object>({
                     onClick={() => onRowClick?.(row)}
                   >
                     {selectable && (
-                      <td
-                        className={cn(tdCls, "w-10 pr-1")}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleRow(id);
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 border border-rule rounded-[3px] bg-transparent cursor-pointer accent-patina"
-                          checked={isSelected}
-                          onChange={() => toggleRow(id)}
-                          aria-label={`Select row ${absIdx + 1}`}
-                        />
+                      <td className={cn(tdCls, "w-10 pr-1")} onClick={(e) => e.stopPropagation()}>
+                        <Checkbox checked={isSelected} onChange={() => toggleRow(id)} />
                       </td>
                     )}
                     {visibleCols.map((col) => {

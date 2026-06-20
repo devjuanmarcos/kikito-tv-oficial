@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { cn } from "@/lib/utils";
 
 import type { DataGridProps } from "./data-grid.types";
@@ -52,6 +53,7 @@ export function DataGrid<T = Record<string, unknown>>({
 
   const allKeys = sorted.map((r, i) => rowKey(r, i));
   const allSelected = allKeys.length > 0 && allKeys.every((k) => selected.includes(k));
+  const someSelected = selected.length > 0 && !allSelected;
   const toggleAll = () => setSelected(allSelected ? [] : allKeys);
   const toggleRow = (key: string) =>
     setSelected(selected.includes(key) ? selected.filter((k) => k !== key) : [...selected, key]);
@@ -69,11 +71,11 @@ export function DataGrid<T = Record<string, unknown>>({
                 )}
                 style={{ width: 40, textAlign: "center" }}
               >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 accent-patina cursor-pointer"
+                <Checkbox
+                  className="justify-center"
                   checked={allSelected}
-                  onChange={toggleAll}
+                  indeterminate={someSelected}
+                  onChange={() => toggleAll()}
                 />
               </th>
             )}
@@ -120,9 +122,8 @@ export function DataGrid<T = Record<string, unknown>>({
               >
                 {selectable && (
                   <td className="py-[9px] px-[14px] align-middle text-center">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 accent-patina cursor-pointer"
+                    <Checkbox
+                      className="justify-center"
                       checked={selected.includes(key)}
                       onChange={() => toggleRow(key)}
                     />
