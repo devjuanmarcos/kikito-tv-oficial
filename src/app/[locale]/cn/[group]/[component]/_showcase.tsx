@@ -127,18 +127,66 @@ import { Badge }          from '@/components/ui/cn/badge/Badge'
 import { Input }          from '@/components/ui/cn/input/Input'
 import { Label }          from '@/components/ui/cn/label/Label'
 
+import { RatingInput }       from '@/components/ui/cn/rating-input/RatingInput'
+import { Fab }               from '@/components/ui/cn/fab/Fab'
+import { FormField }         from '@/components/ui/cn/form-field/FormField'
+import { Ribbon }            from '@/components/ui/cn/ribbon/Ribbon'
+import { FloatingLabelInput } from '@/components/ui/cn/floating-label-input/FloatingLabelInput'
+import { NotificationBell }  from '@/components/ui/cn/notification-bell/NotificationBell'
+import { AspectRatio }       from '@/components/ui/cn/aspect-ratio/AspectRatio'
+import { ChipGroup }         from '@/components/ui/cn/chip-group/ChipGroup'
+import { TagCloud }          from '@/components/ui/cn/tag-cloud/TagCloud'
+import { AccordionGroup }    from '@/components/ui/cn/accordion-group/AccordionGroup'
+import { DotStepper }        from '@/components/ui/cn/dot-stepper/DotStepper'
+import { ProgressSteps }     from '@/components/ui/cn/progress-steps/ProgressSteps'
+import { TimelineProgress }  from '@/components/ui/cn/timeline-progress/TimelineProgress'
+import { FloatingBar }       from '@/components/ui/cn/floating-bar/FloatingBar'
+import { FloatingMenu }      from '@/components/ui/cn/floating-menu/FloatingMenu'
+import { MetricCard }        from '@/components/ui/cn/metric-card/MetricCard'
+import { StatsCard }         from '@/components/ui/cn/stats-card/StatsCard'
+import { NoteCard }          from '@/components/ui/cn/note-card/NoteCard'
+import { ReceiptCard }       from '@/components/ui/cn/receipt-card/ReceiptCard'
+import { PricingCard }       from '@/components/ui/cn/pricing-card/PricingCard'
+import { FeatureList }       from '@/components/ui/cn/feature-list/FeatureList'
+import { VerticalNav }       from '@/components/ui/cn/vertical-nav/VerticalNav'
+import { ChatBubble }        from '@/components/ui/cn/chat-bubble/ChatBubble'
+import { TerminalBlock }     from '@/components/ui/cn/terminal-block/TerminalBlock'
+import { PasswordStrength }  from '@/components/ui/cn/password-strength/PasswordStrength'
+import { WindowFrame }       from '@/components/ui/cn/window-frame/WindowFrame'
+import { KeyboardShortcuts } from '@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts'
+import { Calendar }          from '@/components/ui/cn/calendar/Calendar'
+import { SortableList }      from '@/components/ui/cn/sortable-list/SortableList'
+import { MediaPlayer }       from '@/components/ui/cn/media-player/MediaPlayer'
+import { NavigationMenu as CnNavigationMenu } from '@/components/ui/cn/navigation-menu/NavigationMenu'
+import { TextEditor }        from '@/components/ui/cn/text-editor/TextEditor'
+import { SignaturePad }      from '@/components/ui/cn/signature-pad/SignaturePad'
+import { OnboardingTour }    from '@/components/ui/cn/onboarding-tour/OnboardingTour'
+
 interface ShowcaseProps {
   group: string
   component: string
 }
 
-function Frame({ children, label }: { children: React.ReactNode; label?: string }) {
+function Frame({ children, label, noPad, align = 'center' }: { children: React.ReactNode; label?: string; noPad?: boolean; align?: 'center' | 'start' | 'stretch' }) {
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       {label && (
-        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em] mb-3">{label}</p>
+        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em] mb-2">{label}</p>
       )}
-      <div className="rounded-[--radius-lg] border border-rule bg-raised p-8 flex items-center justify-center min-h-[180px]">
+      <div className={`rounded-[--radius-lg] border border-rule bg-raised ${noPad ? '' : 'p-8'} flex ${align === 'center' ? 'items-center justify-center' : align === 'start' ? 'items-start justify-start' : 'items-stretch'} min-h-[140px]`}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function ShowcaseSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-10 first:mt-0">
+      <h2 className="text-body-caption font-bold uppercase tracking-[0.1em] text-faint/60 mb-4 pb-2 border-b border-rule">
+        {title}
+      </h2>
+      <div className="flex flex-col gap-2">
         {children}
       </div>
     </div>
@@ -2617,164 +2665,1289 @@ function LabelDemo() {
 
 function InputDemo() {
   const [val, setVal] = React.useState('')
+  const SearchIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  const EyeIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+
   return (
-    <Frame label="Input — Tier 0 Primitive">
-      <div className="flex flex-col gap-6 w-full max-w-sm">
-        {/* Variants */}
-        <Input label="Outline (default)" placeholder="Type something..." variant="outline" />
-        <Input label="Filled" placeholder="Type something..." variant="filled" />
-        <Input label="Flushed" placeholder="Type something..." variant="flushed" />
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Outline (default)" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Outline" placeholder="Type something…" variant="outline" />
+          </div>
+        </Frame>
+        <Frame label="Filled" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Filled" placeholder="Type something…" variant="filled" />
+          </div>
+        </Frame>
+        <Frame label="Flushed (ghost)" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Flushed" placeholder="Type something…" variant="flushed" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Sizes */}
-        <Input label="Small" size="sm" placeholder="Small input" />
-        <Input label="Medium" size="md" placeholder="Medium input" />
-        <Input label="Large" size="lg" placeholder="Large input" />
+      <ShowcaseSection title="Sizes">
+        <Frame label="SM · MD · LG" align="start">
+          <div className="w-full max-w-sm flex flex-col gap-4">
+            <Input label="Small" size="sm" placeholder="Small input" />
+            <Input label="Medium" size="md" placeholder="Medium input" />
+            <Input label="Large" size="lg" placeholder="Large input" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Status */}
-        <Input label="Error state" status="error" error="This field is required." defaultValue="bad value" />
-        <Input label="Success state" status="success" hint="Looks good!" defaultValue="valid@email.com" />
-        <Input label="Warning state" status="warning" hint="Password strength: weak." />
+      <ShowcaseSection title="Status States">
+        <Frame label="Error" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Email" status="error" error="This field is required." defaultValue="bad value" />
+          </div>
+        </Frame>
+        <Frame label="Success" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Email" status="success" hint="Looks good!" defaultValue="valid@email.com" />
+          </div>
+        </Frame>
+        <Frame label="Warning" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Password" status="warning" hint="Password strength: weak." />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Icon slots */}
-        <Input
-          label="With icon left"
-          iconLeft={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>}
-          placeholder="Search..."
-        />
-        <Input
-          label="With icon right"
-          iconRight={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>}
-          type="password"
-          placeholder="••••••••"
-        />
+      <ShowcaseSection title="Icons">
+        <Frame label="Icon left" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Search" iconLeft={<SearchIcon />} placeholder="Search…" />
+          </div>
+        </Frame>
+        <Frame label="Icon right" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Password" iconRight={<EyeIcon />} type="password" placeholder="••••••••" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Prefix / Suffix */}
-        <Input label="With prefix" prefix="https://" placeholder="example.com" />
-        <Input label="With suffix" suffix=".com" placeholder="mysite" />
+      <ShowcaseSection title="Prefix / Suffix">
+        <Frame label="Prefix" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="URL" prefix="https://" placeholder="example.com" />
+          </div>
+        </Frame>
+        <Frame label="Suffix" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Domain" suffix=".com" placeholder="mysite" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Character count */}
-        <div className="flex flex-col gap-1">
-          <Input
-            label="With character count"
-            value={val}
-            onChange={e => setVal(e.target.value)}
-            maxLength={50}
-            placeholder="Max 50 chars"
-            hint={`${val.length} / 50`}
-          />
-        </div>
+      <ShowcaseSection title="Character Count">
+        <Frame label="Max 50 chars" align="start">
+          <div className="w-full max-w-sm">
+            <Input
+              label="Bio"
+              value={val}
+              onChange={e => setVal(e.target.value)}
+              maxLength={50}
+              placeholder="Max 50 chars"
+              hint={`${val.length} / 50`}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Disabled */}
-        <Input label="Disabled" disabled placeholder="Cannot edit" />
-      </div>
-    </Frame>
+      <ShowcaseSection title="States">
+        <Frame label="Disabled" align="start">
+          <div className="w-full max-w-sm">
+            <Input label="Read-only field" disabled defaultValue="Cannot edit this" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   )
 }
 
 function BadgeDemo() {
   const [dismissed, setDismissed] = React.useState<string[]>([])
   return (
-    <Frame label="Badge — Tier 0 Primitive">
-      <div className="flex flex-col gap-6 w-full">
-        {/* Variants */}
-        <div className="flex flex-wrap gap-2 items-center">
-          <Badge variant="solid">Solid</Badge>
-          <Badge variant="outline">Outline</Badge>
-          <Badge variant="soft">Soft</Badge>
-          <Badge variant="dot">Dot</Badge>
-        </div>
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Solid (default)">
+          <div className="flex flex-wrap gap-2">
+            {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+              <Badge key={i} variant="solid" intent={i}>{i}</Badge>
+            ))}
+          </div>
+        </Frame>
+        <Frame label="Outline">
+          <div className="flex flex-wrap gap-2">
+            {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+              <Badge key={i} variant="outline" intent={i}>{i}</Badge>
+            ))}
+          </div>
+        </Frame>
+        <Frame label="Soft">
+          <div className="flex flex-wrap gap-2">
+            {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+              <Badge key={i} variant="soft" intent={i}>{i}</Badge>
+            ))}
+          </div>
+        </Frame>
+        <Frame label="Dot">
+          <div className="flex flex-wrap gap-2">
+            {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+              <Badge key={i} variant="dot" intent={i}>{i}</Badge>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Sizes */}
-        <div className="flex flex-wrap gap-2 items-center">
-          <Badge size="sm">SM</Badge>
-          <Badge size="md">MD</Badge>
-          <Badge size="lg">LG</Badge>
-        </div>
+      <ShowcaseSection title="Sizes">
+        <Frame label="SM · MD · LG">
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge size="sm">Small</Badge>
+            <Badge size="md">Medium</Badge>
+            <Badge size="lg">Large</Badge>
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Intents */}
-        <div className="flex flex-wrap gap-2 items-center">
-          <Badge intent="primary">Primary</Badge>
-          <Badge intent="secondary">Secondary</Badge>
-          <Badge intent="danger">Danger</Badge>
-          <Badge intent="success">Success</Badge>
-          <Badge intent="warning">Warning</Badge>
-          <Badge intent="info">Info</Badge>
-          <Badge intent="neutral" variant="outline">Neutral</Badge>
-        </div>
+      <ShowcaseSection title="Rounded">
+        <Frame label="Radius options">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge rounded="none">None</Badge>
+            <Badge rounded="sm">SM</Badge>
+            <Badge rounded="md">MD</Badge>
+            <Badge rounded="lg">LG</Badge>
+            <Badge rounded="full">Full</Badge>
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Dot variants with all intents */}
-        <div className="flex flex-wrap gap-2 items-center">
-          {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
-            <Badge key={i} variant="dot" intent={i}>{i}</Badge>
-          ))}
-        </div>
-
-        {/* Dismissible */}
-        <div className="flex flex-wrap gap-2 items-center">
-          {(['primary','danger','success'] as const).map(i =>
-            dismissed.includes(i) ? null : (
-              <Badge key={i} intent={i} onDismiss={() => setDismissed(p => [...p, i])}>{i}</Badge>
-            )
-          )}
-          {dismissed.length > 0 && (
-            <Button variant="link" size="xs" intent="neutral" onClick={() => setDismissed([])}>reset</Button>
-          )}
-        </div>
-      </div>
-    </Frame>
+      <ShowcaseSection title="Dismissible">
+        <Frame label="Click × to dismiss">
+          <div className="flex flex-wrap gap-2 items-center">
+            {(['primary','secondary','danger','success','warning','info'] as const).map(i =>
+              dismissed.includes(i) ? null : (
+                <Badge key={i} intent={i} onDismiss={() => setDismissed(p => [...p, i])}>{i}</Badge>
+              )
+            )}
+            {dismissed.length > 0 && (
+              <Button variant="link" size="xs" intent="neutral" onClick={() => setDismissed([])}>
+                Reset
+              </Button>
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   )
 }
 
 function ButtonDemo() {
+  const PlusIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  const XIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  const SearchIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+
   return (
-    <Frame label="Button — Tier 0 Primitive">
-      <div className="flex flex-col gap-6 w-full">
-        {/* Variants — primary intent */}
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button variant="solid">Solid</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="soft">Soft</Button>
-        </div>
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Solid (default)">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="solid">Solid</Button>
+            <Button variant="solid" intent="secondary">Secondary</Button>
+            <Button variant="solid" intent="danger">Danger</Button>
+          </div>
+        </Frame>
+        <Frame label="Outline">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline">Outline</Button>
+            <Button variant="outline" intent="secondary">Secondary</Button>
+            <Button variant="outline" intent="danger">Danger</Button>
+          </div>
+        </Frame>
+        <Frame label="Ghost">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="ghost" intent="secondary">Secondary</Button>
+            <Button variant="ghost" intent="danger">Danger</Button>
+          </div>
+        </Frame>
+        <Frame label="Soft">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="soft">Soft</Button>
+            <Button variant="soft" intent="secondary">Secondary</Button>
+            <Button variant="soft" intent="success">Success</Button>
+          </div>
+        </Frame>
+        <Frame label="Dashed">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="dashed">Dashed</Button>
+            <Button variant="dashed" intent="warning">Warning</Button>
+            <Button variant="dashed" intent="info">Info</Button>
+          </div>
+        </Frame>
+        <Frame label="Link">
+          <div className="flex flex-wrap gap-3">
+            <Button variant="link">Link</Button>
+            <Button variant="link" intent="danger">Danger link</Button>
+            <Button variant="link" intent="neutral">Neutral link</Button>
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Sizes */}
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button size="xs">XS</Button>
-          <Button size="sm">SM</Button>
-          <Button size="md">MD</Button>
-          <Button size="lg">LG</Button>
-          <Button size="xl">XL</Button>
-        </div>
+      <ShowcaseSection title="Sizes">
+        <Frame label="XS → XL (solid)">
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="xs">XS</Button>
+            <Button size="sm">SM</Button>
+            <Button size="md">MD</Button>
+            <Button size="lg">LG</Button>
+            <Button size="xl">XL</Button>
+          </div>
+        </Frame>
+        <Frame label="Icon-only sizes">
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="xs" iconOnly iconLeft={<PlusIcon />} />
+            <Button size="sm" iconOnly iconLeft={<PlusIcon />} />
+            <Button size="md" iconOnly iconLeft={<PlusIcon />} />
+            <Button size="lg" iconOnly iconLeft={<PlusIcon />} />
+            <Button size="xl" iconOnly iconLeft={<PlusIcon />} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Intents */}
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button intent="primary">Primary</Button>
-          <Button intent="secondary">Secondary</Button>
-          <Button intent="danger">Danger</Button>
-          <Button intent="success">Success</Button>
-          <Button intent="warning">Warning</Button>
-          <Button intent="info">Info</Button>
-          <Button intent="neutral" variant="outline">Neutral</Button>
-        </div>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents — solid">
+          <div className="flex flex-wrap gap-3">
+            <Button intent="primary">Primary</Button>
+            <Button intent="secondary">Secondary</Button>
+            <Button intent="danger">Danger</Button>
+            <Button intent="success">Success</Button>
+            <Button intent="warning">Warning</Button>
+            <Button intent="info">Info</Button>
+            <Button intent="neutral" variant="outline">Neutral</Button>
+          </div>
+        </Frame>
+        <Frame label="All intents — outline">
+          <div className="flex flex-wrap gap-3">
+            {(['primary','secondary','danger','success','warning','info','neutral'] as const).map(i => (
+              <Button key={i} intent={i} variant="outline" className="capitalize">{i}</Button>
+            ))}
+          </div>
+        </Frame>
+        <Frame label="All intents — soft">
+          <div className="flex flex-wrap gap-3">
+            {(['primary','secondary','danger','success','warning','info'] as const).map(i => (
+              <Button key={i} intent={i} variant="soft" className="capitalize">{i}</Button>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* States */}
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button loading>Loading</Button>
-          <Button disabled>Disabled</Button>
-          <Button fullWidth>Full Width</Button>
-        </div>
+      <ShowcaseSection title="Icons">
+        <Frame label="Icon left">
+          <div className="flex flex-wrap gap-3">
+            <Button iconLeft={<PlusIcon />}>Add Item</Button>
+            <Button iconLeft={<SearchIcon />} variant="outline">Search</Button>
+          </div>
+        </Frame>
+        <Frame label="Icon right">
+          <div className="flex flex-wrap gap-3">
+            <Button iconRight={<XIcon />} variant="outline" intent="danger">Delete</Button>
+            <Button iconRight={<SearchIcon />} intent="secondary">Find</Button>
+          </div>
+        </Frame>
+      </ShowcaseSection>
 
-        {/* Icon variants */}
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button iconLeft={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>}>
-            Add Item
-          </Button>
-          <Button variant="outline" intent="danger" iconRight={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>}>
-            Delete
-          </Button>
-        </div>
-      </div>
-    </Frame>
+      <ShowcaseSection title="Rounded">
+        <Frame label="Radius progression — none → full">
+          <div className="flex flex-wrap items-end gap-6">
+            {([
+              { key: 'none', label: 'None', px: '0px' },
+              { key: 'sm',   label: 'SM',   px: '6px' },
+              { key: 'md',   label: 'MD',   px: '8px' },
+              { key: 'lg',   label: 'LG',   px: '14px' },
+              { key: 'xl',   label: 'XL',   px: '20px' },
+              { key: 'full', label: 'Full',  px: '9999px' },
+            ] as const).map(({ key, label, px }) => (
+              <div key={key} className="flex flex-col items-center gap-2">
+                <Button size="lg" rounded={key} className="w-28">{label}</Button>
+                <span className="text-body-caption text-faint font-mono">{px}</span>
+              </div>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Loading States">
+        <Frame label="Loading (spinner replaces icon)">
+          <div className="flex flex-wrap gap-3">
+            <Button loading>Loading…</Button>
+            <Button loading variant="outline">Saving</Button>
+            <Button loading loadingText="Uploading…" intent="secondary">Upload</Button>
+          </div>
+        </Frame>
+        <Frame label="Success / Error (auto from async onClick)">
+          <div className="flex flex-wrap gap-3">
+            <Button
+              onClick={() => new Promise(r => setTimeout(r, 1200))}
+              successText="Saved!"
+            >
+              Save (auto success)
+            </Button>
+            <Button
+              intent="danger"
+              onClick={() => new Promise((_, rej) => setTimeout(rej, 1200))}
+              errorText="Failed!"
+            >
+              Delete (auto error)
+            </Button>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="States">
+        <Frame label="Disabled">
+          <div className="flex flex-wrap gap-3">
+            <Button disabled>Disabled solid</Button>
+            <Button disabled variant="outline">Disabled outline</Button>
+            <Button disabled variant="ghost">Disabled ghost</Button>
+          </div>
+        </Frame>
+        <Frame label="Full width">
+          <div className="w-full max-w-xs">
+            <Button fullWidth>Full Width Button</Button>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+/* ── New component demos ── */
+
+function RatingInputDemo() {
+  const [val, setVal] = useState(0)
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Default stars (controlled)">
+          <div className="flex flex-col items-center gap-2">
+            <RatingInput value={val} onChange={setVal} showValue />
+            <p className="text-body-caption text-faint">Value: {val}</p>
+          </div>
+        </Frame>
+        <Frame label="Read-only">
+          <RatingInput value={3.5} readOnly showValue />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="SM · MD · LG">
+          <div className="flex flex-col gap-4 items-start">
+            <RatingInput value={4} size="sm" readOnly />
+            <RatingInput value={4} size="md" readOnly />
+            <RatingInput value={4} size="lg" readOnly />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Custom icons">
+        <Frame label="Heart emoji">
+          <RatingInput value={3} readOnly icon="❤️" emptyIcon="🤍" max={5} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="States">
+        <Frame label="Disabled">
+          <RatingInput value={2} disabled />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FabDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Position">
+        <Frame label="Speed-dial (bottom-right)">
+          <div className="relative w-72 h-56 rounded-[--radius-lg] border border-rule bg-base overflow-hidden">
+            <Fab
+              position="bottom-right"
+              actions={[
+                { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>, label: 'Add', onClick: () => {} },
+                { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>, label: 'Edit', onClick: () => {} },
+                { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>, label: 'Delete', onClick: () => {}, intent: 'danger' },
+              ]}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="Intent colors">
+          <div className="flex gap-6">
+            {(['primary','secondary','success','danger'] as const).map(i => (
+              <Fab key={i} position="bottom-right" intent={i} className="static!" style={{ position: 'static', margin: 0 }} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FormFieldDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Basic usage">
+        <Frame label="Label + hint" align="start">
+          <div className="w-full max-w-sm">
+            <FormField label="Email address" hint="We'll never share your email.">
+              <Input placeholder="you@example.com" />
+            </FormField>
+          </div>
+        </Frame>
+        <Frame label="Required" align="start">
+          <div className="w-full max-w-sm">
+            <FormField label="Username" required>
+              <Input placeholder="Enter username" />
+            </FormField>
+          </div>
+        </Frame>
+        <Frame label="Error message" align="start">
+          <div className="w-full max-w-sm">
+            <FormField label="Password" errorMessage="Password must be at least 8 characters.">
+              <Input type="password" placeholder="••••••••" status="error" />
+            </FormField>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function RibbonDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Positions">
+        <Frame label="Top-right (default)">
+          <div className="flex gap-6">
+            <Ribbon label="New" intent="primary">
+              <div className="w-40 h-24 rounded-[--radius-md] border border-rule bg-raised flex items-center justify-center text-body-callout text-foreground">Card</div>
+            </Ribbon>
+            <Ribbon label="Hot" intent="danger" position="top-left">
+              <div className="w-40 h-24 rounded-[--radius-md] border border-rule bg-raised flex items-center justify-center text-body-callout text-foreground">Card</div>
+            </Ribbon>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intent colors">
+          <div className="flex flex-wrap gap-4">
+            {(['primary','secondary','success','warning','danger','info'] as const).map(i => (
+              <Ribbon key={i} label={i} intent={i}>
+                <div className="w-28 h-20 rounded-[--radius-md] border border-rule bg-raised flex items-center justify-center text-body-caption text-muted capitalize">{i}</div>
+              </Ribbon>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FloatingLabelInputDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Outline" align="start">
+          <div className="w-full max-w-sm">
+            <FloatingLabelInput label="Email address" variant="outline" />
+          </div>
+        </Frame>
+        <Frame label="Filled" align="start">
+          <div className="w-full max-w-sm">
+            <FloatingLabelInput label="Username" variant="filled" />
+          </div>
+        </Frame>
+        <Frame label="Underline" align="start">
+          <div className="w-full max-w-sm">
+            <FloatingLabelInput label="Password" type="password" variant="underline" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="SM · MD · LG" align="start">
+          <div className="w-full max-w-sm flex flex-col gap-6">
+            <FloatingLabelInput label="Small" size="sm" />
+            <FloatingLabelInput label="Medium" size="md" />
+            <FloatingLabelInput label="Large" size="lg" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Pre-filled">
+        <Frame label="Label floated on value" align="start">
+          <div className="w-full max-w-sm">
+            <FloatingLabelInput label="Full name" defaultValue="Jane Doe" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function NotificationBellDemo() {
+  const items = [
+    { id: '1', title: 'New comment', body: 'Alice replied to your post.', intent: 'info' as const, read: false },
+    { id: '2', title: 'Build failed', body: 'CI pipeline failed on main.', intent: 'danger' as const, read: false },
+    { id: '3', title: 'PR approved', body: 'Your PR was approved.', intent: 'success' as const, read: true },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Bell with unread badge + panel">
+          <NotificationBell items={items} />
+        </Frame>
+        <Frame label="No unread notifications">
+          <NotificationBell items={items.map(i => ({ ...i, read: true }))} />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function AspectRatioDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Common ratios">
+        <Frame label="16:9 (video)">
+          <div className="w-72">
+            <AspectRatio ratio={16/9}>
+              <div className="rounded-[--radius-md] bg-patina-soft border border-patina flex items-center justify-center text-body-callout text-patina font-semibold">16 : 9</div>
+            </AspectRatio>
+          </div>
+        </Frame>
+        <Frame label="1:1 (square)">
+          <div className="w-48">
+            <AspectRatio ratio={1}>
+              <div className="rounded-full bg-kinpaku-soft border border-kinpaku flex items-center justify-center text-body-callout text-kinpaku font-semibold">1 : 1</div>
+            </AspectRatio>
+          </div>
+        </Frame>
+        <Frame label="4:3 (classic)">
+          <div className="w-64">
+            <AspectRatio ratio={4/3}>
+              <div className="rounded-[--radius-md] bg-success-soft border border-success flex items-center justify-center text-body-callout text-success font-semibold">4 : 3</div>
+            </AspectRatio>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function ChipGroupDemo() {
+  const [single, setSingle] = useState('react')
+  const [multi, setMulti] = useState<string[]>(['ts','tailwind'])
+
+  const chips = [
+    { value: 'react',    label: 'React' },
+    { value: 'vue',      label: 'Vue' },
+    { value: 'svelte',   label: 'Svelte' },
+    { value: 'ts',       label: 'TypeScript' },
+    { value: 'tailwind', label: 'Tailwind' },
+  ]
+
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Selection modes">
+        <Frame label="Single select">
+          <div className="flex flex-col gap-3 items-center">
+            <ChipGroup chips={chips} value={single} onChange={v => setSingle(v as string)} />
+            <p className="text-body-caption text-faint">Selected: {single}</p>
+          </div>
+        </Frame>
+        <Frame label="Multi select">
+          <div className="flex flex-col gap-3 items-center">
+            <ChipGroup chips={chips} value={multi} onChange={v => setMulti(v as string[])} multiSelect />
+            <p className="text-body-caption text-faint">Selected: {multi.join(', ')}</p>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="Primary (default) · success · danger">
+          <div className="flex flex-col gap-3">
+            <ChipGroup chips={chips.slice(0,3)} value={single} onChange={v => setSingle(v as string)} intent="primary" />
+            <ChipGroup chips={chips.slice(0,3)} value={single} onChange={v => setSingle(v as string)} intent="success" />
+            <ChipGroup chips={chips.slice(0,3)} value={single} onChange={v => setSingle(v as string)} intent="danger" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function TagCloudDemo() {
+  const tags = [
+    { label: 'React', weight: 10 },
+    { label: 'TypeScript', weight: 8 },
+    { label: 'Next.js', weight: 9 },
+    { label: 'Tailwind', weight: 7 },
+    { label: 'Node.js', weight: 6 },
+    { label: 'GraphQL', weight: 5 },
+    { label: 'Prisma', weight: 4 },
+    { label: 'Docker', weight: 5 },
+    { label: 'AWS', weight: 3 },
+    { label: 'PostgreSQL', weight: 6 },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Weight-scaled tags">
+          <TagCloud tags={tags} minSize={12} maxSize={24} />
+        </Frame>
+        <Frame label="Rotated (randomized angles)">
+          <TagCloud tags={tags} minSize={11} maxSize={22} rotate />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function AccordionGroupDemo() {
+  const items = [
+    { id: '1', title: 'What is Kikito CN?', content: 'A Tailwind v4 component library with semantic token aliases and zero CSS Modules.' },
+    { id: '2', title: 'How do I install it?', content: 'Copy components to your ui/ directory, add the token bridge to globals.css, import cn() from @/lib/utils.' },
+    { id: '3', title: 'Does it support dark mode?', content: 'Yes — all tokens adapt via CSS custom properties. Toggle .dark on the root element.' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Types">
+        <Frame label="Single open (accordion)" align="start">
+          <div className="w-full max-w-lg">
+            <AccordionGroup items={items} type="single" />
+          </div>
+        </Frame>
+        <Frame label="Multiple open" align="start">
+          <div className="w-full max-w-lg">
+            <AccordionGroup items={items} type="multiple" defaultOpen={['1','2']} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label="Default · bordered · flush" align="start">
+          <div className="w-full max-w-lg flex flex-col gap-6">
+            <AccordionGroup items={items.slice(0,2)} variant="default" />
+            <AccordionGroup items={items.slice(0,2)} variant="bordered" />
+            <AccordionGroup items={items.slice(0,2)} variant="flush" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function DotStepperDemo() {
+  const [step, setStep] = useState(1)
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Dot (default)">
+          <div className="flex flex-col gap-4 items-center">
+            <DotStepper steps={5} currentStep={step} variant="dot" onStepClick={setStep} />
+            <div className="flex gap-2">
+              <Button size="xs" variant="outline" intent="neutral" onClick={() => setStep(s => Math.max(0, s-1))}>Prev</Button>
+              <Button size="xs" onClick={() => setStep(s => Math.min(4, s+1))}>Next</Button>
+            </div>
+          </div>
+        </Frame>
+        <Frame label="Dash">
+          <DotStepper steps={5} currentStep={step} variant="dash" />
+        </Frame>
+        <Frame label="Progress bar">
+          <div className="w-72">
+            <DotStepper steps={5} currentStep={step} variant="progress" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function ProgressStepsDemo() {
+  const steps = [
+    { label: 'Order placed', description: 'Confirmed #1042' },
+    { label: 'Processing', description: 'Items packed' },
+    { label: 'Shipped', description: 'In transit' },
+    { label: 'Delivered' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Orientation">
+        <Frame label="Horizontal (step 2 active)">
+          <div className="w-full max-w-2xl">
+            <ProgressSteps steps={steps} currentStep={2} />
+          </div>
+        </Frame>
+        <Frame label="Vertical" align="start">
+          <ProgressSteps steps={steps} currentStep={2} orientation="vertical" />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Completed state">
+        <Frame label="All steps done">
+          <div className="w-full max-w-2xl">
+            <ProgressSteps steps={steps} currentStep={4} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function TimelineProgressDemo() {
+  const steps = [
+    { id: '1', label: 'Account created', description: 'Jan 15, 2024', status: 'completed' as const },
+    { id: '2', label: 'Email verified', description: 'Jan 15, 2024', status: 'completed' as const },
+    { id: '3', label: 'Profile setup', description: 'In progress…', status: 'current' as const },
+    { id: '4', label: 'First project', description: 'Pending', status: 'upcoming' as const },
+    { id: '5', label: 'Invite team', description: 'Pending', status: 'upcoming' as const },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Vertical timeline progress" align="start">
+          <TimelineProgress steps={steps} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Error state">
+        <Frame label="With failed step" align="start">
+          <TimelineProgress steps={[
+            ...steps.slice(0,1),
+            { id: 'err', label: 'Payment failed', description: 'Card declined', status: 'error' as const },
+            ...steps.slice(2),
+          ]} />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FloatingBarDemo() {
+  const [vis, setVis] = useState(true)
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Floating action bar (toggle visibility)">
+          <div className="relative w-full h-48 rounded-[--radius-lg] border border-rule bg-base overflow-hidden">
+            <FloatingBar visible={vis} position="bottom">
+              <div className="flex items-center gap-3">
+                <span className="text-body-callout text-foreground font-medium">3 items selected</span>
+                <Button size="sm" variant="outline" intent="neutral">Cancel</Button>
+                <Button size="sm" intent="danger">Delete</Button>
+              </div>
+            </FloatingBar>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Button size="sm" variant="outline" onClick={() => setVis(v => !v)}>
+                {vis ? 'Hide bar' : 'Show bar'}
+              </Button>
+            </div>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FloatingMenuDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Placements">
+        <Frame label="Click trigger → hover menu">
+          <div className="flex flex-wrap gap-6 justify-center">
+            {(['top','bottom','left','right'] as const).map(placement => (
+              <FloatingMenu
+                key={placement}
+                placement={placement}
+                trigger={<Button variant="outline" size="sm">{placement}</Button>}
+                items={[
+                  { label: 'Edit', onClick: () => {} },
+                  { label: 'Duplicate', onClick: () => {} },
+                  { label: 'Delete', onClick: () => {}, danger: true },
+                ]}
+              />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function MetricCardDemo() {
+  const data = [12, 24, 18, 36, 28, 42, 38, 55]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Trend variants">
+        <Frame label="Up · down · neutral">
+          <div className="flex flex-wrap gap-4">
+            <MetricCard title="Revenue" value="$42,890" trend="up" trendValue="+12%" sparklineData={data} />
+            <MetricCard title="Churn Rate" value="2.1%" trend="down" trendValue="-0.4%" sparklineData={data.map(v => 60-v)} intent="success" />
+            <MetricCard title="Sessions" value="8,214" trend="neutral" trendValue="0%" sparklineData={[30,32,29,31,30,33,31,30]} intent="info" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Loading">
+        <Frame label="Skeleton state">
+          <MetricCard title="" value="" loading />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function StatsCardDemo() {
+  const stats = [
+    { label: 'Users', value: '12,849' },
+    { label: 'Revenue', value: '$84,200' },
+    { label: 'Conversion', value: '3.2%' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Column counts">
+        <Frame label="2 columns">
+          <div className="w-full max-w-md">
+            <StatsCard stats={stats.slice(0,2)} />
+          </div>
+        </Frame>
+        <Frame label="3 columns">
+          <div className="w-full max-w-xl">
+            <StatsCard stats={stats} />
+          </div>
+        </Frame>
+        <Frame label="4 columns">
+          <div className="w-full max-w-2xl">
+            <StatsCard stats={[...stats, { label: 'NPS', value: '72' }]} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function NoteCardDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Colors">
+        <Frame label="All 6 pastel colors">
+          <div className="flex flex-wrap gap-4">
+            {(['yellow','pink','blue','green','purple','orange'] as const).map(color => (
+              <NoteCard key={color} color={color} title={color} content="Quick sticky note with pin decoration and optional rotation." />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Rotation">
+        <Frame label="Rotated (skewed layout)">
+          <div className="flex flex-wrap gap-4">
+            <NoteCard color="yellow" title="Note A" content="Slight tilt." rotate />
+            <NoteCard color="pink" title="Note B" content="Different angle." rotate />
+            <NoteCard color="blue" title="Note C" content="Random rotation." rotate />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function ReceiptCardDemo() {
+  const items = [
+    { label: 'Coffee (×2)', amount: 7.00 },
+    { label: 'Croissant', amount: 3.50 },
+    { label: 'Orange juice', amount: 4.25 },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Receipt card with total">
+          <ReceiptCard
+            merchant="The Coffee House"
+            date={new Date()}
+            items={items}
+            tax={0.08}
+            currency="USD"
+          />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function PricingCardDemo() {
+  const features = [
+    { label: '5 projects', included: true },
+    { label: '50 GB storage', included: true },
+    { label: 'API access', included: true },
+    { label: 'Priority support', included: false },
+    { label: 'Custom domain', included: false },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Plans">
+        <Frame label="Regular · Highlighted">
+          <div className="flex flex-wrap gap-4">
+            <PricingCard name="Starter" price={9} period="mo" features={features} ctaLabel="Get started" />
+            <PricingCard name="Pro" price={29} period="mo" features={[...features, { label: 'Priority support', included: true }, { label: 'Custom domain', included: true }]} ctaLabel="Start free trial" highlighted badge="Most popular" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function FeatureListDemo() {
+  const features = [
+    { label: 'Unlimited projects' },
+    { label: 'API access' },
+    { label: 'Priority support' },
+    { label: 'Custom domains' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Check (default)">
+          <FeatureList features={features} variant="check" />
+        </Frame>
+        <Frame label="Numbered">
+          <FeatureList features={features} variant="numbered" />
+        </Frame>
+        <Frame label="Icon (custom)">
+          <FeatureList features={features.map(f => ({ ...f, icon: '⚡' }))} variant="icon" />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intent colors">
+          <div className="flex flex-wrap gap-8">
+            {(['primary','success','danger'] as const).map(i => (
+              <FeatureList key={i} features={features.slice(0,3)} intent={i} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function VerticalNavDemo() {
+  const items = [
+    { id: 'home', label: 'Home', href: '#', icon: '🏠' },
+    {
+      id: 'design', label: 'Design', icon: '🎨',
+      children: [
+        { id: 'tokens', label: 'Tokens', href: '#' },
+        { id: 'components', label: 'Components', href: '#', badge: '34' },
+      ],
+    },
+    { id: 'docs', label: 'Documentation', href: '#', icon: '📖' },
+    { id: 'settings', label: 'Settings', href: '#', icon: '⚙️' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Collapsible tree nav" align="start">
+          <div className="w-56 border border-rule rounded-[--radius-lg] bg-base">
+            <VerticalNav items={items} activeId="components" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function ChatBubbleDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Bubbles">
+        <Frame label="Sent · received" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-sm">
+            <ChatBubble message="Hey! How's the project going?" side="left" author="Alice" />
+            <ChatBubble message="Great! Almost done with the new components 🎉" side="right" status="read" />
+            <ChatBubble message="Can't wait to see them!" side="left" author="Alice" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Typing indicator">
+        <Frame label="Animated dots">
+          <ChatBubble isTyping side="left" author="Alice" />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Message status">
+        <Frame label="Sent · delivered · read">
+          <div className="flex flex-col gap-3 w-full max-w-xs">
+            <ChatBubble message="Sent" side="right" status="sent" />
+            <ChatBubble message="Delivered" side="right" status="delivered" />
+            <ChatBubble message="Read" side="right" status="read" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function TerminalBlockDemo() {
+  const lines = ['$ npm install @kikito/cn', '> Installing packages…', '> Added 42 packages in 2.1s', '$ npm run dev', '> Ready on http://localhost:3000']
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="macOS chrome">
+          <div className="w-full max-w-lg">
+            <TerminalBlock lines={lines} title="Terminal" chrome="macos" />
+          </div>
+        </Frame>
+        <Frame label="Animated typing">
+          <div className="w-full max-w-lg">
+            <TerminalBlock lines={lines} title="Output" chrome="macos" animate />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function PasswordStrengthDemo() {
+  const [pwd, setPwd] = useState('')
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Live strength meter" align="start">
+          <div className="w-full max-w-sm flex flex-col gap-3">
+            <Input
+              label="Password"
+              type="password"
+              value={pwd}
+              onChange={e => setPwd(e.target.value)}
+              placeholder="Enter a password…"
+            />
+            <PasswordStrength password={pwd} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function WindowFrameDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Chrome styles">
+        <Frame label="macOS">
+          <div className="w-full max-w-md">
+            <WindowFrame chrome="macos" title="index.tsx">
+              <div className="p-4 font-mono text-body-caption text-foreground bg-[#0d1117]">
+                <span className="text-[#79c0ff]">const</span>{' '}
+                <span className="text-[#e6edf3]">greeting</span>{' '}
+                <span className="text-[#ff7b72]">=</span>{' '}
+                <span className="text-[#a5d6ff]">&apos;Hello, world!&apos;</span>
+              </div>
+            </WindowFrame>
+          </div>
+        </Frame>
+        <Frame label="Windows">
+          <div className="w-full max-w-md">
+            <WindowFrame chrome="windows" title="Notepad — untitled.txt">
+              <div className="p-4 text-body-callout text-foreground bg-canvas">Hello, world!</div>
+            </WindowFrame>
+          </div>
+        </Frame>
+        <Frame label="Minimal">
+          <div className="w-full max-w-md">
+            <WindowFrame chrome="minimal">
+              <div className="p-4 text-body-callout text-muted">Content goes here</div>
+            </WindowFrame>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function KeyboardShortcutsDemo() {
+  const [open, setOpen] = useState(false)
+  const shortcuts = [
+    { keys: ['⌘', 'K'], description: 'Open command palette', category: 'Navigation' },
+    { keys: ['⌘', '/'], description: 'Toggle sidebar', category: 'Navigation' },
+    { keys: ['⌘', 'S'], description: 'Save file', category: 'Editing' },
+    { keys: ['⌘', 'Z'], description: 'Undo', category: 'Editing' },
+    { keys: ['⌘', 'Shift', 'Z'], description: 'Redo', category: 'Editing' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Click to open shortcuts modal">
+          <div className="flex flex-col items-center gap-3">
+            <Button onClick={() => setOpen(true)} variant="outline">
+              Show keyboard shortcuts
+            </Button>
+            <p className="text-body-caption text-faint">Press ? to open</p>
+            <KeyboardShortcuts shortcuts={shortcuts} open={open} onClose={() => setOpen(false)} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function CalendarDemo() {
+  const [date, setDate] = useState<Date | undefined>(new Date())
+  const today = new Date()
+  const events = [
+    { date: new Date(today.getFullYear(), today.getMonth(), 5), label: 'Team sync', color: 'var(--ks-patina)' },
+    { date: new Date(today.getFullYear(), today.getMonth(), 12), label: 'Release', color: 'var(--ks-success)' },
+    { date: new Date(today.getFullYear(), today.getMonth(), 20), label: 'All-hands', color: 'var(--ks-warning)' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Calendar picker with events">
+          <div className="flex flex-col items-center gap-3">
+            <Calendar value={date} onChange={setDate} events={events} />
+            {date && <p className="text-body-caption text-faint">Selected: {date.toLocaleDateString()}</p>}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function SortableListDemo() {
+  const [items, setItems] = useState([
+    { id: '1', label: 'Design tokens' },
+    { id: '2', label: 'Button component' },
+    { id: '3', label: 'Input component' },
+    { id: '4', label: 'Badge component' },
+    { id: '5', label: 'Modal overlay' },
+  ])
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Drag to reorder" align="start">
+          <div className="w-full max-w-sm">
+            <SortableList
+              items={items}
+              onChange={setItems}
+              renderItem={item => (
+                <span className="text-body-callout text-foreground">{item.label}</span>
+              )}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function MediaPlayerDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Simulated audio player">
+          <div className="w-full max-w-md">
+            <MediaPlayer type="audio" title="Ambient Track 01" artist="Kikito Studio" duration={215} />
+          </div>
+        </Frame>
+        <Frame label="Video player">
+          <div className="w-full max-w-md">
+            <MediaPlayer type="video" title="Intro to CN" duration={180} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function NavigationMenuDemo() {
+  const items = [
+    { id: 'home', label: 'Home', href: '#' },
+    {
+      id: 'products', label: 'Products',
+      children: [
+        { id: 'cn', label: 'Kikito CN', href: '#', description: 'Component library' },
+        { id: 'tv', label: 'Kikito TV', href: '#', description: 'Streaming platform' },
+      ],
+    },
+    { id: 'docs', label: 'Docs', href: '#' },
+    { id: 'pricing', label: 'Pricing', href: '#' },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Horizontal (top-nav)">
+        <Frame label="With dropdown submenu">
+          <div className="w-full border border-rule rounded-[--radius-lg] bg-base px-4 py-2">
+            <CnNavigationMenu items={items} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function TextEditorDemo() {
+  const [html, setHtml] = useState('<p>Type something <strong>rich</strong> here…</p>')
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Rich text editor with toolbar" align="start">
+          <div className="w-full max-w-2xl">
+            <TextEditor value={html} onChange={setHtml} minHeight={160} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function SignaturePadDemo() {
+  const [img, setImg] = useState<string | null>(null)
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Draw your signature" align="start">
+          <div className="flex flex-col gap-3 items-center w-full">
+            <SignaturePad width={480} height={180} onSave={setImg} />
+            {img && (
+              <img src={img} alt="Signature preview" className="max-w-[240px] border border-rule rounded-[--radius-md] p-2" />
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  )
+}
+
+function OnboardingTourDemo() {
+  const [running, setRunning] = useState(false)
+  const steps = [
+    { target: '#tour-step-1', title: 'Welcome!', content: 'This is the first step of the onboarding tour.', placement: 'bottom' as const },
+    { target: '#tour-step-2', title: 'Here\'s the component', content: 'This highlights the target element with a ring.', placement: 'right' as const },
+    { target: '#tour-step-3', title: 'Last step', content: 'Click Done to finish the tour!', placement: 'top' as const },
+  ]
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Click Start Tour to launch">
+          <div className="flex flex-col items-center gap-6 w-full">
+            <div className="flex gap-4 items-start justify-between w-full max-w-sm">
+              <div id="tour-step-1" className="px-3 py-2 rounded-[--radius-md] border border-rule bg-raised text-body-callout text-foreground">Step 1</div>
+              <div id="tour-step-2" className="px-3 py-2 rounded-[--radius-md] border border-rule bg-raised text-body-callout text-foreground">Step 2</div>
+              <div id="tour-step-3" className="px-3 py-2 rounded-[--radius-md] border border-rule bg-raised text-body-callout text-foreground">Step 3</div>
+            </div>
+            <Button onClick={() => setRunning(true)} intent="primary">Start Tour</Button>
+            {running && (
+              <OnboardingTour steps={steps} onComplete={() => setRunning(false)} onSkip={() => setRunning(false)} />
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   )
 }
 

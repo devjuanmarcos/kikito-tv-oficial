@@ -315,12 +315,14 @@ aside,
   transition: background-color 0.3s linear;
 }
 
-*,
-::after,
-::before,
-::backdrop,
-::file-selector-button {
-  border-color: hsl(var(--border));
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: hsl(var(--border));
+  }
 }
 
 html {
