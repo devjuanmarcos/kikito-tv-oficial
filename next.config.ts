@@ -1,25 +1,10 @@
 /** @type {import('next').NextConfig} */
-import { spawnSync } from "node:child_process";
-
 import bundleAnalyzer from "@next/bundle-analyzer";
-import withSerwistInit from "@serwist/next";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
-
-const revision = spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf-8" }).stdout?.trim() ?? crypto.randomUUID();
-
-const withSerwist = withSerwistInit({
-  swSrc: "src/app/sw.ts",
-  swDest: "public/sw.js",
-  maximumFileSizeToCacheInBytes: 4.5 * 1024 * 1024,
-  cacheOnNavigation: true,
-  additionalPrecacheEntries: [{ url: "/~offline.html", revision }],
-  // Em dev o plugin regrava sw.js a cada compile e o file watcher entra em loop.
-  disable: process.env.NODE_ENV === "development",
-});
 
 function composePlugins(...plugins: ((config: NextConfig) => NextConfig)[]) {
   return (config: NextConfig) => plugins.reduceRight((acc, plugin) => plugin(acc), config);
@@ -90,22 +75,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
-  // Evita loop de compilação: o Serwist regrava public/sw.js a cada build
-  webpack: (config, { dev }) => {
-    if (dev) {
-      const prev = config.watchOptions ?? {};
-      const prevIgnored = prev.ignored;
-      const prevList = Array.isArray(prevIgnored) ? prevIgnored : prevIgnored ? [prevIgnored] : [];
-      const validPrev = prevList.filter((x): x is string => typeof x === "string" && x.length > 0);
-      config.watchOptions = {
-        ...prev,
-        ignored: [...validPrev, "**/public/sw.js", "**/public/sw.js.map"],
-        aggregateTimeout: 600,
-      };
-    }
-    return config;
-  },
 };
 
-export default withBundleAnalyzer(composePlugins(withNextIntl, withSerwist)(nextConfig));
+export default withBundleAnalyzer(composePlugins(withNextIntl)(nextConfig));
