@@ -51,7 +51,7 @@ export function NumberPad({
                 />
               ))
             : (
-              <div className="text-[1.5rem] font-bold text-foreground tracking-[0.3em] min-w-[4rem] text-center">
+              <div className="text-heading-05 font-bold text-foreground tracking-[0.3em] min-w-[4rem] text-center">
                 {val || '·'.repeat(maxLength)}
               </div>
             )
@@ -67,7 +67,7 @@ export function NumberPad({
             disabled={key === ''}
             onClick={() => press(key)}
             className={cn(
-              'w-16 h-16 rounded-full text-[1.125rem] font-semibold transition-all duration-100',
+              'w-16 h-16 rounded-full text-body-title font-semibold transition-all duration-100',
               key === ''
                 ? 'invisible pointer-events-none'
                 : key === '⌫'

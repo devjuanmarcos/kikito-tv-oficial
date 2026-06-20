@@ -40,9 +40,9 @@ function KanbanCardItem({ card, dragging, onDragStart, onDragEnd }: {
           {card.label}
         </div>
       )}
-      <div className="text-[0.875rem] font-medium text-foreground">{card.title}</div>
+      <div className="text-body-callout font-medium text-foreground">{card.title}</div>
       {card.description && (
-        <div className="text-[0.75rem] text-muted mt-1 leading-relaxed">{card.description}</div>
+        <div className="text-body-caption text-muted mt-1 leading-relaxed">{card.description}</div>
       )}
       {card.assignee && (
         <div className="mt-2 flex justify-end">
@@ -101,9 +101,9 @@ export function Kanban({ columns: initial, onChange, className, style }: KanbanP
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full" style={{ background: dotColor }} />
-                <span className="text-[0.8125rem] font-semibold text-foreground">{col.title}</span>
+                <span className="text-body-callout font-semibold text-foreground">{col.title}</span>
               </div>
-              <span className="text-[0.6875rem] font-bold text-faint bg-graphite px-1.5 py-0.5 rounded-full">
+              <span className="text-body-caption font-bold text-faint bg-graphite px-1.5 py-0.5 rounded-full">
                 {col.cards.length}
               </span>
             </div>

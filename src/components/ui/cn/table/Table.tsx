@@ -31,7 +31,7 @@ export function Table({ children, striped, size, className, style }: {
   return (
     <div className="w-full overflow-x-auto overflow-y-visible border border-rule rounded-[--radius-md] bg-raised">
       <table
-        className={cn('w-full border-collapse text-[0.875rem] text-foreground', className)}
+        className={cn('w-full border-collapse text-body-callout text-foreground', className)}
         data-striped={striped || undefined}
         data-size={size || 'md'}
         style={style}
@@ -112,7 +112,7 @@ export function TableHeadCell({ children, align, sortable, sorted, onSort, pinRi
   return (
     <th
       className={cn(
-        'px-[14px] py-[11px] text-[0.75rem] font-semibold tracking-[0.02em] text-faint text-left whitespace-nowrap select-none relative',
+        'px-[14px] py-[11px] text-body-caption font-semibold tracking-[0.02em] text-faint text-left whitespace-nowrap select-none relative',
         sortable && 'cursor-pointer hover:text-foreground',
         sorted && 'text-foreground',
         align === 'center' && 'text-center',
@@ -139,7 +139,7 @@ export function TableHeadCell({ children, align, sortable, sorted, onSort, pinRi
 
 export function TableCaption({ children, className }: { children?: ReactNode; className?: string }) {
   return (
-    <caption className={cn('text-[0.75rem] text-faint px-[14px] py-[10px] text-left caption-bottom', className)}>
+    <caption className={cn('text-body-caption text-faint px-[14px] py-[10px] text-left caption-bottom', className)}>
       {children}
     </caption>
   )
@@ -181,7 +181,7 @@ function SelectFilter({ title, options, value, multiple, onChange }: {
       <button
         type="button"
         className={cn(
-          'inline-flex items-center gap-[6px] h-8 px-[10px] border border-dashed border-rule rounded-[--radius-sm] bg-transparent text-[0.8125rem] text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:border-patina hover:text-foreground',
+          'inline-flex items-center gap-[6px] h-8 px-[10px] border border-dashed border-rule rounded-[--radius-sm] bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:border-patina hover:text-foreground',
           value.length > 0 && 'border-patina border-solid text-foreground',
         )}
         onClick={() => setOpen(o => !o)}
@@ -209,7 +209,7 @@ function SelectFilter({ title, options, value, multiple, onChange }: {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={`Search ${title}…`}
-              className="w-full bg-graphite border border-rule rounded-[--radius-sm] px-2 py-[5px] text-[0.8125rem] text-foreground outline-none placeholder:text-faint"
+              className="w-full bg-graphite border border-rule rounded-[--radius-sm] px-2 py-[5px] text-body-callout text-foreground outline-none placeholder:text-faint"
             />
           </div>
           <div className="max-h-[220px] overflow-y-auto p-1">
@@ -217,7 +217,7 @@ function SelectFilter({ title, options, value, multiple, onChange }: {
               <button
                 key={opt.value}
                 type="button"
-                className="flex items-center gap-2 px-2 py-[7px] rounded-[--radius-sm] cursor-pointer text-[0.8125rem] border-0 bg-transparent w-full text-left text-foreground transition-colors duration-[80ms] hover:bg-patina/8"
+                className="flex items-center gap-2 px-2 py-[7px] rounded-[--radius-sm] cursor-pointer text-body-callout border-0 bg-transparent w-full text-left text-foreground transition-colors duration-[80ms] hover:bg-patina/8"
                 onClick={() => toggle(opt.value)}
               >
                 <span className={cn(
@@ -233,7 +233,7 @@ function SelectFilter({ title, options, value, multiple, onChange }: {
           </div>
           {value.length > 0 && (
             <button
-              className="flex items-center justify-center p-[6px] border-t border-rule text-[0.75rem] text-faint cursor-pointer bg-transparent border-l-0 border-r-0 border-b-0 w-full transition-colors duration-[120ms] hover:text-danger"
+              className="flex items-center justify-center p-[6px] border-t border-rule text-body-caption text-faint cursor-pointer bg-transparent border-l-0 border-r-0 border-b-0 w-full transition-colors duration-[120ms] hover:text-danger"
               onClick={() => onChange([])}
             >
               Clear filters
@@ -268,7 +268,7 @@ function ViewOptions({ columns, hidden, onToggle }: {
     <div className="relative" ref={ref}>
       <button
         type="button"
-        className="inline-flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-transparent text-[0.8125rem] text-faint cursor-pointer relative transition-colors duration-[120ms] hover:text-foreground"
+        className="inline-flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-transparent text-body-callout text-faint cursor-pointer relative transition-colors duration-[120ms] hover:text-foreground"
         onClick={() => setOpen(o => !o)}
       >
         <ViewIcon />
@@ -283,7 +283,7 @@ function ViewOptions({ columns, hidden, onToggle }: {
                 key={col.key}
                 type="button"
                 className={cn(
-                  'flex items-center gap-2 px-2 py-[7px] rounded-[--radius-sm] cursor-pointer text-[0.8125rem] border-0 bg-transparent w-full text-left transition-colors duration-[80ms] hover:bg-patina/8',
+                  'flex items-center gap-2 px-2 py-[7px] rounded-[--radius-sm] cursor-pointer text-body-callout border-0 bg-transparent w-full text-left transition-colors duration-[80ms] hover:bg-patina/8',
                   visible ? 'text-foreground' : 'text-faint',
                 )}
                 onClick={() => onToggle(col.key)}
@@ -326,11 +326,11 @@ function PaginationBar({ page, totalPages, pageSize, totalItems, pageSizeOptions
   const from = page * pageSize + 1
   const to   = Math.min((page + 1) * pageSize, totalItems)
 
-  const pageBtnCls = 'inline-flex items-center justify-center min-w-8 h-8 px-[5px] border border-rule rounded-[--radius-sm] bg-transparent text-[0.8125rem] text-faint cursor-pointer transition-colors duration-[80ms] hover:enabled:bg-graphite hover:enabled:text-foreground disabled:opacity-35 disabled:cursor-not-allowed'
+  const pageBtnCls = 'inline-flex items-center justify-center min-w-8 h-8 px-[5px] border border-rule rounded-[--radius-sm] bg-transparent text-body-callout text-faint cursor-pointer transition-colors duration-[80ms] hover:enabled:bg-graphite hover:enabled:text-foreground disabled:opacity-35 disabled:cursor-not-allowed'
 
   return (
     <div className="flex items-center justify-between gap-3 flex-wrap">
-      <span className="text-[0.8125rem] text-faint flex-1">
+      <span className="text-body-callout text-faint flex-1">
         {totalItems > 0 ? `${from}–${to} of ${totalItems} row${totalItems !== 1 ? 's' : ''}` : '0 rows'}
       </span>
       <div className="flex items-center gap-1">
@@ -338,7 +338,7 @@ function PaginationBar({ page, totalPages, pageSize, totalItems, pageSizeOptions
         <button className={pageBtnCls} onClick={() => onChange(page - 1)} disabled={page === 0} aria-label="Previous page"><ChevL /></button>
         {win.map((p, i) =>
           p === '…'
-            ? <span key={`e${i}`} className="inline-flex items-center justify-center min-w-8 h-8 text-[0.8125rem] text-faint">…</span>
+            ? <span key={`e${i}`} className="inline-flex items-center justify-center min-w-8 h-8 text-body-callout text-faint">…</span>
             : <button
                 key={p}
                 className={cn(pageBtnCls, p === page && 'bg-patina border-patina text-patina-fg font-semibold hover:bg-patina')}
@@ -351,10 +351,10 @@ function PaginationBar({ page, totalPages, pageSize, totalItems, pageSizeOptions
         <button className={pageBtnCls} onClick={() => onChange(page + 1)} disabled={page >= totalPages - 1} aria-label="Next page"><ChevR /></button>
         <button className={pageBtnCls} onClick={() => onChange(totalPages - 1)} disabled={page >= totalPages - 1} aria-label="Last page"><ChevsR /></button>
       </div>
-      <div className="flex items-center gap-2 text-[0.8125rem] text-faint">
+      <div className="flex items-center gap-2 text-body-callout text-faint">
         Rows per page
         <select
-          className="h-8 px-2 border border-rule rounded-[--radius-sm] bg-transparent text-[0.8125rem] text-foreground cursor-pointer outline-none"
+          className="h-8 px-2 border border-rule rounded-[--radius-sm] bg-transparent text-body-callout text-foreground cursor-pointer outline-none"
           value={pageSize}
           onChange={e => { onPageSizeChange(Number(e.target.value)); onChange(0) }}
           aria-label="Rows per page"
@@ -486,11 +486,11 @@ export function DataTable<TRow extends object>({
 
   const thCls = cn(
     'text-left whitespace-nowrap select-none relative text-faint font-semibold tracking-[0.02em]',
-    size === 'sm' ? 'px-3 py-2 text-[0.6875rem]' : size === 'lg' ? 'px-4 py-[14px] text-[0.75rem]' : 'px-[14px] py-[11px] text-[0.75rem]',
+    size === 'sm' ? 'px-3 py-2 text-body-caption' : size === 'lg' ? 'px-4 py-[14px] text-body-caption' : 'px-[14px] py-[11px] text-body-caption',
   )
   const tdCls = cn(
     'align-middle',
-    size === 'sm' ? 'px-3 py-2 text-[0.8125rem]' : size === 'lg' ? 'px-4 py-[14px]' : 'px-[14px] py-3',
+    size === 'sm' ? 'px-3 py-2 text-body-callout' : size === 'lg' ? 'px-4 py-[14px]' : 'px-[14px] py-3',
   )
 
   return (
@@ -502,14 +502,14 @@ export function DataTable<TRow extends object>({
             const fv = filters[col.key]
             if (col.filterVariant === 'text' || !col.filterVariant) {
               return (
-                <label key={col.key} className="flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-raised text-[0.8125rem] text-foreground min-w-[140px] transition-colors duration-[120ms] focus-within:border-patina cursor-text">
+                <label key={col.key} className="flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-raised text-body-callout text-foreground min-w-[140px] transition-colors duration-[120ms] focus-within:border-patina cursor-text">
                   <SearchIcon />
                   <input
                     type="text"
                     placeholder={`Filter ${col.header}…`}
                     value={(fv as string) ?? ''}
                     onChange={e => setFilter(col.key, e.target.value)}
-                    className="flex-1 bg-transparent border-0 outline-none text-[0.8125rem] text-foreground min-w-0 placeholder:text-faint"
+                    className="flex-1 bg-transparent border-0 outline-none text-body-callout text-foreground min-w-0 placeholder:text-faint"
                   />
                 </label>
               )
@@ -527,7 +527,7 @@ export function DataTable<TRow extends object>({
           })}
           {hasFilters && (
             <button
-              className="inline-flex items-center gap-[5px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-transparent text-[0.8125rem] text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:text-foreground hover:border-faint"
+              className="inline-flex items-center gap-[5px] h-8 px-[10px] border border-rule rounded-[--radius-sm] bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:text-foreground hover:border-faint"
               onClick={() => setFilters({})}
             >
               <XIcon />Reset
@@ -545,7 +545,7 @@ export function DataTable<TRow extends object>({
 
       {/* Action bar */}
       {selectable && selected.size > 0 && actionBar && (
-        <div className="flex items-center gap-3 px-[14px] py-[10px] rounded-[--radius-md] text-[0.8125rem] border"
+        <div className="flex items-center gap-3 px-[14px] py-[10px] rounded-[--radius-md] text-body-callout border"
           style={{
             background: 'color-mix(in oklch, var(--ks-patina) 10%, var(--ks-lacquer-raised))',
             borderColor: 'color-mix(in oklch, var(--ks-patina) 30%, transparent)',
@@ -557,7 +557,7 @@ export function DataTable<TRow extends object>({
 
       {/* Table */}
       <div className="w-full overflow-x-auto overflow-y-visible border border-rule rounded-[--radius-md] bg-raised">
-        <table className="w-full border-collapse text-[0.875rem] text-foreground" data-striped={striped || undefined} data-size={size}>
+        <table className="w-full border-collapse text-body-callout text-foreground" data-striped={striped || undefined} data-size={size}>
           <thead className={cn('bg-graphite border-b border-rule', stickyHeader && 'sticky top-0 z-[2]')}>
             <tr>
               {selectable && (
@@ -614,7 +614,7 @@ export function DataTable<TRow extends object>({
             ) : paged.length === 0 ? (
               <tr>
                 <td colSpan={visibleCols.length + (selectable ? 1 : 0)}>
-                  <div className="flex flex-col items-center justify-center gap-2 py-12 px-4 text-faint text-[0.875rem] text-center">
+                  <div className="flex flex-col items-center justify-center gap-2 py-12 px-4 text-faint text-body-callout text-center">
                     <span className="opacity-35"><EmptyIcon /></span>
                     {emptyMessage}
                   </div>

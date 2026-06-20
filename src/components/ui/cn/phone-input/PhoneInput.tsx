@@ -20,9 +20,9 @@ const COUNTRIES = [
 ]
 
 const SIZE_CLS: Record<string, string> = {
-  sm: 'text-[0.8125rem] h-8',
-  md: 'text-[0.875rem] h-10',
-  lg: 'text-[1rem] h-12',
+  sm: 'text-body-callout h-8',
+  md: 'text-body-callout h-10',
+  lg: 'text-body-paragraph h-12',
 }
 
 export function PhoneInput({
@@ -58,8 +58,8 @@ export function PhoneInput({
     >
       {/* Country selector */}
       <div className="relative flex items-center gap-1.5 px-2.5 border-r border-rule bg-graphite/40 shrink-0">
-        <span className="text-base leading-none">{country.flag}</span>
-        <span className="text-[0.8125rem] text-muted font-medium tabular-nums">{country.dial}</span>
+        <span className="text-body-paragraph leading-none">{country.flag}</span>
+        <span className="text-body-callout text-muted font-medium tabular-nums">{country.dial}</span>
         <select
           className="absolute inset-0 opacity-0 cursor-pointer w-full"
           value={country.code}

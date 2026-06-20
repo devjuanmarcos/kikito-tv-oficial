@@ -39,10 +39,10 @@ export function ThemeSelector({
               <div key={i} style={{ background: c }} className="w-full h-full" />
             ))}
           </div>
-          <span className="text-[0.8125rem] font-medium text-foreground whitespace-nowrap">{theme.label}</span>
+          <span className="text-body-callout font-medium text-foreground whitespace-nowrap">{theme.label}</span>
           <span
             className={cn(
-              'text-patina text-[0.75rem] font-bold transition-opacity duration-[150ms]',
+              'text-patina text-body-caption font-bold transition-opacity duration-[150ms]',
               selected === theme.id ? 'opacity-100' : 'opacity-0'
             )}
           >

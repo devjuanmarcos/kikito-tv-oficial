@@ -40,12 +40,12 @@ export function DataList({
             style={item.span && isGrid ? { gridColumn: `span ${item.span}` } : undefined}
           >
             <dt className={cn(
-              'text-[0.75rem] font-semibold text-muted opacity-60 uppercase tracking-[0.04em] flex-shrink-0',
+              'text-body-caption font-semibold text-muted opacity-60 uppercase tracking-[0.04em] flex-shrink-0',
               isHoriz && 'w-40 min-w-40',
             )}>
               {item.label}
             </dt>
-            <dd className="text-[0.8125rem] text-foreground flex-1">{item.value}</dd>
+            <dd className="text-body-callout text-foreground flex-1">{item.value}</dd>
           </div>
         )
       })}

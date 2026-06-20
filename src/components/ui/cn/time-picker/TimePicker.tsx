@@ -61,7 +61,7 @@ export function TimePicker({
         onClick={() => !disabled && setOpen(o => !o)}
         disabled={disabled}
         className={cn(
-          'flex items-center gap-2 px-3 py-2 rounded-[--radius-sm] border text-[0.875rem] min-w-[140px]',
+          'flex items-center gap-2 px-3 py-2 rounded-[--radius-sm] border text-body-callout min-w-[140px]',
           'transition-colors duration-150',
           open ? 'border-patina bg-raised' : 'border-rule bg-canvas hover:border-patina/50',
           disabled && 'opacity-50 cursor-not-allowed'
@@ -90,7 +90,7 @@ export function TimePicker({
                     update({ hours: newH })
                   }}
                   className={cn(
-                    'block w-full px-4 py-1 text-center text-[0.8125rem] hover:bg-graphite transition-colors',
+                    'block w-full px-4 py-1 text-center text-body-callout hover:bg-graphite transition-colors',
                     displayH === h ? 'bg-patina text-patina-fg font-bold' : 'text-foreground'
                   )}
                 >
@@ -112,7 +112,7 @@ export function TimePicker({
                   type="button"
                   onClick={() => update({ minutes: m })}
                   className={cn(
-                    'block w-full px-4 py-1 text-center text-[0.8125rem] hover:bg-graphite transition-colors',
+                    'block w-full px-4 py-1 text-center text-body-callout hover:bg-graphite transition-colors',
                     val.minutes === m ? 'bg-patina text-patina-fg font-bold' : 'text-foreground'
                   )}
                 >
@@ -133,7 +133,7 @@ export function TimePicker({
                     type="button"
                     onClick={() => update({ period: p })}
                     className={cn(
-                      'px-3 py-1 rounded-[--radius-sm] text-[0.8125rem] font-medium transition-colors',
+                      'px-3 py-1 rounded-[--radius-sm] text-body-callout font-medium transition-colors',
                       val.period === p ? 'bg-patina text-patina-fg' : 'text-foreground hover:bg-graphite'
                     )}
                   >

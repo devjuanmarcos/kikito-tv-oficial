@@ -77,7 +77,7 @@ export function Drawer({
       `}</style>
       <div>
         <div
-          className="fixed inset-0 bg-[oklch(0%_0_0/0.55)] z-[1100] dr-overlay"
+          className="fixed inset-0 bg-black/55 z-[1100] dr-overlay"
           data-open={String(open)}
           onClick={closeOnOverlay ? onClose : undefined}
           aria-hidden="true"
@@ -100,8 +100,8 @@ export function Drawer({
           {(title || !hideClose) && (
             <div className="flex items-start gap-3 px-6 py-5 border-b border-rule shrink-0">
               <div className="flex-1 min-w-0">
-                {title       && <p className="text-base font-bold text-foreground">{title}</p>}
-                {description && <p className="text-[0.8125rem] text-faint mt-1 leading-[1.45]">{description}</p>}
+                {title       && <p className="text-body-paragraph font-bold text-foreground">{title}</p>}
+                {description && <p className="text-body-callout text-faint mt-1 leading-[1.45]">{description}</p>}
               </div>
               {!hideClose && (
                 <button

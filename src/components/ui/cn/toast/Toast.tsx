@@ -94,11 +94,11 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
         )}
 
         <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-          {item.title   && <p className="text-[0.875rem] font-semibold leading-snug">{item.title}</p>}
-          {item.message && <p className="text-[0.8125rem] leading-normal opacity-85">{item.message}</p>}
+          {item.title   && <p className="text-body-callout font-semibold leading-snug">{item.title}</p>}
+          {item.message && <p className="text-body-callout leading-normal opacity-85">{item.message}</p>}
           {item.action  && (
             <button
-              className="bg-transparent border-none cursor-pointer text-[0.8125rem] font-semibold p-0 mt-1.5 text-left transition-opacity hover:opacity-75"
+              className="bg-transparent border-none cursor-pointer text-body-callout font-semibold p-0 mt-1.5 text-left transition-opacity hover:opacity-75"
               style={{ color: isSolid ? 'rgba(255,255,255,0.9)' : colors.bar }}
               onClick={() => { item.action!.onClick(); onDismiss(item.id) }}
             >

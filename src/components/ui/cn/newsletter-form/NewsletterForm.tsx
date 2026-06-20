@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
 import type { NewsletterFormProps } from './newsletter-form.types'
 
 function isEmail(v: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) }
@@ -36,8 +37,8 @@ export function NewsletterForm({
 
   if (done) {
     return (
-      <div className={cn('flex items-center gap-3 text-[0.875rem] text-success font-medium', isCard && 'p-6 rounded-[--radius-lg] border border-rule bg-raised', className)} style={style}>
-        <span className="text-xl">🎉</span>
+      <div className={cn('flex items-center gap-3 text-body-callout text-success font-medium', isCard && 'p-6 rounded-[--radius-lg] border border-rule bg-raised', className)} style={style}>
+        <span className="text-body-title">🎉</span>
         <span>You&apos;re subscribed! Check your inbox.</span>
       </div>
     )
@@ -53,12 +54,12 @@ export function NewsletterForm({
       )}
       style={style}
     >
-      {isCard && <div className="text-2xl">✉️</div>}
+      {isCard && <div className="text-heading-05">✉️</div>}
       {title && (
-        <p className={cn('font-bold text-foreground', isCard ? 'text-[1.125rem]' : 'text-[1rem]')}>{title}</p>
+        <p className={cn('font-bold text-foreground', isCard ? 'text-body-title' : 'text-body-paragraph')}>{title}</p>
       )}
       {description && (
-        <p className="text-[0.875rem] text-muted">{description}</p>
+        <p className="text-body-callout text-muted">{description}</p>
       )}
 
       <form onSubmit={handleSubmit}>
@@ -68,21 +69,17 @@ export function NewsletterForm({
             placeholder={placeholder}
             value={email}
             onChange={e => { setEmail(e.target.value); setError('') }}
-            className="flex-1 px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-[0.875rem] placeholder:text-faint outline-none focus:border-patina/60 transition-colors"
+            className="flex-1 px-3 py-2 rounded-[--radius-sm] border border-rule bg-canvas text-foreground text-body-callout placeholder:text-faint outline-none focus:border-patina/60 transition-colors"
           />
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 rounded-[--radius-sm] bg-patina text-patina-fg text-[0.875rem] font-medium hover:bg-patina/90 transition-colors disabled:opacity-60 shrink-0"
-          >
-            {loading ? '…' : ctaLabel}
-          </button>
+          <Button type="submit" intent="primary" variant="solid" size="sm" loading={loading}>
+            {ctaLabel}
+          </Button>
         </div>
-        {error && <p className="mt-2 text-[0.75rem] text-danger">{error}</p>}
+        {error && <p className="mt-2 text-body-caption text-danger">{error}</p>}
       </form>
 
       {isCard && (
-        <p className="text-[0.75rem] text-faint">We respect your privacy. Unsubscribe at any time.</p>
+        <p className="text-body-caption text-faint">We respect your privacy. Unsubscribe at any time.</p>
       )}
     </div>
   )

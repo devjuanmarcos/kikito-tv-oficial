@@ -1,17 +1,20 @@
+'use client'
+
 import React from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
 import type { PriceTableProps } from './price-table.types'
 
 function CellValue({ value }: { value: boolean | string }) {
   if (value === true) return <span className="text-success font-bold">✓</span>
   if (value === false) return <span className="text-faint">✕</span>
-  return <span className="text-foreground text-[0.875rem]">{value}</span>
+  return <span className="text-foreground text-body-callout">{value}</span>
 }
 
 export function PriceTable({ plans, features, className, style }: PriceTableProps) {
   return (
     <div className={cn('w-full overflow-x-auto', className)} style={style}>
-      <table className="w-full border-collapse text-[0.875rem]">
+      <table className="w-full border-collapse text-body-callout">
         <thead>
           <tr>
             <td className="w-[30%]" />
@@ -28,31 +31,31 @@ export function PriceTable({ plans, features, className, style }: PriceTableProp
                     {plan.badge}
                   </div>
                 )}
-                <div className="font-semibold text-foreground text-base">{plan.name}</div>
+                <div className="font-semibold text-foreground text-body-paragraph">{plan.name}</div>
                 <div className="mt-1">
                   {typeof plan.price === 'number' ? (
-                    <span className="text-2xl font-bold text-foreground">
+                    <span className="text-heading-05 font-bold text-foreground">
                       {plan.price === 0 ? 'Free' : `$${plan.price}`}
-                      {plan.period && <small className="text-sm font-normal text-muted">/{plan.period}</small>}
+                      {plan.period && <small className="text-body-callout font-normal text-muted">/{plan.period}</small>}
                     </span>
                   ) : (
-                    <span className="text-2xl font-bold text-foreground">{plan.price}</span>
+                    <span className="text-heading-05 font-bold text-foreground">{plan.price}</span>
                   )}
                 </div>
                 {plan.description && (
-                  <div className="text-[0.75rem] text-muted mt-1">{plan.description}</div>
+                  <div className="text-body-caption text-muted mt-1">{plan.description}</div>
                 )}
-                <button
-                  onClick={plan.onCta}
-                  className={cn(
-                    'mt-3 w-full py-2 rounded-[--radius-sm] text-[0.8125rem] font-medium transition-colors',
-                    plan.highlight
-                      ? 'bg-patina text-patina-fg hover:bg-patina/90'
-                      : 'border border-rule text-foreground hover:bg-graphite'
-                  )}
-                >
-                  {plan.ctaLabel ?? 'Get started'}
-                </button>
+                <div className="mt-3">
+                  <Button
+                    onClick={plan.onCta}
+                    intent={plan.highlight ? 'primary' : 'neutral'}
+                    variant={plan.highlight ? 'solid' : 'outline'}
+                    size="sm"
+                    fullWidth
+                  >
+                    {plan.ctaLabel ?? 'Get started'}
+                  </Button>
+                </div>
               </th>
             ))}
           </tr>

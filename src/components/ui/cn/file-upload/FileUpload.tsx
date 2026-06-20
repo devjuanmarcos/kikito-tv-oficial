@@ -1,4 +1,6 @@
-﻿import { useState, useRef, useCallback } from 'react'
+'use client'
+
+import { useState, useRef, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 import type { FileUploadProps } from './file-upload.types'
 
@@ -87,8 +89,8 @@ export function FileUpload({
       {files.map((f, i) => (
         <div key={i} className="flex items-center gap-[10px] py-[10px] px-3 rounded-[--radius-base] border border-rule bg-raised">
           <span className="text-patina flex-shrink-0"><FileIcon /></span>
-          <span className="flex-1 text-[0.8125rem] font-medium overflow-hidden text-ellipsis whitespace-nowrap">{f.name}</span>
-          <span className="text-[0.6875rem] text-muted flex-shrink-0">{formatBytes(f.size)}</span>
+          <span className="flex-1 text-body-callout font-medium overflow-hidden text-ellipsis whitespace-nowrap">{f.name}</span>
+          <span className="text-body-caption text-muted flex-shrink-0">{formatBytes(f.size)}</span>
           <button
             className="w-[18px] h-[18px] flex items-center justify-center border-none bg-transparent cursor-pointer text-muted rounded-[4px] p-0 flex-shrink-0 hover:text-danger"
             onClick={() => removeFile(i)}
@@ -104,15 +106,15 @@ export function FileUpload({
         <input ref={inputRef} type="file" accept={accept} multiple={multiple} className="hidden" onChange={e => addFiles(e.target.files)} />
         <button
           type="button"
-          className="py-2 px-4 rounded-[7px] border border-rule bg-transparent cursor-pointer text-[13px] text-foreground hover:bg-raised disabled:opacity-50 disabled:cursor-not-allowed"
+          className="py-2 px-4 rounded-[7px] border border-rule bg-transparent cursor-pointer text-body-callout text-foreground hover:bg-raised disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => inputRef.current?.click()}
           disabled={disabled}
         >
           {label || 'Choose file…'}
         </button>
-        {hint && <p className="text-[0.75rem] text-muted mt-[6px]">{hint}</p>}
+        {hint && <p className="text-body-caption text-muted mt-[6px]">{hint}</p>}
         {fileList}
-        {error && <p className="text-[0.75rem] text-danger mt-[6px]">{error}</p>}
+        {error && <p className="text-body-caption text-danger mt-[6px]">{error}</p>}
       </div>
     )
   }
@@ -134,14 +136,14 @@ export function FileUpload({
         onDragLeave={() => setOver(false)}
       >
         <span className="text-muted opacity-50"><UploadIcon /></span>
-        <p className="text-[0.875rem] font-medium text-foreground">
+        <p className="text-body-callout font-medium text-foreground">
           {label ?? <><span className="text-patina font-semibold cursor-pointer">Click to upload</span> or drag and drop</>}
         </p>
-        {hint && <p className="text-[0.75rem] text-muted">{hint}</p>}
-        {accept && !hint && <p className="text-[0.75rem] text-muted">{accept.replace(/,/g, ', ')}</p>}
+        {hint && <p className="text-body-caption text-muted">{hint}</p>}
+        {accept && !hint && <p className="text-body-caption text-muted">{accept.replace(/,/g, ', ')}</p>}
       </div>
       {fileList}
-      {error && <p className="text-[0.75rem] text-danger mt-[6px]">{error}</p>}
+      {error && <p className="text-body-caption text-danger mt-[6px]">{error}</p>}
     </div>
   )
 }

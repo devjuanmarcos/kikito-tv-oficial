@@ -59,7 +59,7 @@ export function Gauge({
           </div>
         )}
       </div>
-      {label && <span className="text-[0.75rem] text-muted">{label}</span>}
+      {label && <span className="text-body-caption text-muted">{label}</span>}
     </div>
   )
 }

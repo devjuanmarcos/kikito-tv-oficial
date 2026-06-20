@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/cn/button'
 import type { StepFormProps } from './step-form.types'
 
 export function StepForm({ steps, onComplete, className, style }: StepFormProps) {
@@ -35,9 +36,9 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
   if (done) {
     return (
       <div className={cn('rounded-[--radius-lg] border border-rule bg-raised p-10 flex flex-col items-center gap-3', className)} style={style}>
-        <span className="text-5xl">🎉</span>
-        <p className="font-bold text-foreground text-xl">All done!</p>
-        <p className="text-muted text-[0.875rem]">Your form has been submitted successfully.</p>
+        <span className="text-heading-01">🎉</span>
+        <p className="font-bold text-foreground text-body-title">All done!</p>
+        <p className="text-muted text-body-callout">Your form has been submitted successfully.</p>
       </div>
     )
   }
@@ -55,7 +56,7 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
               <div className="flex items-center gap-1.5">
                 <div
                   className={cn(
-                    'w-7 h-7 rounded-full flex items-center justify-center text-[0.75rem] font-bold transition-all',
+                    'w-7 h-7 rounded-full flex items-center justify-center text-body-caption font-bold transition-all',
                     state === 'done'    && 'bg-success text-success-fg',
                     state === 'active'  && 'bg-patina text-patina-fg',
                     state === 'pending' && 'bg-graphite text-faint'
@@ -63,7 +64,7 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
                 >
                   {i < current ? '✓' : i + 1}
                 </div>
-                <span className={cn('text-[0.8125rem] font-medium hidden sm:block', state === 'active' ? 'text-foreground' : 'text-faint')}>
+                <span className={cn('text-body-callout font-medium hidden sm:block', state === 'active' ? 'text-foreground' : 'text-faint')}>
                   {step.title}
                 </span>
               </div>
@@ -80,32 +81,23 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
 
       {/* Content */}
       <div className="px-6 py-6">
-        <h3 className="font-semibold text-foreground text-lg mb-1">{stepData.title}</h3>
+        <h3 className="font-semibold text-foreground text-body-title mb-1">{stepData.title}</h3>
         {stepData.description && (
-          <p className="text-muted text-[0.875rem] mb-4">{stepData.description}</p>
+          <p className="text-muted text-body-callout mb-4">{stepData.description}</p>
         )}
         <div>{stepData.content}</div>
         {error && (
-          <p className="mt-3 text-[0.8125rem] text-danger">{error}</p>
+          <p className="mt-3 text-body-callout text-danger">{error}</p>
         )}
       </div>
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-rule flex items-center justify-between gap-3">
-        <button
-          onClick={back}
-          disabled={current === 0}
-          className="px-4 py-2 rounded-[--radius-sm] border border-rule text-muted text-[0.875rem] hover:bg-graphite transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Back
-        </button>
-        <span className="text-[0.75rem] text-faint">{current + 1} / {steps.length}</span>
-        <button
-          onClick={next}
-          className="px-4 py-2 rounded-[--radius-sm] bg-patina text-patina-fg text-[0.875rem] font-medium hover:bg-patina/90 transition-colors"
-        >
+        <Button onClick={back} disabled={current === 0} intent="neutral" variant="outline" size="sm">Back</Button>
+        <span className="text-body-caption text-faint">{current + 1} / {steps.length}</span>
+        <Button onClick={next} intent="primary" variant="solid" size="sm">
           {current === steps.length - 1 ? 'Complete' : 'Next →'}
-        </button>
+        </Button>
       </div>
     </div>
   )

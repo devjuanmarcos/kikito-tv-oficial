@@ -46,7 +46,7 @@ export function ActivityFeed({ items, compact = false, className, style }: Activ
                   style={{ backgroundImage: `url(${item.avatar})`, backgroundSize: 'cover' }}
                 />
               ) : item.avatarFallback ? (
-                <div className={cn('rounded-full shrink-0 z-[1] flex items-center justify-center bg-patina text-patina-fg text-[0.75rem] font-bold', sz)}>
+                <div className={cn('rounded-full shrink-0 z-[1] flex items-center justify-center bg-patina text-patina-fg text-body-caption font-bold', sz)}>
                   {item.avatarFallback[0].toUpperCase()}
                 </div>
               ) : (
@@ -59,13 +59,13 @@ export function ActivityFeed({ items, compact = false, className, style }: Activ
               )}
 
               <div className="flex-1 min-w-0">
-                <p className="text-[0.8125rem] text-foreground leading-normal">{item.title}</p>
+                <p className="text-body-callout text-foreground leading-normal">{item.title}</p>
                 {item.description && (
-                  <p className="text-[0.75rem] text-muted opacity-70 mt-[2px] leading-snug">{item.description}</p>
+                  <p className="text-body-caption text-muted opacity-70 mt-[2px] leading-snug">{item.description}</p>
                 )}
               </div>
 
-              <span className="text-[0.6875rem] text-muted opacity-45 whitespace-nowrap mt-[2px] shrink-0">
+              <span className="text-body-caption text-muted opacity-45 whitespace-nowrap mt-[2px] shrink-0">
                 {item.time}
               </span>
             </div>

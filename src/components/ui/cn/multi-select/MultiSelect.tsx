@@ -70,7 +70,7 @@ export function MultiSelect({
         {selected.map(v => {
           const opt = options.find(o => o.value === v)
           return opt ? (
-            <span key={v} className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded bg-patina/15 text-patina text-[0.75rem] font-medium">
+            <span key={v} className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded bg-patina/15 text-patina text-body-caption font-medium">
               {opt.label}
               <button
                 className="flex items-center justify-center w-[14px] h-[14px] bg-transparent text-current cursor-pointer p-0 rounded-[2px] opacity-70 hover:opacity-100 border-0"
@@ -85,7 +85,7 @@ export function MultiSelect({
         })}
         {searchable && !disabled ? (
           <input
-            className="flex-1 min-w-[80px] border-0 bg-transparent outline-none text-[0.8125rem] py-[2px] text-foreground placeholder:text-muted placeholder:opacity-60"
+            className="flex-1 min-w-[80px] border-0 bg-transparent outline-none text-body-callout py-[2px] text-foreground placeholder:text-muted placeholder:opacity-60"
             value={query}
             onChange={e => { setQuery(e.target.value); setOpen(true) }}
             placeholder={selected.length === 0 ? placeholder : ''}
@@ -93,7 +93,7 @@ export function MultiSelect({
           />
         ) : (
           selected.length === 0 && (
-            <span className="text-[0.8125rem] text-muted opacity-60 px-[2px]">{placeholder}</span>
+            <span className="text-body-callout text-muted opacity-60 px-[2px]">{placeholder}</span>
           )
         )}
         {clearable && selected.length > 0 && (
@@ -116,14 +116,14 @@ export function MultiSelect({
       </div>
 
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-raised border border-rule rounded-[--radius-base] shadow-[0_8px_24px_rgba(0,0,0,0.2)] z-[200] overflow-hidden max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-100">
+        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-raised border border-rule rounded-[--radius-base] shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] z-[200] overflow-hidden max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-100">
           {filtered.length === 0 ? (
-            <p className="px-3 py-3 text-[0.8125rem] text-center opacity-40">No options found</p>
+            <p className="px-3 py-3 text-body-callout text-center opacity-40">No options found</p>
           ) : filtered.map(opt => (
             <div
               key={opt.value}
               className={cn(
-                'px-3 py-2 text-[0.8125rem] cursor-pointer flex items-center gap-2 transition-colors duration-100 text-foreground hover:bg-sunken',
+                'px-3 py-2 text-body-callout cursor-pointer flex items-center gap-2 transition-colors duration-100 text-foreground hover:bg-sunken',
                 selected.includes(opt.value) && 'text-patina',
                 opt.disabled && 'opacity-40 cursor-not-allowed',
               )}

@@ -1,11 +1,13 @@
-﻿import React, { useState, useRef, useEffect } from 'react'
+﻿'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import type { AutocompleteProps } from './autocomplete.types'
 
 const SIZE_INPUT: Record<string, string> = {
-  sm: 'py-[5px] px-[10px] text-[0.75rem]',
-  md: 'py-[8px] px-[12px] text-[0.875rem]',
-  lg: 'py-[11px] px-[14px] text-[1rem]',
+  sm: 'py-[5px] px-[10px] text-body-caption',
+  md: 'py-[8px] px-[12px] text-body-callout',
+  lg: 'py-[11px] px-[14px] text-body-paragraph',
 }
 
 export function Autocomplete({
@@ -69,7 +71,7 @@ export function Autocomplete({
   return (
     <div ref={rootRef} className={cn('relative flex flex-col gap-1', className)} style={style}>
       {label && (
-        <label className="text-[0.75rem] font-semibold text-muted tracking-[0.02em]">{label}</label>
+        <label className="text-body-caption font-semibold text-muted tracking-[0.02em]">{label}</label>
       )}
       <input
         className={cn(
@@ -94,12 +96,12 @@ export function Autocomplete({
           role="listbox"
         >
           {filtered.length === 0 ? (
-            <div className="py-3 px-4 text-[0.8125rem] text-muted text-center">{emptyMessage}</div>
+            <div className="py-3 px-4 text-body-callout text-muted text-center">{emptyMessage}</div>
           ) : filtered.map((opt, i) => (
             <div
               key={opt.value}
               className={cn(
-                'flex items-center gap-[10px] py-[9px] px-3 cursor-pointer transition-[background] duration-[100ms] text-[0.8125rem] text-foreground',
+                'flex items-center gap-[10px] py-[9px] px-3 cursor-pointer transition-[background] duration-[100ms] text-body-callout text-foreground',
                 (i === highlighted) && 'bg-raised',
                 opt.disabled && 'opacity-40 pointer-events-none',
               )}
@@ -108,11 +110,11 @@ export function Autocomplete({
               role="option"
               aria-selected={display === opt.label}
             >
-              {opt.icon && <span className="text-[1rem] flex-shrink-0 text-muted">{opt.icon}</span>}
+              {opt.icon && <span className="text-body-paragraph flex-shrink-0 text-muted">{opt.icon}</span>}
               <span className="flex-1 min-w-0">
                 <span className="font-medium">{opt.label}</span>
                 {opt.description && (
-                  <span className="block text-[0.6875rem] text-muted whitespace-nowrap overflow-hidden text-ellipsis">{opt.description}</span>
+                  <span className="block text-body-caption text-muted whitespace-nowrap overflow-hidden text-ellipsis">{opt.description}</span>
                 )}
               </span>
             </div>

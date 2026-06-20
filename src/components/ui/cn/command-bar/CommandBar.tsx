@@ -38,9 +38,9 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
     >
       {/* Search row */}
       <div className="flex items-center gap-2 px-3 py-2.5 border-b border-rule">
-        <span className="text-faint text-[1.1rem]">⌕</span>
+        <span className="text-faint text-body-title">⌕</span>
         <input
-          className="flex-1 bg-transparent outline-none text-foreground text-[0.875rem] placeholder:text-faint"
+          className="flex-1 bg-transparent outline-none text-foreground text-body-callout placeholder:text-faint"
           placeholder={placeholder}
           value={query}
           onChange={e => { setQuery(e.target.value); setCursor(0) }}
@@ -52,11 +52,11 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
       {/* Results list */}
       <div className="max-h-64 overflow-auto py-1">
         {groups.size === 0 && (
-          <div className="px-4 py-6 text-center text-[0.8125rem] text-faint">No commands found</div>
+          <div className="px-4 py-6 text-center text-body-callout text-faint">No commands found</div>
         )}
         {Array.from(groups.entries()).map(([group, items]) => (
           <div key={group}>
-            <div className="px-3 pt-2 pb-1 text-[0.6875rem] font-semibold text-faint uppercase tracking-[0.08em]">
+            <div className="px-3 pt-2 pb-1 text-body-caption font-semibold text-faint uppercase tracking-[0.08em]">
               {group}
             </div>
             {items.map(item => {
@@ -71,8 +71,8 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
                   onClick={() => item.onSelect?.()}
                   onMouseEnter={() => setCursor(idx)}
                 >
-                  {item.icon && <span className="text-[1rem] shrink-0">{item.icon}</span>}
-                  <span className="flex-1 text-[0.875rem] font-medium">{item.label}</span>
+                  {item.icon && <span className="text-body-paragraph shrink-0">{item.icon}</span>}
+                  <span className="flex-1 text-body-callout font-medium">{item.label}</span>
                   {item.shortcut && (
                     <span className="flex items-center gap-1">
                       {item.shortcut.map((k, i) => (

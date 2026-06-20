@@ -1,4 +1,6 @@
-﻿import { useState, useCallback } from 'react'
+﻿'use client'
+
+import { useState, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 import type { ColorPickerProps } from './color-picker.types'
 
@@ -72,7 +74,7 @@ export function ColorPicker({
             style={{ background: current }}
           />
           <input
-            className="flex-1 py-[7px] px-[10px] rounded-[7px] border-[1.5px] border-rule bg-raised text-foreground text-[0.8125rem] font-mono outline-none transition-[border-color] duration-[150ms] uppercase focus:border-patina disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex-1 py-[7px] px-[10px] rounded-[7px] border-[1.5px] border-rule bg-raised text-foreground text-body-callout font-mono outline-none transition-[border-color] duration-[150ms] uppercase focus:border-patina disabled:opacity-40 disabled:cursor-not-allowed"
             type="text"
             value={inputVal.toUpperCase()}
             onChange={handleInputChange}

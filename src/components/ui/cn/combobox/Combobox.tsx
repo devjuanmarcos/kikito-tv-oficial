@@ -1,4 +1,6 @@
-﻿import { useState, useRef, useEffect, useId, KeyboardEvent } from 'react'
+﻿'use client'
+
+import { useState, useRef, useEffect, useId, KeyboardEvent } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface ComboboxOption {
@@ -110,7 +112,7 @@ export function Combobox({
   return (
     <div ref={wrapRef} className={cn('flex flex-col gap-[0.375rem] w-full relative', className)}>
       {label && (
-        <label className="text-[0.8125rem] font-semibold text-foreground leading-none" onClick={() => inputRef.current?.focus()}>
+        <label className="text-body-callout font-semibold text-foreground leading-none" onClick={() => inputRef.current?.focus()}>
           {label}
         </label>
       )}
@@ -129,7 +131,7 @@ export function Combobox({
           const opt = options.find(o => o.value === val)
           if (!opt) return null
           return (
-            <span key={val} className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina rounded-[4px] text-[0.8125rem] font-medium max-w-[200px]">
+            <span key={val} className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina rounded-[4px] text-body-callout font-medium max-w-[200px]">
               <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{opt.label}</span>
               <button type="button" className="inline-flex bg-none border-none cursor-pointer text-inherit p-0 opacity-70 hover:opacity-100 flex-shrink-0 leading-none" onClick={e => removeTag(val, e)}>
                 <XSmall />
@@ -140,7 +142,7 @@ export function Combobox({
         <input
           ref={inputRef}
           type="text"
-          className="flex-1 min-w-[80px] border-none outline-none bg-transparent font-inherit text-[0.875rem] text-foreground py-[0.125rem] placeholder:text-faint"
+          className="flex-1 min-w-[80px] border-none outline-none bg-transparent font-inherit text-body-callout text-foreground py-[0.125rem] placeholder:text-faint"
           placeholder={selected.length === 0 ? placeholder : ''}
           value={query}
           disabled={disabled}
@@ -161,7 +163,7 @@ export function Combobox({
         <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-[200] bg-lacquer border border-rule rounded-[--radius-base] shadow-[0_4px_24px_-4px_oklch(0%_0_0/0.4),0_2px_8px_-2px_oklch(0%_0_0/0.25)] overflow-hidden">
           <div ref={listRef} className="max-h-[220px] overflow-y-auto p-1 [scrollbar-width:thin]" role="listbox" aria-multiselectable="true">
             {filtered.length === 0
-              ? <div className="py-5 px-4 text-center text-[0.8125rem] text-faint">No results for "{query}"</div>
+              ? <div className="py-5 px-4 text-center text-body-callout text-faint">No results for "{query}"</div>
               : filtered.map((opt, idx) => (
                 <button
                   key={opt.value}
@@ -170,7 +172,7 @@ export function Combobox({
                   data-idx={idx}
                   aria-selected={selected.includes(opt.value)}
                   className={cn(
-                    'flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-[5px] text-[0.875rem] text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]',
+                    'flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-[5px] text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]',
                     activeIdx === idx && 'bg-graphite',
                     selected.includes(opt.value) && 'bg-patina-soft text-patina',
                     opt.disabled && 'opacity-40 cursor-not-allowed',
@@ -191,7 +193,7 @@ export function Combobox({
       )}
 
       {helper && (
-        <span className={cn('text-[0.75rem] leading-snug', helper.isError ? 'text-danger' : 'text-faint')}>
+        <span className={cn('text-body-caption leading-snug', helper.isError ? 'text-danger' : 'text-faint')}>
           {helper.text}
         </span>
       )}

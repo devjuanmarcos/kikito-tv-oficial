@@ -11,9 +11,9 @@ const SIZE_WRAP: Record<string, string> = {
 }
 
 const SIZE_CELL: Record<string, string> = {
-  sm: 'w-9 h-9 text-[1rem]',
-  md: 'w-12 h-12 text-[1.25rem]',
-  lg: 'w-[3.75rem] h-[3.75rem] text-[1.625rem]',
+  sm: 'w-9 h-9 text-body-paragraph',
+  md: 'w-12 h-12 text-body-title',
+  lg: 'w-[3.75rem] h-[3.75rem] text-heading-04',
 }
 
 const VARIANT_CELL: Record<string, string> = {
@@ -89,7 +89,7 @@ export function OtpInput({
       {cells.map((cell, i) => (
         <span key={i} className="contents">
           {i === 3 && length === 6 && (
-            <span className="text-xl opacity-30 mx-0.5 select-none">—</span>
+            <span className="text-body-title opacity-30 mx-0.5 select-none">—</span>
           )}
           <input
             ref={el => { refs.current[i] = el }}

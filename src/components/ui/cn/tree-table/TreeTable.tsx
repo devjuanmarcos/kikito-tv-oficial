@@ -22,12 +22,12 @@ function Row<T>({
     <>
       <tr className="border-b border-rule transition-colors duration-100 last:border-b-0 hover:bg-raised">
         {columns.map((col, ci) => (
-          <td key={col.key} className="px-[14px] py-[9px] align-middle text-[0.8125rem] text-foreground">
+          <td key={col.key} className="px-[14px] py-[9px] align-middle text-body-callout text-foreground">
             {ci === 0 ? (
               <span className="inline-flex items-center gap-[6px]" style={{ paddingLeft: depth * 20 }}>
                 {hasChildren ? (
                   <button
-                    className="w-[18px] h-[18px] bg-transparent border border-rule rounded cursor-pointer inline-flex items-center justify-center text-muted text-[0.6875rem] flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina"
+                    className="w-[18px] h-[18px] bg-transparent border border-rule rounded cursor-pointer inline-flex items-center justify-center text-muted text-body-caption flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina"
                     onClick={() => setExpanded(e => !e)}
                     aria-label={expanded ? 'Recolher' : 'Expandir'}
                   >
@@ -69,13 +69,13 @@ export function TreeTable<T = Record<string, unknown>>({
       className={cn('overflow-x-auto border border-rule rounded-[--radius-md]', className)}
       style={style}
     >
-      <table className="w-full border-collapse text-[0.8125rem] text-foreground">
+      <table className="w-full border-collapse text-body-callout text-foreground">
         <thead>
           <tr>
             {columns.map(col => (
               <th
                 key={col.key}
-                className="px-[14px] py-[10px] text-left text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-muted border-b border-rule bg-sunken whitespace-nowrap"
+                className="px-[14px] py-[10px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted border-b border-rule bg-sunken whitespace-nowrap"
                 style={col.width ? { width: col.width } : undefined}
               >
                 {col.header}

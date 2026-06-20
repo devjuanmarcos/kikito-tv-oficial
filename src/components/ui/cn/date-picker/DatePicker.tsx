@@ -1,4 +1,6 @@
-﻿import { useState, useRef, useEffect, useId, KeyboardEvent } from 'react'
+﻿'use client'
+
+import { useState, useRef, useEffect, useId, KeyboardEvent } from 'react'
 import { cn } from '@/lib/utils'
 
 export type DatePickerVariant = 'outline' | 'filled' | 'ghost'
@@ -154,11 +156,11 @@ export function DatePicker({
     }
   }
 
-  const dayBtnCls = 'relative aspect-square flex items-center justify-center text-[0.8125rem] rounded-[--radius-sm] border-none bg-transparent cursor-pointer text-foreground font-inherit transition-[background,color] duration-[100ms] outline-none hover:bg-graphite focus-visible:shadow-[0_0_0_2px_var(--ks-patina)]'
+  const dayBtnCls = 'relative aspect-square flex items-center justify-center text-body-callout rounded-[--radius-sm] border-none bg-transparent cursor-pointer text-foreground font-inherit transition-[background,color] duration-[100ms] outline-none hover:bg-graphite focus-visible:shadow-[0_0_0_2px_var(--ks-patina)]'
 
   return (
     <div ref={wrapRef} className={cn('flex flex-col gap-[0.375rem] w-full relative', className)}>
-      {label && <label className="text-[0.8125rem] font-semibold text-foreground leading-none" htmlFor={uid}>{label}</label>}
+      {label && <label className="text-body-callout font-semibold text-foreground leading-none" htmlFor={uid}>{label}</label>}
 
       <button
         id={uid}
@@ -174,7 +176,7 @@ export function DatePicker({
         onClick={() => { if (!disabled) { setOpen(o => !o); setView('days') } }}
       >
         <span className="inline-flex px-3 text-faint"><CalIcon /></span>
-        <span className="flex-1 py-2 pr-2 text-[0.875rem] text-left leading-normal">
+        <span className="flex-1 py-2 pr-2 text-body-callout text-left leading-normal">
           {displayStr ?? <span className="text-faint">{placeholder}</span>}
         </span>
         {clearable && selected && (
@@ -198,7 +200,7 @@ export function DatePicker({
             <>
               <div className="flex items-center mb-3">
                 <button type="button" className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0" onClick={prevMonth}><ChevronL /></button>
-                <span className="flex-1 text-center text-[0.875rem] font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite transition-[background]" onClick={() => setView('months')}>
+                <span className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite transition-[background]" onClick={() => setView('months')}>
                   {MONTHS[viewMonth]} {viewYear}
                 </span>
                 <button type="button" className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0" onClick={nextMonth}><ChevronR /></button>
@@ -235,10 +237,10 @@ export function DatePicker({
               </div>
               {showTime && (
                 <div className="flex items-center gap-2 border-t border-rule mt-3 pt-3">
-                  <input type="number" min={0} max={23} className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-[0.8125rem] text-foreground text-center outline-none focus:border-patina" value={hour} onChange={e => setHour(e.target.value.padStart(2,'0'))} />
+                  <input type="number" min={0} max={23} className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina" value={hour} onChange={e => setHour(e.target.value.padStart(2,'0'))} />
                   <span className="text-faint font-bold">:</span>
-                  <input type="number" min={0} max={59} className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-[0.8125rem] text-foreground text-center outline-none focus:border-patina" value={minute} onChange={e => setMinute(e.target.value.padStart(2,'0'))} />
-                  <button type="button" className="text-[0.8125rem] text-patina bg-transparent border-none cursor-pointer" onClick={() => { if (selected) { const d = new Date(selected); d.setHours(Number(hour)); d.setMinutes(Number(minute)); commit(d) } setOpen(false) }}>Apply</button>
+                  <input type="number" min={0} max={59} className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina" value={minute} onChange={e => setMinute(e.target.value.padStart(2,'0'))} />
+                  <button type="button" className="text-body-callout text-patina bg-transparent border-none cursor-pointer" onClick={() => { if (selected) { const d = new Date(selected); d.setHours(Number(hour)); d.setMinutes(Number(minute)); commit(d) } setOpen(false) }}>Apply</button>
                 </div>
               )}
             </>
@@ -248,13 +250,13 @@ export function DatePicker({
             <>
               <div className="flex items-center mb-3">
                 <button type="button" className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0" onClick={() => setViewYear(y => y - 1)}><ChevronL /></button>
-                <span className="flex-1 text-center text-[0.875rem] font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite" onClick={() => setView('years')}>{viewYear}</span>
+                <span className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite" onClick={() => setView('years')}>{viewYear}</span>
                 <button type="button" className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0" onClick={() => setViewYear(y => y + 1)}><ChevronR /></button>
               </div>
               <div className="grid grid-cols-4 gap-1 max-h-[200px] overflow-y-auto">
                 {MONTHS.map((m, i) => (
                   <button key={m} type="button"
-                    className={cn('py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-[0.8125rem] text-foreground text-center hover:bg-graphite transition-[background]', i === viewMonth && viewYear === (selected?.getFullYear() ?? -1) && 'bg-patina! text-patina-fg!')}
+                    className={cn('py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]', i === viewMonth && viewYear === (selected?.getFullYear() ?? -1) && 'bg-patina! text-patina-fg!')}
                     onClick={() => { setViewMonth(i); setView('days') }}
                   >{m.slice(0,3)}</button>
                 ))}
@@ -265,12 +267,12 @@ export function DatePicker({
           {view === 'years' && (
             <>
               <div className="flex items-center mb-3">
-                <span className="flex-1 text-center text-[0.875rem] font-bold text-foreground">Select year</span>
+                <span className="flex-1 text-center text-body-callout font-bold text-foreground">Select year</span>
               </div>
               <div className="grid grid-cols-4 gap-1 max-h-[200px] overflow-y-auto">
                 {Array.from({ length: 24 }, (_, i) => now.getFullYear() - 10 + i).map(y => (
                   <button key={y} type="button"
-                    className={cn('py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-[0.8125rem] text-foreground text-center hover:bg-graphite transition-[background]', y === viewYear && 'bg-patina! text-patina-fg!')}
+                    className={cn('py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]', y === viewYear && 'bg-patina! text-patina-fg!')}
                     onClick={() => { setViewYear(y); setView('months') }}
                   >{y}</button>
                 ))}
@@ -281,7 +283,7 @@ export function DatePicker({
       )}
 
       {(errorText || helperText) && (
-        <span className={cn('text-[0.75rem]', errorText ? 'text-danger' : 'text-faint')}>
+        <span className={cn('text-body-caption', errorText ? 'text-danger' : 'text-faint')}>
           {errorText ?? helperText}
         </span>
       )}

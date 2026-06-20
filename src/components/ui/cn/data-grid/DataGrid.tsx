@@ -1,4 +1,6 @@
-﻿import React, { useState } from 'react'
+﻿'use client'
+
+import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { DataGridProps } from './data-grid.types'
 
@@ -49,11 +51,11 @@ export function DataGrid<T = Record<string, unknown>>({
 
   return (
     <div className={cn('overflow-auto border border-rule rounded-[--radius-md]', className)} style={style}>
-      <table className="w-full border-collapse text-[0.8125rem] text-foreground">
+      <table className="w-full border-collapse text-body-callout text-foreground">
         <thead>
           <tr>
             {selectable && (
-              <th className={cn('py-[10px] px-[14px] text-left text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none', stickyHeader && 'sticky top-0 z-[2]')} style={{ width: 40, textAlign: 'center' }}>
+              <th className={cn('py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none', stickyHeader && 'sticky top-0 z-[2]')} style={{ width: 40, textAlign: 'center' }}>
                 <input type="checkbox" className="w-4 h-4 accent-patina cursor-pointer" checked={allSelected} onChange={toggleAll} />
               </th>
             )}
@@ -61,7 +63,7 @@ export function DataGrid<T = Record<string, unknown>>({
               <th
                 key={col.key}
                 className={cn(
-                  'py-[10px] px-[14px] text-left text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none',
+                  'py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none',
                   stickyHeader && 'sticky top-0 z-[2]',
                   col.align === 'center' && 'text-center',
                   col.align === 'right'  && 'text-right',

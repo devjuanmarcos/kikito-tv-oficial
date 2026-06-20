@@ -4,9 +4,9 @@ import type { ComparisonTableProps } from './comparison-table.types'
 
 function CellValue({ value }: { value: boolean | string | React.ReactNode }) {
   if (value === true)
-    return <span className="text-success font-bold text-base" aria-label="included">✓</span>
+    return <span className="text-success font-bold text-body-paragraph" aria-label="included">✓</span>
   if (value === false)
-    return <span className="text-faint font-bold text-base" aria-label="not included">✕</span>
+    return <span className="text-faint font-bold text-body-paragraph" aria-label="not included">✕</span>
   return <span>{value as React.ReactNode}</span>
 }
 
@@ -21,7 +21,7 @@ export function ComparisonTable({
 
   return (
     <div className={cn('w-full overflow-x-auto rounded-[--radius-md] border border-rule', className)} style={style}>
-      <table className="w-full border-collapse text-[0.875rem]">
+      <table className="w-full border-collapse text-body-callout">
         <thead className={cn('bg-raised', stickyHeader && 'sticky top-0 z-10')}>
           <tr>
             <th className="text-left px-4 py-3 text-faint font-medium border-b border-rule" style={{ width: '30%' }} />
@@ -55,7 +55,7 @@ export function ComparisonTable({
                   <tr className="bg-canvas">
                     <td
                       colSpan={columns.length + 1}
-                      className="px-4 py-2 text-[0.6875rem] font-bold uppercase tracking-widest text-faint border-b border-rule"
+                      className="px-4 py-2 text-body-caption font-bold uppercase tracking-widest text-faint border-b border-rule"
                     >
                       {row.group}
                     </td>

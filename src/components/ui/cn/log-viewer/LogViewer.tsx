@@ -52,7 +52,7 @@ export function LogViewer({
 
   return (
     <div
-      className={cn('rounded-[--radius-md] border border-rule bg-canvas font-mono text-[0.8125rem] overflow-hidden', className)}
+      className={cn('rounded-[--radius-md] border border-rule bg-canvas font-mono text-body-callout overflow-hidden', className)}
       style={{ maxHeight, ...style }}
     >
       {searchable && (
@@ -64,7 +64,7 @@ export function LogViewer({
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
-          <span className="text-[0.6875rem] text-faint">
+          <span className="text-body-caption text-faint">
             {filtered.length} / {entries.length}
           </span>
         </div>
@@ -88,13 +88,13 @@ export function LogViewer({
                 </span>
               )}
               {showTimestamps && entry.timestamp && (
-                <span className="shrink-0 text-faint text-[0.75rem] tabular-nums mt-px">
+                <span className="shrink-0 text-faint text-body-caption tabular-nums mt-px">
                   {formatTs(entry.timestamp)}
                 </span>
               )}
               <span className="text-foreground break-all">{entry.message}</span>
               {entry.meta && (
-                <span className="text-faint text-[0.75rem] ml-auto shrink-0">{entry.meta}</span>
+                <span className="text-faint text-body-caption ml-auto shrink-0">{entry.meta}</span>
               )}
             </div>
           ))

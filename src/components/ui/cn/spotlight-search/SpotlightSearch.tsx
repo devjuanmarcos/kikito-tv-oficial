@@ -1,4 +1,6 @@
-﻿import { useState, useEffect, useRef } from 'react'
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/utils'
 import type { SpotlightSearchProps } from './spotlight-search.types'
@@ -51,10 +53,10 @@ export function SpotlightSearch({
         aria-label="Busca rápida"
       >
         <div className="flex items-center gap-[10px] px-[18px] py-[14px] border-b border-rule flex-shrink-0">
-          <span className="text-[18px] text-faint flex-shrink-0" aria-hidden>🔍</span>
+          <span className="text-body-title text-faint flex-shrink-0" aria-hidden>🔍</span>
           <input
             ref={inputRef}
-            className="flex-1 bg-transparent border-none outline-none text-foreground text-[1rem] placeholder:text-faint"
+            className="flex-1 bg-transparent border-none outline-none text-foreground text-body-paragraph placeholder:text-faint"
             placeholder={placeholder}
             value={query}
             onChange={e => { setQuery(e.target.value); setFocused(0) }}
@@ -63,7 +65,7 @@ export function SpotlightSearch({
 
         <div className="overflow-y-auto flex-1 py-2" role="listbox">
           {filtered.length === 0 ? (
-            <div className="py-8 px-4 text-center text-muted text-[0.8125rem]">Nenhuma ação encontrada para "{query}"</div>
+            <div className="py-8 px-4 text-center text-muted text-body-callout">Nenhuma ação encontrada para "{query}"</div>
           ) : groups.map(group => {
             const groupActions  = filtered.filter(a => (a.group ?? '') === group)
             const globalOffset  = filtered.indexOf(groupActions[0])
@@ -84,19 +86,19 @@ export function SpotlightSearch({
                     onClick={() => { action.onSelect(); onClose() }}
                     role="option"
                   >
-                    <span className="w-8 h-8 bg-graphite rounded-[--radius-sm] flex items-center justify-center text-[1rem] flex-shrink-0">
+                    <span className="w-8 h-8 bg-graphite rounded-[--radius-sm] flex items-center justify-center text-body-paragraph flex-shrink-0">
                       {action.icon ?? '⚡'}
                     </span>
                     <span className="flex-1 min-w-0">
-                      <span className="block text-[0.875rem] text-foreground font-medium">{action.label}</span>
+                      <span className="block text-body-callout text-foreground font-medium">{action.label}</span>
                       {action.description && (
-                        <span className="block text-[0.75rem] text-muted whitespace-nowrap overflow-hidden text-ellipsis">{action.description}</span>
+                        <span className="block text-body-caption text-muted whitespace-nowrap overflow-hidden text-ellipsis">{action.description}</span>
                       )}
                     </span>
                     {action.shortcut && (
                       <span className="flex gap-[3px] flex-shrink-0">
                         {action.shortcut.map((k, ki) => (
-                          <kbd key={ki} className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-[0.6875rem] text-muted font-mono">{k}</kbd>
+                          <kbd key={ki} className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-body-caption text-muted font-mono">{k}</kbd>
                         ))}
                       </span>
                     )}
@@ -109,8 +111,8 @@ export function SpotlightSearch({
 
         <div className="px-[18px] py-2 border-t border-rule flex items-center gap-3 flex-shrink-0">
           {[['↑↓', 'navegar'], ['↵', 'selecionar'], ['Esc', 'fechar']].map(([key, hint]) => (
-            <span key={hint} className="flex items-center gap-[5px] text-[0.6875rem] text-faint">
-              <kbd className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-[0.6875rem] text-muted font-mono">{key}</kbd>
+            <span key={hint} className="flex items-center gap-[5px] text-body-caption text-faint">
+              <kbd className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-body-caption text-muted font-mono">{key}</kbd>
               {hint}
             </span>
           ))}

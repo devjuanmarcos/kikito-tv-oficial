@@ -55,14 +55,14 @@ export function StatusPage({
     <div className={cn('w-full max-w-2xl mx-auto px-4 py-8', className)} style={style}>
       <div className="flex items-start justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-[1.125rem] font-extrabold text-foreground mb-2">{title}</h2>
-          <div className={cn('inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.8125rem] font-semibold', OVERALL_BG[overallStatus])}>
+          <h2 className="text-body-title font-extrabold text-foreground mb-2">{title}</h2>
+          <div className={cn('inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-body-callout font-semibold', OVERALL_BG[overallStatus])}>
             <span className={cn('w-2 h-2 rounded-full shrink-0', STATUS_DOT_CLS[overallStatus])} />
             {OVERALL_LABELS[overallStatus]}
           </div>
         </div>
         {lastUpdated && (
-          <span className="text-[0.75rem] text-faint whitespace-nowrap pt-1">
+          <span className="text-body-caption text-faint whitespace-nowrap pt-1">
             Updated {formatDate(lastUpdated)}
           </span>
         )}
@@ -72,7 +72,7 @@ export function StatusPage({
         {groups.map(group => (
           <div key={group.group} className="bg-raised border border-rule rounded-[--radius] overflow-hidden">
             <div className="px-5 py-3 border-b border-rule">
-              <span className="text-[0.8125rem] font-bold text-foreground opacity-60 uppercase tracking-[0.06em]">{group.group}</span>
+              <span className="text-body-callout font-bold text-foreground opacity-60 uppercase tracking-[0.06em]">{group.group}</span>
             </div>
             {group.services.map((svc, i) => (
               <div
@@ -80,12 +80,12 @@ export function StatusPage({
                 className={cn('flex items-center justify-between gap-4 px-5 py-3.5', i > 0 && 'border-t border-rule')}
               >
                 <div className="flex-1 min-w-0">
-                  <div className="text-[0.875rem] font-semibold text-foreground">{svc.name}</div>
+                  <div className="text-body-callout font-semibold text-foreground">{svc.name}</div>
                   {svc.description && (
-                    <div className="text-[0.75rem] text-faint mt-0.5">{svc.description}</div>
+                    <div className="text-body-caption text-faint mt-0.5">{svc.description}</div>
                   )}
                 </div>
-                <div className={cn('flex items-center gap-1.5 text-[0.75rem] font-semibold shrink-0', STATUS_LABEL_CLS[svc.status])}>
+                <div className={cn('flex items-center gap-1.5 text-body-caption font-semibold shrink-0', STATUS_LABEL_CLS[svc.status])}>
                   <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', STATUS_DOT_CLS[svc.status])} />
                   {STATUS_LABELS[svc.status]}
                 </div>

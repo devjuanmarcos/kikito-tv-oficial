@@ -1,4 +1,6 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react'
+﻿'use client'
+
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/utils'
 import type { ContextMenuProps } from './context-menu.types'
@@ -61,7 +63,7 @@ export function ContextMenu({ groups, children, className, style }: ContextMenuP
                   <button
                     key={ii}
                     className={cn(
-                      'flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-[0.8125rem] text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left',
+                      'flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left',
                       !item.disabled && !item.danger && 'hover:bg-[color-mix(in_srgb,var(--ks-patina)_10%,transparent)] hover:text-patina',
                       item.danger && 'text-danger',
                       item.danger && !item.disabled && 'hover:bg-[color-mix(in_srgb,var(--ks-danger)_10%,transparent)]',
@@ -77,7 +79,7 @@ export function ContextMenu({ groups, children, className, style }: ContextMenuP
                       </span>
                     )}
                     <span className="flex-1">{item.label}</span>
-                    {item.shortcut && <span className="text-[0.6875rem] opacity-45 font-mono">{item.shortcut}</span>}
+                    {item.shortcut && <span className="text-body-caption opacity-45 font-mono">{item.shortcut}</span>}
                   </button>
                 ))}
               </div>

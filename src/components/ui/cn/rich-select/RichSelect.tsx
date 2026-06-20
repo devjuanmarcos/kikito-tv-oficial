@@ -48,16 +48,16 @@ export function RichSelect({
   return (
     <div ref={rootRef} className={cn('relative flex flex-col gap-1', className)} style={style}>
       {label && (
-        <label className="text-[0.75rem] font-semibold text-muted">{label}</label>
+        <label className="text-body-caption font-semibold text-muted">{label}</label>
       )}
       <button
         type="button"
         className={cn(
-          'flex items-center gap-2 px-3 py-[9px] bg-sunken border border-rule rounded-[--radius-md] cursor-pointer text-foreground text-[0.875rem] transition-colors duration-150 text-left hover:border-patina',
+          'flex items-center gap-2 px-3 py-[9px] bg-sunken border border-rule rounded-[--radius-md] cursor-pointer text-foreground text-body-callout transition-colors duration-150 text-left hover:border-patina',
           open && 'border-patina',
           disabled && 'opacity-50 cursor-not-allowed',
-          size === 'sm' && 'py-[5px] px-[10px] text-[0.75rem]',
-          size === 'lg' && 'py-[11px] px-[14px] text-[1rem]',
+          size === 'sm' && 'py-[5px] px-[10px] text-body-caption',
+          size === 'lg' && 'py-[11px] px-[14px] text-body-paragraph',
         )}
         disabled={disabled}
         onClick={() => !disabled && setOpen(o => !o)}
@@ -75,7 +75,7 @@ export function RichSelect({
         <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-[--radius-md] shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100">
           {searchable && (
             <input
-              className="px-3 py-2 border-b border-rule border-t-0 border-l-0 border-r-0 bg-transparent text-foreground text-[0.8125rem] outline-none flex-shrink-0 placeholder:text-faint"
+              className="px-3 py-2 border-b border-rule border-t-0 border-l-0 border-r-0 bg-transparent text-foreground text-body-callout outline-none flex-shrink-0 placeholder:text-faint"
               placeholder="Buscar…"
               value={search}
               onChange={e => { setSearch(e.target.value); setHighlighted(0) }}
@@ -105,13 +105,13 @@ export function RichSelect({
                       onMouseEnter={() => setHighlighted(gOffset + i)}
                       onMouseDown={e => { e.preventDefault(); if (!opt.disabled) select(opt.value) }}
                     >
-                      {opt.icon && <span className="flex-shrink-0 text-[18px] text-muted">{opt.icon}</span>}
+                      {opt.icon && <span className="flex-shrink-0 text-body-title text-muted">{opt.icon}</span>}
                       <span className="flex-1 min-w-0">
-                        <span className={cn('block text-[0.8125rem] font-medium text-foreground', opt.value === selected && 'text-patina font-semibold')}>
+                        <span className={cn('block text-body-callout font-medium text-foreground', opt.value === selected && 'text-patina font-semibold')}>
                           {opt.label}
                         </span>
                         {opt.description && (
-                          <span className="block text-[0.6875rem] text-muted truncate">{opt.description}</span>
+                          <span className="block text-body-caption text-muted truncate">{opt.description}</span>
                         )}
                       </span>
                       {opt.badge && (
@@ -120,7 +120,7 @@ export function RichSelect({
                         </span>
                       )}
                       {opt.value === selected && (
-                        <span className="ml-auto text-patina text-[0.875rem]">✓</span>
+                        <span className="ml-auto text-patina text-body-callout">✓</span>
                       )}
                     </div>
                   ))}

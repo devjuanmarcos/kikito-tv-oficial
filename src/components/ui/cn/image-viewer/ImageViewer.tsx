@@ -53,7 +53,7 @@ export function ImageViewer({
         >
           <div className="absolute top-4 right-4 flex gap-2">
             <button
-              className="bg-white/10 border border-white/20 text-white w-9 h-9 rounded-full cursor-pointer text-[1rem] flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
+              className="bg-white/10 border border-white/20 text-white w-9 h-9 rounded-full cursor-pointer text-body-paragraph flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
               onClick={() => setOpen(false)}
               type="button"
               aria-label="Close"
@@ -64,7 +64,7 @@ export function ImageViewer({
 
           {idx > 0 && (
             <button
-              className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-[18px] flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
+              className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-body-title flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
               onClick={() => setIdx(i => i - 1)}
               type="button"
               aria-label="Previous"
@@ -74,14 +74,14 @@ export function ImageViewer({
           )}
 
           <img
-            className="max-w-[90vw] max-h-[75vh] object-contain rounded-[--radius-base] shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
+            className="max-w-[90vw] max-h-[75vh] object-contain rounded-[--radius-base] shadow-[0_24px_80px_color-mix(in_srgb,black_50%,transparent)]"
             src={images[idx].src}
             alt={images[idx].alt ?? ''}
           />
 
           {idx < images.length - 1 && (
             <button
-              className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-[18px] flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
+              className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-body-title flex items-center justify-center transition-colors duration-150 hover:bg-white/20"
               onClick={() => setIdx(i => i + 1)}
               type="button"
               aria-label="Next"
@@ -91,7 +91,7 @@ export function ImageViewer({
           )}
 
           {images[idx].caption && (
-            <p className="text-white/60 text-[0.8125rem] text-center">{images[idx].caption}</p>
+            <p className="text-white/60 text-body-callout text-center">{images[idx].caption}</p>
           )}
 
           {images.length > 1 && (
