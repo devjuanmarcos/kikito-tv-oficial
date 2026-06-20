@@ -83,7 +83,7 @@ export function LineChart({
                 className="w-6 h-[2px] rounded-full"
                 style={{ background: s.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length] }}
               />
-              <span className="text-[0.6875rem] text-muted">{s.label}</span>
+              <span className="text-body-caption text-muted">{s.label}</span>
             </div>
           ))}
         </div>

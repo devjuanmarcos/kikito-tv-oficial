@@ -156,7 +156,7 @@ export function AreaChart({
           {series.map((s, i) => (
             <div key={s.key} className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: getColor(i) }} />
-              <span className="text-[0.6875rem] text-muted">{s.label ?? s.key}</span>
+              <span className="text-body-caption text-muted">{s.label ?? s.key}</span>
             </div>
           ))}
         </div>
@@ -164,7 +164,7 @@ export function AreaChart({
 
       {tooltip && showTooltip && data[tooltip.index] && (
         <div
-          className="fixed z-50 pointer-events-none bg-raised border border-rule rounded-[--radius-sm] px-3 py-2 shadow-lg text-[0.75rem]"
+          className="fixed z-50 pointer-events-none bg-raised border border-rule rounded-[--radius-sm] px-3 py-2 shadow-lg text-body-caption"
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
           <div className="font-semibold text-foreground mb-1">{data[tooltip.index].label}</div>

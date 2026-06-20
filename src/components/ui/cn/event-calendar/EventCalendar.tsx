@@ -65,17 +65,17 @@ export function EventCalendar({
   const next = () => { if (month === 11) { setMonth(0); setYear(y => y + 1) } else setMonth(m => m + 1) }
 
   return (
-    <div className={cn('bg-raised border border-rule rounded-[--radius-lg] overflow-hidden text-[0.8125rem] text-foreground', className)} style={style}>
+    <div className={cn('bg-raised border border-rule rounded-[--radius-lg] overflow-hidden text-body-callout text-foreground', className)} style={style}>
       <div className="flex items-center justify-between px-[18px] py-[14px] border-b border-rule bg-sunken">
         <button
-          className="w-[30px] h-[30px] bg-transparent border border-rule rounded-[--radius-sm] cursor-pointer text-muted flex items-center justify-center text-[0.875rem] transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
+          className="w-[30px] h-[30px] bg-transparent border border-rule rounded-[--radius-sm] cursor-pointer text-muted flex items-center justify-center text-body-callout transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
           onClick={prev}
         >
           ‹
         </button>
-        <span className="text-[0.9375rem] font-bold text-foreground">{MONTHS[month]} {year}</span>
+        <span className="text-body-paragraph font-bold text-foreground">{MONTHS[month]} {year}</span>
         <button
-          className="w-[30px] h-[30px] bg-transparent border border-rule rounded-[--radius-sm] cursor-pointer text-muted flex items-center justify-center text-[0.875rem] transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
+          className="w-[30px] h-[30px] bg-transparent border border-rule rounded-[--radius-sm] cursor-pointer text-muted flex items-center justify-center text-body-callout transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
           onClick={next}
         >
           ›
@@ -106,7 +106,7 @@ export function EventCalendar({
               )}
               onClick={() => onDayClick?.(cell.str)}
             >
-              <div className={cn('text-[0.75rem] font-semibold text-muted mb-1', isToday && 'text-patina')}>
+              <div className={cn('text-body-caption font-semibold text-muted mb-1', isToday && 'text-patina')}>
                 {cell.day}
               </div>
               <div className="flex flex-col gap-[2px]">

@@ -92,7 +92,7 @@ export function RadarChart({
           {series.map((s, i) => (
             <div key={s.label} className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: s.color ?? COLORS[i % COLORS.length] }} />
-              <span className="text-[0.6875rem] text-muted">{s.label}</span>
+              <span className="text-body-caption text-muted">{s.label}</span>
             </div>
           ))}
         </div>

@@ -81,8 +81,8 @@ export function DonutChart({
             return (
               <div key={seg.label} className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: color }} />
-                <span className="text-[0.75rem] text-muted flex-1">{seg.label}</span>
-                <span className="text-[0.75rem] font-semibold text-foreground">{pct}%</span>
+                <span className="text-body-caption text-muted flex-1">{seg.label}</span>
+                <span className="text-body-caption font-semibold text-foreground">{pct}%</span>
               </div>
             )
           })}
