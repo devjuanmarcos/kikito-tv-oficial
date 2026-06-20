@@ -28,10 +28,10 @@ function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
   )
 }
 
-const SIZE_CLS: Record<string, { gap: string; sz: string }> = {
-  sm: { gap: 'gap-[2px]', sz: 'w-4 h-4' },
-  md: { gap: 'gap-[3px]', sz: 'w-[22px] h-[22px]' },
-  lg: { gap: 'gap-1',     sz: 'w-[30px] h-[30px]' },
+const SIZE_CLS: Record<string, { gap: string; sz: string; textSz: string }> = {
+  sm: { gap: 'gap-[2px]', sz: 'w-4 h-4',          textSz: 'text-base'  },
+  md: { gap: 'gap-[3px]', sz: 'w-[22px] h-[22px]', textSz: 'text-xl'   },
+  lg: { gap: 'gap-1',     sz: 'w-[30px] h-[30px]', textSz: 'text-2xl'  },
 }
 
 export function Rating({
@@ -43,6 +43,10 @@ export function Rating({
   readOnly  = false,
   disabled  = false,
   allowHalf = false,
+  showValue = false,
+  label,
+  icon,
+  emptyIcon,
   className,
   style,
 }: RatingProps) {
@@ -53,6 +57,8 @@ export function Rating({
   const current = controlled ? (value ?? 0) : internal
   const display = hover ?? current
 
+  const hasCustomIcon = icon !== undefined || emptyIcon !== undefined
+
   function handleClick(star: number) {
     if (readOnly || disabled) return
     if (!controlled) setInternal(star)
@@ -61,7 +67,7 @@ export function Rating({
 
   function handleMouseMove(e: React.MouseEvent<HTMLButtonElement>, star: number) {
     if (readOnly || disabled) return
-    if (allowHalf) {
+    if (allowHalf && !hasCustomIcon) {
       const rect = e.currentTarget.getBoundingClientRect()
       const half = e.clientX - rect.left < rect.width / 2
       setHover(half ? star - 0.5 : star)
@@ -76,36 +82,55 @@ export function Rating({
   const sz = SIZE_CLS[size]
 
   return (
-    <div
-      className={cn(
-        'inline-flex items-center select-none',
-        sz.gap,
-        disabled && 'opacity-40 pointer-events-none',
-        readOnly && 'pointer-events-none',
-        className,
+    <div className={cn('inline-flex flex-col gap-1', className)} style={style}>
+      {label && (
+        <span className="text-body-callout text-faint font-medium">{label}</span>
       )}
-      style={style}
-      onMouseLeave={() => setHover(null)}
-    >
-      {Array.from({ length: max }, (_, i) => i + 1).map(star => (
-        <button
-          key={star}
-          type="button"
-          className={cn(
-            'relative cursor-pointer transition-transform duration-[100ms] border-none bg-transparent p-0',
-            'text-rule [&>svg]:w-full [&>svg]:h-full [&>svg]:block',
-            sz.sz,
-            (isFilled(star) || isHalf(star)) && 'text-kinpaku',
-            !readOnly && 'hover:scale-[1.15]',
-          )}
-          onClick={() => handleClick(allowHalf ? (hover ?? star) : star)}
-          onMouseMove={e => handleMouseMove(e, star)}
-          disabled={disabled}
-          aria-label={`Rate ${star} of ${max}`}
-        >
-          <StarIcon filled={isFilled(star)} half={isHalf(star)} />
-        </button>
-      ))}
+      <div
+        className={cn(
+          'inline-flex items-center select-none',
+          sz.gap,
+          disabled && 'opacity-40 pointer-events-none',
+          readOnly && 'pointer-events-none',
+        )}
+        onMouseLeave={() => setHover(null)}
+      >
+        {Array.from({ length: max }, (_, i) => i + 1).map(star => {
+          const filled = isFilled(star)
+          const half   = isHalf(star)
+          const active = filled || half
+
+          return (
+            <button
+              key={star}
+              type="button"
+              className={cn(
+                'relative cursor-pointer transition-transform duration-[100ms] border-none bg-transparent p-0',
+                sz.sz,
+                hasCustomIcon
+                  ? cn('flex items-center justify-center leading-none', sz.textSz)
+                  : 'text-rule [&>svg]:w-full [&>svg]:h-full [&>svg]:block',
+                active ? 'text-kinpaku' : 'text-rule',
+                !readOnly && 'hover:scale-[1.15]',
+              )}
+              onClick={() => handleClick(!hasCustomIcon && allowHalf ? (hover ?? star) : star)}
+              onMouseMove={e => handleMouseMove(e, star)}
+              disabled={disabled}
+              aria-label={`Rate ${star} of ${max}`}
+            >
+              {hasCustomIcon
+                ? (active ? (icon ?? emptyIcon) : (emptyIcon ?? icon))
+                : <StarIcon filled={filled} half={half} />
+              }
+            </button>
+          )
+        })}
+        {showValue && (
+          <span className="ml-2 text-body-callout text-faint tabular-nums">
+            {display} / {max}
+          </span>
+        )}
+      </div>
     </div>
   )
 }

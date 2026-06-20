@@ -2287,14 +2287,25 @@ function StatusBadgeDemo() {
 }
 
 function RatingDemo() {
-  const [val, setVal] = useState(3.5)
+  const [val, setVal]       = useState(3.5)
+  const [hearts, setHearts] = useState(4)
   return (
-    <Frame label="Rating — star rating with half-star support and size variants">
-      <div className="flex flex-col items-center gap-5">
+    <Frame label="Rating — star rating with half-star, custom icons, label, showValue">
+      <div className="flex flex-col items-center gap-6">
         <div className="flex flex-col items-center gap-2">
-          <Rating value={val} onChange={setVal} size="lg" allowHalf />
+          <Rating label="Sua avaliação" value={val} onChange={setVal} size="lg" allowHalf showValue />
           <p className="text-body-callout text-muted">Value: <code className="text-patina">{val}</code></p>
         </div>
+        <Rating
+          label="Nível de amor"
+          value={hearts}
+          onChange={setHearts}
+          icon="♥"
+          emptyIcon="♡"
+          max={6}
+          size="lg"
+          showValue
+        />
         <div className="flex items-center gap-6">
           <Rating value={4} readOnly size="sm" />
           <Rating value={3} readOnly size="md" />

@@ -11,6 +11,10 @@ export interface RatingProps {
   readOnly?: boolean
   disabled?: boolean
   allowHalf?: boolean
+  showValue?: boolean
+  label?: string
+  icon?: React.ReactNode
+  emptyIcon?: React.ReactNode
   className?: string
   style?: React.CSSProperties
 }
