@@ -7,15 +7,9 @@ import { cn } from "@/lib/utils";
 import type { BadgeProps, BadgeVariant, BadgeSize, BadgeRounded, BadgeIntent } from "./badge.types";
 
 const SIZE: Record<BadgeSize, string> = {
-  sm: "h-4   px-1.5 gap-1   text-[0.625rem] leading-none",
-  md: "h-5   px-2   gap-1   text-body-caption",
-  lg: "h-6   px-2.5 gap-1.5 text-body-callout",
-};
-
-const SIZE_RADIUS: Record<BadgeSize, string> = {
-  sm: "rounded-(--radius-xs)",
-  md: "rounded-(--radius-xs)",
-  lg: "rounded-(--radius-sm)",
+  sm: "px-2   py-[0.1875rem] gap-1   text-[0.625rem]  tracking-[0.04em] leading-none",
+  md: "px-2.5 py-1           gap-1.5 text-[0.6875rem] tracking-[0.03em] leading-none",
+  lg: "px-3   py-[0.3125rem] gap-1.5 text-[0.75rem]   tracking-[0.02em] leading-none",
 };
 
 const ROUNDED_MAP: Record<BadgeRounded, string> = {
@@ -37,42 +31,42 @@ type IntentVariantKey = `${BadgeIntent}/${BadgeVariant}`;
 const INTENT_VARIANT: Record<IntentVariantKey, string> = {
   /* primary */
   "primary/solid": "bg-patina text-patina-fg border-transparent",
-  "primary/outline": "bg-transparent text-patina border-patina",
+  "primary/outline": "bg-transparent text-patina border-patina/45",
   "primary/soft": "bg-patina-soft text-patina border-transparent",
   "primary/ghost": "bg-transparent text-patina border-transparent",
   "primary/dot": "bg-patina-soft text-patina border-transparent",
 
   /* secondary */
   "secondary/solid": "bg-kinpaku text-kinpaku-fg border-transparent",
-  "secondary/outline": "bg-transparent text-kinpaku border-kinpaku",
+  "secondary/outline": "bg-transparent text-kinpaku border-kinpaku/45",
   "secondary/soft": "bg-kinpaku-soft text-kinpaku-soft-fg border-transparent",
   "secondary/ghost": "bg-transparent text-kinpaku border-transparent",
   "secondary/dot": "bg-kinpaku-soft text-kinpaku-soft-fg border-transparent",
 
   /* danger */
   "danger/solid": "bg-danger text-danger-fg border-transparent",
-  "danger/outline": "bg-transparent text-danger border-danger",
+  "danger/outline": "bg-transparent text-danger border-danger/45",
   "danger/soft": "bg-danger-soft text-danger-soft-fg border-transparent",
   "danger/ghost": "bg-transparent text-danger border-transparent",
   "danger/dot": "bg-danger-soft text-danger-soft-fg border-transparent",
 
   /* success */
   "success/solid": "bg-success text-success-fg border-transparent",
-  "success/outline": "bg-transparent text-success border-success",
+  "success/outline": "bg-transparent text-success border-success/45",
   "success/soft": "bg-success-soft text-success-soft-fg border-transparent",
   "success/ghost": "bg-transparent text-success border-transparent",
   "success/dot": "bg-success-soft text-success-soft-fg border-transparent",
 
   /* warning */
   "warning/solid": "bg-warning text-warning-fg border-transparent",
-  "warning/outline": "bg-transparent text-warning border-warning",
+  "warning/outline": "bg-transparent text-warning border-warning/45",
   "warning/soft": "bg-warning-soft text-warning-soft-fg border-transparent",
   "warning/ghost": "bg-transparent text-warning border-transparent",
   "warning/dot": "bg-warning-soft text-warning-soft-fg border-transparent",
 
   /* info */
   "info/solid": "bg-info text-info-fg border-transparent",
-  "info/outline": "bg-transparent text-info border-info",
+  "info/outline": "bg-transparent text-info border-info/45",
   "info/soft": "bg-info-soft text-info-soft-fg border-transparent",
   "info/ghost": "bg-transparent text-info border-transparent",
   "info/dot": "bg-info-soft text-info-soft-fg border-transparent",
@@ -83,16 +77,6 @@ const INTENT_VARIANT: Record<IntentVariantKey, string> = {
   "neutral/soft": "bg-graphite text-foreground border-transparent",
   "neutral/ghost": "bg-transparent text-muted border-transparent",
   "neutral/dot": "bg-graphite text-foreground border-transparent",
-};
-
-const DOT_COLOR: Record<BadgeIntent, string> = {
-  primary: "bg-patina",
-  secondary: "bg-kinpaku",
-  danger: "bg-danger",
-  success: "bg-success",
-  warning: "bg-warning",
-  info: "bg-info",
-  neutral: "bg-foreground",
 };
 
 export function Badge({
@@ -111,14 +95,14 @@ export function Badge({
 }: BadgeProps) {
   const key = `${intent}/${variant}` as IntentVariantKey;
   const intentCls = INTENT_VARIANT[key] ?? INTENT_VARIANT["neutral/soft"];
-  const radiusCls = rounded ? ROUNDED_MAP[rounded] : SIZE_RADIUS[size];
+  const radiusCls = rounded ? ROUNDED_MAP[rounded] : "rounded-full";
   const showDot = dot || variant === "dot";
 
   return (
     <span
       {...props}
       className={cn(
-        "inline-flex items-center font-medium border select-none whitespace-nowrap",
+        "inline-flex items-center font-semibold border select-none whitespace-nowrap align-middle",
         SIZE[size],
         radiusCls,
         intentCls,
@@ -126,7 +110,7 @@ export function Badge({
       )}
     >
       {showDot && (
-        <span aria-hidden="true" className={cn("shrink-0 rounded-full", DOT_SIZE[size], DOT_COLOR[intent])} />
+        <span aria-hidden="true" className={cn("shrink-0 rounded-full bg-current opacity-70", DOT_SIZE[size])} />
       )}
 
       {!showDot && iconLeft && (

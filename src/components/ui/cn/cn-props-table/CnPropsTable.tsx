@@ -13,10 +13,10 @@ export function CnPropsTable({ props }: CnPropsTableProps) {
         <span className="text-body-caption font-semibold text-foreground">Props</span>
       </div>
 
-      <div className="rounded-(--radius-md) border border-rule overflow-hidden">
+      <div className="rounded-(--radius-md) border border-rule bg-raised overflow-hidden">
         <table className="w-full text-body-caption">
           <thead>
-            <tr className="bg-graphite border-b border-rule">
+            <tr className="bg-graphite-2 border-b border-rule">
               <th className="px-4 py-2.5 text-left font-semibold text-faint uppercase tracking-[0.06em] text-[0.625rem] w-[160px]">
                 Prop
               </th>
@@ -31,13 +31,9 @@ export function CnPropsTable({ props }: CnPropsTableProps) {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {props.map((prop, i) => (
-              <tr
-                key={prop.name}
-                data-testid="cn-props-row"
-                className={`border-b border-rule last:border-b-0 ${i % 2 === 0 ? "bg-canvas" : "bg-sunken"}`}
-              >
+          <tbody className="divide-y divide-rule">
+            {props.map((prop) => (
+              <tr key={prop.name} data-testid="cn-props-row" className="hover:bg-graphite transition-colors">
                 <td className="px-4 py-2.5 align-top">
                   <code className="font-mono text-patina font-medium">
                     {prop.name}

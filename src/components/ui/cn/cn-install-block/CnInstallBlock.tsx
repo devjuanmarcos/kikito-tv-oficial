@@ -61,65 +61,66 @@ export function CnInstallBlock({ filePath, peerDeps, dependencies }: CnInstallBl
   const hasDeps = (dependencies && dependencies.length > 0) || (peerDeps && peerDeps.length > 0);
 
   return (
-    <div data-testid="cn-install-block" className="rounded-(--radius-md) border border-rule overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-graphite border-b border-rule">
+    <div data-testid="cn-install-block">
+      <div className="mb-2">
         <span className="text-body-caption font-semibold text-foreground">Instalação</span>
       </div>
 
-      {/* File path row */}
-      <div className="flex items-center justify-between gap-3 px-4 py-3 bg-sunken">
-        <div className="flex items-center gap-2 min-w-0">
-          <FileIcon />
-          <code className="text-[0.8125rem] font-mono text-patina truncate">{filePath}</code>
+      <div className="rounded-(--radius-md) border border-rule bg-raised overflow-hidden">
+        {/* File path row */}
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <FileIcon />
+            <code className="text-[0.8125rem] font-mono text-patina truncate">{filePath}</code>
+          </div>
+          <button
+            type="button"
+            data-testid="cn-install-copy"
+            onClick={copy}
+            aria-label={copied ? "Copiado!" : "Copiar caminho"}
+            className="flex items-center gap-1.5 text-faint hover:text-foreground transition-colors text-body-caption shrink-0"
+          >
+            {copied ? <CheckIcon /> : <CopyIcon />}
+            <span>{copied ? "Copiado" : "Copiar"}</span>
+          </button>
         </div>
-        <button
-          type="button"
-          data-testid="cn-install-copy"
-          onClick={copy}
-          aria-label={copied ? "Copiado!" : "Copiar caminho"}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-(--radius-sm) border border-rule bg-graphite hover:bg-raised text-faint hover:text-foreground transition-colors text-body-caption shrink-0"
-        >
-          {copied ? <CheckIcon /> : <CopyIcon />}
-          <span>{copied ? "Copiado" : "Copiar"}</span>
-        </button>
-      </div>
 
-      {/* Dependencies */}
-      {hasDeps && (
-        <div className="px-4 py-2.5 border-t border-rule bg-canvas flex flex-wrap gap-x-6 gap-y-1">
-          {peerDeps && peerDeps.length > 0 && (
-            <div className="flex items-center gap-2">
-              <span className="text-body-caption text-faint">Interno:</span>
-              <div className="flex flex-wrap gap-1.5">
-                {peerDeps.map((d) => (
-                  <code
-                    key={d}
-                    className="text-body-caption font-mono text-muted bg-graphite border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
-                  >
-                    {d}
-                  </code>
-                ))}
+        {/* Dependencies */}
+        {hasDeps && (
+          <div className="px-4 py-2.5 border-t border-rule bg-graphite flex flex-wrap gap-x-6 gap-y-2">
+            {peerDeps && peerDeps.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-body-caption text-faint">Interno:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {peerDeps.map((d) => (
+                    <code
+                      key={d}
+                      className="text-body-caption font-mono text-muted bg-raised border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
+                    >
+                      {d}
+                    </code>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-          {dependencies && dependencies.length > 0 && (
-            <div className="flex items-center gap-2">
-              <span className="text-body-caption text-faint">npm:</span>
-              <div className="flex flex-wrap gap-1.5">
-                {dependencies.map((d) => (
-                  <code
-                    key={d}
-                    className="text-body-caption font-mono text-muted bg-graphite border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
-                  >
-                    {d}
-                  </code>
-                ))}
+            )}
+            {dependencies && dependencies.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-body-caption text-faint">npm:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {dependencies.map((d) => (
+                    <code
+                      key={d}
+                      className="text-body-caption font-mono text-muted bg-raised border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
+                    >
+                      {d}
+                    </code>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
