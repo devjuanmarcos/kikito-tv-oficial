@@ -482,305 +482,513 @@ input[type="range"].font-size-slider::-ms-track {
 :root,
 .dark {
   /* ── Surfaces ── */
-  --ks-lacquer-deep:   hsl(var(--neutral));
-  --ks-lacquer:        hsl(var(--background));
+  --ks-lacquer-deep: hsl(var(--neutral));
+  --ks-lacquer: hsl(var(--background));
   --ks-lacquer-raised: hsl(var(--card));
-  --ks-lacquer-float:  hsl(var(--popover));
-  --ks-lacquer-sunken: hsl(var(--input));
-  --ks-graphite:       hsl(var(--card-secondary));
-  --ks-graphite-2:     hsl(var(--muted));
+  --ks-lacquer-float: hsl(var(--popover));
+  --ks-lacquer-sunken: hsl(var(--background-secondary));
+  --ks-graphite: hsl(var(--card-secondary));
+  --ks-graphite-2: hsl(var(--muted));
 
   /* ── Text ── */
-  --ks-champagne:  hsl(var(--foreground));
-  --ks-text:       hsl(var(--foreground));
+  --ks-champagne: hsl(var(--foreground));
+  --ks-text: hsl(var(--foreground));
   --ks-text-muted: hsl(var(--muted-foreground));
   --ks-text-faint: hsl(var(--muted-foreground));
 
   /* ── Chrome ── */
   --ks-rule: hsl(var(--border));
 
-  /* ── Patina (primary) ── */
-  --ks-patina:         hsl(var(--primary));
-  --ks-patina-fg:      hsl(var(--primary-foreground));
-  --ks-patina-hover:   hsl(var(--primary-hover));
-  --ks-patina-deep:    hsl(var(--primary));
-  --ks-patina-soft:    hsl(var(--primary-soft));
-  --ks-patina-soft-fg: hsl(var(--primary-soft-foreground));
+  /* ── Patina = PRIMARY (amarelo/gold → tertiary token) ──
+     Primária do design system. Mapeia para o gold (tertiary) por decisão de marca. */
+  --ks-patina: hsl(var(--tertiary));
+  --ks-patina-fg: hsl(var(--tertiary-foreground));
+  --ks-patina-hover: hsl(var(--tertiary-hover));
+  --ks-patina-deep: hsl(var(--tertiary));
+  --ks-patina-soft: hsl(var(--tertiary-soft));
+  --ks-patina-soft-fg: hsl(var(--tertiary-soft-foreground));
 
-  /* ── Kinpaku (secondary/gold) → tertiary ── */
-  --ks-kinpaku:         hsl(var(--tertiary));
-  --ks-kinpaku-fg:      hsl(var(--tertiary-foreground));
-  --ks-kinpaku-hover:   hsl(var(--tertiary-hover));
-  --ks-kinpaku-rich:    hsl(var(--tertiary));
-  --ks-kinpaku-pale:    hsl(var(--tertiary));
-  --ks-kinpaku-deep:    hsl(var(--tertiary));
-  --ks-kinpaku-soft:    hsl(var(--tertiary-soft));
-  --ks-kinpaku-soft-fg: hsl(var(--tertiary-soft-foreground));
+  /* ── Kinpaku = SECONDARY (verde → primary token) ──
+     Secundária do design system. Mapeia para o verde (primary token). */
+  --ks-kinpaku: hsl(var(--primary));
+  --ks-kinpaku-fg: hsl(var(--primary-foreground));
+  --ks-kinpaku-hover: hsl(var(--primary-hover));
+  --ks-kinpaku-rich: hsl(var(--primary));
+  --ks-kinpaku-pale: hsl(var(--primary));
+  --ks-kinpaku-deep: hsl(var(--primary));
+  --ks-kinpaku-soft: hsl(var(--primary-soft));
+  --ks-kinpaku-soft-fg: hsl(var(--primary-soft-foreground));
 
   /* ── Danger → destructive ── */
-  --ks-danger:         hsl(var(--destructive));
-  --ks-danger-fg:      hsl(var(--destructive-foreground));
-  --ks-danger-hover:   hsl(var(--destructive-hover));
-  --ks-danger-deep:    hsl(var(--destructive-hover));
-  --ks-danger-soft:    hsl(var(--destructive-soft));
+  --ks-danger: hsl(var(--destructive));
+  --ks-danger-fg: hsl(var(--destructive-foreground));
+  --ks-danger-hover: hsl(var(--destructive-hover));
+  --ks-danger-deep: hsl(var(--destructive-hover));
+  --ks-danger-soft: hsl(var(--destructive-soft));
   --ks-danger-soft-fg: hsl(var(--destructive-soft-foreground));
 
   /* ── Success ── */
-  --ks-success:         hsl(var(--success));
-  --ks-success-fg:      hsl(var(--success-foreground));
-  --ks-success-hover:   hsl(var(--success-hover));
-  --ks-success-deep:    hsl(var(--success-hover));
-  --ks-success-soft:    hsl(var(--success-soft));
+  --ks-success: hsl(var(--success));
+  --ks-success-fg: hsl(var(--success-foreground));
+  --ks-success-hover: hsl(var(--success-hover));
+  --ks-success-deep: hsl(var(--success-hover));
+  --ks-success-soft: hsl(var(--success-soft));
   --ks-success-soft-fg: hsl(var(--success-soft-foreground));
 
   /* ── Warning ── */
-  --ks-warning:         hsl(var(--warning));
-  --ks-warning-fg:      hsl(var(--warning-foreground));
-  --ks-warning-hover:   hsl(var(--warning-hover));
-  --ks-warning-deep:    hsl(var(--warning-hover));
-  --ks-warning-soft:    hsl(var(--warning-soft));
+  --ks-warning: hsl(var(--warning));
+  --ks-warning-fg: hsl(var(--warning-foreground));
+  --ks-warning-hover: hsl(var(--warning-hover));
+  --ks-warning-deep: hsl(var(--warning-hover));
+  --ks-warning-soft: hsl(var(--warning-soft));
   --ks-warning-soft-fg: hsl(var(--warning-soft-foreground));
 
   /* ── Info ── */
-  --ks-info:         hsl(var(--info));
-  --ks-info-fg:      hsl(var(--info-foreground));
-  --ks-info-hover:   hsl(var(--info-hover));
-  --ks-info-deep:    hsl(var(--info-hover));
-  --ks-info-soft:    hsl(var(--info-soft));
+  --ks-info: hsl(var(--info));
+  --ks-info-fg: hsl(var(--info-foreground));
+  --ks-info-hover: hsl(var(--info-hover));
+  --ks-info-deep: hsl(var(--info-hover));
+  --ks-info-soft: hsl(var(--info-soft));
   --ks-info-soft-fg: hsl(var(--info-soft-foreground));
 
   /* ── Neutral button ── */
-  --ks-neutral-btn:         hsl(var(--neutral));
-  --ks-neutral-btn-fg:      hsl(var(--neutral-foreground));
-  --ks-neutral-btn-hover:   hsl(var(--neutral-hover));
-  --ks-neutral-btn-deep:    hsl(var(--neutral-hover));
-  --ks-neutral-btn-soft:    hsl(var(--neutral-soft));
+  --ks-neutral-btn: hsl(var(--neutral));
+  --ks-neutral-btn-fg: hsl(var(--neutral-foreground));
+  --ks-neutral-btn-hover: hsl(var(--neutral-hover));
+  --ks-neutral-btn-deep: hsl(var(--neutral-hover));
+  --ks-neutral-btn-soft: hsl(var(--neutral-soft));
   --ks-neutral-btn-soft-fg: hsl(var(--neutral-soft-foreground));
 
   /* ── Semantic aliases ── */
-  --ks-primary:         var(--ks-patina);
-  --ks-primary-fg:      var(--ks-patina-fg);
-  --ks-primary-hover:   var(--ks-patina-hover);
-  --ks-primary-deep:    var(--ks-patina-deep);
-  --ks-primary-soft:    var(--ks-patina-soft);
+  --ks-primary: var(--ks-patina);
+  --ks-primary-fg: var(--ks-patina-fg);
+  --ks-primary-hover: var(--ks-patina-hover);
+  --ks-primary-deep: var(--ks-patina-deep);
+  --ks-primary-soft: var(--ks-patina-soft);
   --ks-primary-soft-fg: var(--ks-patina-soft-fg);
 
-  --ks-secondary:         var(--ks-kinpaku);
-  --ks-secondary-fg:      var(--ks-kinpaku-fg);
-  --ks-secondary-hover:   var(--ks-kinpaku-hover);
-  --ks-secondary-deep:    var(--ks-kinpaku-deep);
-  --ks-secondary-soft:    var(--ks-kinpaku-soft);
+  --ks-secondary: var(--ks-kinpaku);
+  --ks-secondary-fg: var(--ks-kinpaku-fg);
+  --ks-secondary-hover: var(--ks-kinpaku-hover);
+  --ks-secondary-deep: var(--ks-kinpaku-deep);
+  --ks-secondary-soft: var(--ks-kinpaku-soft);
   --ks-secondary-soft-fg: var(--ks-kinpaku-soft-fg);
 
   /* ── Radius ── */
-  --ks-radius-xs:   2px;
-  --ks-radius-sm:   6px;
+  --ks-radius-xs: 2px;
+  --ks-radius-sm: 6px;
   --ks-radius-base: 8px;
-  --ks-radius-md:   10px;
-  --ks-radius-lg:   14px;
-  --ks-radius-xl:   20px;
-  --ks-radius-2xl:  28px;
+  --ks-radius-md: 10px;
+  --ks-radius-lg: 14px;
+  --ks-radius-xl: 20px;
+  --ks-radius-2xl: 28px;
   --ks-radius-pill: 9999px;
 
   /* ── Easing ── */
-  --ease-out-quint:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
-  --ease-spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ── Spacing ── */
-  --spacing-xs:  0.5rem;
-  --spacing-sm:  0.75rem;
-  --spacing-md:  1rem;
-  --spacing-lg:  1.5rem;
-  --spacing-xl:  2rem;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
 }
 
 /* Violet + rose — light values (no template equivalent) */
 :root {
-  --ks-violet:         oklch(50%  .20 295);
-  --ks-violet-fg:      oklch(98%  0   0  );
-  --ks-violet-hover:   oklch(45%  .20 295);
-  --ks-violet-deep:    oklch(40%  .18 295);
-  --ks-violet-soft:    oklch(50%  .20 295 / 0.12);
+  --ks-violet: oklch(50% 0.2 295);
+  --ks-violet-fg: oklch(98% 0 0);
+  --ks-violet-hover: oklch(45% 0.2 295);
+  --ks-violet-deep: oklch(40% 0.18 295);
+  --ks-violet-soft: oklch(50% 0.2 295 / 0.12);
   --ks-violet-soft-fg: var(--ks-violet);
 
-  --ks-rose:         oklch(50%  .22 0);
-  --ks-rose-fg:      oklch(98%  0   0);
-  --ks-rose-hover:   oklch(45%  .22 0);
-  --ks-rose-deep:    oklch(40%  .20 0);
-  --ks-rose-soft:    oklch(50%  .22 0 / 0.12);
+  --ks-rose: oklch(50% 0.22 0);
+  --ks-rose-fg: oklch(98% 0 0);
+  --ks-rose-hover: oklch(45% 0.22 0);
+  --ks-rose-deep: oklch(40% 0.2 0);
+  --ks-rose-soft: oklch(50% 0.22 0 / 0.12);
   --ks-rose-soft-fg: var(--ks-rose);
 }
 
 /* Violet + rose — dark values */
 .dark {
-  --ks-violet:         oklch(65%  .20 295);
-  --ks-violet-fg:      oklch(98%  0   0  );
-  --ks-violet-hover:   oklch(59%  .20 295);
-  --ks-violet-deep:    oklch(52%  .18 295);
-  --ks-violet-soft:    oklch(65%  .20 295 / 0.15);
+  --ks-violet: oklch(65% 0.2 295);
+  --ks-violet-fg: oklch(98% 0 0);
+  --ks-violet-hover: oklch(59% 0.2 295);
+  --ks-violet-deep: oklch(52% 0.18 295);
+  --ks-violet-soft: oklch(65% 0.2 295 / 0.15);
   --ks-violet-soft-fg: var(--ks-violet);
 
-  --ks-rose:         oklch(65%  .22 0);
-  --ks-rose-fg:      oklch(98%  0   0);
-  --ks-rose-hover:   oklch(59%  .22 0);
-  --ks-rose-deep:    oklch(52%  .20 0);
-  --ks-rose-soft:    oklch(65%  .22 0 / 0.15);
+  --ks-rose: oklch(65% 0.22 0);
+  --ks-rose-fg: oklch(98% 0 0);
+  --ks-rose-hover: oklch(59% 0.22 0);
+  --ks-rose-deep: oklch(52% 0.2 0);
+  --ks-rose-soft: oklch(65% 0.22 0 / 0.15);
   --ks-rose-soft-fg: var(--ks-rose);
 }
 
 /* ── Kikito CN Tailwind utility aliases ─────────────────────────────── */
 @theme inline {
   /* Surfaces */
-  --color-canvas:     var(--ks-lacquer-deep);
-  --color-base:       var(--ks-lacquer);
-  --color-lacquer:    var(--ks-lacquer);
-  --color-raised:     var(--ks-lacquer-raised);
-  --color-float:      var(--ks-lacquer-float);
-  --color-sunken:     var(--ks-lacquer-sunken);
-  --color-graphite:   var(--ks-graphite);
+  --color-canvas: var(--ks-lacquer-deep);
+  --color-base: var(--ks-lacquer);
+  --color-lacquer: var(--ks-lacquer);
+  --color-raised: var(--ks-lacquer-raised);
+  --color-float: var(--ks-lacquer-float);
+  --color-sunken: var(--ks-lacquer-sunken);
+  --color-graphite: var(--ks-graphite);
   --color-graphite-2: var(--ks-graphite-2);
 
   /* Text — muted overrides shadcn's surface-level muted */
-  --color-foreground:    var(--ks-text);
-  --color-muted:         var(--ks-text-muted);
+  --color-foreground: var(--ks-text);
+  --color-muted: var(--ks-text-muted);
   --color-muted-surface: hsl(var(--muted));
-  --color-faint:         var(--ks-text-faint);
+  --color-faint: var(--ks-text-faint);
 
   /* Border */
   --color-rule: var(--ks-rule);
 
   /* Patina */
-  --color-patina:         var(--ks-patina);
-  --color-patina-fg:      var(--ks-patina-fg);
-  --color-patina-hover:   var(--ks-patina-hover);
-  --color-patina-deep:    var(--ks-patina-deep);
-  --color-patina-soft:    var(--ks-patina-soft);
+  --color-patina: var(--ks-patina);
+  --color-patina-fg: var(--ks-patina-fg);
+  --color-patina-hover: var(--ks-patina-hover);
+  --color-patina-deep: var(--ks-patina-deep);
+  --color-patina-soft: var(--ks-patina-soft);
   --color-patina-soft-fg: var(--ks-patina-soft-fg);
 
   /* Kinpaku */
-  --color-kinpaku:         var(--ks-kinpaku);
-  --color-kinpaku-fg:      var(--ks-kinpaku-fg);
-  --color-kinpaku-hover:   var(--ks-kinpaku-hover);
-  --color-kinpaku-deep:    var(--ks-kinpaku-deep);
-  --color-kinpaku-soft:    var(--ks-kinpaku-soft);
+  --color-kinpaku: var(--ks-kinpaku);
+  --color-kinpaku-fg: var(--ks-kinpaku-fg);
+  --color-kinpaku-hover: var(--ks-kinpaku-hover);
+  --color-kinpaku-deep: var(--ks-kinpaku-deep);
+  --color-kinpaku-soft: var(--ks-kinpaku-soft);
   --color-kinpaku-soft-fg: var(--ks-kinpaku-soft-fg);
 
   /* Violet */
-  --color-violet:         var(--ks-violet);
-  --color-violet-fg:      var(--ks-violet-fg);
-  --color-violet-hover:   var(--ks-violet-hover);
-  --color-violet-deep:    var(--ks-violet-deep);
-  --color-violet-soft:    var(--ks-violet-soft);
+  --color-violet: var(--ks-violet);
+  --color-violet-fg: var(--ks-violet-fg);
+  --color-violet-hover: var(--ks-violet-hover);
+  --color-violet-deep: var(--ks-violet-deep);
+  --color-violet-soft: var(--ks-violet-soft);
   --color-violet-soft-fg: var(--ks-violet-soft-fg);
 
   /* Rose */
-  --color-rose:         var(--ks-rose);
-  --color-rose-fg:      var(--ks-rose-fg);
-  --color-rose-hover:   var(--ks-rose-hover);
-  --color-rose-deep:    var(--ks-rose-deep);
-  --color-rose-soft:    var(--ks-rose-soft);
+  --color-rose: var(--ks-rose);
+  --color-rose-fg: var(--ks-rose-fg);
+  --color-rose-hover: var(--ks-rose-hover);
+  --color-rose-deep: var(--ks-rose-deep);
+  --color-rose-soft: var(--ks-rose-soft);
   --color-rose-soft-fg: var(--ks-rose-soft-fg);
 
   /* Danger */
-  --color-danger:         var(--ks-danger);
-  --color-danger-fg:      var(--ks-danger-fg);
-  --color-danger-hover:   var(--ks-danger-hover);
-  --color-danger-deep:    var(--ks-danger-deep);
-  --color-danger-soft:    var(--ks-danger-soft);
+  --color-danger: var(--ks-danger);
+  --color-danger-fg: var(--ks-danger-fg);
+  --color-danger-hover: var(--ks-danger-hover);
+  --color-danger-deep: var(--ks-danger-deep);
+  --color-danger-soft: var(--ks-danger-soft);
   --color-danger-soft-fg: var(--ks-danger-soft-fg);
 
   /* Success */
-  --color-success:         var(--ks-success);
-  --color-success-fg:      var(--ks-success-fg);
-  --color-success-hover:   var(--ks-success-hover);
-  --color-success-deep:    var(--ks-success-deep);
-  --color-success-soft:    var(--ks-success-soft);
+  --color-success: var(--ks-success);
+  --color-success-fg: var(--ks-success-fg);
+  --color-success-hover: var(--ks-success-hover);
+  --color-success-deep: var(--ks-success-deep);
+  --color-success-soft: var(--ks-success-soft);
   --color-success-soft-fg: var(--ks-success-soft-fg);
 
   /* Warning */
-  --color-warning:         var(--ks-warning);
-  --color-warning-fg:      var(--ks-warning-fg);
-  --color-warning-hover:   var(--ks-warning-hover);
-  --color-warning-deep:    var(--ks-warning-deep);
-  --color-warning-soft:    var(--ks-warning-soft);
+  --color-warning: var(--ks-warning);
+  --color-warning-fg: var(--ks-warning-fg);
+  --color-warning-hover: var(--ks-warning-hover);
+  --color-warning-deep: var(--ks-warning-deep);
+  --color-warning-soft: var(--ks-warning-soft);
   --color-warning-soft-fg: var(--ks-warning-soft-fg);
 
   /* Info */
-  --color-info:         var(--ks-info);
-  --color-info-fg:      var(--ks-info-fg);
-  --color-info-hover:   var(--ks-info-hover);
-  --color-info-deep:    var(--ks-info-deep);
-  --color-info-soft:    var(--ks-info-soft);
+  --color-info: var(--ks-info);
+  --color-info-fg: var(--ks-info-fg);
+  --color-info-hover: var(--ks-info-hover);
+  --color-info-deep: var(--ks-info-deep);
+  --color-info-soft: var(--ks-info-soft);
   --color-info-soft-fg: var(--ks-info-soft-fg);
 
   /* Neutral */
-  --color-neutral:         var(--ks-neutral-btn);
-  --color-neutral-fg:      var(--ks-neutral-btn-fg);
-  --color-neutral-hover:   var(--ks-neutral-btn-hover);
-  --color-neutral-deep:    var(--ks-neutral-btn-deep);
-  --color-neutral-soft:    var(--ks-neutral-btn-soft);
+  --color-neutral: var(--ks-neutral-btn);
+  --color-neutral-fg: var(--ks-neutral-btn-fg);
+  --color-neutral-hover: var(--ks-neutral-btn-hover);
+  --color-neutral-deep: var(--ks-neutral-btn-deep);
+  --color-neutral-soft: var(--ks-neutral-btn-soft);
   --color-neutral-soft-fg: var(--ks-neutral-btn-soft-fg);
 
   /* Radius */
-  --radius-xs:   var(--ks-radius-xs,   2px);
-  --radius-sm:   var(--ks-radius-sm,   6px);
+  --radius-xs: var(--ks-radius-xs, 2px);
+  --radius-sm: var(--ks-radius-sm, 6px);
   --radius-base: var(--ks-radius-base, 8px);
-  --radius-md:   var(--ks-radius-md,   10px);
-  --radius-lg:   var(--ks-radius-lg,   14px);
-  --radius-xl:   var(--ks-radius-xl,   20px);
-  --radius-2xl:  var(--ks-radius-2xl,  28px);
+  --radius-md: var(--ks-radius-md, 10px);
+  --radius-lg: var(--ks-radius-lg, 14px);
+  --radius-xl: var(--ks-radius-xl, 20px);
+  --radius-2xl: var(--ks-radius-2xl, 28px);
   --radius-pill: var(--ks-radius-pill, 9999px);
 
   /* KS animations */
-  --animate-spin-btn:               spin-ks 560ms linear infinite;
-  --animate-spin-icon:              spin-ks 700ms linear infinite;
-  --animate-status-in:              status-in 300ms cubic-bezier(0.34,1.56,0.64,1) both;
-  --animate-status-err:             status-in 240ms cubic-bezier(0.34,1.56,0.64,1) both, status-shake 380ms 220ms cubic-bezier(0.22,1,0.36,1) both;
-  --animate-alert-in:               alert-in 180ms ease;
-  --animate-fade-up:                fade-up 200ms ease;
-  --animate-scale-in:               scale-in-ks 200ms cubic-bezier(0.34,1.56,0.64,1);
-  --animate-progress-stripe:        progress-stripe 600ms linear infinite;
-  --animate-progress-indeterminate: progress-indeterminate 1.4s cubic-bezier(0.65,0,0.35,1) infinite;
-  --animate-shimmer:                shimmer 1.6s ease-in-out infinite;
-  --animate-toast-in:               toast-in 220ms cubic-bezier(0.34,1.3,0.64,1);
-  --animate-toast-out:              toast-out 200ms ease forwards;
-  --animate-ping-dot:               ping-dot 1.5s cubic-bezier(0,0,0.2,1) infinite;
-  --animate-slide-up:               slide-up-ks 400ms cubic-bezier(0.4,0,0.2,1) both;
-  --animate-slide-down:             slide-down-ks 400ms cubic-bezier(0.4,0,0.2,1) both;
-  --animate-slide-left:             slide-left-ks 400ms cubic-bezier(0.4,0,0.2,1) both;
-  --animate-slide-right:            slide-right-ks 400ms cubic-bezier(0.4,0,0.2,1) both;
-  --animate-fade-in:                fade-in-ks 400ms ease both;
-  --animate-marquee-left:           marquee-left var(--_duration,30s) linear infinite;
-  --animate-marquee-right:          marquee-right var(--_duration,30s) linear infinite;
-  --animate-marquee-up:             marquee-up var(--_duration,30s) linear infinite;
-  --animate-marquee-down:           marquee-down var(--_duration,30s) linear infinite;
-  --animate-blink:                  blink 1.1s step-end infinite;
+  --animate-spin-btn: spin-ks 560ms linear infinite;
+  --animate-spin-icon: spin-ks 700ms linear infinite;
+  --animate-status-in: status-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-status-err: status-in 240ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    status-shake 380ms 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-alert-in: alert-in 180ms ease;
+  --animate-fade-up: fade-up 200ms ease;
+  --animate-scale-in: scale-in-ks 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-progress-stripe: progress-stripe 600ms linear infinite;
+  --animate-progress-indeterminate: progress-indeterminate 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-toast-in: toast-in 220ms cubic-bezier(0.34, 1.3, 0.64, 1);
+  --animate-toast-out: toast-out 200ms ease forwards;
+  --animate-ping-dot: ping-dot 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-slide-up: slide-up-ks 400ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-down: slide-down-ks 400ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-left: slide-left-ks 400ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-slide-right: slide-right-ks 400ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-fade-in: fade-in-ks 400ms ease both;
+  --animate-marquee-left: marquee-left var(--_duration, 30s) linear infinite;
+  --animate-marquee-right: marquee-right var(--_duration, 30s) linear infinite;
+  --animate-marquee-up: marquee-up var(--_duration, 30s) linear infinite;
+  --animate-marquee-down: marquee-down var(--_duration, 30s) linear infinite;
+  --animate-blink: blink 1.1s step-end infinite;
 }
 
 /* ── KS keyframes (prefixed to avoid collisions with tailwindcss-animate) ── */
-@keyframes spin-ks         { to   { transform: rotate(360deg); } }
-@keyframes status-in       { from { transform: scale(0.4) rotate(-12deg); opacity: 0; } to { transform: scale(1) rotate(0deg); opacity: 1; } }
-@keyframes status-shake    { 0% { transform: translateX(0); } 20% { transform: translateX(-4px); } 60% { transform: translateX(4px); } 80% { transform: translateX(-2px); } 100% { transform: translateX(0); } }
-@keyframes alert-in        { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fade-up         { from { opacity: 0; transform: translateY(8px);  } to { opacity: 1; transform: translateY(0); } }
-@keyframes scale-in-ks     { from { opacity: 0; transform: scale(0.92); }     to { opacity: 1; transform: scale(1); } }
-@keyframes progress-stripe { from { background-position: 0 0; } to { background-position: 32px 0; } }
-@keyframes progress-indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
-@keyframes shimmer         { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
-@keyframes toast-in        { from { opacity: 0; transform: translateY(8px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes toast-out       { from { opacity: 1; transform: scale(1); max-height: 120px; margin-bottom: 0; } to { opacity: 0; transform: scale(0.95); max-height: 0; margin-bottom: -0.5rem; } }
-@keyframes ping-dot        { 0% { transform: scale(1); opacity: 0.75; } 100% { transform: scale(2.2); opacity: 0; } }
-@keyframes slide-up-ks    { from { opacity: 0; transform: translateY(16px);  } to { opacity: 1; transform: translateY(0); } }
-@keyframes slide-down-ks  { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slide-left-ks  { from { opacity: 0; transform: translateX(16px);  } to { opacity: 1; transform: translateX(0); } }
-@keyframes slide-right-ks { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes fade-in-ks     { from { opacity: 0; } to { opacity: 1; } }
-@keyframes marquee-left   { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
-@keyframes marquee-right  { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-@keyframes marquee-up     { from { transform: translateY(0); }    to { transform: translateY(-50%); } }
-@keyframes marquee-down   { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-@keyframes blink          { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes ks-cal-in      { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes ks-cmd-in      { from { opacity: 0; transform: translateY(-8px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes spin-ks {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes status-in {
+  from {
+    transform: scale(0.4) rotate(-12deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes status-shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  60% {
+    transform: translateX(4px);
+  }
+  80% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes alert-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scale-in-ks {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes progress-stripe {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
+  }
+}
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    max-height: 120px;
+    margin-bottom: 0;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+    max-height: 0;
+    margin-bottom: -0.5rem;
+  }
+}
+@keyframes ping-dot {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes slide-up-ks {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slide-down-ks {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slide-left-ks {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slide-right-ks {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fade-in-ks {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes ks-cal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes ks-cmd-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
