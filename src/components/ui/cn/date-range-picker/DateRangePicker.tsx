@@ -34,7 +34,7 @@ function MonthGrid({ year, month, range, hovered, onDay, onHover }: {
     <>
       <div className="grid grid-cols-7 gap-[2px]">
         {DAYS.map(d => (
-          <div key={d} className="text-center text-[0.6875rem] font-semibold text-muted opacity-50 py-[3px]">{d}</div>
+          <div key={d} className="text-center text-body-caption font-semibold text-muted opacity-50 py-[3px]">{d}</div>
         ))}
         {cells.map((day, i) => {
           if (!day) return <div key={i} className="pointer-events-none" />
@@ -47,7 +47,7 @@ function MonthGrid({ year, month, range, hovered, onDay, onHover }: {
               key={i}
               type="button"
               className={cn(
-                'text-center text-[0.75rem] py-[5px] border-0 bg-transparent text-foreground cursor-pointer transition-colors duration-100',
+                'text-center text-body-caption py-[5px] border-0 bg-transparent text-foreground cursor-pointer transition-colors duration-100',
                 !isStart && !isEnd && 'rounded-[--radius-sm] hover:bg-raised',
                 isToday && 'font-bold',
                 (isStart || isEnd) && 'bg-patina text-patina-fg font-bold',
@@ -121,32 +121,32 @@ export function DateRangePicker({
     <div ref={rootRef} className={cn('relative inline-flex', className)} style={style}>
       <button
         className={cn(
-          'inline-flex items-center gap-2 px-3 py-2 bg-sunken border border-rule rounded-[--radius-base] cursor-pointer text-[0.875rem] text-foreground transition-colors duration-150 min-w-[200px] justify-between hover:border-patina',
+          'inline-flex items-center gap-2 px-3 py-2 bg-sunken border border-rule rounded-[--radius-base] cursor-pointer text-body-callout text-foreground transition-colors duration-150 min-w-[200px] justify-between hover:border-patina',
           disabled && 'opacity-40 cursor-not-allowed',
         )}
         onClick={() => !disabled && setOpen(o => !o)}
         type="button"
       >
-        <span className="opacity-50 text-[0.9375rem]">📅</span>
-        <span className={cn('flex-1 text-left text-[0.8125rem]', !displayLabel && 'opacity-40')}>
+        <span className="opacity-50 text-body-paragraph">📅</span>
+        <span className={cn('flex-1 text-left text-body-callout', !displayLabel && 'opacity-40')}>
           {displayLabel ?? placeholder}
         </span>
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+8px)] left-0 z-[200] bg-float border border-rule rounded-[--radius-lg] shadow-[0_8px_32px_rgba(0,0,0,0.2)] p-4 flex gap-4 animate-in fade-in slide-in-from-top-1 duration-[120ms]">
+        <div className="absolute top-[calc(100%+8px)] left-0 z-[200] bg-float border border-rule rounded-[--radius-lg] shadow-[0_8px_32px_color-mix(in_srgb,black_20%,transparent)] p-4 flex gap-4 animate-in fade-in slide-in-from-top-1 duration-[120ms]">
           {/* Left month */}
           <div className="min-w-[220px]">
             <div className="flex items-center justify-between mb-3">
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-[1rem] px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
                 onClick={prev}
                 type="button"
               >
                 ‹
               </button>
-              <span className="font-bold text-[0.8125rem] text-foreground">{MONTHS[leftMonth]} {leftYear}</span>
+              <span className="font-bold text-body-callout text-foreground">{MONTHS[leftMonth]} {leftYear}</span>
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-[1rem] px-[6px] py-[2px] rounded"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
                 type="button"
               >
                 ›
@@ -158,14 +158,14 @@ export function DateRangePicker({
           <div className="min-w-[220px]">
             <div className="flex items-center justify-between mb-3">
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-[1rem] px-[6px] py-[2px] rounded"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
                 type="button"
               >
                 ‹
               </button>
-              <span className="font-bold text-[0.8125rem] text-foreground">{MONTHS[rightMonth]} {rightYear}</span>
+              <span className="font-bold text-body-callout text-foreground">{MONTHS[rightMonth]} {rightYear}</span>
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-[1rem] px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
                 onClick={next}
                 type="button"
               >

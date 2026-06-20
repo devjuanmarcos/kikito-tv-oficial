@@ -56,17 +56,17 @@ export function CreditCard({
                 <div className="cc-chip-grid">
                   {Array(9).fill(null).map((_, i) => <div key={i} className="cc-chip-cell" />)}
                 </div>
-                <span className="font-bold text-lg tracking-widest opacity-90">{brandLabel(brand)}</span>
+                <span className="font-bold text-body-title tracking-widest opacity-90">{brandLabel(brand)}</span>
               </div>
-              <div className="font-mono text-[1.1rem] tracking-[0.22em] mt-auto">{maskNumber(number)}</div>
+              <div className="font-mono text-body-title tracking-[0.22em] mt-auto">{maskNumber(number)}</div>
               <div className="flex justify-between items-end">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[0.6rem] opacity-60 uppercase tracking-widest">Card Holder</span>
-                  <span className="text-[0.875rem] font-semibold tracking-wide uppercase truncate max-w-[160px]">{name || 'CARD HOLDER'}</span>
+                  <span className="text-body-callout font-semibold tracking-wide uppercase truncate max-w-[160px]">{name || 'CARD HOLDER'}</span>
                 </div>
                 <div className="flex flex-col gap-0.5 items-end">
                   <span className="text-[0.6rem] opacity-60 uppercase tracking-widest">Expires</span>
-                  <span className="text-[0.875rem] font-semibold tracking-wide">{expiry || 'MM/YY'}</span>
+                  <span className="text-body-callout font-semibold tracking-wide">{expiry || 'MM/YY'}</span>
                 </div>
               </div>
             </div>
@@ -80,7 +80,7 @@ export function CreditCard({
                 </div>
                 <div className="flex flex-col items-end gap-0.5 shrink-0">
                   <span className="text-[0.6rem] uppercase tracking-widest opacity-60">CVV</span>
-                  <span className="font-mono text-[0.875rem] tracking-[0.3em]">{cvv}</span>
+                  <span className="font-mono text-body-callout tracking-[0.3em]">{cvv}</span>
                 </div>
               </div>
             </div>
