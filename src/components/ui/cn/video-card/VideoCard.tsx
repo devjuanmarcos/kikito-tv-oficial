@@ -1,9 +1,10 @@
-import { cn } from '@/lib/utils'
-import type { VideoCardProps } from './video-card.types'
+﻿import { cn } from "@/lib/utils";
+
+import type { VideoCardProps } from "./video-card.types";
 
 export function VideoCard({
   poster,
-  title = 'Untitled Video',
+  title = "Untitled Video",
   description,
   duration,
   category,
@@ -12,12 +13,12 @@ export function VideoCard({
   className,
   style,
 }: VideoCardProps) {
-  const El = href ? 'a' : 'div'
+  const El = href ? "a" : "div";
   return (
     <El
       className={cn(
-        'group rounded-[--radius-lg] border border-rule bg-raised overflow-hidden transition-shadow hover:shadow-md',
-        href && 'cursor-pointer',
+        "group rounded-(--radius-lg) border border-rule bg-raised overflow-hidden transition-shadow hover:shadow-md",
+        href && "cursor-pointer",
         className
       )}
       style={style}
@@ -25,12 +26,15 @@ export function VideoCard({
     >
       {/* Thumbnail */}
       <div className="relative aspect-video bg-graphite overflow-hidden">
-        {poster
-          ? <img src={poster} alt={title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-          : (
-            <div className="absolute inset-0 flex items-center justify-center text-heading-02 text-foreground/20">▶</div>
-          )
-        }
+        {poster ? (
+          <img
+            src={poster}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-heading-02 text-foreground/20">▶</div>
+        )}
         {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-canvas/50">
           <div className="w-12 h-12 rounded-full bg-raised flex items-center justify-center text-body-title translate-x-0.5 text-foreground">
@@ -52,15 +56,13 @@ export function VideoCard({
       {/* Body */}
       <div className="p-3 flex flex-col gap-1">
         <p className="font-semibold text-foreground text-body-paragraph leading-snug line-clamp-2">{title}</p>
-        {description && (
-          <p className="text-body-callout text-muted leading-snug line-clamp-2">{description}</p>
-        )}
+        {description && <p className="text-body-callout text-muted leading-snug line-clamp-2">{description}</p>}
         {views !== undefined && (
           <p className="text-body-caption text-faint mt-0.5">
-            {typeof views === 'number' ? `${views.toLocaleString()} views` : views}
+            {typeof views === "number" ? `${views.toLocaleString()} views` : views}
           </p>
         )}
       </div>
     </El>
-  )
+  );
 }

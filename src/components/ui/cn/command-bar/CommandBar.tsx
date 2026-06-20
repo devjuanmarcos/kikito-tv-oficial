@@ -1,39 +1,49 @@
-'use client'
+﻿"use client";
 
-import { useState, useMemo } from 'react'
-import { cn } from '@/lib/utils'
-import type { CommandBarProps } from './command-bar.types'
+import { useState, useMemo } from "react";
 
-export function CommandBar({ actions, placeholder = 'Search commands…', className, style }: CommandBarProps) {
-  const [query, setQuery] = useState('')
-  const [cursor, setCursor] = useState(0)
+import { cn } from "@/lib/utils";
+
+import type { CommandBarProps } from "./command-bar.types";
+
+export function CommandBar({ actions, placeholder = "Search commands…", className, style }: CommandBarProps) {
+  const [query, setQuery] = useState("");
+  const [cursor, setCursor] = useState(0);
 
   const filtered = useMemo(() => {
-    const q = query.toLowerCase()
-    return q ? actions.filter(a => a.label.toLowerCase().includes(q)) : actions
-  }, [actions, query])
+    const q = query.toLowerCase();
+    return q ? actions.filter((a) => a.label.toLowerCase().includes(q)) : actions;
+  }, [actions, query]);
 
   const groups = useMemo(() => {
-    const map = new Map<string, typeof filtered>()
-    filtered.forEach(a => {
-      const g = a.group ?? 'Actions'
-      if (!map.has(g)) map.set(g, [])
-      map.get(g)!.push(a)
-    })
-    return map
-  }, [filtered])
+    const map = new Map<string, typeof filtered>();
+    filtered.forEach((a) => {
+      const g = a.group ?? "Actions";
+      if (!map.has(g)) map.set(g, []);
+      map.get(g)!.push(a);
+    });
+    return map;
+  }, [filtered]);
 
   function onKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'ArrowDown') { e.preventDefault(); setCursor(c => Math.min(filtered.length - 1, c + 1)) }
-    if (e.key === 'ArrowUp')   { e.preventDefault(); setCursor(c => Math.max(0, c - 1)) }
-    if (e.key === 'Enter' && filtered[cursor]) { filtered[cursor].onSelect?.() }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setCursor((c) => Math.min(filtered.length - 1, c + 1));
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setCursor((c) => Math.max(0, c - 1));
+    }
+    if (e.key === "Enter" && filtered[cursor]) {
+      filtered[cursor].onSelect?.();
+    }
   }
 
-  let flatIdx = 0
+  let flatIdx = 0;
 
   return (
     <div
-      className={cn('rounded-[--radius-lg] border border-rule bg-raised overflow-hidden shadow-lg', className)}
+      className={cn("rounded-(--radius-lg) border border-rule bg-raised overflow-hidden shadow-lg", className)}
       style={style}
     >
       {/* Search row */}
@@ -43,8 +53,12 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
           className="flex-1 bg-transparent outline-none text-foreground text-body-callout placeholder:text-faint"
           placeholder={placeholder}
           value={query}
-          onChange={e => { setQuery(e.target.value); setCursor(0) }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setCursor(0);
+          }}
           onKeyDown={onKeyDown}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
         />
       </div>
@@ -59,14 +73,14 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
             <div className="px-3 pt-2 pb-1 text-body-caption font-semibold text-faint uppercase tracking-[0.08em]">
               {group}
             </div>
-            {items.map(item => {
-              const idx = flatIdx++
+            {items.map((item) => {
+              const idx = flatIdx++;
               return (
                 <div
                   key={item.id}
                   className={cn(
-                    'flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors',
-                    cursor === idx ? 'bg-patina/10 text-patina' : 'text-foreground hover:bg-graphite'
+                    "flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors",
+                    cursor === idx ? "bg-patina/10 text-patina" : "text-foreground hover:bg-graphite"
                   )}
                   onClick={() => item.onSelect?.()}
                   onMouseEnter={() => setCursor(idx)}
@@ -76,16 +90,21 @@ export function CommandBar({ actions, placeholder = 'Search commands…', classN
                   {item.shortcut && (
                     <span className="flex items-center gap-1">
                       {item.shortcut.map((k, i) => (
-                        <kbd key={i} className="text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded text-faint">{k}</kbd>
+                        <kbd
+                          key={i}
+                          className="text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded text-faint"
+                        >
+                          {k}
+                        </kbd>
                       ))}
                     </span>
                   )}
                 </div>
-              )
+              );
             })}
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }

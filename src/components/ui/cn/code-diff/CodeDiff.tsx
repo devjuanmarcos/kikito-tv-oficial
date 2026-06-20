@@ -1,50 +1,54 @@
-'use client'
+﻿"use client";
 
-import { useMemo } from 'react'
-import { cn } from '@/lib/utils'
-import type { CodeDiffProps, DiffLine } from './code-diff.types'
+import { useMemo } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { CodeDiffProps, DiffLine } from "./code-diff.types";
 
 function computeDiff(before: string, after: string): DiffLine[] {
-  const oldLines = before.split('\n')
-  const newLines = after.split('\n')
-  const matrix: number[][] = Array.from({ length: oldLines.length + 1 }, () =>
-    new Array(newLines.length + 1).fill(0)
-  )
+  const oldLines = before.split("\n");
+  const newLines = after.split("\n");
+  const matrix: number[][] = Array.from({ length: oldLines.length + 1 }, () => new Array(newLines.length + 1).fill(0));
   for (let i = 1; i <= oldLines.length; i++) {
     for (let j = 1; j <= newLines.length; j++) {
-      matrix[i][j] = oldLines[i - 1] === newLines[j - 1]
-        ? (matrix[i - 1][j - 1] ?? 0) + 1
-        : Math.max(matrix[i - 1][j] ?? 0, matrix[i][j - 1] ?? 0)
+      matrix[i][j] =
+        oldLines[i - 1] === newLines[j - 1]
+          ? (matrix[i - 1][j - 1] ?? 0) + 1
+          : Math.max(matrix[i - 1][j] ?? 0, matrix[i][j - 1] ?? 0);
     }
   }
-  const result: DiffLine[] = []
-  let i = oldLines.length, j = newLines.length
-  let oldNum = oldLines.length, newNum = newLines.length
+  const result: DiffLine[] = [];
+  let i = oldLines.length,
+    j = newLines.length;
+  let oldNum = oldLines.length,
+    newNum = newLines.length;
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {
-      result.unshift({ type: 'unchanged', content: oldLines[i - 1] ?? '', oldNum: oldNum--, newNum: newNum-- })
-      i--; j--
+      result.unshift({ type: "unchanged", content: oldLines[i - 1] ?? "", oldNum: oldNum--, newNum: newNum-- });
+      i--;
+      j--;
     } else if (j > 0 && (i === 0 || (matrix[i][j - 1] ?? 0) >= (matrix[i - 1][j] ?? 0))) {
-      result.unshift({ type: 'added', content: newLines[j - 1] ?? '', newNum: newNum-- })
-      j--
+      result.unshift({ type: "added", content: newLines[j - 1] ?? "", newNum: newNum-- });
+      j--;
     } else {
-      result.unshift({ type: 'removed', content: oldLines[i - 1] ?? '', oldNum: oldNum-- })
-      i--
+      result.unshift({ type: "removed", content: oldLines[i - 1] ?? "", oldNum: oldNum-- });
+      i--;
     }
   }
-  return result
+  return result;
 }
 
 const LINE_BG: Record<string, string> = {
-  added:     'bg-success/10',
-  removed:   'bg-danger/10',
-  unchanged: '',
-}
+  added: "bg-success/10",
+  removed: "bg-danger/10",
+  unchanged: "",
+};
 const LINE_SIGN: Record<string, string> = {
-  added:     'text-success',
-  removed:   'text-danger',
-  unchanged: 'text-faint',
-}
+  added: "text-success",
+  removed: "text-danger",
+  unchanged: "text-faint",
+};
 
 export function CodeDiff({
   before,
@@ -57,13 +61,16 @@ export function CodeDiff({
   className,
   style,
 }: CodeDiffProps) {
-  const diff = useMemo(() => computeDiff(before, after), [before, after])
-  const beforeLines = before.split('\n')
-  const afterLines = after.split('\n')
+  const diff = useMemo(() => computeDiff(before, after), [before, after]);
+  const beforeLines = before.split("\n");
+  const afterLines = after.split("\n");
 
   return (
     <div
-      className={cn('rounded-[--radius-md] border border-rule bg-canvas overflow-hidden font-mono text-body-callout', className)}
+      className={cn(
+        "rounded-(--radius-md) border border-rule bg-canvas overflow-hidden font-mono text-body-callout",
+        className
+      )}
       style={style}
     >
       {(filename || language) && (
@@ -73,15 +80,15 @@ export function CodeDiff({
         </div>
       )}
 
-      <div style={{ maxHeight, overflow: 'auto' }}>
+      <div style={{ maxHeight, overflow: "auto" }}>
         {splitView ? (
           <div className="grid grid-cols-2 divide-x divide-rule">
-            {(['before', 'after'] as const).map(side => {
-              const lines = side === 'before' ? beforeLines : afterLines
+            {(["before", "after"] as const).map((side) => {
+              const lines = side === "before" ? beforeLines : afterLines;
               return (
                 <div key={side}>
                   <div className="px-4 py-1 bg-raised border-b border-rule text-faint text-body-caption font-semibold uppercase tracking-wide">
-                    {side === 'before' ? '− Before' : '+ After'}
+                    {side === "before" ? "− Before" : "+ After"}
                   </div>
                   <table className="w-full border-collapse">
                     <tbody>
@@ -98,7 +105,7 @@ export function CodeDiff({
                     </tbody>
                   </table>
                 </div>
-              )
+              );
             })}
           </div>
         ) : (
@@ -109,15 +116,15 @@ export function CodeDiff({
                   {showLineNumbers && (
                     <>
                       <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
-                        {line.type !== 'added' ? (line.oldNum ?? '') : ''}
+                        {line.type !== "added" ? line.oldNum ?? "" : ""}
                       </td>
                       <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
-                        {line.type !== 'removed' ? (line.newNum ?? '') : ''}
+                        {line.type !== "removed" ? line.newNum ?? "" : ""}
                       </td>
                     </>
                   )}
-                  <td className={cn('select-none w-5 text-center py-0.5 font-bold', LINE_SIGN[line.type])}>
-                    {line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '}
+                  <td className={cn("select-none w-5 text-center py-0.5 font-bold", LINE_SIGN[line.type])}>
+                    {line.type === "added" ? "+" : line.type === "removed" ? "-" : " "}
                   </td>
                   <td className="py-0.5 pl-2 whitespace-pre text-foreground">{line.content}</td>
                 </tr>
@@ -127,5 +134,5 @@ export function CodeDiff({
         )}
       </div>
     </div>
-  )
+  );
 }

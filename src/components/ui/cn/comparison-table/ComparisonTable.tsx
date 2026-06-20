@@ -1,36 +1,40 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import type { ComparisonTableProps } from './comparison-table.types'
+﻿import React from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { ComparisonTableProps } from "./comparison-table.types";
 
 function CellValue({ value }: { value: boolean | string | React.ReactNode }) {
   if (value === true)
-    return <span className="text-success font-bold text-body-paragraph" aria-label="included">✓</span>
+    return (
+      <span className="text-success font-bold text-body-paragraph" aria-label="included">
+        ✓
+      </span>
+    );
   if (value === false)
-    return <span className="text-faint font-bold text-body-paragraph" aria-label="not included">✕</span>
-  return <span>{value as React.ReactNode}</span>
+    return (
+      <span className="text-faint font-bold text-body-paragraph" aria-label="not included">
+        ✕
+      </span>
+    );
+  return <span>{value as React.ReactNode}</span>;
 }
 
-export function ComparisonTable({
-  columns,
-  rows,
-  stickyHeader = false,
-  className,
-  style,
-}: ComparisonTableProps) {
-  let lastGroup: string | undefined
+export function ComparisonTable({ columns, rows, stickyHeader = false, className, style }: ComparisonTableProps) {
+  let lastGroup: string | undefined;
 
   return (
-    <div className={cn('w-full overflow-x-auto rounded-[--radius-md] border border-rule', className)} style={style}>
+    <div className={cn("w-full overflow-x-auto rounded-(--radius-md) border border-rule", className)} style={style}>
       <table className="w-full border-collapse text-body-callout">
-        <thead className={cn('bg-raised', stickyHeader && 'sticky top-0 z-10')}>
+        <thead className={cn("bg-raised", stickyHeader && "sticky top-0 z-10")}>
           <tr>
-            <th className="text-left px-4 py-3 text-faint font-medium border-b border-rule" style={{ width: '30%' }} />
-            {columns.map(col => (
+            <th className="text-left px-4 py-3 text-faint font-medium border-b border-rule" style={{ width: "30%" }} />
+            {columns.map((col) => (
               <th
                 key={col.key}
                 className={cn(
-                  'text-center px-4 py-3 font-semibold border-b border-rule',
-                  col.highlight ? 'text-patina bg-patina/5' : 'text-foreground'
+                  "text-center px-4 py-3 font-semibold border-b border-rule",
+                  col.highlight ? "text-patina bg-patina/5" : "text-foreground"
                 )}
               >
                 <div className="flex items-center justify-center gap-1.5">
@@ -47,8 +51,8 @@ export function ComparisonTable({
         </thead>
         <tbody>
           {rows.map((row, i) => {
-            const isNewGroup = row.group && row.group !== lastGroup
-            if (isNewGroup) lastGroup = row.group
+            const isNewGroup = row.group && row.group !== lastGroup;
+            if (isNewGroup) lastGroup = row.group;
             return (
               <React.Fragment key={i}>
                 {isNewGroup && (
@@ -75,23 +79,17 @@ export function ComparisonTable({
                       )}
                     </div>
                   </td>
-                  {columns.map(col => (
-                    <td
-                      key={col.key}
-                      className={cn(
-                        'text-center px-4 py-3',
-                        col.highlight && 'bg-patina/5'
-                      )}
-                    >
+                  {columns.map((col) => (
+                    <td key={col.key} className={cn("text-center px-4 py-3", col.highlight && "bg-patina/5")}>
                       <CellValue value={row.values[col.key] ?? false} />
                     </td>
                   ))}
                 </tr>
               </React.Fragment>
-            )
+            );
           })}
         </tbody>
       </table>
     </div>
-  )
+  );
 }

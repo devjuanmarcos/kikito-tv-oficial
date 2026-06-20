@@ -1,51 +1,40 @@
-import type React from 'react'
-import { cn } from '@/lib/utils'
+﻿import type React from "react";
 
-export type SkeletonShape = 'default' | 'circle' | 'rounded' | 'pill'
+import { cn } from "@/lib/utils";
+
+export type SkeletonShape = "default" | "circle" | "rounded" | "pill";
 
 export interface SkeletonProps {
-  width?:     string | number
-  height?:    string | number
-  shape?:     SkeletonShape
-  animate?:   boolean
-  className?: string
-  style?:     React.CSSProperties
+  width?: string | number;
+  height?: string | number;
+  shape?: SkeletonShape;
+  animate?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const SHAPE_CLS: Record<SkeletonShape, string> = {
-  default: 'rounded-none',
-  rounded: 'rounded-[--radius-sm]',
-  circle:  'rounded-full',
-  pill:    'rounded-full',
-}
+  default: "rounded-none",
+  rounded: "rounded-(--radius-sm)",
+  circle: "rounded-full",
+  pill: "rounded-full",
+};
 
 function toPx(v: string | number | undefined, fallback: string): string {
-  if (v === undefined) return fallback
-  return typeof v === 'number' ? `${v}px` : v
+  if (v === undefined) return fallback;
+  return typeof v === "number" ? `${v}px` : v;
 }
 
-export function Skeleton({
-  width,
-  height,
-  shape   = 'default',
-  animate = true,
-  className,
-  style,
-}: SkeletonProps) {
+export function Skeleton({ width, height, shape = "default", animate = true, className, style }: SkeletonProps) {
   return (
     <span
-      className={cn(
-        'block bg-graphite',
-        animate && 'animate-pulse',
-        SHAPE_CLS[shape],
-        className,
-      )}
+      className={cn("block bg-graphite", animate && "animate-pulse", SHAPE_CLS[shape], className)}
       style={{
-        width:  toPx(width,  '100%'),
-        height: toPx(height, '1rem'),
+        width: toPx(width, "100%"),
+        height: toPx(height, "1rem"),
         ...style,
       }}
       aria-hidden="true"
     />
-  )
+  );
 }

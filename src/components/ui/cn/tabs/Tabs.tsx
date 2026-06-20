@@ -1,88 +1,123 @@
-'use client'
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { TabsProps, TabPanelProps } from './tabs.types'
+﻿"use client";
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { TabsProps, TabPanelProps } from "./tabs.types";
 
 const SIZE_CLS: Record<string, { tab: string; font: string }> = {
-  sm: { tab: 'h-8 px-3',  font: 'text-body-caption' },
-  md: { tab: 'h-10 px-4', font: 'text-body-callout' },
-  lg: { tab: 'h-12 px-5', font: 'text-body-paragraph' },
-}
+  sm: { tab: "h-8 px-3", font: "text-body-caption" },
+  md: { tab: "h-10 px-4", font: "text-body-callout" },
+  lg: { tab: "h-12 px-5", font: "text-body-paragraph" },
+};
 
 const ALIGN_CLS: Record<string, string> = {
-  start:   'justify-start',
-  center:  'justify-center',
-  end:     'justify-end',
-  stretch: 'flex',
-}
+  start: "justify-start",
+  center: "justify-center",
+  end: "justify-end",
+  stretch: "flex",
+};
 
 /* line variant */
-function LineTab({ item, active, size }: { item: import('./tabs.types').TabItem; active: boolean; size: string; onClick: () => void }) {
-  const sz = SIZE_CLS[size]
+function LineTab({
+  item,
+  active,
+  size,
+}: {
+  item: import("./tabs.types").TabItem;
+  active: boolean;
+  size: string;
+  onClick: () => void;
+}) {
+  const sz = SIZE_CLS[size];
   return (
-    <span className={cn(
-      'inline-flex items-center gap-1.5 shrink-0 font-medium transition-[color,border] duration-[120ms] border-b-2 -mb-px',
-      sz.tab, sz.font,
-      active ? 'text-patina border-patina' : 'text-muted border-transparent hover:text-foreground hover:border-rule',
-      item.disabled && 'opacity-40 cursor-not-allowed',
-    )}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 shrink-0 font-medium transition-[color,border] duration-[120ms] border-b-2 -mb-px",
+        sz.tab,
+        sz.font,
+        active ? "text-patina border-patina" : "text-muted border-transparent hover:text-foreground hover:border-rule",
+        item.disabled && "opacity-40 cursor-not-allowed"
+      )}
+    >
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
     </span>
-  )
+  );
 }
 
 /* pill variant */
-function PillTab({ item, active, size }: { item: import('./tabs.types').TabItem; active: boolean; size: string }) {
-  const sz = SIZE_CLS[size]
+function PillTab({ item, active, size }: { item: import("./tabs.types").TabItem; active: boolean; size: string }) {
+  const sz = SIZE_CLS[size];
   return (
-    <span className={cn(
-      'inline-flex items-center gap-1.5 shrink-0 font-medium rounded-[--radius-sm] transition-[background,color] duration-[120ms]',
-      sz.tab, sz.font,
-      active ? 'bg-patina text-patina-fg' : 'text-muted hover:bg-graphite hover:text-foreground',
-      item.disabled && 'opacity-40 cursor-not-allowed',
-    )}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 shrink-0 font-medium rounded-(--radius-sm) transition-[background,color] duration-[120ms]",
+        sz.tab,
+        sz.font,
+        active ? "bg-patina text-patina-fg" : "text-muted hover:bg-graphite hover:text-foreground",
+        item.disabled && "opacity-40 cursor-not-allowed"
+      )}
+    >
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
     </span>
-  )
+  );
 }
 
 /* card variant */
-function CardTab({ item, active, size }: { item: import('./tabs.types').TabItem; active: boolean; size: string }) {
-  const sz = SIZE_CLS[size]
+function CardTab({ item, active, size }: { item: import("./tabs.types").TabItem; active: boolean; size: string }) {
+  const sz = SIZE_CLS[size];
   return (
-    <span className={cn(
-      'inline-flex items-center gap-1.5 shrink-0 font-medium border border-b-0 transition-[background,color] duration-[120ms] rounded-t-[--radius-sm]',
-      sz.tab, sz.font,
-      active ? 'bg-base border-rule text-foreground' : 'bg-graphite border-transparent text-muted hover:text-foreground',
-      item.disabled && 'opacity-40 cursor-not-allowed',
-    )}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 shrink-0 font-medium border border-b-0 transition-[background,color] duration-[120ms] rounded-t-[--radius-sm]",
+        sz.tab,
+        sz.font,
+        active
+          ? "bg-base border-rule text-foreground"
+          : "bg-graphite border-transparent text-muted hover:text-foreground",
+        item.disabled && "opacity-40 cursor-not-allowed"
+      )}
+    >
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
     </span>
-  )
+  );
 }
 
 /* enclosed variant */
-function EnclosedTab({ item, active, size, stretch }: { item: import('./tabs.types').TabItem; active: boolean; size: string; stretch?: boolean }) {
-  const sz = SIZE_CLS[size]
+function EnclosedTab({
+  item,
+  active,
+  size,
+  stretch,
+}: {
+  item: import("./tabs.types").TabItem;
+  active: boolean;
+  size: string;
+  stretch?: boolean;
+}) {
+  const sz = SIZE_CLS[size];
   return (
-    <span className={cn(
-      'inline-flex items-center justify-center gap-1.5 font-medium transition-[background,color] duration-[120ms] rounded-[--radius-sm]',
-      sz.tab, sz.font,
-      stretch ? 'flex-1' : 'shrink-0',
-      active ? 'bg-raised shadow-sm text-foreground' : 'text-muted hover:text-foreground',
-      item.disabled && 'opacity-40 cursor-not-allowed',
-    )}>
+    <span
+      className={cn(
+        "inline-flex items-center justify-center gap-1.5 font-medium transition-[background,color] duration-[120ms] rounded-(--radius-sm)",
+        sz.tab,
+        sz.font,
+        stretch ? "flex-1" : "shrink-0",
+        active ? "bg-raised shadow-sm text-foreground" : "text-muted hover:text-foreground",
+        item.disabled && "opacity-40 cursor-not-allowed"
+      )}
+    >
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
     </span>
-  )
+  );
 }
 
 export function Tabs({
@@ -90,35 +125,35 @@ export function Tabs({
   value,
   defaultValue,
   onChange,
-  variant  = 'line',
-  size     = 'md',
-  align    = 'start',
+  variant = "line",
+  size = "md",
+  align = "start",
   className,
   children,
 }: TabsProps) {
-  const isControlled = value !== undefined
-  const [internal, setInternal] = useState(defaultValue ?? items[0]?.value ?? '')
-  const active = isControlled ? (value ?? '') : internal
+  const isControlled = value !== undefined;
+  const [internal, setInternal] = useState(defaultValue ?? items[0]?.value ?? "");
+  const active = isControlled ? value ?? "" : internal;
 
   function select(v: string) {
-    if (!isControlled) setInternal(v)
-    onChange?.(v)
+    if (!isControlled) setInternal(v);
+    onChange?.(v);
   }
 
-  const isStretch = align === 'stretch'
+  const isStretch = align === "stretch";
 
   const tabListCls = cn(
-    'flex',
-    variant === 'line'     && cn('border-b border-rule gap-1', isStretch ? '' : ALIGN_CLS[align]),
-    variant === 'pill'     && cn('p-1 rounded-[--radius-sm]', isStretch ? '' : ALIGN_CLS[align], 'gap-1'),
-    variant === 'card'     && cn('border-b border-rule gap-0', isStretch ? '' : ALIGN_CLS[align]),
-    variant === 'enclosed' && cn('p-1 bg-graphite rounded-[--radius-sm] gap-1', isStretch ? '' : ALIGN_CLS[align]),
-  )
+    "flex",
+    variant === "line" && cn("border-b border-rule gap-1", isStretch ? "" : ALIGN_CLS[align]),
+    variant === "pill" && cn("p-1 rounded-(--radius-sm)", isStretch ? "" : ALIGN_CLS[align], "gap-1"),
+    variant === "card" && cn("border-b border-rule gap-0", isStretch ? "" : ALIGN_CLS[align]),
+    variant === "enclosed" && cn("p-1 bg-graphite rounded-(--radius-sm) gap-1", isStretch ? "" : ALIGN_CLS[align])
+  );
 
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div className={cn("flex flex-col", className)}>
       <div role="tablist" className={tabListCls}>
-        {items.map(item => (
+        {items.map((item) => (
           <button
             key={item.value}
             type="button"
@@ -126,21 +161,33 @@ export function Tabs({
             aria-selected={active === item.value}
             disabled={item.disabled}
             onClick={() => !item.disabled && select(item.value)}
-            className={cn('bg-transparent border-none p-0 cursor-pointer font-inherit', item.disabled && 'cursor-not-allowed', isStretch && variant === 'enclosed' && 'flex-1')}
+            className={cn(
+              "bg-transparent border-none p-0 cursor-pointer font-inherit",
+              item.disabled && "cursor-not-allowed",
+              isStretch && variant === "enclosed" && "flex-1"
+            )}
           >
-            {variant === 'line'     && <LineTab    item={item} active={active === item.value} size={size} onClick={() => select(item.value)} />}
-            {variant === 'pill'     && <PillTab    item={item} active={active === item.value} size={size} />}
-            {variant === 'card'     && <CardTab    item={item} active={active === item.value} size={size} />}
-            {variant === 'enclosed' && <EnclosedTab item={item} active={active === item.value} size={size} stretch={isStretch} />}
+            {variant === "line" && (
+              <LineTab item={item} active={active === item.value} size={size} onClick={() => select(item.value)} />
+            )}
+            {variant === "pill" && <PillTab item={item} active={active === item.value} size={size} />}
+            {variant === "card" && <CardTab item={item} active={active === item.value} size={size} />}
+            {variant === "enclosed" && (
+              <EnclosedTab item={item} active={active === item.value} size={size} stretch={isStretch} />
+            )}
           </button>
         ))}
       </div>
       {children && <div className="mt-4">{children}</div>}
     </div>
-  )
+  );
 }
 
 export function TabPanel({ value, activeTab, children, className }: TabPanelProps) {
-  if (value !== activeTab) return null
-  return <div role="tabpanel" className={className}>{children}</div>
+  if (value !== activeTab) return null;
+  return (
+    <div role="tabpanel" className={className}>
+      {children}
+    </div>
+  );
 }

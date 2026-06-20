@@ -1,11 +1,17 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import type { FunnelChartProps } from './funnel-chart.types'
+﻿import React from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { FunnelChartProps } from "./funnel-chart.types";
 
 const STAGE_COLORS = [
-  'var(--ks-patina)', 'var(--ks-info)', 'var(--ks-kinpaku)',
-  'var(--ks-success)', 'var(--ks-warning)', 'var(--ks-danger)',
-]
+  "var(--ks-patina)",
+  "var(--ks-info)",
+  "var(--ks-kinpaku)",
+  "var(--ks-success)",
+  "var(--ks-warning)",
+  "var(--ks-danger)",
+];
 
 export function FunnelChart({
   stages,
@@ -15,16 +21,16 @@ export function FunnelChart({
   className,
   style,
 }: FunnelChartProps) {
-  if (stages.length === 0) return null
-  const maxVal = stages[0].value
+  if (stages.length === 0) return null;
+  const maxVal = stages[0].value;
 
   return (
-    <div className={cn('flex flex-col gap-1.5 w-full', className)} style={style}>
+    <div className={cn("flex flex-col gap-1.5 w-full", className)} style={style}>
       {stages.map((stage, i) => {
-        const widthPct = maxVal > 0 ? (stage.value / maxVal) * 100 : 100
-        const color = stage.color ?? STAGE_COLORS[i % STAGE_COLORS.length]
-        const prevVal = stages[i - 1]?.value
-        const convRate = prevVal && prevVal > 0 ? (stage.value / prevVal) * 100 : null
+        const widthPct = maxVal > 0 ? (stage.value / maxVal) * 100 : 100;
+        const color = stage.color ?? STAGE_COLORS[i % STAGE_COLORS.length];
+        const prevVal = stages[i - 1]?.value;
+        const convRate = prevVal && prevVal > 0 ? (stage.value / prevVal) * 100 : null;
 
         return (
           <React.Fragment key={stage.label}>
@@ -36,7 +42,7 @@ export function FunnelChart({
             )}
             <div className="flex items-center gap-3">
               <div
-                className="rounded-[--radius-sm] h-11 flex items-center justify-center transition-all duration-500"
+                className="rounded-(--radius-sm) h-11 flex items-center justify-center transition-all duration-500"
                 style={{ width: `${widthPct}%`, background: color, marginInline: `${(100 - widthPct) / 2}%` }}
               >
                 <span className="text-white font-medium text-body-callout px-2 truncate">{stage.label}</span>
@@ -53,8 +59,8 @@ export function FunnelChart({
               )}
             </div>
           </React.Fragment>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

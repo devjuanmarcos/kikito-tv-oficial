@@ -1,5 +1,6 @@
-import Link from 'next/link'
-import { CN_GROUPS, CN_REGISTRY } from '@/lib/cn-registry'
+﻿import Link from "next/link";
+
+import { CN_GROUPS, CN_REGISTRY } from "@/lib/cn-registry";
 
 export default function CnIndexPage() {
   return (
@@ -8,18 +9,23 @@ export default function CnIndexPage() {
         <p className="text-body-caption font-bold tracking-[0.12em] uppercase text-patina mb-2">Design System</p>
         <h1 className="text-heading-03 font-bold text-foreground leading-[1.15] mb-3">Kikito CN</h1>
         <p className="text-body-paragraph text-muted max-w-xl">
-          Biblioteca de componentes construída com Tailwind v4,{' '}
-          <code className="bg-raised px-[5px] py-[2px] rounded-[5px] text-body-callout font-mono text-patina">cn()</code>
+          Biblioteca de componentes construída com Tailwind v4,{" "}
+          <code className="bg-raised px-[5px] py-[2px] rounded-[5px] text-body-callout font-mono text-patina">
+            cn()
+          </code>
           , tokens semânticos e zero CSS Modules.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {CN_GROUPS.map(group => {
-          const components = CN_REGISTRY.filter(c => c.group === group.id)
-          if (components.length === 0) return null
+        {CN_GROUPS.map((group) => {
+          const components = CN_REGISTRY.filter((c) => c.group === group.id);
+          if (components.length === 0) return null;
           return (
-            <div key={group.id} className="rounded-[--radius-md] border border-rule bg-raised p-5 hover:border-patina transition-colors duration-150">
+            <div
+              key={group.id}
+              className="rounded-(--radius-md) border border-rule bg-raised p-5 hover:border-patina transition-colors duration-150"
+            >
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-body-title">{group.icon}</span>
                 <h2 className="text-body-paragraph font-semibold text-foreground">{group.label}</h2>
@@ -29,7 +35,7 @@ export default function CnIndexPage() {
               </div>
               <p className="text-body-callout text-muted mb-4">{group.description}</p>
               <ul className="space-y-[3px]">
-                {components.map(comp => (
+                {components.map((comp) => (
                   <li key={comp.name}>
                     <Link
                       href={`/cn/${comp.group}/${comp.name}`}
@@ -42,7 +48,7 @@ export default function CnIndexPage() {
                 ))}
               </ul>
             </div>
-          )
+          );
         })}
       </div>
 
@@ -53,5 +59,5 @@ export default function CnIndexPage() {
         </p>
       </div>
     </div>
-  )
+  );
 }

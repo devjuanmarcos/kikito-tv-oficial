@@ -1,66 +1,71 @@
-'use client'
+﻿"use client";
 
-import React, { useState, useRef, useEffect } from 'react'
-import { cn } from '@/lib/utils'
-import type { RichSelectProps } from './rich-select.types'
+import React, { useState, useRef, useEffect } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { RichSelectProps } from "./rich-select.types";
 
 export function RichSelect({
   options,
   value,
-  defaultValue = '',
+  defaultValue = "",
   onChange,
-  placeholder = 'Selecionar…',
+  placeholder = "Selecionar…",
   label,
   disabled,
   searchable = false,
-  size = 'md',
+  size = "md",
   className,
   style,
 }: RichSelectProps) {
-  const [internalValue, setInternalValue] = useState(defaultValue)
-  const [open, setOpen] = useState(false)
-  const [search, setSearch] = useState('')
-  const [highlighted, setHighlighted] = useState(0)
-  const rootRef = useRef<HTMLDivElement>(null)
-  const controlled = value !== undefined
-  const selected = controlled ? value : internalValue
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [highlighted, setHighlighted] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const controlled = value !== undefined;
+  const selected = controlled ? value : internalValue;
 
-  const groups = Array.from(new Set(options.map(o => o.group ?? '')))
-  const filtered = options.filter(o =>
-    !search || o.label.toLowerCase().includes(search.toLowerCase()) || o.description?.toLowerCase().includes(search.toLowerCase())
-  )
+  const groups = Array.from(new Set(options.map((o) => o.group ?? "")));
+  const filtered = options.filter(
+    (o) =>
+      !search ||
+      o.label.toLowerCase().includes(search.toLowerCase()) ||
+      o.description?.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
-    const h = (e: MouseEvent) => { if (!rootRef.current?.contains(e.target as Node)) setOpen(false) }
-    document.addEventListener('mousedown', h)
-    return () => document.removeEventListener('mousedown', h)
-  }, [])
+    const h = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
+  }, []);
 
   const select = (v: string) => {
-    if (!controlled) setInternalValue(v)
-    onChange?.(v)
-    setOpen(false)
-    setSearch('')
-  }
+    if (!controlled) setInternalValue(v);
+    onChange?.(v);
+    setOpen(false);
+    setSearch("");
+  };
 
-  const selectedOpt = options.find(o => o.value === selected)
+  const selectedOpt = options.find((o) => o.value === selected);
 
   return (
-    <div ref={rootRef} className={cn('relative flex flex-col gap-1', className)} style={style}>
-      {label && (
-        <label className="text-body-caption font-semibold text-muted">{label}</label>
-      )}
+    <div ref={rootRef} className={cn("relative flex flex-col gap-1", className)} style={style}>
+      {label && <label className="text-body-caption font-semibold text-muted">{label}</label>}
       <button
         type="button"
         className={cn(
-          'flex items-center gap-2 px-3 py-[9px] bg-sunken border border-rule rounded-[--radius-md] cursor-pointer text-foreground text-body-callout transition-colors duration-150 text-left hover:border-patina',
-          open && 'border-patina',
-          disabled && 'opacity-50 cursor-not-allowed',
-          size === 'sm' && 'py-[5px] px-[10px] text-body-caption',
-          size === 'lg' && 'py-[11px] px-[14px] text-body-paragraph',
+          "flex items-center gap-2 px-3 py-[9px] bg-sunken border border-rule rounded-(--radius-md) cursor-pointer text-foreground text-body-callout transition-colors duration-150 text-left hover:border-patina",
+          open && "border-patina",
+          disabled && "opacity-50 cursor-not-allowed",
+          size === "sm" && "py-[5px] px-[10px] text-body-caption",
+          size === "lg" && "py-[11px] px-[14px] text-body-paragraph"
         )}
         disabled={disabled}
-        onClick={() => !disabled && setOpen(o => !o)}
+        onClick={() => !disabled && setOpen((o) => !o)}
       >
         {selectedOpt?.icon && <span className="flex-shrink-0">{selectedOpt.icon}</span>}
         {selectedOpt ? (
@@ -68,25 +73,34 @@ export function RichSelect({
         ) : (
           <span className="flex-1 text-faint">{placeholder}</span>
         )}
-        <span className="ml-auto text-[0.625rem] text-faint flex-shrink-0 transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : undefined }}>▾</span>
+        <span
+          className="ml-auto text-[0.625rem] text-faint flex-shrink-0 transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : undefined }}
+        >
+          ▾
+        </span>
       </button>
 
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-[--radius-md] shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100">
+        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100">
           {searchable && (
             <input
               className="px-3 py-2 border-b border-rule border-t-0 border-l-0 border-r-0 bg-transparent text-foreground text-body-callout outline-none flex-shrink-0 placeholder:text-faint"
               placeholder="Buscar…"
               value={search}
-              onChange={e => { setSearch(e.target.value); setHighlighted(0) }}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setHighlighted(0);
+              }}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
           )}
           <div className="overflow-y-auto flex-1 py-1">
-            {groups.map(group => {
-              const groupOpts = filtered.filter(o => (o.group ?? '') === group)
-              if (groupOpts.length === 0) return null
-              const gOffset = filtered.indexOf(groupOpts[0])
+            {groups.map((group) => {
+              const groupOpts = filtered.filter((o) => (o.group ?? "") === group);
+              if (groupOpts.length === 0) return null;
+              const gOffset = filtered.indexOf(groupOpts[0]);
               return (
                 <div key={group}>
                   {group && (
@@ -98,16 +112,24 @@ export function RichSelect({
                     <div
                       key={opt.value}
                       className={cn(
-                        'flex items-center gap-[10px] px-3 py-[9px] cursor-pointer transition-colors duration-100',
-                        (highlighted === gOffset + i || opt.value === selected) ? 'bg-raised' : 'hover:bg-raised',
-                        opt.disabled && 'opacity-40 pointer-events-none',
+                        "flex items-center gap-[10px] px-3 py-[9px] cursor-pointer transition-colors duration-100",
+                        highlighted === gOffset + i || opt.value === selected ? "bg-raised" : "hover:bg-raised",
+                        opt.disabled && "opacity-40 pointer-events-none"
                       )}
                       onMouseEnter={() => setHighlighted(gOffset + i)}
-                      onMouseDown={e => { e.preventDefault(); if (!opt.disabled) select(opt.value) }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        if (!opt.disabled) select(opt.value);
+                      }}
                     >
                       {opt.icon && <span className="flex-shrink-0 text-body-title text-muted">{opt.icon}</span>}
                       <span className="flex-1 min-w-0">
-                        <span className={cn('block text-body-callout font-medium text-foreground', opt.value === selected && 'text-patina font-semibold')}>
+                        <span
+                          className={cn(
+                            "block text-body-callout font-medium text-foreground",
+                            opt.value === selected && "text-patina font-semibold"
+                          )}
+                        >
                           {opt.label}
                         </span>
                         {opt.description && (
@@ -119,17 +141,15 @@ export function RichSelect({
                           {opt.badge}
                         </span>
                       )}
-                      {opt.value === selected && (
-                        <span className="ml-auto text-patina text-body-callout">✓</span>
-                      )}
+                      {opt.value === selected && <span className="ml-auto text-patina text-body-callout">✓</span>}
                     </div>
                   ))}
                 </div>
-              )
+              );
             })}
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

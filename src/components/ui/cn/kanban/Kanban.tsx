@@ -1,22 +1,29 @@
-'use client'
+﻿"use client";
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { KanbanCard, KanbanColumn, KanbanProps } from './kanban.types'
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { KanbanCard, KanbanColumn, KanbanProps } from "./kanban.types";
 
 const INTENT_COLORS: Record<string, string> = {
-  primary: 'var(--ks-patina)',
-  success: 'var(--ks-success)',
-  warning: 'var(--ks-warning)',
-  danger:  'var(--ks-danger)',
-  neutral: 'var(--ks-rule)',
-}
+  primary: "var(--ks-patina)",
+  success: "var(--ks-success)",
+  warning: "var(--ks-warning)",
+  danger: "var(--ks-danger)",
+  neutral: "var(--ks-rule)",
+};
 
-function KanbanCardItem({ card, dragging, onDragStart, onDragEnd }: {
-  card: KanbanCard
-  dragging: boolean
-  onDragStart: () => void
-  onDragEnd: () => void
+function KanbanCardItem({
+  card,
+  dragging,
+  onDragStart,
+  onDragEnd,
+}: {
+  card: KanbanCard;
+  dragging: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
 }) {
   return (
     <div
@@ -24,26 +31,26 @@ function KanbanCardItem({ card, dragging, onDragStart, onDragEnd }: {
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
       className={cn(
-        'rounded-[--radius-sm] border border-rule bg-lacquer p-3 cursor-grab active:cursor-grabbing select-none',
-        'transition-all duration-150',
-        dragging && 'opacity-40 scale-95'
+        "rounded-(--radius-sm) border border-rule bg-lacquer p-3 cursor-grab active:cursor-grabbing select-none",
+        "transition-all duration-150",
+        dragging && "opacity-40 scale-95"
       )}
     >
       {card.label && (
         <div
           className="inline-block text-[0.625rem] font-bold px-1.5 py-0.5 rounded-full mb-2"
           style={{
-            background: card.labelColor ? card.labelColor + '22' : 'color-mix(in srgb, var(--ks-patina) 15%, transparent)',
-            color: card.labelColor ?? 'var(--ks-patina)',
+            background: card.labelColor
+              ? card.labelColor + "22"
+              : "color-mix(in srgb, var(--ks-patina) 15%, transparent)",
+            color: card.labelColor ?? "var(--ks-patina)",
           }}
         >
           {card.label}
         </div>
       )}
       <div className="text-body-callout font-medium text-foreground">{card.title}</div>
-      {card.description && (
-        <div className="text-body-caption text-muted mt-1 leading-relaxed">{card.description}</div>
-      )}
+      {card.description && <div className="text-body-caption text-muted mt-1 leading-relaxed">{card.description}</div>}
       {card.assignee && (
         <div className="mt-2 flex justify-end">
           <div
@@ -55,48 +62,57 @@ function KanbanCardItem({ card, dragging, onDragStart, onDragEnd }: {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export function Kanban({ columns: initial, onChange, className, style }: KanbanProps) {
-  const [columns, setColumns] = useState<KanbanColumn[]>(initial)
-  const [dragging, setDragging] = useState<{ colId: string; cardId: string | number } | null>(null)
-  const [overCol, setOverCol] = useState<string | null>(null)
+  const [columns, setColumns] = useState<KanbanColumn[]>(initial);
+  const [dragging, setDragging] = useState<{ colId: string; cardId: string | number } | null>(null);
+  const [overCol, setOverCol] = useState<string | null>(null);
 
-  const update = (next: KanbanColumn[]) => { setColumns(next); onChange?.(next) }
+  const update = (next: KanbanColumn[]) => {
+    setColumns(next);
+    onChange?.(next);
+  };
 
-  const onDragOver = (e: React.DragEvent, colId: string) => { e.preventDefault(); setOverCol(colId) }
+  const onDragOver = (e: React.DragEvent, colId: string) => {
+    e.preventDefault();
+    setOverCol(colId);
+  };
 
   const onDrop = (e: React.DragEvent, targetColId: string) => {
-    e.preventDefault()
-    if (!dragging || dragging.colId === targetColId) { setOverCol(null); setDragging(null); return }
-    const next = columns.map(col => {
-      if (col.id === dragging.colId)
-        return { ...col, cards: col.cards.filter(c => c.id !== dragging.cardId) }
+    e.preventDefault();
+    if (!dragging || dragging.colId === targetColId) {
+      setOverCol(null);
+      setDragging(null);
+      return;
+    }
+    const next = columns.map((col) => {
+      if (col.id === dragging.colId) return { ...col, cards: col.cards.filter((c) => c.id !== dragging.cardId) };
       if (col.id === targetColId) {
-        const card = columns.find(c => c.id === dragging.colId)?.cards.find(c => c.id === dragging.cardId)
-        return card ? { ...col, cards: [...col.cards, card] } : col
+        const card = columns.find((c) => c.id === dragging.colId)?.cards.find((c) => c.id === dragging.cardId);
+        return card ? { ...col, cards: [...col.cards, card] } : col;
       }
-      return col
-    })
-    update(next)
-    setOverCol(null)
-    setDragging(null)
-  }
+      return col;
+    });
+    update(next);
+    setOverCol(null);
+    setDragging(null);
+  };
 
   return (
-    <div className={cn('flex gap-4 overflow-x-auto pb-2', className)} style={style}>
-      {columns.map(col => {
-        const dotColor = INTENT_COLORS[col.intent ?? 'neutral']
+    <div className={cn("flex gap-4 overflow-x-auto pb-2", className)} style={style}>
+      {columns.map((col) => {
+        const dotColor = INTENT_COLORS[col.intent ?? "neutral"];
         return (
           <div
             key={col.id}
             className={cn(
-              'flex flex-col gap-2 min-w-[220px] max-w-[240px] rounded-[--radius-md] border p-3 transition-colors duration-150',
-              overCol === col.id ? 'border-patina bg-patina/5' : 'border-rule bg-canvas'
+              "flex flex-col gap-2 min-w-[220px] max-w-[240px] rounded-(--radius-md) border p-3 transition-colors duration-150",
+              overCol === col.id ? "border-patina bg-patina/5" : "border-rule bg-canvas"
             )}
-            onDragOver={e => onDragOver(e, col.id)}
-            onDrop={e => onDrop(e, col.id)}
+            onDragOver={(e) => onDragOver(e, col.id)}
+            onDrop={(e) => onDrop(e, col.id)}
           >
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
@@ -107,18 +123,21 @@ export function Kanban({ columns: initial, onChange, className, style }: KanbanP
                 {col.cards.length}
               </span>
             </div>
-            {col.cards.map(card => (
+            {col.cards.map((card) => (
               <KanbanCardItem
                 key={card.id}
                 card={card}
                 dragging={dragging?.cardId === card.id}
                 onDragStart={() => setDragging({ colId: col.id, cardId: card.id })}
-                onDragEnd={() => { setDragging(null); setOverCol(null) }}
+                onDragEnd={() => {
+                  setDragging(null);
+                  setOverCol(null);
+                }}
               />
             ))}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
