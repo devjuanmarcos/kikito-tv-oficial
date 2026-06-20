@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 
@@ -7,9 +7,22 @@ import { cn } from "@/lib/utils";
 import type { InputProps, InputSize, InputVariant, InputStatus } from "./input.types";
 
 const SIZE_INPUT: Record<InputSize, string> = {
-  sm: "h-8  px-3   text-body-callout  rounded-(--radius-sm)",
-  md: "h-9  px-3.5 text-body-callout  rounded-(--radius-base)",
+  sm: "h-8  px-3   text-body-callout   rounded-(--radius-sm)",
+  md: "h-9  px-3.5 text-body-callout   rounded-(--radius-base)",
   lg: "h-11 px-4   text-body-paragraph rounded-(--radius-md)",
+};
+
+/* Group (prefix/suffix) — height + radius on the wrapper, text on the input */
+const GROUP_BOX: Record<InputSize, string> = {
+  sm: "h-8  rounded-(--radius-sm)",
+  md: "h-9  rounded-(--radius-base)",
+  lg: "h-11 rounded-(--radius-md)",
+};
+
+const SIZE_TEXT: Record<InputSize, string> = {
+  sm: "text-body-callout",
+  md: "text-body-callout",
+  lg: "text-body-paragraph",
 };
 
 const SIZE_ICON: Record<InputSize, string> = {
@@ -38,18 +51,21 @@ const SIZE_PADDING_RIGHT_2: Record<InputSize, string> = {
 
 const FLUSHED_CLS = "bg-transparent border-0 border-b border-rule rounded-none focus:border-patina px-0";
 
+/* Focus ring shared across Input / Select / Textarea for a consistent form look */
+const FOCUS_RING = "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]";
+
 const VARIANT: Record<InputVariant, string> = {
-  outline: "bg-sunken border border-rule focus:border-patina",
-  filled: "bg-graphite border border-transparent focus:border-patina focus:bg-sunken",
+  outline: `bg-raised border border-rule hover:border-foreground/40 ${FOCUS_RING}`,
+  filled: `bg-graphite border border-transparent hover:bg-graphite-2 focus:bg-graphite-2 ${FOCUS_RING}`,
   flushed: FLUSHED_CLS,
   ghost: FLUSHED_CLS,
 };
 
 const STATUS_BORDER: Record<InputStatus, string> = {
   default: "",
-  error: "border-danger focus:border-danger",
-  success: "border-success focus:border-success",
-  warning: "border-warning focus:border-warning",
+  error: "border-danger focus:border-danger focus-within:border-danger",
+  success: "border-success focus:border-success focus-within:border-success",
+  warning: "border-warning focus:border-warning focus-within:border-warning",
 };
 
 const STATUS_HINT: Record<InputStatus, string> = {
@@ -58,6 +74,12 @@ const STATUS_HINT: Record<InputStatus, string> = {
   success: "text-success",
   warning: "text-warning",
 };
+
+/* Centered, fixed-size icon box — keeps the SVG from stretching to the input height */
+const ICON_BOX =
+  "pointer-events-none absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-muted [&>svg]:w-full [&>svg]:h-full";
+const ICON_BTN =
+  "absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-muted hover:text-foreground transition-colors [&>svg]:w-full [&>svg]:h-full";
 
 let _uid = 0;
 const uniqueId = (prefix: string) => `${prefix}-${++_uid}`;
@@ -160,6 +182,7 @@ export function Input({
   const hasIconLeft = !!iconLeft;
   const hasPrefix = !!prefix;
   const hasSuffix = !!suffix;
+  const hasAddon = hasPrefix || hasSuffix;
 
   /* Right-side slot: iconRight, clearable, or revealable */
   const hasRightSlot = !!iconRight || (clearable && !hasSuffix) || (revealable && !hasSuffix);
@@ -170,36 +193,74 @@ export function Input({
 
   const hasValue = typeof value === "string" ? value.length > 0 : value !== undefined;
 
+  const describedBy = hintId;
+  const invalid = resolvedStatus === "error" || undefined;
+
+  const labelEl = label && (
+    <label htmlFor={id} className="text-body-callout font-medium text-foreground">
+      {label}
+    </label>
+  );
+
+  const hintEl = displayHint && (
+    <p id={hintId} className={cn("text-body-caption", STATUS_HINT[resolvedStatus])}>
+      {displayHint}
+    </p>
+  );
+
+  /* ── Prefix / suffix: in-flow group so the addon never overlaps the placeholder ── */
+  if (hasAddon) {
+    return (
+      <div className={cn("flex flex-col gap-1", fullWidth ? "w-full" : "w-auto")}>
+        {labelEl}
+        <div
+          className={cn(
+            "flex items-stretch w-full overflow-hidden bg-raised border border-rule",
+            "transition-[border-color,box-shadow] duration-150",
+            "focus-within:border-patina focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+            GROUP_BOX[size],
+            STATUS_BORDER[resolvedStatus],
+            disabled && "opacity-50"
+          )}
+        >
+          {hasPrefix && (
+            <span className="flex items-center px-3 text-muted bg-graphite border-r border-rule select-none whitespace-nowrap text-body-callout">
+              {prefix}
+            </span>
+          )}
+          <input
+            {...props}
+            id={id}
+            type={inputType}
+            disabled={disabled}
+            value={value}
+            onChange={onChange}
+            aria-describedby={describedBy}
+            aria-invalid={invalid}
+            className={cn(
+              "flex-1 min-w-0 bg-transparent outline-none px-3 text-foreground placeholder:text-faint",
+              "disabled:cursor-not-allowed",
+              SIZE_TEXT[size],
+              className
+            )}
+          />
+          {hasSuffix && (
+            <span className="flex items-center px-3 text-muted bg-graphite border-l border-rule select-none whitespace-nowrap text-body-callout">
+              {suffix}
+            </span>
+          )}
+        </div>
+        {hintEl}
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex flex-col gap-1", fullWidth ? "w-full" : "w-auto")}>
-      {label && (
-        <label htmlFor={id} className="text-body-callout font-medium text-foreground">
-          {label}
-        </label>
-      )}
+      {labelEl}
 
       <div className="relative flex items-center">
-        {hasPrefix && (
-          <span
-            className={cn(
-              "absolute left-0 inset-y-0 flex items-center px-3 text-muted text-body-callout",
-              "border-r border-rule bg-graphite rounded-l-[--radius-base] select-none pointer-events-none"
-            )}
-          >
-            {prefix}
-          </span>
-        )}
-
-        {hasIconLeft && !hasPrefix && (
-          <span
-            className={cn(
-              "absolute left-3 inset-y-0 flex items-center pointer-events-none text-muted",
-              SIZE_ICON[size]
-            )}
-          >
-            {iconLeft}
-          </span>
-        )}
+        {hasIconLeft && <span className={cn(ICON_BOX, "left-3", SIZE_ICON[size])}>{iconLeft}</span>}
 
         <input
           {...props}
@@ -208,87 +269,54 @@ export function Input({
           disabled={disabled}
           value={value}
           onChange={onChange}
-          aria-describedby={hintId}
-          aria-invalid={resolvedStatus === "error" || undefined}
+          aria-describedby={describedBy}
+          aria-invalid={invalid}
           className={cn(
-            "w-full outline-none transition-[border-color] duration-150",
+            "w-full outline-none transition-[border-color,box-shadow,background] duration-150",
             "text-foreground placeholder:text-faint",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             SIZE_INPUT[size],
             VARIANT[variant],
             STATUS_BORDER[resolvedStatus],
-            hasIconLeft && !hasPrefix && SIZE_PADDING_LEFT[size],
-            hasDoubleRight ? SIZE_PADDING_RIGHT_2[size] : hasRightSlot && !hasSuffix ? SIZE_PADDING_RIGHT[size] : null,
-            hasPrefix && "pl-[calc(theme(spacing.10)+0.5rem)]",
-            hasSuffix && "pr-[calc(theme(spacing.10)+0.5rem)]",
+            hasIconLeft && SIZE_PADDING_LEFT[size],
+            hasDoubleRight ? SIZE_PADDING_RIGHT_2[size] : hasRightSlot ? SIZE_PADDING_RIGHT[size] : null,
             className
           )}
         />
 
         {/* Right icon (static, no clearable/revealable) */}
-        {iconRight && !hasSuffix && !clearable && !revealable && (
-          <span
-            className={cn(
-              "absolute right-3 inset-y-0 flex items-center pointer-events-none text-muted",
-              SIZE_ICON[size]
-            )}
-          >
-            {iconRight}
-          </span>
+        {iconRight && !clearable && !revealable && (
+          <span className={cn(ICON_BOX, "right-3", SIZE_ICON[size])}>{iconRight}</span>
         )}
 
         {/* Clearable × button */}
-        {clearable && !hasSuffix && hasValue && (
+        {clearable && hasValue && (
           <button
             type="button"
             tabIndex={-1}
             aria-label="Limpar"
-            onClick={() => {
-              onClear?.();
-            }}
-            className={cn(
-              "absolute inset-y-0 flex items-center text-muted hover:text-foreground transition-colors",
-              revealable ? "right-8" : "right-2.5",
-              SIZE_ICON[size]
-            )}
+            onClick={() => onClear?.()}
+            className={cn(ICON_BTN, revealable ? "right-8" : "right-3", SIZE_ICON[size])}
           >
             <XCircleIcon />
           </button>
         )}
 
         {/* Revealable eye toggle */}
-        {revealable && !hasSuffix && (
+        {revealable && (
           <button
             type="button"
             tabIndex={-1}
             aria-label={revealed ? "Ocultar senha" : "Mostrar senha"}
             onClick={() => setRevealed((r) => !r)}
-            className={cn(
-              "absolute right-2.5 inset-y-0 flex items-center text-muted hover:text-foreground transition-colors",
-              SIZE_ICON[size]
-            )}
+            className={cn(ICON_BTN, "right-3", SIZE_ICON[size])}
           >
             <EyeIcon open={revealed} />
           </button>
         )}
-
-        {hasSuffix && (
-          <span
-            className={cn(
-              "absolute right-0 inset-y-0 flex items-center px-3 text-muted text-body-callout",
-              "border-l border-rule bg-graphite rounded-r-[--radius-base] select-none pointer-events-none"
-            )}
-          >
-            {suffix}
-          </span>
-        )}
       </div>
 
-      {displayHint && (
-        <p id={hintId} className={cn("text-body-caption", STATUS_HINT[resolvedStatus])}>
-          {displayHint}
-        </p>
-      )}
+      {hintEl}
     </div>
   );
 }
