@@ -49,6 +49,16 @@ import { CurrencyInput } from "@/components/ui/cn/currency-input/CurrencyInput";
 import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
+import { DateRangePicker } from "@/components/ui/cn/date-range-picker/DateRangePicker";
+import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
+import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
+import { Draggable } from "@/components/ui/cn/draggable/Draggable";
+import { Drawer } from "@/components/ui/cn/drawer/Drawer";
+import { EmptyState } from "@/components/ui/cn/empty-state/EmptyState";
+import { EventCalendar } from "@/components/ui/cn/event-calendar/EventCalendar";
+import { Fab } from "@/components/ui/cn/fab/Fab";
+import { FeatureList } from "@/components/ui/cn/feature-list/FeatureList";
+import { FeedbackWidget } from "@/components/ui/cn/feedback-widget/FeedbackWidget";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
 import { FilterBar } from "@/components/ui/cn/filter-bar/FilterBar";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
@@ -58,22 +68,21 @@ import { MarkdownRenderer } from "@/components/ui/cn/markdown-renderer/MarkdownR
 import { MultiAccordion } from "@/components/ui/cn/multi-accordion/MultiAccordion";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
-import { Draggable } from "@/components/ui/cn/draggable/Draggable";
 import { Spinner } from "@/components/ui/cn/spinner/Spinner";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
+import { Stat } from "@/components/ui/cn/stat/Stat";
 import { StepForm } from "@/components/ui/cn/step-form/StepForm";
 import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
-import { DateRangePicker } from "@/components/ui/cn/date-range-picker/DateRangePicker";
-import { EventCalendar } from "@/components/ui/cn/event-calendar/EventCalendar";
+import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
+import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
-import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
 import { FlipCard } from "@/components/ui/cn/flip-card/FlipCard";
 import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
@@ -90,11 +99,9 @@ import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButto
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
-import { FeedbackWidget } from "@/components/ui/cn/feedback-widget/FeedbackWidget";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
 import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
-import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
@@ -102,7 +109,6 @@ import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
 import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
-import { Stat } from "@/components/ui/cn/stat/Stat";
 import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
@@ -116,13 +122,11 @@ import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
 import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
 import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
-import { EmptyState } from "@/components/ui/cn/empty-state/EmptyState";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
 import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { Masonry } from "@/components/ui/cn/masonry/Masonry";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
-import { Drawer } from "@/components/ui/cn/drawer/Drawer";
 import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
 import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
 import { Rating } from "@/components/ui/cn/rating/Rating";
@@ -131,7 +135,6 @@ import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
 import { Input } from "@/components/ui/cn/input/Input";
 import { Label } from "@/components/ui/cn/label/Label";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
-import { Fab } from "@/components/ui/cn/fab/Fab";
 import { FormField } from "@/components/ui/cn/form-field/FormField";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { FloatingLabelInput } from "@/components/ui/cn/floating-label-input/FloatingLabelInput";
@@ -145,12 +148,10 @@ import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
-import { FeatureList } from "@/components/ui/cn/feature-list/FeatureList";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
 import { Gauge } from "@/components/ui/cn/gauge/Gauge";
 import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
 import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
@@ -167,12 +168,17 @@ import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
 import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
-import { Switch } from "@/components/ui/cn/switch/Switch";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
 import { Popover } from "@/components/ui/cn/popover/Popover";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
 import { Progress } from "@/components/ui/cn/progress/Progress";
 import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
+import { Modal, ModalBody, ModalFooter } from "@/components/ui/cn/modal/Modal";
+import { Separator } from "@/components/ui/cn/separator/Separator";
+import { Slider } from "@/components/ui/cn/slider/Slider";
+import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
+import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
+import { SegmentedControl } from "@/components/ui/cn/segmented-control/SegmentedControl";
 
 interface ShowcaseProps {
   group: string;
@@ -5423,6 +5429,246 @@ function AccordionDemo() {
   );
 }
 
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  const [sizeOpen, setSizeOpen] = useState<"sm" | "md" | "lg" | "xl" | "full" | null>(null);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Modal with title, body and footer">
+          <div className="flex flex-col gap-4 items-center">
+            <Button intent="primary" onClick={() => setOpen(true)}>
+              Open modal
+            </Button>
+            <Modal
+              open={open}
+              onClose={() => setOpen(false)}
+              title="Confirm deletion"
+              description="This action cannot be undone."
+            >
+              <ModalBody>
+                <p className="text-body-callout text-muted">
+                  Are you sure you want to delete this item? All associated data will be permanently removed.
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="outline" onClick={() => setOpen(false)}>
+                  Cancel
+                </Button>
+                <Button intent="danger" onClick={() => setOpen(false)}>
+                  Delete
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg · xl">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {(["sm", "md", "lg", "xl"] as const).map((s) => (
+              <Button key={s} variant="outline" size="sm" onClick={() => setSizeOpen(s)}>
+                {s}
+              </Button>
+            ))}
+            {sizeOpen && (
+              <Modal open={true} onClose={() => setSizeOpen(null)} size={sizeOpen} title={`Size: ${sizeOpen}`}>
+                <ModalBody>
+                  <p className="text-body-callout text-muted">Modal with size=&quot;{sizeOpen}&quot;</p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="outline" onClick={() => setSizeOpen(null)}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SeparatorDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Horizontal">
+        <Frame label="solid · dashed · dotted" align="start">
+          <div className="flex flex-col w-full max-w-md gap-0">
+            <p className="text-body-callout text-foreground">Section above</p>
+            <Separator variant="solid" />
+            <p className="text-body-callout text-foreground">Section above</p>
+            <Separator variant="dashed" />
+            <p className="text-body-callout text-foreground">Section above</p>
+            <Separator variant="dotted" />
+            <p className="text-body-callout text-foreground">Section below</p>
+          </div>
+        </Frame>
+        <Frame label="With label" align="start">
+          <div className="w-full max-w-md">
+            <Separator label="OR" />
+            <Separator label={<Badge size="sm">New</Badge>} />
+            <Separator label="Start" labelAlign="start" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Vertical">
+        <Frame label="Inline vertical separator">
+          <div className="flex items-center h-8 gap-3">
+            <span className="text-body-callout text-foreground">Left</span>
+            <Separator orientation="vertical" />
+            <span className="text-body-callout text-foreground">Right</span>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SliderDemo() {
+  const [val, setVal] = useState(50);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Controlled">
+        <Frame label="With label and value" align="start">
+          <div className="w-full max-w-md">
+            <Slider label="Volume" value={val} onChange={setVal} showValue />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents" align="start">
+          <div className="flex flex-col gap-5 w-full max-w-md">
+            {(["primary", "info", "success", "warning", "danger"] as const).map((i) => (
+              <Slider key={i} label={i} defaultValue={60} intent={i} showValue />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="With marks">
+        <Frame label="Step marks" align="start">
+          <div className="w-full max-w-md">
+            <Slider
+              label="Quality"
+              defaultValue={50}
+              min={0}
+              max={100}
+              step={25}
+              marks={[
+                { value: 0, label: "Low" },
+                { value: 25, label: "Fair" },
+                { value: 50, label: "Good" },
+                { value: 75, label: "High" },
+                { value: 100, label: "Max" },
+              ]}
+              showValue
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function RangeSliderDemo() {
+  const [range, setRange] = useState<[number, number]>([20, 80]);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Price range selector" align="start">
+          <div className="w-full max-w-md flex flex-col gap-4">
+            <RangeSlider
+              label="Price range"
+              value={range}
+              onChange={setRange}
+              formatValue={(v) => `$${v}`}
+              showValues
+            />
+            <p className="text-body-caption text-faint">
+              Selected: ${range[0]} — ${range[1]}
+            </p>
+          </div>
+        </Frame>
+        <Frame label="Disabled" align="start">
+          <div className="w-full max-w-md">
+            <RangeSlider label="Disabled" defaultValue={[30, 70]} disabled />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function ToggleGroupDemo() {
+  const [single, setSingle] = useState<string | string[]>("bold");
+  const [multi, setMulti] = useState<string | string[]>(["bold", "italic"]);
+  const items = [
+    { value: "bold", label: <strong>B</strong> },
+    { value: "italic", label: <em>I</em> },
+    { value: "underline", label: <span style={{ textDecoration: "underline" }}>U</span> },
+    { value: "strike", label: <span style={{ textDecoration: "line-through" }}>S</span> },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Type">
+        <Frame label="single · multiple">
+          <div className="flex flex-col gap-4">
+            <ToggleGroup items={items} type="single" value={single} onChange={setSingle} />
+            <ToggleGroup items={items} type="multiple" value={multi} onChange={setMulti} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label="outline · solid · ghost">
+          <div className="flex flex-col gap-4">
+            {(["outline", "solid", "ghost"] as const).map((v) => (
+              <ToggleGroup key={v} items={items} variant={v} defaultValue="bold" />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SegmentedControlDemo() {
+  const [view, setView] = useState("list");
+  const options = [
+    { value: "list", label: "List" },
+    { value: "grid", label: "Grid" },
+    { value: "table", label: "Table" },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Controlled segmented control">
+          <div className="flex flex-col items-center gap-4">
+            <SegmentedControl options={options} value={view} onChange={setView} />
+            <p className="text-body-caption text-faint">Active: {view}</p>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col gap-4 items-start">
+            <SegmentedControl options={options} size="sm" defaultValue="list" />
+            <SegmentedControl options={options} size="md" defaultValue="grid" />
+            <SegmentedControl options={options} size="lg" defaultValue="table" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Full width">
+        <Frame label="stretch" align="start">
+          <div className="w-full max-w-sm">
+            <SegmentedControl options={options} fullWidth defaultValue="list" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
   "tokens/colors": ColorsTokens,
@@ -5554,6 +5800,12 @@ const DEMOS: Record<string, React.ComponentType> = {
   "feedback/progress": ProgressDemo,
   "feedback/spinner": SpinnerDemo,
   "feedback/skeleton": SkeletonDemo,
+  "overlays/modal": ModalDemo,
+  "layout/separator": SeparatorDemo,
+  "inputs/slider": SliderDemo,
+  "inputs/range-slider": RangeSliderDemo,
+  "inputs/toggle-group": ToggleGroupDemo,
+  "inputs/segmented-control": SegmentedControlDemo,
   "display/checklist": ChecklistDemo,
   "display/breadcrumb": BreadcrumbDemo,
   "display/copy-button": CopyButtonDemo,
