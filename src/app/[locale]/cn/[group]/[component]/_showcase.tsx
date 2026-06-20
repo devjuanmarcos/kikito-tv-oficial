@@ -8,36 +8,52 @@ import { AcernityFeaturesSection } from "@/components/ui/cn/aceternity-features-
 import { ActivityFeed } from "@/components/ui/cn/activity-feed/ActivityFeed";
 import { AlertDialog } from "@/components/ui/cn/alert-dialog/AlertDialog";
 import { AnimatedList } from "@/components/ui/cn/animated-list/AnimatedList";
+import { AnimatedNumber } from "@/components/ui/cn/animated-number/AnimatedNumber";
+import { AreaChart } from "@/components/ui/cn/area-chart/AreaChart";
+import { AspectRatio } from "@/components/ui/cn/aspect-ratio/AspectRatio";
+import { AudioWaveform } from "@/components/ui/cn/audio-waveform/AudioWaveform";
+import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
+import { AvatarGroup } from "@/components/ui/cn/avatar-group/AvatarGroup";
+import { Badge } from "@/components/ui/cn/badge/Badge";
+import { Banner } from "@/components/ui/cn/banner/Banner";
+import { BarChart } from "@/components/ui/cn/bar-chart/BarChart";
+import { BentoGrid } from "@/components/ui/cn/bento-grid/BentoGrid";
+import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
+import { Button } from "@/components/ui/cn/button/Button";
+import { Calendar } from "@/components/ui/cn/calendar/Calendar";
+import { Callout } from "@/components/ui/cn/callout/Callout";
+import { CardStack } from "@/components/ui/cn/card-stack/CardStack";
+import { Carousel } from "@/components/ui/cn/carousel/Carousel";
+import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
+import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
+import { Command } from "@/components/ui/cn/command/Command";
+import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
 import { FilterBar } from "@/components/ui/cn/filter-bar/FilterBar";
-import { AnimatedNumber } from "@/components/ui/cn/animated-number/AnimatedNumber";
-import { CardStack } from "@/components/ui/cn/card-stack/CardStack";
-import { Carousel } from "@/components/ui/cn/carousel/Carousel";
+import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
+import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
+import { LineChart } from "@/components/ui/cn/line-chart/LineChart";
 import { MarkdownRenderer } from "@/components/ui/cn/markdown-renderer/MarkdownRenderer";
 import { MultiAccordion } from "@/components/ui/cn/multi-accordion/MultiAccordion";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
-import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { Draggable } from "@/components/ui/cn/draggable/Draggable";
-import { Command } from "@/components/ui/cn/command/Command";
 import { ContextMenu } from "@/components/ui/cn/context-menu/ContextMenu";
+import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
+import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
 import { DateRangePicker } from "@/components/ui/cn/date-range-picker/DateRangePicker";
 import { EventCalendar } from "@/components/ui/cn/event-calendar/EventCalendar";
-import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
 import { DataTable } from "@/components/ui/cn/table/Table";
+import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
-import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
-import { BarChart } from "@/components/ui/cn/bar-chart/BarChart";
-import { LineChart } from "@/components/ui/cn/line-chart/LineChart";
 import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
-import { AreaChart } from "@/components/ui/cn/area-chart/AreaChart";
 import { FlipCard } from "@/components/ui/cn/flip-card/FlipCard";
 import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
@@ -45,20 +61,16 @@ import { ComparisonTable } from "@/components/ui/cn/comparison-table/ComparisonT
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { ConfirmButton } from "@/components/ui/cn/confirm-button/ConfirmButton";
-import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
 import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
-import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
 import { LogViewer } from "@/components/ui/cn/log-viewer/LogViewer";
-import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
 import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
 import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
 import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButton";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { ConfettiButton } from "@/components/ui/cn/confetti-button/ConfettiButton";
-import { BentoGrid } from "@/components/ui/cn/bento-grid/BentoGrid";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
 import { StepForm } from "@/components/ui/cn/step-form/StepForm";
@@ -70,7 +82,6 @@ import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
 import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
-import { AudioWaveform } from "@/components/ui/cn/audio-waveform/AudioWaveform";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
 import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
@@ -82,9 +93,10 @@ import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
 import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
-import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { GridPattern } from "@/components/ui/cn/grid-pattern/GridPattern";
 import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
+import { UserCard } from "@/components/ui/cn/user-card/UserCard";
+import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
 import { CommandBar } from "@/components/ui/cn/command-bar/CommandBar";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
@@ -92,7 +104,6 @@ import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
 import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { CreditCard } from "@/components/ui/cn/credit-card/CreditCard";
-import { AvatarGroup } from "@/components/ui/cn/avatar-group/AvatarGroup";
 import { EmptyState } from "@/components/ui/cn/empty-state/EmptyState";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
@@ -101,14 +112,11 @@ import { Masonry } from "@/components/ui/cn/masonry/Masonry";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
 import { Drawer } from "@/components/ui/cn/drawer/Drawer";
 import { ContextCard } from "@/components/ui/cn/context-card/ContextCard";
-import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
 import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
 import { Rating } from "@/components/ui/cn/rating/Rating";
 import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
-import { Button } from "@/components/ui/cn/button/Button";
-import { Badge } from "@/components/ui/cn/badge/Badge";
 import { Input } from "@/components/ui/cn/input/Input";
 import { Label } from "@/components/ui/cn/label/Label";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
@@ -117,10 +125,6 @@ import { FormField } from "@/components/ui/cn/form-field/FormField";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { FloatingLabelInput } from "@/components/ui/cn/floating-label-input/FloatingLabelInput";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
-import { AspectRatio } from "@/components/ui/cn/aspect-ratio/AspectRatio";
-import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
-import { Banner } from "@/components/ui/cn/banner/Banner";
-import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { FloatingBar } from "@/components/ui/cn/floating-bar/FloatingBar";
@@ -131,14 +135,10 @@ import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
 import { FeatureList } from "@/components/ui/cn/feature-list/FeatureList";
-import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
-import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { Calendar } from "@/components/ui/cn/calendar/Calendar";
-import { Callout } from "@/components/ui/cn/callout/Callout";
 import { Checklist } from "@/components/ui/cn/checklist/Checklist";
 import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
 import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
@@ -158,6 +158,11 @@ import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
 import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
+import { Select } from "@/components/ui/cn/select/Select";
+import { Textarea } from "@/components/ui/cn/textarea/Textarea";
+import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
+import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
+import { Switch } from "@/components/ui/cn/switch/Switch";
 
 interface ShowcaseProps {
   group: string;
@@ -4669,6 +4674,290 @@ function OnboardingTourDemo() {
   );
 }
 
+function SelectDemo() {
+  const [value, setValue] = useState("");
+  const options = [
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue" },
+    { value: "svelte", label: "Svelte" },
+    { value: "solid", label: "SolidJS" },
+    { value: "angular", label: "Angular", disabled: true },
+  ];
+  const grouped = [
+    {
+      label: "Frontend",
+      options: [
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue" },
+        { value: "svelte", label: "Svelte" },
+      ],
+    },
+    {
+      label: "Backend",
+      options: [
+        { value: "node", label: "Node.js" },
+        { value: "deno", label: "Deno" },
+      ],
+    },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Outline (default)">
+          <div className="w-full max-w-xs">
+            <Select options={options} placeholder="Choose a framework…" value={value} onChange={setValue} />
+          </div>
+        </Frame>
+        <Frame label="Filled">
+          <div className="w-full max-w-xs">
+            <Select options={options} variant="filled" placeholder="Choose a framework…" />
+          </div>
+        </Frame>
+        <Frame label="Ghost">
+          <div className="w-full max-w-xs">
+            <Select options={options} variant="ghost" placeholder="Choose a framework…" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Features">
+        <Frame label="With search">
+          <div className="w-full max-w-xs">
+            <Select options={options} searchable placeholder="Search frameworks…" />
+          </div>
+        </Frame>
+        <Frame label="With groups">
+          <div className="w-full max-w-xs">
+            <Select options={grouped} placeholder="Choose…" />
+          </div>
+        </Frame>
+        <Frame label="Clearable · error state">
+          <div className="w-full max-w-xs">
+            <Select options={options} clearable state="error" errorText="Selecione uma opção" placeholder="Required…" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col gap-3 w-full max-w-xs">
+            <Select options={options} size="sm" placeholder="Small" />
+            <Select options={options} size="md" placeholder="Medium" />
+            <Select options={options} size="lg" placeholder="Large" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function TextareaDemo() {
+  const [val, setVal] = useState("");
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="Outline (default)" align="start">
+          <div className="w-full max-w-sm">
+            <Textarea
+              variant="outline"
+              label="Message"
+              placeholder="Type your message…"
+              value={val}
+              onChange={(e) => setVal(e.target.value)}
+            />
+          </div>
+        </Frame>
+        <Frame label="Filled" align="start">
+          <div className="w-full max-w-sm">
+            <Textarea variant="filled" label="Filled" placeholder="Filled style…" />
+          </div>
+        </Frame>
+        <Frame label="Ghost" align="start">
+          <div className="w-full max-w-sm">
+            <Textarea variant="ghost" label="Ghost" placeholder="Ghost style…" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="States">
+        <Frame label="Error · success" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-sm">
+            <Textarea state="error" errorText="Este campo é obrigatório" defaultValue="" placeholder="Error state" />
+            <Textarea state="success" successText="Tudo certo!" defaultValue="Valid content" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Features">
+        <Frame label="Auto-resize · char count" align="start">
+          <div className="w-full max-w-sm">
+            <Textarea
+              autoResize
+              maxRows={6}
+              showCount
+              maxLength={200}
+              placeholder="Grows automatically…"
+              helperText="Expand to up to 6 rows"
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function CheckboxDemo() {
+  const [checked, setChecked] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(true);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="States">
+        <Frame label="Unchecked · checked · indeterminate">
+          <div className="flex flex-col gap-4">
+            <Checkbox label="Unchecked" checked={false} />
+            <Checkbox label="Checked" checked={true} />
+            <Checkbox label="Indeterminate" indeterminate={true} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label="Square · rounded · circle">
+          <div className="flex flex-col gap-4">
+            <Checkbox label="Square" variant="square" checked={true} />
+            <Checkbox label="Rounded" variant="rounded" checked={true} />
+            <Checkbox label="Circle" variant="circle" checked={true} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents (checked)">
+          <div className="flex flex-wrap gap-4">
+            {(["primary", "secondary", "success", "destructive", "warning", "info"] as const).map((i) => (
+              <Checkbox key={i} label={i} intent={i} checked={true} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="With description · controlled">
+        <Frame label="Interactive" align="start">
+          <div className="flex flex-col gap-4">
+            <Checkbox
+              label="Enable notifications"
+              description="You'll receive alerts via email and push"
+              checked={checked}
+              onChange={setChecked}
+            />
+            <Checkbox
+              label="Partial selection"
+              indeterminate={indeterminate}
+              onChange={(v) => {
+                setIndeterminate(false);
+                setChecked(v);
+              }}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col gap-4">
+            <Checkbox label="Small" size="sm" checked={true} />
+            <Checkbox label="Medium" size="md" checked={true} />
+            <Checkbox label="Large" size="lg" checked={true} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function RadioDemo() {
+  const [plan, setPlan] = useState("pro");
+  const options = [
+    { value: "free", label: "Free", helperText: "Up to 3 projects" },
+    { value: "pro", label: "Pro", helperText: "Unlimited projects + API access" },
+    { value: "enterprise", label: "Enterprise", helperText: "Custom SLA and dedicated support" },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="RadioGroup">
+        <Frame label="Vertical (default)" align="start">
+          <RadioGroup label="Subscription plan" options={options} value={plan} onChange={setPlan} />
+        </Frame>
+        <Frame label="Horizontal" align="start">
+          <RadioGroup
+            options={[
+              { value: "light", label: "Light" },
+              { value: "dark", label: "Dark" },
+              { value: "system", label: "System" },
+            ]}
+            orientation="horizontal"
+            defaultValue="system"
+          />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col gap-3">
+            <Radio value="a" label="Small" size="sm" defaultChecked />
+            <Radio value="b" label="Medium" size="md" defaultChecked />
+            <Radio value="c" label="Large" size="lg" defaultChecked />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SwitchDemo() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Controlled switches" align="start">
+          <div className="flex flex-col gap-5">
+            <Switch
+              label="Dark mode"
+              description="Switch to dark theme globally"
+              checked={darkMode}
+              onChange={setDarkMode}
+            />
+            <Switch
+              label="Notifications"
+              description="Receive email and push alerts"
+              checked={notifications}
+              onChange={setNotifications}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents (on)">
+          <div className="flex flex-wrap gap-5">
+            {(["primary", "secondary", "success", "destructive", "warning", "info"] as const).map((i) => (
+              <Switch key={i} label={i} intent={i} defaultChecked />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Label position">
+        <Frame label="Left · right">
+          <div className="flex flex-col gap-4">
+            <Switch label="Label on right (default)" labelPosition="right" defaultChecked />
+            <Switch label="Label on left" labelPosition="left" defaultChecked />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col gap-4">
+            <Switch label="Small" size="sm" defaultChecked />
+            <Switch label="Medium" size="md" defaultChecked />
+            <Switch label="Large" size="lg" defaultChecked />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
   "tokens/colors": ColorsTokens,
@@ -4677,6 +4966,11 @@ const DEMOS: Record<string, React.ComponentType> = {
   "inputs/badge": BadgeDemo,
   "inputs/input": InputDemo,
   "inputs/label": LabelDemo,
+  "inputs/select": SelectDemo,
+  "inputs/textarea": TextareaDemo,
+  "inputs/checkbox": CheckboxDemo,
+  "inputs/radio": RadioDemo,
+  "inputs/switch": SwitchDemo,
   "inputs/autocomplete": AutocompleteDemo,
   "inputs/color-picker": ColorPickerDemo,
   "inputs/combobox": ComboboxDemo,
