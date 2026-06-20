@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import { Accordion } from "@/components/ui/cn/accordion/Accordion";
 import { AccordionGroup } from "@/components/ui/cn/accordion-group/AccordionGroup";
 import { AcernityCardsDemo3 } from "@/components/ui/cn/aceternity-cards-demo-3/AcernityCardsDemo3";
 import { AcernityFeaturesSection } from "@/components/ui/cn/aceternity-features-section/AcernityFeaturesSection";
@@ -35,9 +36,18 @@ import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
 import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
 import { Combobox } from "@/components/ui/cn/combobox/Combobox";
 import { Command } from "@/components/ui/cn/command/Command";
+import { CommandBar } from "@/components/ui/cn/command-bar/CommandBar";
 import { ComparisonTable } from "@/components/ui/cn/comparison-table/ComparisonTable";
+import { ConfettiButton } from "@/components/ui/cn/confetti-button/ConfettiButton";
+import { ConfirmButton } from "@/components/ui/cn/confirm-button/ConfirmButton";
+import { ContextCard } from "@/components/ui/cn/context-card/ContextCard";
 import { ContextMenu } from "@/components/ui/cn/context-menu/ContextMenu";
+import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
+import { CountdownTimer } from "@/components/ui/cn/countdown-timer/CountdownTimer";
+import { CreditCard } from "@/components/ui/cn/credit-card/CreditCard";
+import { CurrencyInput } from "@/components/ui/cn/currency-input/CurrencyInput";
 import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
+import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
 import { FileUpload } from "@/components/ui/cn/file-upload/FileUpload";
 import { FilterBar } from "@/components/ui/cn/filter-bar/FilterBar";
@@ -48,8 +58,8 @@ import { MarkdownRenderer } from "@/components/ui/cn/markdown-renderer/MarkdownR
 import { MultiAccordion } from "@/components/ui/cn/multi-accordion/MultiAccordion";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
-import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { Draggable } from "@/components/ui/cn/draggable/Draggable";
+import { Spinner } from "@/components/ui/cn/spinner/Spinner";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
@@ -69,7 +79,6 @@ import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
-import { ConfirmButton } from "@/components/ui/cn/confirm-button/ConfirmButton";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
 import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
@@ -79,13 +88,11 @@ import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorde
 import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
 import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButton";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
-import { ConfettiButton } from "@/components/ui/cn/confetti-button/ConfettiButton";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
 import { FeedbackWidget } from "@/components/ui/cn/feedback-widget/FeedbackWidget";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
 import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
-import { CurrencyInput } from "@/components/ui/cn/currency-input/CurrencyInput";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
 import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
@@ -93,7 +100,6 @@ import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
 import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
-import { CountdownTimer } from "@/components/ui/cn/countdown-timer/CountdownTimer";
 import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
 import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
 import { Stat } from "@/components/ui/cn/stat/Stat";
@@ -106,12 +112,10 @@ import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterFor
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
-import { CommandBar } from "@/components/ui/cn/command-bar/CommandBar";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
 import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
 import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
-import { CreditCard } from "@/components/ui/cn/credit-card/CreditCard";
 import { EmptyState } from "@/components/ui/cn/empty-state/EmptyState";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
@@ -119,7 +123,6 @@ import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { Masonry } from "@/components/ui/cn/masonry/Masonry";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
 import { Drawer } from "@/components/ui/cn/drawer/Drawer";
-import { ContextCard } from "@/components/ui/cn/context-card/ContextCard";
 import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
 import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
 import { Rating } from "@/components/ui/cn/rating/Rating";
@@ -147,7 +150,6 @@ import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
 import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
 import { Gauge } from "@/components/ui/cn/gauge/Gauge";
 import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
@@ -166,6 +168,11 @@ import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { Switch } from "@/components/ui/cn/switch/Switch";
+import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
+import { Popover } from "@/components/ui/cn/popover/Popover";
+import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
+import { Progress } from "@/components/ui/cn/progress/Progress";
+import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
 
 interface ShowcaseProps {
   group: string;
@@ -5132,6 +5139,290 @@ function AvatarDemo() {
   );
 }
 
+function TooltipDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Placements">
+        <Frame label="top · bottom · left · right">
+          <div className="flex flex-wrap gap-6 justify-center">
+            {(["top", "bottom", "left", "right"] as const).map((p) => (
+              <Tooltip key={p} content={`Placement: ${p}`} placement={p}>
+                <Button variant="outline" size="sm">
+                  {p}
+                </Button>
+              </Tooltip>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Content">
+        <Frame label="Text · rich content">
+          <div className="flex gap-6 flex-wrap justify-center">
+            <Tooltip content="Simple text tooltip">
+              <Badge intent="primary">hover me</Badge>
+            </Tooltip>
+            <Tooltip
+              content={
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold text-foreground">Rich tooltip</span>
+                  <span className="text-body-caption text-faint">Supports any ReactNode content</span>
+                </div>
+              }
+            >
+              <Badge intent="secondary">rich content</Badge>
+            </Tooltip>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function PopoverDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="With title, description and footer">
+          <Popover
+            title="Save changes?"
+            description="Your edits will be persisted to the server."
+            showClose
+            footer={
+              <div className="flex gap-2 justify-end">
+                <Button size="sm" variant="ghost">
+                  Cancel
+                </Button>
+                <Button size="sm" intent="primary">
+                  Save
+                </Button>
+              </div>
+            }
+          >
+            <Button variant="outline">Open popover</Button>
+          </Popover>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Placements">
+        <Frame label="top · bottom · left · right">
+          <div className="flex gap-4 flex-wrap justify-center">
+            {(["top", "bottom", "left", "right"] as const).map((p) => (
+              <Popover key={p} title={`Placement: ${p}`} description="Content goes here" placement={p}>
+                <Button variant="outline" size="sm">
+                  {p}
+                </Button>
+              </Popover>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function TabsDemo() {
+  const [activeTab, setActiveTab] = useState("overview");
+  const items = [
+    { value: "overview", label: "Overview" },
+    { value: "settings", label: "Settings" },
+    { value: "billing", label: "Billing" },
+    { value: "disabled", label: "Disabled", disabled: true },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        {(["line", "pill", "card", "enclosed"] as const).map((v) => (
+          <Frame key={v} label={v} align="start">
+            <div className="w-full">
+              <Tabs items={items} variant={v} defaultValue="overview" />
+            </div>
+          </Frame>
+        ))}
+      </ShowcaseSection>
+      <ShowcaseSection title="With TabPanel content">
+        <Frame label="Controlled with panels" align="start">
+          <div className="w-full max-w-lg">
+            <Tabs items={items} value={activeTab} onChange={setActiveTab} />
+            <div className="mt-4">
+              <TabPanel value="overview" activeTab={activeTab}>
+                <p className="text-body-callout text-muted">Overview content goes here.</p>
+              </TabPanel>
+              <TabPanel value="settings" activeTab={activeTab}>
+                <p className="text-body-callout text-muted">Settings panel content.</p>
+              </TabPanel>
+              <TabPanel value="billing" activeTab={activeTab}>
+                <p className="text-body-callout text-muted">Billing information panel.</p>
+              </TabPanel>
+            </div>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Alignment">
+        <Frame label="start · center · end · stretch" align="start">
+          <div className="flex flex-col gap-4 w-full">
+            {(["start", "center", "end", "stretch"] as const).map((a) => (
+              <Tabs key={a} items={items.slice(0, 3)} align={a} defaultValue="overview" />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function ProgressDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Intents">
+        <Frame label="All intents" align="start">
+          <div className="flex flex-col gap-4 w-full max-w-md">
+            {(["primary", "info", "success", "warning", "danger"] as const).map((i) => (
+              <Progress key={i} value={65} intent={i} label={i} showValue />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="xs · sm · md · lg" align="start">
+          <div className="flex flex-col gap-4 w-full max-w-md">
+            <Progress value={40} size="xs" label="xs" />
+            <Progress value={60} size="sm" label="sm" />
+            <Progress value={75} size="md" label="md" />
+            <Progress value={90} size="lg" label="lg" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="States">
+        <Frame label="Indeterminate · animated" align="start">
+          <div className="flex flex-col gap-4 w-full max-w-md">
+            <Progress label="Indeterminate" />
+            <Progress value={55} animated label="Animated stripes" intent="success" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SpinnerDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Sizes">
+        <Frame label="xs · sm · md · lg · xl">
+          <div className="flex items-end gap-6">
+            {(["xs", "sm", "md", "lg", "xl"] as const).map((s) => (
+              <Spinner key={s} size={s} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="primary · secondary · neutral">
+          <div className="flex gap-6">
+            <Spinner intent="primary" size="lg" />
+            <Spinner intent="secondary" size="lg" />
+            <Spinner intent="neutral" size="lg" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function SkeletonDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Shapes">
+        <Frame label="default · rounded · circle · pill" align="start">
+          <div className="flex flex-col gap-3 w-full max-w-xs">
+            <Skeleton height={16} shape="default" />
+            <Skeleton height={16} shape="rounded" />
+            <Skeleton width={48} height={48} shape="circle" />
+            <Skeleton height={24} shape="pill" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Content skeleton">
+        <Frame label="Profile card loading state" align="start">
+          <div className="flex gap-3 w-full max-w-xs">
+            <Skeleton width={48} height={48} shape="circle" />
+            <div className="flex-1 flex flex-col gap-2">
+              <Skeleton height={12} width="70%" shape="rounded" />
+              <Skeleton height={10} width="50%" shape="rounded" />
+              <Skeleton height={10} width="90%" shape="rounded" />
+            </div>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function AccordionDemo() {
+  const items = [
+    {
+      value: "install",
+      label: "How to install?",
+      children: (
+        <p className="text-body-callout text-muted">
+          Copy the component file into your project and import it. No external dependencies required.
+        </p>
+      ),
+    },
+    {
+      value: "customize",
+      label: "Can I customize the styles?",
+      children: (
+        <p className="text-body-callout text-muted">
+          Yes — all components use Tailwind CSS with design tokens. Override via className or CSS variables.
+        </p>
+      ),
+    },
+    {
+      value: "typescript",
+      label: "TypeScript support?",
+      children: (
+        <p className="text-body-callout text-muted">
+          Full TypeScript support with exported prop types for every component.
+        </p>
+      ),
+    },
+    {
+      value: "disabled",
+      label: "Disabled item",
+      disabled: true,
+      children: <p>Not reachable</p>,
+    },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="default" align="start">
+          <div className="w-full max-w-md">
+            <Accordion items={items} defaultValue="install" />
+          </div>
+        </Frame>
+        <Frame label="separated" align="start">
+          <div className="w-full max-w-md">
+            <Accordion items={items} variant="separated" defaultValue="customize" />
+          </div>
+        </Frame>
+        <Frame label="ghost" align="start">
+          <div className="w-full max-w-md">
+            <Accordion items={items} variant="ghost" defaultValue="typescript" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Multiple">
+        <Frame label="multiple=true — all panels can be open" align="start">
+          <div className="w-full max-w-md">
+            <Accordion items={items.slice(0, 3)} multiple defaultValue={["install", "customize"]} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
   "tokens/colors": ColorsTokens,
@@ -5256,6 +5547,13 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/callout": CalloutDemo,
   "display/card": CardDemo,
   "display/avatar": AvatarDemo,
+  "overlays/tooltip": TooltipDemo,
+  "overlays/popover": PopoverDemo,
+  "display/tabs": TabsDemo,
+  "display/accordion": AccordionDemo,
+  "feedback/progress": ProgressDemo,
+  "feedback/spinner": SpinnerDemo,
+  "feedback/skeleton": SkeletonDemo,
   "display/checklist": ChecklistDemo,
   "display/breadcrumb": BreadcrumbDemo,
   "display/copy-button": CopyButtonDemo,
