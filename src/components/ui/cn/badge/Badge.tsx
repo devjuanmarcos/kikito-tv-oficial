@@ -23,42 +23,49 @@ const INTENT_VARIANT: Record<IntentVariantKey, string> = {
   'primary/solid':   'bg-patina text-patina-fg border-transparent',
   'primary/outline': 'bg-transparent text-patina border-patina',
   'primary/soft':    'bg-patina-soft text-patina border-transparent',
+  'primary/ghost':   'bg-transparent text-patina border-transparent',
   'primary/dot':     'bg-patina-soft text-patina border-transparent',
 
   /* secondary */
   'secondary/solid':   'bg-kinpaku text-kinpaku-fg border-transparent',
   'secondary/outline': 'bg-transparent text-kinpaku border-kinpaku',
   'secondary/soft':    'bg-kinpaku-soft text-kinpaku-soft-fg border-transparent',
+  'secondary/ghost':   'bg-transparent text-kinpaku border-transparent',
   'secondary/dot':     'bg-kinpaku-soft text-kinpaku-soft-fg border-transparent',
 
   /* danger */
   'danger/solid':   'bg-danger text-danger-fg border-transparent',
   'danger/outline': 'bg-transparent text-danger border-danger',
   'danger/soft':    'bg-danger-soft text-danger-soft-fg border-transparent',
+  'danger/ghost':   'bg-transparent text-danger border-transparent',
   'danger/dot':     'bg-danger-soft text-danger-soft-fg border-transparent',
 
   /* success */
   'success/solid':   'bg-success text-success-fg border-transparent',
   'success/outline': 'bg-transparent text-success border-success',
   'success/soft':    'bg-success-soft text-success-soft-fg border-transparent',
+  'success/ghost':   'bg-transparent text-success border-transparent',
   'success/dot':     'bg-success-soft text-success-soft-fg border-transparent',
 
   /* warning */
   'warning/solid':   'bg-warning text-warning-fg border-transparent',
   'warning/outline': 'bg-transparent text-warning border-warning',
   'warning/soft':    'bg-warning-soft text-warning-soft-fg border-transparent',
+  'warning/ghost':   'bg-transparent text-warning border-transparent',
   'warning/dot':     'bg-warning-soft text-warning-soft-fg border-transparent',
 
   /* info */
   'info/solid':   'bg-info text-info-fg border-transparent',
   'info/outline': 'bg-transparent text-info border-info',
   'info/soft':    'bg-info-soft text-info-soft-fg border-transparent',
+  'info/ghost':   'bg-transparent text-info border-transparent',
   'info/dot':     'bg-info-soft text-info-soft-fg border-transparent',
 
   /* neutral */
   'neutral/solid':   'bg-neutral text-neutral-fg border-transparent',
   'neutral/outline': 'bg-transparent text-foreground border-rule',
   'neutral/soft':    'bg-graphite text-foreground border-transparent',
+  'neutral/ghost':   'bg-transparent text-muted border-transparent',
   'neutral/dot':     'bg-graphite text-foreground border-transparent',
 }
 

@@ -16,4 +16,9 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   prefix?: string
   suffix?: string
   fullWidth?: boolean
+  /** Shows a ×-button when input has value to clear it. */
+  clearable?: boolean
+  onClear?: () => void
+  /** For type="password" — adds a show/hide toggle button. */
+  revealable?: boolean
 }

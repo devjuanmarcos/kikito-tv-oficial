@@ -1,6 +1,6 @@
 import type React from 'react'
 
-export type BadgeVariant = 'solid' | 'outline' | 'soft' | 'dot'
+export type BadgeVariant = 'solid' | 'outline' | 'soft' | 'ghost' | 'dot'
 export type BadgeSize    = 'sm' | 'md' | 'lg'
 export type BadgeIntent  =
   | 'primary'
