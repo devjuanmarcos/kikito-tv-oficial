@@ -1,0 +1,1 @@
+export { CnPropsTable } from "./CnPropsTable";
