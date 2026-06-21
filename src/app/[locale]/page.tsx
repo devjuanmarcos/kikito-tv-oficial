@@ -2,6 +2,7 @@
 import { DownloadsSection } from "@/components/landing/DownloadsSection";
 import { FoundationsSection } from "@/components/landing/FoundationsSection";
 import { Hero } from "@/components/landing/Hero";
+import { HomeIntro } from "@/components/landing/HomeIntro";
 import { SiteFooter } from "@/components/landing/SiteFooter";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { TestimonialsMarquee } from "@/components/landing/TestimonialsMarquee";
@@ -50,6 +51,8 @@ export default function HomePage() {
           .kk-landing *, .kk-landing *::before, .kk-landing *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
         }
       `}</style>
+
+      <HomeIntro />
 
       <SiteHeader />
 
