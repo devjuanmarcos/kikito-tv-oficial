@@ -1,15 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
 import createMiddleware from "next-intl/middleware";
-
-import {
-  AUTH_ROUTES,
-  buildLoginUrl,
-  getRequiredRoles,
-  hasRequiredRole,
-  isPublicRoute,
-  type UserRole,
-} from "@/lib/auth-utils";
 
 const locales = [
   "zh-Hant",
@@ -52,11 +42,6 @@ const locales = [
 const defaultLocale = "pt";
 const nextIntlMiddleware = createMiddleware({ locales, defaultLocale });
 
-function extractLocale(pathname: string): string {
-  const segment = pathname.split("/")[1];
-  return locales.includes(segment) ? segment : defaultLocale;
-}
-
 function shouldSkipMiddleware(pathname: string): boolean {
   return (
     pathname.startsWith("/_next") ||
@@ -78,34 +63,6 @@ export default async function middleware(req: NextRequest) {
   if (isLocaleMissing) {
     url.pathname = `/${defaultLocale}${pathname}`;
     return NextResponse.redirect(url);
-  }
-
-  const locale = extractLocale(pathname);
-
-  if (req.cookies.get("auth-session-expired")?.value) {
-    const loginUrl = new URL(`/${locale}${AUTH_ROUTES.login}`, req.url);
-    const res = NextResponse.redirect(loginUrl);
-    res.cookies.set("auth-session-expired", "", { maxAge: 0, path: "/" });
-    return res;
-  }
-
-  if (isPublicRoute(pathname)) {
-    return nextIntlMiddleware(req);
-  }
-
-  const requiredRoles = getRequiredRoles(pathname);
-  if (!requiredRoles) {
-    return nextIntlMiddleware(req);
-  }
-
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    return NextResponse.redirect(new URL(buildLoginUrl(locale, pathname), req.url));
-  }
-
-  const userRole = (token.role ?? "user") as UserRole;
-  if (!hasRequiredRole(userRole, requiredRoles)) {
-    return NextResponse.redirect(new URL(`/${locale}${AUTH_ROUTES.unauthorized}`, req.url));
   }
 
   return nextIntlMiddleware(req);

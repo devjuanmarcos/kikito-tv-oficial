@@ -81,22 +81,6 @@ export function CnHeader() {
         onSelect: () => router.push("/cn"),
       },
       {
-        id: "login",
-        label: "Entrar",
-        description: "Acessar sua conta",
-        group: "Conta",
-        icon: "🔑",
-        onSelect: () => router.push("/auth"),
-      },
-      {
-        id: "signup",
-        label: "Cadastrar",
-        description: "Criar uma nova conta",
-        group: "Conta",
-        icon: "✨",
-        onSelect: () => router.push("/auth"),
-      },
-      {
         id: "theme",
         label: "Alternar tema",
         description: "Modo claro / escuro",
@@ -226,17 +210,18 @@ export function CnHeader() {
 
         <span className="cnh-rule" aria-hidden />
 
-        {/* Auth */}
+        {/* Auth — placeholder até religar o fluxo de login */}
         <Button
           variant="ghost"
           intent="neutral"
           size="sm"
-          onClick={() => router.push("/auth")}
+          disabled
+          title="Em breve"
           className="hidden min-[520px]:inline-flex"
         >
           Entrar
         </Button>
-        <Button variant="solid" intent="primary" size="sm" iconRight={ArrowIcon} onClick={() => router.push("/auth")}>
+        <Button variant="solid" intent="primary" size="sm" iconRight={ArrowIcon} disabled title="Em breve">
           Cadastrar
         </Button>
       </header>

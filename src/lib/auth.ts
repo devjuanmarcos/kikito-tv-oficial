@@ -1,7 +1,8 @@
-import { nodeLogin } from "@/app/actions/auth/login";
 import NextAuth from "next-auth";
-import { JWT } from "next-auth/jwt";
+import { type JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import { nodeLogin } from "@/app/actions/auth/login";
 
 export const authOptions = {
   providers: [
@@ -23,7 +24,7 @@ export const authOptions = {
           });
 
           if (result.success && result.data) {
-            const userData = {
+            return {
               id: result.data.sub,
               name: result.data.name,
               email: result.data.email,
@@ -35,8 +36,6 @@ export const authOptions = {
               accessToken: result.data.access_token,
               refreshToken: result.data.refresh_token,
             };
-
-            return userData;
           } else {
             throw new Error(result.message || "Falha na autenticação");
           }
@@ -82,10 +81,6 @@ export const authOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
-  },
   session: {
     strategy: "jwt" as const,
   },

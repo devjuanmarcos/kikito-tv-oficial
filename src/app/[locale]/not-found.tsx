@@ -1,5 +1,6 @@
+import Link from "next/link";
+
 import PageContainer from "@/components/layout/page-container";
-import { BackButton } from "./_components/BackButton";
 
 export default async function NotFoundPage() {
   return (
@@ -36,7 +37,12 @@ export default async function NotFoundPage() {
             </div>
 
             <div className="space-x-4">
-              <BackButton />
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-(--radius-base) bg-patina px-5 h-11 font-semibold text-patina-fg transition-colors hover:bg-patina-hover"
+              >
+                Voltar para a home
+              </Link>
             </div>
           </div>
         </div>

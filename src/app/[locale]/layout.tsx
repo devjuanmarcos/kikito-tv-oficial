@@ -3,7 +3,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { getServerSession } from "next-auth";
 import { getMessages } from "next-intl/server";
 import { Toaster } from "sonner";
@@ -13,10 +12,10 @@ import LandingPageProviders from "@/components/layout/LandingPageProviders";
 import { authOptions } from "@/lib/auth";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 
-const APP_NAME = "Biomob";
-const APP_DEFAULT_TITLE = "Biomob";
+const APP_NAME = "Kikito - TV";
+const APP_DEFAULT_TITLE = "Kikito - TV";
 const APP_TITLE_TEMPLATE = "%s";
-const APP_DESCRIPTION = "Biomob!";
+const APP_DESCRIPTION = "My little website!";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000"),
@@ -72,17 +71,6 @@ export default async function RootLayout({
 
   return (
     <html className={`${GeistSans.variable} scroll-container`} suppressHydrationWarning lang="pt-BR">
-      <head>
-        <Script id="plausible-init" strategy="beforeInteractive">
-          {`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}
-        </Script>
-        <Script
-          id="plausible-script"
-          src="https://plausible.biomob.app/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"
-          data-domain="biomobnovo"
-          strategy="afterInteractive"
-        />
-      </head>
       <body className={""}>
         <SkipToContent />
         <LandingPageProviders messages={messages} locale={resolvedParams.locale} session={session}>
