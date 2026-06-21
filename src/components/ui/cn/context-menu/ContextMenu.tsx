@@ -89,7 +89,7 @@ export function ContextMenu({ groups, children, className, style }: ContextMenuP
                         "flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
                         !item.disabled &&
                           !item.danger &&
-                          "hover:bg-[color-mix(in_srgb,var(--ks-patina)_10%,transparent)] hover:text-patina",
+                          "hover:bg-[color-mix(in_srgb,var(--ks-primary)_10%,transparent)] hover:text-patina",
                         item.danger && "text-danger",
                         item.danger &&
                           !item.disabled &&

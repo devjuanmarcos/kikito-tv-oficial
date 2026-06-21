@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { RadarChartProps } from './radar-chart.types'
 
-const COLORS = ['var(--ks-patina)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']
+const COLORS = ['var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']
 
 function polarToXY(angle: number, r: number, cx: number, cy: number) {
   const rad = (angle - 90) * (Math.PI / 180)

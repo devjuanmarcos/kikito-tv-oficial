@@ -39,7 +39,7 @@ export function Draggable({
             isHoriz ? "mr-1 last:mr-0 flex-shrink-0" : "mb-1 last:mb-0",
             !handle && "cursor-grab",
             draggingId === item.id && "opacity-40",
-            overId === item.id && "bg-float border-patina shadow-[0_0_0_2px_var(--ks-patina-soft)]"
+            overId === item.id && "bg-float border-patina shadow-[0_0_0_2px_var(--ks-primary-soft)]"
           )}
           draggable={!handle}
           onDragStart={() => {

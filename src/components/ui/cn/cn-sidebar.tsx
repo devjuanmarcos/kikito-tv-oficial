@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -105,7 +105,7 @@ export function CnSidebar() {
           color: var(--ks-text);
           background: color-mix(in oklch, var(--ks-lacquer-raised) 60%, transparent);
         }
-        .cns-group-header--active { color: var(--ks-patina); }
+        .cns-group-header--active { color: var(--ks-primary); }
 
         .cns-group-icon {
           font-size: 0.8125rem; opacity: 0.6; flex-shrink: 0;
@@ -150,17 +150,17 @@ export function CnSidebar() {
           color: var(--ks-text); transform: translateX(2px);
         }
         .cns-item--active {
-          background: color-mix(in oklch, var(--ks-patina) 11%, transparent);
-          color: var(--ks-patina); font-weight: 600;
+          background: color-mix(in oklch, var(--ks-primary) 11%, transparent);
+          color: var(--ks-primary); font-weight: 600;
         }
         .cns-item--active:hover {
-          background: color-mix(in oklch, var(--ks-patina) 17%, transparent);
+          background: color-mix(in oklch, var(--ks-primary) 17%, transparent);
           transform: none;
         }
 
         .cns-active-dot {
           display: inline-block; width: 5px; height: 5px; border-radius: 50%;
-          background: var(--ks-patina); flex-shrink: 0;
+          background: var(--ks-primary); flex-shrink: 0;
         }
 
         .cns-search {
@@ -175,9 +175,9 @@ export function CnSidebar() {
         }
         .cns-search::placeholder { color: var(--ks-text-faint); }
         .cns-search:focus {
-          border-color: var(--ks-patina);
+          border-color: var(--ks-primary);
           background: var(--ks-lacquer);
-          box-shadow: 0 0 0 2px color-mix(in oklch, var(--ks-patina) 20%, transparent);
+          box-shadow: 0 0 0 2px color-mix(in oklch, var(--ks-primary) 20%, transparent);
         }
 
         .cns-scroll { scrollbar-width: thin; scrollbar-color: var(--ks-rule) transparent; }

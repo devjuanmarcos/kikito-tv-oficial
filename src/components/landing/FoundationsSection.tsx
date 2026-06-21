@@ -1,4 +1,4 @@
-import { FOUNDATIONS, type Foundation } from "./landing-data";
+﻿import { FOUNDATIONS, type Foundation } from "./landing-data";
 
 const PLINTH_HEIGHTS = ["4%", "12%", "20%", "28%", "36%", "44%", "52%"];
 
@@ -74,7 +74,7 @@ export function FoundationsSection() {
         .fs-head h2 { margin-top: 0.75rem; }
         .fs-head p { margin-top: 1rem; }
         .fs-cli { display: inline-flex; align-items: center; gap: 10px; margin-top: 1.5rem; padding: 10px 16px; border: 1px solid var(--ks-rule); border-radius: 8px; background: var(--ks-lacquer); font-family: ui-monospace, monospace; font-size: 0.8125rem; color: var(--ks-text); }
-        .fs-cli b { color: var(--ks-patina); font-weight: 400; }
+        .fs-cli b { color: var(--ks-primary); font-weight: 400; }
 
         /* grid de plinths (desktop > 1280) */
         .fs-grid { display: flex; align-items: flex-end; gap: 16px; height: 600px; margin-top: clamp(2rem, 4vw, 3rem); }

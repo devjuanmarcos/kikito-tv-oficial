@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/utils'
@@ -23,7 +23,7 @@ const PrimaryIcon = () => (
 const ICON_CLS: Record<string, string> = {
   danger:  'bg-[color-mix(in_srgb,var(--ks-danger)_12%,transparent)] text-danger',
   warning: 'bg-[color-mix(in_srgb,var(--ks-warning)_12%,transparent)] text-warning',
-  primary: 'bg-[color-mix(in_srgb,var(--ks-patina)_12%,transparent)] text-patina',
+  primary: 'bg-[color-mix(in_srgb,var(--ks-primary)_12%,transparent)] text-patina',
 }
 
 export function AlertDialog({

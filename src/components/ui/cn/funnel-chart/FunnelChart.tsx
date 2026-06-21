@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { FunnelChartProps } from "./funnel-chart.types";
 
 const STAGE_COLORS = [
-  "var(--ks-patina)",
+  "var(--ks-primary)",
   "var(--ks-info)",
   "var(--ks-kinpaku)",
   "var(--ks-success)",

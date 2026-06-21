@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { DonutChartProps } from './donut-chart.types'
 
 const DEFAULT_COLORS = [
-  'var(--ks-patina)', 'var(--ks-kinpaku)', 'var(--ks-success)',
+  'var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-success)',
   'var(--ks-warning)', 'var(--ks-danger)', 'var(--ks-info)',
 ]
 

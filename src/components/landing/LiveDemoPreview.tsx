@@ -1,4 +1,4 @@
-/* Mock animado de "preview ao vivo": janela de navegador mostrando um
+﻿/* Mock animado de "preview ao vivo": janela de navegador mostrando um
  * componente do design system trocando de variante. CSS puro, sem JS. */
 export function LiveDemoPreview() {
   return (
@@ -20,10 +20,10 @@ export function LiveDemoPreview() {
         /* botão demo que cicla variantes */
         .ld-btn { position: relative; margin-top: 18px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700; animation: ld-variant 7s var(--kk-ease-out) infinite; }
         @keyframes ld-variant {
-          0%, 28%   { background: var(--ks-patina); color: var(--ks-patina-fg); border: 1px solid transparent; }
-          33%, 61%  { background: transparent; color: var(--ks-patina); border: 1px solid var(--ks-patina); }
-          66%, 94%  { background: var(--ks-patina-soft); color: var(--ks-patina-soft-fg); border: 1px solid transparent; }
-          100%      { background: var(--ks-patina); color: var(--ks-patina-fg); border: 1px solid transparent; }
+          0%, 28%   { background: var(--ks-primary); color: var(--ks-primary-fg); border: 1px solid transparent; }
+          33%, 61%  { background: transparent; color: var(--ks-primary); border: 1px solid var(--ks-primary); }
+          66%, 94%  { background: var(--ks-primary-soft); color: var(--ks-primary-soft-fg); border: 1px solid transparent; }
+          100%      { background: var(--ks-primary); color: var(--ks-primary-fg); border: 1px solid transparent; }
         }
 
         /* outline de seleção pulsando sobre o card */
@@ -33,7 +33,7 @@ export function LiveDemoPreview() {
         .ld-pop { position: absolute; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--ks-rule); background: color-mix(in oklch, var(--ks-lacquer) 88%, transparent); backdrop-filter: blur(8px); font-size: 0.6875rem; color: var(--ks-text-muted); animation: ld-pop 7s var(--kk-ease-out) infinite; }
         @keyframes ld-pop { 0%, 96% { opacity: 0; transform: translateY(6px); } 8%, 88% { opacity: 1; transform: translateY(0); } }
         .ld-pop b { color: var(--ks-text); font-weight: 600; }
-        .ld-pop i { width: 7px; height: 7px; border-radius: 50%; background: var(--ks-patina); }
+        .ld-pop i { width: 7px; height: 7px; border-radius: 50%; background: var(--ks-primary); }
       `}</style>
 
       <div className="ld" aria-hidden>

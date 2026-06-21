@@ -1,4 +1,4 @@
-export type CnGroup = "tokens" | "inputs" | "display" | "data" | "feedback" | "layout" | "overlays" | "charts";
+﻿export type CnGroup = "tokens" | "inputs" | "display" | "data" | "feedback" | "layout" | "overlays" | "charts";
 
 export interface PropDoc {
   name: string;
@@ -2794,7 +2794,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "color",
         type: "string",
         default: "undefined",
-        description: "Cor CSS da barra (padrão: var(--ks-patina))",
+        description: "Cor CSS da barra (padrão: var(--ks-primary))",
       },
       {
         name: "position",

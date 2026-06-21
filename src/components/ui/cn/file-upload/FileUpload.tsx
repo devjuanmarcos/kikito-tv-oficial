@@ -157,8 +157,8 @@ export function FileUpload({
         className={cn(
           "flex flex-col items-center justify-center gap-[10px] border-2 border-dashed border-rule rounded-[12px] cursor-pointer transition-[border-color,background] duration-[150ms] text-center",
           SIZE_PAD[size] ?? SIZE_PAD.md,
-          over && "border-patina bg-[color-mix(in_srgb,var(--ks-patina)_5%,transparent)]",
-          !over && "hover:border-patina hover:bg-[color-mix(in_srgb,var(--ks-patina)_5%,transparent)]",
+          over && "border-patina bg-[color-mix(in_srgb,var(--ks-primary)_5%,transparent)]",
+          !over && "hover:border-patina hover:bg-[color-mix(in_srgb,var(--ks-primary)_5%,transparent)]",
           disabled && "opacity-40 cursor-not-allowed pointer-events-none"
         )}
         onClick={() => !disabled && inputRef.current?.click()}

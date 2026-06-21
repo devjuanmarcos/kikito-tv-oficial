@@ -1,9 +1,9 @@
-import React from 'react'
+﻿import React from 'react'
 import { cn } from '@/lib/utils'
 import type { ActivityFeedProps } from './activity-feed.types'
 
 const INTENT_COLOR: Record<string, string> = {
-  primary:   'var(--ks-patina)',
+  primary:   'var(--ks-primary)',
   secondary: 'var(--ks-kinpaku)',
   success:   'var(--ks-success)',
   warning:   'var(--ks-warning)',
@@ -30,7 +30,7 @@ export function ActivityFeed({ items, compact = false, className, style }: Activ
       <div className="flex flex-col">
         {items.map((item, idx) => {
           const intent = item.intent ?? 'primary'
-          const color  = INTENT_COLOR[intent] ?? 'var(--ks-patina)'
+          const color  = INTENT_COLOR[intent] ?? 'var(--ks-primary)'
           const isLast = idx === items.length - 1
 
           return (

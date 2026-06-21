@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { ProgressRingProps } from './progress-ring.types'
 
 const INTENT_STROKE: Record<string, string> = {
-  primary:   'var(--ks-patina)',
+  primary:   'var(--ks-primary)',
   secondary: 'var(--ks-kinpaku)',
   success:   'var(--ks-success)',
   warning:   'var(--ks-warning)',
@@ -25,7 +25,7 @@ export function ProgressRing({
   const circumference = 2 * Math.PI * r
   const pct = Math.min(Math.max(value / max, 0), 1)
   const dashOffset = circumference * (1 - pct)
-  const color = INTENT_STROKE[intent] ?? 'var(--ks-patina)'
+  const color = INTENT_STROKE[intent] ?? 'var(--ks-primary)'
 
   return (
     <div

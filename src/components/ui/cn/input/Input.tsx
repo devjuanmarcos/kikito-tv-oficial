@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 
@@ -52,7 +52,7 @@ const SIZE_PADDING_RIGHT_2: Record<InputSize, string> = {
 const FLUSHED_CLS = "bg-transparent border-0 border-b border-rule rounded-none focus:border-patina px-0";
 
 /* Focus ring shared across Input / Select / Textarea for a consistent form look */
-const FOCUS_RING = "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]";
+const FOCUS_RING = "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]";
 
 const VARIANT: Record<InputVariant, string> = {
   outline: `bg-raised border border-rule hover:border-foreground/40 ${FOCUS_RING}`,
@@ -217,7 +217,7 @@ export function Input({
           className={cn(
             "flex items-stretch w-full overflow-hidden bg-raised border border-rule",
             "transition-[border-color,box-shadow] duration-150",
-            "focus-within:border-patina focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+            "focus-within:border-patina focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
             GROUP_BOX[size],
             STATUS_BORDER[resolvedStatus],
             disabled && "opacity-50"

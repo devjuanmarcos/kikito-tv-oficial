@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useRef } from 'react'
 import { cn } from '@/lib/utils'
@@ -6,7 +6,7 @@ import type { GlowCardProps } from './glow-card.types'
 
 export function GlowCard({
   children,
-  glowColor = 'var(--ks-patina)',
+  glowColor = 'var(--ks-primary)',
   glowSize = 400,
   glowOpacity = 0.14,
   radius = 16,

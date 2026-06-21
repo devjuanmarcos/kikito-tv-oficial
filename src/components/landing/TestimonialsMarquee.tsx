@@ -1,4 +1,4 @@
-import { TESTIMONIALS, type Testimonial } from "./landing-data";
+﻿import { TESTIMONIALS, type Testimonial } from "./landing-data";
 
 function initials(name: string) {
   return name
@@ -61,7 +61,7 @@ export function TestimonialsMarquee() {
         .tm-card:hover { transform: translateY(-2px); border-color: color-mix(in oklch, var(--ks-text-faint) 45%, transparent); background: var(--ks-lacquer-raised); }
         .tm-quote { margin: 0; color: var(--ks-text); font-size: 0.9375rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
         .tm-meta { display: flex; align-items: center; gap: 10px; }
-        .tm-coin { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; font-size: 0.625rem; font-weight: 700; color: var(--ks-patina-fg); background: var(--ks-patina); }
+        .tm-coin { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; font-size: 0.625rem; font-weight: 700; color: var(--ks-primary-fg); background: var(--ks-primary); }
         .tm-author { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
         .tm-author strong { font-size: 0.8125rem; font-weight: 600; color: var(--ks-text); }
         .tm-author em { font-size: 0.75rem; font-style: normal; color: var(--ks-text-faint); }

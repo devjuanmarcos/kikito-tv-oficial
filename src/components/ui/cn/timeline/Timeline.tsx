@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { cn } from '@/lib/utils'
 import type { TimelineProps, TimelineItem, TimelineStatus } from './timeline.types'
 
@@ -18,7 +18,7 @@ const DEFAULT_ICONS: Record<TimelineStatus, React.ReactNode> = {
 
 const NODE_STATUS_CLS: Record<TimelineStatus, string> = {
   complete: 'bg-success-soft text-success border-[1.5px] border-success',
-  active:   'bg-patina-soft text-patina border-2 border-patina shadow-[0_0_0_4px_var(--ks-patina-soft)]',
+  active:   'bg-patina-soft text-patina border-2 border-patina shadow-[0_0_0_4px_var(--ks-primary-soft)]',
   pending:  'bg-graphite text-faint border-[1.5px] border-dashed border-rule',
   error:    'bg-danger-soft text-danger border-[1.5px] border-danger',
   warning:  'bg-warning-soft text-warning border-[1.5px] border-warning',

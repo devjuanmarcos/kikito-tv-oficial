@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import type React from 'react'
 import { cn } from '@/lib/utils'
 
@@ -52,7 +52,7 @@ export function PricingCard({
       className={cn(
         'relative flex flex-col rounded-2xl border p-6 h-full transition-[border-color,box-shadow] duration-[200ms]',
         highlighted
-          ? 'border-patina shadow-[0_0_0_3px_color-mix(in_srgb,var(--ks-patina)_20%,transparent)] bg-raised'
+          ? 'border-patina shadow-[0_0_0_3px_color-mix(in_srgb,var(--ks-primary)_20%,transparent)] bg-raised'
           : 'border-rule bg-raised',
         className,
       )}

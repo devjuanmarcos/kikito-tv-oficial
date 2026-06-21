@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import type { AreaChartProps } from "./area-chart.types";
 
 const SERIES_COLORS = [
-  "var(--ks-patina)",
+  "var(--ks-primary)",
   "var(--ks-kinpaku)",
   "var(--ks-info)",
   "var(--ks-success)",

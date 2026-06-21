@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -52,7 +52,7 @@ export function BarChart({
         const barH = visible ? (item.value / max) * chartH : 0
         const x = i * (barWidth + gap) + 1
         const y = chartH - barH
-        const fillColor = item.color ?? color ?? 'var(--ks-patina)'
+        const fillColor = item.color ?? color ?? 'var(--ks-primary)'
 
         return (
           <g key={item.label}>

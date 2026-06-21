@@ -117,7 +117,7 @@ export function InlineEdit({
 
     return (
       <div style={style} className={cn("flex items-start gap-1.5 group", className)}>
-        <div className="flex-1 flex rounded-(--radius-xs) border border-patina bg-raised px-2 py-1 focus-within:shadow-[0_0_0_2px_var(--ks-patina)/20]">
+        <div className="flex-1 flex rounded-(--radius-xs) border border-patina bg-raised px-2 py-1 focus-within:shadow-[0_0_0_2px_var(--ks-primary)/20]">
           {multiline ? <textarea {...sharedProps} rows={3} /> : <input {...sharedProps} type="text" />}
         </div>
         <div className="flex flex-col gap-1 pt-1">

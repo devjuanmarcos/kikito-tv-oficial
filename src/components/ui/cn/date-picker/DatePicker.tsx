@@ -265,7 +265,7 @@ export function DatePicker({
   }
 
   const dayBtnCls =
-    "relative aspect-square flex items-center justify-center text-body-callout rounded-(--radius-sm) border-none bg-transparent cursor-pointer text-foreground font-inherit transition-[background,color] duration-[100ms] outline-none hover:bg-graphite focus-visible:shadow-[0_0_0_2px_var(--ks-patina)]";
+    "relative aspect-square flex items-center justify-center text-body-callout rounded-(--radius-sm) border-none bg-transparent cursor-pointer text-foreground font-inherit transition-[background,color] duration-[100ms] outline-none hover:bg-graphite focus-visible:shadow-[0_0_0_2px_var(--ks-primary)]";
 
   return (
     <div ref={wrapRef} className={cn("flex flex-col gap-[0.375rem] w-full relative", className)}>
@@ -280,8 +280,8 @@ export function DatePicker({
         type="button"
         className={cn(
           "flex items-center w-full bg-raised border border-rule rounded-(--radius-sm) cursor-pointer font-inherit text-foreground transition-[border-color,box-shadow] duration-[140ms]",
-          "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
-          open && "border-patina shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+          "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
+          open && "border-patina shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
           errorText && "border-[color-mix(in_oklch,var(--ks-danger)_55%,transparent)]",
           disabled && "opacity-55 cursor-not-allowed"
         )}

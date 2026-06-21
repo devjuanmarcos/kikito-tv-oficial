@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -48,7 +48,7 @@ export function ScrollProgress({
         left: 0,
         height,
         width: `${progress}%`,
-        background: color ?? 'var(--ks-patina)',
+        background: color ?? 'var(--ks-primary)',
         zIndex,
         ...style,
       }}

@@ -1,4 +1,4 @@
-import { CatalogSection } from "@/components/landing/CatalogSection";
+﻿import { CatalogSection } from "@/components/landing/CatalogSection";
 import { DownloadsSection } from "@/components/landing/DownloadsSection";
 import { FoundationsSection } from "@/components/landing/FoundationsSection";
 import { Hero } from "@/components/landing/Hero";
@@ -23,7 +23,7 @@ export default function HomePage() {
           --kk-font-display: var(--font-tim-sans, var(--font-geist-sans)), "Geist", system-ui, sans-serif;
           --kk-width-max: 1400px;
           --kk-width-content: 900px;
-          --kk-accent: var(--ks-patina);
+          --kk-accent: var(--ks-primary);
           --kk-section-pad: clamp(4rem, 9vw, 7.5rem);
           --kk-display-size: clamp(2.9rem, 6.4vw, 5.4rem);
           --kk-display-weight: 300;

@@ -490,7 +490,7 @@ function SparklineDemo() {
   return (
     <div className="flex flex-col gap-6">
       <Frame label="Area">
-        <Sparkline data={data} type="area" width={200} height={60} color="var(--ks-patina)" />
+        <Sparkline data={data} type="area" width={200} height={60} color="var(--ks-primary)" />
       </Frame>
       <Frame label="Line">
         <Sparkline data={data} type="line" width={200} height={60} color="var(--ks-violet)" />
@@ -939,7 +939,7 @@ function BarChartDemo() {
 
 function LineChartDemo() {
   const series = [
-    { label: "Revenue", data: [30, 52, 45, 70, 60, 88, 75], color: "var(--ks-patina)" },
+    { label: "Revenue", data: [30, 52, 45, 70, 60, 88, 75], color: "var(--ks-primary)" },
     { label: "Costs", data: [20, 28, 35, 40, 38, 50, 42], color: "var(--ks-danger)" },
   ];
   const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -1035,7 +1035,7 @@ function GlowCardDemo() {
   return (
     <Frame label="Glow Card — radial glow follows mouse position">
       <div className="flex flex-wrap gap-4 justify-center">
-        <GlowCard glowColor="var(--ks-patina)" radius={12} padding={24}>
+        <GlowCard glowColor="var(--ks-primary)" radius={12} padding={24}>
           <div className="flex flex-col gap-2 text-foreground w-48">
             <span className="text-2xl">🚀</span>
             <p className="font-semibold text-body-callout">Patina Glow</p>
@@ -1204,7 +1204,7 @@ function ScrollProgressDemo() {
   return (
     <Frame label="Scroll Progress — tracks page scroll with a fixed top bar">
       <div className="flex flex-col gap-4 items-center">
-        <ScrollProgress position="top" color="var(--ks-patina)" height={3} />
+        <ScrollProgress position="top" color="var(--ks-primary)" height={3} />
         <p className="text-body-callout text-muted text-center">
           Scroll the page to see the progress bar fill at the top of the viewport.
         </p>
@@ -1366,7 +1366,7 @@ function GradientBorderDemo() {
         </GradientBorder>
         <GradientBorder
           variant="pulse"
-          colors={["var(--ks-patina)", "var(--ks-kinpaku)", "var(--ks-violet)"]}
+          colors={["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-violet)"]}
           speed={2}
         >
           <div className="px-6 py-4 text-center">
@@ -1390,7 +1390,7 @@ function GlassCardDemo() {
     <Frame label="Glass Card — frosted glass with backdrop blur">
       <div
         className="relative rounded-(--radius-lg) overflow-hidden flex items-center justify-center gap-4 p-8"
-        style={{ background: "linear-gradient(135deg, var(--ks-patina), var(--ks-kinpaku), var(--ks-violet))" }}
+        style={{ background: "linear-gradient(135deg, var(--ks-primary), var(--ks-kinpaku), var(--ks-violet))" }}
       >
         <GlassCard className="px-6 py-5">
           <p className="font-semibold text-white text-body-callout">blur: 12px</p>
@@ -1528,7 +1528,7 @@ function RadarChartDemo() {
     { label: "Charisma", max: 100 },
   ];
   const series = [
-    { label: "Hero A", data: [80, 60, 70, 90, 50, 40], color: "var(--ks-patina)" },
+    { label: "Hero A", data: [80, 60, 70, 90, 50, 40], color: "var(--ks-primary)" },
     { label: "Hero B", data: [50, 85, 55, 45, 90, 75], color: "var(--ks-kinpaku)" },
   ];
   return (
@@ -1837,7 +1837,7 @@ function AudioWaveformDemo() {
     <Frame label="Audio Waveform — animated bars when playing">
       <div className="flex flex-col items-center gap-6">
         <div className="flex gap-6 items-center">
-          <AudioWaveform playing={playing} bars={20} color="var(--ks-patina)" height={48} />
+          <AudioWaveform playing={playing} bars={20} color="var(--ks-primary)" height={48} />
           <AudioWaveform playing={playing} bars={12} color="var(--ks-kinpaku)" height={36} />
           <AudioWaveform playing={playing} bars={16} color="var(--ks-violet)" height={42} />
         </div>
@@ -2115,14 +2115,14 @@ function TextGradientDemo() {
   return (
     <Frame label="Text Gradient — gradient text with optional animation">
       <div className="flex flex-col items-center gap-4">
-        <TextGradient from="var(--ks-patina)" to="var(--ks-kinpaku)" as="h2" className="text-heading-02 font-extrabold">
+        <TextGradient from="var(--ks-primary)" to="var(--ks-kinpaku)" as="h2" className="text-heading-02 font-extrabold">
           Kikito Design
         </TextGradient>
         <TextGradient from="#a78bfa" to="#38bdf8" direction="135deg" as="h3" className="text-heading-05 font-bold">
           Purple to Sky
         </TextGradient>
         <TextGradient
-          from="var(--ks-patina)"
+          from="var(--ks-primary)"
           via="var(--ks-violet)"
           to="var(--ks-kinpaku)"
           animate
@@ -2170,7 +2170,7 @@ function GridPatternDemo() {
             key={type}
             type={type}
             size={20}
-            color="var(--ks-patina)"
+            color="var(--ks-primary)"
             opacity={0.3}
             className="w-32 h-24 rounded-(--radius-md) border border-rule"
           >
@@ -2518,7 +2518,7 @@ function PaginationDemo() {
 
 function MasonryDemo() {
   const items = [
-    { h: 120, bg: "var(--ks-patina-soft)", label: "Card A" },
+    { h: 120, bg: "var(--ks-primary-soft)", label: "Card A" },
     { h: 180, bg: "var(--ks-violet-soft)", label: "Card B" },
     { h: 100, bg: "var(--ks-success-soft)", label: "Card C" },
     { h: 160, bg: "var(--ks-warning-soft)", label: "Card D" },
@@ -4516,7 +4516,7 @@ function CalendarDemo() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const today = new Date();
   const events = [
-    { id: 1, date: new Date(today.getFullYear(), today.getMonth(), 5), title: "Team sync", color: "var(--ks-patina)" },
+    { id: 1, date: new Date(today.getFullYear(), today.getMonth(), 5), title: "Team sync", color: "var(--ks-primary)" },
     { id: 2, date: new Date(today.getFullYear(), today.getMonth(), 12), title: "Release", color: "var(--ks-success)" },
     {
       id: 3,

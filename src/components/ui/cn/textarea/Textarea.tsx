@@ -27,9 +27,9 @@ export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
 
 const VARIANT_CLS: Record<TextareaVariant, string> = {
   outline:
-    "bg-raised border border-rule hover:border-foreground/40 focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+    "bg-raised border border-rule hover:border-foreground/40 focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
   filled:
-    "bg-graphite border border-transparent hover:bg-graphite-2 focus:bg-graphite-2 focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+    "bg-graphite border border-transparent hover:bg-graphite-2 focus:bg-graphite-2 focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
   ghost:
     "bg-transparent border-0 border-b border-rule rounded-none hover:border-foreground/40 focus:border-b-patina outline-none",
 };

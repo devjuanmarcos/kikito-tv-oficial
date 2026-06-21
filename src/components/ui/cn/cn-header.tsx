@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -122,7 +122,7 @@ export function CnHeader() {
           font-size: 0.9375rem; font-weight: 800; letter-spacing: -0.02em;
           color: var(--ks-text); line-height: 1;
         }
-        .cnh-brand-mark span { color: var(--ks-patina); }
+        .cnh-brand-mark span { color: var(--ks-primary); }
         .cnh-brand-tag {
           font-size: 0.5625rem; font-weight: 700; letter-spacing: 0.1em;
           text-transform: uppercase; color: var(--ks-text-faint);
@@ -145,7 +145,7 @@ export function CnHeader() {
         .cnh-nav-link--active { color: var(--ks-text); }
         .cnh-nav-link--active::after {
           content: ''; position: absolute; left: 0.6875rem; right: 0.6875rem; bottom: -0.0625rem;
-          height: 2px; border-radius: 999px; background: var(--ks-patina);
+          height: 2px; border-radius: 999px; background: var(--ks-primary);
         }
 
         .cnh-spacer { flex: 1; }

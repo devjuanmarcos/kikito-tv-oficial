@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -76,12 +76,12 @@ export function DownloadsSection() {
         .dl-cmd { display: flex; flex-direction: column; gap: 6px; }
         .dl-cmd-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ks-text-faint); }
         .dl-cmd-line { display: flex; align-items: center; gap: 10px; padding: 0 8px 0 14px; height: 48px; border: 1px solid var(--ks-rule); border-radius: 10px; background: var(--ks-lacquer); }
-        .dl-prompt { color: var(--ks-patina); font-family: ui-monospace, monospace; font-size: 0.875rem; flex-shrink: 0; }
+        .dl-prompt { color: var(--ks-primary); font-family: ui-monospace, monospace; font-size: 0.875rem; flex-shrink: 0; }
         .dl-code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-family: ui-monospace, monospace; font-size: 0.8125rem; color: var(--ks-text); scrollbar-width: none; }
         .dl-code::-webkit-scrollbar { display: none; }
         .dl-copy { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; border: 1px solid var(--ks-rule); background: transparent; color: var(--ks-text-faint); cursor: pointer; transition: color .15s, border-color .15s, background .15s, transform .15s; }
         .dl-copy:hover { color: var(--ks-text); border-color: var(--ks-text-faint); }
-        .dl-copy[data-copied="true"] { color: var(--ks-patina); border-color: color-mix(in oklch, var(--ks-patina) 50%, var(--ks-rule)); }
+        .dl-copy[data-copied="true"] { color: var(--ks-primary); border-color: color-mix(in oklch, var(--ks-primary) 50%, var(--ks-rule)); }
 
         .dl-alts { margin-top: 1.25rem; border-top: 1px solid color-mix(in oklch, var(--ks-rule) 60%, transparent); }
         .dl-alts summary { display: flex; align-items: center; gap: 8px; padding: 1rem 0 0.5rem; cursor: pointer; list-style: none; font-size: 0.875rem; font-weight: 600; color: var(--ks-text-muted); }

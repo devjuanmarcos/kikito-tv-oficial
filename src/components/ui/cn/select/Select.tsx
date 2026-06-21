@@ -69,7 +69,7 @@ const VARIANT_CLS: Record<SelectVariant, string> = {
   ghost: "bg-transparent border-b border-rule rounded-none hover:border-foreground/40",
 };
 const VARIANT_OPEN: Record<SelectVariant, string> = {
-  outline: "border-patina shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+  outline: "border-patina shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
   filled: "bg-graphite-2",
   ghost: "border-b-patina",
 };

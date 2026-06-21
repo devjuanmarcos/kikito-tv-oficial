@@ -1,11 +1,11 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { SkillBarProps } from './skill-bar.types'
 
 const INTENT_COLOR: Record<string, string> = {
-  primary:    'var(--ks-patina)',
+  primary:    'var(--ks-primary)',
   secondary:  'var(--ks-kinpaku)',
   tertiary:   'var(--ks-violet)',
   quaternary: 'var(--ks-rose)',

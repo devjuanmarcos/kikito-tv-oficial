@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { AudioWaveformProps } from './audio-waveform.types'
 
 const HEIGHTS = [0.3, 0.5, 0.8, 1.0, 0.9, 0.7, 0.5, 0.85, 1.0, 0.6, 0.4, 0.7, 0.95, 0.8, 0.5, 0.35, 0.65, 0.9, 1.0, 0.7]
@@ -6,7 +6,7 @@ const HEIGHTS = [0.3, 0.5, 0.8, 1.0, 0.9, 0.7, 0.5, 0.85, 1.0, 0.6, 0.4, 0.7, 0.
 export function AudioWaveform({
   playing = false,
   bars = 20,
-  color = 'var(--ks-patina)',
+  color = 'var(--ks-primary)',
   height = 40,
   className,
   style,

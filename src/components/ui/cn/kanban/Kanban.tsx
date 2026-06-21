@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import type { KanbanCard, KanbanColumn, KanbanProps } from "./kanban.types";
 
 const INTENT_COLORS: Record<string, string> = {
-  primary: "var(--ks-patina)",
+  primary: "var(--ks-primary)",
   success: "var(--ks-success)",
   warning: "var(--ks-warning)",
   danger: "var(--ks-danger)",
@@ -42,8 +42,8 @@ function KanbanCardItem({
           style={{
             background: card.labelColor
               ? card.labelColor + "22"
-              : "color-mix(in srgb, var(--ks-patina) 15%, transparent)",
-            color: card.labelColor ?? "var(--ks-patina)",
+              : "color-mix(in srgb, var(--ks-primary) 15%, transparent)",
+            color: card.labelColor ?? "var(--ks-primary)",
           }}
         >
           {card.label}

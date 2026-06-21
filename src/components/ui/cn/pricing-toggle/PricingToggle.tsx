@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -35,7 +35,7 @@ export function PricingToggle({
         role="switch"
         aria-checked={current === 'yearly'}
         className="relative w-11 h-6 rounded-full bg-graphite transition-colors focus:outline-none"
-        style={{ background: current === 'yearly' ? 'var(--ks-patina)' : undefined }}
+        style={{ background: current === 'yearly' ? 'var(--ks-primary)' : undefined }}
       >
         <span
           className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform"

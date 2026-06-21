@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import type React from 'react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -124,7 +124,7 @@ export function Calendar({
               {dayEvents.length > 0 && (
                 <span
                   className={cn('absolute bottom-0.5 w-1 h-1 rounded-full', isSelected ? 'bg-patina-fg/80' : '')}
-                  style={!isSelected ? { background: dayEvents[0].color ?? 'var(--ks-patina)' } : undefined}
+                  style={!isSelected ? { background: dayEvents[0].color ?? 'var(--ks-primary)' } : undefined}
                 />
               )}
             </button>

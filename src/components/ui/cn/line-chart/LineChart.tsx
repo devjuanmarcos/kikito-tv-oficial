@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { LineChartProps } from './line-chart.types'
 
-const DEFAULT_COLORS = ['var(--ks-patina)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']
+const DEFAULT_COLORS = ['var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']
 const GRID_LINES = 4
 
 export function LineChart({

@@ -1,7 +1,7 @@
 ﻿import type { SparklineProps } from './sparkline.types'
 
 const INTENT_COLORS: Record<string, string> = {
-  primary: 'var(--ks-patina)',
+  primary: 'var(--ks-primary)',
   success: 'var(--ks-success)',
   warning: 'var(--ks-warning)',
   danger:  'var(--ks-danger)',

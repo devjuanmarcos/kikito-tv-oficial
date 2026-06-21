@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import type React from 'react'
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { cn } from '@/lib/utils'
@@ -88,7 +88,7 @@ export function RangeSlider({
     }
   }
 
-  const THUMB = 'absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-patina border-2 border-raised shadow-[0_0_0_2px_var(--ks-patina)] cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none focus-visible:shadow-[0_0_0_3px_var(--ks-patina)/50]'
+  const THUMB = 'absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-patina border-2 border-raised shadow-[0_0_0_2px_var(--ks-primary)] cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none focus-visible:shadow-[0_0_0_3px_var(--ks-primary)/50]'
 
   return (
     <div style={style} className={cn('flex flex-col gap-2', disabled && 'opacity-50 pointer-events-none', className)}>

@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 import type { GaugeProps } from './gauge.types'
 
 const INTENT_COLOR: Record<string, string> = {
   default: 'var(--ks-text-muted)',
-  primary: 'var(--ks-patina)',
+  primary: 'var(--ks-primary)',
   success: 'var(--ks-success)',
   warning: 'var(--ks-warning)',
   danger:  'var(--ks-danger)',

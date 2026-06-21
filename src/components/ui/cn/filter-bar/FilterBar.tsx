@@ -40,8 +40,8 @@ export function FilterBar({
             type="button"
             className={cn(
               'inline-flex items-center gap-[5px] py-[5px] px-3 rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none',
-              'hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-patina)_8%,transparent)]',
-              isActive && 'border-patina bg-[color-mix(in_srgb,var(--ks-patina)_15%,transparent)] text-patina font-semibold',
+              'hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-primary)_8%,transparent)]',
+              isActive && 'border-patina bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina font-semibold',
             )}
             onClick={() => toggle(opt.value)}
           >
@@ -49,7 +49,7 @@ export function FilterBar({
             {opt.count !== undefined && (
               <span className={cn(
                 'bg-raised rounded-pill px-[6px] py-[1px] text-body-caption font-bold text-muted min-w-[18px] text-center',
-                isActive && 'bg-[color-mix(in_srgb,var(--ks-patina)_25%,transparent)] text-patina',
+                isActive && 'bg-[color-mix(in_srgb,var(--ks-primary)_25%,transparent)] text-patina',
               )}>
                 {opt.count}
               </span>

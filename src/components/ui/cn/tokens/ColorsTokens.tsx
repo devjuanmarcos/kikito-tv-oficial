@@ -1,4 +1,4 @@
-/* ─── ColorsTokens.tsx — CN Design Tokens: Colors ─────────────────────────
+﻿/* ─── ColorsTokens.tsx — CN Design Tokens: Colors ─────────────────────────
    Server component — pure render. Tokens resolved via CSS custom props.
 ─────────────────────────────────────────────────────────────────────────── */
 
@@ -90,7 +90,7 @@ function TokenRow({ name, value }: { name: string; value: string }) {
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       padding: '5px 0', borderBottom: '1px solid var(--ks-rule)', gap: 16,
     }}>
-      <code style={{ fontSize: 11, color: 'var(--ks-patina)', fontFamily: 'monospace' }}>{name}</code>
+      <code style={{ fontSize: 11, color: 'var(--ks-primary)', fontFamily: 'monospace' }}>{name}</code>
       <span style={{ fontSize: 11, color: 'var(--ks-text-muted)', textAlign: 'right', fontFamily: 'monospace' }}>{value}</span>
     </div>
   )
@@ -141,7 +141,7 @@ function IntentCard({ intent }: { intent: IntentDef }) {
         ].map(row => (
           <div key={row.t} style={{ display: 'flex', gap: 8, fontSize: 10, borderBottom: '1px solid var(--ks-rule)', padding: '2px 0' }}>
             <span style={{ color: 'var(--ks-text-faint)', minWidth: 48, flexShrink: 0 }}>{row.label}</span>
-            <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace', wordBreak: 'break-all' }}>{row.t}</code>
+            <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace', wordBreak: 'break-all' }}>{row.t}</code>
           </div>
         ))}
       </div>
@@ -180,8 +180,8 @@ export function ColorsTokens() {
         <SectionHeader>Brand Colors — Patina / Kinpaku / Violet / Rose</SectionHeader>
         <p style={{ fontSize: 12, color: 'var(--ks-text-muted)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
           Cada intent expõe 6 variantes.{' '}
-          <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace' }}>--ks-primary</code>,{' '}
-          <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace' }}>--ks-secondary</code> etc. são aliases semânticos.
+          <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace' }}>--ks-primary</code>,{' '}
+          <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace' }}>--ks-secondary</code> etc. são aliases semânticos.
           As swatches refletem o tema atual (light / dark).
         </p>
         {BRAND_INTENTS.map(intent => <IntentCard key={intent.label} intent={intent} />)}
@@ -198,9 +198,9 @@ export function ColorsTokens() {
         <SectionHeader>Aliases Semânticos</SectionHeader>
         <p style={{ fontSize: 12, color: 'var(--ks-text-muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
           Use{' '}
-          <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace' }}>--ks-primary</code> /{' '}
-          <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace' }}>--ks-secondary</code> /{' '}
-          <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace' }}>--ks-tertiary</code>{' '}
+          <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace' }}>--ks-primary</code> /{' '}
+          <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace' }}>--ks-secondary</code> /{' '}
+          <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace' }}>--ks-tertiary</code>{' '}
           nos componentes. Os aliases resolvem dinamicamente ao alterar o token de marca.
         </p>
         <div style={{ overflowX: 'auto', background: 'var(--ks-lacquer-raised)', border: '1px solid var(--ks-rule)', borderRadius: 10 }}>
@@ -214,7 +214,7 @@ export function ColorsTokens() {
             </thead>
             <tbody>
               {[
-                { alias: '--ks-primary',   brand: '--ks-patina',       color: 'var(--ks-patina)' },
+                { alias: '--ks-primary',   brand: '--ks-patina',       color: 'var(--ks-primary)' },
                 { alias: '--ks-secondary', brand: '--ks-kinpaku',      color: 'var(--ks-kinpaku)' },
                 { alias: '--ks-tertiary',  brand: '--ks-violet',       color: 'var(--ks-violet)' },
                 { alias: '--ks-quaternary',brand: '--ks-rose',         color: 'var(--ks-rose)' },
@@ -222,7 +222,7 @@ export function ColorsTokens() {
               ].map(row => (
                 <tr key={row.alias} style={{ borderBottom: '1px solid var(--ks-rule)' }}>
                   <td style={{ padding: '8px 10px' }}>
-                    <code style={{ color: 'var(--ks-patina)', fontFamily: 'monospace', fontSize: 10 }}>{row.alias}</code>
+                    <code style={{ color: 'var(--ks-primary)', fontFamily: 'monospace', fontSize: 10 }}>{row.alias}</code>
                   </td>
                   <td style={{ padding: '8px 10px' }}>
                     <code style={{ color: 'var(--ks-text-muted)', fontFamily: 'monospace', fontSize: 10 }}>{row.brand}</code>
@@ -275,10 +275,10 @@ export function ColorsTokens() {
             <div key={t.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
               <div style={{
                 width: 56, height: 56,
-                background: 'var(--ks-patina-soft)', border: '2px solid var(--ks-patina)',
+                background: 'var(--ks-primary-soft)', border: '2px solid var(--ks-primary)',
                 borderRadius: t.value,
               }} />
-              <code style={{ fontSize: 10, color: 'var(--ks-patina)', fontFamily: 'monospace' }}>{t.label}</code>
+              <code style={{ fontSize: 10, color: 'var(--ks-primary)', fontFamily: 'monospace' }}>{t.label}</code>
               <span style={{ fontSize: 10, color: 'var(--ks-text-faint)' }}>{t.value}</span>
             </div>
           ))}
@@ -292,8 +292,8 @@ export function ColorsTokens() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
           {SPACING_TOKENS.map(t => (
             <div key={t.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: t.px, height: 14, background: 'var(--ks-patina)', borderRadius: 3, opacity: 0.75, flexShrink: 0 }} />
-              <code style={{ fontSize: 11, color: 'var(--ks-patina)', fontFamily: 'monospace', minWidth: 130 }}>{t.name}</code>
+              <div style={{ width: t.px, height: 14, background: 'var(--ks-primary)', borderRadius: 3, opacity: 0.75, flexShrink: 0 }} />
+              <code style={{ fontSize: 11, color: 'var(--ks-primary)', fontFamily: 'monospace', minWidth: 130 }}>{t.name}</code>
               <span style={{ fontSize: 11, color: 'var(--ks-text-faint)', fontFamily: 'monospace' }}>{t.px}px</span>
             </div>
           ))}

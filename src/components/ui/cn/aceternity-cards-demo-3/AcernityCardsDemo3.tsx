@@ -1,4 +1,4 @@
-interface Props {
+﻿interface Props {
   title?: string
   description?: string
   theme?: 'light' | 'dark'
@@ -77,7 +77,7 @@ export function AcernityCardsDemo3({
         .acd3-beam {
           position: absolute; top: 80px; left: 50%; z-index: 40;
           width: 1px; height: 160px;
-          background: linear-gradient(to bottom, transparent 0%, var(--ks-patina) 50%, transparent 100%);
+          background: linear-gradient(to bottom, transparent 0%, var(--ks-primary) 50%, transparent 100%);
           animation: acd3-beam-move 5s linear infinite;
         }
         .acd3-beam::before, .acd3-beam::after {

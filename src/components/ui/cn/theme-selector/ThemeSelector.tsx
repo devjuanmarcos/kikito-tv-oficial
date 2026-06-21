@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { ThemeSelectorProps } from './theme-selector.types'
@@ -31,7 +31,7 @@ export function ThemeSelector({
             'flex items-center gap-2 px-3 py-2 rounded-[--radius] border transition-[border-color,background] duration-[150ms] cursor-pointer font-[inherit] bg-raised',
             selected === theme.id
               ? 'border-patina bg-patina-soft'
-              : 'border-rule hover:border-[var(--ks-patina)] hover:bg-graphite'
+              : 'border-rule hover:border-[var(--ks-primary)] hover:bg-graphite'
           )}
         >
           <div className="grid grid-cols-2 gap-[2px] w-7 h-7 rounded-sm overflow-hidden shrink-0">

@@ -75,7 +75,7 @@ const SIZE_VARS: Record<string, string> = {
 };
 
 const BTN_BASE =
-  "inline-flex items-center justify-center h-[--pg-h] min-w-[--pg-min] px-[--pg-px] text-[length:--pg-fs] font-medium font-[inherit] text-faint bg-transparent border border-transparent rounded-(--radius-sm) cursor-pointer leading-none whitespace-nowrap shrink-0 transition-[background,color,border-color] duration-[120ms] [&>svg]:w-[calc(var(--pg-fs)+0.125rem)] [&>svg]:h-[calc(var(--pg-fs)+0.125rem)] hover:not-disabled:bg-graphite hover:not-disabled:text-foreground hover:not-disabled:border-rule active:not-disabled:bg-[color-mix(in_oklch,var(--ks-graphite)_80%,var(--ks-patina)_20%)] disabled:opacity-35 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center h-[--pg-h] min-w-[--pg-min] px-[--pg-px] text-[length:--pg-fs] font-medium font-[inherit] text-faint bg-transparent border border-transparent rounded-(--radius-sm) cursor-pointer leading-none whitespace-nowrap shrink-0 transition-[background,color,border-color] duration-[120ms] [&>svg]:w-[calc(var(--pg-fs)+0.125rem)] [&>svg]:h-[calc(var(--pg-fs)+0.125rem)] hover:not-disabled:bg-graphite hover:not-disabled:text-foreground hover:not-disabled:border-rule active:not-disabled:bg-[color-mix(in_oklch,var(--ks-graphite)_80%,var(--ks-primary)_20%)] disabled:opacity-35 disabled:cursor-not-allowed";
 
 export function Pagination({
   page,

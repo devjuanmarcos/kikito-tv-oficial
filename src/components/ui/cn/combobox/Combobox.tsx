@@ -187,7 +187,7 @@ export function Combobox({
       <div
         className={cn(
           "flex flex-wrap gap-[0.3rem] py-[0.375rem] px-[0.625rem] pr-8 border border-rule rounded-(--radius-sm) bg-raised cursor-text min-h-[2.375rem] transition-[border-color,box-shadow] duration-[140ms] relative",
-          "focus-within:border-patina focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-patina)_18%,transparent)]",
+          "focus-within:border-patina focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
           hasError &&
             "border-[color-mix(in_oklch,var(--ks-danger)_55%,transparent)] focus-within:border-danger focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-danger)_18%,transparent)]",
           state === "success" && !hasError && "border-[color-mix(in_oklch,var(--ks-success)_55%,transparent)]",

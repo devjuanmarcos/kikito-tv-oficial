@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import type { ChecklistItem, ChecklistProps } from "./checklist.types";
 
 const INTENT_CLS: Record<string, string> = {
-  primary: "[--c:var(--ks-patina)] [--c-fg:var(--ks-patina-fg)]",
+  primary: "[--c:var(--ks-primary)] [--c-fg:var(--ks-primary-fg)]",
   success: "[--c:var(--ks-success)] [--c-fg:var(--ks-success-fg)]",
   warning: "[--c:var(--ks-warning)] [--c-fg:var(--ks-warning-fg)]",
   danger: "[--c:var(--ks-danger)] [--c-fg:var(--ks-danger-fg)]",

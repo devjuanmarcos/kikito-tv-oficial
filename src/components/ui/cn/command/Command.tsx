@@ -200,7 +200,7 @@ export function Command({
                       role="option"
                       className={cn(
                         "flex items-center gap-[0.625rem] py-[0.5625rem] px-[0.625rem] rounded-(--radius-sm) cursor-pointer bg-transparent border-none w-full text-left transition-[background] duration-[80ms] text-foreground",
-                        activeIdx === fi && "bg-[color-mix(in_oklch,var(--ks-patina)_12%,transparent)]",
+                        activeIdx === fi && "bg-[color-mix(in_oklch,var(--ks-primary)_12%,transparent)]",
                         item.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
                       )}
                       data-cmd-idx={fi}

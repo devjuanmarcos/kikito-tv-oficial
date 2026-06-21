@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 /* ─── TypographyTokens.tsx — CN Design Tokens: Typography ─────────────────
    Client component — font switcher + weight toggle use useState/useEffect.
@@ -105,9 +105,9 @@ export function TypographyTokens() {
             onClick={() => setShowWeights(v => !v)}
             style={{
               padding: '0.4375rem 0.875rem', borderRadius: 6,
-              border: `1px solid ${showWeights ? 'var(--ks-patina)' : 'var(--ks-rule)'}`,
-              background: showWeights ? 'var(--ks-patina-soft)' : 'transparent',
-              color: showWeights ? 'var(--ks-patina)' : 'var(--ks-text-muted)',
+              border: `1px solid ${showWeights ? 'var(--ks-primary)' : 'var(--ks-rule)'}`,
+              background: showWeights ? 'var(--ks-primary-soft)' : 'transparent',
+              color: showWeights ? 'var(--ks-primary)' : 'var(--ks-text-muted)',
               fontSize: '0.8125rem', cursor: 'pointer', transition: 'all 140ms ease',
             }}
           >
@@ -138,7 +138,7 @@ export function TypographyTokens() {
           >
             {/* Meta column */}
             <div style={{ paddingTop: '0.125rem' }}>
-              <p style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--ks-patina)', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
+              <p style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--ks-primary)', letterSpacing: '0.06em', marginBottom: '0.25rem' }}>
                 {step.label}
               </p>
               <p style={{ fontSize: '0.5625rem', color: 'var(--ks-text-faint)', fontFamily: 'monospace', marginBottom: '0.25rem' }}>
@@ -209,7 +209,7 @@ export function TypographyTokens() {
           ].map(sp => (
             <div key={sp.name} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
               <span style={{ fontSize: '0.625rem', fontFamily: 'monospace', color: 'var(--ks-text-faint)', width: 120, flexShrink: 0 }}>{sp.name}</span>
-              <div style={{ height: 18, width: sp.w, background: 'var(--ks-patina)', borderRadius: 3, opacity: 0.75, flexShrink: 0 }} />
+              <div style={{ height: 18, width: sp.w, background: 'var(--ks-primary)', borderRadius: 3, opacity: 0.75, flexShrink: 0 }} />
               <span style={{ fontSize: '0.5625rem', fontFamily: 'monospace', color: 'var(--ks-text-faint)' }}>{sp.value} · {sp.px}</span>
             </div>
           ))}

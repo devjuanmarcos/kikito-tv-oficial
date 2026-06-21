@@ -878,8 +878,8 @@ export function DataTable<TRow extends object>({
         <div
           className="flex items-center gap-3 px-[14px] py-[10px] rounded-(--radius-md) text-body-callout border"
           style={{
-            background: "color-mix(in oklch, var(--ks-patina) 10%, var(--ks-lacquer-raised))",
-            borderColor: "color-mix(in oklch, var(--ks-patina) 30%, transparent)",
+            background: "color-mix(in oklch, var(--ks-primary) 10%, var(--ks-lacquer-raised))",
+            borderColor: "color-mix(in oklch, var(--ks-primary) 30%, transparent)",
           }}
         >
           <span className="font-semibold text-patina flex-1">{selected.size} selected</span>

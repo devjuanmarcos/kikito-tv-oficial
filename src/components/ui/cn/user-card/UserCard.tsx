@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { UserCardProps } from './user-card.types'
@@ -32,7 +32,7 @@ export function UserCard({
     <div className={cn('bg-raised border border-rule rounded-[16px] overflow-hidden w-[280px]', className)} style={style}>
       <div
         className="h-20"
-        style={{ background: coverColor ?? 'linear-gradient(135deg,var(--ks-patina),var(--ks-kinpaku))' }}
+        style={{ background: coverColor ?? 'linear-gradient(135deg,var(--ks-primary),var(--ks-kinpaku))' }}
       />
       <div className="px-5 pb-5">
         <div className="flex items-end justify-between -mt-7 mb-3">
@@ -56,7 +56,7 @@ export function UserCard({
         <div className="text-body-paragraph font-bold text-foreground">{name}</div>
         {username && <div className="text-body-caption opacity-40 mt-[2px]">@{username}</div>}
         {badge && (
-          <div className="inline-block text-[0.625rem] font-bold py-[2px] px-2 rounded-[4px] bg-[color-mix(in_srgb,var(--ks-patina)_15%,transparent)] text-patina mt-1">
+          <div className="inline-block text-[0.625rem] font-bold py-[2px] px-2 rounded-[4px] bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina mt-1">
             {badge}
           </div>
         )}
