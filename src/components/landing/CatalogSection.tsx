@@ -75,7 +75,7 @@ export function CatalogSection() {
 
         .ct-tabs { display: inline-flex; gap: 4px; margin: 1.75rem 0 0; padding: 4px; border: 1px solid var(--ks-rule); border-radius: 999px; background: color-mix(in oklch, var(--ks-lacquer-raised) 50%, transparent); }
         .ct-tab { padding: 7px 18px; border: none; border-radius: 999px; background: transparent; color: var(--ks-text-muted); font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: color .15s, background .15s; }
-        .ct-tab[data-on="true"] { color: var(--ks-kinpaku-fg); background: var(--ks-kinpaku); }
+        .ct-tab[data-on="true"] { color: var(--ks-patina-fg); background: var(--ks-patina); }
 
         /* ── Magazine ── */
         .mag { display: grid; grid-template-columns: clamp(180px, 22vw, 220px) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); margin-top: 2rem; }
@@ -86,7 +86,7 @@ export function CatalogSection() {
         .mi { display: block; width: 100%; text-align: left; padding: 7px 4px; background: none; border: none; cursor: pointer; font: inherit; font-size: 0.95rem; color: var(--ks-text-faint); scroll-snap-align: center; transition: color .2s var(--kk-ease-out), transform .2s var(--kk-ease-out), opacity .2s; opacity: .6; white-space: nowrap; }
         .mi:hover { color: var(--ks-text-muted); opacity: .85; }
         .mi[data-on="true"] { color: var(--ks-text); opacity: 1; font-weight: 600; transform: translateX(3px); }
-        @media (max-width: 900px) { .mi { width: auto; flex-shrink: 0; padding: 7px 12px; border: 1px solid var(--ks-rule); border-radius: 999px; opacity: 1; } .mi[data-on="true"] { transform: none; border-color: var(--ks-kinpaku); } }
+        @media (max-width: 900px) { .mi { width: auto; flex-shrink: 0; padding: 7px 12px; border: 1px solid var(--ks-rule); border-radius: 999px; opacity: 1; } .mi[data-on="true"] { transform: none; border-color: var(--ks-patina); } }
 
         .mag-view { min-height: 460px; border: 1px solid var(--ks-rule); border-radius: 14px; background: color-mix(in oklch, var(--ks-lacquer-raised) 45%, transparent); overflow: hidden; }
         .spread { display: grid; grid-template-columns: 38% 1fr; height: 100%; }
@@ -96,16 +96,16 @@ export function CatalogSection() {
         .spread-cat { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kk-accent); }
         .spread-name { margin-top: 0.5rem; font-family: var(--kk-font-display); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 400; line-height: 1.05; color: var(--ks-text); }
         .spread-desc { margin-top: 0.875rem; font-size: 0.875rem; line-height: 1.6; color: var(--ks-text-muted); }
-        .spread-link { margin-top: auto; padding-top: 1.25rem; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; font-weight: 600; color: var(--ks-kinpaku); background: none; border: none; cursor: pointer; align-self: flex-start; }
+        .spread-link { margin-top: auto; padding-top: 1.25rem; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; font-weight: 600; color: var(--ks-patina); background: none; border: none; cursor: pointer; align-self: flex-start; }
         .spread-demo { padding: clamp(1.5rem, 3vw, 2.5rem); display: grid; place-items: center; background-image: radial-gradient(color-mix(in oklch, var(--ks-rule) 70%, transparent) 1px, transparent 1px); background-size: 20px 20px; }
-        .spread-chip { display: grid; place-items: center; width: clamp(90px, 16vw, 132px); height: clamp(90px, 16vw, 132px); border-radius: 18px; border: 1px solid var(--ks-rule); background: var(--ks-lacquer-deep); font-family: ui-monospace, monospace; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--kk-accent); }
+        .spread-chip { display: grid; place-items: center; width: clamp(90px, 16vw, 132px); height: clamp(90px, 16vw, 132px); border-radius: 18px; border: 1px solid var(--ks-rule); background: var(--ks-lacquer); font-family: ui-monospace, monospace; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--kk-accent); }
 
         /* ── Periodic ── */
         .pt { margin-top: 2rem; display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.5rem); }
         .pt-group-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ks-text-faint); margin-bottom: 0.75rem; }
         .pt-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: clamp(8px, 1.4vw, 14px); }
-        .pe { position: relative; aspect-ratio: 64 / 76; min-height: 76px; padding: 6px; border: 1px solid var(--ks-rule); border-radius: 6px; background: var(--ks-lacquer-deep); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transition: transform .18s var(--kk-ease-out), border-color .18s, background .18s; }
-        .pe:hover, .pe:focus-visible { transform: translateY(-3px); border-color: var(--kk-accent); background: var(--ks-lacquer-raised); outline: none; }
+        .pe { position: relative; aspect-ratio: 64 / 76; min-height: 76px; padding: 6px; border: 1px solid var(--ks-rule); border-radius: 6px; background: var(--ks-lacquer-raised); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transition: transform .18s var(--kk-ease-out), border-color .18s, background .18s; }
+        .pe:hover, .pe:focus-visible { transform: translateY(-3px); border-color: var(--kk-accent); background: color-mix(in oklch, var(--kk-accent) 12%, var(--ks-lacquer-raised)); outline: none; }
         .pe-num { position: absolute; top: 5px; left: 6px; font-size: 0.5rem; color: var(--ks-text-faint); }
         .pe-sym { font-family: var(--kk-font-display); font-size: 1.25rem; font-weight: 600; color: var(--ks-text); line-height: 1; }
         .pe-name { font-size: 0.5625rem; color: var(--ks-text-faint); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

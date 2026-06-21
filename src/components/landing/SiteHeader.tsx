@@ -93,7 +93,7 @@ export function SiteHeader() {
         }
         .sh-brand { display: flex; align-items: baseline; gap: 0.4375rem; text-decoration: none; flex-shrink: 0; }
         .sh-brand-mark { font-family: var(--kk-font-display); font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em; color: var(--ks-text); line-height: 1; }
-        .sh-brand-mark b { color: var(--ks-kinpaku); font-weight: 700; }
+        .sh-brand-mark b { color: var(--ks-patina); font-weight: 700; }
         .sh-brand-tag { font-size: 0.5625rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ks-text-faint); }
 
         .sh-nav { display: none; align-items: center; gap: 0.125rem; margin-left: 0.75rem; }

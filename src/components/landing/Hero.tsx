@@ -38,7 +38,7 @@ export function Hero() {
         .hero { position: relative; overflow: hidden; }
         .hero-art { position: absolute; inset: 0; pointer-events: none; z-index: 0;
           background:
-            radial-gradient(60% 50% at 78% 18%, color-mix(in oklch, var(--ks-kinpaku) 14%, transparent), transparent 70%),
+            radial-gradient(60% 50% at 78% 18%, color-mix(in oklch, var(--ks-patina) 14%, transparent), transparent 70%),
             radial-gradient(50% 40% at 12% 8%, color-mix(in oklch, var(--ks-patina) 10%, transparent), transparent 70%);
         }
         .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding-top: clamp(3.5rem, 8vw, 6.5rem); padding-bottom: clamp(3.5rem, 8vw, 6rem); }

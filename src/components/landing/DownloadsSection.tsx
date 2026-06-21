@@ -75,8 +75,8 @@ export function DownloadsSection() {
         .dl-install { display: flex; flex-direction: column; gap: 10px; }
         .dl-cmd { display: flex; flex-direction: column; gap: 6px; }
         .dl-cmd-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ks-text-faint); }
-        .dl-cmd-line { display: flex; align-items: center; gap: 10px; padding: 0 8px 0 14px; height: 48px; border: 1px solid var(--ks-rule); border-radius: 10px; background: var(--ks-lacquer-deep); }
-        .dl-prompt { color: var(--ks-kinpaku); font-family: ui-monospace, monospace; font-size: 0.875rem; flex-shrink: 0; }
+        .dl-cmd-line { display: flex; align-items: center; gap: 10px; padding: 0 8px 0 14px; height: 48px; border: 1px solid var(--ks-rule); border-radius: 10px; background: var(--ks-lacquer); }
+        .dl-prompt { color: var(--ks-patina); font-family: ui-monospace, monospace; font-size: 0.875rem; flex-shrink: 0; }
         .dl-code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-family: ui-monospace, monospace; font-size: 0.8125rem; color: var(--ks-text); scrollbar-width: none; }
         .dl-code::-webkit-scrollbar { display: none; }
         .dl-copy { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; border: 1px solid var(--ks-rule); background: transparent; color: var(--ks-text-faint); cursor: pointer; transition: color .15s, border-color .15s, background .15s, transform .15s; }
@@ -92,7 +92,7 @@ export function DownloadsSection() {
 
         .dl-extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1.75rem; }
         @media (max-width: 560px) { .dl-extras { grid-template-columns: 1fr; } }
-        .dl-extra { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--ks-rule); border-radius: 10px; text-decoration: none; background: color-mix(in oklch, var(--ks-lacquer-deep) 60%, transparent); transition: border-color .2s, transform .2s var(--kk-ease-out); }
+        .dl-extra { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--ks-rule); border-radius: 10px; text-decoration: none; background: color-mix(in oklch, var(--ks-lacquer) 60%, transparent); transition: border-color .2s, transform .2s var(--kk-ease-out); }
         .dl-extra:hover { border-color: color-mix(in oklch, var(--kk-accent) 45%, var(--ks-rule)); transform: translateY(-2px); }
         .dl-extra strong { font-size: 0.875rem; color: var(--ks-text); display: flex; align-items: center; gap: 6px; }
         .dl-extra span { font-size: 0.75rem; color: var(--ks-text-faint); }

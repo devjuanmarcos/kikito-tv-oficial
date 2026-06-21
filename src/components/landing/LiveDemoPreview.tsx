@@ -4,11 +4,11 @@ export function LiveDemoPreview() {
   return (
     <>
       <style>{`
-        .ld { position: relative; border: 1px solid var(--ks-rule); border-radius: 14px; overflow: hidden; background: var(--ks-lacquer-deep); box-shadow: 0 30px 80px -30px color-mix(in oklch, #000 50%, transparent); }
+        .ld { position: relative; border: 1px solid var(--ks-rule); border-radius: 14px; overflow: hidden; background: var(--ks-lacquer); box-shadow: 0 30px 80px -30px color-mix(in oklch, #000 50%, transparent); }
         .ld-chrome { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--ks-rule); background: color-mix(in oklch, var(--ks-lacquer-raised) 60%, transparent); }
         .ld-dots { display: flex; gap: 6px; }
         .ld-dots i { width: 10px; height: 10px; border-radius: 50%; background: color-mix(in oklch, var(--ks-text-faint) 40%, transparent); }
-        .ld-url { flex: 1; height: 24px; border-radius: 6px; border: 1px solid var(--ks-rule); background: var(--ks-lacquer-deep); display: flex; align-items: center; padding: 0 10px; font-family: ui-monospace, monospace; font-size: 0.6875rem; color: var(--ks-text-faint); }
+        .ld-url { flex: 1; height: 24px; border-radius: 6px; border: 1px solid var(--ks-rule); background: var(--ks-lacquer); display: flex; align-items: center; padding: 0 10px; font-family: ui-monospace, monospace; font-size: 0.6875rem; color: var(--ks-text-faint); }
 
         .ld-stage { position: relative; padding: clamp(1.5rem, 4vw, 2.75rem); min-height: 280px; display: grid; place-items: center; background-image: radial-gradient(color-mix(in oklch, var(--ks-rule) 70%, transparent) 1px, transparent 1px); background-size: 22px 22px; }
 
@@ -20,10 +20,10 @@ export function LiveDemoPreview() {
         /* botão demo que cicla variantes */
         .ld-btn { position: relative; margin-top: 18px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700; animation: ld-variant 7s var(--kk-ease-out) infinite; }
         @keyframes ld-variant {
-          0%, 28%   { background: var(--ks-kinpaku); color: var(--ks-kinpaku-fg); border: 1px solid transparent; }
-          33%, 61%  { background: transparent; color: var(--ks-kinpaku); border: 1px solid var(--ks-kinpaku); }
-          66%, 94%  { background: var(--ks-patina); color: var(--ks-patina-fg); border: 1px solid transparent; }
-          100%      { background: var(--ks-kinpaku); color: var(--ks-kinpaku-fg); border: 1px solid transparent; }
+          0%, 28%   { background: var(--ks-patina); color: var(--ks-patina-fg); border: 1px solid transparent; }
+          33%, 61%  { background: transparent; color: var(--ks-patina); border: 1px solid var(--ks-patina); }
+          66%, 94%  { background: var(--ks-patina-soft); color: var(--ks-patina-soft-fg); border: 1px solid transparent; }
+          100%      { background: var(--ks-patina); color: var(--ks-patina-fg); border: 1px solid transparent; }
         }
 
         /* outline de seleção pulsando sobre o card */
@@ -54,7 +54,7 @@ export function LiveDemoPreview() {
           </div>
           <div className="ld-sel" />
           <div className="ld-pop">
-            <i /> intent <b>primary</b> → <b>tertiary</b>
+            <i /> variant <b>solid</b> → <b>outline</b>
           </div>
         </div>
       </div>

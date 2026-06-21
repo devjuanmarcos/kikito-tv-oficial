@@ -25,7 +25,7 @@ function TileViz({ kind }: { kind: BentoTile["kind"] }) {
     case "tokens":
       return (
         <div className="bt-tokens" aria-hidden>
-          {["--patina", "--kinpaku", "--lacquer", "--rule"].map((t, i) => (
+          {["--patina", "--raised", "--rule", "--text"].map((t, i) => (
             <span key={t} className={`bt-swatch bt-swatch--${i}`}>
               <i /> {t}
             </span>
@@ -118,7 +118,7 @@ export function WhyBento() {
         .bt-viz { margin-top: auto; }
 
         /* terminal */
-        .bt-term { border: 1px solid var(--ks-rule); border-radius: 8px; overflow: hidden; background: var(--ks-lacquer-deep); }
+        .bt-term { border: 1px solid var(--ks-rule); border-radius: 8px; overflow: hidden; background: var(--ks-lacquer); }
         .bt-term-bar { display: flex; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--ks-rule); }
         .bt-term-bar i { width: 9px; height: 9px; border-radius: 50%; background: color-mix(in oklch, var(--ks-text-faint) 40%, transparent); }
         .bt-term-body { margin: 0; padding: 12px 14px; font-family: ui-monospace, monospace; font-size: 0.75rem; line-height: 1.7; color: var(--ks-text); white-space: pre-wrap; }
@@ -128,14 +128,14 @@ export function WhyBento() {
         .bt-tokens { display: flex; flex-direction: column; gap: 8px; }
         .bt-swatch { display: flex; align-items: center; gap: 10px; font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--ks-text-muted); }
         .bt-swatch i { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--ks-rule); }
-        .bt-swatch--0 i { background: var(--ks-patina); } .bt-swatch--1 i { background: var(--ks-kinpaku); }
-        .bt-swatch--2 i { background: var(--ks-lacquer-raised); } .bt-swatch--3 i { background: var(--ks-rule); }
+        .bt-swatch--0 i { background: var(--ks-patina); } .bt-swatch--1 i { background: var(--ks-lacquer-raised); }
+        .bt-swatch--2 i { background: var(--ks-rule); } .bt-swatch--3 i { background: var(--ks-text); }
 
         /* video */
         .bt-video { position: relative; height: 96px; border-radius: 8px; border: 1px solid var(--ks-rule); background: linear-gradient(135deg, color-mix(in oklch, var(--kk-accent) 12%, transparent), var(--ks-lacquer-raised)); display: grid; place-items: center; }
-        .bt-play { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--ks-kinpaku-fg); background: var(--ks-kinpaku); padding-left: 2px; }
+        .bt-play { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--ks-patina-fg); background: var(--ks-patina); padding-left: 2px; }
         .bt-scrub { position: absolute; left: 12px; right: 12px; bottom: 12px; height: 3px; border-radius: 999px; background: color-mix(in oklch, var(--ks-text-faint) 30%, transparent); }
-        .bt-scrub i { display: block; width: 38%; height: 100%; border-radius: 999px; background: var(--ks-kinpaku); }
+        .bt-scrub i { display: block; width: 38%; height: 100%; border-radius: 999px; background: var(--ks-patina); }
 
         /* registry grid */
         .bt-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
@@ -148,21 +148,21 @@ export function WhyBento() {
         .bt-news-row i { width: 6px; height: 6px; border-radius: 50%; background: var(--ks-patina); flex-shrink: 0; }
 
         /* diff */
-        .bt-diff { margin: 0; padding: 14px; border: 1px solid var(--ks-rule); border-radius: 8px; background: var(--ks-lacquer-deep); font-family: ui-monospace, monospace; font-size: 0.72rem; line-height: 1.7; white-space: pre-wrap; }
+        .bt-diff { margin: 0; padding: 14px; border: 1px solid var(--ks-rule); border-radius: 8px; background: var(--ks-lacquer); font-family: ui-monospace, monospace; font-size: 0.72rem; line-height: 1.7; white-space: pre-wrap; }
         .bt-add { color: var(--ks-patina); } .bt-del { color: var(--ks-text-faint); }
 
         /* live */
         .bt-live { position: relative; height: 96px; border-radius: 8px; border: 1px solid var(--ks-rule); display: grid; place-items: center; gap: 10px; background: var(--ks-lacquer-raised); }
-        .bt-live-tag { position: absolute; top: 10px; left: 10px; font-size: 0.5625rem; font-weight: 800; letter-spacing: 0.1em; color: var(--ks-kinpaku); }
+        .bt-live-tag { position: absolute; top: 10px; left: 10px; font-size: 0.5625rem; font-weight: 800; letter-spacing: 0.1em; color: var(--ks-patina); }
         .bt-live-btns { display: flex; gap: 10px; }
         .bt-live-btn { width: 64px; height: 22px; border-radius: 6px; }
-        .bt-live-btn--a { background: var(--ks-kinpaku); } .bt-live-btn--b { background: transparent; border: 1px solid var(--ks-rule); }
+        .bt-live-btn--a { background: var(--ks-patina); } .bt-live-btn--b { background: transparent; border: 1px solid var(--ks-rule); }
 
         /* plate */
-        .bt-plate { display: flex; flex-direction: column; gap: 8px; padding: 14px; border: 1px solid var(--ks-rule); border-radius: 8px; background: var(--ks-lacquer-deep); }
+        .bt-plate { display: flex; flex-direction: column; gap: 8px; padding: 14px; border: 1px solid var(--ks-rule); border-radius: 8px; background: var(--ks-lacquer); }
         .bt-plate-bar { height: 10px; border-radius: 4px; background: color-mix(in oklch, var(--ks-text-faint) 35%, transparent); }
         .bt-plate-bar--sm { width: 60%; }
-        .bt-plate-chip { width: 80px; height: 24px; border-radius: 6px; background: var(--ks-kinpaku); margin-top: 4px; }
+        .bt-plate-chip { width: 80px; height: 24px; border-radius: 6px; background: var(--ks-patina); margin-top: 4px; }
       `}</style>
 
       <div className="kk-container">
