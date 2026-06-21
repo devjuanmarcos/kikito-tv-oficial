@@ -339,7 +339,7 @@ body {
 /* Scrollbar custom global para todos os elementos scrolláveis */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary)) hsl(var(--background));
+  scrollbar-color: var(--ks-patina) transparent;
 }
 
 /* Para navegadores baseados em Webkit */
@@ -347,16 +347,16 @@ body {
   width: 0.5rem;
 }
 *::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: transparent;
   border-radius: 9999px;
 }
 *::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
+  background: var(--ks-patina);
   border-radius: 9999px;
   transition: background 0.2s ease;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary-hover));
+  background: var(--ks-patina-hover);
 }
 
 .no-scrollbar::-webkit-scrollbar {
