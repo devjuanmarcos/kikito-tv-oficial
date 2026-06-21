@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -115,8 +116,12 @@ export function CnHeader() {
         }
 
         .cnh-brand {
-          display: flex; align-items: baseline; gap: 0.4375rem;
+          display: flex; align-items: center; gap: 0.4375rem;
           text-decoration: none; flex-shrink: 0;
+        }
+        .cnh-brand-logo {
+          width: 1.5rem; height: 1.5rem; border-radius: 9999px;
+          object-fit: cover; flex-shrink: 0;
         }
         .cnh-brand-mark {
           font-size: 0.9375rem; font-weight: 800; letter-spacing: -0.02em;
@@ -161,6 +166,7 @@ export function CnHeader() {
       <header className="cnh">
         {/* Brand */}
         <Link href="/cn" className="cnh-brand" aria-label="Kikito CN — início">
+          <Image src="/img/kikito-face.png" alt="" className="cnh-brand-logo" width={24} height={24} aria-hidden />
           <span className="cnh-brand-mark">
             Kikito<span>CN</span>
           </span>
