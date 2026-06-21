@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
@@ -91,7 +92,8 @@ export function SiteHeader() {
           backdrop-filter: blur(18px) saturate(1.25);
           -webkit-backdrop-filter: blur(18px) saturate(1.25);
         }
-        .sh-brand { display: flex; align-items: baseline; gap: 0.4375rem; text-decoration: none; flex-shrink: 0; }
+        .sh-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
+        .sh-brand-logo { width: 1.75rem; height: 1.75rem; border-radius: 9999px; object-fit: cover; flex-shrink: 0; }
         .sh-brand-mark { font-family: var(--kk-font-display); font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em; color: var(--ks-text); line-height: 1; }
         .sh-brand-mark b { color: var(--ks-primary); font-weight: 700; }
         .sh-brand-tag { font-size: 0.5625rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ks-text-faint); }
@@ -124,6 +126,7 @@ export function SiteHeader() {
 
       <header className="sh">
         <Link href="/" className="sh-brand" aria-label="Kikito — início">
+          <Image src="/img/kikito-face.png" alt="" className="sh-brand-logo" width={28} height={28} aria-hidden />
           <span className="sh-brand-mark">
             Kiki<b>to</b>
           </span>
