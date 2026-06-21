@@ -113,10 +113,10 @@
   --popover: 70, 100%, 98.8%;
   --popover-foreground: 84, 8.2%, 12%;
 
-  --primary: 98, 69.4%, 28.2%;
-  --primary-foreground: 94, 100%, 97.3%;
-  --primary-hover: 97, 48.4%, 50.6%;
-  --primary-soft: 93, 27.3%, 93.5%;
+  --primary: 43, 100%, 22.5%;
+  --primary-foreground: 50, 100%, 90.6%;
+  --primary-hover: 49, 100%, 50%;
+  --primary-soft: 53, 25.7%, 93.1%;
   --primary-soft-foreground: var(--primary);
 
   --secondary: 186, 100%, 26.7%;
@@ -124,10 +124,10 @@
   --secondary-hover: 185, 100%, 42.4%;
   --secondary-soft: 165, 25%, 93.7%;
   --secondary-soft-foreground: var(--secondary);
-  --tertiary: 43, 100%, 22.5%;
-  --tertiary-foreground: 50, 100%, 90.6%;
-  --tertiary-hover: 49, 100%, 50%;
-  --tertiary-soft: 53, 25.7%, 93.1%;
+  --tertiary: 98, 69.4%, 28.2%;
+  --tertiary-foreground: 94, 100%, 97.3%;
+  --tertiary-hover: 97, 48.4%, 50.6%;
+  --tertiary-soft: 93, 27.3%, 93.5%;
   --tertiary-soft-foreground: var(--tertiary);
   --terciary: var(--tertiary);
   --terciary-foreground: var(--tertiary-foreground);
@@ -173,7 +173,7 @@
 
   --border: 0, 0%, 91.8%;
   --input: 0, 0%, 91.8%;
-  --ring: 98, 69.4%, 28.2%;
+  --ring: 43, 100%, 22.5%;
   --radius: 0.5rem;
 
   /* Layout: largura disponível para tabela (sidebar + SidebarInset + page + card padding) */
@@ -185,12 +185,12 @@
   /* Sidebar (shadcn) */
   --sidebar: 0, 0%, 100%;
   --sidebar-foreground: 0, 0%, 10.2%;
-  --sidebar-primary: 97, 48.4%, 50.6%;
-  --sidebar-primary-foreground: 107, 25.7%, 6.9%;
+  --sidebar-primary: 49, 100%, 50%;
+  --sidebar-primary-foreground: 44, 100%, 5.1%;
   --sidebar-accent: 95, 20%, 11.8%;
   --sidebar-accent-foreground: 94, 59%, 92.4%;
   --sidebar-border: 93, 9.7%, 40.4%;
-  --sidebar-ring: 84, 70.1%, 54.1%;
+  --sidebar-ring: 49, 100%, 50%;
 
   --chart-1: 98, 69.4%, 28.2%;
   --chart-2: 186, 100%, 26.7%;
@@ -215,10 +215,10 @@
   --popover: 84, 10.6%, 9.2%;
   --popover-foreground: 75, 36.4%, 95.7%;
 
-  --primary: 97, 48.4%, 50.6%;
-  --primary-foreground: 107, 25.7%, 6.9%;
-  --primary-hover: 84, 70.1%, 54.1%;
-  --primary-soft: 94, 28.6%, 11%;
+  --primary: 49, 100%, 50%;
+  --primary-foreground: 44, 100%, 5.1%;
+  --primary-hover: 43, 100%, 22.5%;
+  --primary-soft: 53, 49.1%, 10.8%;
   --primary-soft-foreground: var(--primary);
 
   --secondary: 185, 100%, 42.4%;
@@ -226,10 +226,10 @@
   --secondary-hover: 186, 100%, 26.7%;
   --secondary-soft: 175, 42.3%, 10.2%;
   --secondary-soft-foreground: var(--secondary);
-  --tertiary: 49, 100%, 50%;
-  --tertiary-foreground: 44, 100%, 5.1%;
-  --tertiary-hover: 43, 100%, 22.5%;
-  --tertiary-soft: 53, 49.1%, 10.8%;
+  --tertiary: 97, 48.4%, 50.6%;
+  --tertiary-foreground: 107, 25.7%, 6.9%;
+  --tertiary-hover: 84, 70.1%, 54.1%;
+  --tertiary-soft: 94, 28.6%, 11%;
   --tertiary-soft-foreground: var(--tertiary);
   --terciary: var(--tertiary);
   --terciary-foreground: var(--tertiary-foreground);
@@ -275,7 +275,7 @@
 
   --border: 0, 0%, 16.9%;
   --input: 94, 9.3%, 44.1%;
-  --ring: 84, 70.1%, 54.1%;
+  --ring: 49, 100%, 50%;
 
   --chart-1: 97, 48.4%, 50.6%;
   --chart-2: 185, 100%, 42.4%;
@@ -289,12 +289,12 @@
   /* Sidebar (shadcn) */
   --sidebar: 0, 0%, 10.2%;
   --sidebar-foreground: 75, 36.4%, 95.7%;
-  --sidebar-primary: 97, 48.4%, 50.6%;
-  --sidebar-primary-foreground: 107, 25.7%, 6.9%;
+  --sidebar-primary: 49, 100%, 50%;
+  --sidebar-primary-foreground: 44, 100%, 5.1%;
   --sidebar-accent: 95, 20%, 11.8%;
   --sidebar-accent-foreground: 94, 59%, 92.4%;
   --sidebar-border: 93, 9.7%, 40.4%;
-  --sidebar-ring: 84, 70.1%, 54.1%;
+  --sidebar-ring: 49, 100%, 50%;
 }
 
 /* Transição de tema (dark/light) aplicada apenas às superfícies que mudam de cor.
@@ -499,25 +499,25 @@ input[type="range"].font-size-slider::-ms-track {
   /* ── Chrome ── */
   --ks-rule: hsl(var(--border));
 
-  /* ── Patina = PRIMARY (amarelo/gold → tertiary token) ──
-     Primária do design system. Mapeia para o gold (tertiary) por decisão de marca. */
-  --ks-patina: hsl(var(--tertiary));
-  --ks-patina-fg: hsl(var(--tertiary-foreground));
-  --ks-patina-hover: hsl(var(--tertiary-hover));
-  --ks-patina-deep: hsl(var(--tertiary));
-  --ks-patina-soft: hsl(var(--tertiary-soft));
-  --ks-patina-soft-fg: hsl(var(--tertiary-soft-foreground));
+  /* ── Patina = PRIMARY (amarelo/gold → primary token) ──
+     Primária do design system. Mapeia para o gold (primary). */
+  --ks-patina: hsl(var(--primary));
+  --ks-patina-fg: hsl(var(--primary-foreground));
+  --ks-patina-hover: hsl(var(--primary-hover));
+  --ks-patina-deep: hsl(var(--primary));
+  --ks-patina-soft: hsl(var(--primary-soft));
+  --ks-patina-soft-fg: hsl(var(--primary-soft-foreground));
 
-  /* ── Kinpaku = SECONDARY (verde → primary token) ──
-     Secundária do design system. Mapeia para o verde (primary token). */
-  --ks-kinpaku: hsl(var(--primary));
-  --ks-kinpaku-fg: hsl(var(--primary-foreground));
-  --ks-kinpaku-hover: hsl(var(--primary-hover));
-  --ks-kinpaku-rich: hsl(var(--primary));
-  --ks-kinpaku-pale: hsl(var(--primary));
-  --ks-kinpaku-deep: hsl(var(--primary));
-  --ks-kinpaku-soft: hsl(var(--primary-soft));
-  --ks-kinpaku-soft-fg: hsl(var(--primary-soft-foreground));
+  /* ── Kinpaku = SECONDARY (verde → tertiary token) ──
+     Secundária do design system. Mapeia para o verde (tertiary). */
+  --ks-kinpaku: hsl(var(--tertiary));
+  --ks-kinpaku-fg: hsl(var(--tertiary-foreground));
+  --ks-kinpaku-hover: hsl(var(--tertiary-hover));
+  --ks-kinpaku-rich: hsl(var(--tertiary));
+  --ks-kinpaku-pale: hsl(var(--tertiary));
+  --ks-kinpaku-deep: hsl(var(--tertiary));
+  --ks-kinpaku-soft: hsl(var(--tertiary-soft));
+  --ks-kinpaku-soft-fg: hsl(var(--tertiary-soft-foreground));
 
   /* ── Danger → destructive ── */
   --ks-danger: hsl(var(--destructive));
