@@ -259,8 +259,10 @@ export function Select({
             <XIcon />
           </span>
         )}
-        <span className={cn("shrink-0 pr-3 text-faint transition-transform duration-[140ms]", open && "rotate-180")}>
-          <ChevronDown />
+        <span className="shrink-0 pr-3 flex items-center">
+          <span className={cn("text-faint transition-transform duration-[140ms]", open && "rotate-180")}>
+            <ChevronDown />
+          </span>
         </span>
       </button>
 
