@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon, WandSparkles } from "lucide-react";
@@ -895,13 +895,24 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                       <XIcon className="h-4 w-4" />
                     </div>
                     <Separator orientation="vertical" className="flex min-h-6 h-full" />
-                    <ChevronDown className="h-4 mx-2 cursor-pointer text-muted-foreground" aria-hidden="true" />
+                    <ChevronDown
+                      className={cn(
+                        "h-4 mx-2 cursor-pointer text-muted-foreground transition-transform duration-200",
+                        isPopoverOpen && "rotate-180"
+                      )}
+                      aria-hidden="true"
+                    />
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-between w-full mx-auto">
                   <span className="text-sm text-muted-foreground mx-3">{placeholder}</span>
-                  <ChevronDown className="h-4 cursor-pointer text-muted-foreground mx-2" />
+                  <ChevronDown
+                    className={cn(
+                      "h-4 cursor-pointer text-muted-foreground mx-2 transition-transform duration-200",
+                      isPopoverOpen && "rotate-180"
+                    )}
+                  />
                 </div>
               )}
             </Button>

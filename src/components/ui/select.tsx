@@ -23,7 +23,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
       ref={ref}
       data-size={size}
       className={cn(
-        "w-full border border-border placeholder:text-muted-foreground placeholder:opacity-50 text-body-callout rounded-md body-paragraph px-3 h-[2.375rem] bg-background flex items-center justify-between [&>span]:line-clamp-1 disabled:cursor-not-allowed disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+        "group w-full border border-border placeholder:text-muted-foreground placeholder:opacity-50 text-body-callout rounded-md body-paragraph px-3 h-[2.375rem] bg-background flex items-center justify-between [&>span]:line-clamp-1 disabled:cursor-not-allowed disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
         size === "sm" && "h-8 px-2 text-sm",
         className
       )}
@@ -31,7 +31,7 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="h-4 w-4 opacity-50" />
+        <ChevronDown className="h-4 w-4 opacity-50 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )
@@ -83,11 +83,12 @@ const SelectContent = React.forwardRef<
         position={position}
         {...props}
       >
-        {/* Animate entrance — Radix manages mount/unmount so AnimatePresence not needed */}
+        {/* scaleY from top: visible through overflow-hidden, matches dropdown spring feel */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          initial={{ opacity: 0, scaleY: 0.9 }}
+          animate={{ opacity: 1, scaleY: 1 }}
+          transition={{ type: "spring", stiffness: 350, damping: 25 }}
+          style={{ transformOrigin: "top" }}
         >
           <SelectScrollUpButton />
           <SelectPrimitive.Viewport

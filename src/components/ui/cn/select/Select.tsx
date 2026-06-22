@@ -1,4 +1,5 @@
 ﻿"use client";
+import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
 import { useState, useRef, useEffect, useId, useMemo } from "react";
 
@@ -263,47 +264,56 @@ export function Select({
         </span>
       </button>
 
-      {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-[300] bg-lacquer border border-rule rounded-(--radius-sm) shadow-[0_8px_24px_-8px_oklch(0%_0_0/0.45)] overflow-hidden">
-          {searchable && (
-            <div className="p-2 border-b border-rule">
-              <input
-                ref={inputRef}
-                type="text"
-                className="w-full bg-graphite border border-rule rounded-[4px] px-2.5 py-1.5 text-body-callout text-foreground placeholder:text-faint outline-none focus:border-patina"
-                placeholder="Search…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          )}
-          <div className="max-h-[240px] overflow-y-auto py-1">
-            {filtered.length === 0 ? (
-              <div className="px-3 py-6 text-center text-body-callout text-faint">No options found</div>
-            ) : (
-              filtered.map((item, gi) =>
-                isGroup(item) ? (
-                  <div key={gi}>
-                    <p className="px-3 pt-3 pb-1 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
-                      {item.label}
-                    </p>
-                    {item.options.map((opt) => (
-                      <OptionRow key={opt.value} opt={opt} current={current} onSelect={select} />
-                    ))}
-                  </div>
-                ) : (
-                  <OptionRow
-                    key={(item as SelectOption).value}
-                    opt={item as SelectOption}
-                    current={current}
-                    onSelect={select}
-                  />
-                )
-              )
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-[calc(100%+4px)] left-0 right-0 z-[300] bg-lacquer border border-rule rounded-(--radius-sm) shadow-[0_8px_24px_-8px_oklch(0%_0_0/0.45)] overflow-hidden"
+            initial={{ opacity: 0, scaleY: 0.9 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0.9 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            style={{ transformOrigin: "top" }}
+          >
+            {searchable && (
+              <div className="p-2 border-b border-rule">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className="w-full bg-graphite border border-rule rounded-[4px] px-2.5 py-1.5 text-body-callout text-foreground placeholder:text-faint outline-none focus:border-patina"
+                  placeholder="Search…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
             )}
-          </div>
-        </div>
-      )}
+            <div className="max-h-[240px] overflow-y-auto py-1">
+              {filtered.length === 0 ? (
+                <div className="px-3 py-6 text-center text-body-callout text-faint">No options found</div>
+              ) : (
+                filtered.map((item, gi) =>
+                  isGroup(item) ? (
+                    <div key={gi}>
+                      <p className="px-3 pt-3 pb-1 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
+                        {item.label}
+                      </p>
+                      {item.options.map((opt) => (
+                        <OptionRow key={opt.value} opt={opt} current={current} onSelect={select} />
+                      ))}
+                    </div>
+                  ) : (
+                    <OptionRow
+                      key={(item as SelectOption).value}
+                      opt={item as SelectOption}
+                      current={current}
+                      onSelect={select}
+                    />
+                  )
+                )
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {feedbackText && <span className={cn("text-body-caption", STATE_TEXT_CLS[effectiveState])}>{feedbackText}</span>}
     </div>

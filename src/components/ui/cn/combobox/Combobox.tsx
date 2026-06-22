@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 
 import { cn } from "@/lib/utils";
@@ -249,48 +250,57 @@ export function Combobox({
         </span>
       </div>
 
-      {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-[200] bg-lacquer border border-rule rounded-(--radius-base) shadow-[0_4px_24px_-4px_oklch(0%_0_0/0.4),0_2px_8px_-2px_oklch(0%_0_0/0.25)] overflow-hidden">
-          <div
-            ref={listRef}
-            className="max-h-[220px] overflow-y-auto p-1 [scrollbar-width:thin]"
-            role="listbox"
-            aria-multiselectable="true"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute top-[calc(100%+4px)] left-0 right-0 z-[200] bg-lacquer border border-rule rounded-(--radius-base) shadow-[0_4px_24px_-4px_oklch(0%_0_0/0.4),0_2px_8px_-2px_oklch(0%_0_0/0.25)] overflow-hidden"
+            initial={{ opacity: 0, scaleY: 0.9 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0.9 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            style={{ transformOrigin: "top" }}
           >
-            {filtered.length === 0 ? (
-              <div className="py-5 px-4 text-center text-body-callout text-faint">
-                No results for &quot;{query}&quot;
-              </div>
-            ) : (
-              filtered.map((opt, idx) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  role="option"
-                  data-idx={idx}
-                  aria-selected={selected.includes(opt.value)}
-                  className={cn(
-                    "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-[5px] text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
-                    activeIdx === idx && "bg-graphite",
-                    selected.includes(opt.value) && "bg-patina-soft text-patina",
-                    opt.disabled && "opacity-40 cursor-not-allowed"
-                  )}
-                  onMouseEnter={() => setActiveIdx(idx)}
-                  onClick={() => commit(opt)}
-                  tabIndex={-1}
-                >
-                  {opt.label}
-                  {selected.includes(opt.value) && (
-                    <span className="ml-auto text-patina">
-                      <CheckIcon />
-                    </span>
-                  )}
-                </button>
-              ))
-            )}
-          </div>
-        </div>
-      )}
+            <div
+              ref={listRef}
+              className="max-h-[220px] overflow-y-auto p-1 [scrollbar-width:thin]"
+              role="listbox"
+              aria-multiselectable="true"
+            >
+              {filtered.length === 0 ? (
+                <div className="py-5 px-4 text-center text-body-callout text-faint">
+                  No results for &quot;{query}&quot;
+                </div>
+              ) : (
+                filtered.map((opt, idx) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    role="option"
+                    data-idx={idx}
+                    aria-selected={selected.includes(opt.value)}
+                    className={cn(
+                      "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-[5px] text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
+                      activeIdx === idx && "bg-graphite",
+                      selected.includes(opt.value) && "bg-patina-soft text-patina",
+                      opt.disabled && "opacity-40 cursor-not-allowed"
+                    )}
+                    onMouseEnter={() => setActiveIdx(idx)}
+                    onClick={() => commit(opt)}
+                    tabIndex={-1}
+                  >
+                    {opt.label}
+                    {selected.includes(opt.value) && (
+                      <span className="ml-auto text-patina">
+                        <CheckIcon />
+                      </span>
+                    )}
+                  </button>
+                ))
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {helper && (
         <span className={cn("text-body-caption leading-snug", helper.isError ? "text-danger" : "text-faint")}>
