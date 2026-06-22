@@ -1,4 +1,5 @@
-﻿import { cva, type VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -148,6 +149,7 @@ const badgeVariants = cva(
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
   shiny?: boolean;
   shinySpeed?: number;
+  interactive?: boolean;
 }
 
 function Badge({
@@ -158,13 +160,27 @@ function Badge({
   size,
   shiny = false,
   shinySpeed = 5,
+  interactive = false,
   children,
   ...props
 }: BadgeProps) {
   const animationDuration = `${shinySpeed}s`;
+  const Comp = interactive ? motion.div : "div";
+
+  const motionProps = interactive
+    ? {
+        whileHover: { scale: 1.05 },
+        whileTap: { scale: 0.95 },
+        transition: { type: "spring", stiffness: 400, damping: 17 },
+      }
+    : {};
 
   return (
-    <div className={cn(badgeVariants({ variant, intent, appearance, size, shiny }), className)} {...props}>
+    <Comp
+      className={cn(badgeVariants({ variant, intent, appearance, size, shiny }), className)}
+      {...motionProps}
+      {...(props as React.HTMLAttributes<HTMLDivElement>)}
+    >
       <span className={cn("inline-flex items-center justify-center gap-2", shiny && "relative z-10")}>{children}</span>
 
       {shiny && (
@@ -190,7 +206,7 @@ function Badge({
           }}
         />
       )}
-    </div>
+    </Comp>
   );
 }
 

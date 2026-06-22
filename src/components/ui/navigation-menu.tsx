@@ -1,6 +1,7 @@
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -84,16 +85,45 @@ function NavigationMenuViewport({
   className,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
+  const viewportRef = React.useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const observer = new MutationObserver(() => setIsOpen(el.dataset.state === "open"));
+    observer.observe(el, { attributes: true, attributeFilter: ["data-state"] });
+    setIsOpen(el.dataset.state === "open");
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className={cn("absolute top-full left-0 isolate z-50 flex justify-center")}>
       <NavigationMenuPrimitive.Viewport
+        ref={(node) => {
+          (viewportRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }}
+        forceMount
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top-center bg-card text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center bg-card text-popover-foreground relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]",
           className
         )}
         {...props}
-      />
+      >
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -4 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
+              {props.children}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </NavigationMenuPrimitive.Viewport>
     </div>
   );
 }
