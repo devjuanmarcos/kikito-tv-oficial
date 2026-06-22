@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import { type VariantProps } from "class-variance-authority";
+import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { toggleVariants } from "@/components/ui/toggle";
@@ -23,6 +24,8 @@ const ToggleGroup = React.forwardRef<
 
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
 
+const MotionItem = motion(ToggleGroupPrimitive.Item);
+
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>
@@ -30,7 +33,7 @@ const ToggleGroupItem = React.forwardRef<
   const context = React.useContext(ToggleGroupContext);
 
   return (
-    <ToggleGroupPrimitive.Item
+    <MotionItem
       ref={ref}
       className={cn(
         toggleVariants({
@@ -39,10 +42,13 @@ const ToggleGroupItem = React.forwardRef<
         }),
         className
       )}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
       {...props}
     >
       {children}
-    </ToggleGroupPrimitive.Item>
+    </MotionItem>
   );
 });
 

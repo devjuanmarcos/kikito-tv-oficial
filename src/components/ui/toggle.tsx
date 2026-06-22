@@ -1,8 +1,9 @@
-﻿"use client"
+"use client"
 
 import * as React from "react"
 import * as TogglePrimitive from "@radix-ui/react-toggle"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -28,14 +29,19 @@ const toggleVariants = cva(
   }
 )
 
+const MotionToggleRoot = motion(TogglePrimitive.Root)
+
 const Toggle = React.forwardRef<
   React.ElementRef<typeof TogglePrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> &
     VariantProps<typeof toggleVariants>
 >(({ className, variant, size, ...props }, ref) => (
-  <TogglePrimitive.Root
+  <MotionToggleRoot
     ref={ref}
     className={cn(toggleVariants({ variant, size, className }))}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    transition={{ type: "spring", stiffness: 400, damping: 17 }}
     {...props}
   />
 ))
