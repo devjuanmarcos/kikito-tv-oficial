@@ -8,7 +8,37 @@ import { cn } from "@/lib/utils";
 
 const TooltipProvider = TooltipPrimitive.Provider;
 
-const Tooltip = TooltipPrimitive.Root;
+// Context tracks open state from the Root's onOpenChange — no DOM observation needed
+const TooltipOpenContext = React.createContext(false);
+
+const Tooltip = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>
+>(({ onOpenChange, open: controlledOpen, defaultOpen, ...props }, ref) => {
+  const [isOpen, setIsOpen] = React.useState(controlledOpen ?? defaultOpen ?? false);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setIsOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange]
+  );
+
+  const resolvedOpen = controlledOpen ?? isOpen;
+
+  return (
+    <TooltipOpenContext.Provider value={resolvedOpen}>
+      <TooltipPrimitive.Root
+        open={controlledOpen}
+        defaultOpen={defaultOpen}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
+    </TooltipOpenContext.Provider>
+  );
+});
+Tooltip.displayName = TooltipPrimitive.Root.displayName;
 
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
@@ -16,30 +46,14 @@ const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, children, ...props }, ref) => {
-  const contentRef = React.useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
-    const observer = new MutationObserver(() => {
-      setIsOpen(el.dataset.state === "delayed-open" || el.dataset.state === "instant-open");
-    });
-    observer.observe(el, { attributes: true, attributeFilter: ["data-state"] });
-    const state = el.dataset.state;
-    setIsOpen(state === "delayed-open" || state === "instant-open");
-    return () => observer.disconnect();
-  }, []);
+  const isOpen = React.useContext(TooltipOpenContext);
 
   return (
     <TooltipPrimitive.Content
-      ref={(node) => {
-        (contentRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        if (typeof ref === "function") ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      }}
+      ref={ref}
       forceMount
       sideOffset={sideOffset}
+      style={{ pointerEvents: isOpen ? "auto" : "none" }}
       className="z-50 outline-none"
       {...props}
     >
@@ -50,10 +64,7 @@ const TooltipContent = React.forwardRef<
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className={cn(
-              "overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-white",
-              className
-            )}
+            className={cn("overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-white", className)}
           >
             {children}
           </motion.div>

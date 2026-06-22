@@ -6,7 +6,37 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Popover = PopoverPrimitive.Root;
+// Context tracks open state from the Root's onOpenChange — no DOM observation needed
+const PopoverOpenContext = React.createContext(false);
+
+const Popover = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>
+>(({ onOpenChange, open: controlledOpen, defaultOpen, ...props }, ref) => {
+  const [isOpen, setIsOpen] = React.useState(controlledOpen ?? defaultOpen ?? false);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setIsOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange]
+  );
+
+  const resolvedOpen = controlledOpen ?? isOpen;
+
+  return (
+    <PopoverOpenContext.Provider value={resolvedOpen}>
+      <PopoverPrimitive.Root
+        open={controlledOpen}
+        defaultOpen={defaultOpen}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
+    </PopoverOpenContext.Provider>
+  );
+});
+Popover.displayName = PopoverPrimitive.Root.displayName;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
@@ -14,31 +44,16 @@ const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = "center", sideOffset = 4, children, ...props }, ref) => {
-  const contentRef = React.useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
-    const observer = new MutationObserver(() => {
-      setIsOpen(el.dataset.state === "open");
-    });
-    observer.observe(el, { attributes: true, attributeFilter: ["data-state"] });
-    setIsOpen(el.dataset.state === "open");
-    return () => observer.disconnect();
-  }, []);
+  const isOpen = React.useContext(PopoverOpenContext);
 
   return (
-    <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Portal forceMount>
       <PopoverPrimitive.Content
-        ref={(node) => {
-          (contentRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-          if (typeof ref === "function") ref(node);
-          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        }}
+        ref={ref}
         forceMount
         align={align}
         sideOffset={sideOffset}
+        style={{ pointerEvents: isOpen ? "auto" : "none" }}
         className="z-50 outline-none"
         {...props}
       >
@@ -49,10 +64,7 @@ const PopoverContent = React.forwardRef<
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className={cn(
-                "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md",
-                className
-              )}
+              className={cn("z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md", className)}
             >
               {children}
             </motion.div>

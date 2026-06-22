@@ -89,6 +89,7 @@ const AccordionContent = React.forwardRef<
         else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}
       forceMount
+      style={{ pointerEvents: isOpen ? "auto" : "none" }}
       className={cn("overflow-hidden text-sm", className)}
       {...props}
     >

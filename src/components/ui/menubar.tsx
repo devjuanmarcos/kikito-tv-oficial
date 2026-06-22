@@ -82,10 +82,8 @@ const MenubarSubContent = React.forwardRef<
         else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}
       forceMount
-      className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md bg-bg-principal p-1 shadow-lg",
-        className
-      )}
+      style={{ pointerEvents: isOpen ? "auto" : "none" }}
+      className={cn("z-50 min-w-[8rem] overflow-hidden rounded-md bg-bg-principal p-1 shadow-lg", className)}
       {...props}
     >
       <AnimatePresence>
@@ -133,10 +131,8 @@ const MenubarContent = React.forwardRef<
         align={align}
         alignOffset={alignOffset}
         sideOffset={sideOffset}
-        className={cn(
-          "z-50 min-w-[12rem] overflow-hidden rounded-md bg-bg-principal p-1 shadow-md",
-          className
-        )}
+        style={{ pointerEvents: isOpen ? "auto" : "none" }}
+        className={cn("z-50 min-w-[12rem] overflow-hidden rounded-md bg-bg-principal p-1 shadow-md", className)}
         {...props}
       >
         <AnimatePresence>

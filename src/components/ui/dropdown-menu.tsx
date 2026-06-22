@@ -41,9 +41,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
 
 // ── Helper hook: detect open state via MutationObserver ───────────────────────
-function useDataStateOpen(
-  ref: React.RefObject<HTMLDivElement | null>
-): boolean {
+function useDataStateOpen(ref: React.RefObject<HTMLDivElement | null>): boolean {
   const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -75,6 +73,7 @@ const DropdownMenuSubContent = React.forwardRef<
         else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}
       forceMount
+      style={{ pointerEvents: isOpen ? "auto" : "none" }}
       className={cn(
         "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-lg",
         className
@@ -117,6 +116,7 @@ const DropdownMenuContent = React.forwardRef<
         }}
         forceMount
         sideOffset={sideOffset}
+        style={{ pointerEvents: isOpen ? "auto" : "none" }}
         className={cn(
           "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
           className
