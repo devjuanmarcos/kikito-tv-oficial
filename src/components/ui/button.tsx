@@ -1,7 +1,10 @@
+"use client";
+
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -166,7 +169,12 @@ export interface LinkButtonProps
   loadingText?: string;
   icon?: React.ElementType;
   href: string;
+  hoverScale?: number;
+  tapScale?: number;
+  disableAnimation?: boolean;
 }
+
+const MotionLink = motion.create(Link);
 
 const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
   (
@@ -182,19 +190,55 @@ const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
       children,
       icon: Icon,
       href,
+      hoverScale = 1.05,
+      tapScale = 0.95,
+      disableAnimation = false,
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : Link;
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
+          ref={ref}
+          href={href}
+          aria-disabled={loading || props["aria-disabled"]}
+          tabIndex={loading ? -1 : props.tabIndex}
+          {...props}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" />
+              <span>{loadingText || "Carregando..."}</span>
+            </>
+          ) : (
+            <>
+              {Icon && <Icon />}
+              {children}
+            </>
+          )}
+        </Slot>
+      );
+    }
+
+    const motionProps = disableAnimation
+      ? {}
+      : {
+          whileHover: { scale: hoverScale },
+          whileTap: { scale: tapScale },
+          transition: { type: "spring", stiffness: 400, damping: 17 },
+        };
+
     return (
-      <Comp
+      <MotionLink
         className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
         ref={ref}
         href={href}
         aria-disabled={loading || props["aria-disabled"]}
         tabIndex={loading ? -1 : props.tabIndex}
-        {...props}
+        {...motionProps}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {loading ? (
           <>
@@ -207,7 +251,7 @@ const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
             {children}
           </>
         )}
-      </Comp>
+      </MotionLink>
     );
   }
 );
@@ -220,6 +264,9 @@ export interface ButtonProps
   loading?: boolean;
   loadingText?: string;
   icon?: React.ElementType;
+  hoverScale?: number;
+  tapScale?: number;
+  disableAnimation?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -235,16 +282,50 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loadingText,
       icon: Icon,
       children,
+      hoverScale = 1.05,
+      tapScale = 0.95,
+      disableAnimation = false,
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button";
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
+          ref={ref}
+          {...props}
+          disabled={loading || props.disabled}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" />
+              <span>{loadingText || "Carregando..."}</span>
+            </>
+          ) : (
+            <>
+              {Icon && <Icon />}
+              {children}
+            </>
+          )}
+        </Slot>
+      );
+    }
+
+    const motionProps = disableAnimation
+      ? {}
+      : {
+          whileHover: { scale: hoverScale },
+          whileTap: { scale: tapScale },
+          transition: { type: "spring", stiffness: 400, damping: 17 },
+        };
+
     return (
-      <Comp
+      <motion.button
         className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
         ref={ref}
-        {...props}
+        {...motionProps}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
         disabled={loading || props.disabled}
       >
         {loading ? (
@@ -258,7 +339,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {children}
           </>
         )}
-      </Comp>
+      </motion.button>
     );
   }
 );
