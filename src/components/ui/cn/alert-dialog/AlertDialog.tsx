@@ -1,6 +1,7 @@
-﻿'use client'
+'use client'
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { AnimatePresence, motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/cn/button'
 import type { ButtonIntent } from '@/components/ui/cn/button'
@@ -52,60 +53,64 @@ export function AlertDialog({
   if (typeof document === 'undefined') return null
 
   return createPortal(
-    <>
-      <style>{`
-        .ad-overlay { transition: opacity 0.16s; }
-        .ad-overlay[data-open="false"] { opacity: 0; pointer-events: none; }
-        .ad-panel { transition: opacity 0.16s, transform 0.2s cubic-bezier(0.4,0,0.2,1); }
-        .ad-panel[data-open="false"] { opacity: 0; transform: scale(0.92) translateY(-16px); pointer-events: none; }
-      `}</style>
-      <div
-        className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-4 ad-overlay"
-        data-open={String(open)}
-        onClick={e => { if (e.target === e.currentTarget) handleCancel() }}
-      >
-        <div
-          className={cn(
-            'bg-raised border border-rule rounded-[12px] p-6 w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)] ad-panel',
-            className,
-          )}
-          style={style}
-          data-open={String(open)}
-          role="alertdialog"
-          aria-modal="true"
-          aria-labelledby="ad-title"
-          aria-describedby={description ? 'ad-desc' : undefined}
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="alert-dialog-overlay"
+          className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.16 }}
+          onClick={e => { if (e.target === e.currentTarget) handleCancel() }}
         >
-          <div className={cn('w-10 h-10 rounded-md flex items-center justify-center mb-4 [&>svg]:w-5 [&>svg]:h-5', ICON_CLS[intent])}>
-            {intent === 'primary' ? <PrimaryIcon /> : <DangerIcon />}
-          </div>
-          <p className="text-body-paragraph font-bold mb-2 text-foreground" id="ad-title">{title}</p>
-          {description && (
-            <p className="text-body-callout leading-relaxed text-muted mb-6" id="ad-desc">{description}</p>
-          )}
-          <div className="flex gap-2 justify-end">
-            <Button
-              intent="neutral"
-              variant="outline"
-              size="sm"
-              onClick={handleCancel}
-              disabled={loading}
-            >
-              {cancelLabel}
-            </Button>
-            <Button
-              intent={intent as ButtonIntent}
-              variant="solid"
-              size="sm"
-              loading={loading}
-              onClick={onConfirm}
-            >
-              {confirmLabel}
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>,
+          <motion.div
+            key="alert-dialog-panel"
+            className={cn(
+              'bg-raised border border-rule rounded-[12px] p-6 w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)]',
+              className,
+            )}
+            style={style}
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="ad-title"
+            aria-describedby={description ? 'ad-desc' : undefined}
+            initial={{ opacity: 0, scale: 0.92, y: -16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: -16 }}
+            transition={{ type: 'spring', stiffness: 150, damping: 25 }}
+          >
+            <div className={cn('w-10 h-10 rounded-md flex items-center justify-center mb-4 [&>svg]:w-5 [&>svg]:h-5', ICON_CLS[intent])}>
+              {intent === 'primary' ? <PrimaryIcon /> : <DangerIcon />}
+            </div>
+            <p className="text-body-paragraph font-bold mb-2 text-foreground" id="ad-title">{title}</p>
+            {description && (
+              <p className="text-body-callout leading-relaxed text-muted mb-6" id="ad-desc">{description}</p>
+            )}
+            <div className="flex gap-2 justify-end">
+              <Button
+                intent="neutral"
+                variant="outline"
+                size="sm"
+                onClick={handleCancel}
+                disabled={loading}
+              >
+                {cancelLabel}
+              </Button>
+              <Button
+                intent={intent as ButtonIntent}
+                variant="solid"
+                size="sm"
+                loading={loading}
+                onClick={onConfirm}
+              >
+                {confirmLabel}
+              </Button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
     document.body
   )
 }
