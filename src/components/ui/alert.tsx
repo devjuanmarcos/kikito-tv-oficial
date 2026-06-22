@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -137,10 +138,13 @@ const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
 >(({ className, variant, intent, appearance, size, ...props }, ref) => (
-  <div
+  <motion.div
     ref={ref}
     role="alert"
     className={cn(alertVariants({ variant, intent, appearance, size }), className)}
+    initial={{ opacity: 0, y: -8 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ type: "spring", stiffness: 150, damping: 25 }}
     {...props}
   />
 ));

@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
@@ -14,6 +15,8 @@ interface PaginationProps {
     }>
   >;
 }
+
+const navButtonTransition = { type: "spring", stiffness: 400, damping: 17 } as const;
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage, setQueryPagination }) => {
   const itemsPerPageId = React.useId();
@@ -69,38 +72,50 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
           Página {displayPage} de {totalPages}
         </span>
         <div className="grid w-full grid-cols-4 gap-2 sm:flex sm:w-auto">
-          <button
+          <motion.button
             className="flex h-9 items-center justify-center rounded-md border border-border bg-background px-3"
             onClick={() => handlePageChange(1)}
             disabled={displayPage === 1}
             aria-label="Ir para a primeira página"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={navButtonTransition}
           >
             <FaAnglesLeft />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="flex h-9 items-center justify-center rounded-md border border-border bg-background px-3"
             onClick={() => handlePageChange(displayPage - 1)}
             disabled={displayPage === 1}
             aria-label="Ir para a página anterior"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={navButtonTransition}
           >
             <FaAngleLeft />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="flex h-9 items-center justify-center rounded-md border border-border bg-background px-3"
             onClick={() => handlePageChange(displayPage + 1)}
             disabled={displayPage === totalPages}
             aria-label="Ir para a próxima página"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={navButtonTransition}
           >
             <FaAngleRight />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="flex h-9 items-center justify-center rounded-md border border-border bg-background px-3"
             onClick={() => handlePageChange(totalPages)}
             disabled={displayPage === totalPages}
             aria-label="Ir para a última página"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={navButtonTransition}
           >
             <FaAnglesRight />
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

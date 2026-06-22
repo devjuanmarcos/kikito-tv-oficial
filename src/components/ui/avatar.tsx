@@ -1,20 +1,39 @@
-﻿"use client";
+"use client";
 
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import { motion } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
-    {...props}
-  />
-));
+const MotionAvatarRoot = motion(AvatarPrimitive.Root);
+
+interface AvatarProps extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+  interactive?: boolean;
+}
+
+const Avatar = React.forwardRef<React.ElementRef<typeof AvatarPrimitive.Root>, AvatarProps>(
+  ({ className, interactive = false, ...props }, ref) => {
+    if (interactive) {
+      return (
+        <MotionAvatarRoot
+          ref={ref}
+          className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          {...props}
+        />
+      );
+    }
+    return (
+      <AvatarPrimitive.Root
+        ref={ref}
+        className={cn("relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full", className)}
+        {...props}
+      />
+    );
+  }
+);
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const AvatarImage = React.forwardRef<

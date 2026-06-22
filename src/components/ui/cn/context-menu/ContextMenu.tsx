@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -45,81 +46,86 @@ export function ContextMenu({ groups, children, className, style }: ContextMenuP
       <div className={cn("contents", className)} style={style} onContextMenu={handleContextMenu}>
         {children}
       </div>
-      {open &&
-        createPortal(
-          <>
-            <div
-              className="fixed inset-0 z-[9998]"
-              onClick={close}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                close();
-              }}
-            />
-            <div
-              ref={menuRef}
-              className="fixed z-[9999] bg-float border border-rule rounded-(--radius-base) p-1 min-w-[180px] shadow-[var(--ks-shadow-lg)]"
-              style={{
-                top: pos.y,
-                left: pos.x,
-                animationName: "ctx-in",
-                animationDuration: "0.1s",
-                animationTimingFunction: "ease",
-                animationFillMode: "both",
-              }}
-              role="menu"
-            >
-              {groups.map((group, gi) => (
+      {createPortal(
+        <>
+          <AnimatePresence>
+            {open && (
+              <>
                 <div
-                  key={gi}
-                  className={cn(
-                    "flex flex-col",
-                    gi > 0 && 'before:content-[""] before:block before:h-px before:bg-rule before:my-1'
-                  )}
+                  className="fixed inset-0 z-[9998]"
+                  onClick={close}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    close();
+                  }}
+                />
+                <motion.div
+                  ref={menuRef}
+                  className="fixed z-[9999] bg-float border border-rule rounded-(--radius-base) p-1 min-w-[180px] shadow-[var(--ks-shadow-lg)]"
+                  style={{
+                    top: pos.y,
+                    left: pos.x,
+                  }}
+                  role="menu"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  {group.label && (
-                    <div className="text-[0.625rem] font-semibold tracking-[0.06em] uppercase text-muted py-1 px-2">
-                      {group.label}
-                    </div>
-                  )}
-                  {group.items.map((item, ii) => (
-                    <button
-                      key={ii}
+                  {groups.map((group, gi) => (
+                    <div
+                      key={gi}
                       className={cn(
-                        "flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
-                        !item.disabled &&
-                          !item.danger &&
-                          "hover:bg-[color-mix(in_srgb,var(--ks-primary)_10%,transparent)] hover:text-patina",
-                        item.danger && "text-danger",
-                        item.danger &&
-                          !item.disabled &&
-                          "hover:bg-[color-mix(in_srgb,var(--ks-danger)_10%,transparent)]",
-                        item.disabled && "opacity-35 cursor-default"
+                        "flex flex-col",
+                        gi > 0 && 'before:content-[""] before:block before:h-px before:bg-rule before:my-1'
                       )}
-                      role="menuitem"
-                      disabled={item.disabled}
-                      onClick={() => {
-                        if (!item.disabled) {
-                          item.onClick?.();
-                          close();
-                        }
-                      }}
                     >
-                      {item.icon && (
-                        <span className="flex items-center justify-center w-4 h-4 flex-shrink-0 [&_svg]:w-full [&_svg]:h-full">
-                          {item.icon}
-                        </span>
+                      {group.label && (
+                        <div className="text-[0.625rem] font-semibold tracking-[0.06em] uppercase text-muted py-1 px-2">
+                          {group.label}
+                        </div>
                       )}
-                      <span className="flex-1">{item.label}</span>
-                      {item.shortcut && <span className="text-body-caption opacity-45 font-mono">{item.shortcut}</span>}
-                    </button>
+                      {group.items.map((item, ii) => (
+                        <button
+                          key={ii}
+                          className={cn(
+                            "flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
+                            !item.disabled &&
+                              !item.danger &&
+                              "hover:bg-[color-mix(in_srgb,var(--ks-primary)_10%,transparent)] hover:text-patina",
+                            item.danger && "text-danger",
+                            item.danger &&
+                              !item.disabled &&
+                              "hover:bg-[color-mix(in_srgb,var(--ks-danger)_10%,transparent)]",
+                            item.disabled && "opacity-35 cursor-default"
+                          )}
+                          role="menuitem"
+                          disabled={item.disabled}
+                          onClick={() => {
+                            if (!item.disabled) {
+                              item.onClick?.();
+                              close();
+                            }
+                          }}
+                        >
+                          {item.icon && (
+                            <span className="flex items-center justify-center w-4 h-4 flex-shrink-0 [&_svg]:w-full [&_svg]:h-full">
+                              {item.icon}
+                            </span>
+                          )}
+                          <span className="flex-1">{item.label}</span>
+                          {item.shortcut && <span className="text-body-caption opacity-45 font-mono">{item.shortcut}</span>}
+                        </button>
+                      ))}
+                    </div>
                   ))}
-                </div>
-              ))}
-            </div>
-          </>,
-          document.body
-        )}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </>,
+        document.body
+      )}
     </>
   );
 }
