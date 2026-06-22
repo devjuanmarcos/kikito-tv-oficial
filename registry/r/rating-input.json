@@ -1,0 +1,29 @@
+{
+  "name": "rating-input",
+  "version": "1.0.0",
+  "title": "Rating Input",
+  "type": "registry:component",
+  "description": "Interactive star rating with keyboard support.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/rating-input",
+  "files": [
+    {
+      "path": "components/ui/cn/rating-input/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/rating-input/index.ts",
+      "content": "export { RatingInput } from './RatingInput'\nexport type { RatingInputProps, RatingInputSize } from './RatingInput'\n"
+    },
+    {
+      "path": "components/ui/cn/rating-input/RatingInput.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/rating-input/RatingInput.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useState, useId } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type RatingInputSize = 'sm' | 'md' | 'lg'\n\nexport interface RatingInputProps {\n  value?:        number\n  defaultValue?: number\n  onChange?:     (value: number) => void\n  max?:          number\n  size?:         RatingInputSize\n  icon?:         React.ReactNode\n  emptyIcon?:    React.ReactNode\n  label?:        string\n  showValue?:    boolean\n  disabled?:     boolean\n  readOnly?:     boolean\n  className?:    string\n  style?:        React.CSSProperties\n}\n\nconst SIZE_ICON: Record<RatingInputSize, string> = {\n  sm: 'text-lg leading-none',\n  md: 'text-2xl leading-none',\n  lg: 'text-3xl leading-none',\n}\n\nexport function RatingInput({\n  value,\n  defaultValue = 0,\n  onChange,\n  max          = 5,\n  size         = 'md',\n  icon         = '★',\n  emptyIcon    = '☆',\n  label,\n  showValue    = false,\n  disabled     = false,\n  readOnly     = false,\n  className,\n  style,\n}: RatingInputProps) {\n  const uid = useId()\n  const isControlled = value !== undefined\n  const [internal, setInternal] = useState(defaultValue)\n  const [hover, setHover]       = useState(0)\n\n  const current   = isControlled ? value! : internal\n  const displayed = hover > 0 && !disabled && !readOnly ? hover : current\n\n  function select(v: number) {\n    if (disabled || readOnly) return\n    const next = current === v ? 0 : v\n    if (!isControlled) setInternal(next)\n    onChange?.(next)\n  }\n\n  return (\n    <div style={style} className={cn('flex flex-col gap-1', className)}>\n      {label && (\n        <label htmlFor={uid} className=\"text-body-callout font-medium text-foreground\">\n          {label}\n        </label>\n      )}\n      <div\n        id={uid}\n        role=\"group\"\n        aria-label={label ?? 'Rating'}\n        className={cn(\n          'inline-flex items-center gap-0.5',\n          disabled && 'opacity-50',\n        )}\n        onMouseLeave={() => { if (!disabled && !readOnly) setHover(0) }}\n      >\n        {Array.from({ length: max }, (_, i) => {\n          const n = i + 1\n          const filled = n <= displayed\n          return (\n            <button\n              key={n}\n              type=\"button\"\n              aria-label={`${n} out of ${max}`}\n              aria-pressed={n === current}\n              disabled={disabled}\n              onClick={() => select(n)}\n              onMouseEnter={() => { if (!disabled && !readOnly) setHover(n) }}\n              className={cn(\n                'transition-[color,transform] duration-[80ms] bg-transparent border-none p-0 cursor-pointer select-none',\n                SIZE_ICON[size],\n                filled\n                  ? 'text-warning scale-110'\n                  : 'text-faint',\n                (disabled || readOnly) && 'cursor-default',\n                !disabled && !readOnly && 'hover:scale-125',\n              )}\n            >\n              {filled ? icon : emptyIcon}\n            </button>\n          )\n        })}\n        {showValue && (\n          <span className=\"ml-2 text-body-callout text-faint tabular-nums\">\n            {current}/{max}\n          </span>\n        )}\n      </div>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

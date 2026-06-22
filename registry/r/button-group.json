@@ -1,0 +1,29 @@
+{
+  "name": "button-group",
+  "version": "1.0.0",
+  "title": "Button Group",
+  "type": "registry:component",
+  "description": "Grouped button set sharing borders.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/button-group",
+  "files": [
+    {
+      "path": "components/ui/cn/button-group/ButtonGroup.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/button-group/ButtonGroup.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface ButtonGroupProps {\n  children:     React.ReactNode\n  orientation?: 'horizontal' | 'vertical'\n  attached?:    boolean\n  className?:   string\n  style?:       React.CSSProperties\n}\n\nexport function ButtonGroup({\n  children,\n  orientation = 'horizontal',\n  attached    = true,\n  className,\n  style,\n}: ButtonGroupProps) {\n  const isH = orientation === 'horizontal'\n\n  return (\n    <div\n      role=\"group\"\n      style={style}\n      className={cn(\n        'inline-flex',\n        isH ? 'flex-row' : 'flex-col',\n        attached ? 'items-stretch' : isH ? 'flex-row gap-2' : 'flex-col gap-2',\n        attached && [\n          '[&>*:not(:first-child):not(:last-child)]:rounded-none',\n          isH\n            ? '[&>*:first-child]:rounded-r-none [&>*:last-child]:rounded-l-none [&>*:not(:first-child)]:border-l-0'\n            : '[&>*:first-child]:rounded-b-none [&>*:last-child]:rounded-t-none [&>*:not(:first-child)]:border-t-0',\n        ],\n        className,\n      )}\n    >\n      {children}\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/button-group/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/button-group/index.ts",
+      "content": "export { ButtonGroup } from './ButtonGroup'\nexport type { ButtonGroupProps } from './ButtonGroup'\n"
+    }
+  ]
+}

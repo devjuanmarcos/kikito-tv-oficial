@@ -1,0 +1,35 @@
+{
+  "name": "timeline",
+  "version": "1.0.0",
+  "title": "Timeline",
+  "type": "registry:component",
+  "description": "Vertical timeline of events.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/timeline",
+  "files": [
+    {
+      "path": "components/ui/cn/timeline/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/timeline/index.ts",
+      "content": "export { Timeline } from './Timeline'\r\nexport type { TimelineStatus, TimelineVariant, TimelineItem, TimelineProps } from './timeline.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/timeline/Timeline.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/timeline/Timeline.tsx",
+      "content": "﻿import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { TimelineProps, TimelineItem, TimelineStatus } from './timeline.types'\r\n\r\nconst CheckIcon   = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>\r\nconst ActiveIcon  = () => <svg viewBox=\"0 0 24 24\" fill=\"currentColor\"><circle cx=\"12\" cy=\"12\" r=\"5\"/></svg>\r\nconst PendingIcon = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><circle cx=\"12\" cy=\"12\" r=\"4\"/></svg>\r\nconst ErrorIcon   = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" strokeLinecap=\"round\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"/><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"/></svg>\r\nconst WarnIcon    = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" strokeLinecap=\"round\"><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"/><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"/></svg>\r\n\r\nconst DEFAULT_ICONS: Record<TimelineStatus, React.ReactNode> = {\r\n  complete: <CheckIcon />,\r\n  active:   <ActiveIcon />,\r\n  pending:  <PendingIcon />,\r\n  error:    <ErrorIcon />,\r\n  warning:  <WarnIcon />,\r\n}\r\n\r\nconst NODE_STATUS_CLS: Record<TimelineStatus, string> = {\r\n  complete: 'bg-success-soft text-success border-[1.5px] border-success',\r\n  active:   'bg-patina-soft text-patina border-2 border-patina shadow-[0_0_0_4px_var(--ks-primary-soft)]',\r\n  pending:  'bg-graphite text-faint border-[1.5px] border-dashed border-rule',\r\n  error:    'bg-danger-soft text-danger border-[1.5px] border-danger',\r\n  warning:  'bg-warning-soft text-warning border-[1.5px] border-warning',\r\n}\r\n\r\nconst LINE_STATUS_CLS: Record<TimelineStatus, string> = {\r\n  complete: 'bg-success opacity-40',\r\n  active:   'bg-rule',\r\n  pending:  'bg-rule',\r\n  error:    'bg-danger opacity-30',\r\n  warning:  'bg-rule',\r\n}\r\n\r\nconst TITLE_STATUS_CLS: Record<TimelineStatus, string> = {\r\n  complete: 'text-foreground',\r\n  active:   'text-foreground',\r\n  pending:  'text-muted',\r\n  error:    'text-foreground',\r\n  warning:  'text-foreground',\r\n}\r\n\r\nexport function Timeline({\r\n  items,\r\n  variant  = 'default',\r\n  lastLine = false,\r\n  className,\r\n  style,\r\n}: TimelineProps) {\r\n  const isCompact = variant === 'compact'\r\n  const isReverse = variant === 'reverse'\r\n\r\n  const nodeSz = isCompact ? 'w-6 h-6 [&>svg]:w-3 [&>svg]:h-3' : 'w-8 h-8 [&>svg]:w-4 [&>svg]:h-4'\r\n  const stemW  = isCompact ? 'w-6' : 'w-8'\r\n\r\n  return (\r\n    <ol className={cn('list-none p-0 m-0 flex flex-col', className)} style={style}>\r\n      {items.map((item, i) => {\r\n        const status: TimelineStatus = item.status ?? 'pending'\r\n        const isLast = i === items.length - 1\r\n\r\n        return (\r\n          <li key={item.id ?? i} className=\"grid gap-x-4\" style={{ gridTemplateColumns: 'auto 1fr' }}>\r\n            <div className={cn('flex flex-col items-center shrink-0', stemW)}>\r\n              <span className={cn('rounded-full flex items-center justify-center shrink-0 text-body-callout relative z-[1] transition-[background] duration-[160ms]', nodeSz, NODE_STATUS_CLS[status])}>\r\n                {item.icon ?? DEFAULT_ICONS[status]}\r\n              </span>\r\n              {(!isLast || lastLine) && (\r\n                <div className={cn('flex-1 w-[2px] my-1 min-h-4 transition-[background] duration-[160ms]', LINE_STATUS_CLS[status])} />\r\n              )}\r\n            </div>\r\n\r\n            <div className={cn('min-w-0', isLast ? 'pb-0' : isCompact ? 'pb-[0.875rem]' : 'pb-6')}>\r\n              <div className={cn('flex items-start justify-between gap-3 min-h-8 pt-1', isReverse && 'flex-row-reverse')}>\r\n                <div className=\"flex items-center gap-2 flex-wrap min-w-0\">\r\n                  <span className={cn('font-semibold leading-snug', isCompact ? 'text-body-callout' : 'text-body-paragraph', TITLE_STATUS_CLS[status])}>\r\n                    {item.title}\r\n                  </span>\r\n                  {item.badge && <span className=\"shrink-0\">{item.badge}</span>}\r\n                </div>\r\n                {item.timestamp && (\r\n                  <time className=\"text-body-caption text-faint whitespace-nowrap shrink-0 pt-[3px] tabular-nums\">\r\n                    {item.timestamp}\r\n                  </time>\r\n                )}\r\n              </div>\r\n              {item.description && (\r\n                <div className={cn('text-muted leading-relaxed mt-1 text-body-callout')}>\r\n                  {item.description}\r\n                </div>\r\n              )}\r\n              {item.actions && (\r\n                <div className=\"flex gap-2 flex-wrap mt-[0.625rem]\">{item.actions}</div>\r\n              )}\r\n            </div>\r\n          </li>\r\n        )\r\n      })}\r\n    </ol>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/timeline/timeline.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/timeline/timeline.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type TimelineStatus = 'pending' | 'active' | 'complete' | 'error' | 'warning'\r\nexport type TimelineVariant = 'default' | 'compact' | 'reverse'\r\n\r\nexport interface TimelineItem {\r\n  id?: string\r\n  title: string\r\n  description?: React.ReactNode\r\n  timestamp?: string\r\n  status?: TimelineStatus\r\n  icon?: React.ReactNode\r\n  badge?: React.ReactNode\r\n  actions?: React.ReactNode\r\n}\r\n\r\nexport interface TimelineProps {\r\n  items: TimelineItem[]\r\n  variant?: TimelineVariant\r\n  lastLine?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

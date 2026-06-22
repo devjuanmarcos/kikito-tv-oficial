@@ -1,0 +1,29 @@
+{
+  "name": "skeleton",
+  "version": "1.0.0",
+  "title": "Skeleton",
+  "type": "registry:component",
+  "description": "Content loading placeholder skeleton.",
+  "group": "feedback",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/skeleton",
+  "files": [
+    {
+      "path": "components/ui/cn/skeleton/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/skeleton/index.ts",
+      "content": "export { Skeleton } from './Skeleton'\nexport type { SkeletonProps, SkeletonShape } from './Skeleton'\n"
+    },
+    {
+      "path": "components/ui/cn/skeleton/Skeleton.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/skeleton/Skeleton.tsx",
+      "content": "﻿import type React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type SkeletonShape = \"default\" | \"circle\" | \"rounded\" | \"pill\";\n\nexport interface SkeletonProps {\n  width?: string | number;\n  height?: string | number;\n  shape?: SkeletonShape;\n  animate?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst SHAPE_CLS: Record<SkeletonShape, string> = {\n  default: \"rounded-none\",\n  rounded: \"rounded-(--radius-sm)\",\n  circle: \"rounded-full\",\n  pill: \"rounded-full\",\n};\n\nfunction toPx(v: string | number | undefined, fallback: string): string {\n  if (v === undefined) return fallback;\n  return typeof v === \"number\" ? `${v}px` : v;\n}\n\nexport function Skeleton({ width, height, shape = \"default\", animate = true, className, style }: SkeletonProps) {\n  return (\n    <span\n      className={cn(\"block bg-graphite\", animate && \"animate-pulse\", SHAPE_CLS[shape], className)}\n      style={{\n        width: toPx(width, \"100%\"),\n        height: toPx(height, \"1rem\"),\n        ...style,\n      }}\n      aria-hidden=\"true\"\n    />\n  );\n}\n"
+    }
+  ]
+}

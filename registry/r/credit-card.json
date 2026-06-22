@@ -1,0 +1,35 @@
+{
+  "name": "credit-card",
+  "version": "1.0.0",
+  "title": "Credit Card",
+  "type": "registry:component",
+  "description": "3D flip credit card visual.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/credit-card",
+  "files": [
+    {
+      "path": "components/ui/cn/credit-card/credit-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/credit-card/credit-card.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface CreditCardProps {\r\n  number?: string\r\n  name?: string\r\n  expiry?: string\r\n  cvv?: string\r\n  brand?: 'visa' | 'mastercard' | 'amex' | 'generic'\r\n  variant?: 'dark' | 'light' | 'gradient'\r\n  showBack?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/credit-card/CreditCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/credit-card/CreditCard.tsx",
+      "content": "import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { CreditCardProps } from './credit-card.types'\r\n\r\nfunction maskNumber(n = '') {\r\n  const digits = n.replace(/\\D/g, '').padEnd(16, '•')\r\n  return [0, 4, 8, 12].map(i => digits.slice(i, i + 4)).join(' ')\r\n}\r\n\r\nfunction brandLabel(brand = 'generic') {\r\n  const map: Record<string, string> = { visa: 'VISA', mastercard: '●● MC', amex: 'AMEX', generic: '◆◆' }\r\n  return map[brand] ?? '◆◆'\r\n}\r\n\r\nconst VARIANT_BG: Record<string, string> = {\r\n  dark:     'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)',\r\n  light:    'linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%)',\r\n  gradient: 'linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f64f59 100%)',\r\n}\r\n\r\nconst VARIANT_TEXT: Record<string, string> = {\r\n  dark: '#ffffff', light: '#1a1a2e', gradient: '#ffffff',\r\n}\r\n\r\nexport function CreditCard({\r\n  number = '',\r\n  name = 'CARD HOLDER',\r\n  expiry = 'MM/YY',\r\n  cvv = '•••',\r\n  brand = 'generic',\r\n  variant = 'dark',\r\n  showBack = false,\r\n  className,\r\n  style,\r\n}: CreditCardProps) {\r\n  const bg        = VARIANT_BG[variant] ?? VARIANT_BG.dark\r\n  const textColor = VARIANT_TEXT[variant] ?? '#ffffff'\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .cc-scene { perspective: 1000px; }\r\n        .cc-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); }\r\n        .cc-card.cc-flipped { transform: rotateY(180deg); }\r\n        .cc-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; overflow: hidden; }\r\n        .cc-back { transform: rotateY(180deg); }\r\n        .cc-chip-grid { display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr); gap: 2px; width: 40px; height: 30px; border-radius: 4px; overflow: hidden; background: rgba(0,0,0,0.15); padding: 2px; }\r\n        .cc-chip-cell { background: rgba(255,200,50,0.6); border-radius: 1px; }\r\n        .cc-chip-cell:nth-child(2),.cc-chip-cell:nth-child(4),.cc-chip-cell:nth-child(6),.cc-chip-cell:nth-child(8) { background: rgba(255,200,50,0.3); }\r\n      `}</style>\r\n      <div className={cn('cc-scene w-[340px] h-[200px]', className)} style={style}>\r\n        <div className={cn('cc-card', showBack && 'cc-flipped')}>\r\n          <div className=\"cc-face\" style={{ background: bg, color: textColor }}>\r\n            <div className=\"flex flex-col h-full p-6 gap-4\">\r\n              <div className=\"flex items-start justify-between\">\r\n                <div className=\"cc-chip-grid\">\r\n                  {Array(9).fill(null).map((_, i) => <div key={i} className=\"cc-chip-cell\" />)}\r\n                </div>\r\n                <span className=\"font-bold text-body-title tracking-widest opacity-90\">{brandLabel(brand)}</span>\r\n              </div>\r\n              <div className=\"font-mono text-body-title tracking-[0.22em] mt-auto\">{maskNumber(number)}</div>\r\n              <div className=\"flex justify-between items-end\">\r\n                <div className=\"flex flex-col gap-0.5\">\r\n                  <span className=\"text-[0.6rem] opacity-60 uppercase tracking-widest\">Card Holder</span>\r\n                  <span className=\"text-body-callout font-semibold tracking-wide uppercase truncate max-w-[160px]\">{name || 'CARD HOLDER'}</span>\r\n                </div>\r\n                <div className=\"flex flex-col gap-0.5 items-end\">\r\n                  <span className=\"text-[0.6rem] opacity-60 uppercase tracking-widest\">Expires</span>\r\n                  <span className=\"text-body-callout font-semibold tracking-wide\">{expiry || 'MM/YY'}</span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div className=\"cc-face cc-back\" style={{ background: bg, color: textColor }}>\r\n            <div className=\"flex flex-col h-full\">\r\n              <div className=\"w-full h-12 mt-6\" style={{ background: 'rgba(0,0,0,0.4)' }} />\r\n              <div className=\"flex items-center gap-3 px-6 mt-6\">\r\n                <div className=\"flex-1 h-8 rounded flex items-center px-3\" style={{ background: 'rgba(255,255,255,0.15)' }}>\r\n                  <span className=\"text-[0.625rem] uppercase tracking-[0.15em] opacity-50\">Signature</span>\r\n                </div>\r\n                <div className=\"flex flex-col items-end gap-0.5 shrink-0\">\r\n                  <span className=\"text-[0.6rem] uppercase tracking-widest opacity-60\">CVV</span>\r\n                  <span className=\"font-mono text-body-callout tracking-[0.3em]\">{cvv}</span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/credit-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/credit-card/index.ts",
+      "content": "export { CreditCard } from './CreditCard'\r\nexport type { CreditCardProps } from './credit-card.types'\r\n"
+    }
+  ]
+}

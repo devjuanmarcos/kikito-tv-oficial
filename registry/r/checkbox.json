@@ -1,0 +1,29 @@
+{
+  "name": "checkbox",
+  "version": "1.0.0",
+  "title": "Checkbox",
+  "type": "registry:component",
+  "description": "Accessible checkbox with indeterminate state support.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/checkbox",
+  "files": [
+    {
+      "path": "components/ui/cn/checkbox/Checkbox.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/checkbox/Checkbox.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useId, useRef, useEffect } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type CheckboxSize    = 'sm' | 'md' | 'lg'\nexport type CheckboxVariant = 'square' | 'rounded' | 'circle'\nexport type CheckboxIntent  = 'primary' | 'secondary' | 'success' | 'destructive' | 'warning' | 'info'\n\nexport interface CheckboxProps {\n  checked?:        boolean\n  defaultChecked?: boolean\n  indeterminate?:  boolean\n  onChange?:       (checked: boolean) => void\n  label?:          string\n  description?:    string\n  size?:           CheckboxSize\n  variant?:        CheckboxVariant\n  intent?:         CheckboxIntent\n  disabled?:       boolean\n  className?:      string\n  style?:          React.CSSProperties\n}\n\nconst SIZE_CLS: Record<CheckboxSize, { box: string; label: string; desc: string }> = {\n  sm: { box: 'w-3.5 h-3.5',   label: 'text-body-caption',   desc: 'text-[0.6875rem]' },\n  md: { box: 'w-4 h-4',       label: 'text-body-callout',   desc: 'text-body-caption' },\n  lg: { box: 'w-[1.125rem] h-[1.125rem]', label: 'text-body-paragraph', desc: 'text-body-callout' },\n}\nconst VARIANT_CLS: Record<CheckboxVariant, string> = {\n  square:  'rounded-none',\n  rounded: 'rounded-[4px]',\n  circle:  'rounded-full',\n}\nconst INTENT_CHECKED: Record<CheckboxIntent, string> = {\n  primary:     'bg-patina border-patina',\n  secondary:   'bg-foreground border-foreground',\n  success:     'bg-success border-success',\n  destructive: 'bg-danger border-danger',\n  warning:     'bg-warning border-warning',\n  info:        'bg-info border-info',\n}\n\nconst CheckIcon = () => (\n  <svg viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" className=\"w-full h-full\">\n    <polyline points=\"2,6 5,9 10,3\" />\n  </svg>\n)\nconst MinusIcon = () => (\n  <svg viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.2\" strokeLinecap=\"round\" className=\"w-full h-full\">\n    <line x1=\"2\" y1=\"6\" x2=\"10\" y2=\"6\" />\n  </svg>\n)\n\nexport function Checkbox({\n  checked,\n  defaultChecked = false,\n  indeterminate  = false,\n  onChange,\n  label,\n  description,\n  size    = 'md',\n  variant = 'rounded',\n  intent  = 'primary',\n  disabled = false,\n  className,\n  style,\n}: CheckboxProps) {\n  const uid = useId()\n  const inputRef = useRef<HTMLInputElement>(null)\n\n  const isControlled = checked !== undefined\n  const isChecked    = isControlled ? checked : undefined\n\n  useEffect(() => {\n    if (inputRef.current) {\n      inputRef.current.indeterminate = indeterminate\n    }\n  }, [indeterminate])\n\n  const visualChecked = indeterminate ? true : (isChecked ?? defaultChecked)\n  const sz = SIZE_CLS[size]\n\n  return (\n    <label\n      className={cn('inline-flex items-start gap-2 cursor-pointer select-none', disabled && 'opacity-50 cursor-not-allowed', className)}\n      style={style}\n      htmlFor={uid}\n    >\n      <span className={cn('relative shrink-0 mt-[0.1em] border-2 border-rule bg-raised transition-[background,border] duration-[120ms]', sz.box, VARIANT_CLS[variant], visualChecked && INTENT_CHECKED[intent])}>\n        <input\n          ref={inputRef}\n          id={uid}\n          type=\"checkbox\"\n          className=\"sr-only\"\n          checked={isChecked}\n          defaultChecked={!isControlled ? defaultChecked : undefined}\n          disabled={disabled}\n          onChange={e => onChange?.(e.target.checked)}\n        />\n        {(visualChecked || indeterminate) && (\n          <span className={cn('absolute inset-0 flex items-center justify-center p-[2px] text-white', intent === 'warning' && 'text-black')}>\n            {indeterminate ? <MinusIcon /> : <CheckIcon />}\n          </span>\n        )}\n      </span>\n      {(label || description) && (\n        <span className=\"flex flex-col gap-[0.1rem]\">\n          {label       && <span className={cn('font-medium text-foreground leading-tight', sz.label)}>{label}</span>}\n          {description && <span className={cn('text-faint leading-[1.4]', sz.desc)}>{description}</span>}\n        </span>\n      )}\n    </label>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/checkbox/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/checkbox/index.ts",
+      "content": "export { Checkbox } from './Checkbox'\nexport type { CheckboxProps, CheckboxSize, CheckboxVariant, CheckboxIntent } from './Checkbox'\n"
+    }
+  ]
+}

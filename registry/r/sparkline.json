@@ -1,0 +1,35 @@
+{
+  "name": "sparkline",
+  "version": "1.0.0",
+  "title": "Sparkline",
+  "type": "registry:component",
+  "description": "Inline mini chart.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/sparkline",
+  "files": [
+    {
+      "path": "components/ui/cn/sparkline/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/sparkline/index.ts",
+      "content": "﻿export { Sparkline } from './Sparkline'\r\nexport type { SparklineProps, SparklineType } from './sparkline.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/sparkline/Sparkline.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/sparkline/Sparkline.tsx",
+      "content": "﻿import type { SparklineProps } from './sparkline.types'\r\n\r\nconst INTENT_COLORS: Record<string, string> = {\r\n  primary: 'var(--ks-primary)',\r\n  success: 'var(--ks-success)',\r\n  warning: 'var(--ks-warning)',\r\n  danger:  'var(--ks-danger)',\r\n  neutral: 'var(--ks-text-muted)',\r\n}\r\n\r\nexport function Sparkline({\r\n  data,\r\n  type = 'line',\r\n  width = 80,\r\n  height = 32,\r\n  color,\r\n  intent = 'primary',\r\n  strokeWidth = 1.5,\r\n  filled = false,\r\n  className,\r\n  style,\r\n}: SparklineProps) {\r\n  if (data.length < 2) return null\r\n\r\n  const resolvedColor = color ?? INTENT_COLORS[intent] ?? 'currentColor'\r\n  const min = Math.min(...data)\r\n  const max = Math.max(...data)\r\n  const range = max - min || 1\r\n  const pad = 2\r\n\r\n  function x(i: number) { return pad + (i / (data.length - 1)) * (width - pad * 2) }\r\n  function y(v: number) { return pad + ((max - v) / range) * (height - pad * 2) }\r\n\r\n  if (type === 'bar') {\r\n    const barW = Math.max(1, (width - pad * 2) / data.length - 2)\r\n    return (\r\n      <svg width={width} height={height} className={className} style={style}>\r\n        {data.map((v, i) => {\r\n          const bh = ((v - min) / range) * (height - pad * 2)\r\n          return (\r\n            <rect\r\n              key={i}\r\n              x={pad + i * ((width - pad * 2) / data.length)}\r\n              y={y(v)}\r\n              width={barW}\r\n              height={bh}\r\n              fill={resolvedColor}\r\n              opacity={0.8}\r\n              rx={1}\r\n            />\r\n          )\r\n        })}\r\n      </svg>\r\n    )\r\n  }\r\n\r\n  const points = data.map((v, i) => `${x(i)},${y(v)}`).join(' ')\r\n  const linePath = `M ${data.map((v, i) => `${x(i)} ${y(v)}`).join(' L ')}`\r\n  const areaPath = `${linePath} L ${x(data.length - 1)} ${height - pad} L ${x(0)} ${height - pad} Z`\r\n\r\n  return (\r\n    <svg width={width} height={height} className={className} style={style}>\r\n      {(type === 'area' || filled) && (\r\n        <path d={areaPath} fill={resolvedColor} opacity={0.15} />\r\n      )}\r\n      <polyline\r\n        points={points}\r\n        fill=\"none\"\r\n        stroke={resolvedColor}\r\n        strokeWidth={strokeWidth}\r\n        strokeLinejoin=\"round\"\r\n        strokeLinecap=\"round\"\r\n      />\r\n    </svg>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/sparkline/sparkline.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/sparkline/sparkline.types.ts",
+      "content": "﻿import type React from 'react'\r\n\r\nexport type SparklineType = 'line' | 'bar' | 'area'\r\n\r\nexport interface SparklineProps {\r\n  data: number[]\r\n  type?: SparklineType\r\n  width?: number\r\n  height?: number\r\n  color?: string\r\n  intent?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral'\r\n  strokeWidth?: number\r\n  filled?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

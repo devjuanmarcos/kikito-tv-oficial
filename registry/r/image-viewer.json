@@ -1,0 +1,35 @@
+{
+  "name": "image-viewer",
+  "version": "1.0.0",
+  "title": "Image Viewer",
+  "type": "registry:component",
+  "description": "Zoomable image viewer with pan support.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/image-viewer",
+  "files": [
+    {
+      "path": "components/ui/cn/image-viewer/image-viewer.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/image-viewer/image-viewer.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface ImageViewerImage {\r\n  src: string\r\n  alt?: string\r\n  caption?: string\r\n}\r\n\r\nexport interface ImageViewerProps {\r\n  images: ImageViewerImage[]\r\n  defaultIndex?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/image-viewer/ImageViewer.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/image-viewer/ImageViewer.tsx",
+      "content": "﻿\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { createPortal } from \"react-dom\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { ImageViewerProps } from \"./image-viewer.types\";\n\nexport function ImageViewer({ images, defaultIndex = 0, className, style }: ImageViewerProps) {\n  const [open, setOpen] = useState(false);\n  const [idx, setIdx] = useState(defaultIndex);\n\n  useEffect(() => {\n    if (!open) return;\n    function handleKey(e: KeyboardEvent) {\n      if (e.key === \"Escape\") setOpen(false);\n      if (e.key === \"ArrowRight\") setIdx((i) => Math.min(images.length - 1, i + 1));\n      if (e.key === \"ArrowLeft\") setIdx((i) => Math.max(0, i - 1));\n    }\n    window.addEventListener(\"keydown\", handleKey);\n    return () => window.removeEventListener(\"keydown\", handleKey);\n  }, [open, images.length]);\n\n  function openAt(i: number) {\n    setIdx(i);\n    setOpen(true);\n  }\n\n  return (\n    <>\n      <div className={cn(\"flex flex-wrap gap-2\", className)} style={style}>\n        {images.map((img, i) => (\n          <button\n            key={i}\n            className=\"relative overflow-hidden rounded-(--radius-md) cursor-pointer border-2 border-transparent transition-colors duration-150 block hover:border-patina p-0 bg-transparent\"\n            style={{ width: 120, height: 90 }}\n            onClick={() => openAt(i)}\n            type=\"button\"\n            aria-label={img.alt ?? `Image ${i + 1}`}\n          >\n            <img src={img.src} alt={img.alt ?? \"\"} loading=\"lazy\" className=\"w-full h-full object-cover block\" />\n          </button>\n        ))}\n      </div>\n\n      {open &&\n        createPortal(\n          <div\n            className=\"fixed inset-0 bg-black/92 z-[9999] flex items-center justify-center flex-col gap-4 p-6 animate-in fade-in duration-150\"\n            onClick={(e) => e.target === e.currentTarget && setOpen(false)}\n            role=\"dialog\"\n            aria-modal=\"true\"\n          >\n            <div className=\"absolute top-4 right-4 flex gap-2\">\n              <button\n                className=\"bg-white/10 border border-white/20 text-white w-9 h-9 rounded-full cursor-pointer text-body-paragraph flex items-center justify-center transition-colors duration-150 hover:bg-white/20\"\n                onClick={() => setOpen(false)}\n                type=\"button\"\n                aria-label=\"Close\"\n              >\n                ✕\n              </button>\n            </div>\n\n            {idx > 0 && (\n              <button\n                className=\"absolute left-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-body-title flex items-center justify-center transition-colors duration-150 hover:bg-white/20\"\n                onClick={() => setIdx((i) => i - 1)}\n                type=\"button\"\n                aria-label=\"Previous\"\n              >\n                ‹\n              </button>\n            )}\n\n            <img\n              className=\"max-w-[90vw] max-h-[75vh] object-contain rounded-(--radius-base) shadow-[0_24px_80px_color-mix(in_srgb,black_50%,transparent)]\"\n              src={images[idx].src}\n              alt={images[idx].alt ?? \"\"}\n            />\n\n            {idx < images.length - 1 && (\n              <button\n                className=\"absolute right-5 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white w-11 h-11 rounded-full cursor-pointer text-body-title flex items-center justify-center transition-colors duration-150 hover:bg-white/20\"\n                onClick={() => setIdx((i) => i + 1)}\n                type=\"button\"\n                aria-label=\"Next\"\n              >\n                ›\n              </button>\n            )}\n\n            {images[idx].caption && (\n              <p className=\"text-white/60 text-body-callout text-center\">{images[idx].caption}</p>\n            )}\n\n            {images.length > 1 && (\n              <div className=\"flex gap-[6px]\">\n                {images.map((_, i) => (\n                  <button\n                    key={i}\n                    className={cn(\n                      \"w-[7px] h-[7px] rounded-full cursor-pointer border-0 transition-colors duration-150\",\n                      i === idx ? \"bg-white\" : \"bg-white/30\"\n                    )}\n                    onClick={() => setIdx(i)}\n                    type=\"button\"\n                    aria-label={`Image ${i + 1}`}\n                  />\n                ))}\n              </div>\n            )}\n          </div>,\n          document.body\n        )}\n    </>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/image-viewer/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/image-viewer/index.ts",
+      "content": "export { ImageViewer } from './ImageViewer'\r\nexport type { ImageViewerProps, ImageViewerImage } from './image-viewer.types'\r\n"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "kikitocn",
+  "version": "1.0.0",
+  "description": "Install Kikito CN components in your React/Next.js project",
+  "keywords": [
+    "kikito",
+    "ui",
+    "components",
+    "cli",
+    "design-system"
+  ],
+  "homepage": "https://cn.kikito.tv",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devjuanmarcos/kikito-tv-oficial.git",
+    "directory": "packages/cli"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "kikitocn": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "commander": "^12.1.0",
+    "execa": "^9.4.0",
+    "fs-extra": "^11.2.0",
+    "picocolors": "^1.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.0"
+  }
+}

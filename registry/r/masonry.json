@@ -1,0 +1,35 @@
+{
+  "name": "masonry",
+  "version": "1.0.0",
+  "title": "Masonry",
+  "type": "registry:component",
+  "description": "Pinterest-style masonry grid.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/masonry",
+  "files": [
+    {
+      "path": "components/ui/cn/masonry/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/masonry/index.ts",
+      "content": "export { Masonry } from './Masonry'\r\nexport type { MasonryProps } from './masonry.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/masonry/Masonry.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/masonry/Masonry.tsx",
+      "content": "import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { MasonryProps } from './masonry.types'\r\n\r\nexport function Masonry({\r\n  children,\r\n  columns = 3,\r\n  gap = 16,\r\n  className,\r\n  style,\r\n}: MasonryProps) {\r\n  const cols  = typeof columns === 'number' ? columns : (columns as Record<string, number>).md ?? 3\r\n  const gapPx = `${gap}px`\r\n\r\n  return (\r\n    <div\r\n      className={cn('[&>*]:break-inside-avoid', className)}\r\n      style={{ columns: cols, columnGap: gapPx, ...style }}\r\n    >\r\n      {Array.isArray(children)\r\n        ? children.map((child, i) => (\r\n            <div key={i} style={{ marginBottom: gapPx }}>{child}</div>\r\n          ))\r\n        : <div style={{ marginBottom: gapPx }}>{children}</div>\r\n      }\r\n    </div>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/masonry/masonry.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/masonry/masonry.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface MasonryProps {\r\n  children: React.ReactNode\r\n  columns?: number | { sm?: number; md?: number; lg?: number }\r\n  gap?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

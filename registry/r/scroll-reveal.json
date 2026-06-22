@@ -1,0 +1,35 @@
+{
+  "name": "scroll-reveal",
+  "version": "1.0.0",
+  "title": "Scroll Reveal",
+  "type": "registry:component",
+  "description": "Animate children on scroll into view.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/scroll-reveal",
+  "files": [
+    {
+      "path": "components/ui/cn/scroll-reveal/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-reveal/index.ts",
+      "content": "export { ScrollReveal } from './ScrollReveal'\r\nexport type { RevealAnimation, ScrollRevealProps } from './scroll-reveal.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-reveal/scroll-reveal.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-reveal/scroll-reveal.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type RevealAnimation = 'fade' | 'slide-up' | 'slide-left' | 'slide-right' | 'zoom'\r\n\r\nexport interface ScrollRevealProps {\r\n  children: React.ReactNode\r\n  animation?: RevealAnimation\r\n  duration?: number\r\n  delay?: number\r\n  threshold?: number\r\n  once?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-reveal/ScrollReveal.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/scroll-reveal/ScrollReveal.tsx",
+      "content": "'use client'\r\n\r\nimport { useRef, useState, useEffect } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ScrollRevealProps } from './scroll-reveal.types'\r\n\r\nconst INITIAL_CLASSES: Record<string, string> = {\r\n  fade:        'opacity-0',\r\n  'slide-up':  'opacity-0 translate-y-8',\r\n  'slide-left':'opacity-0 -translate-x-8',\r\n  'slide-right':'opacity-0 translate-x-8',\r\n  zoom:        'opacity-0 scale-95',\r\n}\r\n\r\nexport function ScrollReveal({\r\n  children,\r\n  animation = 'fade',\r\n  duration = 500,\r\n  delay = 0,\r\n  threshold = 0.15,\r\n  once = true,\r\n  className,\r\n  style,\r\n}: ScrollRevealProps) {\r\n  const ref = useRef<HTMLDivElement>(null)\r\n  const [visible, setVisible] = useState(false)\r\n\r\n  useEffect(() => {\r\n    const el = ref.current\r\n    if (!el) return\r\n    const obs = new IntersectionObserver(\r\n      ([entry]) => {\r\n        if (entry.isIntersecting) {\r\n          setVisible(true)\r\n          if (once) obs.disconnect()\r\n        } else if (!once) {\r\n          setVisible(false)\r\n        }\r\n      },\r\n      { threshold }\r\n    )\r\n    obs.observe(el)\r\n    return () => obs.disconnect()\r\n  }, [threshold, once])\r\n\r\n  return (\r\n    <div\r\n      ref={ref}\r\n      className={cn(\r\n        'will-change-[opacity,transform]',\r\n        visible ? 'opacity-100 translate-y-0 translate-x-0 scale-100' : INITIAL_CLASSES[animation],\r\n        className\r\n      )}\r\n      style={{\r\n        transition: `opacity ${duration}ms ease ${delay}ms, transform ${duration}ms ease ${delay}ms`,\r\n        ...style,\r\n      }}\r\n    >\r\n      {children}\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

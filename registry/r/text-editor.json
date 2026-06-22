@@ -1,0 +1,29 @@
+{
+  "name": "text-editor",
+  "version": "1.0.0",
+  "title": "Text Editor",
+  "type": "registry:component",
+  "description": "Rich text WYSIWYG editor.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/text-editor",
+  "files": [
+    {
+      "path": "components/ui/cn/text-editor/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-editor/index.ts",
+      "content": "export { TextEditor } from './TextEditor'\nexport type { TextEditorProps } from './TextEditor'\n"
+    },
+    {
+      "path": "components/ui/cn/text-editor/TextEditor.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/text-editor/TextEditor.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useRef, useEffect, useCallback } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface TextEditorProps {\n  value?:       string\n  defaultValue?: string\n  onChange?:    (html: string) => void\n  placeholder?: string\n  minHeight?:   number\n  disabled?:    boolean\n  className?:   string\n  style?:       React.CSSProperties\n}\n\ntype Cmd = 'bold' | 'italic' | 'underline' | 'strikeThrough' |\n           'insertUnorderedList' | 'insertOrderedList' | 'formatBlock'\n\nconst TOOLBAR: Array<{ cmd: Cmd; label: string; arg?: string; title: string }> = [\n  { cmd: 'bold',                label: 'B',   title: 'Bold' },\n  { cmd: 'italic',              label: 'I',   title: 'Italic' },\n  { cmd: 'underline',           label: 'U',   title: 'Underline' },\n  { cmd: 'strikeThrough',       label: 'S̶',   title: 'Strikethrough' },\n  { cmd: 'insertUnorderedList', label: '• ≡', title: 'Unordered list' },\n  { cmd: 'insertOrderedList',   label: '1 ≡', title: 'Ordered list' },\n  { cmd: 'formatBlock',         label: 'H2',  arg: 'h2', title: 'Heading 2' },\n]\n\nexport function TextEditor({\n  value,\n  defaultValue = '',\n  onChange,\n  placeholder  = 'Start typing…',\n  minHeight    = 140,\n  disabled     = false,\n  className,\n  style,\n}: TextEditorProps) {\n  const editorRef = useRef<HTMLDivElement>(null)\n  const isControlled = value !== undefined\n\n  useEffect(() => {\n    if (editorRef.current && !editorRef.current.innerHTML) {\n      editorRef.current.innerHTML = isControlled ? value! : defaultValue\n    }\n  }, [])\n\n  useEffect(() => {\n    if (isControlled && editorRef.current && editorRef.current.innerHTML !== value) {\n      editorRef.current.innerHTML = value!\n    }\n  }, [value, isControlled])\n\n  const exec = useCallback((cmd: Cmd, arg?: string) => {\n    document.execCommand(cmd, false, arg)\n    editorRef.current?.focus()\n    onChange?.(editorRef.current?.innerHTML ?? '')\n  }, [onChange])\n\n  return (\n    <div style={style} className={cn('flex flex-col rounded-xl border border-rule overflow-hidden bg-raised', className)}>\n      {/* Toolbar */}\n      <div className=\"flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-rule bg-graphite-2\">\n        {TOOLBAR.map(btn => (\n          <button\n            key={btn.cmd + (btn.arg ?? '')}\n            type=\"button\"\n            title={btn.title}\n            disabled={disabled}\n            onMouseDown={e => { e.preventDefault(); exec(btn.cmd, btn.arg) }}\n            className={cn(\n              'px-2 py-1 rounded text-body-caption font-medium text-faint hover:text-foreground hover:bg-graphite transition-colors',\n              disabled && 'opacity-40 pointer-events-none',\n            )}\n          >\n            {btn.label}\n          </button>\n        ))}\n      </div>\n\n      {/* Editable area */}\n      <div\n        ref={editorRef}\n        contentEditable={!disabled}\n        suppressContentEditableWarning\n        data-placeholder={placeholder}\n        onInput={() => onChange?.(editorRef.current?.innerHTML ?? '')}\n        style={{ minHeight }}\n        className={cn(\n          'px-4 py-3 text-body-paragraph text-foreground outline-none',\n          'prose prose-invert max-w-none',\n          '[&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-faint',\n          disabled && 'opacity-50 select-none',\n        )}\n      />\n    </div>\n  )\n}\n"
+    }
+  ]
+}

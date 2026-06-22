@@ -1,0 +1,35 @@
+{
+  "name": "scroll-progress",
+  "version": "1.0.0",
+  "title": "Scroll Progress",
+  "type": "registry:component",
+  "description": "Reading progress bar tied to scroll.",
+  "group": "navigation",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/scroll-progress",
+  "files": [
+    {
+      "path": "components/ui/cn/scroll-progress/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-progress/index.ts",
+      "content": "export { ScrollProgress } from './ScrollProgress'\r\nexport type { ScrollProgressProps } from './scroll-progress.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-progress/scroll-progress.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-progress/scroll-progress.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface ScrollProgressProps {\r\n  target?: 'page' | React.RefObject<HTMLElement>\r\n  height?: number\r\n  color?: string\r\n  position?: 'top' | 'bottom'\r\n  zIndex?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-progress/ScrollProgress.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/scroll-progress/ScrollProgress.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useEffect, useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ScrollProgressProps } from './scroll-progress.types'\r\n\r\nexport function ScrollProgress({\r\n  target = 'page',\r\n  height = 3,\r\n  color,\r\n  position = 'top',\r\n  zIndex = 9999,\r\n  className,\r\n  style,\r\n}: ScrollProgressProps) {\r\n  const [progress, setProgress] = useState(0)\r\n\r\n  useEffect(() => {\r\n    const getEl = () =>\r\n      target === 'page'\r\n        ? document.documentElement\r\n        : (target as React.RefObject<HTMLElement>).current\r\n\r\n    const update = () => {\r\n      const el = getEl()\r\n      if (!el) return\r\n      if (target === 'page') {\r\n        const total = el.scrollHeight - window.innerHeight\r\n        setProgress(total > 0 ? Math.min(window.scrollY / total, 1) * 100 : 0)\r\n      } else {\r\n        const total = el.scrollHeight - el.clientHeight\r\n        setProgress(total > 0 ? Math.min(el.scrollTop / total, 1) * 100 : 0)\r\n      }\r\n    }\r\n\r\n    const eventTarget = target === 'page' ? window : (target as React.RefObject<HTMLElement>).current\r\n    eventTarget?.addEventListener('scroll', update, { passive: true })\r\n    update()\r\n    return () => eventTarget?.removeEventListener('scroll', update)\r\n  }, [target])\r\n\r\n  return (\r\n    <div\r\n      className={cn('transition-all duration-100', className)}\r\n      style={{\r\n        position: 'fixed',\r\n        [position]: 0,\r\n        left: 0,\r\n        height,\r\n        width: `${progress}%`,\r\n        background: color ?? 'var(--ks-primary)',\r\n        zIndex,\r\n        ...style,\r\n      }}\r\n    />\r\n  )\r\n}\r\n"
+    }
+  ]
+}

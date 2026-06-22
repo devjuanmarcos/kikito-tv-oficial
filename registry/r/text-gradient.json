@@ -1,0 +1,35 @@
+{
+  "name": "text-gradient",
+  "version": "1.0.0",
+  "title": "Text Gradient",
+  "type": "registry:component",
+  "description": "CSS gradient text effect.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/text-gradient",
+  "files": [
+    {
+      "path": "components/ui/cn/text-gradient/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-gradient/index.ts",
+      "content": "export { TextGradient } from './TextGradient'\r\nexport type { TextGradientAs, TextGradientProps } from './text-gradient.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/text-gradient/text-gradient.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-gradient/text-gradient.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type TextGradientAs = 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'p'\r\n\r\nexport interface TextGradientProps {\r\n  children: React.ReactNode\r\n  from?: string\r\n  to?: string\r\n  via?: string\r\n  direction?: string\r\n  animate?: boolean\r\n  as?: TextGradientAs\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/text-gradient/TextGradient.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/text-gradient/TextGradient.tsx",
+      "content": "import { cn } from '@/lib/utils'\r\nimport type { TextGradientAs, TextGradientProps } from './text-gradient.types'\r\n\r\nexport function TextGradient({\r\n  children,\r\n  from = 'var(--ks-violet)',\r\n  to = 'var(--ks-rose)',\r\n  via,\r\n  direction = '90deg',\r\n  animate = false,\r\n  as: Tag = 'span' as TextGradientAs,\r\n  className,\r\n  style,\r\n}: TextGradientProps) {\r\n  const stops = via\r\n    ? `${from}, ${via}, ${to}${animate ? ', ' + from : ''}`\r\n    : `${from}, ${to}${animate ? ', ' + from : ''}`\r\n  const gradient = `linear-gradient(${direction}, ${stops})`\r\n\r\n  return (\r\n    <>\r\n      {animate && (\r\n        <style>{`\r\n          @keyframes gradient-flow {\r\n            0%   { background-position: 0% center; }\r\n            100% { background-position: 200% center; }\r\n          }\r\n        `}</style>\r\n      )}\r\n      <Tag\r\n        className={cn('inline', className)}\r\n        style={{\r\n          background: gradient,\r\n          backgroundClip: 'text',\r\n          WebkitBackgroundClip: 'text',\r\n          WebkitTextFillColor: 'transparent',\r\n          color: 'transparent',\r\n          ...(animate && {\r\n            backgroundSize: '200% auto',\r\n            animation: 'gradient-flow 3s linear infinite',\r\n          }),\r\n          ...style,\r\n        } as React.CSSProperties}\r\n      >\r\n        {children}\r\n      </Tag>\r\n    </>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

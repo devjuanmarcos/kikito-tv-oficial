@@ -1,0 +1,35 @@
+{
+  "name": "side-panel",
+  "version": "1.0.0",
+  "title": "Side Panel",
+  "type": "registry:component",
+  "description": "Resizable side panel layout.",
+  "group": "navigation",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/side-panel",
+  "files": [
+    {
+      "path": "components/ui/cn/side-panel/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/side-panel/index.ts",
+      "content": "export { SidePanel } from './SidePanel'\r\nexport type { SidePanelProps } from './side-panel.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/side-panel/side-panel.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/side-panel/side-panel.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface SidePanelProps {\r\n  panel: React.ReactNode\r\n  children: React.ReactNode\r\n  open?: boolean\r\n  defaultOpen?: boolean\r\n  onOpenChange?: (open: boolean) => void\r\n  side?: 'left' | 'right'\r\n  panelWidth?: number\r\n  collapsedWidth?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/side-panel/SidePanel.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/side-panel/SidePanel.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { SidePanelProps } from \"./side-panel.types\";\n\nexport function SidePanel({\n  panel,\n  children,\n  open: controlledOpen,\n  defaultOpen = true,\n  onOpenChange,\n  side = \"left\",\n  panelWidth = 240,\n  collapsedWidth = 0,\n  className,\n  style,\n}: SidePanelProps) {\n  const [internalOpen, setInternalOpen] = useState(defaultOpen);\n  const controlled = controlledOpen !== undefined;\n  const isOpen = controlled ? controlledOpen : internalOpen;\n\n  function toggle() {\n    const next = !isOpen;\n    if (!controlled) setInternalOpen(next);\n    onOpenChange?.(next);\n  }\n\n  const isLeft = side === \"left\";\n\n  return (\n    <div className={cn(\"flex overflow-hidden\", className)} style={style}>\n      {/* Panel */}\n      <div\n        className={cn(\n          \"relative shrink-0 overflow-hidden transition-[width] duration-200 ease-in-out border-rule bg-canvas\",\n          isLeft ? \"border-r\" : \"order-last border-l\"\n        )}\n        style={{ width: isOpen ? panelWidth : collapsedWidth }}\n      >\n        <div style={{ width: panelWidth }} className=\"h-full overflow-auto\">\n          {panel}\n        </div>\n\n        {/* Toggle button */}\n        <button\n          onClick={toggle}\n          className={cn(\n            \"absolute top-1/2 -translate-y-1/2 z-10 w-5 h-10 flex items-center justify-center rounded-(--radius-sm) border border-rule bg-raised text-muted hover:text-foreground hover:bg-graphite transition-colors text-body-caption\",\n            isLeft ? \"-right-2.5\" : \"-left-2.5\"\n          )}\n          aria-label={isOpen ? \"Collapse panel\" : \"Expand panel\"}\n        >\n          {isLeft ? (isOpen ? \"‹\" : \"›\") : isOpen ? \"›\" : \"‹\"}\n        </button>\n      </div>\n\n      {/* Content */}\n      <div className=\"flex-1 overflow-auto min-w-0\">{children}</div>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

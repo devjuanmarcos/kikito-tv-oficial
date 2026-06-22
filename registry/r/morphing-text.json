@@ -1,0 +1,35 @@
+{
+  "name": "morphing-text",
+  "version": "1.0.0",
+  "title": "Morphing Text",
+  "type": "registry:component",
+  "description": "Smoothly morphs between text values.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/morphing-text",
+  "files": [
+    {
+      "path": "components/ui/cn/morphing-text/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/morphing-text/index.ts",
+      "content": "export { MorphingText } from './MorphingText'\r\nexport type { MorphingTextProps } from './morphing-text.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/morphing-text/morphing-text.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/morphing-text/morphing-text.types.ts",
+      "content": "export interface MorphingTextProps {\r\n  words: string[]\r\n  interval?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/morphing-text/MorphingText.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/morphing-text/MorphingText.tsx",
+      "content": "'use client'\r\n\r\nimport { useEffect, useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { MorphingTextProps } from './morphing-text.types'\r\n\r\nexport function MorphingText({\r\n  words,\r\n  interval = 2500,\r\n  className,\r\n  style,\r\n}: MorphingTextProps) {\r\n  const [index, setIndex] = useState(0)\r\n  const [leaving, setLeaving] = useState(false)\r\n\r\n  useEffect(() => {\r\n    if (words.length < 2) return\r\n    const timer = setTimeout(() => {\r\n      setLeaving(true)\r\n      setTimeout(() => {\r\n        setIndex(i => (i + 1) % words.length)\r\n        setLeaving(false)\r\n      }, 300)\r\n    }, interval)\r\n    return () => clearTimeout(timer)\r\n  }, [index, words, interval])\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        @keyframes mt-in {\r\n          from { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(2px); }\r\n          to   { opacity: 1; transform: translateY(0)   scale(1);    filter: blur(0);  }\r\n        }\r\n        @keyframes mt-out {\r\n          from { opacity: 1; transform: translateY(0)   scale(1);    filter: blur(0);  }\r\n          to   { opacity: 0; transform: translateY(-8px) scale(0.97); filter: blur(2px); }\r\n        }\r\n        .mt-enter { animation: mt-in 0.3s ease forwards; }\r\n        .mt-leave { animation: mt-out 0.3s ease forwards; }\r\n      `}</style>\r\n      <span\r\n        key={index}\r\n        className={cn('inline-block', leaving ? 'mt-leave' : 'mt-enter', className)}\r\n        style={style}\r\n        aria-live=\"polite\"\r\n      >\r\n        {words[index]}\r\n      </span>\r\n    </>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

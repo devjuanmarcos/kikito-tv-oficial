@@ -1,0 +1,29 @@
+{
+  "name": "ribbon",
+  "version": "1.0.0",
+  "title": "Ribbon",
+  "type": "registry:component",
+  "description": "Corner ribbon badge for cards.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/ribbon",
+  "files": [
+    {
+      "path": "components/ui/cn/ribbon/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/ribbon/index.ts",
+      "content": "export { Ribbon } from './Ribbon'\nexport type { RibbonProps, RibbonIntent, RibbonPosition } from './Ribbon'\n"
+    },
+    {
+      "path": "components/ui/cn/ribbon/Ribbon.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/ribbon/Ribbon.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type RibbonIntent   = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral'\nexport type RibbonPosition = 'top-right' | 'top-left'\n\nexport interface RibbonProps {\n  children:   React.ReactNode\n  label:      string\n  position?:  RibbonPosition\n  intent?:    RibbonIntent\n  className?: string\n  style?:     React.CSSProperties\n}\n\nconst INTENT_CLS: Record<RibbonIntent, string> = {\n  primary:   'bg-patina text-patina-fg',\n  secondary: 'bg-kinpaku text-kinpaku-fg',\n  success:   'bg-success text-success-fg',\n  warning:   'bg-warning text-warning-fg',\n  danger:    'bg-danger text-danger-fg',\n  neutral:   'bg-raised text-foreground border border-rule',\n}\n\nexport function Ribbon({\n  children,\n  label,\n  position = 'top-right',\n  intent   = 'primary',\n  className,\n  style,\n}: RibbonProps) {\n  const isRight = position === 'top-right'\n  return (\n    <div style={style} className={cn('relative overflow-hidden inline-block', className)}>\n      {children}\n      <span\n        aria-label={label}\n        className={cn(\n          'absolute top-[14px] text-[0.6rem] font-bold tracking-wider uppercase select-none pointer-events-none',\n          'w-[90px] text-center py-[3px]',\n          isRight\n            ? 'right-[-22px] rotate-45 origin-top-right'\n            : 'left-[-22px] -rotate-45 origin-top-left',\n          INTENT_CLS[intent],\n        )}\n      >\n        {label}\n      </span>\n    </div>\n  )\n}\n"
+    }
+  ]
+}

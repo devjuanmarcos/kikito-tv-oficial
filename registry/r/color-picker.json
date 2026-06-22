@@ -1,0 +1,35 @@
+{
+  "name": "color-picker",
+  "version": "1.0.0",
+  "title": "Color Picker",
+  "type": "registry:component",
+  "description": "Visual color selection with hex/rgb/hsl support.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/color-picker",
+  "files": [
+    {
+      "path": "components/ui/cn/color-picker/color-picker.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/color-picker/color-picker.types.ts",
+      "content": "﻿import type React from 'react'\r\n\r\nexport interface ColorPickerProps {\r\n  value?: string\r\n  defaultValue?: string\r\n  onChange?: (color: string) => void\r\n  swatches?: string[]\r\n  showInput?: boolean\r\n  disabled?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/color-picker/ColorPicker.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/color-picker/ColorPicker.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState, useCallback } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { ColorPickerProps } from \"./color-picker.types\";\n\nconst DEFAULT_SWATCHES = [\n  \"#ef4444\",\n  \"#f97316\",\n  \"#eab308\",\n  \"#22c55e\",\n  \"#06b6d4\",\n  \"#3b82f6\",\n  \"#8b5cf6\",\n  \"#ec4899\",\n  \"#64748b\",\n  \"#1e293b\",\n  \"#ffffff\",\n  \"#000000\",\n];\n\nfunction isValidHex(hex: string) {\n  return /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex);\n}\n\nexport function ColorPicker({\n  value,\n  defaultValue = \"#3b82f6\",\n  onChange,\n  swatches = DEFAULT_SWATCHES,\n  showInput = true,\n  disabled = false,\n  className,\n  style,\n}: ColorPickerProps) {\n  const controlled = value !== undefined;\n  const [internal, setInternal] = useState(defaultValue);\n  const [inputVal, setInputVal] = useState(controlled ? value ?? defaultValue : defaultValue);\n  const current = controlled ? value ?? defaultValue : internal;\n\n  const update = useCallback(\n    (hex: string) => {\n      if (!controlled) setInternal(hex);\n      setInputVal(hex);\n      onChange?.(hex);\n    },\n    [controlled, onChange]\n  );\n\n  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {\n    const v = e.target.value;\n    setInputVal(v);\n    if (isValidHex(v)) update(v);\n  }\n\n  function handleInputBlur() {\n    if (!isValidHex(inputVal)) setInputVal(current);\n  }\n\n  return (\n    <div className={cn(\"inline-flex flex-col gap-[10px]\", className)} style={style}>\n      {swatches.length > 0 && (\n        <div className=\"flex flex-wrap gap-[6px]\">\n          {swatches.map((swatch) => (\n            <button\n              key={swatch}\n              className={cn(\n                \"w-7 h-7 rounded-(--radius-sm) border-2 border-transparent cursor-pointer p-0 transition-[transform,border-color] duration-[150ms] hover:scale-[1.12]\",\n                current.toLowerCase() === swatch.toLowerCase() &&\n                  \"border-foreground shadow-[0_0_0_1px_var(--ks-lacquer)]\",\n                disabled && \"opacity-40 cursor-not-allowed\"\n              )}\n              style={{ background: swatch }}\n              onClick={() => update(swatch)}\n              disabled={disabled}\n              aria-label={`Select color ${swatch}`}\n              title={swatch}\n            />\n          ))}\n        </div>\n      )}\n\n      {showInput && (\n        <div className=\"flex items-center gap-2\">\n          <div\n            className=\"w-8 h-8 rounded-(--radius-sm) border-[1.5px] border-rule flex-shrink-0\"\n            style={{ background: current }}\n          />\n          <input\n            className=\"flex-1 py-[7px] px-[10px] rounded-[7px] border-[1.5px] border-rule bg-raised text-foreground text-body-callout font-mono outline-none transition-[border-color] duration-[150ms] uppercase focus:border-patina disabled:opacity-40 disabled:cursor-not-allowed\"\n            type=\"text\"\n            value={inputVal.toUpperCase()}\n            onChange={handleInputChange}\n            onBlur={handleInputBlur}\n            disabled={disabled}\n            maxLength={7}\n            placeholder=\"#000000\"\n          />\n          <input\n            type=\"color\"\n            className=\"w-8 h-8 rounded-(--radius-sm) border-[1.5px] border-rule p-[2px] cursor-pointer bg-raised overflow-hidden\"\n            value={current}\n            onChange={(e) => update(e.target.value)}\n            disabled={disabled}\n            title=\"Open color picker\"\n          />\n        </div>\n      )}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/color-picker/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/color-picker/index.ts",
+      "content": "﻿export { ColorPicker } from './ColorPicker'\r\nexport type { ColorPickerProps } from './color-picker.types'\r\n"
+    }
+  ]
+}

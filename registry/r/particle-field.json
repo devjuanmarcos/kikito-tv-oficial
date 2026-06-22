@@ -1,0 +1,35 @@
+{
+  "name": "particle-field",
+  "version": "1.0.0",
+  "title": "Particle Field",
+  "type": "registry:component",
+  "description": "Canvas-based interactive particle animation.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/particle-field",
+  "files": [
+    {
+      "path": "components/ui/cn/particle-field/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/particle-field/index.ts",
+      "content": "export { ParticleField } from './ParticleField'\r\nexport type { ParticleFieldProps } from './particle-field.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/particle-field/particle-field.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/particle-field/particle-field.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface ParticleFieldProps {\r\n  count?: number\r\n  color?: string\r\n  speed?: number\r\n  size?: number\r\n  width?: number | string\r\n  height?: number | string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/particle-field/ParticleField.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/particle-field/ParticleField.tsx",
+      "content": "'use client'\r\nimport React, { useRef, useEffect } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ParticleFieldProps } from './particle-field.types'\r\n\r\ninterface Particle { x: number; y: number; vx: number; vy: number; r: number; alpha: number }\r\n\r\nexport function ParticleField({\r\n  count = 60,\r\n  color = '120,80,255',\r\n  speed = 0.5,\r\n  size = 2,\r\n  width = '100%',\r\n  height = 300,\r\n  className,\r\n  style,\r\n}: ParticleFieldProps) {\r\n  const canvasRef = useRef<HTMLCanvasElement>(null)\r\n\r\n  useEffect(() => {\r\n    const canvas = canvasRef.current\r\n    if (!canvas) return\r\n    const ctx = canvas.getContext('2d')\r\n    if (!ctx) return\r\n\r\n    let raf: number\r\n    const particles: Particle[] = []\r\n\r\n    function resize() {\r\n      canvas!.width = canvas!.offsetWidth\r\n      canvas!.height = canvas!.offsetHeight\r\n    }\r\n\r\n    function init() {\r\n      particles.length = 0\r\n      for (let i = 0; i < count; i++) {\r\n        particles.push({\r\n          x: Math.random() * canvas!.width,\r\n          y: Math.random() * canvas!.height,\r\n          vx: (Math.random() - 0.5) * speed,\r\n          vy: (Math.random() - 0.5) * speed,\r\n          r: Math.random() * size + 1,\r\n          alpha: Math.random() * 0.6 + 0.2,\r\n        })\r\n      }\r\n    }\r\n\r\n    function draw() {\r\n      const w = canvas!.width, h = canvas!.height\r\n      ctx!.clearRect(0, 0, w, h)\r\n      for (const p of particles) {\r\n        p.x += p.vx; p.y += p.vy\r\n        if (p.x < 0) p.x = w; if (p.x > w) p.x = 0\r\n        if (p.y < 0) p.y = h; if (p.y > h) p.y = 0\r\n        ctx!.beginPath()\r\n        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)\r\n        ctx!.fillStyle = `rgba(${color},${p.alpha})`\r\n        ctx!.fill()\r\n      }\r\n      for (let i = 0; i < particles.length; i++) {\r\n        for (let j = i + 1; j < particles.length; j++) {\r\n          const dx = particles[i].x - particles[j].x\r\n          const dy = particles[i].y - particles[j].y\r\n          const dist = Math.sqrt(dx * dx + dy * dy)\r\n          if (dist < 100) {\r\n            ctx!.beginPath()\r\n            ctx!.moveTo(particles[i].x, particles[i].y)\r\n            ctx!.lineTo(particles[j].x, particles[j].y)\r\n            ctx!.strokeStyle = `rgba(${color},${(1 - dist / 100) * 0.3})`\r\n            ctx!.lineWidth = 0.8\r\n            ctx!.stroke()\r\n          }\r\n        }\r\n      }\r\n      raf = requestAnimationFrame(draw)\r\n    }\r\n\r\n    resize(); init(); draw()\r\n    const ro = new ResizeObserver(() => { resize(); init() })\r\n    ro.observe(canvas)\r\n    return () => { cancelAnimationFrame(raf); ro.disconnect() }\r\n  }, [count, color, speed, size])\r\n\r\n  return (\r\n    <div\r\n      className={cn('relative overflow-hidden', className)}\r\n      style={{ width, height, ...style }}\r\n    >\r\n      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

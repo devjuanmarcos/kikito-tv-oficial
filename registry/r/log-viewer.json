@@ -1,0 +1,35 @@
+{
+  "name": "log-viewer",
+  "version": "1.0.0",
+  "title": "Log Viewer",
+  "type": "registry:component",
+  "description": "Real-time log stream viewer.",
+  "group": "data",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/log-viewer",
+  "files": [
+    {
+      "path": "components/ui/cn/log-viewer/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/log-viewer/index.ts",
+      "content": "export { LogViewer } from './LogViewer'\r\nexport type { LogViewerProps, LogEntry, LogLevel } from './log-viewer.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/log-viewer/log-viewer.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/log-viewer/log-viewer.types.ts",
+      "content": "export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'success'\r\n\r\nexport interface LogEntry {\r\n  id?: string | number\r\n  level: LogLevel\r\n  message: string\r\n  timestamp?: Date | string\r\n  meta?: string\r\n}\r\n\r\nexport interface LogViewerProps {\r\n  entries: LogEntry[]\r\n  maxHeight?: number | string\r\n  searchable?: boolean\r\n  showTimestamps?: boolean\r\n  showLevelBadge?: boolean\r\n  autoScroll?: boolean\r\n  emptyMessage?: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/log-viewer/LogViewer.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/log-viewer/LogViewer.tsx",
+      "content": "﻿\"use client\";\n\nimport { useEffect, useMemo, useRef, useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { LogEntry, LogViewerProps } from \"./log-viewer.types\";\n\nconst LEVEL_STYLES: Record<string, string> = {\n  debug: \"bg-graphite text-faint\",\n  info: \"bg-info/15 text-info\",\n  warn: \"bg-warning/15 text-warning\",\n  error: \"bg-danger/15 text-danger\",\n  success: \"bg-success/15 text-success\",\n};\n\nconst ROW_STYLES: Record<string, string> = {\n  debug: \"\",\n  info: \"\",\n  warn: \"bg-warning/5\",\n  error: \"bg-danger/5\",\n  success: \"bg-success/5\",\n};\n\nfunction formatTs(ts: Date | string | undefined): string {\n  if (!ts) return \"\";\n  const d = ts instanceof Date ? ts : new Date(ts);\n  return d.toLocaleTimeString(\"en-US\", { hour12: false, hour: \"2-digit\", minute: \"2-digit\", second: \"2-digit\" });\n}\n\nexport function LogViewer({\n  entries,\n  maxHeight = 360,\n  searchable = true,\n  showTimestamps = true,\n  showLevelBadge = true,\n  autoScroll = true,\n  emptyMessage = \"No log entries.\",\n  className,\n  style,\n}: LogViewerProps) {\n  const [query, setQuery] = useState(\"\");\n  const endRef = useRef<HTMLDivElement>(null);\n\n  const filtered = useMemo(() => {\n    if (!query) return entries;\n    const q = query.toLowerCase();\n    return entries.filter((e) => e.message.toLowerCase().includes(q) || e.level.includes(q));\n  }, [entries, query]);\n\n  useEffect(() => {\n    if (autoScroll) endRef.current?.scrollIntoView({ behavior: \"smooth\" });\n  }, [entries, autoScroll]);\n\n  return (\n    <div\n      className={cn(\n        \"rounded-(--radius-md) border border-rule bg-canvas font-mono text-body-callout overflow-hidden\",\n        className\n      )}\n      style={{ maxHeight, ...style }}\n    >\n      {searchable && (\n        <div className=\"flex items-center gap-2 px-3 py-2 border-b border-rule bg-raised\">\n          <span className=\"text-faint\">🔍</span>\n          <input\n            className=\"flex-1 bg-transparent outline-none text-foreground placeholder:text-faint\"\n            placeholder=\"Filter logs…\"\n            value={query}\n            onChange={(e) => setQuery(e.target.value)}\n          />\n          <span className=\"text-body-caption text-faint\">\n            {filtered.length} / {entries.length}\n          </span>\n        </div>\n      )}\n\n      <div\n        className=\"overflow-y-auto divide-y divide-rule/50\"\n        style={{\n          maxHeight: searchable\n            ? `calc(${typeof maxHeight === \"number\" ? maxHeight + \"px\" : maxHeight} - 44px)`\n            : maxHeight,\n        }}\n      >\n        {filtered.length === 0 ? (\n          <div className=\"px-4 py-6 text-center text-faint\">{emptyMessage}</div>\n        ) : (\n          filtered.map((entry: LogEntry, i: number) => (\n            <div key={entry.id ?? i} className={cn(\"flex items-start gap-2 px-3 py-1.5\", ROW_STYLES[entry.level])}>\n              {showLevelBadge && (\n                <span\n                  className={cn(\n                    \"shrink-0 text-[0.5625rem] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide\",\n                    LEVEL_STYLES[entry.level]\n                  )}\n                >\n                  {entry.level}\n                </span>\n              )}\n              {showTimestamps && entry.timestamp && (\n                <span className=\"shrink-0 text-faint text-body-caption tabular-nums mt-px\">\n                  {formatTs(entry.timestamp)}\n                </span>\n              )}\n              <span className=\"text-foreground break-all\">{entry.message}</span>\n              {entry.meta && <span className=\"text-faint text-body-caption ml-auto shrink-0\">{entry.meta}</span>}\n            </div>\n          ))\n        )}\n        <div ref={endRef} />\n      </div>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

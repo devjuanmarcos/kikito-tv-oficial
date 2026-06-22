@@ -1,0 +1,29 @@
+{
+  "name": "radio",
+  "version": "1.0.0",
+  "title": "Radio",
+  "type": "registry:component",
+  "description": "Radio button group with label and description.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/radio",
+  "files": [
+    {
+      "path": "components/ui/cn/radio/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/radio/index.ts",
+      "content": "export { Radio, RadioGroup } from './Radio'\nexport type { RadioProps, RadioGroupProps, RadioGroupOption, RadioSize } from './Radio'\n"
+    },
+    {
+      "path": "components/ui/cn/radio/Radio.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/radio/Radio.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useId } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type RadioSize = 'sm' | 'md' | 'lg'\n\nexport interface RadioProps {\n  value?:        string\n  checked?:      boolean\n  defaultChecked?: boolean\n  onChange?:     (value: string) => void\n  label?:        string\n  helperText?:   string\n  size?:         RadioSize\n  disabled?:     boolean\n  name?:         string\n  className?:    string\n  style?:        React.CSSProperties\n}\n\nexport interface RadioGroupOption {\n  value:       string\n  label:       string\n  helperText?: string\n  disabled?:   boolean\n}\n\nexport interface RadioGroupProps {\n  label?:        string\n  helperText?:   string\n  options:       RadioGroupOption[]\n  value?:        string\n  defaultValue?: string\n  onChange?:     (value: string) => void\n  orientation?:  'vertical' | 'horizontal'\n  size?:         RadioSize\n  disabled?:     boolean\n  name?:         string\n  className?:    string\n}\n\nconst SIZE_DOT: Record<RadioSize, { outer: string; inner: string; label: string; helper: string }> = {\n  sm: { outer: 'w-3.5 h-3.5 border',     inner: 'w-[5px] h-[5px]',   label: 'text-body-caption',   helper: 'text-[0.6875rem]' },\n  md: { outer: 'w-4 h-4 border-[1.5px]', inner: 'w-[6px] h-[6px]',   label: 'text-body-callout',   helper: 'text-body-caption' },\n  lg: { outer: 'w-[1.125rem] h-[1.125rem] border-2', inner: 'w-2 h-2', label: 'text-body-paragraph', helper: 'text-body-callout' },\n}\n\nexport function Radio({\n  value    = '',\n  checked,\n  defaultChecked,\n  onChange,\n  label,\n  helperText,\n  size     = 'md',\n  disabled = false,\n  name,\n  className,\n  style,\n}: RadioProps) {\n  const uid = useId()\n  const sz  = SIZE_DOT[size]\n  const isControlled = checked !== undefined\n\n  return (\n    <label\n      className={cn('inline-flex items-start gap-2 cursor-pointer select-none', disabled && 'opacity-50 cursor-not-allowed', className)}\n      style={style}\n      htmlFor={uid}\n    >\n      <span className={cn('relative shrink-0 mt-[0.1em] rounded-full border-rule bg-raised transition-[border-color,background] duration-[120ms] flex items-center justify-center', sz.outer)}>\n        <input\n          id={uid}\n          type=\"radio\"\n          name={name}\n          value={value}\n          checked={isControlled ? checked : undefined}\n          defaultChecked={!isControlled ? defaultChecked : undefined}\n          disabled={disabled}\n          onChange={e => { if (e.target.checked) onChange?.(value) }}\n          className=\"sr-only peer\"\n        />\n        <span className={cn('rounded-full bg-patina opacity-0 transition-[opacity,transform] duration-[120ms] scale-50 peer-checked:opacity-100 peer-checked:scale-100 peer-checked:[&~span]:border-patina', sz.inner)} />\n        <span className={cn('absolute inset-0 rounded-full border border-rule transition-[border-color] duration-[120ms] peer-checked:border-patina')} aria-hidden=\"true\" />\n      </span>\n      {(label || helperText) && (\n        <span className=\"flex flex-col gap-[0.1rem]\">\n          {label      && <span className={cn('font-medium text-foreground leading-tight', sz.label)}>{label}</span>}\n          {helperText && <span className={cn('text-faint leading-[1.4]', sz.helper)}>{helperText}</span>}\n        </span>\n      )}\n    </label>\n  )\n}\n\nexport function RadioGroup({\n  label,\n  helperText,\n  options,\n  value,\n  defaultValue,\n  onChange,\n  orientation = 'vertical',\n  size        = 'md',\n  disabled    = false,\n  name,\n  className,\n}: RadioGroupProps) {\n  const uid       = useId()\n  const groupName = name ?? uid\n  const isControlled = value !== undefined\n\n  return (\n    <fieldset className={cn('border-none p-0 m-0', className)}>\n      {label && (\n        <legend className=\"text-body-callout font-semibold text-foreground mb-2 float-none\">{label}</legend>\n      )}\n      <div className={cn('flex', orientation === 'horizontal' ? 'flex-row flex-wrap gap-4' : 'flex-col gap-3')}>\n        {options.map(opt => (\n          <Radio\n            key={opt.value}\n            value={opt.value}\n            name={groupName}\n            label={opt.label}\n            helperText={opt.helperText}\n            checked={isControlled ? value === opt.value : undefined}\n            defaultChecked={!isControlled ? defaultValue === opt.value : undefined}\n            disabled={disabled || opt.disabled}\n            size={size}\n            onChange={onChange}\n          />\n        ))}\n      </div>\n      {helperText && (\n        <p className=\"text-body-caption text-faint mt-2\">{helperText}</p>\n      )}\n    </fieldset>\n  )\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "markdown-renderer",
+  "version": "1.0.0",
+  "title": "Markdown Renderer",
+  "type": "registry:component",
+  "description": "Renders markdown to styled HTML.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/markdown-renderer",
+  "files": [
+    {
+      "path": "components/ui/cn/markdown-renderer/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/markdown-renderer/index.ts",
+      "content": "﻿export { MarkdownRenderer } from './MarkdownRenderer'\r\nexport type { MarkdownRendererProps } from './markdown-renderer.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/markdown-renderer/markdown-renderer.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/markdown-renderer/markdown-renderer.types.ts",
+      "content": "﻿export interface MarkdownRendererProps {\r\n  content: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/markdown-renderer/MarkdownRenderer.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/markdown-renderer/MarkdownRenderer.tsx",
+      "content": "﻿import { cn } from \"@/lib/utils\";\n\nimport type { MarkdownRendererProps } from \"./markdown-renderer.types\";\n\nfunction parseMarkdown(md: string): string {\n  return md\n    .replace(/```[\\w]*\\n?([\\s\\S]*?)```/g, \"<pre><code>$1</code></pre>\")\n    .replace(/^#{6}\\s(.+)$/gm, \"<h6>$1</h6>\")\n    .replace(/^#{5}\\s(.+)$/gm, \"<h5>$1</h5>\")\n    .replace(/^#{4}\\s(.+)$/gm, \"<h4>$1</h4>\")\n    .replace(/^###\\s(.+)$/gm, \"<h3>$1</h3>\")\n    .replace(/^##\\s(.+)$/gm, \"<h2>$1</h2>\")\n    .replace(/^#\\s(.+)$/gm, \"<h1>$1</h1>\")\n    .replace(/^---$/gm, \"<hr/>\")\n    .replace(/^>\\s(.+)$/gm, \"<blockquote>$1</blockquote>\")\n    .replace(/\\*\\*\\*(.+?)\\*\\*\\*/g, \"<strong><em>$1</em></strong>\")\n    .replace(/\\*\\*(.+?)\\*\\*/g, \"<strong>$1</strong>\")\n    .replace(/\\*(.+?)\\*/g, \"<em>$1</em>\")\n    .replace(/`([^`]+)`/g, \"<code>$1</code>\")\n    .replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>')\n    .replace(/^\\s*[-*+]\\s(.+)$/gm, \"<li>$1</li>\")\n    .replace(/^\\d+\\.\\s(.+)$/gm, \"<li>$1</li>\")\n    .replace(/(<li>.*<\\/li>\\n?)+/g, (m) => `<ul>${m}</ul>`)\n    .replace(/^(?!<[a-z]).+$/gm, (line) => (!line.trim() ? \"\" : `<p>${line}</p>`))\n    .replace(/\\n{2,}/g, \"\\n\");\n}\n\nexport function MarkdownRenderer({ content, className, style }: MarkdownRendererProps) {\n  const html = parseMarkdown(content);\n  return (\n    <div\n      className={cn(\n        \"text-foreground leading-[1.7] text-body-callout\",\n        \"[&_h1]:font-bold [&_h1]:text-foreground [&_h1]:mt-6 [&_h1]:mb-2 [&_h1]:leading-snug [&_h1]:text-[2em]\",\n        \"[&_h2]:font-bold [&_h2]:text-foreground [&_h2]:mt-6 [&_h2]:mb-2 [&_h2]:leading-snug [&_h2]:text-[1.5em] [&_h2]:border-b [&_h2]:border-rule [&_h2]:pb-[0.3em]\",\n        \"[&_h3]:font-bold [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:leading-snug [&_h3]:text-[1.25em]\",\n        \"[&_h4]:font-bold [&_h4]:text-foreground [&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:leading-snug [&_h4]:text-[1em]\",\n        \"[&_p]:my-3\",\n        \"[&_a]:text-patina [&_a]:underline [&_a:hover]:text-patina-deep\",\n        \"[&_strong]:font-bold [&_strong]:text-foreground\",\n        \"[&_em]:italic [&_em]:text-muted\",\n        \"[&_code]:font-mono [&_code]:text-[0.85em] [&_code]:bg-sunken [&_code]:border [&_code]:border-rule [&_code]:rounded-[4px] [&_code]:px-[0.4em] [&_code]:py-[0.1em] [&_code]:text-patina\",\n        \"[&_pre]:bg-sunken [&_pre]:border [&_pre]:border-rule [&_pre]:rounded-(--radius-md) [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre]:my-4\",\n        \"[&_pre_code]:bg-transparent [&_pre_code]:border-none [&_pre_code]:p-0 [&_pre_code]:text-foreground [&_pre_code]:text-body-caption\",\n        \"[&_blockquote]:border-l-[3px] [&_blockquote]:border-l-patina [&_blockquote]:my-4 [&_blockquote]:py-2 [&_blockquote]:px-4 [&_blockquote]:text-muted [&_blockquote]:bg-raised [&_blockquote]:rounded-r-[--radius-sm]\",\n        \"[&_ul]:my-3 [&_ul]:pl-[1.6em] [&_ol]:my-3 [&_ol]:pl-[1.6em]\",\n        \"[&_li]:my-[0.3em] [&_li::marker]:text-faint\",\n        \"[&_hr]:border-none [&_hr]:border-t [&_hr]:border-rule [&_hr]:my-6\",\n        \"[&_table]:w-full [&_table]:border-collapse [&_table]:my-4 [&_table]:text-body-callout\",\n        \"[&_th]:px-3 [&_th]:py-2 [&_th]:bg-sunken [&_th]:border [&_th]:border-rule [&_th]:font-bold [&_th]:text-muted [&_th]:text-left\",\n        \"[&_td]:px-3 [&_td]:py-2 [&_td]:border [&_td]:border-rule [&_td]:text-foreground\",\n        \"[&_img]:max-w-full [&_img]:rounded-(--radius-md)\",\n        className\n      )}\n      style={style}\n      // eslint-disable-next-line react/no-danger\n      dangerouslySetInnerHTML={{ __html: html }}\n    />\n  );\n}\n"
+    }
+  ]
+}

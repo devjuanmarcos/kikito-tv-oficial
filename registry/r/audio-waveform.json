@@ -1,0 +1,35 @@
+{
+  "name": "audio-waveform",
+  "version": "1.0.0",
+  "title": "Audio Waveform",
+  "type": "registry:component",
+  "description": "Audio playback with waveform visualization.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/audio-waveform",
+  "files": [
+    {
+      "path": "components/ui/cn/audio-waveform/audio-waveform.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/audio-waveform/audio-waveform.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type WaveformVariant = 'bars' | 'wave' | 'pulse'\r\n\r\nexport interface AudioWaveformProps {\r\n  playing?: boolean\r\n  bars?: number\r\n  color?: string\r\n  height?: number\r\n  variant?: WaveformVariant\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/audio-waveform/AudioWaveform.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/audio-waveform/AudioWaveform.tsx",
+      "content": "﻿import { cn } from '@/lib/utils'\r\nimport type { AudioWaveformProps } from './audio-waveform.types'\r\n\r\nconst HEIGHTS = [0.3, 0.5, 0.8, 1.0, 0.9, 0.7, 0.5, 0.85, 1.0, 0.6, 0.4, 0.7, 0.95, 0.8, 0.5, 0.35, 0.65, 0.9, 1.0, 0.7]\r\n\r\nexport function AudioWaveform({\r\n  playing = false,\r\n  bars = 20,\r\n  color = 'var(--ks-primary)',\r\n  height = 40,\r\n  className,\r\n  style,\r\n}: AudioWaveformProps) {\r\n  const count = Math.min(bars, 40)\r\n  const baseHeights = HEIGHTS.slice(0, count)\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        @keyframes aw-bounce {\r\n          0%, 100% { transform: scaleY(0.3); }\r\n          50%       { transform: scaleY(1); }\r\n        }\r\n        .aw-bar { transform-origin: bottom; transform: scaleY(var(--_h, 0.3)); }\r\n        [data-playing=\"true\"] .aw-bar {\r\n          animation: aw-bounce var(--_dur, 0.6s) ease-in-out var(--_delay, 0s) infinite;\r\n        }\r\n      `}</style>\r\n      <div\r\n        className={cn('flex items-end gap-[2px]', className)}\r\n        style={{ height, ...style }}\r\n        data-playing={playing}\r\n        aria-label={playing ? 'Playing' : 'Paused'}\r\n      >\r\n        {baseHeights.map((h, i) => {\r\n          const barH = Math.max(4, h * height)\r\n          const dur = `${(0.5 + (i % 5) * 0.12).toFixed(2)}s`\r\n          const delay = `${((i * 0.05) % 0.5).toFixed(2)}s`\r\n          return (\r\n            <div\r\n              key={i}\r\n              className=\"aw-bar rounded-full w-[3px] shrink-0\"\r\n              style={{\r\n                height: barH,\r\n                background: color,\r\n                '--_h': h,\r\n                '--_dur': dur,\r\n                '--_delay': delay,\r\n              } as React.CSSProperties}\r\n            />\r\n          )\r\n        })}\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/audio-waveform/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/audio-waveform/index.ts",
+      "content": "export { AudioWaveform } from './AudioWaveform'\r\nexport type { WaveformVariant, AudioWaveformProps } from './audio-waveform.types'\r\n"
+    }
+  ]
+}

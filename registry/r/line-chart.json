@@ -1,0 +1,35 @@
+{
+  "name": "line-chart",
+  "version": "1.0.0",
+  "title": "Line Chart",
+  "type": "registry:component",
+  "description": "Line and curve chart.",
+  "group": "charts",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/line-chart",
+  "files": [
+    {
+      "path": "components/ui/cn/line-chart/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/line-chart/index.ts",
+      "content": "export { LineChart } from './LineChart'\r\nexport type { LineChartProps, LineChartSeries } from './line-chart.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/line-chart/line-chart.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/line-chart/line-chart.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface LineChartSeries {\r\n  label: string\r\n  data: number[]\r\n  color?: string\r\n}\r\n\r\nexport interface LineChartProps {\r\n  series: LineChartSeries[]\r\n  labels?: string[]\r\n  height?: number\r\n  width?: number | string\r\n  showArea?: boolean\r\n  showDots?: boolean\r\n  showGrid?: boolean\r\n  showLegend?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/line-chart/LineChart.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/line-chart/LineChart.tsx",
+      "content": "﻿import { cn } from '@/lib/utils'\r\nimport type { LineChartProps } from './line-chart.types'\r\n\r\nconst DEFAULT_COLORS = ['var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']\r\nconst GRID_LINES = 4\r\n\r\nexport function LineChart({\r\n  series,\r\n  labels,\r\n  height = 200,\r\n  width = '100%',\r\n  showArea = true,\r\n  showDots = true,\r\n  showGrid = true,\r\n  showLegend = true,\r\n  className,\r\n  style,\r\n}: LineChartProps) {\r\n  const allValues = series.flatMap(s => s.data)\r\n  const max = Math.max(...allValues, 1)\r\n  const min = Math.min(...allValues, 0)\r\n  const range = max - min || 1\r\n  const n = series[0]?.data.length ?? 0\r\n  const padX = 8\r\n  const padY = 12\r\n  const chartH = height - padY * 2 - 20\r\n\r\n  const toX = (i: number) => padX + (i / Math.max(n - 1, 1)) * (400 - padX * 2)\r\n  const toY = (v: number) => padY + chartH - ((v - min) / range) * chartH\r\n\r\n  return (\r\n    <div className={cn(className)} style={{ ...style, width }}>\r\n      <svg\r\n        width=\"100%\"\r\n        height={height}\r\n        viewBox={`0 0 400 ${height}`}\r\n        preserveAspectRatio=\"none\"\r\n      >\r\n        {showGrid && Array.from({ length: GRID_LINES + 1 }, (_, i) => {\r\n          const y = padY + (i / GRID_LINES) * chartH\r\n          return (\r\n            <line key={i} x1={padX} y1={y} x2={400 - padX} y2={y}\r\n              stroke=\"var(--ks-rule)\" strokeWidth={1} />\r\n          )\r\n        })}\r\n\r\n        {series.map((s, si) => {\r\n          const color = s.color ?? DEFAULT_COLORS[si % DEFAULT_COLORS.length]\r\n          const pts = s.data.map((v, i) => `${toX(i)},${toY(v)}`).join(' ')\r\n\r\n          const areaPath = n > 0\r\n            ? `M ${toX(0)},${toY(min)} ` +\r\n              s.data.map((v, i) => `L ${toX(i)},${toY(v)}`).join(' ') +\r\n              ` L ${toX(n - 1)},${toY(min)} Z`\r\n            : ''\r\n\r\n          return (\r\n            <g key={s.label}>\r\n              {showArea && (\r\n                <path d={areaPath} fill={color} opacity={0.12} />\r\n              )}\r\n              <polyline points={pts} fill=\"none\" stroke={color} strokeWidth={2} strokeLinejoin=\"round\" />\r\n              {showDots && s.data.map((v, i) => (\r\n                <circle key={i} cx={toX(i)} cy={toY(v)} r={3} fill={color} />\r\n              ))}\r\n            </g>\r\n          )\r\n        })}\r\n\r\n        {labels && labels.map((lbl, i) => (\r\n          <text key={i} x={toX(i)} y={height - 4} textAnchor=\"middle\"\r\n            fontSize={10} fill=\"var(--ks-text-faint)\">\r\n            {lbl}\r\n          </text>\r\n        ))}\r\n      </svg>\r\n\r\n      {showLegend && series.length > 1 && (\r\n        <div className=\"flex flex-wrap gap-x-4 gap-y-1 mt-2 px-1\">\r\n          {series.map((s, i) => (\r\n            <div key={s.label} className=\"flex items-center gap-1.5\">\r\n              <div\r\n                className=\"w-6 h-[2px] rounded-full\"\r\n                style={{ background: s.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length] }}\r\n              />\r\n              <span className=\"text-body-caption text-muted\">{s.label}</span>\r\n            </div>\r\n          ))}\r\n        </div>\r\n      )}\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

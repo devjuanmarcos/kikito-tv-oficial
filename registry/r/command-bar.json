@@ -1,0 +1,35 @@
+{
+  "name": "command-bar",
+  "version": "1.0.0",
+  "title": "Command Bar",
+  "type": "registry:component",
+  "description": "Keyboard-shortcut command bar.",
+  "group": "overlay",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/command-bar",
+  "files": [
+    {
+      "path": "components/ui/cn/command-bar/command-bar.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/command-bar/command-bar.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface CommandBarAction {\r\n  id: string\r\n  label: string\r\n  shortcut?: string[]\r\n  icon?: React.ReactNode\r\n  onSelect?: () => void\r\n  group?: string\r\n}\r\n\r\nexport interface CommandBarProps {\r\n  actions: CommandBarAction[]\r\n  placeholder?: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/command-bar/CommandBar.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/command-bar/CommandBar.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState, useMemo } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { CommandBarProps } from \"./command-bar.types\";\n\nexport function CommandBar({ actions, placeholder = \"Search commands…\", className, style }: CommandBarProps) {\n  const [query, setQuery] = useState(\"\");\n  const [cursor, setCursor] = useState(0);\n\n  const filtered = useMemo(() => {\n    const q = query.toLowerCase();\n    return q ? actions.filter((a) => a.label.toLowerCase().includes(q)) : actions;\n  }, [actions, query]);\n\n  const groups = useMemo(() => {\n    const map = new Map<string, typeof filtered>();\n    filtered.forEach((a) => {\n      const g = a.group ?? \"Actions\";\n      if (!map.has(g)) map.set(g, []);\n      map.get(g)!.push(a);\n    });\n    return map;\n  }, [filtered]);\n\n  function onKeyDown(e: React.KeyboardEvent) {\n    if (e.key === \"ArrowDown\") {\n      e.preventDefault();\n      setCursor((c) => Math.min(filtered.length - 1, c + 1));\n    }\n    if (e.key === \"ArrowUp\") {\n      e.preventDefault();\n      setCursor((c) => Math.max(0, c - 1));\n    }\n    if (e.key === \"Enter\" && filtered[cursor]) {\n      filtered[cursor].onSelect?.();\n    }\n  }\n\n  let flatIdx = 0;\n\n  return (\n    <div\n      className={cn(\"rounded-(--radius-lg) border border-rule bg-raised overflow-hidden shadow-lg\", className)}\n      style={style}\n    >\n      {/* Search row */}\n      <div className=\"flex items-center gap-2 px-3 py-2.5 border-b border-rule\">\n        <span className=\"text-faint text-body-title\">⌕</span>\n        <input\n          className=\"flex-1 bg-transparent outline-none text-foreground text-body-callout placeholder:text-faint\"\n          placeholder={placeholder}\n          value={query}\n          onChange={(e) => {\n            setQuery(e.target.value);\n            setCursor(0);\n          }}\n          onKeyDown={onKeyDown}\n          // eslint-disable-next-line jsx-a11y/no-autofocus\n          autoFocus\n        />\n      </div>\n\n      {/* Results list */}\n      <div className=\"max-h-64 overflow-auto py-1\">\n        {groups.size === 0 && (\n          <div className=\"px-4 py-6 text-center text-body-callout text-faint\">No commands found</div>\n        )}\n        {Array.from(groups.entries()).map(([group, items]) => (\n          <div key={group}>\n            <div className=\"px-3 pt-2 pb-1 text-body-caption font-semibold text-faint uppercase tracking-[0.08em]\">\n              {group}\n            </div>\n            {items.map((item) => {\n              const idx = flatIdx++;\n              return (\n                <div\n                  key={item.id}\n                  className={cn(\n                    \"flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors\",\n                    cursor === idx ? \"bg-patina/10 text-patina\" : \"text-foreground hover:bg-graphite\"\n                  )}\n                  onClick={() => item.onSelect?.()}\n                  onMouseEnter={() => setCursor(idx)}\n                >\n                  {item.icon && <span className=\"text-body-paragraph shrink-0\">{item.icon}</span>}\n                  <span className=\"flex-1 text-body-callout font-medium\">{item.label}</span>\n                  {item.shortcut && (\n                    <span className=\"flex items-center gap-1\">\n                      {item.shortcut.map((k, i) => (\n                        <kbd\n                          key={i}\n                          className=\"text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded text-faint\"\n                        >\n                          {k}\n                        </kbd>\n                      ))}\n                    </span>\n                  )}\n                </div>\n              );\n            })}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/command-bar/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/command-bar/index.ts",
+      "content": "export { CommandBar } from './CommandBar'\r\nexport type { CommandBarAction, CommandBarProps } from './command-bar.types'\r\n"
+    }
+  ]
+}

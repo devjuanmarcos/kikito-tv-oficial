@@ -1,0 +1,29 @@
+{
+  "name": "form-field",
+  "version": "1.0.0",
+  "title": "Form Field",
+  "type": "registry:component",
+  "description": "Label + input + helper text wrapper.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/form-field",
+  "files": [
+    {
+      "path": "components/ui/cn/form-field/FormField.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/form-field/FormField.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface FormFieldProps {\n  children:      React.ReactNode\n  label?:        string\n  hint?:         string\n  errorMessage?: string\n  required?:     boolean\n  htmlFor?:      string\n  className?:    string\n  style?:        React.CSSProperties\n}\n\nexport function FormField({\n  children,\n  label,\n  hint,\n  errorMessage,\n  required,\n  htmlFor,\n  className,\n  style,\n}: FormFieldProps) {\n  const hasError = !!errorMessage\n  return (\n    <div style={style} className={cn('flex flex-col gap-1', className)}>\n      {label && (\n        <label\n          htmlFor={htmlFor}\n          className=\"text-body-callout font-medium text-foreground\"\n        >\n          {label}\n          {required && <span className=\"ml-0.5 text-danger\" aria-hidden=\"true\"> *</span>}\n        </label>\n      )}\n      {children}\n      {hasError ? (\n        <p role=\"alert\" className=\"flex items-center gap-1 text-body-caption text-danger\">\n          <span aria-hidden=\"true\">⚠</span>\n          {errorMessage}\n        </p>\n      ) : hint ? (\n        <p className=\"text-body-caption text-faint\">{hint}</p>\n      ) : null}\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/form-field/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/form-field/index.ts",
+      "content": "export { FormField } from './FormField'\nexport type { FormFieldProps } from './FormField'\n"
+    }
+  ]
+}

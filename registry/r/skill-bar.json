@@ -1,0 +1,35 @@
+{
+  "name": "skill-bar",
+  "version": "1.0.0",
+  "title": "Skill Bar",
+  "type": "registry:component",
+  "description": "Animated progress bar for skill levels.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/skill-bar",
+  "files": [
+    {
+      "path": "components/ui/cn/skill-bar/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/skill-bar/index.ts",
+      "content": "export { SkillBar } from './SkillBar'\r\nexport type { SkillBarProps, SkillItem } from './skill-bar.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/skill-bar/skill-bar.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/skill-bar/skill-bar.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type SkillBarIntent = 'primary' | 'success' | 'warning' | 'danger' | 'secondary'\r\n\r\nexport interface SkillItem {\r\n  label: string\r\n  value: number\r\n  max?: number\r\n  intent?: SkillBarIntent\r\n  sublabel?: string\r\n}\r\n\r\nexport interface SkillBarProps {\r\n  skills: SkillItem[]\r\n  animate?: boolean\r\n  showValues?: boolean\r\n  height?: number\r\n  intent?: SkillBarIntent\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/skill-bar/SkillBar.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/skill-bar/SkillBar.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useEffect, useRef, useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { SkillBarProps } from './skill-bar.types'\r\n\r\nconst INTENT_COLOR: Record<string, string> = {\r\n  primary:    'var(--ks-primary)',\r\n  secondary:  'var(--ks-kinpaku)',\r\n  tertiary:   'var(--ks-violet)',\r\n  quaternary: 'var(--ks-rose)',\r\n  success:    'var(--ks-success)',\r\n  warning:    'var(--ks-warning)',\r\n  danger:     'var(--ks-danger)',\r\n}\r\n\r\nexport function SkillBar({\r\n  skills,\r\n  animate     = true,\r\n  showValues  = true,\r\n  height      = 8,\r\n  intent: rootIntent = 'primary',\r\n  className,\r\n  style,\r\n}: SkillBarProps) {\r\n  const [visible, setVisible] = useState(!animate)\r\n  const ref = useRef<HTMLDivElement>(null)\r\n\r\n  useEffect(() => {\r\n    if (!animate) return\r\n    const el = ref.current\r\n    if (!el) return\r\n    const obs = new IntersectionObserver(([e]) => {\r\n      if (e.isIntersecting) { setVisible(true); obs.disconnect() }\r\n    }, { threshold: 0.1 })\r\n    obs.observe(el)\r\n    return () => obs.disconnect()\r\n  }, [animate])\r\n\r\n  return (\r\n    <div ref={ref} className={cn('flex flex-col gap-[14px]', className)} style={style}>\r\n      {skills.map((skill, i) => {\r\n        const max   = skill.max ?? 100\r\n        const pct   = Math.min((skill.value / max) * 100, 100)\r\n        const color = INTENT_COLOR[skill.intent ?? rootIntent] ?? INTENT_COLOR.primary\r\n\r\n        return (\r\n          <div key={i} className=\"flex flex-col gap-[6px]\">\r\n            <div className=\"flex items-baseline justify-between\">\r\n              <div>\r\n                <span className=\"text-body-callout font-semibold text-foreground\">{skill.label}</span>\r\n                {skill.sublabel && <span className=\"text-body-caption opacity-40\"> — {skill.sublabel}</span>}\r\n              </div>\r\n              {showValues && (\r\n                <span className=\"text-body-caption font-bold opacity-60 tabular-nums\">\r\n                  {skill.value}{max !== 100 ? `/${max}` : '%'}\r\n                </span>\r\n              )}\r\n            </div>\r\n            <div className=\"rounded-pill bg-sunken overflow-hidden\" style={{ height }}>\r\n              <div\r\n                className=\"rounded-pill transition-[width] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)]\"\r\n                style={{ width: visible ? `${pct}%` : '0%', height, background: color }}\r\n              />\r\n            </div>\r\n          </div>\r\n        )\r\n      })}\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

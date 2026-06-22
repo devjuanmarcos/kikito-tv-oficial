@@ -1,0 +1,35 @@
+{
+  "name": "glow-card",
+  "version": "1.0.0",
+  "title": "Glow Card",
+  "type": "registry:component",
+  "description": "Card with animated glow/spotlight effect.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/glow-card",
+  "files": [
+    {
+      "path": "components/ui/cn/glow-card/glow-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/glow-card/glow-card.types.ts",
+      "content": "import type { ReactNode } from 'react'\r\n\r\nexport interface GlowCardProps {\r\n  children: ReactNode\r\n  glowColor?: string\r\n  glowSize?: number\r\n  glowOpacity?: number\r\n  radius?: number\r\n  padding?: number | string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/glow-card/GlowCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/glow-card/GlowCard.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useCallback, useRef } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { GlowCardProps } from './glow-card.types'\r\n\r\nexport function GlowCard({\r\n  children,\r\n  glowColor = 'var(--ks-primary)',\r\n  glowSize = 400,\r\n  glowOpacity = 0.14,\r\n  radius = 16,\r\n  padding = 20,\r\n  className,\r\n  style,\r\n}: GlowCardProps) {\r\n  const rootRef = useRef<HTMLDivElement>(null)\r\n\r\n  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {\r\n    const el = rootRef.current\r\n    if (!el) return\r\n    const rect = el.getBoundingClientRect()\r\n    const x = ((e.clientX - rect.left) / rect.width) * 100\r\n    const y = ((e.clientY - rect.top) / rect.height) * 100\r\n    el.style.setProperty('--_x', `${x}%`)\r\n    el.style.setProperty('--_y', `${y}%`)\r\n  }, [])\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .gc-root {\r\n          position: relative;\r\n          border-radius: var(--_r, 16px);\r\n          border: 1px solid var(--ks-rule);\r\n          background: var(--ks-raised);\r\n          overflow: hidden;\r\n          isolation: isolate;\r\n        }\r\n        .gc-root::before {\r\n          content: '';\r\n          position: absolute;\r\n          inset: 0;\r\n          background: radial-gradient(\r\n            circle var(--_glow-size, 400px) at var(--_x, 50%) var(--_y, 50%),\r\n            var(--_glow-color) 0%,\r\n            transparent 70%\r\n          );\r\n          opacity: var(--_glow-opacity, 0.14);\r\n          pointer-events: none;\r\n          z-index: 0;\r\n        }\r\n        .gc-content { position: relative; z-index: 1; }\r\n      `}</style>\r\n      <div\r\n        ref={rootRef}\r\n        className={cn('gc-root', className)}\r\n        onMouseMove={onMouseMove}\r\n        style={{\r\n          '--_r': `${radius}px`,\r\n          '--_glow-color': glowColor,\r\n          '--_glow-size': `${glowSize}px`,\r\n          '--_glow-opacity': glowOpacity,\r\n          ...style,\r\n        } as React.CSSProperties}\r\n      >\r\n        <div className=\"gc-content\" style={{ padding }}>{children}</div>\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/glow-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/glow-card/index.ts",
+      "content": "export { GlowCard } from './GlowCard'\r\nexport type { GlowCardProps } from './glow-card.types'\r\n"
+    }
+  ]
+}

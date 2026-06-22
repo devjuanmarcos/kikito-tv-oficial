@@ -1,0 +1,29 @@
+{
+  "name": "ping",
+  "version": "1.0.0",
+  "title": "Ping",
+  "type": "registry:component",
+  "description": "Animated ping dot for live indicators.",
+  "group": "feedback",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/ping",
+  "files": [
+    {
+      "path": "components/ui/cn/ping/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/ping/index.ts",
+      "content": "export { Ping } from './Ping'\nexport type { PingProps, PingIntent, PingSize } from './Ping'\n"
+    },
+    {
+      "path": "components/ui/cn/ping/Ping.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/ping/Ping.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type PingIntent = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'\nexport type PingSize   = 'sm' | 'md' | 'lg'\n\nexport interface PingProps {\n  intent?:   PingIntent\n  size?:     PingSize\n  animate?:  boolean\n  children?: React.ReactNode\n  className?: string\n  style?:    React.CSSProperties\n}\n\nconst SIZE_DOT: Record<PingSize, string> = {\n  sm: 'w-1.5 h-1.5',\n  md: 'w-2.5 h-2.5',\n  lg: 'w-3.5 h-3.5',\n}\n\nconst SIZE_WRAPPER: Record<PingSize, string> = {\n  sm: 'w-1.5 h-1.5',\n  md: 'w-2.5 h-2.5',\n  lg: 'w-3.5 h-3.5',\n}\n\nconst INTENT_COLOR: Record<PingIntent, { dot: string; ring: string }> = {\n  primary: { dot: 'bg-patina',   ring: 'bg-patina/40' },\n  success: { dot: 'bg-success',  ring: 'bg-success/40' },\n  warning: { dot: 'bg-warning',  ring: 'bg-warning/40' },\n  danger:  { dot: 'bg-danger',   ring: 'bg-danger/40' },\n  info:    { dot: 'bg-info',     ring: 'bg-info/40' },\n  neutral: { dot: 'bg-foreground/50', ring: 'bg-foreground/20' },\n}\n\nexport function Ping({\n  intent    = 'primary',\n  size      = 'md',\n  animate   = true,\n  children,\n  className,\n  style,\n}: PingProps) {\n  const colors = INTENT_COLOR[intent]\n\n  const dot = (\n    <span className={cn('relative inline-flex', SIZE_WRAPPER[size], className)} style={!children ? style : undefined}>\n      {animate && (\n        <span className={cn('absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping', colors.ring)} />\n      )}\n      <span className={cn('relative inline-flex rounded-full', SIZE_DOT[size], colors.dot)} />\n    </span>\n  )\n\n  if (!children) return dot\n\n  return (\n    <span className=\"relative inline-flex\" style={style}>\n      {children}\n      <span className=\"absolute -top-0.5 -right-0.5\">\n        {dot}\n      </span>\n    </span>\n  )\n}\n"
+    }
+  ]
+}

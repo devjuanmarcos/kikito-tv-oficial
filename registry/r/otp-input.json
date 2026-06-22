@@ -1,0 +1,35 @@
+{
+  "name": "otp-input",
+  "version": "1.0.0",
+  "title": "OTP Input",
+  "type": "registry:component",
+  "description": "One-time password input with auto-advance.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/otp-input",
+  "files": [
+    {
+      "path": "components/ui/cn/otp-input/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/otp-input/index.ts",
+      "content": "export { OtpInput } from './OtpInput'\r\nexport type { OtpInputVariant, OtpInputSize, OtpInputProps } from './otp-input.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/otp-input/otp-input.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/otp-input/otp-input.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type OtpInputVariant = 'outline' | 'filled' | 'underline'\r\nexport type OtpInputSize = 'sm' | 'md' | 'lg'\r\n\r\nexport interface OtpInputProps {\r\n  length?: number\r\n  value?: string\r\n  defaultValue?: string\r\n  onChange?: (value: string) => void\r\n  onComplete?: (value: string) => void\r\n  variant?: OtpInputVariant\r\n  size?: OtpInputSize\r\n  disabled?: boolean\r\n  invalid?: boolean\r\n  mask?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/otp-input/OtpInput.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/otp-input/OtpInput.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState, useRef, useCallback } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { OtpInputProps } from \"./otp-input.types\";\n\nconst SIZE_WRAP: Record<string, string> = {\n  sm: \"gap-[6px]\",\n  md: \"gap-[8px]\",\n  lg: \"gap-[10px]\",\n};\n\nconst SIZE_CELL: Record<string, string> = {\n  sm: \"w-9 h-9 text-body-paragraph\",\n  md: \"w-12 h-12 text-body-title\",\n  lg: \"w-[3.75rem] h-[3.75rem] text-heading-04\",\n};\n\nconst VARIANT_CELL: Record<string, string> = {\n  outline: \"border border-rule bg-raised focus:border-patina rounded-(--radius-sm)\",\n  filled: \"border border-transparent bg-graphite focus:border-patina rounded-(--radius-sm)\",\n  underline: \"border-0 border-b-2 border-rule rounded-none bg-transparent focus:border-patina\",\n};\n\nexport function OtpInput({\n  length = 6,\n  value,\n  defaultValue = \"\",\n  onChange,\n  onComplete,\n  variant = \"outline\",\n  size = \"md\",\n  disabled = false,\n  invalid = false,\n  mask = false,\n  className,\n  style,\n}: OtpInputProps) {\n  const controlled = value !== undefined;\n  const [internal, setInternal] = useState<string[]>(() =>\n    (controlled ? value! : defaultValue).split(\"\").slice(0, length)\n  );\n  const refs = useRef<(HTMLInputElement | null)[]>([]);\n\n  const cells = controlled ? value!.padEnd(length, \"\").split(\"\").slice(0, length) : internal;\n\n  const update = useCallback(\n    (next: string[]) => {\n      const str = next.join(\"\");\n      if (!controlled) setInternal(next);\n      onChange?.(str);\n      if (str.length === length && !next.includes(\"\")) onComplete?.(str);\n    },\n    [controlled, length, onChange, onComplete]\n  );\n\n  function handleChange(e: React.ChangeEvent<HTMLInputElement>, i: number) {\n    const raw = e.target.value.replace(/\\D/g, \"\");\n    if (!raw) return;\n    const char = raw[raw.length - 1];\n    const next = [...cells];\n    next[i] = char;\n    update(next);\n    refs.current[i + 1]?.focus();\n  }\n\n  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, i: number) {\n    if (e.key === \"Backspace\") {\n      e.preventDefault();\n      const next = [...cells];\n      if (next[i]) {\n        next[i] = \"\";\n        update(next);\n      } else {\n        refs.current[i - 1]?.focus();\n        next[i - 1] = \"\";\n        update(next);\n      }\n    } else if (e.key === \"ArrowLeft\") {\n      e.preventDefault();\n      refs.current[i - 1]?.focus();\n    } else if (e.key === \"ArrowRight\") {\n      e.preventDefault();\n      refs.current[i + 1]?.focus();\n    }\n  }\n\n  function handlePaste(e: React.ClipboardEvent, i: number) {\n    e.preventDefault();\n    const pasted = e.clipboardData\n      .getData(\"text\")\n      .replace(/\\D/g, \"\")\n      .slice(0, length - i);\n    const next = [...cells];\n    pasted.split(\"\").forEach((ch, idx) => {\n      next[i + idx] = ch;\n    });\n    update(next);\n    refs.current[Math.min(i + pasted.length, length - 1)]?.focus();\n  }\n\n  return (\n    <div className={cn(\"inline-flex items-center\", SIZE_WRAP[size] ?? SIZE_WRAP.md, className)} style={style}>\n      {cells.map((cell, i) => (\n        <span key={i} className=\"contents\">\n          {i === 3 && length === 6 && <span className=\"text-body-title opacity-30 mx-0.5 select-none\">—</span>}\n          <input\n            ref={(el) => {\n              refs.current[i] = el;\n            }}\n            className={cn(\n              \"text-center text-foreground font-semibold outline-none transition-[border-color] duration-150\",\n              SIZE_CELL[size] ?? SIZE_CELL.md,\n              VARIANT_CELL[variant] ?? VARIANT_CELL.outline,\n              cell && \"border-patina\",\n              invalid && \"border-danger\",\n              disabled && \"opacity-40 cursor-not-allowed\"\n            )}\n            type={mask ? \"password\" : \"text\"}\n            inputMode=\"numeric\"\n            pattern=\"[0-9]*\"\n            maxLength={1}\n            value={cell}\n            disabled={disabled}\n            onChange={(e) => handleChange(e, i)}\n            onKeyDown={(e) => handleKeyDown(e, i)}\n            onPaste={(e) => handlePaste(e, i)}\n            onFocus={(e) => e.target.select()}\n            aria-label={`OTP digit ${i + 1}`}\n          />\n        </span>\n      ))}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

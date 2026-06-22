@@ -1,0 +1,35 @@
+{
+  "name": "json-viewer",
+  "version": "1.0.0",
+  "title": "JSON Viewer",
+  "type": "registry:component",
+  "description": "Collapsible JSON tree viewer.",
+  "group": "data",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/json-viewer",
+  "files": [
+    {
+      "path": "components/ui/cn/json-viewer/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/json-viewer/index.ts",
+      "content": "export { JsonViewer } from './JsonViewer'\r\nexport type { JsonViewerProps } from './json-viewer.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/json-viewer/json-viewer.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/json-viewer/json-viewer.types.ts",
+      "content": "export interface JsonViewerProps {\r\n  data: unknown\r\n  defaultExpandDepth?: number\r\n  name?: string\r\n  collapsed?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/json-viewer/JsonViewer.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/json-viewer/JsonViewer.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { JsonViewerProps } from \"./json-viewer.types\";\n\ninterface NodeProps {\n  name?: string;\n  value: unknown;\n  depth: number;\n  defaultExpandDepth: number;\n}\n\nfunction JsonNode({ name, value, depth, defaultExpandDepth }: NodeProps) {\n  const [open, setOpen] = useState(depth < defaultExpandDepth);\n\n  const key =\n    name !== undefined ? (\n      <>\n        <span className=\"text-violet font-medium\">&quot;{name}&quot;</span>\n        <span className=\"text-faint\">: </span>\n      </>\n    ) : null;\n\n  if (value === null)\n    return (\n      <span className=\"inline\">\n        {key}\n        <span className=\"text-faint italic\">null</span>\n      </span>\n    );\n  if (typeof value === \"string\")\n    return (\n      <span className=\"inline\">\n        {key}\n        <span className=\"text-kinpaku\">&quot;{value}&quot;</span>\n      </span>\n    );\n  if (typeof value === \"number\")\n    return (\n      <span className=\"inline\">\n        {key}\n        <span className=\"text-info\">{value}</span>\n      </span>\n    );\n  if (typeof value === \"boolean\")\n    return (\n      <span className=\"inline\">\n        {key}\n        <span className=\"text-patina\">{String(value)}</span>\n      </span>\n    );\n\n  const isArray = Array.isArray(value);\n  const entries = isArray\n    ? (value as unknown[]).map((v, i) => [String(i), v] as [string, unknown])\n    : Object.entries(value as Record<string, unknown>);\n\n  const openB = isArray ? \"[\" : \"{\";\n  const closeB = isArray ? \"]\" : \"}\";\n\n  if (!open) {\n    return (\n      <span className=\"inline\">\n        {key}\n        <button onClick={() => setOpen(true)} className=\"text-faint hover:text-foreground transition-colors\">\n          <span className=\"text-muted\">{openB}</span>\n          <span className=\"text-kinpaku/70 px-1 text-body-caption\">\n            {entries.length} {isArray ? \"items\" : \"keys\"}\n          </span>\n          <span className=\"text-muted\">{closeB}</span>\n        </button>\n      </span>\n    );\n  }\n\n  return (\n    <span className=\"inline\">\n      {key}\n      <button onClick={() => setOpen(false)} className=\"text-muted hover:text-foreground transition-colors\">\n        {openB}\n      </button>\n      <span className=\"block pl-4 border-l border-rule ml-1\">\n        {entries.map(([k, v], i) => (\n          <span key={k} className=\"block\">\n            <JsonNode\n              name={isArray ? undefined : k}\n              value={v}\n              depth={depth + 1}\n              defaultExpandDepth={defaultExpandDepth}\n            />\n            {i < entries.length - 1 && <span className=\"text-faint\">,</span>}\n          </span>\n        ))}\n      </span>\n      <span className=\"text-muted\">{closeB}</span>\n    </span>\n  );\n}\n\nexport function JsonViewer({ data, defaultExpandDepth = 2, name, className, style }: JsonViewerProps) {\n  return (\n    <div\n      className={cn(\n        \"font-mono text-body-callout leading-relaxed bg-canvas rounded-(--radius-md) border border-rule p-4 overflow-auto\",\n        className\n      )}\n      style={style}\n    >\n      <JsonNode name={name} value={data} depth={0} defaultExpandDepth={defaultExpandDepth} />\n    </div>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "code-diff",
+  "version": "1.0.0",
+  "title": "Code Diff",
+  "type": "registry:component",
+  "description": "Side-by-side or inline code diff.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/code-diff",
+  "files": [
+    {
+      "path": "components/ui/cn/code-diff/code-diff.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/code-diff/code-diff.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type DiffLineType = 'added' | 'removed' | 'unchanged' | 'header'\r\n\r\nexport interface DiffLine {\r\n  type: DiffLineType\r\n  content: string\r\n  oldNum?: number\r\n  newNum?: number\r\n}\r\n\r\nexport interface CodeDiffProps {\r\n  before: string\r\n  after: string\r\n  language?: string\r\n  filename?: string\r\n  showLineNumbers?: boolean\r\n  splitView?: boolean\r\n  maxHeight?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/code-diff/CodeDiff.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/code-diff/CodeDiff.tsx",
+      "content": "﻿\"use client\";\n\nimport { useMemo } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { CodeDiffProps, DiffLine } from \"./code-diff.types\";\n\nfunction computeDiff(before: string, after: string): DiffLine[] {\n  const oldLines = before.split(\"\\n\");\n  const newLines = after.split(\"\\n\");\n  const matrix: number[][] = Array.from({ length: oldLines.length + 1 }, () => new Array(newLines.length + 1).fill(0));\n  for (let i = 1; i <= oldLines.length; i++) {\n    for (let j = 1; j <= newLines.length; j++) {\n      matrix[i][j] =\n        oldLines[i - 1] === newLines[j - 1]\n          ? (matrix[i - 1][j - 1] ?? 0) + 1\n          : Math.max(matrix[i - 1][j] ?? 0, matrix[i][j - 1] ?? 0);\n    }\n  }\n  const result: DiffLine[] = [];\n  let i = oldLines.length,\n    j = newLines.length;\n  let oldNum = oldLines.length,\n    newNum = newLines.length;\n  while (i > 0 || j > 0) {\n    if (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {\n      result.unshift({ type: \"unchanged\", content: oldLines[i - 1] ?? \"\", oldNum: oldNum--, newNum: newNum-- });\n      i--;\n      j--;\n    } else if (j > 0 && (i === 0 || (matrix[i][j - 1] ?? 0) >= (matrix[i - 1][j] ?? 0))) {\n      result.unshift({ type: \"added\", content: newLines[j - 1] ?? \"\", newNum: newNum-- });\n      j--;\n    } else {\n      result.unshift({ type: \"removed\", content: oldLines[i - 1] ?? \"\", oldNum: oldNum-- });\n      i--;\n    }\n  }\n  return result;\n}\n\nconst LINE_BG: Record<string, string> = {\n  added: \"bg-success/10\",\n  removed: \"bg-danger/10\",\n  unchanged: \"\",\n};\nconst LINE_SIGN: Record<string, string> = {\n  added: \"text-success\",\n  removed: \"text-danger\",\n  unchanged: \"text-faint\",\n};\n\nexport function CodeDiff({\n  before,\n  after,\n  language,\n  filename,\n  showLineNumbers = true,\n  splitView = false,\n  maxHeight = 400,\n  className,\n  style,\n}: CodeDiffProps) {\n  const diff = useMemo(() => computeDiff(before, after), [before, after]);\n  const beforeLines = before.split(\"\\n\");\n  const afterLines = after.split(\"\\n\");\n\n  return (\n    <div\n      className={cn(\n        \"rounded-(--radius-md) border border-rule bg-canvas overflow-hidden font-mono text-body-callout\",\n        className\n      )}\n      style={style}\n    >\n      {(filename || language) && (\n        <div className=\"flex items-center gap-2 px-4 py-2 border-b border-rule bg-raised\">\n          {filename && <span className=\"text-foreground font-medium\">{filename}</span>}\n          {language && <span className=\"text-faint text-body-caption ml-auto\">{language}</span>}\n        </div>\n      )}\n\n      <div style={{ maxHeight, overflow: \"auto\" }}>\n        {splitView ? (\n          <div className=\"grid grid-cols-2 divide-x divide-rule\">\n            {([\"before\", \"after\"] as const).map((side) => {\n              const lines = side === \"before\" ? beforeLines : afterLines;\n              return (\n                <div key={side}>\n                  <div className=\"px-4 py-1 bg-raised border-b border-rule text-faint text-body-caption font-semibold uppercase tracking-wide\">\n                    {side === \"before\" ? \"− Before\" : \"+ After\"}\n                  </div>\n                  <table className=\"w-full border-collapse\">\n                    <tbody>\n                      {lines.map((content, idx) => (\n                        <tr key={idx} className=\"hover:bg-raised/50\">\n                          {showLineNumbers && (\n                            <td className=\"select-none w-10 text-right pr-3 py-0.5 text-faint text-body-caption border-r border-rule/50\">\n                              {idx + 1}\n                            </td>\n                          )}\n                          <td className=\"py-0.5 pl-3 whitespace-pre text-foreground\">{content}</td>\n                        </tr>\n                      ))}\n                    </tbody>\n                  </table>\n                </div>\n              );\n            })}\n          </div>\n        ) : (\n          <table className=\"w-full border-collapse\">\n            <tbody>\n              {diff.map((line, idx) => (\n                <tr key={idx} className={LINE_BG[line.type]}>\n                  {showLineNumbers && (\n                    <>\n                      <td className=\"select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50\">\n                        {line.type !== \"added\" ? line.oldNum ?? \"\" : \"\"}\n                      </td>\n                      <td className=\"select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50\">\n                        {line.type !== \"removed\" ? line.newNum ?? \"\" : \"\"}\n                      </td>\n                    </>\n                  )}\n                  <td className={cn(\"select-none w-5 text-center py-0.5 font-bold\", LINE_SIGN[line.type])}>\n                    {line.type === \"added\" ? \"+\" : line.type === \"removed\" ? \"-\" : \" \"}\n                  </td>\n                  <td className=\"py-0.5 pl-2 whitespace-pre text-foreground\">{line.content}</td>\n                </tr>\n              ))}\n            </tbody>\n          </table>\n        )}\n      </div>\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/code-diff/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/code-diff/index.ts",
+      "content": "export { CodeDiff } from './CodeDiff'\r\nexport type { CodeDiffProps, DiffLine, DiffLineType } from './code-diff.types'\r\n"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "checklist",
+  "version": "1.0.0",
+  "title": "Checklist",
+  "type": "registry:component",
+  "description": "Interactive task list with checkbox items.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/checklist",
+  "files": [
+    {
+      "path": "components/ui/cn/checklist/Checklist.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/checklist/Checklist.tsx",
+      "content": "﻿\"use client\";\r\n\r\nimport { useState } from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { ChecklistItem, ChecklistProps } from \"./checklist.types\";\r\n\r\nconst INTENT_CLS: Record<string, string> = {\r\n  primary: \"[--c:var(--ks-primary)] [--c-fg:var(--ks-primary-fg)]\",\r\n  success: \"[--c:var(--ks-success)] [--c-fg:var(--ks-success-fg)]\",\r\n  warning: \"[--c:var(--ks-warning)] [--c-fg:var(--ks-warning-fg)]\",\r\n  danger: \"[--c:var(--ks-danger)] [--c-fg:var(--ks-danger-fg)]\",\r\n};\r\n\r\nexport function Checklist({\r\n  items: initialItems,\r\n  onChange,\r\n  showProgress = true,\r\n  intent = \"primary\",\r\n  strikethrough = true,\r\n  className,\r\n  style,\r\n}: ChecklistProps) {\r\n  const [items, setItems] = useState<ChecklistItem[]>(initialItems);\r\n\r\n  function toggle(id: string | number) {\r\n    const next = items.map((it) => (it.id === id ? { ...it, checked: !it.checked } : it));\r\n    setItems(next);\r\n    onChange?.(next);\r\n  }\r\n\r\n  const done = items.filter((i) => i.checked).length;\r\n  const pct = items.length > 0 ? (done / items.length) * 100 : 0;\r\n\r\n  return (\r\n    <div className={cn(\"flex flex-col gap-3\", INTENT_CLS[intent], className)} style={style}>\r\n      {showProgress && (\r\n        <div className=\"flex flex-col gap-1.5\">\r\n          <div className=\"flex justify-between text-body-caption opacity-50\">\r\n            <span>\r\n              {done} de {items.length} concluídos\r\n            </span>\r\n            <span>{Math.round(pct)}%</span>\r\n          </div>\r\n          <div className=\"h-[6px] bg-sunken rounded-pill overflow-hidden\">\r\n            <div\r\n              className=\"h-full rounded-pill bg-[--c] transition-[width] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]\"\r\n              style={{ width: `${pct}%` }}\r\n            />\r\n          </div>\r\n        </div>\r\n      )}\r\n\r\n      <div className=\"flex flex-col gap-1\">\r\n        {items.map((item) => (\r\n          <div\r\n            key={item.id}\r\n            className=\"flex items-start gap-[0.625rem] px-[0.625rem] py-2 rounded-(--radius-base) cursor-pointer transition-[background] duration-[100ms] hover:bg-sunken\"\r\n            role=\"checkbox\"\r\n            aria-checked={item.checked}\r\n            tabIndex={0}\r\n            onClick={() => toggle(item.id)}\r\n            onKeyDown={(e) => (e.key === \" \" || e.key === \"Enter\" ? toggle(item.id) : undefined)}\r\n          >\r\n            <div\r\n              className={cn(\r\n                \"w-[18px] h-[18px] rounded-[5px] border-2 border-rule shrink-0 mt-px flex items-center justify-center transition-[background,border-color] duration-[150ms]\",\r\n                item.checked && \"bg-[--c] border-[--c]\"\r\n              )}\r\n            >\r\n              {item.checked && <span className=\"text-[--c-fg] text-[0.625rem] leading-none\">✓</span>}\r\n            </div>\r\n            <div className=\"flex-1\">\r\n              <div\r\n                className={cn(\r\n                  \"text-body-callout text-foreground leading-snug transition-[opacity] duration-[150ms]\",\r\n                  item.checked && \"opacity-40\",\r\n                  item.checked && strikethrough && \"line-through\"\r\n                )}\r\n              >\r\n                {item.label}\r\n              </div>\r\n              {item.description && <div className=\"text-body-caption opacity-40 mt-[2px]\">{item.description}</div>}\r\n            </div>\r\n          </div>\r\n        ))}\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/checklist/checklist.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/checklist/checklist.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface ChecklistItem {\r\n  id: string | number\r\n  label: string\r\n  checked?: boolean\r\n  description?: string\r\n}\r\n\r\nexport type ChecklistIntent = 'primary' | 'success' | 'warning' | 'danger'\r\n\r\nexport interface ChecklistProps {\r\n  items: ChecklistItem[]\r\n  onChange?: (items: ChecklistItem[]) => void\r\n  showProgress?: boolean\r\n  intent?: ChecklistIntent\r\n  strikethrough?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/checklist/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/checklist/index.ts",
+      "content": "export { Checklist } from './Checklist'\r\nexport type { ChecklistProps, ChecklistItem } from './checklist.types'\r\n"
+    }
+  ]
+}

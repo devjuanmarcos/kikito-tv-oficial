@@ -1,0 +1,35 @@
+{
+  "name": "callout",
+  "version": "1.0.0",
+  "title": "Callout",
+  "type": "registry:component",
+  "description": "Highlighted informational block with icon.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/callout",
+  "files": [
+    {
+      "path": "components/ui/cn/callout/Callout.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/callout/Callout.tsx",
+      "content": "﻿import { cn } from \"@/lib/utils\";\n\nimport type { CalloutProps } from \"./callout.types\";\n\nconst InfoIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"10\" />\n    <line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\" />\n    <line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\" />\n  </svg>\n);\nconst SuccessIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <path d=\"M22 11.08V12a10 10 0 1 1-5.93-9.14\" />\n    <polyline points=\"22 4 12 14.01 9 11.01\" />\n  </svg>\n);\nconst WarningIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\" />\n    <line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\" />\n    <line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\" />\n  </svg>\n);\nconst DangerIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"10\" />\n    <line x1=\"15\" y1=\"9\" x2=\"9\" y2=\"15\" />\n    <line x1=\"9\" y1=\"9\" x2=\"15\" y2=\"15\" />\n  </svg>\n);\nconst NeutralIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <circle cx=\"12\" cy=\"12\" r=\"10\" />\n    <line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"16\" />\n  </svg>\n);\nconst XIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\" />\n    <line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\" />\n  </svg>\n);\n\nconst DEFAULT_ICONS = {\n  info: <InfoIcon />,\n  success: <SuccessIcon />,\n  warning: <WarningIcon />,\n  danger: <DangerIcon />,\n  neutral: <NeutralIcon />,\n};\n\nconst INTENT_VARS: Record<string, string> = {\n  info: \"[--i:var(--ks-info)] [--i-fg:var(--ks-info-fg)] [--i-soft:var(--ks-info-soft)] [--i-deep:var(--ks-info-deep)]\",\n  success:\n    \"[--i:var(--ks-success)] [--i-fg:var(--ks-success-fg)] [--i-soft:var(--ks-success-soft)] [--i-deep:var(--ks-success-deep)]\",\n  warning:\n    \"[--i:var(--ks-warning)] [--i-fg:var(--ks-warning-fg)] [--i-soft:var(--ks-warning-soft)] [--i-deep:var(--ks-warning-deep)]\",\n  danger:\n    \"[--i:var(--ks-danger)] [--i-fg:var(--ks-danger-fg)] [--i-soft:var(--ks-danger-soft)] [--i-deep:var(--ks-danger-deep)]\",\n  neutral: \"[--i:var(--ks-text-muted)] [--i-fg:var(--ks-text)] [--i-soft:var(--ks-graphite)] [--i-deep:var(--ks-text)]\",\n};\n\nconst APPEARANCE_CLS: Record<string, string> = {\n  soft: \"bg-[--i-soft] border border-[color-mix(in_oklch,var(--i)_30%,transparent)]\",\n  outline: \"bg-transparent border-[1.5px] border-[--i]\",\n  solid: \"bg-[--i] border border-[--i-deep] text-[--i-fg]\",\n};\n\nexport function Callout({\n  intent = \"info\",\n  appearance = \"soft\",\n  title,\n  icon,\n  children,\n  onClose,\n  action,\n  className,\n  style,\n}: CalloutProps) {\n  const resolvedIcon = icon !== undefined ? icon : DEFAULT_ICONS[intent as keyof typeof DEFAULT_ICONS];\n  const isSolid = appearance === \"solid\";\n\n  return (\n    <div\n      className={cn(\n        \"flex gap-3 px-[1.125rem] py-4 rounded-(--radius-md) relative leading-normal\",\n        INTENT_VARS[intent],\n        APPEARANCE_CLS[appearance],\n        className\n      )}\n      role=\"note\"\n      style={style}\n    >\n      {resolvedIcon && (\n        <span\n          className={cn(\n            \"shrink-0 flex items-start pt-px [&>svg]:w-[18px] [&>svg]:h-[18px]\",\n            isSolid ? \"text-[--i-fg]\" : \"text-[--i]\"\n          )}\n          aria-hidden=\"true\"\n        >\n          {resolvedIcon}\n        </span>\n      )}\n\n      <div className=\"flex-1 min-w-0 flex flex-col gap-1\">\n        {title && (\n          <p className={cn(\"font-semibold text-body-callout leading-snug\", isSolid ? \"text-[--i-fg]\" : \"text-[--i]\")}>\n            {title}\n          </p>\n        )}\n        {children && (\n          <div\n            className={cn(\n              \"text-body-callout leading-relaxed\",\n              isSolid ? \"text-[color-mix(in_oklch,var(--i-fg)_85%,transparent)]\" : \"text-muted\"\n            )}\n          >\n            {children}\n          </div>\n        )}\n        {action && <div className=\"mt-[0.625rem]\">{action}</div>}\n      </div>\n\n      {onClose && (\n        <button\n          type=\"button\"\n          className=\"absolute top-[0.625rem] right-[0.625rem] w-6 h-6 flex items-center justify-center border-none bg-transparent cursor-pointer rounded-(--radius-sm) text-faint p-0 [&>svg]:w-[14px] [&>svg]:h-[14px] transition-[color,background] duration-[150ms] hover:bg-[color-mix(in_oklch,currentColor_10%,transparent)] hover:text-foreground\"\n          onClick={onClose}\n          aria-label=\"Dismiss\"\n        >\n          <XIcon />\n        </button>\n      )}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/callout/callout.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/callout/callout.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type CalloutIntent = 'info' | 'success' | 'warning' | 'danger' | 'neutral'\r\nexport type CalloutAppearance = 'soft' | 'outline' | 'solid'\r\n\r\nexport interface CalloutProps {\r\n  intent?: CalloutIntent\r\n  appearance?: CalloutAppearance\r\n  title?: string\r\n  icon?: React.ReactNode\r\n  children?: React.ReactNode\r\n  onClose?: () => void\r\n  action?: React.ReactNode\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/callout/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/callout/index.ts",
+      "content": "export { Callout } from './Callout'\r\nexport type { CalloutProps } from './callout.types'\r\n"
+    }
+  ]
+}

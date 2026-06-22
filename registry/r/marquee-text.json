@@ -1,0 +1,35 @@
+{
+  "name": "marquee-text",
+  "version": "1.0.0",
+  "title": "Marquee Text",
+  "type": "registry:component",
+  "description": "Infinite scrolling text marquee.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/marquee-text",
+  "files": [
+    {
+      "path": "components/ui/cn/marquee-text/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/marquee-text/index.ts",
+      "content": "export { MarqueeText } from './MarqueeText'\r\nexport type { MarqueeTextProps } from './marquee-text.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/marquee-text/marquee-text.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/marquee-text/marquee-text.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface MarqueeTextProps {\r\n  text: string\r\n  speed?: number\r\n  size?: 'sm' | 'md' | 'lg' | 'xl'\r\n  repeat?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/marquee-text/MarqueeText.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/marquee-text/MarqueeText.tsx",
+      "content": "import { cn } from '@/lib/utils'\r\nimport type { MarqueeTextProps } from './marquee-text.types'\r\n\r\nconst SIZE_CLASSES = {\r\n  sm: 'text-body-callout',\r\n  md: 'text-body-title',\r\n  lg: 'text-heading-03',\r\n  xl: 'text-heading-02',\r\n}\r\n\r\nexport function MarqueeText({\r\n  text,\r\n  speed = 30,\r\n  size = 'md',\r\n  repeat = 8,\r\n  className,\r\n  style,\r\n}: MarqueeTextProps) {\r\n  const duration = `${(text.length * repeat) / speed}s`\r\n  const items = Array(repeat * 2).fill(text)\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .mq-root { overflow: hidden; white-space: nowrap; width: 100%; }\r\n        .mq-track {\r\n          display: inline-flex;\r\n          gap: 2em;\r\n          animation: mq-scroll linear infinite;\r\n          will-change: transform;\r\n        }\r\n        @keyframes mq-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }\r\n        .mq-item { display: inline-block; padding-right: 2em; }\r\n      `}</style>\r\n      <div\r\n        className={cn('mq-root', SIZE_CLASSES[size], className)}\r\n        style={style}\r\n      >\r\n        <div className=\"mq-track\" style={{ animationDuration: duration }}>\r\n          {items.map((t, i) => (\r\n            <span key={i} className=\"mq-item\">{t}</span>\r\n          ))}\r\n        </div>\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

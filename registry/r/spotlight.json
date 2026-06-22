@@ -1,0 +1,35 @@
+{
+  "name": "spotlight",
+  "version": "1.0.0",
+  "title": "Spotlight",
+  "type": "registry:component",
+  "description": "Cursor-tracking spotlight effect.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/spotlight",
+  "files": [
+    {
+      "path": "components/ui/cn/spotlight/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/spotlight/index.ts",
+      "content": "export { Spotlight } from './Spotlight'\r\nexport type { SpotlightProps } from './spotlight.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/spotlight/Spotlight.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/spotlight/Spotlight.tsx",
+      "content": "'use client'\r\n\r\nimport { useRef } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { SpotlightProps } from './spotlight.types'\r\n\r\nexport function Spotlight({\r\n  children,\r\n  color = 'var(--ks-violet-soft)',\r\n  size = 300,\r\n  className,\r\n  style,\r\n}: SpotlightProps) {\r\n  const rootRef = useRef<HTMLDivElement>(null)\r\n  const glowRef = useRef<HTMLDivElement>(null)\r\n\r\n  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {\r\n    const root = rootRef.current\r\n    const glow = glowRef.current\r\n    if (!root || !glow) return\r\n    const rect = root.getBoundingClientRect()\r\n    glow.style.left = `${e.clientX - rect.left}px`\r\n    glow.style.top  = `${e.clientY - rect.top}px`\r\n    glow.style.opacity = '1'\r\n  }\r\n\r\n  function onMouseLeave() {\r\n    if (glowRef.current) glowRef.current.style.opacity = '0'\r\n  }\r\n\r\n  return (\r\n    <div\r\n      ref={rootRef}\r\n      className={cn('relative overflow-hidden', className)}\r\n      style={style}\r\n      onMouseMove={onMouseMove}\r\n      onMouseLeave={onMouseLeave}\r\n    >\r\n      <div\r\n        ref={glowRef}\r\n        className=\"pointer-events-none absolute opacity-0 transition-opacity duration-200 -translate-x-1/2 -translate-y-1/2\"\r\n        style={{\r\n          width: size,\r\n          height: size,\r\n          background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,\r\n        }}\r\n      />\r\n      <div className=\"relative z-[1]\">{children}</div>\r\n    </div>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/spotlight/spotlight.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/spotlight/spotlight.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface SpotlightProps {\r\n  children?: React.ReactNode\r\n  color?: string\r\n  size?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

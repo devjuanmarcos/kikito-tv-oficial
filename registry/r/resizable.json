@@ -1,0 +1,35 @@
+{
+  "name": "resizable",
+  "version": "1.0.0",
+  "title": "Resizable",
+  "type": "registry:component",
+  "description": "Resizable panel layout.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/resizable",
+  "files": [
+    {
+      "path": "components/ui/cn/resizable/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/resizable/index.ts",
+      "content": "export { Resizable } from './Resizable'\r\nexport type { ResizableProps, ResizableDirection } from './resizable.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/resizable/Resizable.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/resizable/Resizable.tsx",
+      "content": "'use client'\r\n\r\nimport { useState, useRef, useCallback } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ResizableProps } from './resizable.types'\r\n\r\nexport function Resizable({\r\n  children,\r\n  direction = 'horizontal',\r\n  defaultSize = 50,\r\n  minSize = 10,\r\n  maxSize = 90,\r\n  onResize,\r\n  className,\r\n  style,\r\n}: ResizableProps) {\r\n  const [size, setSize] = useState(defaultSize)\r\n  const [dragging, setDragging] = useState(false)\r\n  const containerRef = useRef<HTMLDivElement>(null)\r\n\r\n  const startDrag = useCallback((e: React.MouseEvent) => {\r\n    e.preventDefault()\r\n    setDragging(true)\r\n\r\n    const container = containerRef.current\r\n    if (!container) return\r\n\r\n    const rect = container.getBoundingClientRect()\r\n    const startPos = direction === 'horizontal' ? e.clientX : e.clientY\r\n    const startSize = size\r\n\r\n    const onMove = (moveEvent: MouseEvent) => {\r\n      const currentPos = direction === 'horizontal' ? moveEvent.clientX : moveEvent.clientY\r\n      const containerSize = direction === 'horizontal' ? rect.width : rect.height\r\n      const delta = ((currentPos - startPos) / containerSize) * 100\r\n      const next = Math.min(maxSize, Math.max(minSize, startSize + delta))\r\n      setSize(next)\r\n      onResize?.(next)\r\n    }\r\n\r\n    const onUp = () => {\r\n      setDragging(false)\r\n      window.removeEventListener('mousemove', onMove)\r\n      window.removeEventListener('mouseup', onUp)\r\n    }\r\n\r\n    window.addEventListener('mousemove', onMove)\r\n    window.addEventListener('mouseup', onUp)\r\n  }, [direction, size, minSize, maxSize, onResize])\r\n\r\n  const isHoriz = direction === 'horizontal'\r\n  const paneStyle = isHoriz\r\n    ? { width: `${size}%`, height: '100%' }\r\n    : { height: `${size}%`, width: '100%' }\r\n\r\n  return (\r\n    <div\r\n      ref={containerRef}\r\n      className={cn('flex overflow-hidden w-full h-full', !isHoriz && 'flex-col', className)}\r\n      style={style}\r\n    >\r\n      <div className=\"overflow-auto flex-shrink-0\" style={paneStyle}>\r\n        {children[0]}\r\n      </div>\r\n      <div\r\n        className={cn(\r\n          'flex-shrink-0 relative flex items-center justify-center transition-colors duration-150 z-[1]',\r\n          isHoriz ? 'w-[5px] cursor-col-resize flex-col' : 'h-[5px] cursor-row-resize flex-row',\r\n          dragging ? 'bg-patina opacity-60' : 'hover:bg-patina hover:opacity-60',\r\n        )}\r\n        onMouseDown={startDrag}\r\n      >\r\n        <span\r\n          className={cn(\r\n            'rounded-[1px] bg-rule pointer-events-none',\r\n            isHoriz ? 'w-[2px] h-6' : 'w-6 h-[2px]',\r\n          )}\r\n        />\r\n      </div>\r\n      <div className=\"flex-1 overflow-auto\">\r\n        {children[1]}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/resizable/resizable.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/resizable/resizable.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type ResizableDirection = 'horizontal' | 'vertical'\r\n\r\nexport interface ResizableProps {\r\n  children: [React.ReactNode, React.ReactNode]\r\n  direction?: ResizableDirection\r\n  defaultSize?: number\r\n  minSize?: number\r\n  maxSize?: number\r\n  onResize?: (size: number) => void\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

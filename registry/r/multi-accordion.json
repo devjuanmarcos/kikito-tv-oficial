@@ -1,0 +1,35 @@
+{
+  "name": "multi-accordion",
+  "version": "1.0.0",
+  "title": "Multi Accordion",
+  "type": "registry:component",
+  "description": "Multiple independently expandable accordions.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/multi-accordion",
+  "files": [
+    {
+      "path": "components/ui/cn/multi-accordion/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/multi-accordion/index.ts",
+      "content": "﻿export { MultiAccordion } from './MultiAccordion'\r\nexport type { MultiAccordionProps, MultiAccordionItem } from './multi-accordion.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/multi-accordion/multi-accordion.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/multi-accordion/multi-accordion.types.ts",
+      "content": "﻿import type React from 'react'\r\n\r\nexport interface MultiAccordionItem {\r\n  id: string\r\n  title: React.ReactNode\r\n  content: React.ReactNode\r\n  disabled?: boolean\r\n  intent?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'neutral'\r\n}\r\n\r\nexport interface MultiAccordionProps {\r\n  items: MultiAccordionItem[]\r\n  type?: 'single' | 'multiple'\r\n  value?: string[]\r\n  defaultValue?: string[]\r\n  onChange?: (value: string[]) => void\r\n  variant?: 'default' | 'bordered' | 'flush'\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/multi-accordion/MultiAccordion.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/multi-accordion/MultiAccordion.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { MultiAccordionProps } from \"./multi-accordion.types\";\n\nconst INTENT_OPEN_BORDER: Record<string, string> = {\n  primary: \"border-l-[3px] border-l-patina\",\n  secondary: \"border-l-[3px] border-l-kinpaku\",\n  tertiary: \"border-l-[3px] border-l-violet\",\n  quaternary: \"border-l-[3px] border-l-rose\",\n  success: \"border-l-[3px] border-l-success\",\n  warning: \"border-l-[3px] border-l-warning\",\n  danger: \"border-l-[3px] border-l-danger\",\n  info: \"border-l-[3px] border-l-info\",\n};\n\nexport function MultiAccordion({\n  items,\n  type = \"multiple\",\n  value,\n  defaultValue = [],\n  onChange,\n  variant = \"default\",\n  className,\n  style,\n}: MultiAccordionProps) {\n  const [internal, setInternal] = useState<string[]>(defaultValue);\n  const open = value !== undefined ? value : internal;\n\n  const toggle = (id: string) => {\n    const next =\n      type === \"single\"\n        ? open.includes(id)\n          ? []\n          : [id]\n        : open.includes(id)\n          ? open.filter((x) => x !== id)\n          : [...open, id];\n    if (value === undefined) setInternal(next);\n    onChange?.(next);\n  };\n\n  const isBordered = variant === \"bordered\";\n\n  return (\n    <div\n      className={cn(\n        \"flex flex-col\",\n        isBordered ? \"border border-rule rounded-(--radius-md) overflow-hidden\" : \"gap-1\",\n        className\n      )}\n      style={style}\n    >\n      {items.map((item) => {\n        const isOpen = open.includes(item.id);\n        const intent = item.intent ?? \"neutral\";\n        return (\n          <div\n            key={item.id}\n            className={cn(\n              isBordered\n                ? \"border-b border-rule last:border-none\"\n                : \"border border-rule rounded-(--radius-md) overflow-hidden\"\n            )}\n          >\n            <button\n              type=\"button\"\n              className={cn(\n                \"w-full flex items-center justify-between gap-3 px-4 py-[14px] bg-transparent border-none text-foreground text-body-callout font-semibold cursor-pointer text-left transition-[background] duration-[120ms] hover:bg-raised outline-none\",\n                isOpen && \"text-patina\",\n                isOpen && (INTENT_OPEN_BORDER[intent] ?? \"\"),\n                item.disabled && \"opacity-40 cursor-not-allowed\"\n              )}\n              disabled={item.disabled}\n              onClick={() => toggle(item.id)}\n              aria-expanded={isOpen}\n            >\n              {item.title}\n              <span\n                className={cn(\n                  \"flex-shrink-0 text-body-caption text-faint transition-transform duration-200\",\n                  isOpen && \"rotate-180\"\n                )}\n                aria-hidden\n              >\n                ▾\n              </span>\n            </button>\n            {isOpen && (\n              <div className=\"px-4 pb-[14px] text-body-callout text-muted leading-[1.6]\" role=\"region\">\n                {item.content}\n              </div>\n            )}\n          </div>\n        );\n      })}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

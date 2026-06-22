@@ -1,0 +1,35 @@
+{
+  "name": "stat",
+  "version": "1.0.0",
+  "title": "Stat",
+  "type": "registry:component",
+  "description": "Single stat with label and value.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/stat",
+  "files": [
+    {
+      "path": "components/ui/cn/stat/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/stat/index.ts",
+      "content": "export { Stat } from './Stat'\r\nexport type { StatTrend, StatIntent, StatProps } from './stat.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/stat/Stat.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/stat/Stat.tsx",
+      "content": "﻿import { cn } from \"@/lib/utils\";\n\nimport type { StatProps, StatTrend } from \"./stat.types\";\n\nconst TrendUp = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    className=\"w-3 h-3\"\n  >\n    <polyline points=\"23 6 13.5 15.5 8.5 10.5 1 18\" />\n    <polyline points=\"17 6 23 6 23 12\" />\n  </svg>\n);\nconst TrendDown = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    className=\"w-3 h-3\"\n  >\n    <polyline points=\"23 18 13.5 8.5 8.5 13.5 1 6\" />\n    <polyline points=\"17 18 23 18 23 12\" />\n  </svg>\n);\nconst TrendFlat = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    className=\"w-3 h-3\"\n  >\n    <line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\" />\n  </svg>\n);\n\nconst TREND_ICONS: Record<StatTrend, React.ReactNode> = {\n  up: <TrendUp />,\n  down: <TrendDown />,\n  neutral: <TrendFlat />,\n};\n\nconst TREND_CLS: Record<StatTrend, string> = {\n  up: \"bg-success/10 text-success\",\n  down: \"bg-danger/10 text-danger\",\n  neutral: \"bg-graphite text-muted\",\n};\n\nconst ACCENT_CLS: Record<string, string> = {\n  primary: \"text-patina bg-patina/10\",\n  success: \"text-success bg-success/10\",\n  warning: \"text-warning bg-warning/10\",\n  danger: \"text-danger bg-danger/10\",\n  default: \"text-patina bg-patina/10\",\n};\n\nexport function Stat({\n  label,\n  value,\n  description,\n  trend,\n  trendValue,\n  icon,\n  intent = \"default\",\n  loading = false,\n  className,\n  style,\n}: StatProps) {\n  return (\n    <div\n      className={cn(\n        \"flex flex-col gap-3 px-6 py-5 rounded-(--radius-md) border border-rule bg-raised min-w-[180px]\",\n        className\n      )}\n      style={style}\n    >\n      <div className=\"flex items-start justify-between gap-2\">\n        <span className=\"text-body-callout font-medium text-muted tracking-[0.01em] leading-snug\">{label}</span>\n        {icon && (\n          <span\n            className={cn(\n              \"w-9 h-9 rounded-(--radius-sm) flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]\",\n              ACCENT_CLS[intent] ?? ACCENT_CLS.default\n            )}\n          >\n            {icon}\n          </span>\n        )}\n      </div>\n\n      {loading ? (\n        <div className=\"h-8 w-20 bg-graphite rounded animate-pulse\" />\n      ) : (\n        <div className=\"text-heading-03 font-bold text-foreground leading-none tabular-nums tracking-tight\">\n          {value}\n        </div>\n      )}\n\n      {(trend || description) && (\n        <div className=\"flex items-center gap-2 flex-wrap\">\n          {loading ? (\n            <div className=\"h-5 w-16 bg-graphite rounded-full animate-pulse\" />\n          ) : (\n            trend && (\n              <span\n                className={cn(\n                  \"inline-flex items-center gap-[3px] text-body-caption font-semibold py-0.5 px-2 rounded-full\",\n                  TREND_CLS[trend]\n                )}\n              >\n                {TREND_ICONS[trend]}\n                {trendValue}\n              </span>\n            )\n          )}\n          {!loading && description && <span className=\"text-body-caption text-faint leading-snug\">{description}</span>}\n        </div>\n      )}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/stat/stat.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/stat/stat.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type StatTrend  = 'up' | 'down' | 'neutral'\r\nexport type StatIntent = 'default' | 'primary' | 'success' | 'warning' | 'danger'\r\n\r\nexport interface StatProps {\r\n  label: string\r\n  value: string | number\r\n  description?: string\r\n  trend?: StatTrend\r\n  trendValue?: string\r\n  icon?: React.ReactNode\r\n  intent?: StatIntent\r\n  loading?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}

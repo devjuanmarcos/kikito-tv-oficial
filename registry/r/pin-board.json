@@ -1,0 +1,35 @@
+{
+  "name": "pin-board",
+  "version": "1.0.0",
+  "title": "Pin Board",
+  "type": "registry:component",
+  "description": "Draggable pin board with notes.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/pin-board",
+  "files": [
+    {
+      "path": "components/ui/cn/pin-board/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pin-board/index.ts",
+      "content": "export { PinBoard } from './PinBoard'\r\nexport type { PinNote, PinBoardProps } from './pin-board.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/pin-board/pin-board.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pin-board/pin-board.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface PinNote {\r\n  id: string | number\r\n  content: string\r\n  color?: string\r\n  x?: number\r\n  y?: number\r\n  rotate?: number\r\n}\r\n\r\nexport interface PinBoardProps {\r\n  notes?: PinNote[]\r\n  defaultNotes?: PinNote[]\r\n  onChange?: (notes: PinNote[]) => void\r\n  width?: number | string\r\n  height?: number | string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/pin-board/PinBoard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/pin-board/PinBoard.tsx",
+      "content": "﻿\"use client\";\n\nimport { useState, useRef, useCallback } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { PinNote, PinBoardProps } from \"./pin-board.types\";\n\nconst COLORS = [\"#fef08a\", \"#bbf7d0\", \"#bfdbfe\", \"#fecaca\", \"#e9d5ff\", \"#fed7aa\"];\nconst ROTATIONS = [-3, -2, -1, 0, 1, 2, 3];\n\nlet idCounter = 1000;\n\nexport function PinBoard({ defaultNotes, onChange, width = \"100%\", height = 400, className, style }: PinBoardProps) {\n  const [notes, setNotes] = useState<PinNote[]>(\n    () =>\n      defaultNotes ?? [\n        { id: 1, content: \"Drag me around!\", color: COLORS[0], x: 24, y: 24, rotate: -2 },\n        { id: 2, content: \"Click + to add notes\", color: COLORS[2], x: 180, y: 60, rotate: 1 },\n        { id: 3, content: \"Double-click to delete\", color: COLORS[4], x: 80, y: 160, rotate: -1 },\n      ]\n  );\n\n  const boardRef = useRef<HTMLDivElement>(null);\n  const dragState = useRef<{ id: string | number; offX: number; offY: number } | null>(null);\n\n  const onMouseDown = useCallback((e: React.MouseEvent, id: string | number) => {\n    e.preventDefault();\n    const card = (e.currentTarget as HTMLElement).getBoundingClientRect();\n    const board = boardRef.current?.getBoundingClientRect();\n    if (!board) return;\n    dragState.current = {\n      id,\n      offX: e.clientX - card.left,\n      offY: e.clientY - card.top,\n    };\n  }, []);\n\n  const onMouseMove = useCallback((e: React.MouseEvent) => {\n    const ds = dragState.current;\n    if (!ds || !boardRef.current) return;\n    const board = boardRef.current.getBoundingClientRect();\n    const x = e.clientX - board.left - ds.offX;\n    const y = e.clientY - board.top - ds.offY;\n    setNotes((prev) => prev.map((n) => (n.id === ds.id ? { ...n, x, y } : n)));\n  }, []);\n\n  const onMouseUp = useCallback(() => {\n    if (!dragState.current) return;\n    dragState.current = null;\n    setNotes((prev) => {\n      onChange?.(prev);\n      return prev;\n    });\n  }, [onChange]);\n\n  function addNote() {\n    idCounter++;\n    const note: PinNote = {\n      id: idCounter,\n      content: \"New note\",\n      color: COLORS[idCounter % COLORS.length],\n      x: 40 + Math.random() * 120,\n      y: 40 + Math.random() * 100,\n      rotate: ROTATIONS[idCounter % ROTATIONS.length],\n    };\n    setNotes((prev) => {\n      const next = [...prev, note];\n      onChange?.(next);\n      return next;\n    });\n  }\n\n  function deleteNote(id: string | number) {\n    setNotes((prev) => {\n      const next = prev.filter((n) => n.id !== id);\n      onChange?.(next);\n      return next;\n    });\n  }\n\n  return (\n    <div\n      className={cn(\"relative overflow-hidden rounded-(--radius-lg) border border-rule bg-canvas\", className)}\n      style={{ width, height, ...style }}\n      ref={boardRef}\n      onMouseMove={onMouseMove}\n      onMouseUp={onMouseUp}\n      onMouseLeave={onMouseUp}\n    >\n      {notes.map((note) => (\n        <div\n          key={note.id}\n          onMouseDown={(e) => onMouseDown(e, note.id)}\n          onDoubleClick={() => deleteNote(note.id)}\n          style={{\n            position: \"absolute\",\n            left: note.x ?? 0,\n            top: note.y ?? 0,\n            transform: `rotate(${note.rotate ?? 0}deg)`,\n            background: note.color ?? COLORS[0],\n            color: \"color-mix(in srgb, black 80%, transparent)\",\n            cursor: \"grab\",\n            userSelect: \"none\",\n            zIndex: dragState.current?.id === note.id ? 10 : 1,\n          }}\n          className=\"w-32 min-h-[7rem] p-3 shadow-md rounded-(--radius-sm) text-body-callout leading-snug\"\n          title=\"Double-click to delete\"\n        >\n          {note.content}\n        </div>\n      ))}\n\n      <button\n        onClick={addNote}\n        className=\"absolute bottom-3 right-3 w-9 h-9 rounded-full bg-patina text-patina-fg flex items-center justify-center text-body-title shadow-md hover:bg-patina/90 transition-colors\"\n        title=\"Add note\"\n      >\n        +\n      </button>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

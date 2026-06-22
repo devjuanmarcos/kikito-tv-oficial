@@ -1,0 +1,35 @@
+{
+  "name": "tilt-card",
+  "version": "1.0.0",
+  "title": "Tilt Card",
+  "type": "registry:component",
+  "description": "Card with 3D perspective tilt on hover.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/tilt-card",
+  "files": [
+    {
+      "path": "components/ui/cn/tilt-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/tilt-card/index.ts",
+      "content": "export { TiltCard } from './TiltCard'\r\nexport type { TiltCardProps } from './tilt-card.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/tilt-card/tilt-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/tilt-card/tilt-card.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface TiltCardProps {\r\n  children: React.ReactNode\r\n  maxTilt?: number\r\n  scale?: number\r\n  perspective?: number\r\n  glare?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/tilt-card/TiltCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/tilt-card/TiltCard.tsx",
+      "content": "'use client'\r\n\r\nimport { useRef } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { TiltCardProps } from './tilt-card.types'\r\n\r\nexport function TiltCard({\r\n  children,\r\n  maxTilt = 15,\r\n  scale = 1.04,\r\n  perspective = 800,\r\n  glare = true,\r\n  className,\r\n  style,\r\n}: TiltCardProps) {\r\n  const innerRef = useRef<HTMLDivElement>(null)\r\n  const glareRef = useRef<HTMLDivElement>(null)\r\n\r\n  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {\r\n    const rect = e.currentTarget.getBoundingClientRect()\r\n    const x = (e.clientX - rect.left) / rect.width - 0.5\r\n    const y = (e.clientY - rect.top) / rect.height - 0.5\r\n    const rotX = y * -maxTilt * 2\r\n    const rotY = x * maxTilt * 2\r\n    if (innerRef.current) {\r\n      innerRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`\r\n    }\r\n    if (glareRef.current) {\r\n      glareRef.current.style.setProperty('--_gx', `${(x + 0.5) * 100}%`)\r\n      glareRef.current.style.setProperty('--_gy', `${(y + 0.5) * 100}%`)\r\n      glareRef.current.style.opacity = '1'\r\n    }\r\n  }\r\n\r\n  function handleMouseLeave() {\r\n    if (innerRef.current) innerRef.current.style.transform = 'rotateX(0) rotateY(0) scale(1)'\r\n    if (glareRef.current) glareRef.current.style.opacity = '0'\r\n  }\r\n\r\n  return (\r\n    <div\r\n      className={cn('inline-block cursor-pointer', className)}\r\n      style={{ perspective: `${perspective}px`, ...style }}\r\n      onMouseMove={handleMouseMove}\r\n      onMouseLeave={handleMouseLeave}\r\n    >\r\n      <div\r\n        ref={innerRef}\r\n        className=\"relative [transform-style:preserve-3d] transition-[transform] duration-100 ease-out rounded-[inherit] overflow-hidden\"\r\n      >\r\n        {children}\r\n        {glare && (\r\n          <div\r\n            ref={glareRef}\r\n            className=\"absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200\"\r\n            style={{\r\n              background: 'radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), color-mix(in srgb, white 18%, transparent) 0%, transparent 65%)',\r\n            }}\r\n          />\r\n        )}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

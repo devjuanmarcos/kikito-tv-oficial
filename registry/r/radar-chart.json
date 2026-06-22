@@ -1,0 +1,35 @@
+{
+  "name": "radar-chart",
+  "version": "1.0.0",
+  "title": "Radar Chart",
+  "type": "registry:component",
+  "description": "Multi-axis radar/spider chart.",
+  "group": "charts",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/radar-chart",
+  "files": [
+    {
+      "path": "components/ui/cn/radar-chart/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/radar-chart/index.ts",
+      "content": "export { RadarChart } from './RadarChart'\r\nexport type { RadarAxis, RadarSeries, RadarChartProps } from './radar-chart.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/radar-chart/radar-chart.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/radar-chart/radar-chart.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface RadarAxis {\r\n  label: string\r\n  max?: number\r\n}\r\n\r\nexport interface RadarSeries {\r\n  label: string\r\n  data: number[]\r\n  color?: string\r\n}\r\n\r\nexport interface RadarChartProps {\r\n  axes: RadarAxis[]\r\n  series: RadarSeries[]\r\n  size?: number\r\n  levels?: number\r\n  showLegend?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/radar-chart/RadarChart.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/radar-chart/RadarChart.tsx",
+      "content": "﻿import { cn } from '@/lib/utils'\r\nimport type { RadarChartProps } from './radar-chart.types'\r\n\r\nconst COLORS = ['var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-success)', 'var(--ks-danger)']\r\n\r\nfunction polarToXY(angle: number, r: number, cx: number, cy: number) {\r\n  const rad = (angle - 90) * (Math.PI / 180)\r\n  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) }\r\n}\r\n\r\nexport function RadarChart({\r\n  axes,\r\n  series,\r\n  size = 240,\r\n  levels = 4,\r\n  showLegend = true,\r\n  className,\r\n  style,\r\n}: RadarChartProps) {\r\n  const n = axes.length\r\n  const cx = size / 2, cy = size / 2\r\n  const maxR = size / 2 - 28\r\n  const step = 360 / n\r\n\r\n  const levelPolygons = Array.from({ length: levels }, (_, l) => {\r\n    const r = ((l + 1) / levels) * maxR\r\n    return axes.map((_, i) => {\r\n      const p = polarToXY(i * step, r, cx, cy)\r\n      return `${p.x},${p.y}`\r\n    }).join(' ')\r\n  })\r\n\r\n  return (\r\n    <div className={cn('flex flex-col items-center gap-3', className)} style={style}>\r\n      <svg width={size} height={size}>\r\n        {/* Grid polygons */}\r\n        {levelPolygons.map((pts, i) => (\r\n          <polygon key={i} points={pts} fill=\"none\" stroke=\"var(--ks-rule)\" strokeWidth={1} />\r\n        ))}\r\n\r\n        {/* Axis lines */}\r\n        {axes.map((_, i) => {\r\n          const end = polarToXY(i * step, maxR, cx, cy)\r\n          return (\r\n            <line key={i} x1={cx} y1={cy} x2={end.x} y2={end.y}\r\n              stroke=\"var(--ks-rule)\" strokeWidth={1} />\r\n          )\r\n        })}\r\n\r\n        {/* Axis labels */}\r\n        {axes.map((ax, i) => {\r\n          const p = polarToXY(i * step, maxR + 16, cx, cy)\r\n          const anchor = p.x < cx - 2 ? 'end' : p.x > cx + 2 ? 'start' : 'middle'\r\n          return (\r\n            <text key={i} x={p.x} y={p.y} textAnchor={anchor}\r\n              fontSize={10} fill=\"var(--ks-text-faint)\" dominantBaseline=\"middle\">\r\n              {ax.label}\r\n            </text>\r\n          )\r\n        })}\r\n\r\n        {/* Series polygons */}\r\n        {series.map((s, si) => {\r\n          const color = s.color ?? COLORS[si % COLORS.length]\r\n          const pts = axes.map((ax, i) => {\r\n            const max = ax.max ?? Math.max(...series.flatMap(s2 => s2.data), 1)\r\n            const r = ((s.data[i] ?? 0) / max) * maxR\r\n            const p = polarToXY(i * step, r, cx, cy)\r\n            return `${p.x},${p.y}`\r\n          }).join(' ')\r\n\r\n          return (\r\n            <g key={s.label}>\r\n              <polygon points={pts} fill={color} fillOpacity={0.15} />\r\n              <polygon points={pts} fill=\"none\" stroke={color} strokeWidth={2} strokeLinejoin=\"round\" />\r\n              {axes.map((ax, i) => {\r\n                const max = ax.max ?? Math.max(...series.flatMap(s2 => s2.data), 1)\r\n                const r = ((s.data[i] ?? 0) / max) * maxR\r\n                const p = polarToXY(i * step, r, cx, cy)\r\n                return (\r\n                  <circle key={i} cx={p.x} cy={p.y} r={3}\r\n                    fill={color} stroke=\"var(--ks-lacquer)\" strokeWidth={1.5} />\r\n                )\r\n              })}\r\n            </g>\r\n          )\r\n        })}\r\n      </svg>\r\n\r\n      {showLegend && series.length > 1 && (\r\n        <div className=\"flex flex-wrap gap-x-4 gap-y-1 justify-center\">\r\n          {series.map((s, i) => (\r\n            <div key={s.label} className=\"flex items-center gap-1.5\">\r\n              <div className=\"w-2.5 h-2.5 rounded-full\" style={{ background: s.color ?? COLORS[i % COLORS.length] }} />\r\n              <span className=\"text-body-caption text-muted\">{s.label}</span>\r\n            </div>\r\n          ))}\r\n        </div>\r\n      )}\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

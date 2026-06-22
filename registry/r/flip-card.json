@@ -1,0 +1,35 @@
+{
+  "name": "flip-card",
+  "version": "1.0.0",
+  "title": "Flip Card",
+  "type": "registry:component",
+  "description": "3D flip card with front and back faces.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/flip-card",
+  "files": [
+    {
+      "path": "components/ui/cn/flip-card/flip-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/flip-card/flip-card.types.ts",
+      "content": "import type { ReactNode } from 'react'\r\n\r\nexport type FlipDirection = 'horizontal' | 'vertical'\r\nexport type FlipTrigger = 'hover' | 'click'\r\n\r\nexport interface FlipCardProps {\r\n  front: ReactNode\r\n  back: ReactNode\r\n  width?: number | string\r\n  height?: number | string\r\n  direction?: FlipDirection\r\n  trigger?: FlipTrigger\r\n  defaultFlipped?: boolean\r\n  flipped?: boolean\r\n  onFlip?: (flipped: boolean) => void\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/flip-card/FlipCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/flip-card/FlipCard.tsx",
+      "content": "'use client'\r\n\r\nimport { useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { FlipCardProps } from './flip-card.types'\r\n\r\nexport function FlipCard({\r\n  front,\r\n  back,\r\n  width = 280,\r\n  height = 180,\r\n  direction = 'horizontal',\r\n  trigger = 'hover',\r\n  defaultFlipped = false,\r\n  flipped: controlledFlipped,\r\n  onFlip,\r\n  className,\r\n  style,\r\n}: FlipCardProps) {\r\n  const [internalFlipped, setInternalFlipped] = useState(defaultFlipped)\r\n  const isControlled = controlledFlipped !== undefined\r\n  const flipped = isControlled ? controlledFlipped : internalFlipped\r\n\r\n  const toggle = () => {\r\n    const next = !flipped\r\n    if (!isControlled) setInternalFlipped(next)\r\n    onFlip?.(next)\r\n  }\r\n\r\n  const hoverProps = trigger === 'hover'\r\n    ? {\r\n        onMouseEnter: () => { if (!isControlled) setInternalFlipped(true); onFlip?.(true) },\r\n        onMouseLeave: () => { if (!isControlled) setInternalFlipped(false); onFlip?.(false) },\r\n      }\r\n    : {}\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .fc-scene { perspective: 1000px; }\r\n        .fc-card {\r\n          width: 100%; height: 100%;\r\n          position: relative;\r\n          transform-style: preserve-3d;\r\n          transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);\r\n        }\r\n        .fc-card[data-flipped=\"true\"][data-direction=\"horizontal\"] { transform: rotateY(180deg); }\r\n        .fc-card[data-flipped=\"true\"][data-direction=\"vertical\"]   { transform: rotateX(180deg); }\r\n        .fc-face {\r\n          position: absolute; inset: 0;\r\n          backface-visibility: hidden;\r\n          -webkit-backface-visibility: hidden;\r\n          border-radius: inherit;\r\n          overflow: hidden;\r\n        }\r\n        .fc-back[data-direction=\"horizontal\"] { transform: rotateY(180deg); }\r\n        .fc-back[data-direction=\"vertical\"]   { transform: rotateX(180deg); }\r\n      `}</style>\r\n      <div\r\n        className={cn('fc-scene', className)}\r\n        style={{ width, height, borderRadius: 16, cursor: trigger === 'click' ? 'pointer' : undefined, ...style }}\r\n        onClick={trigger === 'click' ? toggle : undefined}\r\n        {...hoverProps}\r\n      >\r\n        <div className=\"fc-card\" style={{ borderRadius: 16 }} data-flipped={flipped} data-direction={direction}>\r\n          <div className=\"fc-face fc-front\">{front}</div>\r\n          <div className=\"fc-face fc-back\" data-direction={direction}>{back}</div>\r\n        </div>\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/flip-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/flip-card/index.ts",
+      "content": "export { FlipCard } from './FlipCard'\r\nexport type { FlipCardProps, FlipDirection, FlipTrigger } from './flip-card.types'\r\n"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "user-card",
+  "version": "1.0.0",
+  "title": "User Card",
+  "type": "registry:component",
+  "description": "User profile card with avatar and info.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/user-card",
+  "files": [
+    {
+      "path": "components/ui/cn/user-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/user-card/index.ts",
+      "content": "export { UserCard } from './UserCard'\r\nexport type { UserStat, UserCardProps } from './user-card.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/user-card/user-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/user-card/user-card.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface UserStat {\r\n  label: string\r\n  value: string | number\r\n}\r\n\r\nexport interface UserCardProps {\r\n  name: string\r\n  username?: string\r\n  bio?: string\r\n  avatar?: string\r\n  avatarFallback?: string\r\n  stats?: UserStat[]\r\n  badge?: string\r\n  followed?: boolean\r\n  onFollow?: (followed: boolean) => void\r\n  coverColor?: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/user-card/UserCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/user-card/UserCard.tsx",
+      "content": "﻿'use client'\r\nimport React, { useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { UserCardProps } from './user-card.types'\r\n\r\nexport function UserCard({\r\n  name,\r\n  username,\r\n  bio,\r\n  avatar,\r\n  avatarFallback,\r\n  stats          = [],\r\n  badge,\r\n  followed: controlledFollowed,\r\n  onFollow,\r\n  coverColor,\r\n  className,\r\n  style,\r\n}: UserCardProps) {\r\n  const [internalFollowed, setInternalFollowed] = useState(false)\r\n  const isControlled = controlledFollowed !== undefined\r\n  const followed     = isControlled ? controlledFollowed : internalFollowed\r\n\r\n  function handleFollow() {\r\n    if (!isControlled) setInternalFollowed(f => !f)\r\n    onFollow?.(!followed)\r\n  }\r\n\r\n  const initials = (avatarFallback ?? name).slice(0, 2).toUpperCase()\r\n\r\n  return (\r\n    <div className={cn('bg-raised border border-rule rounded-[16px] overflow-hidden w-[280px]', className)} style={style}>\r\n      <div\r\n        className=\"h-20\"\r\n        style={{ background: coverColor ?? 'linear-gradient(135deg,var(--ks-primary),var(--ks-kinpaku))' }}\r\n      />\r\n      <div className=\"px-5 pb-5\">\r\n        <div className=\"flex items-end justify-between -mt-7 mb-3\">\r\n          <div className=\"w-14 h-14 rounded-full border-[3px] border-raised bg-patina flex items-center justify-center text-body-title font-bold text-patina-fg overflow-hidden shrink-0 [&>img]:w-full [&>img]:h-full [&>img]:object-cover\">\r\n            {avatar ? <img src={avatar} alt={name} /> : initials}\r\n          </div>\r\n          {onFollow !== undefined && (\r\n            <button\r\n              type=\"button\"\r\n              className={cn(\r\n                'py-[7px] px-4 rounded-full text-body-caption font-bold cursor-pointer transition-[background,border-color] duration-[150ms] border-[1.5px] border-patina font-[inherit]',\r\n                followed ? 'bg-patina text-patina-fg' : 'bg-transparent text-patina',\r\n              )}\r\n              onClick={handleFollow}\r\n            >\r\n              {followed ? 'Following' : 'Follow'}\r\n            </button>\r\n          )}\r\n        </div>\r\n\r\n        <div className=\"text-body-paragraph font-bold text-foreground\">{name}</div>\r\n        {username && <div className=\"text-body-caption opacity-40 mt-[2px]\">@{username}</div>}\r\n        {badge && (\r\n          <div className=\"inline-block text-[0.625rem] font-bold py-[2px] px-2 rounded-[4px] bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina mt-1\">\r\n            {badge}\r\n          </div>\r\n        )}\r\n        {bio && <div className=\"text-body-caption opacity-55 mt-2 leading-[1.6]\">{bio}</div>}\r\n\r\n        {stats.length > 0 && (\r\n          <div className=\"flex gap-5 mt-[14px] pt-[14px] border-t border-rule\">\r\n            {stats.map(s => (\r\n              <div key={s.label} className=\"flex flex-col items-center gap-[2px]\">\r\n                <span className=\"text-body-paragraph font-bold tabular-nums\">{s.value}</span>\r\n                <span className=\"text-[0.625rem] opacity-40 uppercase tracking-[0.05em]\">{s.label}</span>\r\n              </div>\r\n            ))}\r\n          </div>\r\n        )}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

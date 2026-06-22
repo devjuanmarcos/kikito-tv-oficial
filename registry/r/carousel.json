@@ -1,0 +1,35 @@
+{
+  "name": "carousel",
+  "version": "1.0.0",
+  "title": "Carousel",
+  "type": "registry:component",
+  "description": "Touch-friendly image and content carousel.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/carousel",
+  "files": [
+    {
+      "path": "components/ui/cn/carousel/Carousel.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/carousel/Carousel.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useState, useEffect, useCallback, useRef } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { CarouselProps } from './carousel.types'\r\n\r\nconst ChevronLeft  = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" width={16} height={16}><polyline points=\"15 18 9 12 15 6\"/></svg>\r\nconst ChevronRight = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" width={16} height={16}><polyline points=\"9 18 15 12 9 6\"/></svg>\r\n\r\nexport function Carousel({\r\n  items,\r\n  autoPlay         = false,\r\n  autoPlayInterval = 3000,\r\n  loop             = true,\r\n  showDots         = true,\r\n  showArrows       = true,\r\n  orientation      = 'horizontal',\r\n  className,\r\n  style,\r\n}: CarouselProps) {\r\n  const [current, setCurrent] = useState(0)\r\n  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)\r\n  const n = items.length\r\n\r\n  const go = useCallback((idx: number) => {\r\n    if (loop) {\r\n      setCurrent(((idx % n) + n) % n)\r\n    } else {\r\n      setCurrent(Math.max(0, Math.min(idx, n - 1)))\r\n    }\r\n  }, [loop, n])\r\n\r\n  const next = useCallback(() => go(current + 1), [go, current])\r\n  const prev = useCallback(() => go(current - 1), [go, current])\r\n\r\n  useEffect(() => {\r\n    if (!autoPlay) return\r\n    timerRef.current = setTimeout(next, autoPlayInterval)\r\n    return () => { if (timerRef.current) clearTimeout(timerRef.current) }\r\n  }, [autoPlay, autoPlayInterval, next])\r\n\r\n  const canPrev = loop || current > 0\r\n  const canNext = loop || current < n - 1\r\n  const offset  = orientation === 'horizontal'\r\n    ? `translateX(-${current * 100}%)`\r\n    : `translateY(-${current * 100}%)`\r\n\r\n  return (\r\n    <div className={cn('relative w-full overflow-hidden', className)} style={style}>\r\n      <div\r\n        className={cn('flex transition-[transform] duration-[350ms] [transition-timing-function:cubic-bezier(0.25,0.1,0.25,1)] will-change-transform', orientation === 'vertical' && 'flex-col')}\r\n        style={{ transform: offset }}\r\n      >\r\n        {items.map(item => (\r\n          <div key={item.id} className=\"flex-[0_0_100%] w-full\">{item.content}</div>\r\n        ))}\r\n      </div>\r\n\r\n      {showArrows && n > 1 && (\r\n        <div className=\"absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-3 pointer-events-none box-border\">\r\n          <button\r\n            className=\"w-9 h-9 rounded-full border border-rule bg-float text-foreground flex items-center justify-center cursor-pointer pointer-events-auto transition-[background,transform] duration-[150ms] backdrop-blur-[8px] hover:bg-raised hover:scale-[1.05] disabled:opacity-25 disabled:cursor-default\"\r\n            onClick={prev}\r\n            disabled={!canPrev}\r\n            aria-label=\"Previous\"\r\n          >\r\n            <ChevronLeft />\r\n          </button>\r\n          <button\r\n            className=\"w-9 h-9 rounded-full border border-rule bg-float text-foreground flex items-center justify-center cursor-pointer pointer-events-auto transition-[background,transform] duration-[150ms] backdrop-blur-[8px] hover:bg-raised hover:scale-[1.05] disabled:opacity-25 disabled:cursor-default\"\r\n            onClick={next}\r\n            disabled={!canNext}\r\n            aria-label=\"Next\"\r\n          >\r\n            <ChevronRight />\r\n          </button>\r\n        </div>\r\n      )}\r\n\r\n      {showDots && n > 1 && (\r\n        <div className=\"flex justify-center gap-[6px] pt-3\">\r\n          {items.map((_, i) => (\r\n            <button\r\n              key={i}\r\n              className={cn(\r\n                'h-[6px] rounded-full border-none bg-rule cursor-pointer p-0 transition-[background,width] duration-200',\r\n                i === current ? 'bg-patina w-[18px] rounded-pill' : 'w-[6px]',\r\n              )}\r\n              onClick={() => go(i)}\r\n              aria-label={`Go to slide ${i + 1}`}\r\n            />\r\n          ))}\r\n        </div>\r\n      )}\r\n    </div>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/carousel/carousel.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/carousel/carousel.types.ts",
+      "content": "﻿import type React from 'react'\r\n\r\nexport type CarouselOrientation = 'horizontal' | 'vertical'\r\n\r\nexport interface CarouselItem {\r\n  id: string\r\n  content: React.ReactNode\r\n}\r\n\r\nexport interface CarouselProps {\r\n  items: CarouselItem[]\r\n  autoPlay?: boolean\r\n  autoPlayInterval?: number\r\n  loop?: boolean\r\n  showDots?: boolean\r\n  showArrows?: boolean\r\n  orientation?: CarouselOrientation\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/carousel/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/carousel/index.ts",
+      "content": "﻿export { Carousel } from './Carousel'\r\nexport type { CarouselProps, CarouselItem, CarouselOrientation } from './carousel.types'\r\n"
+    }
+  ]
+}

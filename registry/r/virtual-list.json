@@ -1,0 +1,35 @@
+{
+  "name": "virtual-list",
+  "version": "1.0.0",
+  "title": "Virtual List",
+  "type": "registry:component",
+  "description": "Virtualized list for large datasets.",
+  "group": "data",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/virtual-list",
+  "files": [
+    {
+      "path": "components/ui/cn/virtual-list/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/virtual-list/index.ts",
+      "content": "export { VirtualList } from './VirtualList'\r\nexport type { VirtualListProps } from './virtual-list.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/virtual-list/virtual-list.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/virtual-list/virtual-list.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface VirtualListProps<T = unknown> {\r\n  items: T[]\r\n  itemHeight: number\r\n  height: number\r\n  renderItem: (item: T, index: number) => React.ReactNode\r\n  overscan?: number\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/virtual-list/VirtualList.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/virtual-list/VirtualList.tsx",
+      "content": "'use client'\r\nimport React, { useCallback, useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { VirtualListProps } from './virtual-list.types'\r\n\r\nexport function VirtualList<T = unknown>({\r\n  items,\r\n  itemHeight,\r\n  height,\r\n  renderItem,\r\n  overscan  = 3,\r\n  className,\r\n  style,\r\n}: VirtualListProps<T>) {\r\n  const [scrollTop, setScrollTop] = useState(0)\r\n\r\n  const totalHeight  = items.length * itemHeight\r\n  const visibleCount = Math.ceil(height / itemHeight)\r\n  const startIndex   = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan)\r\n  const endIndex     = Math.min(items.length - 1, startIndex + visibleCount + overscan * 2)\r\n\r\n  const onScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {\r\n    setScrollTop((e.currentTarget as HTMLDivElement).scrollTop)\r\n  }, [])\r\n\r\n  return (\r\n    <div\r\n      className={cn('overflow-y-auto relative outline-none', className)}\r\n      style={{ height, ...style }}\r\n      onScroll={onScroll}\r\n      tabIndex={0}\r\n      role=\"list\"\r\n    >\r\n      <div className=\"relative w-full\" style={{ height: totalHeight }}>\r\n        {items.slice(startIndex, endIndex + 1).map((item, i) => (\r\n          <div\r\n            key={startIndex + i}\r\n            className=\"absolute w-full left-0 box-border\"\r\n            style={{ top: (startIndex + i) * itemHeight, height: itemHeight }}\r\n            role=\"listitem\"\r\n          >\r\n            {renderItem(item, startIndex + i)}\r\n          </div>\r\n        ))}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

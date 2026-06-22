@@ -1,0 +1,29 @@
+{
+  "name": "toggle-group",
+  "version": "1.0.0",
+  "title": "Toggle Group",
+  "type": "registry:component",
+  "description": "Toolbar-style group of toggle buttons.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/toggle-group",
+  "files": [
+    {
+      "path": "components/ui/cn/toggle-group/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/toggle-group/index.ts",
+      "content": "export { ToggleGroup } from './ToggleGroup'\nexport type { ToggleGroupProps, ToggleGroupItem, ToggleGroupType, ToggleGroupVariant, ToggleGroupSize } from './ToggleGroup'\n"
+    },
+    {
+      "path": "components/ui/cn/toggle-group/ToggleGroup.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/toggle-group/ToggleGroup.tsx",
+      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type ToggleGroupType = \"single\" | \"multiple\";\nexport type ToggleGroupVariant = \"outline\" | \"solid\" | \"ghost\";\nexport type ToggleGroupSize = \"sm\" | \"md\" | \"lg\";\n\nexport interface ToggleGroupItem {\n  value: string;\n  label: React.ReactNode;\n  disabled?: boolean;\n}\n\nexport interface ToggleGroupProps {\n  items: ToggleGroupItem[];\n  type?: ToggleGroupType;\n  variant?: ToggleGroupVariant;\n  size?: ToggleGroupSize;\n  value?: string | string[];\n  defaultValue?: string | string[];\n  onChange?: (value: string | string[]) => void;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst SIZE_BTN: Record<ToggleGroupSize, string> = {\n  sm: \"h-6 px-2   text-[0.6875rem]\",\n  md: \"h-7 px-2.5 text-body-caption\",\n  lg: \"h-8 px-3   text-body-callout\",\n};\n\nconst VARIANT_WRAP: Record<ToggleGroupVariant, string> = {\n  outline: \"border border-rule rounded-(--radius-sm) p-0.5 gap-0.5 bg-graphite-2\",\n  solid: \"gap-1\",\n  ghost: \"gap-0.5\",\n};\n\nconst VARIANT_BTN_BASE: Record<ToggleGroupVariant, string> = {\n  outline: \"rounded-[calc(var(--radius-sm)-2px)]\",\n  solid: \"rounded-(--radius-sm) border border-rule\",\n  ghost: \"rounded-(--radius-sm)\",\n};\n\nconst VARIANT_BTN_ACTIVE: Record<ToggleGroupVariant, string> = {\n  outline: \"bg-raised text-foreground shadow-[0_1px_3px_-1px_oklch(0%_0_0/0.25),0_0_0_1px_var(--ks-rule)]\",\n  solid: \"bg-patina text-patina-fg border-patina\",\n  ghost: \"bg-graphite text-foreground\",\n};\n\nconst VARIANT_BTN_INACTIVE: Record<ToggleGroupVariant, string> = {\n  outline: \"text-faint hover:text-foreground\",\n  solid: \"bg-raised text-faint hover:text-foreground hover:bg-graphite\",\n  ghost: \"text-faint hover:text-foreground hover:bg-graphite-2\",\n};\n\nexport function ToggleGroup({\n  items,\n  type = \"single\",\n  variant = \"outline\",\n  size = \"md\",\n  value,\n  defaultValue,\n  onChange,\n  className,\n  style,\n}: ToggleGroupProps) {\n  const isControlled = value !== undefined;\n  const [internal, setInternal] = useState<string | string[]>(defaultValue ?? (type === \"multiple\" ? [] : \"\"));\n  const active = isControlled ? value : internal;\n\n  function toggle(v: string) {\n    if (type === \"multiple\") {\n      const arr = Array.isArray(active) ? active : [];\n      const next = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];\n      if (!isControlled) setInternal(next);\n      onChange?.(next);\n    } else {\n      const next = active === v ? \"\" : v;\n      if (!isControlled) setInternal(next);\n      onChange?.(next);\n    }\n  }\n\n  function isActive(v: string) {\n    if (Array.isArray(active)) return active.includes(v);\n    return active === v;\n  }\n\n  return (\n    <div role=\"group\" style={style} className={cn(\"inline-flex items-center\", VARIANT_WRAP[variant], className)}>\n      {items.map((item) => {\n        const on = isActive(item.value);\n        return (\n          <button\n            key={item.value}\n            type=\"button\"\n            disabled={item.disabled}\n            onClick={() => !item.disabled && toggle(item.value)}\n            aria-pressed={on}\n            className={cn(\n              \"inline-flex items-center justify-center font-medium transition-[background,color,box-shadow] duration-[120ms] select-none\",\n              SIZE_BTN[size],\n              VARIANT_BTN_BASE[variant],\n              on ? VARIANT_BTN_ACTIVE[variant] : VARIANT_BTN_INACTIVE[variant],\n              item.disabled && \"opacity-40 cursor-not-allowed\"\n            )}\n          >\n            {item.label}\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

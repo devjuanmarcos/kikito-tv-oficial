@@ -1,0 +1,29 @@
+{
+  "name": "card",
+  "version": "1.0.0",
+  "title": "Card",
+  "type": "registry:component",
+  "description": "Surface card with header, body and footer.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/card",
+  "files": [
+    {
+      "path": "components/ui/cn/card/Card.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/card/Card.tsx",
+      "content": "﻿import type React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type CardVariant = \"default\" | \"outlined\" | \"elevated\" | \"filled\" | \"ghost\";\nexport type CardPadding = \"none\" | \"sm\" | \"md\" | \"lg\";\nexport type CardRadius = \"sm\" | \"md\" | \"lg\" | \"xl\";\n\nexport interface CardProps {\n  variant?: CardVariant;\n  padding?: CardPadding;\n  radius?: CardRadius;\n  hoverable?: boolean;\n  clickable?: boolean;\n  href?: string;\n  onClick?: React.MouseEventHandler<HTMLElement>;\n  className?: string;\n  style?: React.CSSProperties;\n  children?: React.ReactNode;\n}\n\nexport interface CardHeaderProps {\n  title?: React.ReactNode;\n  description?: React.ReactNode;\n  icon?: React.ReactNode;\n  badge?: React.ReactNode;\n  action?: React.ReactNode;\n  className?: string;\n}\n\nexport interface CardBodyProps {\n  noPadding?: boolean;\n  className?: string;\n  children?: React.ReactNode;\n  style?: React.CSSProperties;\n}\n\nexport interface CardFooterProps {\n  align?: \"left\" | \"right\" | \"center\" | \"between\";\n  separator?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n  children?: React.ReactNode;\n}\n\nconst VARIANT_CLS: Record<CardVariant, string> = {\n  default: \"bg-raised border border-rule\",\n  outlined: \"bg-transparent border border-rule\",\n  elevated: \"bg-raised border border-rule shadow-[0_2px_12px_-4px_oklch(0%_0_0/0.30)]\",\n  filled: \"bg-graphite border border-transparent\",\n  ghost: \"bg-transparent border border-transparent\",\n};\nconst PADDING_CLS: Record<CardPadding, string> = {\n  none: \"p-0\",\n  sm: \"p-3\",\n  md: \"p-5\",\n  lg: \"p-7\",\n};\nconst RADIUS_CLS: Record<CardRadius, string> = {\n  sm: \"rounded-(--radius-sm)\",\n  md: \"rounded-(--radius-md)\",\n  lg: \"rounded-(--radius-lg)\",\n  xl: \"rounded-[24px]\",\n};\nconst FOOTER_ALIGN: Record<NonNullable<CardFooterProps[\"align\"]>, string> = {\n  left: \"justify-start\",\n  right: \"justify-end\",\n  center: \"justify-center\",\n  between: \"justify-between\",\n};\n\nexport function Card({\n  variant = \"default\",\n  padding = \"none\",\n  radius = \"md\",\n  hoverable = false,\n  clickable = false,\n  href,\n  onClick,\n  className,\n  style,\n  children,\n}: CardProps) {\n  const base = cn(\n    \"flex flex-col overflow-hidden transition-[border-color,box-shadow,transform] duration-[180ms]\",\n    VARIANT_CLS[variant],\n    RADIUS_CLS[radius],\n    padding !== \"none\" && PADDING_CLS[padding],\n    hoverable &&\n      \"cursor-pointer hover:-translate-y-px hover:border-patina hover:shadow-[0_4px_20px_-6px_oklch(0%_0_0/0.35)]\",\n    clickable && \"cursor-pointer active:scale-[0.985]\",\n    className\n  );\n\n  if (href) {\n    return (\n      <a href={href} className={base} style={style} onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}>\n        {children}\n      </a>\n    );\n  }\n  if (onClick) {\n    return (\n      <button type=\"button\" className={cn(base, \"text-left w-full\")} style={style} onClick={onClick}>\n        {children}\n      </button>\n    );\n  }\n  return (\n    <div className={base} style={style}>\n      {children}\n    </div>\n  );\n}\n\nexport function CardHeader({ title, description, icon, badge, action, className }: CardHeaderProps) {\n  return (\n    <div className={cn(\"flex items-start gap-3 px-5 pt-5 pb-0\", className)}>\n      {icon && (\n        <span className=\"shrink-0 mt-0.5 w-[1.125rem] h-[1.125rem] text-faint [&>svg]:w-full [&>svg]:h-full\">\n          {icon}\n        </span>\n      )}\n      <div className=\"flex-1 min-w-0\">\n        {title && <p className=\"text-body-paragraph font-semibold text-foreground leading-tight\">{title}</p>}\n        {description && <p className=\"text-body-callout text-faint mt-[0.2rem] leading-[1.4]\">{description}</p>}\n      </div>\n      {badge && <span className=\"shrink-0 ml-1\">{badge}</span>}\n      {action && <span className=\"shrink-0 ml-1\">{action}</span>}\n    </div>\n  );\n}\n\nexport function CardBody({ noPadding = false, className, children, style }: CardBodyProps) {\n  return (\n    <div className={cn(!noPadding && \"px-5 py-4\", className)} style={style}>\n      {children}\n    </div>\n  );\n}\n\nexport function CardFooter({ align = \"right\", separator = true, className, style, children }: CardFooterProps) {\n  return (\n    <div\n      className={cn(\n        \"flex items-center gap-2 px-5 py-4\",\n        separator && \"border-t border-rule\",\n        FOOTER_ALIGN[align],\n        className\n      )}\n      style={style}\n    >\n      {children}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/card/index.ts",
+      "content": "export { Card, CardHeader, CardBody, CardFooter } from './Card'\nexport type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps, CardVariant, CardPadding, CardRadius } from './Card'\n"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "accordion",
+  "version": "1.0.0",
+  "title": "Accordion",
+  "type": "registry:component",
+  "description": "Collapsible content sections with animated transitions.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/accordion",
+  "files": [
+    {
+      "path": "components/ui/cn/accordion/Accordion.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/accordion/Accordion.tsx",
+      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type AccordionVariant = \"default\" | \"separated\" | \"ghost\";\n\nexport interface AccordionItemDef {\n  value: string;\n  label: React.ReactNode;\n  icon?: React.ReactNode;\n  children: React.ReactNode;\n  disabled?: boolean;\n}\n\nexport interface AccordionProps {\n  items: AccordionItemDef[];\n  value?: string | string[];\n  defaultValue?: string | string[];\n  multiple?: boolean;\n  onChange?: (value: string | string[]) => void;\n  variant?: AccordionVariant;\n  className?: string;\n}\n\nconst ChevronDown = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n    className=\"w-[0.9rem] h-[0.9rem]\"\n  >\n    <polyline points=\"6 9 12 15 18 9\" />\n  </svg>\n);\n\nconst VARIANT_WRAP: Record<AccordionVariant, string> = {\n  default: \"border border-rule rounded-(--radius-sm) divide-y divide-rule overflow-hidden\",\n  separated: \"flex flex-col gap-2\",\n  ghost: \"flex flex-col\",\n};\nconst VARIANT_ITEM_EXTRA: Record<AccordionVariant, string> = {\n  default: \"\",\n  separated: \"border border-rule rounded-(--radius-sm) overflow-hidden\",\n  ghost: \"border-b border-rule last:border-b-0\",\n};\nconst TRIGGER_CLS: Record<AccordionVariant, string> = {\n  default: \"px-4 py-3 hover:bg-graphite\",\n  separated: \"px-4 py-3 hover:bg-graphite\",\n  ghost: \"px-0 py-3 hover:text-foreground\",\n};\n\nexport function Accordion({\n  items,\n  value,\n  defaultValue,\n  multiple = false,\n  onChange,\n  variant = \"default\",\n  className,\n}: AccordionProps) {\n  const isControlled = value !== undefined;\n\n  const [internal, setInternal] = useState<string[]>(() => {\n    if (defaultValue === undefined) return [];\n    return Array.isArray(defaultValue) ? defaultValue : [defaultValue];\n  });\n\n  const openSet = new Set(isControlled ? (Array.isArray(value) ? value : value ? [value] : []) : internal);\n\n  function toggle(v: string) {\n    let next: string[];\n    if (openSet.has(v)) {\n      next = [...openSet].filter((x) => x !== v);\n    } else {\n      next = multiple ? [...openSet, v] : [v];\n    }\n    if (!isControlled) setInternal(next);\n    if (multiple) onChange?.(next);\n    else onChange?.(next[0] ?? \"\");\n  }\n\n  return (\n    <div className={cn(VARIANT_WRAP[variant], className)}>\n      {items.map((item) => {\n        const isOpen = openSet.has(item.value);\n        return (\n          <div key={item.value} className={cn(VARIANT_ITEM_EXTRA[variant])}>\n            <button\n              type=\"button\"\n              onClick={() => !item.disabled && toggle(item.value)}\n              disabled={item.disabled}\n              className={cn(\n                \"flex w-full items-center gap-3 text-left font-inherit bg-transparent border-none cursor-pointer text-foreground transition-[background,color] duration-[120ms]\",\n                TRIGGER_CLS[variant],\n                item.disabled && \"opacity-40 cursor-not-allowed\"\n              )}\n              aria-expanded={isOpen}\n            >\n              {item.icon && (\n                <span className=\"shrink-0 w-4 h-4 text-faint [&>svg]:w-full [&>svg]:h-full\">{item.icon}</span>\n              )}\n              <span className=\"flex-1 text-body-callout font-medium\">{item.label}</span>\n              <span className={cn(\"shrink-0 text-faint transition-transform duration-[200ms]\", isOpen && \"rotate-180\")}>\n                <ChevronDown />\n              </span>\n            </button>\n\n            <div\n              className={cn(\n                \"overflow-hidden transition-[max-height,opacity] duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)]\",\n                isOpen ? \"max-h-[1000px] opacity-100\" : \"max-h-0 opacity-0\"\n              )}\n            >\n              <div\n                className={cn(\n                  variant === \"ghost\" ? \"py-2 text-body-callout text-muted\" : \"px-4 pb-4 text-body-callout text-muted\"\n                )}\n              >\n                {item.children}\n              </div>\n            </div>\n          </div>\n        );\n      })}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/accordion/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/accordion/index.ts",
+      "content": "export { Accordion } from './Accordion'\nexport type { AccordionProps, AccordionItemDef, AccordionVariant } from './Accordion'\n"
+    }
+  ]
+}

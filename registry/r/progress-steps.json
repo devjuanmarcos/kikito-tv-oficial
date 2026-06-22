@@ -1,0 +1,29 @@
+{
+  "name": "progress-steps",
+  "version": "1.0.0",
+  "title": "Progress Steps",
+  "type": "registry:component",
+  "description": "Step-based progress indicator.",
+  "group": "feedback",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/progress-steps",
+  "files": [
+    {
+      "path": "components/ui/cn/progress-steps/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/progress-steps/index.ts",
+      "content": "export { ProgressSteps } from './ProgressSteps'\nexport type { ProgressStepsProps, ProgressStep, ProgressStepsOrientation, ProgressStepsSize, ProgressStepStatus } from './ProgressSteps'\n"
+    },
+    {
+      "path": "components/ui/cn/progress-steps/ProgressSteps.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/progress-steps/ProgressSteps.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type ProgressStepsOrientation = 'horizontal' | 'vertical'\nexport type ProgressStepsSize        = 'sm' | 'md' | 'lg'\nexport type ProgressStepStatus       = 'complete' | 'current' | 'upcoming'\n\nexport interface ProgressStep {\n  label:        string\n  description?: string\n  status?:      ProgressStepStatus\n}\n\nexport interface ProgressStepsProps {\n  steps:        ProgressStep[]\n  current:      number\n  orientation?: ProgressStepsOrientation\n  size?:        ProgressStepsSize\n  className?:   string\n  style?:       React.CSSProperties\n}\n\nconst SIZE_CIRCLE: Record<ProgressStepsSize, string> = {\n  sm: 'w-6 h-6 text-[0.6rem]',\n  md: 'w-8 h-8 text-xs',\n  lg: 'w-10 h-10 text-sm',\n}\nconst SIZE_LABEL: Record<ProgressStepsSize, string> = {\n  sm: 'text-[0.7rem]',\n  md: 'text-body-caption',\n  lg: 'text-body-callout',\n}\n\nconst CheckIcon = () => (\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"3\" aria-hidden=\"true\" className=\"w-3 h-3\">\n    <path d=\"M20 6L9 17l-5-5\" strokeLinecap=\"round\" strokeLinejoin=\"round\"/>\n  </svg>\n)\n\nexport function ProgressSteps({\n  steps,\n  current,\n  orientation = 'horizontal',\n  size        = 'md',\n  className,\n  style,\n}: ProgressStepsProps) {\n  const isVertical = orientation === 'vertical'\n\n  function resolveStatus(i: number, overrideStatus?: ProgressStepStatus): ProgressStepStatus {\n    if (overrideStatus) return overrideStatus\n    if (i < current) return 'complete'\n    if (i === current) return 'current'\n    return 'upcoming'\n  }\n\n  return (\n    <div\n      style={style}\n      className={cn(\n        'flex',\n        isVertical ? 'flex-col gap-0' : 'items-start',\n        className,\n      )}\n    >\n      {steps.map((step, i) => {\n        const status = resolveStatus(i, step.status)\n        const isLast = i === steps.length - 1\n\n        return (\n          <div\n            key={i}\n            className={cn(\n              'flex',\n              isVertical ? 'flex-row gap-3' : 'flex-col items-center flex-1',\n            )}\n          >\n            {/* Circle + connector */}\n            <div className={cn(isVertical ? 'flex flex-col items-center' : 'flex items-center w-full')}>\n              {/* Circle */}\n              <div\n                className={cn(\n                  'flex items-center justify-center rounded-full flex-shrink-0 font-semibold border-2 transition-[background,border-color] duration-[200ms]',\n                  SIZE_CIRCLE[size],\n                  status === 'complete' && 'bg-patina border-patina text-patina-fg',\n                  status === 'current'  && 'bg-transparent border-patina text-patina',\n                  status === 'upcoming' && 'bg-transparent border-rule text-faint',\n                )}\n              >\n                {status === 'complete' ? <CheckIcon /> : <span>{i + 1}</span>}\n              </div>\n\n              {/* Connector line */}\n              {!isLast && (\n                <div\n                  className={cn(\n                    'transition-[background] duration-[200ms]',\n                    isVertical\n                      ? 'w-px h-8 mx-auto'\n                      : 'flex-1 h-px mx-2',\n                    status === 'complete' ? 'bg-patina' : 'bg-rule',\n                  )}\n                />\n              )}\n            </div>\n\n            {/* Label */}\n            <div\n              className={cn(\n                isVertical ? 'pb-6' : 'mt-2 text-center',\n              )}\n            >\n              <p\n                className={cn(\n                  'font-medium transition-colors duration-[200ms]',\n                  SIZE_LABEL[size],\n                  status === 'upcoming' ? 'text-faint' : 'text-foreground',\n                )}\n              >\n                {step.label}\n              </p>\n              {step.description && (\n                <p className={cn('text-faint', size === 'sm' ? 'text-[0.65rem]' : 'text-body-caption')}>\n                  {step.description}\n                </p>\n              )}\n            </div>\n          </div>\n        )\n      })}\n    </div>\n  )\n}\n"
+    }
+  ]
+}

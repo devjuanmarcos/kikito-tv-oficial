@@ -1,0 +1,35 @@
+{
+  "name": "copy-button",
+  "version": "1.0.0",
+  "title": "Copy Button",
+  "type": "registry:component",
+  "description": "Copy-to-clipboard button with feedback.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": ["button"],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/copy-button",
+  "files": [
+    {
+      "path": "components/ui/cn/copy-button/copy-button.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/copy-button/copy-button.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type CopyButtonSize = 'sm' | 'md' | 'lg'\r\nexport type CopyButtonVariant = 'outline' | 'ghost' | 'solid'\r\n\r\nexport interface CopyButtonProps {\r\n  text: string\r\n  label?: string\r\n  successLabel?: string\r\n  size?: CopyButtonSize\r\n  variant?: CopyButtonVariant\r\n  timeout?: number\r\n  onCopy?: () => void\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/copy-button/CopyButton.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/copy-button/CopyButton.tsx",
+      "content": "'use client'\n\nimport { useState } from 'react'\nimport { cn } from '@/lib/utils'\nimport { Button } from '@/components/ui/cn/button'\nimport type { ButtonVariant, ButtonSize } from '@/components/ui/cn/button'\nimport type { CopyButtonProps } from './copy-button.types'\n\nconst CopyIcon  = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/></svg>\nconst CheckIcon = () => <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\"><polyline points=\"20 6 9 17 4 12\"/></svg>\n\nexport function CopyButton({\n  text,\n  label        = 'Copy',\n  successLabel = 'Copied!',\n  size         = 'md',\n  variant      = 'outline',\n  timeout      = 2000,\n  onCopy,\n  className,\n  style,\n}: CopyButtonProps) {\n  const [copied, setCopied] = useState(false)\n\n  async function handleCopy() {\n    try {\n      await navigator.clipboard.writeText(text)\n      setCopied(true)\n      onCopy?.()\n      setTimeout(() => setCopied(false), timeout)\n    } catch {\n      // clipboard API unavailable\n    }\n  }\n\n  return (\n    <Button\n      intent=\"neutral\"\n      variant={variant as ButtonVariant}\n      size={size as ButtonSize}\n      iconLeft={copied ? <CheckIcon /> : <CopyIcon />}\n      onClick={handleCopy}\n      className={cn(copied && 'text-success!', className)}\n      style={style}\n      aria-label={copied ? successLabel : label}\n    >\n      {copied ? successLabel : label}\n    </Button>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/copy-button/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/copy-button/index.ts",
+      "content": "export { CopyButton } from './CopyButton'\r\nexport type { CopyButtonProps } from './copy-button.types'\r\n"
+    }
+  ]
+}

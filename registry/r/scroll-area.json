@@ -1,0 +1,35 @@
+{
+  "name": "scroll-area",
+  "version": "1.0.0",
+  "title": "Scroll Area",
+  "type": "registry:component",
+  "description": "Overflow container with styled scrollbar.",
+  "group": "layout",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/scroll-area",
+  "files": [
+    {
+      "path": "components/ui/cn/scroll-area/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-area/index.ts",
+      "content": "export { ScrollArea } from './ScrollArea'\r\nexport type { ScrollAreaOrientation, ScrollAreaProps } from './scroll-area.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-area/scroll-area.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/scroll-area/scroll-area.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type ScrollAreaOrientation = 'vertical' | 'horizontal' | 'both'\r\n\r\nexport interface ScrollAreaProps {\r\n  children: React.ReactNode\r\n  orientation?: ScrollAreaOrientation\r\n  maxHeight?: number | string\r\n  maxWidth?: number | string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/scroll-area/ScrollArea.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/scroll-area/ScrollArea.tsx",
+      "content": "import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ScrollAreaProps } from './scroll-area.types'\r\n\r\nconst ORIENTATION_CLS: Record<string, string> = {\r\n  vertical:   'overflow-x-hidden overflow-y-auto',\r\n  horizontal: 'overflow-x-auto overflow-y-hidden',\r\n  both:       'overflow-auto',\r\n}\r\n\r\nexport function ScrollArea({\r\n  children,\r\n  orientation = 'vertical',\r\n  maxHeight,\r\n  maxWidth,\r\n  className,\r\n  style,\r\n}: ScrollAreaProps) {\r\n  const maxStyle: React.CSSProperties = {}\r\n  if (maxHeight) maxStyle.maxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight\r\n  if (maxWidth)  maxStyle.maxWidth  = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth\r\n\r\n  return (\r\n    <div className={cn('relative overflow-hidden', className)} style={style}>\r\n      <div\r\n        className={cn(\r\n          'w-full h-full [scrollbar-width:thin] [scrollbar-color:var(--ks-rule)_transparent]',\r\n          '[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar]:h-[6px]',\r\n          '[&::-webkit-scrollbar-track]:bg-transparent',\r\n          '[&::-webkit-scrollbar-thumb]:bg-rule [&::-webkit-scrollbar-thumb]:rounded-full',\r\n          '[&::-webkit-scrollbar-thumb:hover]:bg-[color-mix(in_srgb,var(--ks-text-muted)_50%,transparent)]',\r\n          '[&::-webkit-scrollbar-corner]:bg-transparent',\r\n          ORIENTATION_CLS[orientation] ?? ORIENTATION_CLS.vertical,\r\n        )}\r\n        style={maxStyle}\r\n      >\r\n        {children}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

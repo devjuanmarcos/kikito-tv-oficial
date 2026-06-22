@@ -1,0 +1,29 @@
+{
+  "name": "pricing-card",
+  "version": "1.0.0",
+  "title": "Pricing Card",
+  "type": "registry:component",
+  "description": "Subscription plan card with features.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/pricing-card",
+  "files": [
+    {
+      "path": "components/ui/cn/pricing-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pricing-card/index.ts",
+      "content": "export { PricingCard } from './PricingCard'\nexport type { PricingCardProps, PricingFeature } from './PricingCard'\n"
+    },
+    {
+      "path": "components/ui/cn/pricing-card/PricingCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/pricing-card/PricingCard.tsx",
+      "content": "﻿'use client'\r\nimport type React from 'react'\r\nimport { cn } from '@/lib/utils'\r\n\r\nexport interface PricingFeature {\r\n  label:    string\r\n  included: boolean\r\n  note?:    string\r\n}\r\n\r\nexport interface PricingCardProps {\r\n  name:         string\r\n  price:        string\r\n  features:     PricingFeature[]\r\n  period?:      string\r\n  description?: string\r\n  cta?:         string\r\n  onSelect?:    () => void\r\n  highlighted?: boolean\r\n  badge?:       string\r\n  className?:   string\r\n  style?:       React.CSSProperties\r\n}\r\n\r\nconst CheckIcon = () => (\r\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" aria-hidden=\"true\" className=\"w-4 h-4 text-success flex-shrink-0\">\r\n    <path d=\"M20 6L9 17l-5-5\" strokeLinecap=\"round\" strokeLinejoin=\"round\"/>\r\n  </svg>\r\n)\r\nconst XIcon = () => (\r\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2.5\" aria-hidden=\"true\" className=\"w-4 h-4 text-faint/40 flex-shrink-0\">\r\n    <path d=\"M18 6L6 18M6 6l12 12\" strokeLinecap=\"round\"/>\r\n  </svg>\r\n)\r\n\r\nexport function PricingCard({\r\n  name,\r\n  price,\r\n  features,\r\n  period      = '/month',\r\n  description,\r\n  cta         = 'Get started',\r\n  onSelect,\r\n  highlighted = false,\r\n  badge,\r\n  className,\r\n  style,\r\n}: PricingCardProps) {\r\n  return (\r\n    <div\r\n      style={style}\r\n      className={cn(\r\n        'relative flex flex-col rounded-2xl border p-6 h-full transition-[border-color,box-shadow] duration-[200ms]',\r\n        highlighted\r\n          ? 'border-patina shadow-[0_0_0_3px_color-mix(in_srgb,var(--ks-primary)_20%,transparent)] bg-raised'\r\n          : 'border-rule bg-raised',\r\n        className,\r\n      )}\r\n    >\r\n      {badge && (\r\n        <span className=\"absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-patina text-patina-fg text-[0.65rem] font-bold uppercase tracking-wide whitespace-nowrap\">\r\n          {badge}\r\n        </span>\r\n      )}\r\n\r\n      <div className=\"mb-4\">\r\n        <h3 className=\"text-body-callout font-semibold text-foreground\">{name}</h3>\r\n        {description && <p className=\"text-body-caption text-faint mt-1\">{description}</p>}\r\n      </div>\r\n\r\n      <div className=\"flex items-baseline gap-0.5 mb-6\">\r\n        <span className=\"text-3xl font-bold text-foreground\">{price}</span>\r\n        {period && <span className=\"text-body-caption text-faint\">{period}</span>}\r\n      </div>\r\n\r\n      <ul className=\"flex flex-col gap-3 mb-6 flex-1\">\r\n        {features.map((f, i) => (\r\n          <li key={i} className={cn('flex items-start gap-2', !f.included && 'opacity-40')}>\r\n            {f.included ? <CheckIcon /> : <XIcon />}\r\n            <span className=\"text-body-callout text-foreground\">\r\n              {f.label}\r\n              {f.note && <span className=\"ml-1 text-faint text-body-caption\">({f.note})</span>}\r\n            </span>\r\n          </li>\r\n        ))}\r\n      </ul>\r\n\r\n      <button\r\n        type=\"button\"\r\n        onClick={onSelect}\r\n        className={cn(\r\n          'w-full py-2.5 rounded-xl text-body-callout font-semibold transition-[filter,opacity] duration-[120ms]',\r\n          highlighted\r\n            ? 'bg-patina text-patina-fg hover:brightness-110'\r\n            : 'bg-graphite text-foreground border border-rule hover:bg-graphite-2',\r\n        )}\r\n      >\r\n        {cta}\r\n      </button>\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

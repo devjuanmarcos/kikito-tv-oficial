@@ -1,0 +1,35 @@
+{
+  "name": "animated-number",
+  "version": "1.0.0",
+  "title": "Animated Number",
+  "type": "registry:component",
+  "description": "Counter that animates to a target number.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/animated-number",
+  "files": [
+    {
+      "path": "components/ui/cn/animated-number/animated-number.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/animated-number/animated-number.types.ts",
+      "content": "﻿export interface AnimatedNumberProps {\r\n  value: number\r\n  duration?: number\r\n  format?: (value: number) => string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/animated-number/AnimatedNumber.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/animated-number/AnimatedNumber.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useEffect, useRef, useState } from 'react'\r\nimport type { AnimatedNumberProps } from './animated-number.types'\r\n\r\nexport function AnimatedNumber({\r\n  value,\r\n  duration = 800,\r\n  format = v => Math.round(v).toLocaleString(),\r\n  className,\r\n  style,\r\n}: AnimatedNumberProps) {\r\n  const [displayed, setDisplayed] = useState(value)\r\n  const startRef = useRef(value)\r\n  const startTimeRef = useRef<number | null>(null)\r\n  const rafRef = useRef<number | null>(null)\r\n  const prevValueRef = useRef(value)\r\n\r\n  useEffect(() => {\r\n    if (value === prevValueRef.current) return\r\n    const from = prevValueRef.current\r\n    prevValueRef.current = value\r\n\r\n    if (rafRef.current) cancelAnimationFrame(rafRef.current)\r\n    startRef.current = from\r\n    startTimeRef.current = null\r\n\r\n    const animate = (ts: number) => {\r\n      if (!startTimeRef.current) startTimeRef.current = ts\r\n      const elapsed = ts - startTimeRef.current\r\n      const progress = Math.min(elapsed / duration, 1)\r\n      const ease = 1 - Math.pow(1 - progress, 3)\r\n      setDisplayed(from + (value - from) * ease)\r\n      if (progress < 1) rafRef.current = requestAnimationFrame(animate)\r\n    }\r\n    rafRef.current = requestAnimationFrame(animate)\r\n\r\n    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }\r\n  }, [value, duration])\r\n\r\n  return (\r\n    <span className={className} style={style}>\r\n      {format(displayed)}\r\n    </span>\r\n  )\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/animated-number/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/animated-number/index.ts",
+      "content": "﻿export { AnimatedNumber } from './AnimatedNumber'\r\nexport type { AnimatedNumberProps } from './animated-number.types'\r\n"
+    }
+  ]
+}

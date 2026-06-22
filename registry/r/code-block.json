@@ -1,0 +1,29 @@
+{
+  "name": "code-block",
+  "version": "1.0.0",
+  "title": "Code Block",
+  "type": "registry:component",
+  "description": "Syntax-highlighted code block with copy.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/code-block",
+  "files": [
+    {
+      "path": "components/ui/cn/code-block/CodeBlock.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/code-block/CodeBlock.tsx",
+      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport interface CodeBlockProps {\n  code: string;\n  language?: string;\n  filename?: string;\n  showLineNumbers?: boolean;\n  maxHeight?: number;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst CopyIcon = () => (\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" aria-hidden=\"true\" className=\"w-3.5 h-3.5\">\n    <rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" />\n    <path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\" />\n  </svg>\n);\nconst CheckIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    aria-hidden=\"true\"\n    className=\"w-3.5 h-3.5 text-success\"\n  >\n    <polyline points=\"20 6 9 17 4 12\" />\n  </svg>\n);\n\nexport function CodeBlock({\n  code,\n  language,\n  filename,\n  showLineNumbers = false,\n  maxHeight,\n  className,\n  style,\n}: CodeBlockProps) {\n  const [copied, setCopied] = useState(false);\n  const lines = code.split(\"\\n\");\n\n  function copy() {\n    navigator.clipboard.writeText(code).then(() => {\n      setCopied(true);\n      setTimeout(() => setCopied(false), 2000);\n    });\n  }\n\n  return (\n    <div\n      style={style}\n      className={cn(\n        \"group relative rounded-(--radius-md) border border-rule bg-graphite overflow-hidden text-[0.8125rem] font-mono\",\n        className\n      )}\n    >\n      {(filename || language) && (\n        <div className=\"flex items-center justify-between px-4 py-2 border-b border-rule bg-graphite-2\">\n          <div className=\"flex items-center gap-2\">\n            {filename && <span className=\"text-body-caption text-foreground font-medium\">{filename}</span>}\n            {language && !filename && (\n              <span className=\"text-body-caption text-faint uppercase tracking-wide\">{language}</span>\n            )}\n            {language && filename && <span className=\"text-body-caption text-faint\">{language}</span>}\n          </div>\n          <button\n            type=\"button\"\n            aria-label={copied ? \"Copied!\" : \"Copy code\"}\n            onClick={copy}\n            className=\"flex items-center gap-1 text-faint hover:text-foreground transition-colors text-body-caption\"\n          >\n            {copied ? <CheckIcon /> : <CopyIcon />}\n            <span>{copied ? \"Copied!\" : \"Copy\"}</span>\n          </button>\n        </div>\n      )}\n\n      <div className=\"relative overflow-auto\" style={maxHeight ? { maxHeight } : undefined}>\n        {!filename && !language && (\n          <button\n            type=\"button\"\n            aria-label={copied ? \"Copied!\" : \"Copy code\"}\n            onClick={copy}\n            className=\"absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-faint hover:text-foreground bg-graphite-2 border border-rule rounded px-2 py-1 text-body-caption\"\n          >\n            {copied ? <CheckIcon /> : <CopyIcon />}\n          </button>\n        )}\n        <table className=\"w-full border-collapse\">\n          <tbody>\n            {lines.map((line, i) => (\n              <tr key={i} className=\"hover:bg-white/[0.03]\">\n                {showLineNumbers && (\n                  <td\n                    className=\"select-none text-right text-faint pr-4 pl-4 py-0 leading-6 w-px align-top border-r border-rule\"\n                    style={{ userSelect: \"none\" }}\n                  >\n                    {i + 1}\n                  </td>\n                )}\n                <td className={cn(\"py-0 leading-6 text-foreground\", showLineNumbers ? \"pl-4 pr-4\" : \"px-4\")}>\n                  <pre className=\"m-0 whitespace-pre\">{line || \" \"}</pre>\n                </td>\n              </tr>\n            ))}\n          </tbody>\n        </table>\n      </div>\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/code-block/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/code-block/index.ts",
+      "content": "export { CodeBlock } from './CodeBlock'\nexport type { CodeBlockProps } from './CodeBlock'\n"
+    }
+  ]
+}

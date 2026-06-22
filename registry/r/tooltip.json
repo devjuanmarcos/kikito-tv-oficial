@@ -1,0 +1,29 @@
+{
+  "name": "tooltip",
+  "version": "1.0.0",
+  "title": "Tooltip",
+  "type": "registry:component",
+  "description": "Simple hover tooltip.",
+  "group": "overlay",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/tooltip",
+  "files": [
+    {
+      "path": "components/ui/cn/tooltip/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/tooltip/index.ts",
+      "content": "export { Tooltip } from './Tooltip'\nexport type { TooltipProps, TooltipPlacement } from './Tooltip'\n"
+    },
+    {
+      "path": "components/ui/cn/tooltip/Tooltip.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/tooltip/Tooltip.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useState, useRef, cloneElement, useEffect, Children } from 'react'\nimport { createPortal } from 'react-dom'\nimport { cn } from '@/lib/utils'\n\nexport type TooltipPlacement =\n  | 'top' | 'top-start' | 'top-end'\n  | 'bottom' | 'bottom-start' | 'bottom-end'\n  | 'left' | 'right'\n\nexport interface TooltipProps {\n  content:    React.ReactNode\n  placement?: TooltipPlacement\n  delay?:     number\n  disabled?:  boolean\n  children:   React.ReactElement\n}\n\nfunction getPos(trigger: DOMRect, tip: DOMRect, placement: TooltipPlacement, gap = 8) {\n  let top = 0, left = 0\n  const { top: tT, bottom: tB, left: tL, right: tR, width: tW, height: tH } = trigger\n  const { width: pW, height: pH } = tip\n\n  switch (placement) {\n    case 'top':          top = tT - pH - gap;     left = tL + tW / 2 - pW / 2; break\n    case 'top-start':    top = tT - pH - gap;     left = tL; break\n    case 'top-end':      top = tT - pH - gap;     left = tR - pW; break\n    case 'bottom':       top = tB + gap;           left = tL + tW / 2 - pW / 2; break\n    case 'bottom-start': top = tB + gap;           left = tL; break\n    case 'bottom-end':   top = tB + gap;           left = tR - pW; break\n    case 'left':         top = tT + tH / 2 - pH / 2; left = tL - pW - gap; break\n    case 'right':        top = tT + tH / 2 - pH / 2; left = tR + gap; break\n  }\n\n  // keep in viewport\n  const vW = window.innerWidth, vH = window.innerHeight\n  left = Math.max(8, Math.min(left, vW - pW - 8))\n  top  = Math.max(8, Math.min(top,  vH - pH - 8))\n\n  return { top, left }\n}\n\nexport function Tooltip({\n  content,\n  placement = 'top',\n  delay     = 300,\n  disabled  = false,\n  children,\n}: TooltipProps) {\n  const [visible, setVisible] = useState(false)\n  const [pos, setPos]         = useState({ top: 0, left: 0 })\n  const triggerRef = useRef<Element>(null)\n  const tipRef     = useRef<HTMLDivElement>(null)\n  const timer      = useRef<ReturnType<typeof setTimeout>>(null)\n\n  function show() {\n    if (disabled) return\n    timer.current = setTimeout(() => {\n      setVisible(true)\n      requestAnimationFrame(() => {\n        if (!triggerRef.current || !tipRef.current) return\n        const tRect = triggerRef.current.getBoundingClientRect()\n        const pRect = tipRef.current.getBoundingClientRect()\n        setPos(getPos(tRect, pRect, placement))\n      })\n    }, delay)\n  }\n\n  function hide() {\n    if (timer.current) clearTimeout(timer.current)\n    setVisible(false)\n  }\n\n  useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])\n\n  const trigger = cloneElement(Children.only(children), {\n    ref: triggerRef,\n    onMouseEnter: show,\n    onMouseLeave: hide,\n    onFocus:      show,\n    onBlur:       hide,\n  })\n\n  if (typeof document === 'undefined') return trigger\n\n  return (\n    <>\n      {trigger}\n      {createPortal(\n        <div\n          ref={tipRef}\n          role=\"tooltip\"\n          className={cn(\n            'fixed z-[2000] pointer-events-none',\n            'max-w-[260px] px-2.5 py-1.5 text-body-caption',\n            'bg-foreground text-base rounded-[5px] shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.5)]',\n            'transition-[opacity,transform] duration-[140ms]',\n            visible ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.95]',\n          )}\n          style={{ top: pos.top, left: pos.left }}\n        >\n          {content}\n        </div>,\n        document.body\n      )}\n    </>\n  )\n}\n"
+    }
+  ]
+}

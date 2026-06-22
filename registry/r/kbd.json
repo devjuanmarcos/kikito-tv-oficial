@@ -1,0 +1,29 @@
+{
+  "name": "kbd",
+  "version": "1.0.0",
+  "title": "Kbd",
+  "type": "registry:component",
+  "description": "Keyboard key display element.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/kbd",
+  "files": [
+    {
+      "path": "components/ui/cn/kbd/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/kbd/index.ts",
+      "content": "export { Kbd, KbdSequence } from './Kbd'\nexport type { KbdProps, KbdSequenceProps, KbdSize, KbdVariant } from './Kbd'\n"
+    },
+    {
+      "path": "components/ui/cn/kbd/Kbd.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/kbd/Kbd.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type KbdSize    = 'sm' | 'md' | 'lg'\nexport type KbdVariant = 'default' | 'ghost' | 'solid'\n\nexport interface KbdProps extends React.HTMLAttributes<HTMLElement> {\n  size?:    KbdSize\n  variant?: KbdVariant\n}\n\nexport interface KbdSequenceProps {\n  keys:       string[]\n  separator?: string\n  size?:      KbdSize\n  variant?:   KbdVariant\n}\n\nconst SIZE: Record<KbdSize, string> = {\n  sm: 'h-4 min-w-[1rem] px-1   text-[0.6rem]  rounded-[3px]',\n  md: 'h-5 min-w-[1.25rem] px-1.5 text-[0.7rem]  rounded-[4px]',\n  lg: 'h-6 min-w-[1.5rem] px-2   text-[0.8rem]  rounded-[4px]',\n}\n\nconst VARIANT: Record<KbdVariant, string> = {\n  default: 'bg-graphite border border-rule text-foreground shadow-[0_1px_0_0_var(--ks-rule)]',\n  ghost:   'bg-transparent border border-rule text-faint',\n  solid:   'bg-foreground text-base border border-foreground',\n}\n\nexport function Kbd({ size = 'md', variant = 'default', className, children, ...props }: KbdProps) {\n  return (\n    <kbd\n      {...props}\n      className={cn(\n        'inline-flex items-center justify-center font-mono font-medium select-none leading-none',\n        SIZE[size],\n        VARIANT[variant],\n        className,\n      )}\n    >\n      {children}\n    </kbd>\n  )\n}\n\nexport function KbdSequence({ keys, separator = '⌘', size = 'md', variant = 'default' }: KbdSequenceProps) {\n  const isSymbol = !separator || separator === '+' || separator === '→' || separator === 'then'\n  return (\n    <span className=\"inline-flex items-center gap-1\">\n      {keys.map((k, i) => (\n        <span key={i} className=\"inline-flex items-center gap-1\">\n          {i > 0 && (\n            <span className=\"text-faint text-[0.7rem] select-none\">{separator ?? '+'}</span>\n          )}\n          <Kbd size={size} variant={variant}>{k}</Kbd>\n        </span>\n      ))}\n    </span>\n  )\n}\n"
+    }
+  ]
+}

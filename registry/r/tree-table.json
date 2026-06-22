@@ -1,0 +1,35 @@
+{
+  "name": "tree-table",
+  "version": "1.0.0",
+  "title": "Tree Table",
+  "type": "registry:component",
+  "description": "Expandable hierarchical table.",
+  "group": "data",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/tree-table",
+  "files": [
+    {
+      "path": "components/ui/cn/tree-table/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/tree-table/index.ts",
+      "content": "export { TreeTable } from './TreeTable'\r\nexport type { TreeTableProps, TreeTableRow, TreeTableColumn } from './tree-table.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/tree-table/tree-table.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/tree-table/tree-table.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface TreeTableColumn<T = Record<string, unknown>> {\r\n  key: string\r\n  header: string\r\n  width?: number | string\r\n  render?: (row: T) => React.ReactNode\r\n}\r\n\r\nexport interface TreeTableRow<T = Record<string, unknown>> {\r\n  id: string\r\n  data: T\r\n  children?: TreeTableRow<T>[]\r\n}\r\n\r\nexport interface TreeTableProps<T = Record<string, unknown>> {\r\n  columns: TreeTableColumn<T>[]\r\n  rows: TreeTableRow<T>[]\r\n  defaultExpanded?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/tree-table/TreeTable.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/tree-table/TreeTable.tsx",
+      "content": "﻿\"use client\";\n\nimport React, { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { TreeTableProps, TreeTableRow } from \"./tree-table.types\";\n\nfunction Row<T>({\n  row,\n  columns,\n  depth,\n  defaultExpanded,\n}: {\n  row: TreeTableRow<T>;\n  columns: TreeTableProps<T>[\"columns\"];\n  depth: number;\n  defaultExpanded: boolean;\n}) {\n  const [expanded, setExpanded] = useState(defaultExpanded);\n  const hasChildren = row.children && row.children.length > 0;\n\n  return (\n    <>\n      <tr className=\"border-b border-rule transition-colors duration-100 last:border-b-0 hover:bg-raised\">\n        {columns.map((col, ci) => (\n          <td key={col.key} className=\"px-[14px] py-[9px] align-middle text-body-callout text-foreground\">\n            {ci === 0 ? (\n              <span className=\"inline-flex items-center gap-[6px]\" style={{ paddingLeft: depth * 20 }}>\n                {hasChildren ? (\n                  <button\n                    className=\"w-[18px] h-[18px] bg-transparent border border-rule rounded cursor-pointer inline-flex items-center justify-center text-muted text-body-caption flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina\"\n                    onClick={() => setExpanded((e) => !e)}\n                    aria-label={expanded ? \"Recolher\" : \"Expandir\"}\n                  >\n                    {expanded ? \"−\" : \"+\"}\n                  </button>\n                ) : (\n                  <span className=\"inline-block w-[18px] h-[18px] flex-shrink-0\" />\n                )}\n                {col.render ? col.render(row.data) : String((row.data as Record<string, unknown>)[col.key] ?? \"\")}\n              </span>\n            ) : col.render ? (\n              col.render(row.data)\n            ) : (\n              String((row.data as Record<string, unknown>)[col.key] ?? \"\")\n            )}\n          </td>\n        ))}\n      </tr>\n      {hasChildren &&\n        expanded &&\n        row.children!.map((child) => (\n          <Row key={child.id} row={child} columns={columns} depth={depth + 1} defaultExpanded={defaultExpanded} />\n        ))}\n    </>\n  );\n}\n\nexport function TreeTable<T = Record<string, unknown>>({\n  columns,\n  rows,\n  defaultExpanded = false,\n  className,\n  style,\n}: TreeTableProps<T>) {\n  return (\n    <div className={cn(\"overflow-x-auto border border-rule rounded-(--radius-md)\", className)} style={style}>\n      <table className=\"w-full border-collapse text-body-callout text-foreground\">\n        <thead>\n          <tr>\n            {columns.map((col) => (\n              <th\n                key={col.key}\n                className=\"px-[14px] py-[10px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted border-b border-rule bg-sunken whitespace-nowrap\"\n                style={col.width ? { width: col.width } : undefined}\n              >\n                {col.header}\n              </th>\n            ))}\n          </tr>\n        </thead>\n        <tbody>\n          {rows.map((row) => (\n            <Row key={row.id} row={row} columns={columns} depth={0} defaultExpanded={defaultExpanded} />\n          ))}\n        </tbody>\n      </table>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

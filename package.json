@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "registry:build": "node scripts/build-registry.mjs",
+    "registry:watch": "node --watch scripts/build-registry.mjs",
+    "cli:build": "pnpm --filter kikitocn build",
+    "cli:dev": "pnpm --filter kikitocn dev",
     "dev": "next dev",
     "dev:lan": "next dev -H 0.0.0.0",
     "build": "next build",

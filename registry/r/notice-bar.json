@@ -1,0 +1,29 @@
+{
+  "name": "notice-bar",
+  "version": "1.0.0",
+  "title": "Notice Bar",
+  "type": "registry:component",
+  "description": "Sticky notice bar with dismiss.",
+  "group": "overlay",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/notice-bar",
+  "files": [
+    {
+      "path": "components/ui/cn/notice-bar/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/notice-bar/index.ts",
+      "content": "export { NoticeBar } from './NoticeBar'\nexport type { NoticeBarProps, NoticeBarIntent, NoticeBarAction } from './NoticeBar'\n"
+    },
+    {
+      "path": "components/ui/cn/notice-bar/NoticeBar.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/notice-bar/NoticeBar.tsx",
+      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type NoticeBarIntent = \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";\n\nexport interface NoticeBarAction {\n  label: string;\n  onClick: () => void;\n}\n\nexport interface NoticeBarProps {\n  children: React.ReactNode;\n  intent?: NoticeBarIntent;\n  dismissible?: boolean;\n  icon?: React.ReactNode;\n  action?: NoticeBarAction;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst DEFAULT_ICON: Record<NoticeBarIntent, string> = {\n  info: \"ℹ\",\n  success: \"✓\",\n  warning: \"⚠\",\n  danger: \"✕\",\n  neutral: \"·\",\n};\n\nconst INTENT_CLS: Record<NoticeBarIntent, string> = {\n  info: \"bg-info/10    border-info/30    text-info\",\n  success: \"bg-success/10 border-success/30 text-success\",\n  warning: \"bg-warning/10 border-warning/30 text-warning\",\n  danger: \"bg-danger/10  border-danger/30  text-danger\",\n  neutral: \"bg-graphite   border-rule       text-foreground\",\n};\n\nconst XIcon = () => (\n  <svg\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2.5\"\n    aria-hidden=\"true\"\n    className=\"w-3.5 h-3.5\"\n  >\n    <path d=\"M18 6L6 18M6 6l12 12\" strokeLinecap=\"round\" />\n  </svg>\n);\n\nexport function NoticeBar({\n  children,\n  intent = \"info\",\n  dismissible = false,\n  icon,\n  action,\n  className,\n  style,\n}: NoticeBarProps) {\n  const [dismissed, setDismissed] = useState(false);\n  if (dismissed) return null;\n\n  const iconEl = icon ?? (\n    <span className=\"text-[0.875rem] font-bold leading-none select-none\" aria-hidden=\"true\">\n      {DEFAULT_ICON[intent]}\n    </span>\n  );\n\n  return (\n    <div\n      role=\"status\"\n      style={style}\n      className={cn(\n        \"flex items-center gap-2.5 px-4 py-2.5 rounded-(--radius-md) border text-body-callout\",\n        INTENT_CLS[intent],\n        className\n      )}\n    >\n      <span className=\"shrink-0\">{iconEl}</span>\n      <span className=\"flex-1 leading-[1.5]\">{children}</span>\n      {action && (\n        <button\n          type=\"button\"\n          onClick={action.onClick}\n          className=\"shrink-0 text-body-caption font-semibold underline-offset-2 hover:underline transition-[text-decoration] ml-2\"\n        >\n          {action.label}\n        </button>\n      )}\n      {dismissible && (\n        <button\n          type=\"button\"\n          aria-label=\"Dismiss\"\n          onClick={() => setDismissed(true)}\n          className=\"shrink-0 p-0.5 rounded opacity-60 hover:opacity-100 transition-opacity ml-1\"\n        >\n          <XIcon />\n        </button>\n      )}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

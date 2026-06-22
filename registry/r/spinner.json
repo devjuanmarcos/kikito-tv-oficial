@@ -1,0 +1,35 @@
+{
+  "name": "spinner",
+  "version": "1.0.0",
+  "title": "Spinner",
+  "type": "registry:component",
+  "description": "Loading spinner with sizes.",
+  "group": "feedback",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/spinner",
+  "files": [
+    {
+      "path": "components/ui/cn/spinner/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/spinner/index.ts",
+      "content": "export { Spinner } from './Spinner'\nexport type { SpinnerProps, SpinnerSize, SpinnerIntent } from './spinner.types'\n"
+    },
+    {
+      "path": "components/ui/cn/spinner/Spinner.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/spinner/Spinner.tsx",
+      "content": "import type React from 'react'\nimport { cn } from '@/lib/utils'\nimport type { SpinnerProps } from './spinner.types'\n\nconst SIZE_CLS = {\n  xs: 'w-3 h-3 border-[1.5px]',\n  sm: 'w-4 h-4 border-2',\n  md: 'w-5 h-5 border-2',\n  lg: 'w-7 h-7 border-[2.5px]',\n  xl: 'w-10 h-10 border-[3px]',\n}\n\nconst INTENT_CLS = {\n  primary:   'border-patina/25 border-t-patina',\n  secondary: 'border-foreground/15 border-t-foreground/60',\n  neutral:   'border-faint/20 border-t-faint',\n  current:   'border-current/20 border-t-current',\n}\n\nexport function Spinner({\n  size    = 'md',\n  intent  = 'primary',\n  label,\n  className,\n  style,\n}: SpinnerProps) {\n  return (\n    <span\n      className={cn('inline-flex flex-col items-center gap-2', className)}\n      style={style}\n      role=\"status\"\n      aria-label={label ?? 'Loading'}\n    >\n      <span\n        className={cn(\n          'rounded-full animate-spin',\n          SIZE_CLS[size],\n          INTENT_CLS[intent],\n        )}\n        aria-hidden=\"true\"\n      />\n      {label && (\n        <span className=\"text-body-caption text-faint\">{label}</span>\n      )}\n    </span>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/spinner/spinner.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/spinner/spinner.types.ts",
+      "content": "export type SpinnerSize   = 'xs' | 'sm' | 'md' | 'lg' | 'xl'\nexport type SpinnerIntent = 'primary' | 'secondary' | 'neutral' | 'current'\n\nexport interface SpinnerProps {\n  size?:      SpinnerSize\n  intent?:    SpinnerIntent\n  label?:     string\n  className?: string\n  style?:     React.CSSProperties\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "read-more",
+  "version": "1.0.0",
+  "title": "Read More",
+  "type": "registry:component",
+  "description": "Truncated text with expand/collapse.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/read-more",
+  "files": [
+    {
+      "path": "components/ui/cn/read-more/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/read-more/index.ts",
+      "content": "export { ReadMore } from './ReadMore'\nexport type { ReadMoreProps } from './ReadMore'\n"
+    },
+    {
+      "path": "components/ui/cn/read-more/ReadMore.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/read-more/ReadMore.tsx",
+      "content": "'use client'\nimport type React from 'react'\nimport { useState } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface ReadMoreProps {\n  children:       string\n  maxLength?:     number\n  expandLabel?:   string\n  collapseLabel?: string\n  className?:     string\n  style?:         React.CSSProperties\n}\n\nexport function ReadMore({\n  children,\n  maxLength      = 150,\n  expandLabel    = 'Read more',\n  collapseLabel  = 'Show less',\n  className,\n  style,\n}: ReadMoreProps) {\n  const [expanded, setExpanded] = useState(false)\n  const needsTruncation = children.length > maxLength\n\n  if (!needsTruncation) {\n    return <span style={style} className={className}>{children}</span>\n  }\n\n  return (\n    <span style={style} className={cn('inline', className)}>\n      {expanded ? children : `${children.slice(0, maxLength).trimEnd()}… `}\n      <button\n        type=\"button\"\n        onClick={() => setExpanded(v => !v)}\n        className=\"text-patina font-medium hover:underline transition-[text-decoration] underline-offset-2 text-inherit\"\n      >\n        {expanded ? collapseLabel : expandLabel}\n      </button>\n    </span>\n  )\n}\n"
+    }
+  ]
+}

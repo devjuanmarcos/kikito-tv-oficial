@@ -1,0 +1,35 @@
+{
+  "name": "pricing-toggle",
+  "version": "1.0.0",
+  "title": "Pricing Toggle",
+  "type": "registry:component",
+  "description": "Monthly/annual pricing toggle.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/pricing-toggle",
+  "files": [
+    {
+      "path": "components/ui/cn/pricing-toggle/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pricing-toggle/index.ts",
+      "content": "export { PricingToggle } from './PricingToggle'\r\nexport type { PricingToggleProps } from './pricing-toggle.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/pricing-toggle/pricing-toggle.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pricing-toggle/pricing-toggle.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface PricingToggleProps {\r\n  value?: 'monthly' | 'yearly'\r\n  defaultValue?: 'monthly' | 'yearly'\r\n  onChange?: (period: 'monthly' | 'yearly') => void\r\n  savingsLabel?: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/pricing-toggle/PricingToggle.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/pricing-toggle/PricingToggle.tsx",
+      "content": "﻿'use client'\r\n\r\nimport { useState } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { PricingToggleProps } from './pricing-toggle.types'\r\n\r\nexport function PricingToggle({\r\n  value,\r\n  onChange,\r\n  monthlyLabel = 'Monthly',\r\n  yearlyLabel = 'Yearly',\r\n  savingsLabel,\r\n  className,\r\n  style,\r\n}: PricingToggleProps) {\r\n  const [internal, setInternal] = useState<'monthly' | 'yearly'>('monthly')\r\n  const current = value ?? internal\r\n\r\n  function toggle(next: 'monthly' | 'yearly') {\r\n    if (!value) setInternal(next)\r\n    onChange?.(next)\r\n  }\r\n\r\n  return (\r\n    <div className={cn('flex items-center gap-3', className)} style={style}>\r\n      <span\r\n        className={cn('text-body-callout font-medium cursor-pointer transition-colors', current === 'monthly' ? 'text-foreground' : 'text-faint')}\r\n        onClick={() => toggle('monthly')}\r\n      >\r\n        {monthlyLabel}\r\n      </span>\r\n\r\n      <button\r\n        onClick={() => toggle(current === 'monthly' ? 'yearly' : 'monthly')}\r\n        role=\"switch\"\r\n        aria-checked={current === 'yearly'}\r\n        className=\"relative w-11 h-6 rounded-full bg-graphite transition-colors focus:outline-none\"\r\n        style={{ background: current === 'yearly' ? 'var(--ks-primary)' : undefined }}\r\n      >\r\n        <span\r\n          className=\"absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform\"\r\n          style={{ transform: current === 'yearly' ? 'translateX(20px)' : 'translateX(0)' }}\r\n        />\r\n      </button>\r\n\r\n      <span\r\n        className={cn('text-body-callout font-medium cursor-pointer transition-colors', current === 'yearly' ? 'text-foreground' : 'text-faint')}\r\n        onClick={() => toggle('yearly')}\r\n      >\r\n        {yearlyLabel}\r\n      </span>\r\n\r\n      {savingsLabel && current === 'yearly' && (\r\n        <span className=\"text-body-caption font-semibold px-2 py-0.5 rounded-full bg-success/15 text-success\">\r\n          {savingsLabel}\r\n        </span>\r\n      )}\r\n    </div>\r\n  )\r\n}\r\n"
+    }
+  ]
+}

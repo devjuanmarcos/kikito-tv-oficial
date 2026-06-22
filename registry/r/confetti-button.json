@@ -1,0 +1,35 @@
+{
+  "name": "confetti-button",
+  "version": "1.0.0",
+  "title": "Confetti Button",
+  "type": "registry:component",
+  "description": "Button that triggers confetti on click.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": ["button"],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/confetti-button",
+  "files": [
+    {
+      "path": "components/ui/cn/confetti-button/confetti-button.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/confetti-button/confetti-button.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type ConfettiButtonIntent = 'primary' | 'secondary' | 'danger' | 'success' | 'warning'\r\nexport type ConfettiButtonSize = 'sm' | 'md' | 'lg'\r\n\r\nexport interface ConfettiButtonProps {\r\n  children: React.ReactNode\r\n  onClick?: () => void\r\n  particleCount?: number\r\n  spread?: number\r\n  intent?: ConfettiButtonIntent\r\n  size?: ConfettiButtonSize\r\n  disabled?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/confetti-button/ConfettiButton.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/confetti-button/ConfettiButton.tsx",
+      "content": "'use client'\n\nimport { useCallback, useRef } from 'react'\nimport { cn } from '@/lib/utils'\nimport { Button } from '@/components/ui/cn/button'\nimport type { ButtonIntent, ButtonSize } from '@/components/ui/cn/button'\nimport type { ConfettiButtonProps } from './confetti-button.types'\n\n// Canvas 2D fillStyle requires raw hex strings — CSS vars not supported in canvas context\nconst COLORS = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#1dd1a1']\n\nexport function ConfettiButton({\n  children,\n  onClick,\n  particleCount = 60,\n  spread = 120,\n  intent = 'primary',\n  size = 'md',\n  disabled = false,\n  className,\n  style,\n}: ConfettiButtonProps) {\n  const canvasRef = useRef<HTMLCanvasElement>(null)\n  const animRef = useRef<number>(0)\n\n  const fire = useCallback(() => {\n    const canvas = canvasRef.current\n    if (!canvas) return\n    const W = 200, H = 200\n    canvas.width = W\n    canvas.height = H\n\n    const particles = Array.from({ length: particleCount }, () => ({\n      x: W / 2, y: H / 2,\n      vx: (Math.random() - 0.5) * spread * 0.06,\n      vy: -(Math.random() * spread * 0.04 + 2),\n      color: COLORS[Math.floor(Math.random() * COLORS.length)],\n      size: Math.random() * 7 + 3,\n      rot: Math.random() * 360,\n      rotV: (Math.random() - 0.5) * 8,\n      life: 1,\n      decay: Math.random() * 0.015 + 0.01,\n    }))\n\n    cancelAnimationFrame(animRef.current)\n\n    function draw() {\n      const ctx = canvas!.getContext('2d')!\n      ctx.clearRect(0, 0, W, H)\n      let alive = false\n      for (const p of particles) {\n        p.x += p.vx; p.y += p.vy; p.vy += 0.15\n        p.rot += p.rotV; p.life -= p.decay\n        if (p.life <= 0) continue\n        alive = true\n        ctx.save()\n        ctx.globalAlpha = Math.min(p.life, 1)\n        ctx.translate(p.x, p.y)\n        ctx.rotate((p.rot * Math.PI) / 180)\n        ctx.fillStyle = p.color\n        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5)\n        ctx.restore()\n      }\n      if (alive) animRef.current = requestAnimationFrame(draw)\n      else ctx.clearRect(0, 0, W, H)\n    }\n    draw()\n  }, [particleCount, spread])\n\n  const handleClick = () => { fire(); onClick?.() }\n\n  return (\n    <span className={cn('relative inline-flex', className)} style={style}>\n      <Button\n        intent={intent as ButtonIntent}\n        variant=\"solid\"\n        size={size as ButtonSize}\n        disabled={disabled}\n        onClick={handleClick}\n      >\n        {children}\n      </Button>\n      <canvas\n        ref={canvasRef}\n        className=\"pointer-events-none absolute -top-[100px] -left-[75px] z-50\"\n        width={200}\n        height={200}\n        style={{ mixBlendMode: 'normal' }}\n      />\n    </span>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/confetti-button/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/confetti-button/index.ts",
+      "content": "export { ConfettiButton } from './ConfettiButton'\r\nexport type { ConfettiButtonProps, ConfettiButtonIntent, ConfettiButtonSize } from './confetti-button.types'\r\n"
+    }
+  ]
+}

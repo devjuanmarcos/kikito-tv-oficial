@@ -1,0 +1,29 @@
+{
+  "name": "hover-card",
+  "version": "1.0.0",
+  "title": "Hover Card",
+  "type": "registry:component",
+  "description": "Rich preview card shown on hover.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/hover-card",
+  "files": [
+    {
+      "path": "components/ui/cn/hover-card/HoverCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/hover-card/HoverCard.tsx",
+      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState, useRef, useEffect, cloneElement, Children } from \"react\";\nimport { createPortal } from \"react-dom\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type HoverCardSide = \"top\" | \"bottom\" | \"left\" | \"right\";\nexport type HoverCardAlign = \"start\" | \"center\" | \"end\";\n\nexport interface HoverCardProps {\n  content: React.ReactNode;\n  side?: HoverCardSide;\n  align?: HoverCardAlign;\n  openDelay?: number;\n  closeDelay?: number;\n  children: React.ReactElement;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst GAP = 8;\n\nfunction getPos(trigger: DOMRect, card: DOMRect, side: HoverCardSide, align: HoverCardAlign) {\n  let top = 0,\n    left = 0;\n  const { top: tT, bottom: tB, left: tL, right: tR, width: tW, height: tH } = trigger;\n  const { width: cW, height: cH } = card;\n\n  if (side === \"top\" || side === \"bottom\") {\n    top = side === \"top\" ? tT - cH - GAP : tB + GAP;\n    left = align === \"start\" ? tL : align === \"end\" ? tR - cW : tL + tW / 2 - cW / 2;\n  } else {\n    left = side === \"left\" ? tL - cW - GAP : tR + GAP;\n    top = align === \"start\" ? tT : align === \"end\" ? tB - cH : tT + tH / 2 - cH / 2;\n  }\n\n  const vW = window.innerWidth,\n    vH = window.innerHeight;\n  return {\n    top: Math.max(8, Math.min(top, vH - cH - 8)),\n    left: Math.max(8, Math.min(left, vW - cW - 8)),\n  };\n}\n\nexport function HoverCard({\n  content,\n  side = \"bottom\",\n  align = \"center\",\n  openDelay = 300,\n  closeDelay = 150,\n  children,\n  className,\n  style,\n}: HoverCardProps) {\n  const [visible, setVisible] = useState(false);\n  const [pos, setPos] = useState({ top: 0, left: 0 });\n  const [ready, setReady] = useState(false);\n  const triggerRef = useRef<HTMLElement>(null);\n  const cardRef = useRef<HTMLDivElement>(null);\n  const openTimer = useRef<ReturnType<typeof setTimeout>>(null);\n  const closeTimer = useRef<ReturnType<typeof setTimeout>>(null);\n\n  function scheduleOpen() {\n    if (closeTimer.current) clearTimeout(closeTimer.current);\n    openTimer.current = setTimeout(() => {\n      setVisible(true);\n      setReady(false);\n      requestAnimationFrame(() => {\n        if (!triggerRef.current || !cardRef.current) return;\n        const tRect = triggerRef.current.getBoundingClientRect();\n        const cRect = cardRef.current.getBoundingClientRect();\n        setPos(getPos(tRect, cRect, side, align));\n        setReady(true);\n      });\n    }, openDelay);\n  }\n\n  function scheduleClose() {\n    if (openTimer.current) clearTimeout(openTimer.current);\n    closeTimer.current = setTimeout(() => setVisible(false), closeDelay);\n  }\n\n  useEffect(\n    () => () => {\n      if (openTimer.current) clearTimeout(openTimer.current);\n      if (closeTimer.current) clearTimeout(closeTimer.current);\n    },\n    []\n  );\n\n  const trigger = cloneElement(Children.only(children), {\n    ref: triggerRef,\n    onMouseEnter: scheduleOpen,\n    onMouseLeave: scheduleClose,\n    onFocus: scheduleOpen,\n    onBlur: scheduleClose,\n  });\n\n  if (typeof document === \"undefined\") return trigger;\n\n  return (\n    <>\n      {trigger}\n      {visible &&\n        createPortal(\n          <div\n            ref={cardRef}\n            role=\"tooltip\"\n            className={cn(\n              \"fixed z-[1050] min-w-[160px] max-w-[300px] p-3\",\n              \"bg-raised border border-rule rounded-(--radius-md)\",\n              \"shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]\",\n              \"transition-[opacity,transform] duration-[140ms]\",\n              ready ? \"opacity-100 scale-100\" : \"opacity-0 scale-[0.97]\"\n            )}\n            style={{ top: pos.top, left: pos.left }}\n            onMouseEnter={scheduleOpen}\n            onMouseLeave={scheduleClose}\n          >\n            {content}\n          </div>,\n          document.body\n        )}\n    </>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/hover-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/hover-card/index.ts",
+      "content": "export { HoverCard } from './HoverCard'\nexport type { HoverCardProps, HoverCardSide, HoverCardAlign } from './HoverCard'\n"
+    }
+  ]
+}

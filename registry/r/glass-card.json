@@ -1,0 +1,35 @@
+{
+  "name": "glass-card",
+  "version": "1.0.0",
+  "title": "Glass Card",
+  "type": "registry:component",
+  "description": "Frosted-glass card effect.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/glass-card",
+  "files": [
+    {
+      "path": "components/ui/cn/glass-card/glass-card.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/glass-card/glass-card.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport interface GlassCardProps {\r\n  children?: React.ReactNode\r\n  blur?: number\r\n  opacity?: number\r\n  border?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    },
+    {
+      "path": "components/ui/cn/glass-card/GlassCard.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/glass-card/GlassCard.tsx",
+      "content": "﻿import React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { GlassCardProps } from \"./glass-card.types\";\n\nexport function GlassCard({ children, blur = 12, opacity = 0.1, border = true, className, style }: GlassCardProps) {\n  return (\n    <div\n      className={cn(\"rounded-(--radius-lg) overflow-hidden\", className)}\n      style={{\n        background: `color-mix(in srgb, var(--ks-lacquer-raised) ${Math.round(opacity * 100)}%, transparent)`,\n        backdropFilter: `blur(${blur}px)`,\n        WebkitBackdropFilter: `blur(${blur}px)`,\n        border: border ? \"1px solid color-mix(in srgb, var(--ks-lacquer-raised) 20%, transparent)\" : \"none\",\n        ...style,\n      }}\n    >\n      {children}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/glass-card/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/glass-card/index.ts",
+      "content": "export { GlassCard } from './GlassCard'\r\nexport type { GlassCardProps } from './glass-card.types'\r\n"
+    }
+  ]
+}

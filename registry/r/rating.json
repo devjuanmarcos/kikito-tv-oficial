@@ -1,0 +1,35 @@
+{
+  "name": "rating",
+  "version": "1.0.0",
+  "title": "Rating",
+  "type": "registry:component",
+  "description": "Star rating display component.",
+  "group": "inputs",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/rating",
+  "files": [
+    {
+      "path": "components/ui/cn/rating/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/rating/index.ts",
+      "content": "export { Rating } from './Rating'\r\nexport type { RatingSize, RatingProps } from './rating.types'\r\n"
+    },
+    {
+      "path": "components/ui/cn/rating/Rating.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/rating/Rating.tsx",
+      "content": "'use client'\nimport React, { useState } from 'react'\nimport { cn } from '@/lib/utils'\nimport type { RatingProps } from './rating.types'\n\nfunction StarIcon({ filled, half }: { filled: boolean; half: boolean }) {\n  if (half) {\n    return (\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.5\">\n        <defs>\n          <linearGradient id=\"half-fill\" x1=\"0\" x2=\"1\" y1=\"0\" y2=\"0\">\n            <stop offset=\"50%\" stopColor=\"currentColor\" stopOpacity=\"1\" />\n            <stop offset=\"50%\" stopColor=\"currentColor\" stopOpacity=\"0\" />\n          </linearGradient>\n        </defs>\n        <polygon\n          points=\"12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26\"\n          fill=\"url(#half-fill)\"\n          stroke=\"currentColor\"\n        />\n      </svg>\n    )\n  }\n  return (\n    <svg viewBox=\"0 0 24 24\" fill={filled ? 'currentColor' : 'none'} stroke=\"currentColor\" strokeWidth=\"1.5\">\n      <polygon points=\"12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26\" />\n    </svg>\n  )\n}\n\nconst SIZE_CLS: Record<string, { gap: string; sz: string; textSz: string }> = {\n  sm: { gap: 'gap-[2px]', sz: 'w-4 h-4',          textSz: 'text-base'  },\n  md: { gap: 'gap-[3px]', sz: 'w-[22px] h-[22px]', textSz: 'text-xl'   },\n  lg: { gap: 'gap-1',     sz: 'w-[30px] h-[30px]', textSz: 'text-2xl'  },\n}\n\nexport function Rating({\n  value,\n  defaultValue = 0,\n  onChange,\n  max       = 5,\n  size      = 'md',\n  readOnly  = false,\n  disabled  = false,\n  allowHalf = false,\n  showValue = false,\n  label,\n  icon,\n  emptyIcon,\n  className,\n  style,\n}: RatingProps) {\n  const controlled = value !== undefined\n  const [internal, setInternal] = useState(defaultValue)\n  const [hover, setHover]       = useState<number | null>(null)\n\n  const current = controlled ? (value ?? 0) : internal\n  const display = hover ?? current\n\n  const hasCustomIcon = icon !== undefined || emptyIcon !== undefined\n\n  function handleClick(star: number) {\n    if (readOnly || disabled) return\n    if (!controlled) setInternal(star)\n    onChange?.(star)\n  }\n\n  function handleMouseMove(e: React.MouseEvent<HTMLButtonElement>, star: number) {\n    if (readOnly || disabled) return\n    if (allowHalf && !hasCustomIcon) {\n      const rect = e.currentTarget.getBoundingClientRect()\n      const half = e.clientX - rect.left < rect.width / 2\n      setHover(half ? star - 0.5 : star)\n    } else {\n      setHover(star)\n    }\n  }\n\n  function isFilled(star: number) { return display >= star }\n  function isHalf(star: number)   { return display >= star - 0.5 && display < star }\n\n  const sz = SIZE_CLS[size]\n\n  return (\n    <div className={cn('inline-flex flex-col gap-1', className)} style={style}>\n      {label && (\n        <span className=\"text-body-callout text-faint font-medium\">{label}</span>\n      )}\n      <div\n        className={cn(\n          'inline-flex items-center select-none',\n          sz.gap,\n          disabled && 'opacity-40 pointer-events-none',\n          readOnly && 'pointer-events-none',\n        )}\n        onMouseLeave={() => setHover(null)}\n      >\n        {Array.from({ length: max }, (_, i) => i + 1).map(star => {\n          const filled = isFilled(star)\n          const half   = isHalf(star)\n          const active = filled || half\n\n          return (\n            <button\n              key={star}\n              type=\"button\"\n              className={cn(\n                'relative cursor-pointer transition-transform duration-[100ms] border-none bg-transparent p-0',\n                sz.sz,\n                hasCustomIcon\n                  ? cn('flex items-center justify-center leading-none', sz.textSz)\n                  : 'text-rule [&>svg]:w-full [&>svg]:h-full [&>svg]:block',\n                active ? 'text-kinpaku' : 'text-rule',\n                !readOnly && 'hover:scale-[1.15]',\n              )}\n              onClick={() => handleClick(!hasCustomIcon && allowHalf ? (hover ?? star) : star)}\n              onMouseMove={e => handleMouseMove(e, star)}\n              disabled={disabled}\n              aria-label={`Rate ${star} of ${max}`}\n            >\n              {hasCustomIcon\n                ? (active ? (icon ?? emptyIcon) : (emptyIcon ?? icon))\n                : <StarIcon filled={filled} half={half} />\n              }\n            </button>\n          )\n        })}\n        {showValue && (\n          <span className=\"ml-2 text-body-callout text-faint tabular-nums\">\n            {display} / {max}\n          </span>\n        )}\n      </div>\n    </div>\n  )\n}\n"
+    },
+    {
+      "path": "components/ui/cn/rating/rating.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/rating/rating.types.ts",
+      "content": "import type React from 'react'\r\n\r\nexport type RatingSize = 'sm' | 'md' | 'lg'\r\n\r\nexport interface RatingProps {\r\n  value?: number\r\n  defaultValue?: number\r\n  onChange?: (value: number) => void\r\n  max?: number\r\n  size?: RatingSize\r\n  readOnly?: boolean\r\n  disabled?: boolean\r\n  allowHalf?: boolean\r\n  showValue?: boolean\r\n  label?: string\r\n  icon?: React.ReactNode\r\n  emptyIcon?: React.ReactNode\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+    }
+  ]
+}
