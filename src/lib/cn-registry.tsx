@@ -296,6 +296,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     ],
   },
   {
+    name: "code-block",
+    title: "Code Block",
+    group: "display",
+    description: "Syntax-highlighted code block with filename tab, line numbers, copy button and scrollable maxHeight.",
+    filePath: "src/components/ui/kk-code-block/KkCodeBlock.tsx",
+    props: [
+      { name: "code", type: "string", required: true, description: "Código a ser exibido" },
+      { name: "lang", type: "string", default: "'tsx'", description: "Linguagem para syntax highlight (shiki)" },
+      { name: "filename", type: "string", description: "Nome do arquivo exibido no topo" },
+      { name: "showLineNumbers", type: "boolean", default: "false", description: "Exibe numeração de linhas" },
+      { name: "maxHeight", type: "number", description: "Altura máxima em px com scroll vertical" },
+    ],
+  },
+  {
     name: "avatar",
     title: "Avatar",
     group: "display",

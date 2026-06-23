@@ -223,6 +223,44 @@ export function BreadcrumbExample() {
   );
 }`,
 
+  "code-block": `import { KkCodeBlock } from "@/components/ui/kk-code-block";
+
+// KkCodeBlock é um Server Component — use em .tsx sem "use client"
+export async function CodeBlockExample() {
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Básico */}
+      <KkCodeBlock
+        code={\`const greeting = "Olá, mundo!";\nconsole.log(greeting);\`}
+        lang="ts"
+      />
+
+      {/* Com filename e numeração de linhas */}
+      <KkCodeBlock
+        code={\`import { Button } from "@/components/ui/cn/button/Button";
+
+export function Example() {
+  return <Button intent="primary">Clique aqui</Button>;
+}\`}
+        lang="tsx"
+        filename="Example.tsx"
+        showLineNumbers
+      />
+
+      {/* Com altura máxima */}
+      <KkCodeBlock
+        code={\`// arquivo longo com scroll
+const a = 1;
+const b = 2;
+const c = a + b;\`}
+        lang="ts"
+        filename="long-file.ts"
+        maxHeight={200}
+      />
+    </div>
+  );
+}`,
+
   "copy-button": `import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
 
 export function CopyButtonExample() {

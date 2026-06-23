@@ -30,6 +30,7 @@ import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { Checklist } from "@/components/ui/cn/checklist/Checklist";
 import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
+import { CodeBlock } from "@/components/ui/cn/code-block";
 import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
 import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
 import { Combobox } from "@/components/ui/cn/combobox/Combobox";
@@ -92,6 +93,15 @@ import { Modal, ModalBody, ModalFooter } from "@/components/ui/cn/modal/Modal";
 import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
 import { MultiAccordion } from "@/components/ui/cn/multi-accordion/MultiAccordion";
 import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
+import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
+import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
+import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
+import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
+import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
+import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
+import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
+import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
+import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
@@ -110,24 +120,18 @@ import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
-import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
-import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
-import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
-import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
 import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
 import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
-import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
-import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
@@ -143,17 +147,14 @@ import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
-import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
-import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
 import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
 import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
 import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
@@ -5098,6 +5099,56 @@ function CardDemo() {
   );
 }
 
+function CodeBlockDemo() {
+  const exampleCode = `import { Button } from "@/components/ui/cn/button/Button";
+
+export function Example() {
+  async function handleSave() {
+    await saveData();
+  }
+
+  return (
+    <Button intent="primary" onClick={handleSave}>
+      Salvar
+    </Button>
+  );
+}`;
+
+  const tsCode = `const greet = (name: string): string => {
+  return \`Olá, \${name}!\`;
+};
+
+console.log(greet("Mundo"));`;
+
+  return (
+    <div className="flex flex-col gap-8">
+      <ShowcaseSection title="TSX com filename e linha">
+        <Frame label="lang=tsx · filename · showLineNumbers">
+          <div className="w-full max-w-2xl">
+            <CodeBlock code={exampleCode} language="tsx" filename="Example.tsx" showLineNumbers />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="TypeScript sem filename">
+        <Frame label="lang=ts · sem filename · sem linha">
+          <div className="w-full max-w-2xl">
+            <CodeBlock code={tsCode} language="ts" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Com maxHeight (scroll)">
+        <Frame label="maxHeight=120px">
+          <div className="w-full max-w-2xl">
+            <CodeBlock code={exampleCode} language="tsx" filename="long-file.tsx" showLineNumbers maxHeight={120} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function AvatarDemo() {
   return (
     <div className="flex flex-col">
@@ -5793,6 +5844,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "feedback/alert": AlertDemo,
   "display/callout": CalloutDemo,
   "display/card": CardDemo,
+  "display/code-block": CodeBlockDemo,
   "display/avatar": AvatarDemo,
   "overlays/tooltip": TooltipDemo,
   "overlays/popover": PopoverDemo,
