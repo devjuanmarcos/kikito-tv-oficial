@@ -49,7 +49,12 @@ export default async function CnComponentPage({ params }: Props) {
       {(meta.filePath || (meta.props && meta.props.length > 0) || source) && (
         <div className="mt-12 flex flex-col gap-8">
           {meta.filePath && (
-            <CnInstallBlock filePath={meta.filePath} peerDeps={meta.peerDeps} dependencies={meta.dependencies} />
+            <CnInstallBlock
+              filePath={meta.filePath}
+              name={component}
+              peerDeps={meta.peerDeps}
+              dependencies={meta.dependencies}
+            />
           )}
 
           {source && <CnSourceBlock source={source} filename={filename} />}

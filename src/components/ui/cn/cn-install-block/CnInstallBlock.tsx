@@ -4,6 +4,7 @@ import { useState } from "react";
 
 interface CnInstallBlockProps {
   filePath: string;
+  name?: string;
   peerDeps?: string[];
   dependencies?: string[];
 }
@@ -48,16 +49,47 @@ function FileIcon() {
   );
 }
 
-export function CnInstallBlock({ filePath, peerDeps, dependencies }: CnInstallBlockProps) {
+function TerminalIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      aria-hidden
+      className="w-3.5 h-3.5 shrink-0 text-faint"
+    >
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  );
+}
+
+function CopyRow({ text, label }: { text: string; label: string }) {
   const [copied, setCopied] = useState(false);
 
   function copy() {
-    navigator.clipboard.writeText(filePath).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   }
 
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      aria-label={copied ? "Copiado!" : label}
+      className="flex items-center gap-1.5 text-faint hover:text-foreground transition-colors text-body-caption shrink-0"
+    >
+      {copied ? <CheckIcon /> : <CopyIcon />}
+      <span>{copied ? "Copiado" : "Copiar"}</span>
+    </button>
+  );
+}
+
+export function CnInstallBlock({ filePath, name, peerDeps, dependencies }: CnInstallBlockProps) {
+  const cliCmd = name ? `npx kikitocn add ${name}` : null;
   const hasDeps = (dependencies && dependencies.length > 0) || (peerDeps && peerDeps.length > 0);
 
   return (
@@ -67,22 +99,27 @@ export function CnInstallBlock({ filePath, peerDeps, dependencies }: CnInstallBl
       </div>
 
       <div className="rounded-(--radius-md) border border-rule bg-raised overflow-hidden">
+        {/* CLI command row */}
+        {cliCmd && (
+          <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-rule">
+            <div className="flex items-center gap-2 min-w-0">
+              <TerminalIcon />
+              <code className="text-[0.8125rem] font-mono text-patina truncate">
+                <span className="text-faint select-none">$ </span>
+                {cliCmd}
+              </code>
+            </div>
+            <CopyRow text={cliCmd} label="Copiar comando CLI" />
+          </div>
+        )}
+
         {/* File path row */}
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2 min-w-0">
             <FileIcon />
-            <code className="text-[0.8125rem] font-mono text-patina truncate">{filePath}</code>
+            <code className="text-[0.8125rem] font-mono text-muted truncate">{filePath}</code>
           </div>
-          <button
-            type="button"
-            data-testid="cn-install-copy"
-            onClick={copy}
-            aria-label={copied ? "Copiado!" : "Copiar caminho"}
-            className="flex items-center gap-1.5 text-faint hover:text-foreground transition-colors text-body-caption shrink-0"
-          >
-            {copied ? <CheckIcon /> : <CopyIcon />}
-            <span>{copied ? "Copiado" : "Copiar"}</span>
-          </button>
+          <CopyRow text={filePath} label="Copiar caminho do arquivo" />
         </div>
 
         {/* Dependencies */}

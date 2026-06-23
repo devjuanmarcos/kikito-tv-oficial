@@ -106,7 +106,11 @@ export function DownloadsSection() {
             <h2 id="dl-title" className="kk-headline">
               Comece em segundos.
             </h2>
-            <p className="kk-lead">Copie o comando, cole no terminal e o componente entra com tokens e tema prontos.</p>
+            <p className="kk-lead">
+              Use o CLI oficial{" "}
+              <code style={{ fontFamily: "ui-monospace,monospace", fontSize: "0.9em" }}>kikitocn</code> para configurar
+              o projeto e instalar qualquer componente em segundos.
+            </p>
           </div>
 
           <div className="dl-install">

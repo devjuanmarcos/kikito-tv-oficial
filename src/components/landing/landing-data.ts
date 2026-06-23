@@ -175,14 +175,15 @@ export interface InstallCmd {
 }
 
 export const INSTALL_PRIMARY: InstallCmd[] = [
-  { label: "Instalar um componente", prompt: "$", cmd: "npx shadcn@latest add @kikito/button" },
-  { label: "Tokens do design system", prompt: "$", cmd: "npx shadcn@latest add @kikito/tokens" },
-  { label: "Catálogo completo", prompt: "$", cmd: "npx shadcn@latest add @kikito/all" },
+  { label: "Configurar no projeto", prompt: "$", cmd: "npx kikitocn init" },
+  { label: "Instalar um componente", prompt: "$", cmd: "npx kikitocn add button" },
+  { label: "Ver todos os componentes", prompt: "$", cmd: "npx kikitocn list" },
 ];
 
 export const INSTALL_ALT: InstallCmd[] = [
-  { label: "Registry manual", prompt: "$", cmd: "npx shadcn@latest add https://kikito.com.br/r/button.json" },
-  { label: "Clonar o repositório", prompt: "$", cmd: "git clone https://github.com/kikito/cn" },
+  { label: "Instalar múltiplos", prompt: "$", cmd: "npx kikitocn add button modal input" },
+  { label: "Verificar configuração", prompt: "$", cmd: "npx kikitocn doctor" },
+  { label: "Clonar o repositório", prompt: "$", cmd: "git clone https://github.com/devjuanmarcos/kikito-tv-oficial" },
 ];
 
 export interface ExtraLink {
@@ -192,7 +193,7 @@ export interface ExtraLink {
 }
 
 export const EXTRAS: ExtraLink[] = [
-  { title: "GitHub", desc: "Código-fonte, issues e releases.", href: "https://github.com" },
-  { title: "Tutoriais", desc: "Playlist de projetos em vídeo.", href: "#tutoriais" },
-  { title: "Comunidade", desc: "Dicas, novidades e suporte.", href: "#comunidade" },
+  { title: "GitHub", desc: "Código-fonte, issues e PRs.", href: "https://github.com/devjuanmarcos/kikito-tv-oficial" },
+  { title: "npm", desc: "Pacote kikitocn no registro público.", href: "https://www.npmjs.com/package/kikitocn" },
+  { title: "Componentes", desc: "196+ componentes prontos para usar.", href: "/pt/cn" },
 ];
