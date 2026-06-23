@@ -1,15 +1,21 @@
 {
   "name": "kikitocn",
-  "version": "1.0.0",
-  "description": "Install Kikito CN components in your React/Next.js project",
+  "version": "1.0.2",
+  "description": "CLI to install Kikito CN components — 196+ animated React components for Next.js and Vite with Tailwind CSS v4",
   "keywords": [
     "kikito",
     "ui",
     "components",
     "cli",
-    "design-system"
+    "design-system",
+    "tailwindcss",
+    "react",
+    "nextjs",
+    "framer-motion",
+    "animation",
+    "component-library"
   ],
-  "homepage": "https://cn.kikito.tv",
+  "homepage": "https://kikito-tv-oficial.vercel.app/pt",
   "repository": {
     "type": "git",
     "url": "https://github.com/devjuanmarcos/kikito-tv-oficial.git",
