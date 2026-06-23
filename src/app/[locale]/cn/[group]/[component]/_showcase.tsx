@@ -4,8 +4,6 @@ import React, { useState } from "react";
 
 import { Accordion } from "@/components/ui/cn/accordion/Accordion";
 import { AccordionGroup } from "@/components/ui/cn/accordion-group/AccordionGroup";
-import { AcernityCardsDemo3 } from "@/components/ui/cn/aceternity-cards-demo-3/AcernityCardsDemo3";
-import { AcernityFeaturesSection } from "@/components/ui/cn/aceternity-features-section/AcernityFeaturesSection";
 import { ActivityFeed } from "@/components/ui/cn/activity-feed/ActivityFeed";
 import { Alert } from "@/components/ui/cn/alert/Alert";
 import { AlertDialog } from "@/components/ui/cn/alert-dialog/AlertDialog";
@@ -70,20 +68,40 @@ import { FunnelChart } from "@/components/ui/cn/funnel-chart/FunnelChart";
 import { Gauge } from "@/components/ui/cn/gauge/Gauge";
 import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
 import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
+import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
+import { GridPattern } from "@/components/ui/cn/grid-pattern/GridPattern";
 import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
+import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
+import { Input } from "@/components/ui/cn/input/Input";
+import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
+import { Kanban } from "@/components/ui/cn/kanban/Kanban";
+import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
+import { Label } from "@/components/ui/cn/label/Label";
 import { LineChart } from "@/components/ui/cn/line-chart/LineChart";
+import { LogViewer } from "@/components/ui/cn/log-viewer/LogViewer";
+import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButton";
 import { MarkdownRenderer } from "@/components/ui/cn/markdown-renderer/MarkdownRenderer";
+import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
+import { Masonry } from "@/components/ui/cn/masonry/Masonry";
+import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
+import { MetricCard } from "@/components/ui/cn/metric-card/MetricCard";
+import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
+import { Modal, ModalBody, ModalFooter } from "@/components/ui/cn/modal/Modal";
+import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
 import { MultiAccordion } from "@/components/ui/cn/multi-accordion/MultiAccordion";
+import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
+import { Resizable } from "@/components/ui/cn/resizable/Resizable";
+import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
 import { Spinner } from "@/components/ui/cn/spinner/Spinner";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
-import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
-import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
 import { Stat } from "@/components/ui/cn/stat/Stat";
+import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
+import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
 import { StepForm } from "@/components/ui/cn/step-form/StepForm";
 import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
@@ -92,20 +110,11 @@ import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
-import { Resizable } from "@/components/ui/cn/resizable/Resizable";
-import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
-import { Kanban } from "@/components/ui/cn/kanban/Kanban";
-import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
 import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
-import { LogViewer } from "@/components/ui/cn/log-viewer/LogViewer";
-import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
-import { MagneticButton } from "@/components/ui/cn/magnetic-button/MagneticButton";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
-import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
-import { MorphingText } from "@/components/ui/cn/morphing-text/MorphingText";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
@@ -118,33 +127,25 @@ import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
 import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
-import { GridPattern } from "@/components/ui/cn/grid-pattern/GridPattern";
 import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
-import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
 import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
 import { Pagination } from "@/components/ui/cn/pagination/Pagination";
-import { Masonry } from "@/components/ui/cn/masonry/Masonry";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
-import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
-import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
 import { Rating } from "@/components/ui/cn/rating/Rating";
 import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
-import { Input } from "@/components/ui/cn/input/Input";
-import { Label } from "@/components/ui/cn/label/Label";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
-import { MetricCard } from "@/components/ui/cn/metric-card/MetricCard";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
@@ -152,8 +153,6 @@ import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
-import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
 import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
 import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
 import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
@@ -173,7 +172,6 @@ import { Popover } from "@/components/ui/cn/popover/Popover";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
 import { Progress } from "@/components/ui/cn/progress/Progress";
 import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
-import { Modal, ModalBody, ModalFooter } from "@/components/ui/cn/modal/Modal";
 import { Separator } from "@/components/ui/cn/separator/Separator";
 import { Slider } from "@/components/ui/cn/slider/Slider";
 import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
@@ -762,24 +760,6 @@ function ImageViewerDemo() {
   return (
     <Frame label="Image Viewer — thumbnail grid with full-screen lightbox">
       <ImageViewer images={images} />
-    </Frame>
-  );
-}
-
-function AcernityCardsDemo3Demo() {
-  return (
-    <Frame label="Aceternity Cards — animated AI tool card with orbiting beam">
-      <div className="flex justify-center">
-        <AcernityCardsDemo3 />
-      </div>
-    </Frame>
-  );
-}
-
-function AcernityFeaturesSectionDemo() {
-  return (
-    <Frame label="Aceternity Features — three-column feature section with animations">
-      <AcernityFeaturesSection />
     </Frame>
   );
 }
@@ -2115,7 +2095,12 @@ function TextGradientDemo() {
   return (
     <Frame label="Text Gradient — gradient text with optional animation">
       <div className="flex flex-col items-center gap-4">
-        <TextGradient from="var(--ks-primary)" to="var(--ks-kinpaku)" as="h2" className="text-heading-02 font-extrabold">
+        <TextGradient
+          from="var(--ks-primary)"
+          to="var(--ks-kinpaku)"
+          as="h2"
+          className="text-heading-02 font-extrabold"
+        >
           Kikito Design
         </TextGradient>
         <TextGradient from="#a78bfa" to="#38bdf8" direction="135deg" as="h3" className="text-heading-05 font-bold">
@@ -5719,8 +5704,6 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/markdown-renderer": MarkdownRendererDemo,
   "display/multi-accordion": MultiAccordionDemo,
   "display/scroll-timeline": ScrollTimelineDemo,
-  "display/aceternity-cards-demo-3": AcernityCardsDemo3Demo,
-  "display/aceternity-features-section": AcernityFeaturesSectionDemo,
   "display/flip-card": FlipCardDemo,
   "display/glow-card": GlowCardDemo,
   "display/marquee-text": MarqueeTextDemo,

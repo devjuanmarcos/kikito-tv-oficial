@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 interface CnInstallBlockProps {
-  filePath: string;
   name?: string;
   peerDeps?: string[];
   dependencies?: string[];
@@ -33,106 +32,64 @@ function CheckIcon() {
   );
 }
 
-function FileIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-      className="w-3.5 h-3.5 shrink-0 text-faint"
-    >
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-    </svg>
-  );
-}
-
-function TerminalIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-      className="w-3.5 h-3.5 shrink-0 text-faint"
-    >
-      <polyline points="4 17 10 11 4 5" />
-      <line x1="12" y1="19" x2="20" y2="19" />
-    </svg>
-  );
-}
-
-function CopyRow({ text, label }: { text: string; label: string }) {
+export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockProps) {
   const [copied, setCopied] = useState(false);
+  const cmd = name ? `npx kikitocn add ${name}` : "npx kikitocn add <component>";
+  const hasDeps = (dependencies && dependencies.length > 0) || (peerDeps && peerDeps.length > 0);
 
   function copy() {
-    navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(cmd).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   }
 
   return (
-    <button
-      type="button"
-      onClick={copy}
-      aria-label={copied ? "Copiado!" : label}
-      className="flex items-center gap-1.5 text-faint hover:text-foreground transition-colors text-body-caption shrink-0"
-    >
-      {copied ? <CheckIcon /> : <CopyIcon />}
-      <span>{copied ? "Copiado" : "Copiar"}</span>
-    </button>
-  );
-}
-
-export function CnInstallBlock({ filePath, name, peerDeps, dependencies }: CnInstallBlockProps) {
-  const cliCmd = name ? `npx kikitocn add ${name}` : null;
-  const hasDeps = (dependencies && dependencies.length > 0) || (peerDeps && peerDeps.length > 0);
-
-  return (
     <div data-testid="cn-install-block">
       <div className="mb-2">
-        <span className="text-body-caption font-semibold text-foreground">Instalação</span>
+        <span className="text-body-caption font-semibold text-foreground">Instalação via CLI</span>
       </div>
 
-      <div className="rounded-(--radius-md) border border-rule bg-raised overflow-hidden">
-        {/* CLI command row */}
-        {cliCmd && (
-          <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-rule">
-            <div className="flex items-center gap-2 min-w-0">
-              <TerminalIcon />
-              <code className="text-[0.8125rem] font-mono text-patina truncate">
-                <span className="text-faint select-none">$ </span>
-                {cliCmd}
-              </code>
-            </div>
-            <CopyRow text={cliCmd} label="Copiar comando CLI" />
-          </div>
-        )}
-
-        {/* File path row */}
+      <div className="rounded-(--radius-md) border border-rule bg-[#0d1117] overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2 min-w-0">
-            <FileIcon />
-            <code className="text-[0.8125rem] font-mono text-muted truncate">{filePath}</code>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
+              className="w-3.5 h-3.5 shrink-0 text-[#8b949e]"
+            >
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" />
+            </svg>
+            <code className="text-[0.8125rem] font-mono truncate">
+              <span className="text-[#7ee787] select-none">$ </span>
+              <span className="text-[#e6edf3]">{cmd}</span>
+            </code>
           </div>
-          <CopyRow text={filePath} label="Copiar caminho do arquivo" />
+          <button
+            type="button"
+            onClick={copy}
+            aria-label={copied ? "Copiado!" : "Copiar comando"}
+            className="flex items-center gap-1.5 text-[#8b949e] hover:text-[#e6edf3] transition-colors text-body-caption shrink-0"
+          >
+            {copied ? <CheckIcon /> : <CopyIcon />}
+            <span>{copied ? "Copiado" : "Copiar"}</span>
+          </button>
         </div>
 
-        {/* Dependencies */}
         {hasDeps && (
-          <div className="px-4 py-2.5 border-t border-rule bg-graphite flex flex-wrap gap-x-6 gap-y-2">
+          <div className="px-4 py-2.5 border-t border-[#30363d] bg-[#161b22] flex flex-wrap gap-x-6 gap-y-2">
             {peerDeps && peerDeps.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-body-caption text-faint">Interno:</span>
+                <span className="text-body-caption text-[#8b949e]">Interno:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {peerDeps.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-muted bg-raised border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#79c0ff] bg-[#0d1117] border border-[#30363d] rounded px-1.5 py-0.5"
                     >
                       {d}
                     </code>
@@ -142,12 +99,12 @@ export function CnInstallBlock({ filePath, name, peerDeps, dependencies }: CnIns
             )}
             {dependencies && dependencies.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-body-caption text-faint">npm:</span>
+                <span className="text-body-caption text-[#8b949e]">npm:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {dependencies.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-muted bg-raised border border-rule rounded-(--radius-xs) px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#d2a8ff] bg-[#0d1117] border border-[#30363d] rounded px-1.5 py-0.5"
                     >
                       {d}
                     </code>

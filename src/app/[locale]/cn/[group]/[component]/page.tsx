@@ -6,6 +6,7 @@ import { CnInstallBlock } from "@/components/ui/cn/cn-install-block";
 import { CnPageHeader } from "@/components/ui/cn/cn-page-header";
 import { CnPropsTable } from "@/components/ui/cn/cn-props-table";
 import { CnSourceBlock } from "@/components/ui/cn/cn-source-block";
+import { CnUsageBlock } from "@/components/ui/cn/cn-usage-block";
 import { getComponent, CN_GROUPS } from "@/lib/cn-registry";
 import { getComponentSource } from "@/lib/cn-source";
 
@@ -15,8 +16,6 @@ interface Props {
   params: Promise<{ locale: string; group: string; component: string }>;
 }
 
-// Layout chain (root [locale]/layout) é dinâmico (getServerSession + getMessages),
-// então estas páginas não podem ser pré-geradas estaticamente. Render on-demand.
 export const dynamic = "force-dynamic";
 
 export default async function CnComponentPage({ params }: Props) {
@@ -46,22 +45,19 @@ export default async function CnComponentPage({ params }: Props) {
       </Suspense>
 
       {/* Documentation blocks */}
-      {(meta.filePath || (meta.props && meta.props.length > 0) || source) && (
-        <div className="mt-12 flex flex-col gap-8">
-          {meta.filePath && (
-            <CnInstallBlock
-              filePath={meta.filePath}
-              name={component}
-              peerDeps={meta.peerDeps}
-              dependencies={meta.dependencies}
-            />
-          )}
+      <div className="mt-12 flex flex-col gap-8">
+        {/* Install via CLI */}
+        <CnInstallBlock name={component} peerDeps={meta.peerDeps} dependencies={meta.dependencies} />
 
-          {source && <CnSourceBlock source={source} filename={filename} />}
+        {/* Usage example with syntax highlighting */}
+        <CnUsageBlock meta={meta} />
 
-          {meta.props && meta.props.length > 0 && <CnPropsTable props={meta.props} />}
-        </div>
-      )}
+        {/* Full source */}
+        {source && <CnSourceBlock source={source} filename={filename} />}
+
+        {/* Props table */}
+        {meta.props && meta.props.length > 0 && <CnPropsTable props={meta.props} />}
+      </div>
 
       <div className="mt-8 pt-6 border-t border-rule">
         <Link

@@ -90,6 +90,9 @@ export function DownloadsSection() {
         .dl-alts[open] summary .dl-chev { transform: rotate(180deg); }
         .dl-alts-body { display: flex; flex-direction: column; gap: 10px; padding-top: 0.5rem; }
 
+        .dl-prereq { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid color-mix(in oklch, var(--ks-rule) 60%, transparent); }
+        .dl-prereq-label { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ks-text-faint); margin-bottom: 6px; }
+
         .dl-extras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1.75rem; }
         @media (max-width: 560px) { .dl-extras { grid-template-columns: 1fr; } }
         .dl-extra { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--ks-rule); border-radius: 10px; text-decoration: none; background: color-mix(in oklch, var(--ks-lacquer) 60%, transparent); transition: border-color .2s, transform .2s var(--kk-ease-out); }
@@ -111,6 +114,37 @@ export function DownloadsSection() {
               <code style={{ fontFamily: "ui-monospace,monospace", fontSize: "0.9em" }}>kikitocn</code> para configurar
               o projeto e instalar qualquer componente em segundos.
             </p>
+          </div>
+
+          <div className="dl-prereq">
+            <span className="dl-prereq-label">Ainda não tem um projeto?</span>
+            <div className="dl-cmd-line">
+              <code className="dl-prompt">$</code>
+              <code className="dl-code">npx create-next-app@latest meu-projeto --typescript --tailwind --app</code>
+              <button
+                className="dl-copy"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(
+                    "npx create-next-app@latest meu-projeto --typescript --tailwind --app"
+                  );
+                }}
+                aria-label="Copiar comando"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div className="dl-install">

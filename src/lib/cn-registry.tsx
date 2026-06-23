@@ -20,6 +20,18 @@ export interface CnComponentMeta {
   /** Internal path aliases required (e.g. '@/lib/utils') */
   peerDeps?: string[];
   props?: PropDoc[];
+  /** TSX usage example shown in the docs */
+  usage?: string;
+}
+
+/** Returns the usage example for a component (manual → map → auto-generated fallback) */
+export function generateUsage(meta: CnComponentMeta, usageMap: Record<string, string> = {}): string {
+  if (meta.usage) return meta.usage;
+  if (usageMap[meta.name]) return usageMap[meta.name];
+
+  const componentName = meta.title.replace(/\s+/g, "");
+  const importPath = `@/components/ui/cn/${meta.name}/${componentName}`;
+  return `import { ${componentName} } from "${importPath}";\n\nexport function ${componentName}Example() {\n  return (\n    <${componentName} />\n  );\n}`;
 }
 
 export interface CnGroupMeta {
@@ -623,7 +635,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode[]", required: true, description: "Itens da lista" },
       { name: "staggerMs", type: "number", default: "60", description: "Delay entre cada item (ms)" },
       { name: "animationMs", type: "number", default: "300", description: "Duração da animação de cada item (ms)" },
-      { name: "direction", type: "'up' | 'down' | 'left' | 'right' | 'fade'", default: "'up'", description: "Direção da entrada" },
+      {
+        name: "direction",
+        type: "'up' | 'down' | 'left' | 'right' | 'fade'",
+        default: "'up'",
+        description: "Direção da entrada",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -1921,7 +1938,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "loop", type: "boolean", default: "true", description: "Volta ao primeiro após o último" },
       { name: "showDots", type: "boolean", default: "true", description: "Exibir indicadores de página" },
       { name: "showArrows", type: "boolean", default: "true", description: "Exibir botões de navegação" },
-      { name: "orientation", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação do carrossel" },
+      {
+        name: "orientation",
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: "Orientação do carrossel",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -1969,8 +1991,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Accordion allowing multiple panels open simultaneously with intent variants.",
     filePath: "src/components/ui/cn/multi-accordion/MultiAccordion.tsx",
     props: [
-      { name: "items", type: "MultiAccordionItem[]", required: true, description: "Array de painéis { id, title, content }" },
-      { name: "type", type: "'single' | 'multiple'", default: "'multiple'", description: "Quantos painéis podem estar abertos" },
+      {
+        name: "items",
+        type: "MultiAccordionItem[]",
+        required: true,
+        description: "Array de painéis { id, title, content }",
+      },
+      {
+        name: "type",
+        type: "'single' | 'multiple'",
+        default: "'multiple'",
+        description: "Quantos painéis podem estar abertos",
+      },
       { name: "value", type: "string[]", description: "IDs dos painéis abertos (controlado)" },
       { name: "defaultValue", type: "string[]", description: "IDs abertos por padrão" },
       { name: "onChange", type: "(value: string[]) => void", description: "Callback ao abrir/fechar" },
@@ -1986,26 +2018,15 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/scroll-timeline/ScrollTimeline.tsx",
     props: [
       { name: "events", type: "ScrollTimelineEvent[]", required: true, description: "Array de eventos da timeline" },
-      { name: "orientation", type: "'left' | 'right' | 'alternating'", default: "'alternating'", description: "Posicionamento do conteúdo" },
+      {
+        name: "orientation",
+        type: "'left' | 'right' | 'alternating'",
+        default: "'alternating'",
+        description: "Posicionamento do conteúdo",
+      },
       { name: "lineColor", type: "string", description: "Cor da linha da timeline" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
-  },
-  {
-    name: "aceternity-cards-demo-3",
-    title: "Aceternity Cards",
-    group: "display",
-    description: "Animated AI-tool card with orbiting beam and multi-brand icon bubbles.",
-    filePath: "src/components/ui/cn/aceternity-cards-demo-3/AcernityCardsDemo3.tsx",
-    props: [],
-  },
-  {
-    name: "aceternity-features-section",
-    title: "Aceternity Features",
-    group: "display",
-    description: "Three-column feature section with chat, file sharing and collaboration demos.",
-    filePath: "src/components/ui/cn/aceternity-features-section/AcernityFeaturesSection.tsx",
-    props: [],
   },
   {
     name: "flip-card",
@@ -2067,7 +2088,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "after", type: "string", required: true, description: "URL da imagem 'depois'" },
       { name: "beforeLabel", type: "string", default: "'Before'", description: "Label da imagem de antes" },
       { name: "afterLabel", type: "string", default: "'After'", description: "Label da imagem de depois" },
-      { name: "direction", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação do divisor" },
+      {
+        name: "direction",
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: "Orientação do divisor",
+      },
       { name: "initialPosition", type: "number", default: "50", description: "Posição inicial do divisor (%)" },
       { name: "width", type: "number | string", description: "Largura do componente" },
       { name: "height", type: "number | string", description: "Altura do componente" },
@@ -2082,7 +2108,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/price-table/PriceTable.tsx",
     props: [
       { name: "plans", type: "PricePlan[]", required: true, description: "Array de planos com preço, nome e CTA" },
-      { name: "features", type: "PriceFeature[]", required: true, description: "Linhas de features com disponibilidade por plano" },
+      {
+        name: "features",
+        type: "PriceFeature[]",
+        required: true,
+        description: "Linhas de features com disponibilidade por plano",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -2149,8 +2180,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/swipe-card/SwipeCard.tsx",
     props: [
       { name: "items", type: "SwipeCardItem[]", required: true, description: "Array de { id, children }" },
-      { name: "onSwipeLeft", type: "(id: string | number) => void", description: "Callback ao descartar para esquerda" },
-      { name: "onSwipeRight", type: "(id: string | number) => void", description: "Callback ao descartar para direita" },
+      {
+        name: "onSwipeLeft",
+        type: "(id: string | number) => void",
+        description: "Callback ao descartar para esquerda",
+      },
+      {
+        name: "onSwipeRight",
+        type: "(id: string | number) => void",
+        description: "Callback ao descartar para direita",
+      },
       { name: "threshold", type: "number", default: "100", description: "Distância mínima para disparar swipe (px)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -2616,7 +2655,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "via", type: "string", description: "Cor intermediária opcional" },
       { name: "direction", type: "string", default: "'to right'", description: "Direção CSS do gradiente" },
       { name: "animate", type: "boolean", default: "false", description: "Animar o fluxo do gradiente" },
-      { name: "as", type: "'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'p'", default: "'span'", description: "Elemento HTML a renderizar" },
+      {
+        name: "as",
+        type: "'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'p'",
+        default: "'span'",
+        description: "Elemento HTML a renderizar",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -3720,8 +3764,17 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "description", type: "string", description: "Descrição/subtítulo" },
       { name: "placeholder", type: "string", default: "'Seu e-mail'", description: "Placeholder do campo de email" },
       { name: "ctaLabel", type: "string", default: "'Inscrever'", description: "Texto do botão de envio" },
-      { name: "onSubmit", type: "(email: string) => void | Promise<void>", description: "Callback ao enviar o formulário" },
-      { name: "variant", type: "'card' | 'inline' | 'minimal'", default: "'card'", description: "Layout do formulário" },
+      {
+        name: "onSubmit",
+        type: "(email: string) => void | Promise<void>",
+        description: "Callback ao enviar o formulário",
+      },
+      {
+        name: "variant",
+        type: "'card' | 'inline' | 'minimal'",
+        default: "'card'",
+        description: "Layout do formulário",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -4338,7 +4391,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "name", type: "string", description: "Nome do titular" },
       { name: "expiry", type: "string", description: "Data de validade (MM/YY)" },
       { name: "cvv", type: "string", description: "Código de segurança" },
-      { name: "brand", type: "'visa' | 'mastercard' | 'amex' | 'generic'", default: "'generic'", description: "Bandeira do cartão" },
+      {
+        name: "brand",
+        type: "'visa' | 'mastercard' | 'amex' | 'generic'",
+        default: "'generic'",
+        description: "Bandeira do cartão",
+      },
       { name: "variant", type: "'dark' | 'light' | 'gradient'", default: "'dark'", description: "Estilo visual" },
       { name: "showBack", type: "boolean", default: "false", description: "Exibir o verso do cartão (CVV)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
@@ -4408,11 +4466,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Step indicator with horizontal/vertical orientation, status icons and content.",
     filePath: "src/components/ui/cn/stepper/Stepper.tsx",
     props: [
-      { name: "steps", type: "StepDef[]", required: true, description: "Array de { label, description, content, status }" },
+      {
+        name: "steps",
+        type: "StepDef[]",
+        required: true,
+        description: "Array de { label, description, content, status }",
+      },
       { name: "activeStep", type: "number", description: "Índice do passo atual (controlado)" },
       { name: "defaultStep", type: "number", default: "0", description: "Passo inicial (não-controlado)" },
       { name: "onStepChange", type: "(step: number) => void", description: "Callback ao mudar de passo" },
-      { name: "orientation", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação do stepper" },
+      {
+        name: "orientation",
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: "Orientação do stepper",
+      },
       { name: "clickable", type: "boolean", default: "false", description: "Permite navegar clicando nos passos" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -4754,7 +4822,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Chronological activity list with avatars, icons, intents and timestamps.",
     filePath: "src/components/ui/cn/activity-feed/ActivityFeed.tsx",
     props: [
-      { name: "items", type: "ActivityFeedItem[]", required: true, description: "Array de atividades { id, title, time, icon, intent, avatar }" },
+      {
+        name: "items",
+        type: "ActivityFeedItem[]",
+        required: true,
+        description: "Array de atividades { id, title, time, icon, intent, avatar }",
+      },
       { name: "compact", type: "boolean", default: "false", description: "Layout compacto sem descrição" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -4820,7 +4893,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Colored dot presence badge with optional pulse animation and label.",
     filePath: "src/components/ui/cn/status-badge/StatusBadge.tsx",
     props: [
-      { name: "status", type: "'online' | 'offline' | 'busy' | 'away' | 'idle'", required: true, description: "Estado de presença" },
+      {
+        name: "status",
+        type: "'online' | 'offline' | 'busy' | 'away' | 'idle'",
+        required: true,
+        description: "Estado de presença",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do badge" },
       { name: "showLabel", type: "boolean", default: "false", description: "Exibir texto do status" },
       { name: "pulse", type: "boolean", default: "false", description: "Animar com pulso para status online" },
@@ -5643,9 +5721,24 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Multiple accordion panels with single or multi-open mode and intent variants.",
     filePath: "src/components/ui/cn/accordion-group/AccordionGroup.tsx",
     props: [
-      { name: "items", type: "AccordionGroupItem[]", required: true, description: "Painéis { id, title, content, disabled, intent }" },
-      { name: "type", type: "'single' | 'multiple'", default: "'single'", description: "Quantos painéis podem abrir simultaneamente" },
-      { name: "variant", type: "'default' | 'separated' | 'ghost'", default: "'default'", description: "Estilo visual" },
+      {
+        name: "items",
+        type: "AccordionGroupItem[]",
+        required: true,
+        description: "Painéis { id, title, content, disabled, intent }",
+      },
+      {
+        name: "type",
+        type: "'single' | 'multiple'",
+        default: "'single'",
+        description: "Quantos painéis podem abrir simultaneamente",
+      },
+      {
+        name: "variant",
+        type: "'default' | 'separated' | 'ghost'",
+        default: "'default'",
+        description: "Estilo visual",
+      },
       { name: "defaultOpen", type: "string | string[]", description: "IDs abertos por padrão" },
       { name: "value", type: "string | string[]", description: "IDs abertos (controlado)" },
       { name: "onChange", type: "(value: string | string[]) => void", description: "Callback ao abrir/fechar" },
@@ -5674,7 +5767,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/button-group/ButtonGroup.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Botões filhos" },
-      { name: "orientation", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação do grupo" },
+      {
+        name: "orientation",
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: "Orientação do grupo",
+      },
       { name: "attached", type: "boolean", default: "false", description: "Unir bordas entre botões adjacentes" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -5727,7 +5825,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "defaultValue", type: "string[]", description: "Seleção inicial (não-controlado)" },
       { name: "onChange", type: "(value: string[]) => void", description: "Callback ao selecionar" },
       { name: "multiSelect", type: "boolean", default: "false", description: "Permitir múltipla seleção" },
-      { name: "intent", type: "'primary' | 'neutral' | 'success' | 'danger'", default: "'primary'", description: "Cor do estado selecionado" },
+      {
+        name: "intent",
+        type: "'primary' | 'neutral' | 'success' | 'danger'",
+        default: "'primary'",
+        description: "Cor do estado selecionado",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho dos chips" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -5773,7 +5876,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/dropdown-menu/DropdownMenu.tsx",
     props: [
       { name: "items", type: "MenuEntry[]", required: true, description: "Itens do menu (grupos, separadores, ações)" },
-      { name: "placement", type: "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'", default: "'bottom-start'", description: "Posição do menu" },
+      {
+        name: "placement",
+        type: "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'",
+        default: "'bottom-start'",
+        description: "Posição do menu",
+      },
       { name: "children", type: "React.ReactElement", required: true, description: "Elemento que dispara o menu" },
     ],
   },
@@ -5787,8 +5895,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "icon", type: "React.ReactNode", required: true, description: "Ícone principal" },
       { name: "actions", type: "FabAction[]", description: "Sub-ações do speed-dial { icon, label, onClick }" },
-      { name: "position", type: "'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'", default: "'bottom-right'", description: "Posição fixa na tela" },
-      { name: "intent", type: "'primary' | 'secondary' | 'neutral'", default: "'primary'", description: "Cor do botão" },
+      {
+        name: "position",
+        type: "'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'",
+        default: "'bottom-right'",
+        description: "Posição fixa na tela",
+      },
+      {
+        name: "intent",
+        type: "'primary' | 'secondary' | 'neutral'",
+        default: "'primary'",
+        description: "Cor do botão",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do botão" },
       { name: "tooltip", type: "string", description: "Texto do tooltip ao hover" },
       { name: "onClick", type: "() => void", description: "Callback ao clicar (sem sub-ações)" },
@@ -5803,9 +5921,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "List of features with check/cross icons and intent color variants.",
     filePath: "src/components/ui/cn/feature-list/FeatureList.tsx",
     props: [
-      { name: "items", type: "FeatureItem[]", required: true, description: "Array de { label, included?, description? }" },
+      {
+        name: "items",
+        type: "FeatureItem[]",
+        required: true,
+        description: "Array de { label, included?, description? }",
+      },
       { name: "variant", type: "'check' | 'bullet' | 'icon'", default: "'check'", description: "Estilo do marcador" },
-      { name: "intent", type: "'primary' | 'success' | 'neutral'", default: "'success'", description: "Cor dos ícones de inclusão" },
+      {
+        name: "intent",
+        type: "'primary' | 'success' | 'neutral'",
+        default: "'success'",
+        description: "Cor dos ícones de inclusão",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -5836,7 +5964,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "value", type: "string", description: "Valor controlado" },
       { name: "defaultValue", type: "string", description: "Valor inicial" },
       { name: "onChange", type: "React.ChangeEventHandler<HTMLInputElement>", description: "Callback ao alterar" },
-      { name: "variant", type: "'outline' | 'filled' | 'underline'", default: "'outline'", description: "Estilo do campo" },
+      {
+        name: "variant",
+        type: "'outline' | 'filled' | 'underline'",
+        default: "'outline'",
+        description: "Estilo do campo",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do campo" },
       { name: "invalid", type: "boolean", default: "false", description: "Estado de erro" },
       { name: "hint", type: "string", description: "Texto auxiliar" },
@@ -5853,9 +5986,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Popover menu with trigger element and configurable placement and hover mode.",
     filePath: "src/components/ui/cn/floating-menu/FloatingMenu.tsx",
     props: [
-      { name: "items", type: "FloatingMenuItem[]", required: true, description: "Itens do menu { label, icon?, onClick? }" },
+      {
+        name: "items",
+        type: "FloatingMenuItem[]",
+        required: true,
+        description: "Itens do menu { label, icon?, onClick? }",
+      },
       { name: "trigger", type: "React.ReactNode", required: true, description: "Elemento que dispara o menu" },
-      { name: "placement", type: "'top' | 'bottom' | 'left' | 'right'", default: "'bottom'", description: "Posição relativa ao trigger" },
+      {
+        name: "placement",
+        type: "'top' | 'bottom' | 'left' | 'right'",
+        default: "'bottom'",
+        description: "Posição relativa ao trigger",
+      },
       { name: "openOnHover", type: "boolean", default: "false", description: "Abrir ao passar o mouse" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -5887,7 +6030,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "content", type: "React.ReactNode", required: true, description: "Conteúdo do popover" },
       { name: "children", type: "React.ReactElement", required: true, description: "Elemento trigger" },
-      { name: "side", type: "'top' | 'bottom' | 'left' | 'right'", default: "'bottom'", description: "Lado do popover" },
+      {
+        name: "side",
+        type: "'top' | 'bottom' | 'left' | 'right'",
+        default: "'bottom'",
+        description: "Lado do popover",
+      },
       { name: "align", type: "'start' | 'center' | 'end'", default: "'center'", description: "Alinhamento" },
       { name: "openDelay", type: "number", default: "300", description: "Atraso para abrir (ms)" },
       { name: "closeDelay", type: "number", default: "200", description: "Atraso para fechar (ms)" },
@@ -5903,7 +6051,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/icon-box/IconBox.tsx",
     props: [
       { name: "icon", type: "React.ReactNode", required: true, description: "Ícone a exibir" },
-      { name: "intent", type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'", default: "'primary'", description: "Cor do intent" },
+      {
+        name: "intent",
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'",
+        default: "'primary'",
+        description: "Cor do intent",
+      },
       { name: "variant", type: "'soft' | 'solid' | 'outline'", default: "'soft'", description: "Estilo visual" },
       { name: "size", type: "'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: "Tamanho do box" },
       { name: "title", type: "string", description: "Título abaixo do ícone" },
@@ -5920,7 +6073,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/inline-edit/InlineEdit.tsx",
     props: [
       { name: "value", type: "string", required: true, description: "Valor atual" },
-      { name: "onConfirm", type: "(value: string) => void", required: true, description: "Callback ao confirmar edição" },
+      {
+        name: "onConfirm",
+        type: "(value: string) => void",
+        required: true,
+        description: "Callback ao confirmar edição",
+      },
       { name: "placeholder", type: "string", description: "Placeholder quando vazio" },
       { name: "multiline", type: "boolean", default: "false", description: "Permitir quebra de linha (textarea)" },
       { name: "disabled", type: "boolean", default: "false", description: "Desabilitar edição" },
@@ -5966,7 +6124,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Modal/sheet listing grouped keyboard shortcuts with their key combos.",
     filePath: "src/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts.tsx",
     props: [
-      { name: "groups", type: "ShortcutGroup[]", required: true, description: "Grupos de atalhos { title, shortcuts[] }" },
+      {
+        name: "groups",
+        type: "ShortcutGroup[]",
+        required: true,
+        description: "Grupos de atalhos { title, shortcuts[] }",
+      },
       { name: "isOpen", type: "boolean", required: true, description: "Estado de visibilidade do modal" },
       { name: "onClose", type: "() => void", required: true, description: "Callback ao fechar" },
       { name: "title", type: "string", default: "'Keyboard Shortcuts'", description: "Título do modal" },
@@ -6003,7 +6166,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "trendValue", type: "string", description: "Valor da variação (ex: '+12%')" },
       { name: "trendLabel", type: "string", description: "Período da variação (ex: 'vs last month')" },
       { name: "sparkline", type: "number[]", description: "Dados para o mini gráfico" },
-      { name: "intent", type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'", description: "Cor do intent" },
+      {
+        name: "intent",
+        type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'",
+        description: "Cor do intent",
+      },
       { name: "loading", type: "boolean", default: "false", description: "Exibir skeleton" },
       { name: "description", type: "string", description: "Texto descritivo extra" },
       { name: "className", type: "string", description: "Classes CSS extras" },
@@ -6017,9 +6184,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Horizontal or vertical nav with nested items, icons and active highlighting.",
     filePath: "src/components/ui/cn/navigation-menu/NavigationMenu.tsx",
     props: [
-      { name: "items", type: "NavigationMenuItem[]", required: true, description: "Itens de navegação { id, label, href, icon?, children? }" },
+      {
+        name: "items",
+        type: "NavigationMenuItem[]",
+        required: true,
+        description: "Itens de navegação { id, label, href, icon?, children? }",
+      },
       { name: "activeHref", type: "string", description: "URL do item ativo" },
-      { name: "orientation", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação do menu" },
+      {
+        name: "orientation",
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: "Orientação do menu",
+      },
       { name: "onNavigate", type: "(href: string) => void", description: "Callback de navegação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -6033,7 +6210,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/note-card/NoteCard.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo da nota" },
-      { name: "color", type: "'yellow' | 'green' | 'blue' | 'pink' | 'purple'", default: "'yellow'", description: "Cor da nota" },
+      {
+        name: "color",
+        type: "'yellow' | 'green' | 'blue' | 'pink' | 'purple'",
+        default: "'yellow'",
+        description: "Cor da nota",
+      },
       { name: "rotate", type: "number", default: "0", description: "Rotação em graus" },
       { name: "author", type: "string", description: "Autor da nota" },
       { name: "date", type: "string", description: "Data formatada" },
@@ -6049,7 +6231,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/notice-bar/NoticeBar.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo da barra" },
-      { name: "intent", type: "'info' | 'success' | 'warning' | 'danger' | 'neutral'", default: "'info'", description: "Cor do intent" },
+      {
+        name: "intent",
+        type: "'info' | 'success' | 'warning' | 'danger' | 'neutral'",
+        default: "'info'",
+        description: "Cor do intent",
+      },
       { name: "dismissible", type: "boolean", default: "true", description: "Mostrar botão de fechar" },
       { name: "icon", type: "React.ReactNode", description: "Ícone opcional" },
       { name: "action", type: "{ label: string; onClick: () => void }", description: "Botão de ação" },
@@ -6103,7 +6290,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Step-by-step tooltip tour that highlights UI elements for new users.",
     filePath: "src/components/ui/cn/onboarding-tour/OnboardingTour.tsx",
     props: [
-      { name: "steps", type: "TourStep[]", required: true, description: "Passos do tour { target, title, content, placement? }" },
+      {
+        name: "steps",
+        type: "TourStep[]",
+        required: true,
+        description: "Passos do tour { target, title, content, placement? }",
+      },
       { name: "isOpen", type: "boolean", required: true, description: "Controla visibilidade" },
       { name: "onClose", type: "() => void", required: true, description: "Callback ao fechar" },
       { name: "onComplete", type: "() => void", description: "Callback ao completar todos os passos" },
@@ -6151,7 +6343,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Animated status dot with intent colors and optional static/pulse modes.",
     filePath: "src/components/ui/cn/ping/Ping.tsx",
     props: [
-      { name: "intent", type: "'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'", default: "'primary'", description: "Cor do ponto" },
+      {
+        name: "intent",
+        type: "'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'",
+        default: "'primary'",
+        description: "Cor do ponto",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do ponto" },
       { name: "animate", type: "boolean", default: "true", description: "Ativar animação de pulso" },
       { name: "children", type: "React.ReactNode", description: "Conteúdo (o dot aparece como overlay)" },
@@ -6168,7 +6365,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "name", type: "string", required: true, description: "Nome do plano" },
       { name: "price", type: "string", required: true, description: "Preço formatado" },
-      { name: "features", type: "PricingFeature[]", required: true, description: "Lista de features { label, included? }" },
+      {
+        name: "features",
+        type: "PricingFeature[]",
+        required: true,
+        description: "Lista de features { label, included? }",
+      },
       { name: "period", type: "string", description: "Período (ex: '/mês')" },
       { name: "description", type: "string", description: "Descrição do plano" },
       { name: "cta", type: "string", default: "'Começar'", description: "Texto do botão de ação" },
@@ -6278,7 +6480,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo do card decorado" },
       { name: "label", type: "string", required: true, description: "Texto da faixa (ex: 'Novo')" },
       { name: "position", type: "'top-left' | 'top-right'", default: "'top-right'", description: "Posição da faixa" },
-      { name: "intent", type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'", default: "'primary'", description: "Cor da faixa" },
+      {
+        name: "intent",
+        type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'",
+        default: "'primary'",
+        description: "Cor da faixa",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -6345,8 +6552,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "label", type: "string", required: true, description: "Texto do botão principal" },
       { name: "onClick", type: "() => void", required: true, description: "Ação do botão principal" },
-      { name: "options", type: "SplitButtonOption[]", required: true, description: "Ações alternativas { label, onClick, disabled? }" },
-      { name: "intent", type: "'primary' | 'secondary' | 'neutral' | 'danger'", default: "'primary'", description: "Cor do botão" },
+      {
+        name: "options",
+        type: "SplitButtonOption[]",
+        required: true,
+        description: "Ações alternativas { label, onClick, disabled? }",
+      },
+      {
+        name: "intent",
+        type: "'primary' | 'secondary' | 'neutral' | 'danger'",
+        default: "'primary'",
+        description: "Cor do botão",
+      },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do botão" },
       { name: "disabled", type: "boolean", default: "false", description: "Desabilitar botão" },
       { name: "className", type: "string", description: "Classes CSS extras" },
@@ -6360,7 +6577,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Multi-stat grid card with configurable column count.",
     filePath: "src/components/ui/cn/stats-card/StatsCard.tsx",
     props: [
-      { name: "stats", type: "StatItem[]", required: true, description: "Array de { label, value, description?, intent? }" },
+      {
+        name: "stats",
+        type: "StatItem[]",
+        required: true,
+        description: "Array de { label, value, description?, intent? }",
+      },
       { name: "cols", type: "2 | 3 | 4", default: "3", description: "Número de colunas" },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -6374,7 +6596,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/tag/Tag.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Texto ou conteúdo da tag" },
-      { name: "intent", type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'", default: "'neutral'", description: "Cor do intent" },
+      {
+        name: "intent",
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'",
+        default: "'neutral'",
+        description: "Cor do intent",
+      },
       { name: "appearance", type: "'soft' | 'solid' | 'outline'", default: "'soft'", description: "Estilo visual" },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho" },
       { name: "icon", type: "React.ReactNode", description: "Ícone à esquerda" },
@@ -6428,7 +6655,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Styled terminal window with colored output lines and optional typing animation.",
     filePath: "src/components/ui/cn/terminal-block/TerminalBlock.tsx",
     props: [
-      { name: "lines", type: "TerminalLine[]", required: true, description: "Linhas { text, type?: 'command'|'output'|'error'|'success' }" },
+      {
+        name: "lines",
+        type: "TerminalLine[]",
+        required: true,
+        description: "Linhas { text, type?: 'command'|'output'|'error'|'success' }",
+      },
       { name: "title", type: "string", default: "'terminal'", description: "Título da janela" },
       { name: "animate", type: "boolean", default: "false", description: "Animar digitação sequencial" },
       { name: "className", type: "string", description: "Classes CSS extras" },
@@ -6459,8 +6691,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Vertical or horizontal timeline showing step completion with connecting lines.",
     filePath: "src/components/ui/cn/timeline-progress/TimelineProgress.tsx",
     props: [
-      { name: "steps", type: "TimelineProgressStep[]", required: true, description: "Passos { label, description?, status, date? }" },
-      { name: "orientation", type: "'vertical' | 'horizontal'", default: "'vertical'", description: "Orientação da timeline" },
+      {
+        name: "steps",
+        type: "TimelineProgressStep[]",
+        required: true,
+        description: "Passos { label, description?, status, date? }",
+      },
+      {
+        name: "orientation",
+        type: "'vertical' | 'horizontal'",
+        default: "'vertical'",
+        description: "Orientação da timeline",
+      },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
@@ -6472,7 +6714,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Hierarchical tree navigator with expand/collapse, selection and keyboard navigation.",
     filePath: "src/components/ui/cn/tree-view/TreeView.tsx",
     props: [
-      { name: "nodes", type: "TreeNode[]", required: true, description: "Array de nós { id, label, children?, icon? }" },
+      {
+        name: "nodes",
+        type: "TreeNode[]",
+        required: true,
+        description: "Array de nós { id, label, children?, icon? }",
+      },
       { name: "selected", type: "string", description: "ID do nó selecionado (controlado)" },
       { name: "expanded", type: "string[]", description: "IDs dos nós expandidos (controlado)" },
       { name: "defaultExpanded", type: "string[]", description: "IDs expandidos por padrão" },
@@ -6504,7 +6751,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/window-frame/WindowFrame.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo da janela" },
-      { name: "variant", type: "'macos' | 'browser' | 'terminal'", default: "'macos'", description: "Estilo da moldura" },
+      {
+        name: "variant",
+        type: "'macos' | 'browser' | 'terminal'",
+        default: "'macos'",
+        description: "Estilo da moldura",
+      },
       { name: "title", type: "string", description: "Título na barra da janela" },
       { name: "url", type: "string", description: "URL exibida (para variant browser)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
