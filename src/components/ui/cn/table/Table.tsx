@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, useMemo, useCallback, type ReactNode, type CSSProperties } from "react";
 
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
+import { Pagination } from "@/components/ui/cn/pagination/Pagination";
+import { Select } from "@/components/ui/cn/select/Select";
 import { cn } from "@/lib/utils";
 
 import type { ColumnDef, DataTableProps, FilterOption, SortDir } from "./table.types";
@@ -131,60 +133,6 @@ const SearchIcon = () => (
   >
     <circle cx="11" cy="11" r="8" />
     <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
-);
-const ChevL = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="w-[14px] h-[14px]"
-  >
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
-const ChevR = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="w-[14px] h-[14px]"
-  >
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-);
-const ChevsL = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="w-[14px] h-[14px]"
-  >
-    <polyline points="11 17 6 12 11 7" />
-    <polyline points="18 17 13 12 18 7" />
-  </svg>
-);
-const ChevsR = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="w-[14px] h-[14px]"
-  >
-    <polyline points="13 17 18 12 13 7" />
-    <polyline points="6 17 11 12 6 7" />
   </svg>
 );
 const EmptyIcon = () => (
@@ -561,18 +509,6 @@ function ViewOptions({
 
 /* ── Pagination ── */
 
-function buildPageWindow(page: number, totalPages: number, siblings = 1): (number | "…")[] {
-  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
-  const left = Math.max(0, page - siblings);
-  const right = Math.min(totalPages - 1, page + siblings);
-  const pages: (number | "…")[] = [0];
-  if (left > 1) pages.push("…");
-  for (let i = left; i <= right; i++) if (i !== 0 && i !== totalPages - 1) pages.push(i);
-  if (right < totalPages - 2) pages.push("…");
-  pages.push(totalPages - 1);
-  return pages;
-}
-
 function PaginationBar({
   page,
   totalPages,
@@ -590,86 +526,29 @@ function PaginationBar({
   onChange: (p: number) => void;
   onPageSizeChange: (ps: number) => void;
 }) {
-  const win = buildPageWindow(page, totalPages);
-  const from = page * pageSize + 1;
-  const to = Math.min((page + 1) * pageSize, totalItems);
-
-  const pageBtnCls =
-    "inline-flex items-center justify-center min-w-8 h-8 px-[5px] border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer transition-colors duration-[80ms] hover:enabled:bg-graphite hover:enabled:text-foreground disabled:opacity-35 disabled:cursor-not-allowed";
-
   return (
-    <div className="flex items-center justify-between gap-3 flex-wrap">
-      <span className="text-body-callout text-faint flex-1">
-        {totalItems > 0 ? `${from}–${to} of ${totalItems} row${totalItems !== 1 ? "s" : ""}` : "0 rows"}
-      </span>
-      <div className="flex items-center gap-1">
-        <button className={pageBtnCls} onClick={() => onChange(0)} disabled={page === 0} aria-label="First page">
-          <ChevsL />
-        </button>
-        <button
-          className={pageBtnCls}
-          onClick={() => onChange(page - 1)}
-          disabled={page === 0}
-          aria-label="Previous page"
-        >
-          <ChevL />
-        </button>
-        {win.map((p, i) =>
-          p === "…" ? (
-            <span
-              key={`e${i}`}
-              className="inline-flex items-center justify-center min-w-8 h-8 text-body-callout text-faint"
-            >
-              …
-            </span>
-          ) : (
-            <button
-              key={p}
-              className={cn(
-                pageBtnCls,
-                p === page && "bg-patina border-patina text-patina-fg font-semibold hover:bg-patina"
-              )}
-              onClick={() => onChange(p as number)}
-              aria-current={p === page ? "page" : undefined}
-            >
-              {(p as number) + 1}
-            </button>
-          )
-        )}
-        <button
-          className={pageBtnCls}
-          onClick={() => onChange(page + 1)}
-          disabled={page >= totalPages - 1}
-          aria-label="Next page"
-        >
-          <ChevR />
-        </button>
-        <button
-          className={pageBtnCls}
-          onClick={() => onChange(totalPages - 1)}
-          disabled={page >= totalPages - 1}
-          aria-label="Last page"
-        >
-          <ChevsR />
-        </button>
-      </div>
-      <div className="flex items-center gap-2 text-body-callout text-faint">
-        Rows per page
-        <select
-          className="h-8 px-2 border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-foreground cursor-pointer outline-none"
-          value={pageSize}
-          onChange={(e) => {
-            onPageSizeChange(Number(e.target.value));
+    <div className="flex items-center gap-3 flex-wrap">
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onChange={onChange}
+        totalItems={totalItems}
+        pageSize={pageSize}
+        size="sm"
+        className="flex-1"
+      />
+      <div className="flex items-center gap-2 text-body-callout text-faint shrink-0">
+        <span>Rows per page</span>
+        <Select
+          size="sm"
+          value={String(pageSize)}
+          options={pageSizeOptions.map((s) => ({ value: String(s), label: String(s) }))}
+          onChange={(v) => {
+            onPageSizeChange(Number(v));
             onChange(0);
           }}
-          aria-label="Rows per page"
-        >
-          {pageSizeOptions.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+          className="w-20"
+        />
       </div>
     </div>
   );

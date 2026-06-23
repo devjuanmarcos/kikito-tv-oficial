@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 import type { AutocompleteProps } from "./autocomplete.types";
 
 const SIZE_INPUT: Record<string, string> = {
-  sm: "py-[5px] px-[10px] text-body-caption",
-  md: "py-[8px] px-[12px] text-body-callout",
-  lg: "py-[11px] px-[14px] text-body-paragraph",
+  sm: "h-8 px-[10px] text-body-caption",
+  md: "h-9 px-[12px] text-body-callout",
+  lg: "h-11 px-[14px] text-body-paragraph",
 };
 
 export function Autocomplete({
@@ -75,10 +75,10 @@ export function Autocomplete({
 
   return (
     <div ref={rootRef} className={cn("relative flex flex-col gap-1", className)} style={style}>
-      {label && <label className="text-body-caption font-semibold text-muted tracking-[0.02em]">{label}</label>}
+      {label && <label className="text-body-callout font-medium text-foreground leading-none">{label}</label>}
       <input
         className={cn(
-          "w-full bg-sunken border border-rule rounded-(--radius-md) text-foreground outline-none transition-[border-color] duration-[150ms] placeholder:text-faint focus:border-patina box-border",
+          "w-full bg-sunken border border-rule rounded-(--radius-md) text-foreground outline-none transition-[border-color,box-shadow] duration-[150ms] placeholder:text-faint focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)] box-border",
           SIZE_INPUT[size] ?? SIZE_INPUT.md,
           disabled && "opacity-50 cursor-not-allowed"
         )}

@@ -54,8 +54,8 @@ function flatOptions(items: SelectItem[]): SelectOption[] {
 /* ── size tokens ── */
 const SIZE_H: Record<SelectSize, string> = {
   sm: "h-8 text-body-caption",
-  md: "h-10 text-body-callout",
-  lg: "h-12 text-body-paragraph",
+  md: "h-9 text-body-callout",
+  lg: "h-11 text-body-paragraph",
 };
 const SIZE_PX: Record<SelectSize, string> = {
   sm: "px-2.5",

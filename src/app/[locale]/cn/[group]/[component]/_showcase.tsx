@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Accordion } from "@/components/ui/cn/accordion/Accordion";
 import { AccordionGroup } from "@/components/ui/cn/accordion-group/AccordionGroup";
@@ -98,10 +98,20 @@ import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterFor
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
+import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
 import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
+import { Pagination } from "@/components/ui/cn/pagination/Pagination";
+import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
+import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
+import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
+import { Popover } from "@/components/ui/cn/popover/Popover";
 import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
+import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
+import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
+import { Progress } from "@/components/ui/cn/progress/Progress";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
+import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
@@ -122,11 +132,8 @@ import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
 import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
 import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
-import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
-import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
-import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
 import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
 import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
@@ -136,11 +143,9 @@ import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
-import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
-import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
 import { Rating } from "@/components/ui/cn/rating/Rating";
 import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
@@ -151,11 +156,8 @@ import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
-import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
-import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
 import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
 import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
 import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
@@ -169,9 +171,7 @@ import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
-import { Popover } from "@/components/ui/cn/popover/Popover";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
-import { Progress } from "@/components/ui/cn/progress/Progress";
 import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
 import { Separator } from "@/components/ui/cn/separator/Separator";
 import { Slider } from "@/components/ui/cn/slider/Slider";
@@ -1182,17 +1182,27 @@ function ProgressRingDemo() {
 /* ── Batch 3 demos ── */
 
 function ScrollProgressDemo() {
+  const containerRef = useRef<HTMLDivElement>(null);
   return (
-    <Frame label="Scroll Progress — tracks page scroll with a fixed top bar">
-      <div className="flex flex-col gap-4 items-center">
-        <ScrollProgress position="top" color="var(--ks-primary)" height={3} />
-        <p className="text-body-callout text-muted text-center">
-          Scroll the page to see the progress bar fill at the top of the viewport.
-        </p>
-        <div className="flex gap-3">
-          <span className="inline-flex items-center gap-1.5 text-body-caption text-faint">
-            <span className="inline-block w-12 h-1 rounded-full bg-patina" /> Patina (default)
-          </span>
+    <Frame label="Scroll Progress — barra de progresso que acompanha o scroll">
+      <div className="relative overflow-hidden rounded-(--radius-md) border border-rule" style={{ height: 260 }}>
+        <ScrollProgress
+          target={containerRef}
+          position="top"
+          height={4}
+          color="var(--ks-primary)"
+          style={{ position: "absolute", zIndex: 10 }}
+        />
+        <div ref={containerRef} className="h-full overflow-y-auto p-4 flex flex-col gap-2.5">
+          <p className="text-body-caption text-faint text-center mb-1">Role para ver a barra preencher</p>
+          {Array.from({ length: 14 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-(--radius-sm) border border-rule bg-raised px-3 py-2 text-body-callout text-muted"
+            >
+              Parágrafo {i + 1}
+            </div>
+          ))}
         </div>
       </div>
     </Frame>
@@ -2077,16 +2087,22 @@ function ToastDemo() {
 /* ── Batch 6 demos ── */
 
 function ScrollRevealDemo() {
+  const [tick, setTick] = useState(0);
   return (
-    <Frame label="Scroll Reveal — fade/slide animations on scroll enter">
-      <div className="flex flex-wrap gap-4 justify-center">
-        {(["fade", "slide-up", "slide-left", "zoom"] as const).map((anim) => (
-          <ScrollReveal key={anim} animation={anim} duration={500}>
-            <div className="w-32 h-20 rounded-(--radius-md) bg-raised border border-rule flex items-center justify-center text-body-caption text-muted font-medium capitalize">
-              {anim}
-            </div>
-          </ScrollReveal>
-        ))}
+    <Frame label="Scroll Reveal — animações de fade/slide ao entrar na viewport">
+      <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-wrap gap-4 justify-center">
+          {(["fade", "slide-up", "slide-left", "zoom"] as const).map((anim) => (
+            <ScrollReveal key={`${tick}-${anim}`} animation={anim} duration={600} once={false}>
+              <div className="w-32 h-20 rounded-(--radius-md) bg-raised border border-rule flex items-center justify-center text-body-caption text-muted font-medium capitalize">
+                {anim}
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+        <Button variant="outline" intent="neutral" size="sm" onClick={() => setTick((t) => t + 1)}>
+          Repetir animação
+        </Button>
       </div>
     </Frame>
   );
@@ -2319,18 +2335,47 @@ function QuickActionsDemo() {
 
 function MiniMapDemo() {
   const sections = [
-    { id: "s1", label: "Introduction" },
-    { id: "s2", label: "Installation" },
-    { id: "s3", label: "Configuration" },
-    { id: "s4", label: "Usage" },
-    { id: "s5", label: "API Reference" },
+    { id: "mm-s1", label: "Introdução" },
+    { id: "mm-s2", label: "Instalação" },
+    { id: "mm-s3", label: "Configuração" },
+    { id: "mm-s4", label: "Uso" },
+    { id: "mm-s5", label: "API" },
   ];
+  const [activeId, setActiveId] = useState("mm-s1");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const navigate = (id: string) => {
+    setActiveId(id);
+    const el = containerRef.current?.querySelector(`#${id}`) as HTMLElement | null;
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
   return (
-    <Frame label="Mini Map — dot page navigation with hover labels">
-      <div className="flex items-center gap-8">
-        <MiniMap sections={sections} activeId="s2" position="right" />
-        <div className="h-px w-8 bg-rule" />
-        <MiniMap sections={sections} activeId="s4" position="left" />
+    <Frame label="Mini Map — navegação por seções com dots interativos">
+      <div className="flex items-start gap-4">
+        <MiniMap sections={sections} activeId={activeId} onNavigate={navigate} position="right" />
+        <div
+          ref={containerRef}
+          className="flex-1 overflow-y-auto rounded-(--radius-md) border border-rule"
+          style={{ height: 200 }}
+          onScroll={(e) => {
+            const container = e.currentTarget;
+            const items = sections.map((s) => ({
+              id: s.id,
+              top: (container.querySelector(`#${s.id}`) as HTMLElement | null)?.offsetTop ?? 0,
+            }));
+            const scrollTop = container.scrollTop + 40;
+            const active = [...items].reverse().find((s) => s.top <= scrollTop);
+            if (active) setActiveId(active.id);
+          }}
+        >
+          {sections.map((s) => (
+            <div key={s.id} id={s.id} className="p-4 border-b border-rule last:border-0">
+              <p className="text-body-callout font-semibold text-foreground">{s.label}</p>
+              <p className="text-body-caption text-muted mt-0.5">Clique no dot para navegar até aqui.</p>
+            </div>
+          ))}
+        </div>
       </div>
     </Frame>
   );
