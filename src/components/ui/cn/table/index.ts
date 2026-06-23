@@ -1,2 +1,28 @@
-export { Table, TableHead, TableBody, TableFoot, TableRow, TableCell, TableHeadCell, TableCaption, DataTable } from './Table'
-export type { DataTableProps, ColumnDef, FilterOption, SortDir, FilterVariant, TableSize } from './table.types'
+export {
+  Table,
+  TableHead,
+  TableBody,
+  TableFoot,
+  TableRow,
+  TableCell,
+  TableHeadCell,
+  TableCaption,
+  DataTable,
+} from "./Table";
+export type {
+  DataTableProps,
+  ColumnDef,
+  FilterOption,
+  SortDir,
+  FilterVariant,
+  TableSize,
+  SuperDataTableProps,
+  DataTableGridProps,
+  DataGridColumn,
+  DataTableListProps,
+  DataListItem,
+  DataListLayout,
+  DataTableTreeProps,
+  TreeTableColumn,
+  TreeTableRow,
+} from "./table.types";

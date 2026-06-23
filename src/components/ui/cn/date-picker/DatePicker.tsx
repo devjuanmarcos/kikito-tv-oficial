@@ -1,15 +1,39 @@
-﻿"use client";
+"use client";
 
+import type React from "react";
 import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 
 import { cn } from "@/lib/utils";
 
 export type DatePickerVariant = "outline" | "filled" | "ghost";
 
-export interface DatePickerProps {
-  value?: Date | null;
-  defaultValue?: Date | null;
-  onChange?: (date: Date | null) => void;
+/* ── Shared sub-types absorbed from sibling families ──────────────────────── */
+
+/** Range value shape (absorbed from DateRangePicker). */
+export interface DateRange {
+  start: Date | null;
+  end: Date | null;
+}
+
+/** Time value shape (absorbed from TimePicker). */
+export interface TimeValue {
+  hours: number;
+  minutes: number;
+  period?: "AM" | "PM";
+}
+export type TimeFormat = "12" | "24";
+
+/** Inline-calendar event shape (absorbed from Calendar). */
+export interface CalendarEvent {
+  id: string | number;
+  date: Date;
+  title: string;
+  color?: string;
+}
+
+/* ── Discriminated props union ────────────────────────────────────────────── */
+
+interface DatePickerBaseProps {
   placeholder?: string;
   label?: string;
   helperText?: string;
@@ -24,6 +48,35 @@ export interface DatePickerProps {
   locale?: string;
   className?: string;
 }
+
+/** Default single-date input mode. */
+export interface DatePickerSingleProps extends DatePickerBaseProps {
+  /** Dual-calendar range mode. Omit/false for a single date. */
+  range?: false;
+  /** `input` (default, popover field) or `inline` (always-open calendar grid). */
+  mode?: "input" | "inline";
+  value?: Date | null;
+  defaultValue?: Date | null;
+  onChange?: (date: Date | null) => void;
+  /** Inline-mode events (absorbed from Calendar). */
+  events?: CalendarEvent[];
+  onEventClick?: (event: CalendarEvent) => void;
+  style?: React.CSSProperties;
+}
+
+/** Date-range mode (absorbed from DateRangePicker). value is `{ start, end }`. */
+export interface DatePickerRangeProps extends DatePickerBaseProps {
+  range: true;
+  mode?: "input";
+  value?: DateRange;
+  defaultValue?: DateRange;
+  onChange?: (range: DateRange) => void;
+  style?: React.CSSProperties;
+}
+
+export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps;
+
+/* ── Icons ────────────────────────────────────────────────────────────────── */
 
 const ChevronL = () => (
   <svg
@@ -112,7 +165,8 @@ function isToday(d: Date) {
   return isSameDay(d, new Date());
 }
 
-export function DatePicker({
+/* ── Single-date input (default mode) ─────────────────────────────────────── */
+function SingleDatePicker({
   value,
   defaultValue = null,
   onChange,
@@ -129,7 +183,7 @@ export function DatePicker({
   formatDate,
   locale = "en-US",
   className,
-}: DatePickerProps) {
+}: DatePickerSingleProps) {
   const uid = useId();
   const isControlled = value !== undefined;
   const [internal, setInternal] = useState<Date | null>(defaultValue);
@@ -499,4 +553,355 @@ export function DatePicker({
       )}
     </div>
   );
+}
+
+/* ── Inline calendar grid (mode="inline", absorbed from Calendar) ─────────── */
+function InlineCalendar({
+  value,
+  defaultValue,
+  onChange,
+  events = [],
+  onEventClick,
+  className,
+  style,
+}: DatePickerSingleProps) {
+  const today = new Date();
+  const isControlled = value !== undefined;
+  const initial = defaultValue ?? null;
+  const [internal, setInternal] = useState<Date | undefined>(initial ?? undefined);
+  const selected = (isControlled ? value : internal) ?? undefined;
+
+  const seed = value ?? defaultValue ?? today;
+  const [viewYear, setViewYear] = useState(() => seed.getFullYear());
+  const [viewMonth, setViewMonth] = useState(() => seed.getMonth());
+
+  function select(d: Date) {
+    if (!isControlled) setInternal(d);
+    onChange?.(d);
+    const dayEvents = events.filter((e) => isSameDay(e.date, d));
+    if (dayEvents.length > 0) onEventClick?.(dayEvents[0]);
+  }
+
+  function prevMonth() {
+    if (viewMonth === 0) {
+      setViewYear((y) => y - 1);
+      setViewMonth(11);
+    } else setViewMonth((m) => m - 1);
+  }
+  function nextMonth() {
+    if (viewMonth === 11) {
+      setViewYear((y) => y + 1);
+      setViewMonth(0);
+    } else setViewMonth((m) => m + 1);
+  }
+
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const dayCount = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const cells = Array.from({ length: firstDay + dayCount }, (_, i) => (i < firstDay ? null : i - firstDay + 1));
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  return (
+    <div
+      style={style}
+      className={cn("inline-flex flex-col gap-1 p-4 rounded-2xl border border-rule bg-raised", className)}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2">
+        <button
+          type="button"
+          onClick={prevMonth}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-faint hover:text-foreground hover:bg-graphite transition-colors"
+        >
+          <ChevronL />
+        </button>
+        <span className="text-body-callout font-semibold text-foreground">
+          {MONTHS[viewMonth]} {viewYear}
+        </span>
+        <button
+          type="button"
+          onClick={nextMonth}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-faint hover:text-foreground hover:bg-graphite transition-colors"
+        >
+          <ChevronR />
+        </button>
+      </div>
+
+      {/* Day headers */}
+      <div className="grid grid-cols-7 mb-1">
+        {WEEKDAYS.map((d) => (
+          <div key={d} className="text-center text-[0.65rem] font-medium text-faint py-1">
+            {d}
+          </div>
+        ))}
+      </div>
+
+      {/* Cells */}
+      <div className="grid grid-cols-7 gap-y-1">
+        {cells.map((day, i) => {
+          if (!day) return <div key={i} />;
+          const date = new Date(viewYear, viewMonth, day);
+          const today_ = isSameDay(date, today);
+          const isSelected = selected ? isSameDay(date, selected) : false;
+          const dayEvents = events.filter((e) => isSameDay(e.date, date));
+
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => select(date)}
+              className={cn(
+                "relative flex flex-col items-center justify-center w-8 h-8 rounded-lg mx-auto text-body-callout",
+                "transition-[background,color] duration-[80ms]",
+                isSelected && "bg-patina text-patina-fg font-semibold",
+                !isSelected && today_ && "border border-patina text-patina font-semibold",
+                !isSelected && !today_ && "text-foreground hover:bg-graphite"
+              )}
+            >
+              {day}
+              {dayEvents.length > 0 && (
+                <span
+                  className={cn("absolute bottom-0.5 w-1 h-1 rounded-full", isSelected ? "bg-patina-fg/80" : "")}
+                  style={!isSelected ? { background: dayEvents[0].color ?? "var(--ks-primary)" } : undefined}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── Dual-calendar range picker (range, absorbed from DateRangePicker) ────── */
+function rangeFmt(d: Date) {
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function RangeMonthGrid({
+  year,
+  month,
+  range,
+  hovered,
+  onDay,
+  onHover,
+}: {
+  year: number;
+  month: number;
+  range: DateRange;
+  hovered: Date | null;
+  onDay: (d: Date) => void;
+  onHover: (d: Date | null) => void;
+}) {
+  const first = new Date(year, month, 1).getDay();
+  const days = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const cells: (Date | null)[] = [
+    ...Array(first).fill(null),
+    ...Array.from({ length: days }, (_, i) => new Date(year, month, i + 1)),
+  ];
+  const endDisplay = range.end ?? hovered;
+
+  return (
+    <div className="grid grid-cols-7 gap-[2px]">
+      {WEEKDAYS.map((d) => (
+        <div key={d} className="text-center text-body-caption font-semibold text-muted opacity-50 py-[3px]">
+          {d}
+        </div>
+      ))}
+      {cells.map((day, i) => {
+        if (!day) return <div key={i} className="pointer-events-none" />;
+        const isStart = !!range.start && isSameDay(day, range.start);
+        const isEnd = !!endDisplay && isSameDay(day, endDisplay);
+        const inRange =
+          !!range.start &&
+          !!endDisplay &&
+          day > (range.start < endDisplay ? range.start : endDisplay) &&
+          day < (range.start < endDisplay ? endDisplay : range.start);
+        const today_ = isSameDay(day, today);
+        return (
+          <button
+            key={i}
+            type="button"
+            className={cn(
+              "text-center text-body-caption py-[5px] border-0 bg-transparent text-foreground cursor-pointer transition-colors duration-100",
+              !isStart && !isEnd && "rounded-(--radius-sm) hover:bg-raised",
+              today_ && "font-bold",
+              (isStart || isEnd) && "bg-patina text-patina-fg font-bold",
+              isStart && !isEnd && "rounded-l-[6px] rounded-r-none",
+              isEnd && !isStart && "rounded-r-[6px] rounded-l-none",
+              isStart && isEnd && "rounded-(--radius-sm)",
+              inRange && "bg-patina/18 rounded-none"
+            )}
+            onClick={() => onDay(day)}
+            onMouseEnter={() => onHover(day)}
+            onMouseLeave={() => onHover(null)}
+          >
+            {day.getDate()}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function RangeDatePicker({
+  value: controlled,
+  defaultValue,
+  onChange,
+  placeholder = "Select date range",
+  disabled = false,
+  className,
+  style,
+}: DatePickerRangeProps) {
+  const [internal, setInternal] = useState<DateRange>(defaultValue ?? { start: null, end: null });
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<Date | null>(null);
+  const today = new Date();
+  const [leftYear, setLeftYear] = useState(today.getFullYear());
+  const [leftMonth, setLeftMonth] = useState(today.getMonth());
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const range = controlled !== undefined ? controlled : internal;
+
+  const rightYear = leftMonth === 11 ? leftYear + 1 : leftYear;
+  const rightMonth = leftMonth === 11 ? 0 : leftMonth + 1;
+
+  function prev() {
+    if (leftMonth === 0) {
+      setLeftYear((y) => y - 1);
+      setLeftMonth(11);
+    } else setLeftMonth((m) => m - 1);
+  }
+  function next() {
+    if (leftMonth === 11) {
+      setLeftYear((y) => y + 1);
+      setLeftMonth(0);
+    } else setLeftMonth((m) => m + 1);
+  }
+
+  function handleDay(day: Date) {
+    let nextRange: DateRange;
+    if (!range.start || (range.start && range.end)) {
+      nextRange = { start: day, end: null };
+    } else {
+      nextRange = day < range.start ? { start: day, end: range.start } : { start: range.start, end: day };
+      setOpen(false);
+    }
+    if (controlled === undefined) setInternal(nextRange);
+    onChange?.(nextRange);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function h(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
+  }, [open]);
+
+  const displayLabel = range.start
+    ? range.end
+      ? `${rangeFmt(range.start)} – ${rangeFmt(range.end)}`
+      : rangeFmt(range.start)
+    : undefined;
+
+  return (
+    <div ref={rootRef} className={cn("relative inline-flex", className)} style={style}>
+      <button
+        className={cn(
+          "inline-flex items-center gap-2 px-3 py-2 bg-sunken border border-rule rounded-(--radius-base) cursor-pointer text-body-callout text-foreground transition-colors duration-150 min-w-[200px] justify-between hover:border-patina",
+          disabled && "opacity-40 cursor-not-allowed"
+        )}
+        onClick={() => !disabled && setOpen((o) => !o)}
+        type="button"
+      >
+        <span className="opacity-50 text-body-paragraph">📅</span>
+        <span className={cn("flex-1 text-left text-body-callout", !displayLabel && "opacity-40")}>
+          {displayLabel ?? placeholder}
+        </span>
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+8px)] left-0 z-[200] bg-float border border-rule rounded-(--radius-lg) shadow-[0_8px_32px_color-mix(in_srgb,black_20%,transparent)] p-4 flex gap-4 animate-in fade-in slide-in-from-top-1 duration-[120ms]">
+          {/* Left month */}
+          <div className="min-w-[220px]">
+            <div className="flex items-center justify-between mb-3">
+              <button
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                onClick={prev}
+                type="button"
+              >
+                ‹
+              </button>
+              <span className="font-bold text-body-callout text-foreground">
+                {MONTHS[leftMonth]} {leftYear}
+              </span>
+              <button
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
+                type="button"
+              >
+                ›
+              </button>
+            </div>
+            <RangeMonthGrid
+              year={leftYear}
+              month={leftMonth}
+              range={range}
+              hovered={hovered}
+              onDay={handleDay}
+              onHover={setHovered}
+            />
+          </div>
+          {/* Right month */}
+          <div className="min-w-[220px]">
+            <div className="flex items-center justify-between mb-3">
+              <button
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
+                type="button"
+              >
+                ‹
+              </button>
+              <span className="font-bold text-body-callout text-foreground">
+                {MONTHS[rightMonth]} {rightYear}
+              </span>
+              <button
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                onClick={next}
+                type="button"
+              >
+                ›
+              </button>
+            </div>
+            <RangeMonthGrid
+              year={rightYear}
+              month={rightMonth}
+              range={range}
+              hovered={hovered}
+              onDay={handleDay}
+              onHover={setHovered}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * DatePicker — Super component for the DATE family.
+ *
+ * Dispatches by discriminator:
+ *  - `range` (default false) → dual-calendar range picker (absorbs DateRangePicker, value `{ start, end }`).
+ *  - `mode="inline"`         → always-open calendar grid (absorbs Calendar, value `Date` + events).
+ *  - default                 → single-date popover input (with optional `showTime`).
+ *
+ * Standalone DateRangePicker / Calendar are now backward-compat wrappers over
+ * this component. TimePicker is kept standalone (catalog-absorb: value shape
+ * `{ hours, minutes, period }` and standalone dropdown UI differ too much to
+ * merge without regression).
+ */
+export function DatePicker(props: DatePickerProps) {
+  if (props.range) return <RangeDatePicker {...props} />;
+  if (props.mode === "inline") return <InlineCalendar {...props} />;
+  return <SingleDatePicker {...props} />;
 }

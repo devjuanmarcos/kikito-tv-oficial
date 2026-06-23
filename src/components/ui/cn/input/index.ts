@@ -1,2 +1,13 @@
-export { Input } from './Input'
-export type { InputProps, InputSize, InputVariant, InputStatus } from './input.types'
+export { Input } from "./Input";
+export type {
+  InputProps,
+  InputBaseProps,
+  InputDefaultProps,
+  InputSize,
+  InputVariant,
+  InputStatus,
+  NumberModeProps,
+  NumberInputVariant,
+  CurrencyModeProps,
+  PhoneModeProps,
+} from "./input.types";

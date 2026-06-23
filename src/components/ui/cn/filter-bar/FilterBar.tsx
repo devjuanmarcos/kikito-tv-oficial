@@ -1,71 +1,15 @@
-﻿'use client'
+"use client";
+/**
+ * FilterBar — backward-compat wrapper.
+ * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant="filter" />`).
+ * Kept so existing imports of `FilterBar` keep working; new code should use
+ * ToggleGroup directly.
+ */
+import { ToggleGroup } from "@/components/ui/cn/toggle-group";
+import type { ToggleGroupFilterProps } from "@/components/ui/cn/toggle-group/ToggleGroup";
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { FilterBarProps } from './filter-bar.types'
+import type { FilterBarProps } from "./filter-bar.types";
 
-export function FilterBar({
-  options,
-  value: controlled,
-  defaultValue,
-  onChange,
-  multiSelect = true,
-  clearable   = true,
-  className,
-  style,
-}: FilterBarProps) {
-  const [internal, setInternal] = useState<string[]>(defaultValue ?? [])
-  const selected = controlled !== undefined ? controlled : internal
-
-  function toggle(v: string) {
-    const next = !multiSelect
-      ? (selected.includes(v) ? [] : [v])
-      : (selected.includes(v) ? selected.filter(s => s !== v) : [...selected, v])
-    if (controlled === undefined) setInternal(next)
-    onChange?.(next)
-  }
-
-  function clear() {
-    if (controlled === undefined) setInternal([])
-    onChange?.([])
-  }
-
-  return (
-    <div className={cn('flex flex-wrap gap-[6px] items-center', className)} style={style}>
-      {options.map(opt => {
-        const isActive = selected.includes(opt.value)
-        return (
-          <button
-            key={opt.value}
-            type="button"
-            className={cn(
-              'inline-flex items-center gap-[5px] py-[5px] px-3 rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none',
-              'hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-primary)_8%,transparent)]',
-              isActive && 'border-patina bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina font-semibold',
-            )}
-            onClick={() => toggle(opt.value)}
-          >
-            {opt.label}
-            {opt.count !== undefined && (
-              <span className={cn(
-                'bg-raised rounded-pill px-[6px] py-[1px] text-body-caption font-bold text-muted min-w-[18px] text-center',
-                isActive && 'bg-[color-mix(in_srgb,var(--ks-primary)_25%,transparent)] text-patina',
-              )}>
-                {opt.count}
-              </span>
-            )}
-          </button>
-        )
-      })}
-      {clearable && selected.length > 0 && (
-        <button
-          type="button"
-          className="inline-flex items-center gap-1 py-[5px] px-[10px] rounded-pill text-body-caption cursor-pointer border border-dashed border-rule bg-transparent text-muted transition-[color,border-color] hover:text-danger hover:border-danger"
-          onClick={clear}
-        >
-          ✕ Clear
-        </button>
-      )}
-    </div>
-  )
+export function FilterBar(props: FilterBarProps) {
+  return <ToggleGroup variant="filter" {...(props as ToggleGroupFilterProps)} />;
 }

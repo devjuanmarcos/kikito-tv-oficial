@@ -1,10 +1,13 @@
-﻿import type React from "react";
+"use client";
+import React, { useCallback, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
 export type CardVariant = "default" | "outlined" | "elevated" | "filled" | "ghost";
 export type CardPadding = "none" | "sm" | "md" | "lg";
 export type CardRadius = "sm" | "md" | "lg" | "xl";
+export type CardEffect = "none" | "glass" | "glow" | "tilt" | "spotlight" | "gradient-border";
+export type CardGradientBorderVariant = "spin" | "pulse" | "static";
 
 export interface CardProps {
   variant?: CardVariant;
@@ -17,6 +20,40 @@ export interface CardProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+
+  /** Visual effect dispatch. Default `none` keeps the standard card. */
+  effect?: CardEffect;
+
+  /* effect=glass */
+  blur?: number;
+  opacity?: number;
+  border?: boolean;
+
+  /* effect=glow */
+  glowColor?: string;
+  glowSize?: number;
+  glowOpacity?: number;
+
+  /* effect=tilt */
+  maxTilt?: number;
+  scale?: number;
+  perspective?: number;
+  glare?: boolean;
+
+  /* effect=spotlight */
+  color?: string;
+  size?: number;
+
+  /* effect=gradient-border */
+  colors?: string[];
+  borderWidth?: number;
+  borderRadius?: number;
+  speed?: number;
+  gradientVariant?: CardGradientBorderVariant;
+  /** Numeric corner radius shared by glow/gradient-border effects. */
+  effectRadius?: number;
+  /** Inner padding for glow effect. */
+  effectPadding?: number | string;
 }
 
 export interface CardHeaderProps {
@@ -69,7 +106,8 @@ const FOOTER_ALIGN: Record<NonNullable<CardFooterProps["align"]>, string> = {
   between: "justify-between",
 };
 
-export function Card({
+/* ── Standard card (effect=none, default) ────────────────────────────────── */
+function StandardCard({
   variant = "default",
   padding = "none",
   radius = "md",
@@ -111,6 +149,281 @@ export function Card({
       {children}
     </div>
   );
+}
+
+/* ── effect=glass (absorbed from GlassCard) ──────────────────────────────── */
+function GlassCardImpl({ children, blur = 12, opacity = 0.1, border = true, className, style }: CardProps) {
+  return (
+    <div
+      className={cn("rounded-(--radius-lg) overflow-hidden", className)}
+      style={{
+        background: `color-mix(in srgb, var(--ks-lacquer-raised) ${Math.round(opacity * 100)}%, transparent)`,
+        backdropFilter: `blur(${blur}px)`,
+        WebkitBackdropFilter: `blur(${blur}px)`,
+        border: border ? "1px solid color-mix(in srgb, var(--ks-lacquer-raised) 20%, transparent)" : "none",
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ── effect=glow (absorbed from GlowCard) ────────────────────────────────── */
+function GlowCardImpl({
+  children,
+  glowColor = "var(--ks-primary)",
+  glowSize = 400,
+  glowOpacity = 0.14,
+  effectRadius = 16,
+  effectPadding = 20,
+  className,
+  style,
+}: CardProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = rootRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    el.style.setProperty("--_x", `${x}%`);
+    el.style.setProperty("--_y", `${y}%`);
+  }, []);
+
+  return (
+    <>
+      <style>{`
+        .gc-root {
+          position: relative;
+          border-radius: var(--_r, 16px);
+          border: 1px solid var(--ks-rule);
+          background: var(--ks-raised);
+          overflow: hidden;
+          isolation: isolate;
+        }
+        .gc-root::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            circle var(--_glow-size, 400px) at var(--_x, 50%) var(--_y, 50%),
+            var(--_glow-color) 0%,
+            transparent 70%
+          );
+          opacity: var(--_glow-opacity, 0.14);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .gc-content { position: relative; z-index: 1; }
+      `}</style>
+      <div
+        ref={rootRef}
+        className={cn("gc-root", className)}
+        onMouseMove={onMouseMove}
+        style={
+          {
+            "--_r": `${effectRadius}px`,
+            "--_glow-color": glowColor,
+            "--_glow-size": `${glowSize}px`,
+            "--_glow-opacity": glowOpacity,
+            ...style,
+          } as React.CSSProperties
+        }
+      >
+        <div className="gc-content" style={{ padding: effectPadding }}>
+          {children}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ── effect=tilt (absorbed from TiltCard) ────────────────────────────────── */
+function TiltCardImpl({
+  children,
+  maxTilt = 15,
+  scale = 1.04,
+  perspective = 800,
+  glare = true,
+  className,
+  style,
+}: CardProps) {
+  const innerRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const rotX = y * -maxTilt * 2;
+    const rotY = x * maxTilt * 2;
+    if (innerRef.current) {
+      innerRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+    }
+    if (glareRef.current) {
+      glareRef.current.style.setProperty("--_gx", `${(x + 0.5) * 100}%`);
+      glareRef.current.style.setProperty("--_gy", `${(y + 0.5) * 100}%`);
+      glareRef.current.style.opacity = "1";
+    }
+  }
+
+  function handleMouseLeave() {
+    if (innerRef.current) innerRef.current.style.transform = "rotateX(0) rotateY(0) scale(1)";
+    if (glareRef.current) glareRef.current.style.opacity = "0";
+  }
+
+  return (
+    <div
+      className={cn("inline-block cursor-pointer", className)}
+      style={{ perspective: `${perspective}px`, ...style }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div
+        ref={innerRef}
+        className="relative [transform-style:preserve-3d] transition-[transform] duration-100 ease-out rounded-[inherit] overflow-hidden"
+      >
+        {children}
+        {glare && (
+          <div
+            ref={glareRef}
+            className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200"
+            style={{
+              background:
+                "radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), color-mix(in srgb, white 18%, transparent) 0%, transparent 65%)",
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── effect=spotlight (absorbed from Spotlight) ──────────────────────────── */
+function SpotlightImpl({ children, color = "var(--ks-violet-soft)", size = 300, className, style }: CardProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const root = rootRef.current;
+    const glow = glowRef.current;
+    if (!root || !glow) return;
+    const rect = root.getBoundingClientRect();
+    glow.style.left = `${e.clientX - rect.left}px`;
+    glow.style.top = `${e.clientY - rect.top}px`;
+    glow.style.opacity = "1";
+  }
+
+  function onMouseLeave() {
+    if (glowRef.current) glowRef.current.style.opacity = "0";
+  }
+
+  return (
+    <div
+      ref={rootRef}
+      className={cn("relative overflow-hidden", className)}
+      style={style}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+    >
+      <div
+        ref={glowRef}
+        className="pointer-events-none absolute opacity-0 transition-opacity duration-200 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: size,
+          height: size,
+          background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+        }}
+      />
+      <div className="relative z-[1]">{children}</div>
+    </div>
+  );
+}
+
+/* ── effect=gradient-border (absorbed from GradientBorder) ───────────────── */
+const GB_DEFAULT_COLORS = ["var(--ks-violet)", "var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-rose)"];
+
+function GradientBorderImpl({
+  children,
+  colors = GB_DEFAULT_COLORS,
+  borderWidth = 2,
+  borderRadius = 12,
+  speed = 3,
+  gradientVariant = "spin",
+  className,
+  style,
+}: CardProps) {
+  const gradient =
+    gradientVariant === "spin"
+      ? `conic-gradient(from var(--_angle, 0deg), ${colors.join(", ")})`
+      : `linear-gradient(135deg, ${colors.join(", ")})`;
+
+  return (
+    <>
+      <style>{`
+        .gb-wrap { position: relative; display: inline-flex; }
+        .gb-border {
+          position: absolute; inset: calc(-1 * var(--_bw, 2px));
+          border-radius: calc(var(--_r, 12px) + var(--_bw, 2px));
+          background: var(--_gradient);
+          z-index: 0;
+        }
+        .gb-border[data-variant="spin"] {
+          animation: gb-spin var(--_speed, 3s) linear infinite;
+        }
+        .gb-border[data-variant="pulse"] {
+          animation: gb-pulse var(--_speed, 3s) ease-in-out infinite;
+        }
+        @keyframes gb-spin { to { --_angle: 360deg; } }
+        @property --_angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        @keyframes gb-pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+        .gb-content { position: relative; z-index: 1; background: var(--ks-raised); }
+      `}</style>
+      <div className={cn("gb-wrap", className)} style={{ borderRadius, ...style }}>
+        <div
+          className="gb-border"
+          data-variant={gradientVariant}
+          style={
+            {
+              "--_bw": `${borderWidth}px`,
+              "--_r": `${borderRadius}px`,
+              "--_gradient": gradient,
+              "--_speed": `${speed}s`,
+            } as React.CSSProperties
+          }
+        />
+        <div className="gb-content" style={{ borderRadius: borderRadius - borderWidth }}>
+          {children}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/**
+ * Card — Super component.
+ * `effect` (default `none`) dispatches to the standard card or an absorbed
+ * visual effect (glass, glow, tilt, spotlight, gradient-border). The former
+ * GlassCard/GlowCard/TiltCard/Spotlight/GradientBorder are now backward-compat
+ * wrappers over this component. CardHeader/CardBody/CardFooter are unchanged.
+ */
+export function Card(props: CardProps) {
+  switch (props.effect) {
+    case "glass":
+      return <GlassCardImpl {...props} />;
+    case "glow":
+      return <GlowCardImpl {...props} />;
+    case "tilt":
+      return <TiltCardImpl {...props} />;
+    case "spotlight":
+      return <SpotlightImpl {...props} />;
+    case "gradient-border":
+      return <GradientBorderImpl {...props} />;
+    default:
+      return <StandardCard {...props} />;
+  }
 }
 
 export function CardHeader({ title, description, icon, badge, action, className }: CardHeaderProps) {

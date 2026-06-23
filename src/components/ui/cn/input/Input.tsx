@@ -1,10 +1,21 @@
-﻿"use client";
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useId } from "react";
 
 import { cn } from "@/lib/utils";
 
-import type { InputProps, InputSize, InputVariant, InputStatus } from "./input.types";
+import type {
+  InputProps,
+  InputBaseProps,
+  InputDefaultProps,
+  InputSize,
+  InputVariant,
+  InputStatus,
+  NumberModeProps,
+  NumberInputVariant,
+  CurrencyModeProps,
+  PhoneModeProps,
+} from "./input.types";
 
 const SIZE_INPUT: Record<InputSize, string> = {
   sm: "h-8  px-3   text-body-callout   rounded-(--radius-sm)",
@@ -133,7 +144,10 @@ function XCircleIcon() {
   );
 }
 
-export function Input({
+/* ──────────────────────────────────────────────────────────────────────────
+ * TextInputImpl — the default text Input (former Input body, verbatim).
+ * ─────────────────────────────────────────────────────────────────────── */
+function TextInputImpl({
   size = "md",
   variant = "outline",
   status = "default",
@@ -159,8 +173,9 @@ export function Input({
   type,
   value,
   onChange,
+  floatingLabel: _floatingLabel,
   ...props
-}: InputProps) {
+}: InputBaseProps) {
   const [id] = useState(() => idProp ?? uniqueId("ks-input"));
   const [revealed, setRevealed] = useState(false);
 
@@ -319,6 +334,574 @@ export function Input({
       {hintEl}
     </div>
   );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * FloatingLabelImpl — floatingLabel variant (former FloatingLabelInput).
+ * Logic ported verbatim; maps Input's `status`/`error` onto invalid state.
+ * ─────────────────────────────────────────────────────────────────────── */
+type FloatingLabelVariant = "outline" | "filled" | "underline";
+type FloatingLabelSize = "sm" | "md" | "lg";
+
+const FL_SIZE_WRAP: Record<FloatingLabelSize, string> = {
+  sm: "h-10",
+  md: "h-12",
+  lg: "h-14",
+};
+const FL_SIZE_INPUT: Record<FloatingLabelSize, string> = {
+  sm: "text-sm px-3",
+  md: "text-sm px-3",
+  lg: "text-base px-4",
+};
+const FL_SIZE_LABEL_RESTING: Record<FloatingLabelSize, string> = {
+  sm: "text-sm top-[50%] -translate-y-1/2 left-3",
+  md: "text-sm top-[50%] -translate-y-1/2 left-3",
+  lg: "text-base top-[50%] -translate-y-1/2 left-4",
+};
+const FL_SIZE_LABEL_FLOAT: Record<FloatingLabelSize, string> = {
+  sm: "text-[0.65rem] top-1.5 left-3",
+  md: "text-[0.65rem] top-1.5 left-3",
+  lg: "text-[0.65rem] top-1.5 left-4",
+};
+const FL_SIZE_INPUT_PT: Record<FloatingLabelSize, string> = {
+  sm: "pt-4 pb-1",
+  md: "pt-5 pb-1",
+  lg: "pt-6 pb-1",
+};
+const FL_VARIANT_WRAP: Record<FloatingLabelVariant, string> = {
+  outline: "border border-rule rounded-lg bg-transparent",
+  filled: "bg-graphite rounded-lg border border-transparent",
+  underline: "border-b border-rule rounded-none bg-transparent",
+};
+const FL_VARIANT_FOCUS: Record<FloatingLabelVariant, string> = {
+  outline: "focus-within:border-patina",
+  filled: "focus-within:border-patina focus-within:bg-graphite-2",
+  underline: "focus-within:border-patina",
+};
+const FL_VARIANT_ERROR: Record<FloatingLabelVariant, string> = {
+  outline: "border-danger",
+  filled: "border-danger",
+  underline: "border-danger",
+};
+
+/** Maps the Super Input `variant` (outline|filled|flushed|ghost) onto the
+ *  floating-label variant scale (outline|filled|underline). */
+function toFloatingVariant(v: InputVariant | undefined): FloatingLabelVariant {
+  if (v === "filled") return "filled";
+  if (v === "flushed" || v === "ghost") return "underline";
+  return "outline";
+}
+
+function FloatingLabelImpl({
+  size = "md",
+  variant,
+  state,
+  status = "default",
+  label,
+  id: idProp,
+  value,
+  defaultValue,
+  onChange,
+  type = "text",
+  disabled = false,
+  error,
+  errorText,
+  hint,
+  helperText,
+  className,
+  style,
+  fullWidth: _fullWidth,
+  floatingLabel: _floatingLabel,
+  iconLeft: _iconLeft,
+  iconRight: _iconRight,
+  prefix: _prefix,
+  suffix: _suffix,
+  clearable: _clearable,
+  onClear: _onClear,
+  revealable: _revealable,
+  successText: _successText,
+  warningText: _warningText,
+  ...inputProps
+}: InputBaseProps) {
+  const uid = useId();
+  const inputId = idProp ?? uid;
+
+  const flVariant = toFloatingVariant(variant);
+  const flSize = size as FloatingLabelSize;
+
+  const errorMessage = error ?? errorText;
+  const resolvedStatus: InputStatus = errorMessage ? "error" : state ?? status;
+  const invalid = resolvedStatus === "error";
+  const resolvedHint = hint ?? helperText;
+
+  const isControlled = value !== undefined;
+  const [internalVal, setInternalVal] = useState((defaultValue as string) ?? "");
+  const currentVal = isControlled ? (value as string) : internalVal;
+
+  const [focused, setFocused] = useState(false);
+  const floated = focused || (typeof currentVal === "string" && currentVal.length > 0);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!isControlled) setInternalVal(e.target.value);
+    onChange?.(e);
+  }
+
+  const hasError = invalid || !!errorMessage;
+  const labelText = label ?? "";
+
+  return (
+    <div style={style} className={cn("flex flex-col gap-1", className)}>
+      <div
+        className={cn(
+          "relative w-full transition-[border-color,background] duration-[120ms]",
+          FL_SIZE_WRAP[flSize],
+          FL_VARIANT_WRAP[flVariant],
+          !hasError && FL_VARIANT_FOCUS[flVariant],
+          hasError && FL_VARIANT_ERROR[flVariant],
+          disabled && "opacity-50"
+        )}
+      >
+        <input
+          {...inputProps}
+          id={inputId}
+          type={type}
+          value={isControlled ? (value as string) : internalVal}
+          defaultValue={undefined}
+          onChange={handleChange}
+          disabled={disabled}
+          aria-invalid={hasError}
+          aria-describedby={errorMessage ? `${inputId}-err` : resolvedHint ? `${inputId}-hint` : undefined}
+          onFocus={(e) => {
+            setFocused(true);
+            inputProps.onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setFocused(false);
+            inputProps.onBlur?.(e);
+          }}
+          className={cn(
+            "w-full h-full bg-transparent outline-none text-foreground placeholder-transparent",
+            FL_SIZE_INPUT[flSize],
+            floated && FL_SIZE_INPUT_PT[flSize]
+          )}
+          placeholder={labelText}
+        />
+        <label
+          htmlFor={inputId}
+          className={cn(
+            "absolute pointer-events-none text-faint transition-all duration-[120ms] ease-in-out",
+            floated ? [FL_SIZE_LABEL_FLOAT[flSize], "text-patina"] : FL_SIZE_LABEL_RESTING[flSize],
+            hasError && floated && "text-danger"
+          )}
+        >
+          {labelText}
+        </label>
+      </div>
+      {hasError && errorMessage ? (
+        <p id={`${inputId}-err`} role="alert" className="flex items-center gap-1 text-body-caption text-danger">
+          <span aria-hidden="true">⚠</span>
+          {errorMessage}
+        </p>
+      ) : resolvedHint ? (
+        <p id={`${inputId}-hint`} className="text-body-caption text-faint">
+          {resolvedHint}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * NumberInputImpl — type="number" (former NumberInput, verbatim logic).
+ * ─────────────────────────────────────────────────────────────────────── */
+const NUM_SIZE: Record<InputSize, string> = {
+  sm: "h-7  text-[0.8125rem]",
+  md: "h-9  text-body-callout",
+  lg: "h-11 text-body-paragraph",
+};
+const NUM_SIZE_BTN: Record<InputSize, string> = {
+  sm: "w-6",
+  md: "w-7",
+  lg: "w-8",
+};
+const NUM_VARIANT_WRAP: Record<NumberInputVariant, string> = {
+  default: "border border-rule bg-raised",
+  ghost: "border border-transparent bg-transparent hover:bg-graphite",
+  filled: "border border-transparent bg-graphite-2",
+};
+
+const PlusIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="w-3 h-3">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+const MinusIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="w-3 h-3">
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
+function round(v: number, precision: number) {
+  const f = Math.pow(10, precision);
+  return Math.round(v * f) / f;
+}
+
+function NumberInputImpl({
+  value,
+  defaultValue = 0,
+  onChange,
+  min,
+  max,
+  step = 1,
+  precision = 0,
+  allowDecimal = false,
+  format,
+  parse,
+  size = "md",
+  variant = "default",
+  label,
+  helperText,
+  error = false,
+  errorMessage,
+  disabled = false,
+  readOnly = false,
+  prefix,
+  suffix,
+  id,
+  className,
+  style,
+}: Omit<NumberModeProps, "type">) {
+  const uid = useId();
+  const inputId = id ?? uid;
+
+  const isControlled = value !== undefined;
+  const [internal, setInternal] = useState(defaultValue);
+  const [inputStr, setInputStr] = useState(String(isControlled ? value : defaultValue));
+  const [focused, setFocused] = useState(false);
+
+  const current = isControlled ? value! : internal;
+
+  function clampVal(v: number) {
+    let n = round(v, precision);
+    if (min !== undefined) n = Math.max(min, n);
+    if (max !== undefined) n = Math.min(max, n);
+    return n;
+  }
+
+  function set(n: number) {
+    const clamped = clampVal(n);
+    if (!isControlled) setInternal(clamped);
+    setInputStr(format ? format(clamped) : String(clamped));
+    onChange?.(clamped);
+  }
+
+  function increment() {
+    set(current + step);
+  }
+  function decrement() {
+    set(current - step);
+  }
+
+  function handleFocus() {
+    setFocused(true);
+    setInputStr(String(current));
+  }
+
+  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+    setFocused(false);
+    const parsed = parse ? parse(e.target.value) : parseFloat(e.target.value);
+    if (!isNaN(parsed)) set(parsed);
+    else setInputStr(format ? format(current) : String(current));
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setInputStr(e.target.value);
+  }
+
+  const displayValue = focused ? inputStr : format ? format(current) : String(current);
+
+  const atMin = min !== undefined && current <= min;
+  const atMax = max !== undefined && current >= max;
+
+  return (
+    <div style={style} className={cn("flex flex-col gap-1", className)}>
+      {label && (
+        <label htmlFor={inputId} className="text-body-callout font-medium text-foreground">
+          {label}
+        </label>
+      )}
+      <div
+        className={cn(
+          "flex items-center rounded-(--radius-md) overflow-hidden transition-[border-color] duration-[120ms] focus-within:border-patina",
+          NUM_SIZE[size],
+          NUM_VARIANT_WRAP[variant],
+          error ? "!border-danger" : "",
+          disabled ? "opacity-50 pointer-events-none" : ""
+        )}
+      >
+        {prefix && <span className="flex items-center px-2 text-faint shrink-0">{prefix}</span>}
+        <input
+          id={inputId}
+          type="text"
+          inputMode={allowDecimal ? "decimal" : "numeric"}
+          value={displayValue}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          readOnly={readOnly}
+          disabled={disabled}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              increment();
+            }
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              decrement();
+            }
+          }}
+          className="flex-1 min-w-0 h-full bg-transparent outline-none text-foreground text-center tabular-nums px-1"
+        />
+        {suffix && <span className="flex items-center px-2 text-faint shrink-0">{suffix}</span>}
+        <div className={cn("flex flex-col h-full border-l border-rule shrink-0", NUM_SIZE_BTN[size])}>
+          <button
+            type="button"
+            aria-label="Increment"
+            onClick={increment}
+            disabled={disabled || readOnly || atMax}
+            className="flex-1 flex items-center justify-center text-faint hover:text-foreground hover:bg-graphite transition-colors disabled:opacity-30 disabled:pointer-events-none"
+          >
+            <PlusIcon />
+          </button>
+          <div className="h-px bg-rule" />
+          <button
+            type="button"
+            aria-label="Decrement"
+            onClick={decrement}
+            disabled={disabled || readOnly || atMin}
+            className="flex-1 flex items-center justify-center text-faint hover:text-foreground hover:bg-graphite transition-colors disabled:opacity-30 disabled:pointer-events-none"
+          >
+            <MinusIcon />
+          </button>
+        </div>
+      </div>
+      {error && errorMessage && <p className="text-body-caption text-danger">{errorMessage}</p>}
+      {!error && helperText && <p className="text-body-caption text-faint">{helperText}</p>}
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * CurrencyInputImpl — type="currency" (former CurrencyInput, verbatim logic).
+ * ─────────────────────────────────────────────────────────────────────── */
+function getSymbol(currency: string, locale: string) {
+  try {
+    return (0)
+      .toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })
+      .replace(/[\d\s,.']+/g, "")
+      .trim();
+  } catch {
+    return currency;
+  }
+}
+
+function CurrencyInputImpl({
+  value,
+  onChange,
+  currency = "USD",
+  locale = "en-US",
+  min,
+  max,
+  step = 0.01,
+  placeholder = "0.00",
+  disabled = false,
+  label,
+  className,
+  style,
+}: Omit<CurrencyModeProps, "type">) {
+  const [editing, setEditing] = useState(false);
+  const [raw, setRaw] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const symbol = getSymbol(currency, locale);
+
+  const formatted =
+    value !== undefined && value !== null ? value.toLocaleString(locale, { style: "currency", currency }) : "";
+
+  function onFocus() {
+    setRaw(value !== undefined && value !== null ? String(value) : "");
+    setEditing(true);
+    requestAnimationFrame(() => inputRef.current?.select());
+  }
+
+  function commit() {
+    const parsed = parseFloat(raw.replace(/[^0-9.\-]/g, ""));
+    if (!isNaN(parsed)) {
+      let clamped = parsed;
+      if (min !== undefined) clamped = Math.max(min, clamped);
+      if (max !== undefined) clamped = Math.min(max, clamped);
+      onChange?.(clamped);
+    }
+    setEditing(false);
+  }
+
+  return (
+    <div className={cn("flex flex-col gap-1", className)} style={style}>
+      {label && <label className="text-body-callout font-medium text-muted">{label}</label>}
+      <div
+        className={cn(
+          "flex items-center gap-2 px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas transition-colors",
+          !disabled && "focus-within:border-patina/60",
+          disabled && "opacity-60 cursor-not-allowed"
+        )}
+      >
+        <span className="text-faint text-body-callout shrink-0">{symbol}</span>
+        {editing ? (
+          <input
+            ref={inputRef}
+            type="number"
+            step={step}
+            min={min}
+            max={max}
+            value={raw}
+            onChange={(e) => setRaw(e.target.value)}
+            onBlur={commit}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") commit();
+            }}
+            disabled={disabled}
+            className="flex-1 bg-transparent outline-none text-foreground text-body-callout [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+        ) : (
+          <input
+            type="text"
+            readOnly={!editing}
+            value={formatted}
+            onFocus={onFocus}
+            placeholder={placeholder}
+            disabled={disabled}
+            className="flex-1 bg-transparent outline-none text-foreground text-body-callout cursor-text placeholder:text-faint"
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * PhoneInputImpl — type="phone" (former PhoneInput, verbatim logic).
+ * ─────────────────────────────────────────────────────────────────────── */
+const PHONE_COUNTRIES = [
+  { code: "BR", dial: "+55", flag: "🇧🇷", name: "Brazil" },
+  { code: "US", dial: "+1", flag: "🇺🇸", name: "United States" },
+  { code: "GB", dial: "+44", flag: "🇬🇧", name: "United Kingdom" },
+  { code: "DE", dial: "+49", flag: "🇩🇪", name: "Germany" },
+  { code: "FR", dial: "+33", flag: "🇫🇷", name: "France" },
+  { code: "JP", dial: "+81", flag: "🇯🇵", name: "Japan" },
+  { code: "CA", dial: "+1", flag: "🇨🇦", name: "Canada" },
+  { code: "AU", dial: "+61", flag: "🇦🇺", name: "Australia" },
+  { code: "IN", dial: "+91", flag: "🇮🇳", name: "India" },
+  { code: "MX", dial: "+52", flag: "🇲🇽", name: "Mexico" },
+  { code: "PT", dial: "+351", flag: "🇵🇹", name: "Portugal" },
+  { code: "ES", dial: "+34", flag: "🇪🇸", name: "Spain" },
+];
+
+const PHONE_SIZE_CLS: Record<string, string> = {
+  sm: "text-body-callout h-8",
+  md: "text-body-callout h-10",
+  lg: "text-body-paragraph h-12",
+};
+
+function PhoneInputImpl({
+  value,
+  defaultValue = "",
+  onChange,
+  placeholder = "(00) 00000-0000",
+  size = "md",
+  disabled = false,
+  defaultCountry = "BR",
+  className,
+  style,
+}: Omit<PhoneModeProps, "type">) {
+  const [internal, setInternal] = useState(defaultValue);
+  const [country, setCountry] = useState(PHONE_COUNTRIES.find((c) => c.code === defaultCountry) ?? PHONE_COUNTRIES[0]);
+  const phone = value !== undefined ? value : internal;
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const v = e.target.value.replace(/[^0-9\s()\-+]/g, "");
+    if (value === undefined) setInternal(v);
+    onChange?.(`${country.dial} ${v}`);
+  }
+
+  return (
+    <div
+      className={cn(
+        "flex items-stretch rounded-(--radius-sm) border border-rule bg-canvas overflow-hidden focus-within:border-patina/60 transition-colors",
+        disabled && "opacity-60 cursor-not-allowed",
+        PHONE_SIZE_CLS[size] ?? PHONE_SIZE_CLS.md,
+        className
+      )}
+      style={style}
+    >
+      {/* Country selector */}
+      <div className="relative flex items-center gap-1.5 px-2.5 border-r border-rule bg-graphite/40 shrink-0">
+        <span className="text-body-paragraph leading-none">{country.flag}</span>
+        <span className="text-body-callout text-muted font-medium tabular-nums">{country.dial}</span>
+        <select
+          className="absolute inset-0 opacity-0 cursor-pointer w-full"
+          value={country.code}
+          disabled={disabled}
+          onChange={(e) => {
+            const c = PHONE_COUNTRIES.find((c) => c.code === e.target.value);
+            if (c) setCountry(c);
+          }}
+          aria-label="Country"
+        >
+          {PHONE_COUNTRIES.map((c) => (
+            <option key={c.code} value={c.code}>
+              {c.flag} {c.name} ({c.dial})
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <input
+        type="tel"
+        value={phone}
+        disabled={disabled}
+        placeholder={placeholder}
+        onChange={handleChange}
+        className="flex-1 px-3 bg-transparent outline-none text-foreground placeholder:text-faint"
+      />
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Input — Super component.
+ * Dispatches by the `type` discriminator (number | currency | phone) and the
+ * `floatingLabel` flag. All other types fall through to the text Input.
+ * Absorbs NumberInput / CurrencyInput / PhoneInput / FloatingLabelInput
+ * (each now a backward-compat wrapper).
+ * ─────────────────────────────────────────────────────────────────────── */
+export function Input(props: InputProps) {
+  if (props.type === "number") {
+    const { type: _t, ...rest } = props as NumberModeProps;
+    return <NumberInputImpl {...rest} />;
+  }
+  if (props.type === "currency") {
+    const { type: _t, ...rest } = props as CurrencyModeProps;
+    return <CurrencyInputImpl {...rest} />;
+  }
+  if (props.type === "phone") {
+    const { type: _t, ...rest } = props as PhoneModeProps;
+    return <PhoneInputImpl {...rest} />;
+  }
+  if ((props as InputDefaultProps).floatingLabel) {
+    return <FloatingLabelImpl {...(props as InputBaseProps)} />;
+  }
+  return <TextInputImpl {...(props as InputBaseProps)} />;
 }
 
 Input.displayName = "Input";

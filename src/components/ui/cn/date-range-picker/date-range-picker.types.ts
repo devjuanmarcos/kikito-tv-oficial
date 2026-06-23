@@ -1,16 +1,16 @@
-import type React from 'react'
+import type React from "react";
 
-export interface DateRange {
-  start: Date | null
-  end: Date | null
-}
+import type { DateRange as SuperDateRange } from "../date-picker/DatePicker";
+
+/** Re-exported from the Super DatePicker so the type stays identical. */
+export type DateRange = SuperDateRange;
 
 export interface DateRangePickerProps {
-  value?: DateRange
-  defaultValue?: DateRange
-  onChange?: (range: DateRange) => void
-  placeholder?: string
-  disabled?: boolean
-  className?: string
-  style?: React.CSSProperties
+  value?: DateRange;
+  defaultValue?: DateRange;
+  onChange?: (range: DateRange) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
