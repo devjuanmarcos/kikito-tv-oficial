@@ -8,6 +8,24 @@ export interface PropDoc {
   description: string;
 }
 
+export type CnStatus = "stable" | "beta" | "dev";
+
+/** A variant of a Super component (absorbed sub-component or prop value). */
+export interface CnVariantMeta {
+  /** Prop that activates this variant (e.g. "mode", "type", "variant"). */
+  prop: string;
+  /** Value of the prop (e.g. "multi", "number", "outline"). */
+  value: string;
+  /** Human label shown in the variant selector / search chip. */
+  label: string;
+  /** Development status; "dev" renders an "Em desenvolvimento" badge. */
+  status: CnStatus;
+  /** Optional note shown next to the badge. */
+  note?: string;
+  /** Extra search terms that resolve to this variant (e.g. legacy names). */
+  aliases?: string[];
+}
+
 export interface CnComponentMeta {
   name: string;
   title: string;
@@ -22,6 +40,14 @@ export interface CnComponentMeta {
   props?: PropDoc[];
   /** TSX usage example shown in the docs */
   usage?: string;
+  /** Overall maturity of the component; default "stable". */
+  status?: CnStatus;
+  /** Variants this Super component exposes (selector + search). */
+  variants?: CnVariantMeta[];
+  /** Legacy component names this Super absorbs — hidden from sidebar nav, kept in search. */
+  absorbs?: string[];
+  /** Extra free-form search keywords. */
+  keywords?: string[];
 }
 
 /** Returns the usage example for a component (manual → map → auto-generated fallback) */
@@ -6792,4 +6818,124 @@ export function getComponentsByGroup(group: string): CnComponentMeta[] {
 
 export function generateStaticComponentParams() {
   return CN_REGISTRY.map((c) => ({ group: c.group, component: c.name }));
+}
+
+/* ── Visibility (sidebar nav) ─────────────────────────────────────────────
+ * Names absorbed by a Super component are hidden from the sidebar navigation
+ * but remain fully searchable via buildSearchIndex().
+ */
+
+/** Set of legacy component names absorbed by some Super component. */
+export function getAbsorbedNames(): Set<string> {
+  const set = new Set<string>();
+  for (const c of CN_REGISTRY) c.absorbs?.forEach((n) => set.add(n));
+  return set;
+}
+
+/** Components shown in the sidebar nav (excludes absorbed legacy names). */
+export function getVisibleComponents(): CnComponentMeta[] {
+  const absorbed = getAbsorbedNames();
+  return CN_REGISTRY.filter((c) => !absorbed.has(c.name));
+}
+
+/* ── Search index ─────────────────────────────────────────────────────────
+ * Comprehensive (not exact) search: flattens every component into one entry
+ * per component + one per variant. Each entry carries a `haystack` string
+ * concatenating name, legacy names, title, description, group, prop names,
+ * variant values/labels/aliases and keywords. Consumers (sidebar + header)
+ * match against `haystack` with substring/token/fuzzy logic.
+ */
+
+export type CnSearchKind = "component" | "variant";
+
+export interface CnSearchEntry {
+  /** Owning component. */
+  component: CnComponentMeta;
+  kind: CnSearchKind;
+  /** Display label (component title, or "Title · Variant"). */
+  label: string;
+  /** Route, with variant query string when kind === "variant". */
+  href: string;
+  /** Lowercased searchable blob. */
+  haystack: string;
+  /** Present when kind === "variant". */
+  variant?: CnVariantMeta;
+  status: CnStatus;
+}
+
+function variantHref(c: CnComponentMeta, v: CnVariantMeta): string {
+  return `/cn/${c.group}/${c.name}?${encodeURIComponent(v.prop)}=${encodeURIComponent(v.value)}`;
+}
+
+/** Build the flat search index used by both the sidebar and header search. */
+export function buildSearchIndex(): CnSearchEntry[] {
+  const groupLabel = (id: string) => CN_GROUPS.find((g) => g.id === id)?.label ?? id;
+  const entries: CnSearchEntry[] = [];
+
+  for (const c of CN_REGISTRY) {
+    const propNames = (c.props ?? []).map((p) => p.name).join(" ");
+    const componentHay = [
+      c.name,
+      c.title,
+      c.description,
+      c.group,
+      groupLabel(c.group),
+      (c.absorbs ?? []).join(" "),
+      (c.keywords ?? []).join(" "),
+      propNames,
+      (c.variants ?? []).map((v) => `${v.value} ${v.label} ${(v.aliases ?? []).join(" ")}`).join(" "),
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    entries.push({
+      component: c,
+      kind: "component",
+      label: c.title,
+      href: `/cn/${c.group}/${c.name}`,
+      haystack: componentHay,
+      status: c.status ?? "stable",
+    });
+
+    for (const v of c.variants ?? []) {
+      const variantHay = [c.name, c.title, v.prop, v.value, v.label, (v.aliases ?? []).join(" "), v.note ?? ""]
+        .join(" ")
+        .toLowerCase();
+
+      entries.push({
+        component: c,
+        kind: "variant",
+        label: `${c.title} · ${v.label}`,
+        href: variantHref(c, v),
+        haystack: variantHay,
+        variant: v,
+        status: v.status,
+      });
+    }
+  }
+
+  return entries;
+}
+
+/** Tokenized substring match: every whitespace token of `query` must appear in `haystack`. */
+export function matchesSearch(haystack: string, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  return q.split(/\s+/).every((tok) => haystack.includes(tok));
+}
+
+/** Run the index against a query, components ranked before variants. */
+export function searchComponents(query: string, index: CnSearchEntry[] = buildSearchIndex()): CnSearchEntry[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const hits = index.filter((e) => matchesSearch(e.haystack, q));
+  return hits.sort((a, b) => {
+    // exact name/title first
+    const aExact = a.label.toLowerCase() === q || a.component.name === q ? 0 : 1;
+    const bExact = b.label.toLowerCase() === q || b.component.name === q ? 0 : 1;
+    if (aExact !== bExact) return aExact - bExact;
+    // components before variants
+    if (a.kind !== b.kind) return a.kind === "component" ? -1 : 1;
+    return a.label.localeCompare(b.label);
+  });
 }

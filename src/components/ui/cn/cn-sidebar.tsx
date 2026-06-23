@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 
-import { CN_GROUPS, CN_REGISTRY } from "@/lib/cn-registry";
+import { CN_GROUPS, buildSearchIndex, getVisibleComponents, searchComponents } from "@/lib/cn-registry";
 import type { CnComponentMeta } from "@/lib/cn-registry";
 import { cn } from "@/lib/utils";
 
@@ -33,17 +33,14 @@ function SidebarGroup({
   icon: string;
   components: CnComponentMeta[];
   pathname: string;
-  query: string;
   defaultOpen: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
 
-  const filtered = query ? components.filter((c) => c.title.toLowerCase().includes(query.toLowerCase())) : components;
-
-  if (query && filtered.length === 0) return null;
+  const filtered = components;
 
   const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
-  const isOpen = open || !!query;
+  const isOpen = open;
 
   return (
     <div className="cns-group" key={groupId}>
@@ -83,6 +80,10 @@ export function CnSidebar() {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const index = useMemo(() => buildSearchIndex(), []);
+  const visible = useMemo(() => getVisibleComponents(), []);
+  const results = useMemo(() => (query.trim() ? searchComponents(query, index) : []), [query, index]);
 
   return (
     <>
@@ -180,6 +181,20 @@ export function CnSidebar() {
           box-shadow: 0 0 0 2px color-mix(in oklch, var(--ks-primary) 20%, transparent);
         }
 
+        .cns-results { padding: 0.25rem 0.4375rem 0.5rem; display: flex; flex-direction: column; gap: 1px; }
+        .cns-result-meta { display: flex; align-items: center; gap: 0.375rem; min-width: 0; flex: 1; }
+        .cns-result-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cns-chip {
+          font-size: 0.5625rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+          padding: 0.0625rem 0.3125rem; border-radius: 999px; line-height: 1.5; flex-shrink: 0;
+          background: color-mix(in oklch, var(--ks-primary) 14%, transparent); color: var(--ks-primary);
+        }
+        .cns-chip--dev {
+          background: color-mix(in oklch, var(--ks-warning, #b8860b) 18%, transparent);
+          color: var(--ks-warning, #b8860b);
+        }
+        .cns-empty { padding: 0.75rem 1rem; font-size: 0.8125rem; color: var(--ks-text-faint); }
+
         .cns-scroll { scrollbar-width: thin; scrollbar-color: var(--ks-rule) transparent; }
         .cns-scroll::-webkit-scrollbar { width: 3px; }
         .cns-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -226,28 +241,59 @@ export function CnSidebar() {
 
       {/* ── Count ─────────────────────────────────────────────────────── */}
       <div className="px-4 pb-1.5 flex-shrink-0">
-        <span className="text-body-caption text-faint">{CN_REGISTRY.length} componentes</span>
+        <span className="text-body-caption text-faint">
+          {query.trim()
+            ? `${results.length} resultado${results.length === 1 ? "" : "s"}`
+            : `${visible.length} componentes`}
+        </span>
       </div>
 
-      {/* ── Nav groups ────────────────────────────────────────────────── */}
+      {/* ── Nav groups / search results ───────────────────────────────── */}
       <nav className="cns-scroll flex-1 overflow-y-auto py-1 pb-6" aria-label="Componentes CN">
-        {CN_GROUPS.map((group) => {
-          const components = CN_REGISTRY.filter((c) => c.group === group.id);
-          if (components.length === 0) return null;
-          const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
-          return (
-            <SidebarGroup
-              key={group.id}
-              groupId={group.id}
-              label={group.label}
-              icon={GROUP_ICONS[group.id] ?? "◈"}
-              components={components}
-              pathname={pathname}
-              query={query}
-              defaultOpen={hasActive}
-            />
-          );
-        })}
+        {query.trim() ? (
+          results.length === 0 ? (
+            <p className="cns-empty">Nada encontrado para “{query.trim()}”.</p>
+          ) : (
+            <div className="cns-results">
+              {results.map((r) => {
+                const isActive = pathname.endsWith(r.href.split("?")[0]);
+                return (
+                  <Link
+                    key={`${r.kind}:${r.href}`}
+                    href={r.href}
+                    className={cn("cns-item", isActive && "cns-item--active")}
+                  >
+                    <span className="cns-result-meta">
+                      <span className="cns-result-label">{r.label}</span>
+                    </span>
+                    {r.kind === "variant" && (
+                      <span className={cn("cns-chip", r.status === "dev" && "cns-chip--dev")}>
+                        {r.status === "dev" ? "Em dev" : "Variante"}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          )
+        ) : (
+          CN_GROUPS.map((group) => {
+            const components = visible.filter((c) => c.group === group.id);
+            if (components.length === 0) return null;
+            const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
+            return (
+              <SidebarGroup
+                key={group.id}
+                groupId={group.id}
+                label={group.label}
+                icon={GROUP_ICONS[group.id] ?? "◈"}
+                components={components}
+                pathname={pathname}
+                defaultOpen={hasActive}
+              />
+            );
+          })
+        )}
       </nav>
 
       {/* ── Footer ────────────────────────────────────────────────────── */}

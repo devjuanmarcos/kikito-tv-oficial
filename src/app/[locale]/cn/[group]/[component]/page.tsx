@@ -7,6 +7,7 @@ import { CnPageHeader } from "@/components/ui/cn/cn-page-header";
 import { CnPropsTable } from "@/components/ui/cn/cn-props-table";
 import { CnSourceBlock } from "@/components/ui/cn/cn-source-block";
 import { CnUsageBlock } from "@/components/ui/cn/cn-usage-block";
+import { CnVariantBar } from "@/components/ui/cn/cn-variant-bar";
 import { getComponent, CN_GROUPS } from "@/lib/cn-registry";
 import { getComponentSource } from "@/lib/cn-source";
 
@@ -32,6 +33,9 @@ export default async function CnComponentPage({ params }: Props) {
   return (
     <div className="px-8 py-8 max-w-5xl">
       <CnPageHeader group={group} groupLabel={groupLabel} title={meta.title} description={meta.description} />
+
+      {/* Variant selector (Super components) */}
+      {meta.variants && meta.variants.length > 0 && <CnVariantBar variants={meta.variants} />}
 
       {/* Live showcase */}
       <Suspense

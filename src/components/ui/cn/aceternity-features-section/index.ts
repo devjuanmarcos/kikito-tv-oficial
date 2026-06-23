@@ -1,1 +1,0 @@
-export { AcernityFeaturesSection } from './AcernityFeaturesSection'

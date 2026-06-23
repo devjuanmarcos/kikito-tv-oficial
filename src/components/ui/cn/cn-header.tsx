@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/cn/button";
 import { CnThemeToggle } from "@/components/ui/cn/cn-theme-toggle";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search";
 import type { SpotlightAction } from "@/components/ui/cn/spotlight-search";
-import { CN_GROUPS, CN_REGISTRY } from "@/lib/cn-registry";
+import { CN_GROUPS, buildSearchIndex } from "@/lib/cn-registry";
 import { cn } from "@/lib/utils";
 
 /* ── Top nav links ────────────────────────────────────────────────────── */
@@ -89,13 +89,16 @@ export function CnHeader() {
         icon: "🌓",
         onSelect: () => setTheme(theme === "dark" ? "light" : "dark"),
       },
-      ...CN_REGISTRY.map((c) => ({
-        id: `${c.group}/${c.name}`,
-        label: c.title,
-        description: c.description,
-        group: groupLabel(c.group),
-        icon: "🧩",
-        onSelect: () => router.push(`/cn/${c.group}/${c.name}`),
+      ...buildSearchIndex().map((e) => ({
+        id: `${e.kind}:${e.href}`,
+        label: e.kind === "variant" && e.status === "dev" ? `${e.label} — Em desenvolvimento` : e.label,
+        description:
+          e.kind === "variant"
+            ? e.variant?.note ?? `Variante ${e.variant?.prop}="${e.variant?.value}"`
+            : e.component.description,
+        group: groupLabel(e.component.group),
+        icon: e.kind === "variant" ? "🔹" : "🧩",
+        onSelect: () => router.push(e.href),
       })),
     ],
     [router, setTheme, theme]
