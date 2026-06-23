@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useState, useRef } from "react";
 
 import { Accordion } from "@/components/ui/cn/accordion/Accordion";
@@ -26,6 +27,8 @@ import { Callout } from "@/components/ui/cn/callout/Callout";
 import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/cn/card/Card";
 import { CardStack } from "@/components/ui/cn/card-stack/CardStack";
 import { Carousel } from "@/components/ui/cn/carousel/Carousel";
+import { Chart } from "@/components/ui/cn/chart/Chart";
+import type { ChartType } from "@/components/ui/cn/chart/Chart";
 import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { Checklist } from "@/components/ui/cn/checklist/Checklist";
@@ -111,7 +114,14 @@ import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
 import { PricingToggle } from "@/components/ui/cn/pricing-toggle/PricingToggle";
 import { Progress } from "@/components/ui/cn/progress/Progress";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
+import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
+import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
+import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
+import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
+import { Rating } from "@/components/ui/cn/rating/Rating";
+import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
+import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
@@ -142,20 +152,15 @@ import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
-import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
 import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
-import { Rating } from "@/components/ui/cn/rating/Rating";
 import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
-import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
-import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
-import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
@@ -169,15 +174,15 @@ import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
 import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
-import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
 import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
 import { Separator } from "@/components/ui/cn/separator/Separator";
 import { Slider } from "@/components/ui/cn/slider/Slider";
-import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
 import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
 import { SegmentedControl } from "@/components/ui/cn/segmented-control/SegmentedControl";
+import { TextEffect } from "@/components/ui/cn/text-effect/TextEffect";
+import type { TextEffectType } from "@/components/ui/cn/text-effect/TextEffect";
 
 interface ShowcaseProps {
   group: string;
@@ -5768,8 +5773,146 @@ function SegmentedControlDemo() {
   );
 }
 
+/* ── Super-component demos (variant-aware: switch on ?type / ?effect) ── */
+
+function ChartDemo() {
+  const params = useSearchParams();
+  const type = (params.get("type") as ChartType) || "line";
+
+  const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const lineSeries = [
+    { label: "Revenue", data: [30, 52, 45, 70, 60, 88, 75], color: "var(--ks-primary)" },
+    { label: "Costs", data: [20, 28, 35, 40, 38, 50, 42], color: "var(--ks-danger)" },
+  ];
+  const barData = [
+    { label: "Jan", value: 42 },
+    { label: "Feb", value: 68 },
+    { label: "Mar", value: 55 },
+    { label: "Apr", value: 91 },
+    { label: "May", value: 73 },
+    { label: "Jun", value: 84 },
+  ];
+  const areaData = [
+    { label: "Jan", users: 1200, sessions: 3400 },
+    { label: "Feb", users: 1800, sessions: 4100 },
+    { label: "Mar", users: 1600, sessions: 3800 },
+    { label: "Apr", users: 2400, sessions: 5200 },
+    { label: "May", users: 2100, sessions: 4800 },
+    { label: "Jun", users: 3000, sessions: 6500 },
+  ];
+  const areaSeries = [
+    { key: "users", label: "Users" },
+    { key: "sessions", label: "Sessions" },
+  ];
+  const donutSegs = [
+    { label: "React", value: 40 },
+    { label: "Vue", value: 25 },
+    { label: "Angular", value: 20 },
+    { label: "Svelte", value: 10 },
+    { label: "Other", value: 5 },
+  ];
+  const radarAxes = [
+    { label: "Speed" },
+    { label: "Power" },
+    { label: "Range" },
+    { label: "Defense" },
+    { label: "Agility" },
+  ];
+  const radarSeries = [{ label: "Hero", data: [80, 65, 70, 55, 90], color: "var(--ks-primary)" }];
+  const funnelStages = [
+    { label: "Visits", value: 1000 },
+    { label: "Signups", value: 620 },
+    { label: "Active", value: 320 },
+    { label: "Paid", value: 120 },
+  ];
+  const spark = [12, 24, 18, 36, 28, 42, 38, 55, 48, 60];
+
+  let chart: React.ReactNode;
+  switch (type) {
+    case "area":
+      chart = <AreaChart data={areaData} series={areaSeries} height={240} showTooltip showLegend />;
+      break;
+    case "bar":
+      chart = <Chart type="bar" data={barData} height={220} animate />;
+      break;
+    case "donut":
+      chart = (
+        <Chart type="donut" segments={donutSegs} size={180} centerValue="100" centerLabel="responses" showLegend />
+      );
+      break;
+    case "radar":
+      chart = <Chart type="radar" axes={radarAxes} series={radarSeries} size={240} showLegend />;
+      break;
+    case "funnel":
+      chart = <Chart type="funnel" stages={funnelStages} showPercent showConversion height={240} />;
+      break;
+    case "sparkline":
+      chart = (
+        <Chart type="sparkline" sparklineType="area" data={spark} width={220} height={64} color="var(--ks-primary)" />
+      );
+      break;
+    default:
+      chart = <Chart type="line" series={lineSeries} labels={labels} height={220} />;
+  }
+
+  return <Frame label={`Chart — type="${type}" · selecione a variante acima`}>{chart}</Frame>;
+}
+
+function TextEffectDemo() {
+  const params = useSearchParams();
+  const effect = (params.get("effect") as TextEffectType) || "typewriter";
+
+  let el: React.ReactNode;
+  switch (effect) {
+    case "morph":
+      el = (
+        <TextEffect
+          effect="morph"
+          words={["Design", "Develop", "Deploy", "Delight"]}
+          className="text-heading-03 font-bold text-foreground"
+        />
+      );
+      break;
+    case "gradient":
+      el = (
+        <TextEffect
+          effect="gradient"
+          from="var(--ks-primary)"
+          to="var(--ks-kinpaku)"
+          animate
+          as="span"
+          className="text-heading-02 font-bold"
+        >
+          Kikito Design System
+        </TextEffect>
+      );
+      break;
+    case "number":
+      el = (
+        <TextEffect
+          effect="number"
+          value={1234567}
+          className="text-heading-02 font-bold text-foreground tabular-nums"
+        />
+      );
+      break;
+    default:
+      el = (
+        <TextEffect
+          effect="typewriter"
+          texts={["Build fast.", "Ship faster.", "Iterate always."]}
+          className="text-heading-03 font-semibold text-foreground"
+        />
+      );
+  }
+
+  return <Frame label={`Text Effect — effect="${effect}" · selecione a variante acima`}>{el}</Frame>;
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
+  "charts/chart": ChartDemo,
+  "display/text-effect": TextEffectDemo,
   "tokens/colors": ColorsTokens,
   "tokens/typography": TypographyTokens,
   "inputs/button": ButtonDemo,

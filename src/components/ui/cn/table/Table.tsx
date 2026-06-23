@@ -7,7 +7,16 @@ import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { Select } from "@/components/ui/cn/select/Select";
 import { cn } from "@/lib/utils";
 
-import type { ColumnDef, DataTableProps, FilterOption, SortDir } from "./table.types";
+import type {
+  ColumnDef,
+  DataTableProps,
+  DataTableGridProps,
+  DataTableListProps,
+  DataTableTreeProps,
+  FilterOption,
+  SortDir,
+  SuperDataTableProps,
+} from "./table.types";
 
 const SortNone = () => (
   <svg
@@ -567,7 +576,7 @@ function stableSort<T>(arr: T[], compareFn: (a: T, b: T) => number): T[] {
     .map(({ item }) => item);
 }
 
-export function DataTable<TRow extends object>({
+function TableVariant<TRow extends object>({
   columns,
   data,
   getRowId,
@@ -915,4 +924,310 @@ export function DataTable<TRow extends object>({
       />
     </div>
   );
+}
+
+/* ── Variant: grid (absorbed VERBATIM from DataGrid) ── */
+
+type GridSortDir = "asc" | "desc" | null;
+
+function GridVariant<T = Record<string, unknown>>({
+  columns,
+  rows,
+  getRowKey,
+  selectable = false,
+  selectedKeys: controlledKeys,
+  onSelectionChange,
+  stickyHeader = false,
+  striped = false,
+  className,
+  style,
+}: DataTableGridProps<T>) {
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<GridSortDir>(null);
+  const [internalSelected, setInternalSelected] = useState<string[]>([]);
+
+  const selected = controlledKeys ?? internalSelected;
+  const setSelected = (keys: string[]) => {
+    if (!controlledKeys) setInternalSelected(keys);
+    onSelectionChange?.(keys);
+  };
+
+  const rowKey = (row: T, i: number) => (getRowKey ? getRowKey(row, i) : String(i));
+
+  const sorted = [...rows].sort((a, b) => {
+    if (!sortKey || !sortDir) return 0;
+    const av = String((a as Record<string, unknown>)[sortKey] ?? "");
+    const bv = String((b as Record<string, unknown>)[sortKey] ?? "");
+    return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+
+  const toggleSort = (key: string) => {
+    if (sortKey !== key) {
+      setSortKey(key);
+      setSortDir("asc");
+    } else if (sortDir === "asc") setSortDir("desc");
+    else {
+      setSortKey(null);
+      setSortDir(null);
+    }
+  };
+
+  const allKeys = sorted.map((r, i) => rowKey(r, i));
+  const allSelected = allKeys.length > 0 && allKeys.every((k) => selected.includes(k));
+  const someSelected = selected.length > 0 && !allSelected;
+  const toggleAll = () => setSelected(allSelected ? [] : allKeys);
+  const toggleRow = (key: string) =>
+    setSelected(selected.includes(key) ? selected.filter((k) => k !== key) : [...selected, key]);
+
+  return (
+    <div className={cn("overflow-auto border border-rule rounded-(--radius-md)", className)} style={style}>
+      <table className="w-full border-collapse text-body-callout text-foreground">
+        <thead>
+          <tr>
+            {selectable && (
+              <th
+                className={cn(
+                  "py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none",
+                  stickyHeader && "sticky top-0 z-[2]"
+                )}
+                style={{ width: 40, textAlign: "center" }}
+              >
+                <Checkbox
+                  className="justify-center"
+                  checked={allSelected}
+                  indeterminate={someSelected}
+                  onChange={() => toggleAll()}
+                />
+              </th>
+            )}
+            {columns.map((col) => (
+              <th
+                key={col.key}
+                className={cn(
+                  "py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none",
+                  stickyHeader && "sticky top-0 z-[2]",
+                  col.align === "center" && "text-center",
+                  col.align === "right" && "text-right"
+                )}
+                style={col.width ? { width: col.width } : undefined}
+              >
+                {col.sortable ? (
+                  <button
+                    className="bg-transparent border-none cursor-pointer text-inherit inline-flex items-center gap-1 p-0 font-[inherit] text-[inherit] tracking-[inherit] uppercase hover:text-foreground"
+                    onClick={() => toggleSort(col.key)}
+                  >
+                    {col.header}
+                    <span className={cn("text-faint text-[0.625rem]", sortKey === col.key && "text-patina")}>
+                      {sortKey === col.key ? (sortDir === "asc" ? "▲" : "▼") : "⇅"}
+                    </span>
+                  </button>
+                ) : (
+                  col.header
+                )}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((row, i) => {
+            const key = rowKey(row, i);
+            const isEven = i % 2 === 1;
+            return (
+              <tr
+                key={key}
+                className={cn(
+                  "border-b border-rule last:border-none transition-[background] duration-[100ms] hover:bg-raised",
+                  striped && isEven && "bg-sunken hover:bg-raised",
+                  selected.includes(key) && "bg-patina-soft"
+                )}
+              >
+                {selectable && (
+                  <td className="py-[9px] px-[14px] align-middle text-center">
+                    <Checkbox
+                      className="justify-center"
+                      checked={selected.includes(key)}
+                      onChange={() => toggleRow(key)}
+                    />
+                  </td>
+                )}
+                {columns.map((col) => (
+                  <td
+                    key={col.key}
+                    className={cn(
+                      "py-[9px] px-[14px] align-middle",
+                      col.align === "center" && "text-center",
+                      col.align === "right" && "text-right"
+                    )}
+                  >
+                    {col.render ? col.render(row, i) : String((row as Record<string, unknown>)[col.key] ?? "")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ── Variant: list (absorbed VERBATIM from DataList) ── */
+
+function ListVariant({
+  items,
+  layout = "horizontal",
+  columns = 2,
+  striped = false,
+  bordered = false,
+  compact = false,
+  className,
+  style,
+}: DataTableListProps) {
+  const isGrid = layout === "grid";
+  const isHoriz = layout === "horizontal";
+  const isVert = layout === "vertical";
+
+  return (
+    <dl
+      className={cn(isGrid ? "grid" : "flex flex-col", className)}
+      style={isGrid ? { gridTemplateColumns: `repeat(${columns}, 1fr)`, ...style } : style}
+    >
+      {items.map((item, i) => {
+        const isEven = i % 2 === 1;
+        return (
+          <div
+            key={i}
+            className={cn(
+              "flex gap-3",
+              isHoriz && "flex-row items-baseline py-[10px] border-b border-rule last:border-none",
+              isVert && "flex-col gap-1 py-[10px] border-b border-rule last:border-none",
+              isGrid && "flex-col gap-1 p-3 border border-rule rounded-(--radius-base)",
+              bordered && (isHoriz || isVert) && "py-[10px] px-3 border border-rule rounded-(--radius-base) mb-1",
+              striped && isEven && !bordered && "bg-sunken rounded-(--radius-sm) px-3",
+              compact && "py-[6px]"
+            )}
+            style={item.span && isGrid ? { gridColumn: `span ${item.span}` } : undefined}
+          >
+            <dt
+              className={cn(
+                "text-body-caption font-semibold text-muted opacity-60 uppercase tracking-[0.04em] flex-shrink-0",
+                isHoriz && "w-40 min-w-40"
+              )}
+            >
+              {item.label}
+            </dt>
+            <dd className="text-body-callout text-foreground flex-1">{item.value}</dd>
+          </div>
+        );
+      })}
+    </dl>
+  );
+}
+
+/* ── Variant: tree (absorbed VERBATIM from TreeTable) ── */
+
+function TreeRow<T>({
+  row,
+  columns,
+  depth,
+  defaultExpanded,
+}: {
+  row: DataTableTreeProps<T>["rows"][number];
+  columns: DataTableTreeProps<T>["columns"];
+  depth: number;
+  defaultExpanded: boolean;
+}) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const hasChildren = row.children && row.children.length > 0;
+
+  return (
+    <>
+      <tr className="border-b border-rule transition-colors duration-100 last:border-b-0 hover:bg-raised">
+        {columns.map((col, ci) => (
+          <td key={col.key} className="px-[14px] py-[9px] align-middle text-body-callout text-foreground">
+            {ci === 0 ? (
+              <span className="inline-flex items-center gap-[6px]" style={{ paddingLeft: depth * 20 }}>
+                {hasChildren ? (
+                  <button
+                    className="w-[18px] h-[18px] bg-transparent border border-rule rounded cursor-pointer inline-flex items-center justify-center text-muted text-body-caption flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina"
+                    onClick={() => setExpanded((e) => !e)}
+                    aria-label={expanded ? "Recolher" : "Expandir"}
+                  >
+                    {expanded ? "−" : "+"}
+                  </button>
+                ) : (
+                  <span className="inline-block w-[18px] h-[18px] flex-shrink-0" />
+                )}
+                {col.render ? col.render(row.data) : String((row.data as Record<string, unknown>)[col.key] ?? "")}
+              </span>
+            ) : col.render ? (
+              col.render(row.data)
+            ) : (
+              String((row.data as Record<string, unknown>)[col.key] ?? "")
+            )}
+          </td>
+        ))}
+      </tr>
+      {hasChildren &&
+        expanded &&
+        row.children!.map((child) => (
+          <TreeRow key={child.id} row={child} columns={columns} depth={depth + 1} defaultExpanded={defaultExpanded} />
+        ))}
+    </>
+  );
+}
+
+function TreeVariant<T = Record<string, unknown>>({
+  columns,
+  rows,
+  defaultExpanded = false,
+  className,
+  style,
+}: DataTableTreeProps<T>) {
+  return (
+    <div className={cn("overflow-x-auto border border-rule rounded-(--radius-md)", className)} style={style}>
+      <table className="w-full border-collapse text-body-callout text-foreground">
+        <thead>
+          <tr>
+            {columns.map((col) => (
+              <th
+                key={col.key}
+                className="px-[14px] py-[10px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted border-b border-rule bg-sunken whitespace-nowrap"
+                style={col.width ? { width: col.width } : undefined}
+              >
+                {col.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <TreeRow key={row.id} row={row} columns={columns} depth={0} defaultExpanded={defaultExpanded} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/**
+ * DataTable — Super component.
+ * `variant` (default 'table') dispatches between the absorbed families:
+ *  - 'table' → full-featured table (sort/filter/paginate/select) — original DataTable.
+ *  - 'grid'  → DataGrid (lightweight sortable/selectable grid).
+ *  - 'list'  → DataList (definition list / cards).
+ *  - 'tree'  → TreeTable (hierarchical expandable rows).
+ * The sibling DataGrid/DataList/TreeTable are now backward-compat wrappers.
+ */
+export function DataTable<TRow extends object = Record<string, unknown>>(props: SuperDataTableProps<TRow>) {
+  switch (props.variant) {
+    case "grid":
+      return <GridVariant {...props} />;
+    case "list":
+      return <ListVariant {...props} />;
+    case "tree":
+      return <TreeVariant {...props} />;
+    default:
+      return <TableVariant {...(props as DataTableProps<TRow>)} />;
+  }
 }

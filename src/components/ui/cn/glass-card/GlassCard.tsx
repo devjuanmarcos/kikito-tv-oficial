@@ -1,22 +1,14 @@
-﻿import React from "react";
+"use client";
 
-import { cn } from "@/lib/utils";
+import { Card } from "../card/Card";
 
 import type { GlassCardProps } from "./glass-card.types";
 
-export function GlassCard({ children, blur = 12, opacity = 0.1, border = true, className, style }: GlassCardProps) {
+/** Backward-compat wrapper over the Super `Card` (`effect="glass"`). */
+export function GlassCard({ blur = 12, opacity = 0.1, border = true, className, style, children }: GlassCardProps) {
   return (
-    <div
-      className={cn("rounded-(--radius-lg) overflow-hidden", className)}
-      style={{
-        background: `color-mix(in srgb, var(--ks-lacquer-raised) ${Math.round(opacity * 100)}%, transparent)`,
-        backdropFilter: `blur(${blur}px)`,
-        WebkitBackdropFilter: `blur(${blur}px)`,
-        border: border ? "1px solid color-mix(in srgb, var(--ks-lacquer-raised) 20%, transparent)" : "none",
-        ...style,
-      }}
-    >
+    <Card effect="glass" blur={blur} opacity={opacity} border={border} className={className} style={style}>
       {children}
-    </div>
+    </Card>
   );
 }

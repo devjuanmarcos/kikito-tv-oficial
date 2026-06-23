@@ -176,7 +176,7 @@ function StateLayer({ active, children }: { active: boolean; children: React.Rea
   );
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function BaseButton(
   {
     variant = "solid",
     size = "md",
@@ -197,6 +197,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
     children,
     onClick,
     as: Root = "button",
+    // Absorbed-effect props are consumed by the Super dispatcher — strip them here
+    // so they never leak onto the DOM element.
+    effect: _effect,
+    magneticStrength: _magneticStrength,
+    magneticRadius: _magneticRadius,
+    particleCount: _particleCount,
+    spread: _spread,
+    confirm: _confirm,
+    confirmLabel: _confirmLabel,
+    holdDuration: _holdDuration,
+    resetDelay: _resetDelay,
     ...props
   }: ButtonProps,
   ref
@@ -323,4 +334,268 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   );
 });
 
+BaseButton.displayName = "Button";
+
+/* ── Absorbed: MagneticButton (effect="magnetic") ──────────────────────────
+   Verbatim physics from magnetic-button/MagneticButton.tsx. Wraps BaseButton
+   in a <span> that translates the button toward the cursor within `radius`. */
+const MagneticImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function MagneticImpl(
+  { magneticStrength = 0.4, magneticRadius = 80, disabled = false, className, style, children, onClick, ...rest },
+  ref
+) {
+  const innerRef = useRef<HTMLButtonElement>(null);
+  React.useImperativeHandle(ref, () => innerRef.current as HTMLButtonElement);
+
+  const strength = magneticStrength;
+  const radius = magneticRadius;
+
+  const onMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const el = innerRef.current;
+      if (!el || disabled) return;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < radius) {
+        el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+      }
+    },
+    [strength, radius, disabled]
+  );
+
+  const onMouseLeave = useCallback(() => {
+    if (innerRef.current) innerRef.current.style.transform = "translate(0, 0)";
+  }, []);
+
+  return (
+    <span className={cn("inline-flex", className)} style={style} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+      <BaseButton
+        ref={innerRef}
+        disabled={disabled}
+        onClick={onClick}
+        className="![transition:background-color,border-color,color,transform_150ms_cubic-bezier(0.2,0.8,0.4,1)]"
+        {...rest}
+      >
+        {children}
+      </BaseButton>
+    </span>
+  );
+});
+MagneticImpl.displayName = "Button.Magnetic";
+
+/* ── Absorbed: ConfettiButton (effect="confetti") ──────────────────────────
+   Verbatim canvas burst from confetti-button/ConfettiButton.tsx. */
+// Canvas 2D fillStyle requires raw hex strings — CSS vars not supported in canvas context
+const CONFETTI_COLORS = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff", "#5f27cd", "#00d2d3", "#1dd1a1"];
+
+const ConfettiImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function ConfettiImpl(
+  { particleCount = 60, spread = 120, disabled = false, className, style, children, onClick, ...rest },
+  ref
+) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animRef = useRef<number>(0);
+
+  const fire = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const W = 200,
+      H = 200;
+    canvas.width = W;
+    canvas.height = H;
+
+    const particles = Array.from({ length: particleCount }, () => ({
+      x: W / 2,
+      y: H / 2,
+      vx: (Math.random() - 0.5) * spread * 0.06,
+      vy: -(Math.random() * spread * 0.04 + 2),
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      size: Math.random() * 7 + 3,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 8,
+      life: 1,
+      decay: Math.random() * 0.015 + 0.01,
+    }));
+
+    cancelAnimationFrame(animRef.current);
+
+    function draw() {
+      const ctx = canvas!.getContext("2d")!;
+      ctx.clearRect(0, 0, W, H);
+      let alive = false;
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15;
+        p.rot += p.rotV;
+        p.life -= p.decay;
+        if (p.life <= 0) continue;
+        alive = true;
+        ctx.save();
+        ctx.globalAlpha = Math.min(p.life, 1);
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+        ctx.restore();
+      }
+      if (alive) animRef.current = requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, W, H);
+    }
+    draw();
+  }, [particleCount, spread]);
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      fire();
+      (onClick as React.MouseEventHandler<HTMLButtonElement> | undefined)?.(e);
+    },
+    [fire, onClick]
+  );
+
+  return (
+    <span className={cn("relative inline-flex", className)} style={style}>
+      <BaseButton ref={ref} disabled={disabled} onClick={handleClick} {...rest}>
+        {children}
+      </BaseButton>
+      <canvas
+        ref={canvasRef}
+        className="pointer-events-none absolute -top-[100px] -left-[75px] z-50"
+        width={200}
+        height={200}
+        style={{ mixBlendMode: "normal" }}
+      />
+    </span>
+  );
+});
+ConfettiImpl.displayName = "Button.Confetti";
+
+/* ── Absorbed: ConfirmButton (confirm="doubleclick" | "hold") ──────────────
+   Verbatim interaction from confirm-button/ConfirmButton.tsx, re-skinned onto
+   BaseButton so the confirm gesture inherits the full Button visual system.
+   The original ConfirmButton uses raw <button> markup; the wrapper preserves
+   that exact DOM/visual (see ConfirmButton.tsx). Here we layer the gesture on
+   top of BaseButton — onClick only fires after confirmation. */
+const ConfirmImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function ConfirmImpl(
+  {
+    confirm = "doubleclick",
+    confirmLabel = "Click again to confirm",
+    holdDuration = 800,
+    resetDelay = 2000,
+    children,
+    onClick,
+    className,
+    ...rest
+  },
+  ref
+) {
+  const mode = confirm;
+  const [confirming, setConfirming] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const holdStart = useRef<number | null>(null);
+
+  const clearReset = () => {
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+  };
+
+  const scheduleReset = useCallback(() => {
+    clearReset();
+    resetTimer.current = setTimeout(() => setConfirming(false), resetDelay);
+  }, [resetDelay]);
+
+  const fire = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      (onClick as React.MouseEventHandler<HTMLButtonElement> | undefined)?.(e);
+    },
+    [onClick]
+  );
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (mode !== "doubleclick") return;
+      if (!confirming) {
+        setConfirming(true);
+        scheduleReset();
+      } else {
+        clearReset();
+        setConfirming(false);
+        fire(e);
+      }
+    },
+    [mode, confirming, scheduleReset, fire]
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (mode !== "hold") return;
+      holdStart.current = performance.now();
+      const tick = () => {
+        if (holdStart.current === null) return;
+        const elapsed = performance.now() - holdStart.current;
+        const progress = Math.min(elapsed / holdDuration, 1);
+        setHoldProgress(progress);
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else {
+          holdStart.current = null;
+          setHoldProgress(0);
+          fire(e);
+        }
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    },
+    [mode, holdDuration, fire]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    if (mode !== "hold") return;
+    holdStart.current = null;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    setHoldProgress(0);
+  }, [mode]);
+
+  const label = mode === "doubleclick" && confirming ? confirmLabel : children;
+
+  return (
+    <BaseButton
+      ref={ref}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      className={cn(confirming && "ring-2 ring-current ring-offset-1", className)}
+      {...rest}
+    >
+      {label}
+      {mode === "hold" && holdProgress > 0 && (
+        <span
+          className="absolute inset-y-0 left-0 bg-white/20 pointer-events-none transition-none"
+          style={{ width: `${holdProgress * 100}%` }}
+        />
+      )}
+    </BaseButton>
+  );
+});
+ConfirmImpl.displayName = "Button.Confirm";
+
+/**
+ * Button — Super component.
+ * Renders the base button by default. `effect` selects an absorbed physics/visual
+ * behavior (magnetic | confetti) and `confirm` requires a confirmation gesture
+ * (doubleclick | hold) before firing onClick. With neither, the original base
+ * render path is used unchanged.
+ *
+ * Absorbs the former MagneticButton, ConfettiButton and ConfirmButton
+ * (now backward-compat wrappers).
+ */
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
+  if (props.confirm) return <ConfirmImpl ref={ref} {...props} />;
+  if (props.effect === "magnetic") return <MagneticImpl ref={ref} {...props} />;
+  if (props.effect === "confetti") return <ConfettiImpl ref={ref} {...props} />;
+  return <BaseButton ref={ref} {...props} />;
+});
 Button.displayName = "Button";

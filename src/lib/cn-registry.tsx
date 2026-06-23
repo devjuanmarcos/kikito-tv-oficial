@@ -8,6 +8,24 @@ export interface PropDoc {
   description: string;
 }
 
+export type CnStatus = "stable" | "beta" | "dev";
+
+/** A variant of a Super component (absorbed sub-component or prop value). */
+export interface CnVariantMeta {
+  /** Prop that activates this variant (e.g. "mode", "type", "variant"). */
+  prop: string;
+  /** Value of the prop (e.g. "multi", "number", "outline"). */
+  value: string;
+  /** Human label shown in the variant selector / search chip. */
+  label: string;
+  /** Development status; "dev" renders an "Em desenvolvimento" badge. */
+  status: CnStatus;
+  /** Optional note shown next to the badge. */
+  note?: string;
+  /** Extra search terms that resolve to this variant (e.g. legacy names). */
+  aliases?: string[];
+}
+
 export interface CnComponentMeta {
   name: string;
   title: string;
@@ -22,6 +40,14 @@ export interface CnComponentMeta {
   props?: PropDoc[];
   /** TSX usage example shown in the docs */
   usage?: string;
+  /** Overall maturity of the component; default "stable". */
+  status?: CnStatus;
+  /** Variants this Super component exposes (selector + search). */
+  variants?: CnVariantMeta[];
+  /** Legacy component names this Super absorbs — hidden from sidebar nav, kept in search. */
+  absorbs?: string[];
+  /** Extra free-form search keywords. */
+  keywords?: string[];
 }
 
 /** Returns the usage example for a component (manual → map → auto-generated fallback) */
@@ -241,9 +267,64 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "card",
     title: "Card",
     group: "display",
-    description: "Versatile card container with 5 variants, padding, radius, hover and link support.",
+    description:
+      "Versatile card container with 5 variants, padding, radius, hover, link and glass/glow/tilt/spotlight/gradient-border effects.",
     filePath: "src/components/ui/cn/card/Card.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["glass-card", "glow-card", "tilt-card", "spotlight", "gradient-border"],
+    keywords: [
+      "glass",
+      "glassmorphism",
+      "glow",
+      "tilt",
+      "spotlight",
+      "gradient border",
+      "gradient-border",
+      "effect",
+      "efeito",
+    ],
+    variants: [
+      {
+        prop: "effect",
+        value: "glass",
+        label: "Glass",
+        status: "stable",
+        note: "Glassmorphism em desenvolvimento — por ora use o GlassCard.",
+        aliases: ["glass", "glassmorphism", "glass-card"],
+      },
+      {
+        prop: "effect",
+        value: "glow",
+        label: "Glow",
+        status: "stable",
+        note: "Glow que acompanha o mouse em desenvolvimento — por ora use o GlowCard.",
+        aliases: ["glow", "glow-card"],
+      },
+      {
+        prop: "effect",
+        value: "tilt",
+        label: "Tilt 3D",
+        status: "stable",
+        note: "Tilt 3D em desenvolvimento — por ora use o TiltCard.",
+        aliases: ["tilt", "tilt-card", "3d"],
+      },
+      {
+        prop: "effect",
+        value: "spotlight",
+        label: "Spotlight",
+        status: "stable",
+        note: "Spotlight radial em desenvolvimento — por ora use o Spotlight.",
+        aliases: ["spotlight"],
+      },
+      {
+        prop: "effect",
+        value: "gradient-border",
+        label: "Gradient border",
+        status: "stable",
+        note: "Borda gradiente animada em desenvolvimento — por ora use o GradientBorder.",
+        aliases: ["gradient border", "gradient-border"],
+      },
+    ],
     props: [
       {
         name: "variant",
@@ -313,9 +394,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "avatar",
     title: "Avatar",
     group: "display",
-    description: "User avatar with image, initials, icon, status dot, 6 sizes and 3 shape variants.",
+    description: "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes and stacked group mode.",
     filePath: "src/components/ui/cn/avatar/Avatar.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["avatar-group"],
+    keywords: ["avatar group", "avatar-group", "stacked", "empilhado", "overflow", "+N"],
     props: [
       {
         name: "src",
@@ -662,9 +745,46 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "button",
     title: "Button",
     group: "inputs",
-    description: "Primitive button with 6 variants, 5 sizes, 7 intents, async loading state and icon slots.",
+    description:
+      "Primitive button with 6 variants, 5 sizes, 7 intents, async loading, icon slots and magnetic/confetti/confirm modes.",
     filePath: "src/components/ui/cn/button/Button.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["magnetic-button", "confetti-button", "confirm-button"],
+    keywords: [
+      "magnetic button",
+      "magnetic-button",
+      "confetti button",
+      "confetti-button",
+      "confirm button",
+      "confirm-button",
+      "hold to confirm",
+    ],
+    variants: [
+      {
+        prop: "effect",
+        value: "magnetic",
+        label: "Magnetic",
+        status: "stable",
+        note: "Atração magnética do cursor em desenvolvimento — por ora use o MagneticButton.",
+        aliases: ["magnetic button", "magnetic-button"],
+      },
+      {
+        prop: "effect",
+        value: "confetti",
+        label: "Confetti",
+        status: "stable",
+        note: "Explosão de confete no clique em desenvolvimento — por ora use o ConfettiButton.",
+        aliases: ["confetti button", "confetti-button"],
+      },
+      {
+        prop: "confirm",
+        value: "true",
+        label: "Confirm",
+        status: "stable",
+        note: "Confirmação duplo-clique/segurar em desenvolvimento — por ora use o ConfirmButton.",
+        aliases: ["confirm button", "confirm-button", "hold to confirm"],
+      },
+    ],
     props: [
       {
         name: "variant",
@@ -745,9 +865,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "badge",
     title: "Badge",
     group: "inputs",
-    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator and dismiss action.",
+    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator, dismiss and status/ping/tag modes.",
     filePath: "src/components/ui/cn/badge/Badge.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["tag", "status-badge", "ping"],
+    keywords: ["tag", "chip", "status badge", "status-badge", "ping", "dot", "presence", "removível", "removable"],
     props: [
       {
         name: "variant",
@@ -809,9 +931,87 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "input",
     title: "Input",
     group: "inputs",
-    description: "Primitive text input with 3 variants, 3 sizes, status states, icon and prefix/suffix slots.",
+    description:
+      "Primitive text input with 3 variants, 3 sizes, status states, icons, prefix/suffix and password/search/number/currency/phone/floating-label modes.",
     filePath: "src/components/ui/cn/input/Input.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: [
+      "password-input",
+      "search-input",
+      "number-input",
+      "currency-input",
+      "phone-input",
+      "floating-label-input",
+    ],
+    keywords: [
+      "password",
+      "senha",
+      "search",
+      "busca",
+      "number",
+      "numero",
+      "currency",
+      "moeda",
+      "phone",
+      "telefone",
+      "floating label",
+      "password-input",
+      "search-input",
+      "number-input",
+      "currency-input",
+      "phone-input",
+      "floating-label-input",
+    ],
+    variants: [
+      {
+        prop: "revealable",
+        value: "true",
+        label: "Password",
+        status: "stable",
+        note: "Campo de senha com toggle mostrar/ocultar (use revealable). Medidor de força via password-strength.",
+        aliases: ["password", "senha", "password-input", "password input"],
+      },
+      {
+        prop: "type",
+        value: "search",
+        label: "Search",
+        status: "stable",
+        note: "Campo de busca (type=search + iconLeft + clearable).",
+        aliases: ["search", "busca", "search-input", "search input"],
+      },
+      {
+        prop: "type",
+        value: "number",
+        label: "Number",
+        status: "stable",
+        note: "Variante number (stepper ±, precision, format) em desenvolvimento — por ora use o NumberInput.",
+        aliases: ["number", "numero", "stepper", "number-input", "number input"],
+      },
+      {
+        prop: "type",
+        value: "currency",
+        label: "Currency",
+        status: "stable",
+        note: "Variante currency (símbolo + locale) em desenvolvimento — por ora use o CurrencyInput.",
+        aliases: ["currency", "moeda", "currency-input", "currency input"],
+      },
+      {
+        prop: "type",
+        value: "phone",
+        label: "Phone",
+        status: "stable",
+        note: "Variante phone (seletor de país + máscara) em desenvolvimento — por ora use o PhoneInput.",
+        aliases: ["phone", "telefone", "phone-input", "phone input"],
+      },
+      {
+        prop: "floatingLabel",
+        value: "true",
+        label: "Floating label",
+        status: "stable",
+        note: "Label flutuante em desenvolvimento — por ora use o FloatingLabelInput.",
+        aliases: ["floating label", "floating-label-input", "label flutuante"],
+      },
+    ],
     props: [
       {
         name: "variant",
@@ -961,9 +1161,48 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "select",
     title: "Select",
     group: "inputs",
-    description: "Custom dropdown with option groups, search, clearable and state variants.",
+    description: "Custom dropdown with option groups, search, clearable, state variants and multi/rich/combobox modes.",
     filePath: "src/components/ui/cn/select/Select.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["multi-select", "rich-select", "combobox"],
+    keywords: [
+      "multiselect",
+      "multi select",
+      "multi-select",
+      "rich select",
+      "rich-select",
+      "combobox",
+      "tags",
+      "chips",
+      "multiplo",
+      "dropdown",
+    ],
+    variants: [
+      {
+        prop: "mode",
+        value: "multi",
+        label: "Multi-select",
+        status: "stable",
+        note: "Seleção múltipla com chips em desenvolvimento no Select — por ora use o MultiSelect.",
+        aliases: ["multiselect", "multi select", "multi-select", "tags", "chips"],
+      },
+      {
+        prop: "mode",
+        value: "rich",
+        label: "Rich-select",
+        status: "stable",
+        note: "Opções com ícone/descrição/badge em desenvolvimento no Select — por ora use o RichSelect.",
+        aliases: ["rich select", "rich-select", "icon select", "descrição"],
+      },
+      {
+        prop: "mode",
+        value: "combobox",
+        label: "Combobox",
+        status: "stable",
+        note: "Combobox multi com navegação por teclado em desenvolvimento no Select — por ora use o Combobox.",
+        aliases: ["combobox", "combo box", "autocomplete tags"],
+      },
+    ],
     props: [
       {
         name: "options",
@@ -1491,9 +1730,47 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "date-picker",
     title: "Date Picker",
     group: "inputs",
-    description: "Calendar date picker with month/year navigation, time support, min/max dates and clearable.",
+    description:
+      "Calendar date picker with month/year nav, time support, min/max, clearable and range/time/inline-calendar modes.",
     filePath: "src/components/ui/cn/date-picker/DatePicker.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["date-range-picker", "time-picker", "calendar"],
+    keywords: [
+      "date range",
+      "date-range-picker",
+      "range",
+      "time picker",
+      "time-picker",
+      "calendar",
+      "calendário",
+      "intervalo de datas",
+    ],
+    variants: [
+      {
+        prop: "range",
+        value: "true",
+        label: "Date range",
+        status: "stable",
+        note: "Seleção de intervalo (dois calendários) em desenvolvimento — por ora use o DateRangePicker.",
+        aliases: ["date range", "date-range-picker", "intervalo de datas"],
+      },
+      {
+        prop: "showTime",
+        value: "true",
+        label: "Time picker",
+        status: "stable",
+        note: "Seleção de hora em desenvolvimento — por ora use o TimePicker.",
+        aliases: ["time picker", "time-picker", "hora"],
+      },
+      {
+        prop: "mode",
+        value: "inline",
+        label: "Calendar",
+        status: "stable",
+        note: "Grade de calendário inline em desenvolvimento — por ora use o Calendar.",
+        aliases: ["calendar", "calendário"],
+      },
+    ],
     props: [
       {
         name: "value",
@@ -2602,9 +2879,29 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "stat",
     title: "Stat",
     group: "display",
-    description: "KPI stat card with value, label, trend indicator, icon and 5 intent variants.",
+    description: "KPI stat card with value, label, trend, icon, 5 intents and metric (sparkline) / grid modes.",
     filePath: "src/components/ui/cn/stat/Stat.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["metric-card", "stats-card"],
+    keywords: ["kpi", "metric card", "metric-card", "stats card", "stats-card", "sparkline", "grid"],
+    variants: [
+      {
+        prop: "mode",
+        value: "metric",
+        label: "Metric (sparkline)",
+        status: "stable",
+        note: "Card com unidade + sparkline em desenvolvimento — por ora use o MetricCard.",
+        aliases: ["metric card", "metric-card", "sparkline"],
+      },
+      {
+        prop: "mode",
+        value: "grid",
+        label: "Stats grid",
+        status: "stable",
+        note: "Grade de múltiplos stats em desenvolvimento — por ora use o StatsCard.",
+        aliases: ["stats card", "stats-card", "grid"],
+      },
+    ],
     props: [
       {
         name: "label",
@@ -2700,8 +2997,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "grid-pattern",
     title: "Grid Pattern",
     group: "display",
-    description: "SVG background pattern (dots, lines, cross, grid) as decorative layer.",
+    description:
+      "SVG background pattern (dots, lines, cross, grid) as decorative layer, with animated particle field mode.",
     filePath: "src/components/ui/cn/grid-pattern/GridPattern.tsx",
+    absorbs: ["particle-field"],
+    keywords: ["background", "pattern", "particle field", "particle-field", "particles", "canvas", "decorative"],
+    variants: [
+      {
+        prop: "type",
+        value: "particles",
+        label: "Particle field",
+        status: "dev",
+        note: "Campo de partículas em canvas em desenvolvimento — por ora use o ParticleField.",
+        aliases: ["particle field", "particle-field", "particles", "canvas"],
+      },
+    ],
     props: [
       { name: "type", type: "'dots' | 'lines' | 'cross' | 'grid'", default: "'dots'", description: "Estilo do padrão" },
       { name: "size", type: "number", default: "24", description: "Espaçamento do padrão (px)" },
@@ -2832,9 +3142,38 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "table",
     title: "Data Table",
     group: "data",
-    description: "Feature-rich table with sorting, filtering, pagination, row selection and sticky header.",
+    description:
+      "Feature-rich table with sorting, filtering, pagination, selection, sticky header and grid/list/tree modes.",
     filePath: "src/components/ui/cn/table/Table.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["data-grid", "data-list", "tree-table"],
+    keywords: ["data grid", "data-grid", "data list", "data-list", "tree table", "tree-table", "hierarchical", "grid"],
+    variants: [
+      {
+        prop: "variant",
+        value: "grid",
+        label: "Data grid",
+        status: "stable",
+        note: "Grid completo com paginação em desenvolvimento — por ora use o DataGrid.",
+        aliases: ["data grid", "data-grid"],
+      },
+      {
+        prop: "variant",
+        value: "list",
+        label: "Data list",
+        status: "stable",
+        note: "Definition list / cards em desenvolvimento — por ora use o DataList.",
+        aliases: ["data list", "data-list"],
+      },
+      {
+        prop: "variant",
+        value: "tree",
+        label: "Tree table",
+        status: "stable",
+        note: "Tabela hierárquica em desenvolvimento — por ora use o TreeTable.",
+        aliases: ["tree table", "tree-table", "hierarchical"],
+      },
+    ],
     props: [
       {
         name: "columns",
@@ -3265,9 +3604,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "scroll-spy",
     title: "Scroll Spy",
     group: "layout",
-    description: "Navigation sidebar that highlights the active section based on scroll position.",
+    description: "Navigation that highlights the active section on scroll, with table-of-contents mode.",
     filePath: "src/components/ui/cn/scroll-spy/ScrollSpy.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["table-of-contents"],
+    keywords: ["table of contents", "table-of-contents", "toc", "scroll nav", "indice", "navegação"],
+    variants: [
+      {
+        prop: "variant",
+        value: "toc",
+        label: "Table of contents",
+        status: "dev",
+        note: "Índice (TOC) com árvore expansível em desenvolvimento — por ora use o TableOfContents.",
+        aliases: ["table of contents", "table-of-contents", "toc", "índice"],
+      },
+    ],
     props: [
       {
         name: "items",
@@ -4204,9 +4555,30 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "command",
     title: "Command",
     group: "overlays",
-    description: "Command palette with search, grouped items, keyboard shortcuts and keybinding trigger.",
+    description:
+      "Command palette with search, grouped items, shortcuts and keybinding — palette/bar/spotlight variants.",
     filePath: "src/components/ui/cn/command/Command.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["command-bar", "spotlight-search"],
+    keywords: ["command bar", "command-bar", "spotlight", "spotlight-search", "palette", "search"],
+    variants: [
+      {
+        prop: "variant",
+        value: "bar",
+        label: "Command bar",
+        status: "stable",
+        note: "Barra de comando inline em desenvolvimento — por ora use o CommandBar.",
+        aliases: ["command bar", "command-bar"],
+      },
+      {
+        prop: "variant",
+        value: "spotlight",
+        label: "Spotlight search",
+        status: "stable",
+        note: "Busca spotlight fullscreen em desenvolvimento — por ora use o SpotlightSearch.",
+        aliases: ["spotlight", "spotlight-search", "spotlight search"],
+      },
+    ],
     props: [
       {
         name: "groups",
@@ -4449,9 +4821,46 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "timeline",
     title: "Timeline",
     group: "display",
-    description: "Vertical timeline with 5 item statuses, 3 variants, timestamp and action slots.",
+    description:
+      "Vertical timeline with 5 statuses, 3 variants, timestamps, actions and scroll/progress/activity modes.",
     filePath: "src/components/ui/cn/timeline/Timeline.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["scroll-timeline", "timeline-progress", "activity-feed"],
+    keywords: [
+      "scroll timeline",
+      "scroll-timeline",
+      "timeline progress",
+      "timeline-progress",
+      "activity feed",
+      "activity-feed",
+      "feed",
+    ],
+    variants: [
+      {
+        prop: "variant",
+        value: "scroll",
+        label: "Scroll timeline",
+        status: "stable",
+        note: "Layout alternado em desenvolvimento — por ora use o ScrollTimeline.",
+        aliases: ["scroll timeline", "scroll-timeline"],
+      },
+      {
+        prop: "variant",
+        value: "progress",
+        label: "Timeline progress",
+        status: "stable",
+        note: "Progresso de etapas em desenvolvimento — por ora use o TimelineProgress.",
+        aliases: ["timeline progress", "timeline-progress"],
+      },
+      {
+        prop: "variant",
+        value: "activity",
+        label: "Activity feed",
+        status: "stable",
+        note: "Feed de atividades em desenvolvimento — por ora use o ActivityFeed.",
+        aliases: ["activity feed", "activity-feed", "feed"],
+      },
+    ],
     props: [
       {
         name: "items",
@@ -4477,8 +4886,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "stepper",
     title: "Stepper",
     group: "display",
-    description: "Step indicator with horizontal/vertical orientation, status icons and content.",
+    description:
+      "Step indicator with horizontal/vertical orientation, status icons, content, dot and progress variants.",
     filePath: "src/components/ui/cn/stepper/Stepper.tsx",
+    absorbs: ["dot-stepper", "progress-steps"],
+    keywords: ["steps", "wizard", "dot stepper", "dot-stepper", "progress steps", "progress-steps", "etapas"],
     props: [
       {
         name: "steps",
@@ -4923,8 +5335,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "rating",
     title: "Rating",
     group: "inputs",
-    description: "Star rating with half-star, custom icons, 3 sizes, read-only and show-value modes.",
+    description:
+      "Star rating with half-star, custom icons, 3 sizes, read-only, toggle-off picker and show-value modes.",
     filePath: "src/components/ui/cn/rating/Rating.tsx",
+    absorbs: ["rating-input"],
+    keywords: ["rating input", "picker", "toggle off", "estrelas"],
+    variants: [
+      {
+        prop: "toggleOff",
+        value: "true",
+        label: "Picker (toggle-off)",
+        status: "stable",
+        note: "Clicar o valor atual zera a nota (ex-RatingInput).",
+        aliases: ["rating input", "rating-input", "picker", "toggle off"],
+      },
+    ],
     peerDeps: ["@/lib/utils"],
     props: [
       {
@@ -5067,9 +5492,46 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "tooltip",
     title: "Tooltip",
     group: "overlays",
-    description: "Hover tooltip with 8 placements, delay and portal rendering.",
+    description: "Hover/click/focus floating content: tooltip, rich tooltip, popover and hover/context card.",
     filePath: "src/components/ui/cn/tooltip/Tooltip.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["rich-tooltip", "popover", "hover-card", "context-card"],
+    keywords: [
+      "rich tooltip",
+      "rich-tooltip",
+      "popover",
+      "hover card",
+      "hover-card",
+      "context card",
+      "context-card",
+      "floating",
+    ],
+    variants: [
+      {
+        prop: "variant",
+        value: "rich",
+        label: "Rich tooltip",
+        status: "stable",
+        note: "Título/ícone/ação em desenvolvimento — por ora use o RichTooltip.",
+        aliases: ["rich tooltip", "rich-tooltip"],
+      },
+      {
+        prop: "trigger",
+        value: "click",
+        label: "Popover",
+        status: "stable",
+        note: "Popover clicável (título/footer) em desenvolvimento — por ora use o Popover.",
+        aliases: ["popover"],
+      },
+      {
+        prop: "trigger",
+        value: "hover-card",
+        label: "Hover card",
+        status: "stable",
+        note: "Card de preview em hover em desenvolvimento — por ora use o HoverCard/ContextCard.",
+        aliases: ["hover card", "hover-card", "context card", "context-card"],
+      },
+    ],
     props: [
       {
         name: "content",
@@ -5223,9 +5685,38 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "progress",
     title: "Progress",
     group: "feedback",
-    description: "Horizontal progress bar with 5 intents, 4 sizes, animated fill and label.",
+    description:
+      "Progress indicator with 5 intents, 4 sizes, animated fill, label and bar/ring/gauge/skill-list shapes.",
     filePath: "src/components/ui/cn/progress/Progress.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["progress-ring", "gauge", "skill-bar"],
+    keywords: ["progress ring", "progress-ring", "circular", "gauge", "skill bar", "skill-bar", "radial"],
+    variants: [
+      {
+        prop: "shape",
+        value: "ring",
+        label: "Ring (circular)",
+        status: "stable",
+        note: "Progresso circular em desenvolvimento — por ora use o ProgressRing.",
+        aliases: ["progress ring", "progress-ring", "circular", "radial"],
+      },
+      {
+        prop: "shape",
+        value: "gauge",
+        label: "Gauge",
+        status: "stable",
+        note: "Medidor em arco em desenvolvimento — por ora use o Gauge.",
+        aliases: ["gauge", "medidor"],
+      },
+      {
+        prop: "mode",
+        value: "skill-list",
+        label: "Skill bars",
+        status: "stable",
+        note: "Lista de barras de habilidade em desenvolvimento — por ora use o SkillBar.",
+        aliases: ["skill bar", "skill-bar", "skills"],
+      },
+    ],
     props: [
       {
         name: "value",
@@ -5337,9 +5828,37 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "modal",
     title: "Modal",
     group: "overlays",
-    description: "Accessible dialog portal with focus trap, 5 sizes, header/body/footer composition.",
+    description: "Accessible dialog portal with focus trap, 5 sizes and modal/alert/drawer/side-panel variants.",
     filePath: "src/components/ui/cn/modal/Modal.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["alert-dialog", "drawer", "side-panel"],
+    keywords: ["dialog", "alert dialog", "alert-dialog", "drawer", "side panel", "side-panel", "sheet"],
+    variants: [
+      {
+        prop: "variant",
+        value: "alert",
+        label: "Alert dialog",
+        status: "stable",
+        note: "Confirmação com intent/loading em desenvolvimento — por ora use o AlertDialog.",
+        aliases: ["alert dialog", "alert-dialog", "confirm"],
+      },
+      {
+        prop: "variant",
+        value: "drawer",
+        label: "Drawer",
+        status: "stable",
+        note: "Painel deslizante de borda em desenvolvimento — por ora use o Drawer.",
+        aliases: ["drawer", "sheet"],
+      },
+      {
+        prop: "variant",
+        value: "panel",
+        label: "Side panel",
+        status: "stable",
+        note: "Painel lateral colapsável em desenvolvimento — por ora use o SidePanel.",
+        aliases: ["side panel", "side-panel"],
+      },
+    ],
     props: [
       {
         name: "open",
@@ -5447,8 +5966,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "slider",
     title: "Slider",
     group: "inputs",
-    description: "Single-value range input with marks, label, value display and intent colors.",
+    description: "Single-value or dual-thumb range input with marks, label, value display and intent colors.",
     filePath: "src/components/ui/cn/slider/Slider.tsx",
+    absorbs: ["range-slider"],
+    keywords: ["range", "dual", "min max", "dois valores"],
+    variants: [
+      {
+        prop: "range",
+        value: "true",
+        label: "Range (dois thumbs)",
+        status: "stable",
+        note: "Seletor de intervalo com dois thumbs (ex-RangeSlider).",
+        aliases: ["range slider", "range-slider", "dual slider", "intervalo", "dois valores"],
+      },
+    ],
     peerDeps: ["@/lib/utils"],
     props: [
       {
@@ -5593,9 +6124,48 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "toggle-group",
     title: "Toggle Group",
     group: "inputs",
-    description: "Button toggle group with single/multiple selection, 3 variants and sizes.",
+    description:
+      "Button toggle group with single/multiple selection, 3 variants, sizes and segmented/chip/filter modes.",
     filePath: "src/components/ui/cn/toggle-group/ToggleGroup.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["segmented-control", "chip-group", "filter-bar"],
+    keywords: [
+      "segmented",
+      "segmented-control",
+      "segmented control",
+      "chip group",
+      "chip-group",
+      "filter bar",
+      "filter-bar",
+      "filtro",
+      "pills",
+    ],
+    variants: [
+      {
+        prop: "variant",
+        value: "segmented",
+        label: "Segmented control",
+        status: "stable",
+        note: "Indicador deslizante (segmented) em desenvolvimento — por ora use o SegmentedControl.",
+        aliases: ["segmented", "segmented control", "segmented-control"],
+      },
+      {
+        prop: "variant",
+        value: "chip",
+        label: "Chip group",
+        status: "stable",
+        note: "Chips selecionáveis em desenvolvimento — por ora use o ChipGroup.",
+        aliases: ["chip group", "chip-group", "chips"],
+      },
+      {
+        prop: "variant",
+        value: "filter",
+        label: "Filter bar",
+        status: "stable",
+        note: "Barra de filtro com counts/clear em desenvolvimento — por ora use o FilterBar.",
+        aliases: ["filter bar", "filter-bar", "filtro"],
+      },
+    ],
     props: [
       {
         name: "items",
@@ -5685,9 +6255,31 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "accordion",
     title: "Accordion",
     group: "display",
-    description: "Collapsible accordion with single/multiple expansion, 3 variants and icon support.",
+    description:
+      "Collapsible accordion with single/multiple expansion, 3 variants, icon support and single-panel mode.",
     filePath: "src/components/ui/cn/accordion/Accordion.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["accordion-group", "multi-accordion", "collapsible"],
+    keywords: [
+      "collapse",
+      "expand",
+      "painel",
+      "disclosure",
+      "sanfona",
+      "multi-accordion",
+      "accordion-group",
+      "collapsible",
+    ],
+    variants: [
+      {
+        prop: "multiple",
+        value: "true",
+        label: "Múltiplos abertos",
+        status: "stable",
+        note: "Permite vários painéis abertos ao mesmo tempo (ex-MultiAccordion / AccordionGroup multi).",
+        aliases: ["multi accordion", "multi-accordion", "accordion group", "accordion-group"],
+      },
+    ],
     props: [
       {
         name: "items",
@@ -5886,8 +6478,28 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "dropdown-menu",
     title: "Dropdown Menu",
     group: "overlays",
-    description: "Triggered dropdown menu with grouped items, icons, shortcuts and separators.",
+    description: "Triggered menu (click/right-click/hover) with grouped items, icons, shortcuts and separators.",
     filePath: "src/components/ui/cn/dropdown-menu/DropdownMenu.tsx",
+    absorbs: ["context-menu", "floating-menu"],
+    keywords: ["context menu", "context-menu", "right click", "floating menu", "floating-menu", "menu"],
+    variants: [
+      {
+        prop: "trigger",
+        value: "contextmenu",
+        label: "Context menu",
+        status: "stable",
+        note: "Menu de clique-direito em desenvolvimento — por ora use o ContextMenu.",
+        aliases: ["context menu", "context-menu", "right click"],
+      },
+      {
+        prop: "trigger",
+        value: "hover",
+        label: "Floating menu",
+        status: "stable",
+        note: "Menu por hover em desenvolvimento — por ora use o FloatingMenu.",
+        aliases: ["floating menu", "floating-menu"],
+      },
+    ],
     props: [
       { name: "items", type: "MenuEntry[]", required: true, description: "Itens do menu (grupos, separadores, ações)" },
       {
@@ -6121,8 +6733,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "kbd",
     title: "Kbd",
     group: "display",
-    description: "Stylized keyboard key badge with size and variant options.",
+    description: "Stylized keyboard key badge with size/variant options and key-sequence + symbol mapping.",
     filePath: "src/components/ui/cn/kbd/Kbd.tsx",
+    absorbs: ["shortcut-key"],
+    keywords: ["shortcut", "shortcut-key", "shortcut key", "atalho", "sequence", "combo", "cmd", "ctrl"],
     props: [
       { name: "keys", type: "string[]", required: true, description: "Array de teclas a exibir" },
       { name: "separator", type: "string", default: "'+'", description: "Separador entre teclas" },
@@ -6776,6 +7390,81 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
+  {
+    name: "chart",
+    title: "Chart",
+    group: "charts",
+    description: "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/radar/funnel/sparkline.",
+    filePath: "src/components/ui/cn/chart/Chart.tsx",
+    absorbs: ["line-chart", "area-chart", "bar-chart", "donut-chart", "radar-chart", "funnel-chart", "sparkline"],
+    keywords: ["grafico", "line", "area", "bar", "donut", "pie", "radar", "funnel", "sparkline", "chart"],
+    variants: [
+      { prop: "type", value: "line", label: "Line", status: "stable", aliases: ["line chart", "line-chart", "linha"] },
+      { prop: "type", value: "area", label: "Area", status: "stable", aliases: ["area chart", "area-chart"] },
+      { prop: "type", value: "bar", label: "Bar", status: "stable", aliases: ["bar chart", "bar-chart", "barra"] },
+      {
+        prop: "type",
+        value: "donut",
+        label: "Donut / Pie",
+        status: "stable",
+        aliases: ["donut chart", "donut-chart", "pie", "pizza"],
+      },
+      {
+        prop: "type",
+        value: "radar",
+        label: "Radar",
+        status: "stable",
+        aliases: ["radar chart", "radar-chart", "spider"],
+      },
+      {
+        prop: "type",
+        value: "funnel",
+        label: "Funnel",
+        status: "stable",
+        aliases: ["funnel chart", "funnel-chart", "funil"],
+      },
+      { prop: "type", value: "sparkline", label: "Sparkline", status: "stable", aliases: ["sparkline", "mini chart"] },
+    ],
+  },
+  {
+    name: "text-effect",
+    title: "Text Effect",
+    group: "display",
+    description: "Super texto animado: uma entrada que despacha por `effect` para typewriter/morph/gradient/number.",
+    filePath: "src/components/ui/cn/text-effect/TextEffect.tsx",
+    absorbs: ["typewriter", "morphing-text", "text-gradient", "animated-number"],
+    keywords: ["typewriter", "morphing", "morph", "gradient", "animated number", "contador", "texto animado"],
+    variants: [
+      {
+        prop: "effect",
+        value: "typewriter",
+        label: "Typewriter",
+        status: "stable",
+        aliases: ["typewriter", "digitando"],
+      },
+      {
+        prop: "effect",
+        value: "morph",
+        label: "Morphing",
+        status: "stable",
+        aliases: ["morphing text", "morphing-text", "morph"],
+      },
+      {
+        prop: "effect",
+        value: "gradient",
+        label: "Gradient",
+        status: "stable",
+        aliases: ["text gradient", "text-gradient", "gradiente"],
+      },
+      {
+        prop: "effect",
+        value: "number",
+        label: "Animated number",
+        status: "stable",
+        aliases: ["animated number", "animated-number", "contador"],
+      },
+    ],
+  },
 ];
 
 export function getComponent(group: string, name: string): CnComponentMeta | undefined {
@@ -6792,4 +7481,124 @@ export function getComponentsByGroup(group: string): CnComponentMeta[] {
 
 export function generateStaticComponentParams() {
   return CN_REGISTRY.map((c) => ({ group: c.group, component: c.name }));
+}
+
+/* ── Visibility (sidebar nav) ─────────────────────────────────────────────
+ * Names absorbed by a Super component are hidden from the sidebar navigation
+ * but remain fully searchable via buildSearchIndex().
+ */
+
+/** Set of legacy component names absorbed by some Super component. */
+export function getAbsorbedNames(): Set<string> {
+  const set = new Set<string>();
+  for (const c of CN_REGISTRY) c.absorbs?.forEach((n) => set.add(n));
+  return set;
+}
+
+/** Components shown in the sidebar nav (excludes absorbed legacy names). */
+export function getVisibleComponents(): CnComponentMeta[] {
+  const absorbed = getAbsorbedNames();
+  return CN_REGISTRY.filter((c) => !absorbed.has(c.name));
+}
+
+/* ── Search index ─────────────────────────────────────────────────────────
+ * Comprehensive (not exact) search: flattens every component into one entry
+ * per component + one per variant. Each entry carries a `haystack` string
+ * concatenating name, legacy names, title, description, group, prop names,
+ * variant values/labels/aliases and keywords. Consumers (sidebar + header)
+ * match against `haystack` with substring/token/fuzzy logic.
+ */
+
+export type CnSearchKind = "component" | "variant";
+
+export interface CnSearchEntry {
+  /** Owning component. */
+  component: CnComponentMeta;
+  kind: CnSearchKind;
+  /** Display label (component title, or "Title · Variant"). */
+  label: string;
+  /** Route, with variant query string when kind === "variant". */
+  href: string;
+  /** Lowercased searchable blob. */
+  haystack: string;
+  /** Present when kind === "variant". */
+  variant?: CnVariantMeta;
+  status: CnStatus;
+}
+
+function variantHref(c: CnComponentMeta, v: CnVariantMeta): string {
+  return `/cn/${c.group}/${c.name}?${encodeURIComponent(v.prop)}=${encodeURIComponent(v.value)}`;
+}
+
+/** Build the flat search index used by both the sidebar and header search. */
+export function buildSearchIndex(): CnSearchEntry[] {
+  const groupLabel = (id: string) => CN_GROUPS.find((g) => g.id === id)?.label ?? id;
+  const entries: CnSearchEntry[] = [];
+
+  for (const c of CN_REGISTRY) {
+    const propNames = (c.props ?? []).map((p) => p.name).join(" ");
+    const componentHay = [
+      c.name,
+      c.title,
+      c.description,
+      c.group,
+      groupLabel(c.group),
+      (c.absorbs ?? []).join(" "),
+      (c.keywords ?? []).join(" "),
+      propNames,
+      (c.variants ?? []).map((v) => `${v.value} ${v.label} ${(v.aliases ?? []).join(" ")}`).join(" "),
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    entries.push({
+      component: c,
+      kind: "component",
+      label: c.title,
+      href: `/cn/${c.group}/${c.name}`,
+      haystack: componentHay,
+      status: c.status ?? "stable",
+    });
+
+    for (const v of c.variants ?? []) {
+      const variantHay = [c.name, c.title, v.prop, v.value, v.label, (v.aliases ?? []).join(" "), v.note ?? ""]
+        .join(" ")
+        .toLowerCase();
+
+      entries.push({
+        component: c,
+        kind: "variant",
+        label: `${c.title} · ${v.label}`,
+        href: variantHref(c, v),
+        haystack: variantHay,
+        variant: v,
+        status: v.status,
+      });
+    }
+  }
+
+  return entries;
+}
+
+/** Tokenized substring match: every whitespace token of `query` must appear in `haystack`. */
+export function matchesSearch(haystack: string, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  return q.split(/\s+/).every((tok) => haystack.includes(tok));
+}
+
+/** Run the index against a query, components ranked before variants. */
+export function searchComponents(query: string, index: CnSearchEntry[] = buildSearchIndex()): CnSearchEntry[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const hits = index.filter((e) => matchesSearch(e.haystack, q));
+  return hits.sort((a, b) => {
+    // exact name/title first
+    const aExact = a.label.toLowerCase() === q || a.component.name === q ? 0 : 1;
+    const bExact = b.label.toLowerCase() === q || b.component.name === q ? 0 : 1;
+    if (aExact !== bExact) return aExact - bExact;
+    // components before variants
+    if (a.kind !== b.kind) return a.kind === "component" ? -1 : 1;
+    return a.label.localeCompare(b.label);
+  });
 }
