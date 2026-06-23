@@ -36,9 +36,10 @@
   outline: none;
 }
 
-:focus-visible {
-  outline: 1px solid hsl(var(--brand-primary-mid)) !important;
-  outline-offset: 2px !important;
+/* Form elements têm próprio focus ring (border + box-shadow) — excluir do outline global */
+:focus-visible:not(input):not(select):not(textarea):not([role="combobox"]):not([role="listbox"]) {
+  outline: 1px solid hsl(var(--brand-primary-mid));
+  outline-offset: 2px;
 }
 
 :root {
