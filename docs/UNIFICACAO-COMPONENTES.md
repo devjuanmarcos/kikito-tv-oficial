@@ -287,8 +287,23 @@ Regra de metadata: `absorbs[]` sempre define a redução de sidebar; `variants[]
 
 **59 nomes absorvidos → sidebar 195 → 136.** Com Chart (−6) e TextEffect (−3) quando implementados: **~127** (meta atingida).
 
-### O que falta para "fechar" (pós-catálogo)
+### Itens 1-3 — CONCLUÍDOS (commit f854f30)
 
-A maior parte das Fases 2-4 foi **catalog-absorb** (ganho de sidebar imediato, zero regressão; modos ainda nos componentes originais, marcados `dev`). Para também **reduzir código** e tornar as variantes `dev` funcionais dentro da base, falta, por família, portar a lógica do irmão para dentro do Super + converter o irmão em wrapper (como já feito em Slider/Rating/Kbd) e promover a variante de `dev` → `stable`. Mais o demo-switching por `?prop=value` na tela.
+**Item 1 — code-merge real de 14 famílias** (lógica do irmão movida VERBATIM para dentro do Super, irmão virou wrapper backward-compat, padrão Slider). Todas validadas com tsc por família:
+Input (number/currency/phone/floating-label), Select (multi/rich/combobox), ToggleGroup (segmented/chip/filter), Tooltip (rich/popover/hover-card), DropdownMenu (context-menu/floating-menu), Command (bar/spotlight), Modal (alert/drawer/side-panel), Card (glass/glow/tilt/spotlight/gradient-border), Stat (metric/grid), Timeline (scroll/progress/activity), Progress (ring/gauge/skill-bar), DataTable (grid/list/tree), Button (magnetic/confetti), DatePicker (range/calendar-inline).
+
+**Item 2 — Chart e TextEffect** (supers novos que despacham por `type`/`effect` para os renderers existentes, sem reescrever SVG). Charts: line/area/bar/donut/radar/funnel/sparkline. TextEffect: typewriter/morph/gradient/number.
+
+**Item 3 — demo-switching**: as telas de Chart e Text Effect leem `?type`/`?effect` (deep-link do CnVariantBar) e trocam o preview ao vivo.
+
+**Promoções**: 58 variantes `dev` → `stable`. Permanecem `dev` (mantidos catalog-absorb por divergência real): `grid-pattern?type=particles` (canvas vs SVG) e `scroll-spy?variant=toc`.
+
+**Mantidos como componente à parte / catalog-absorb** (decisão por regressão/UX): context-card, time-picker, confirm-button (capacidade existe no Super, wrapper preservado), particle-field, table-of-contents, flip-card, virtual-list, comparison-table, event-calendar, otp-input, number-pad, signature-pad, tag-input, inline-edit, autocomplete, color-picker, spinner, quick-actions, step-form, ribbon, button-group, split-button, fab, copy-button.
+
+**Resultado final: sidebar 197 total → 127 visíveis (70 absorvidos).** tsc limpo, `next build` verde.
+
+### Resíduo opcional (não bloqueante)
+
+Demo-switching `?prop=value` nas telas das outras 12 famílias (Chart/TextEffect já têm). O CnVariantBar já deep-linka e destaca a variante ativa em todas; falta apenas o preview curado de cada uma reagir ao param — extensão mecânica do padrão de ChartDemo/TextEffectDemo.
 
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).
