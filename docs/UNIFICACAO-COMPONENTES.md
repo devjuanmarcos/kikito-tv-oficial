@@ -272,6 +272,11 @@ Regra de metadata: `absorbs[]` sempre define a redução de sidebar; `variants[]
 - **Fase 1** ✅ — 12 entradas removidas da nav:
   - _Code-merge:_ **Slider** ← range-slider · **Rating** ← rating-input · **Kbd** ← shortcut-key.
   - _Catalog-absorb:_ **Avatar** ← avatar-group · **Accordion** ← accordion-group, multi-accordion, collapsible · **Badge** ← tag, status-badge, ping · **Stepper** ← dot-stepper, progress-steps.
-- **Fases 2-4** ⏳ pendentes (Inputs/Selects, Overlays/Dialogs, Display/Data pesados).
+- **Fase 2 (Inputs/Selects)** 🟦 parcial — catalog-absorb + variantes `dev` para modos ainda não portados à base (+12 entradas fora da nav):
+  - **Input** ← password-input, search-input, number-input, currency-input, phone-input, floating-label-input. Variantes: `revealable`/`search` estáveis; `number`/`currency`/`phone`/`floatingLabel` **dev** (impl rica segue nos componentes originais — exatamente o caso number do briefing).
+  - **Select** ← multi-select, rich-select, combobox (modos `multi`/`rich`/`combobox` **dev**).
+  - **ToggleGroup** ← segmented-control, chip-group, filter-bar (variantes `segmented`/`chip`/`filter` **dev**).
+  - _Falta na Fase 2:_ portar o código dos modos `dev` para dentro das bases (Input number/currency/phone, Select multi/rich/combobox) e converter os originais em wrappers.
+- **Fases 3-4** ⏳ pendentes (Overlays/Dialogs, Display/Data pesados).
 
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).
