@@ -339,9 +339,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "avatar",
     title: "Avatar",
     group: "display",
-    description: "User avatar with image, initials, icon, status dot, 6 sizes and 3 shape variants.",
+    description: "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes and stacked group mode.",
     filePath: "src/components/ui/cn/avatar/Avatar.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["avatar-group"],
+    keywords: ["avatar group", "avatar-group", "stacked", "empilhado", "overflow", "+N"],
     props: [
       {
         name: "src",
@@ -771,9 +773,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "badge",
     title: "Badge",
     group: "inputs",
-    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator and dismiss action.",
+    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator, dismiss and status/ping/tag modes.",
     filePath: "src/components/ui/cn/badge/Badge.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["tag", "status-badge", "ping"],
+    keywords: ["tag", "chip", "status badge", "status-badge", "ping", "dot", "presence", "removível", "removable"],
     props: [
       {
         name: "variant",
@@ -4503,8 +4507,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "stepper",
     title: "Stepper",
     group: "display",
-    description: "Step indicator with horizontal/vertical orientation, status icons and content.",
+    description:
+      "Step indicator with horizontal/vertical orientation, status icons, content, dot and progress variants.",
     filePath: "src/components/ui/cn/stepper/Stepper.tsx",
+    absorbs: ["dot-stepper", "progress-steps"],
+    keywords: ["steps", "wizard", "dot stepper", "dot-stepper", "progress steps", "progress-steps", "etapas"],
     props: [
       {
         name: "steps",
@@ -4949,8 +4956,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "rating",
     title: "Rating",
     group: "inputs",
-    description: "Star rating with half-star, custom icons, 3 sizes, read-only and show-value modes.",
+    description:
+      "Star rating with half-star, custom icons, 3 sizes, read-only, toggle-off picker and show-value modes.",
     filePath: "src/components/ui/cn/rating/Rating.tsx",
+    absorbs: ["rating-input"],
+    keywords: ["rating input", "picker", "toggle off", "estrelas"],
+    variants: [
+      {
+        prop: "toggleOff",
+        value: "true",
+        label: "Picker (toggle-off)",
+        status: "stable",
+        note: "Clicar o valor atual zera a nota (ex-RatingInput).",
+        aliases: ["rating input", "rating-input", "picker", "toggle off"],
+      },
+    ],
     peerDeps: ["@/lib/utils"],
     props: [
       {
@@ -5473,8 +5493,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "slider",
     title: "Slider",
     group: "inputs",
-    description: "Single-value range input with marks, label, value display and intent colors.",
+    description: "Single-value or dual-thumb range input with marks, label, value display and intent colors.",
     filePath: "src/components/ui/cn/slider/Slider.tsx",
+    absorbs: ["range-slider"],
+    keywords: ["range", "dual", "min max", "dois valores"],
+    variants: [
+      {
+        prop: "range",
+        value: "true",
+        label: "Range (dois thumbs)",
+        status: "stable",
+        note: "Seletor de intervalo com dois thumbs (ex-RangeSlider).",
+        aliases: ["range slider", "range-slider", "dual slider", "intervalo", "dois valores"],
+      },
+    ],
     peerDeps: ["@/lib/utils"],
     props: [
       {
@@ -5711,9 +5743,31 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "accordion",
     title: "Accordion",
     group: "display",
-    description: "Collapsible accordion with single/multiple expansion, 3 variants and icon support.",
+    description:
+      "Collapsible accordion with single/multiple expansion, 3 variants, icon support and single-panel mode.",
     filePath: "src/components/ui/cn/accordion/Accordion.tsx",
     peerDeps: ["@/lib/utils"],
+    absorbs: ["accordion-group", "multi-accordion", "collapsible"],
+    keywords: [
+      "collapse",
+      "expand",
+      "painel",
+      "disclosure",
+      "sanfona",
+      "multi-accordion",
+      "accordion-group",
+      "collapsible",
+    ],
+    variants: [
+      {
+        prop: "multiple",
+        value: "true",
+        label: "Múltiplos abertos",
+        status: "stable",
+        note: "Permite vários painéis abertos ao mesmo tempo (ex-MultiAccordion / AccordionGroup multi).",
+        aliases: ["multi accordion", "multi-accordion", "accordion group", "accordion-group"],
+      },
+    ],
     props: [
       {
         name: "items",
@@ -6147,8 +6201,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "kbd",
     title: "Kbd",
     group: "display",
-    description: "Stylized keyboard key badge with size and variant options.",
+    description: "Stylized keyboard key badge with size/variant options and key-sequence + symbol mapping.",
     filePath: "src/components/ui/cn/kbd/Kbd.tsx",
+    absorbs: ["shortcut-key"],
+    keywords: ["shortcut", "shortcut-key", "shortcut key", "atalho", "sequence", "combo", "cmd", "ctrl"],
     props: [
       { name: "keys", type: "string[]", required: true, description: "Array de teclas a exibir" },
       { name: "separator", type: "string", default: "'+'", description: "Separador entre teclas" },

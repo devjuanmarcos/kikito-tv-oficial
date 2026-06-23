@@ -253,4 +253,25 @@ Card (efeitos), Stat, Timeline, TextEffect, Progress, Table, Chart, Background, 
 
 **Princípio geral (reforçado):** unificar **apenas quando fizer total sentido**. A meta é maximizar Super componentes (1 com muitas props/variantes) para padronizar, mas qualquer componente cuja estrutura/UX não encaixe — ou cuja unificação não traga ganho — permanece **standalone**, documentado como tal. Profissionalismo por componente acima da contagem.
 
+---
+
+## 8. Duas estratégias de absorção (importante)
+
+Na execução, cada família cai em uma de duas estratégias — escolhida pela **fidelidade** que o merge de código permite:
+
+1. **Code-merge** — quando as APIs/visuais alinham e há um discriminador real. O Super ganha o prop (ex.: `range`, `toggleOff`); o irmão vira **wrapper backward-compat** (`<Slider range />`). Reduz código **e** sidebar. Variante exposta na barra (`variants[]`, prop real, deep-link).
+2. **Catalog-absorb** — quando os irmãos têm shapes de item/visual distintos e um merge forçado regrediria o render. O Super só ganha `absorbs[]`: o irmão **some da nav** e fica **só na busca**, com **código/página/demo intactos** (zero regressão). Reduz sidebar; código permanece (limpeza opcional depois).
+
+Regra de metadata: `absorbs[]` sempre define a redução de sidebar; `variants[]` só é usado para props **reais** do Super (senão o deep-link `?prop=value` ficaria morto).
+
+---
+
+## 9. Status de execução
+
+- **Fase 0 — infra** ✅ (commit inicial): tipos do registry, `buildSearchIndex`/`getVisibleComponents`, busca abrangente na sidebar + header, `CnVariantBar`.
+- **Fase 1** ✅ — 12 entradas removidas da nav:
+  - _Code-merge:_ **Slider** ← range-slider · **Rating** ← rating-input · **Kbd** ← shortcut-key.
+  - _Catalog-absorb:_ **Avatar** ← avatar-group · **Accordion** ← accordion-group, multi-accordion, collapsible · **Badge** ← tag, status-badge, ping · **Stepper** ← dot-stepper, progress-steps.
+- **Fases 2-4** ⏳ pendentes (Inputs/Selects, Overlays/Dialogs, Display/Data pesados).
+
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).
