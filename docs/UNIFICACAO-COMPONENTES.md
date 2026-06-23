@@ -277,6 +277,18 @@ Regra de metadata: `absorbs[]` sempre define a redução de sidebar; `variants[]
   - **Select** ← multi-select, rich-select, combobox (modos `multi`/`rich`/`combobox` **dev**).
   - **ToggleGroup** ← segmented-control, chip-group, filter-bar (variantes `segmented`/`chip`/`filter` **dev**).
   - _Falta na Fase 2:_ portar o código dos modos `dev` para dentro das bases (Input number/currency/phone, Select multi/rich/combobox) e converter os originais em wrappers.
-- **Fases 3-4** ⏳ pendentes (Overlays/Dialogs, Display/Data pesados).
+- **Fase 3 (Overlays/Dialogs)** ✅ catalog-absorb (+11):
+  - **Tooltip** ← rich-tooltip, popover, hover-card, context-card · **Dropdown Menu** ← context-menu, floating-menu · **Command** ← command-bar, spotlight-search · **Modal** ← alert-dialog, drawer, side-panel. Modos não portados = `dev`.
+- **Fase 4 (Display/Data)** 🟦 catalog-absorb (+24):
+  - **Card** ← glass/glow/tilt-card, spotlight, gradient-border · **Stat** ← metric-card, stats-card · **Timeline** ← scroll-timeline, timeline-progress, activity-feed · **Progress** ← progress-ring, gauge, skill-bar · **Data Table** ← data-grid, data-list, tree-table · **Grid Pattern** ← particle-field · **Scroll Spy** ← table-of-contents · **Button** ← magnetic/confetti/confirm-button · **Date Picker** ← date-range-picker, time-picker, calendar. Modos não portados = `dev`.
+  - **Deferidos (precisam de Super novo, não simples absorb):** **Chart** (line/area/bar/donut/radar/funnel/sparkline → 1 entrada com `type`) e **TextEffect** (typewriter/morphing-text/text-gradient/animated-number). Nenhum tem base canônica; exigem criar o componente Super + roteamento por `type`.
+
+### Resultado atual
+
+**59 nomes absorvidos → sidebar 195 → 136.** Com Chart (−6) e TextEffect (−3) quando implementados: **~127** (meta atingida).
+
+### O que falta para "fechar" (pós-catálogo)
+
+A maior parte das Fases 2-4 foi **catalog-absorb** (ganho de sidebar imediato, zero regressão; modos ainda nos componentes originais, marcados `dev`). Para também **reduzir código** e tornar as variantes `dev` funcionais dentro da base, falta, por família, portar a lógica do irmão para dentro do Super + converter o irmão em wrapper (como já feito em Slider/Rating/Kbd) e promover a variante de `dev` → `stable`. Mais o demo-switching por `?prop=value` na tela.
 
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).
