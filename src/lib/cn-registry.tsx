@@ -7471,6 +7471,36 @@ export function getComponent(group: string, name: string): CnComponentMeta | und
   return CN_REGISTRY.find((c) => c.group === group && c.name === name);
 }
 
+/** Look up a component by its unique name (across all groups). */
+export function getComponentByName(name: string): CnComponentMeta | undefined {
+  return CN_REGISTRY.find((c) => c.name === name);
+}
+
+/** A selectable variant of a Super component, resolved from its `absorbs` list. */
+export interface ResolvedVariant {
+  /** Absorbed component name (the `?v=` value); empty for the base Super. */
+  name: string;
+  label: string;
+  /** Group of the absorbed component (its demo/props live here). */
+  group: CnGroup;
+  isBase: boolean;
+}
+
+/**
+ * Variant chips for a Super's docs page: the base component first, then one per
+ * absorbed component (resolved to its real title/group, so its demo + props show).
+ */
+export function getResolvedVariants(meta: CnComponentMeta): ResolvedVariant[] {
+  const base: ResolvedVariant = { name: "", label: meta.title, group: meta.group, isBase: true };
+  const absorbed = (meta.absorbs ?? [])
+    .map((n) => {
+      const cm = getComponentByName(n);
+      return cm ? ({ name: n, label: cm.title, group: cm.group, isBase: false } as ResolvedVariant) : undefined;
+    })
+    .filter((v): v is ResolvedVariant => v !== undefined);
+  return [base, ...absorbed];
+}
+
 export function getGroup(id: string): CnGroupMeta | undefined {
   return CN_GROUPS.find((g) => g.id === id);
 }

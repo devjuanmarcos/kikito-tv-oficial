@@ -1,24 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
-import type { CnVariantMeta } from "@/lib/cn-registry";
+import type { ResolvedVariant } from "@/lib/cn-registry";
 import { cn } from "@/lib/utils";
 
 /**
  * Variant selector shown on a Super component's docs page.
- * Renders one chip per variant; chips deep-link to `?<prop>=<value>`.
- * Variants with status "dev" carry an "Em desenvolvimento" badge.
- * Display + navigation only — per-family demo switching is wired separately.
+ * One chip for the base component + one per absorbed component. Selecting a
+ * chip deep-links to `?v=<name>`; the page then renders that variant's real
+ * demo and props. Pure navigation — state lives in the URL.
  */
-export function CnVariantBar({ variants }: { variants: CnVariantMeta[] }) {
+export function CnVariantBar({ chips, active }: { chips: ResolvedVariant[]; active: string }) {
   const pathname = usePathname();
-  const params = useSearchParams();
 
-  if (!variants.length) return null;
-
-  const activeFor = (v: CnVariantMeta) => params.get(v.prop) === v.value;
+  if (chips.length <= 1) return null;
 
   return (
     <>
@@ -30,7 +27,7 @@ export function CnVariantBar({ variants }: { variants: CnVariantMeta[] }) {
         }
         .cnvb-chip {
           display: inline-flex; align-items: center; gap: 0.375rem;
-          padding: 0.3125rem 0.625rem; border-radius: 999px;
+          padding: 0.3125rem 0.6875rem; border-radius: 999px;
           font-size: 0.75rem; font-weight: 600; line-height: 1; text-decoration: none;
           border: 1px solid var(--ks-rule); color: var(--ks-text-faint);
           background: color-mix(in oklch, var(--ks-lacquer-raised) 70%, transparent);
@@ -42,29 +39,23 @@ export function CnVariantBar({ variants }: { variants: CnVariantMeta[] }) {
           border-color: color-mix(in oklch, var(--ks-primary) 55%, transparent);
           background: color-mix(in oklch, var(--ks-primary) 12%, transparent);
         }
-        .cnvb-dev {
-          font-size: 0.5625rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
-          padding: 0.0625rem 0.3125rem; border-radius: 999px; line-height: 1.5;
-          background: color-mix(in oklch, var(--ks-warning, #b8860b) 20%, transparent);
-          color: var(--ks-warning, #b8860b);
-        }
+        .cnvb-base { font-style: italic; }
       `}</style>
 
       <div className="cnvb" role="group" aria-label="Variantes do componente">
         <span className="cnvb-label">Variantes</span>
-        {variants.map((v) => {
-          const active = activeFor(v);
-          const href = `${pathname}?${encodeURIComponent(v.prop)}=${encodeURIComponent(v.value)}`;
+        {chips.map((c) => {
+          const isActive = c.isBase ? active === "" : active === c.name;
+          const href = c.isBase ? pathname : `${pathname}?v=${encodeURIComponent(c.name)}`;
           return (
             <Link
-              key={`${v.prop}:${v.value}`}
+              key={c.isBase ? "__base__" : c.name}
               href={href}
-              className={cn("cnvb-chip", active && "cnvb-chip--active")}
-              title={v.note}
-              aria-current={active ? "true" : undefined}
+              scroll={false}
+              className={cn("cnvb-chip", c.isBase && "cnvb-base", isActive && "cnvb-chip--active")}
+              aria-current={isActive ? "true" : undefined}
             >
-              {v.label}
-              {v.status === "dev" && <span className="cnvb-dev">Em desenvolvimento</span>}
+              {c.isBase ? `${c.label} (base)` : c.label}
             </Link>
           );
         })}
