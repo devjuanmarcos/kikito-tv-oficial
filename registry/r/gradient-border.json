@@ -1,13 +1,13 @@
 {
   "name": "gradient-border",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Gradient Border",
   "type": "registry:component",
   "description": "Animated gradient border wrapper.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["card"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/gradient-border/GradientBorder.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/gradient-border/GradientBorder.tsx",
-      "content": "﻿import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { GradientBorderProps } from './gradient-border.types'\r\n\r\nconst DEFAULT_COLORS = ['var(--ks-violet)', 'var(--ks-primary)', 'var(--ks-kinpaku)', 'var(--ks-rose)']\r\n\r\nexport function GradientBorder({\r\n  children,\r\n  colors = DEFAULT_COLORS,\r\n  borderWidth = 2,\r\n  borderRadius = 12,\r\n  speed = 3,\r\n  variant = 'spin',\r\n  className,\r\n  style,\r\n}: GradientBorderProps) {\r\n  const gradient = variant === 'spin'\r\n    ? `conic-gradient(from var(--_angle, 0deg), ${colors.join(', ')})`\r\n    : `linear-gradient(135deg, ${colors.join(', ')})`\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .gb-wrap { position: relative; display: inline-flex; }\r\n        .gb-border {\r\n          position: absolute; inset: calc(-1 * var(--_bw, 2px));\r\n          border-radius: calc(var(--_r, 12px) + var(--_bw, 2px));\r\n          background: var(--_gradient);\r\n          z-index: 0;\r\n        }\r\n        .gb-border[data-variant=\"spin\"] {\r\n          animation: gb-spin var(--_speed, 3s) linear infinite;\r\n        }\r\n        .gb-border[data-variant=\"pulse\"] {\r\n          animation: gb-pulse var(--_speed, 3s) ease-in-out infinite;\r\n        }\r\n        @keyframes gb-spin { to { --_angle: 360deg; } }\r\n        @property --_angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }\r\n        @keyframes gb-pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }\r\n        .gb-content { position: relative; z-index: 1; background: var(--ks-raised); }\r\n      `}</style>\r\n      <div\r\n        className={cn('gb-wrap', className)}\r\n        style={{ borderRadius, ...style }}\r\n      >\r\n        <div\r\n          className=\"gb-border\"\r\n          data-variant={variant}\r\n          style={{\r\n            '--_bw': `${borderWidth}px`,\r\n            '--_r': `${borderRadius}px`,\r\n            '--_gradient': gradient,\r\n            '--_speed': `${speed}s`,\r\n          } as React.CSSProperties}\r\n        />\r\n        <div\r\n          className=\"gb-content\"\r\n          style={{ borderRadius: borderRadius - borderWidth }}\r\n        >\r\n          {children}\r\n        </div>\r\n      </div>\r\n    </>\r\n  )\r\n}\r\n"
+      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { GradientBorderProps } from \"./gradient-border.types\";\n\nconst DEFAULT_COLORS = [\"var(--ks-violet)\", \"var(--ks-primary)\", \"var(--ks-kinpaku)\", \"var(--ks-rose)\"];\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"gradient-border\"`). */\nexport function GradientBorder({\n  children,\n  colors = DEFAULT_COLORS,\n  borderWidth = 2,\n  borderRadius = 12,\n  speed = 3,\n  variant = \"spin\",\n  className,\n  style,\n}: GradientBorderProps) {\n  return (\n    <Card\n      effect=\"gradient-border\"\n      colors={colors}\n      borderWidth={borderWidth}\n      borderRadius={borderRadius}\n      speed={speed}\n      gradientVariant={variant}\n      className={className}\n      style={style}\n    >\n      {children}\n    </Card>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/gradient-border/index.ts",

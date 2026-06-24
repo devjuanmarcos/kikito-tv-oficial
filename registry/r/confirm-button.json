@@ -1,6 +1,6 @@
 {
   "name": "confirm-button",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Confirm Button",
   "type": "registry:component",
   "description": "Button with inline confirmation step.",

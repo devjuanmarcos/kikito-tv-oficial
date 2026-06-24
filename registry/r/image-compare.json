@@ -1,6 +1,6 @@
 {
   "name": "image-compare",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Image Compare",
   "type": "registry:component",
   "description": "Before/after image slider.",

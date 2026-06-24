@@ -1,13 +1,13 @@
 {
   "name": "tilt-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Tilt Card",
   "type": "registry:component",
   "description": "Card with 3D perspective tilt on hover.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["card"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/tilt-card/TiltCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/tilt-card/TiltCard.tsx",
-      "content": "'use client'\r\n\r\nimport { useRef } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { TiltCardProps } from './tilt-card.types'\r\n\r\nexport function TiltCard({\r\n  children,\r\n  maxTilt = 15,\r\n  scale = 1.04,\r\n  perspective = 800,\r\n  glare = true,\r\n  className,\r\n  style,\r\n}: TiltCardProps) {\r\n  const innerRef = useRef<HTMLDivElement>(null)\r\n  const glareRef = useRef<HTMLDivElement>(null)\r\n\r\n  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {\r\n    const rect = e.currentTarget.getBoundingClientRect()\r\n    const x = (e.clientX - rect.left) / rect.width - 0.5\r\n    const y = (e.clientY - rect.top) / rect.height - 0.5\r\n    const rotX = y * -maxTilt * 2\r\n    const rotY = x * maxTilt * 2\r\n    if (innerRef.current) {\r\n      innerRef.current.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`\r\n    }\r\n    if (glareRef.current) {\r\n      glareRef.current.style.setProperty('--_gx', `${(x + 0.5) * 100}%`)\r\n      glareRef.current.style.setProperty('--_gy', `${(y + 0.5) * 100}%`)\r\n      glareRef.current.style.opacity = '1'\r\n    }\r\n  }\r\n\r\n  function handleMouseLeave() {\r\n    if (innerRef.current) innerRef.current.style.transform = 'rotateX(0) rotateY(0) scale(1)'\r\n    if (glareRef.current) glareRef.current.style.opacity = '0'\r\n  }\r\n\r\n  return (\r\n    <div\r\n      className={cn('inline-block cursor-pointer', className)}\r\n      style={{ perspective: `${perspective}px`, ...style }}\r\n      onMouseMove={handleMouseMove}\r\n      onMouseLeave={handleMouseLeave}\r\n    >\r\n      <div\r\n        ref={innerRef}\r\n        className=\"relative [transform-style:preserve-3d] transition-[transform] duration-100 ease-out rounded-[inherit] overflow-hidden\"\r\n      >\r\n        {children}\r\n        {glare && (\r\n          <div\r\n            ref={glareRef}\r\n            className=\"absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200\"\r\n            style={{\r\n              background: 'radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), color-mix(in srgb, white 18%, transparent) 0%, transparent 65%)',\r\n            }}\r\n          />\r\n        )}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { TiltCardProps } from \"./tilt-card.types\";\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"tilt\"`). */\nexport function TiltCard({\n  children,\n  maxTilt = 15,\n  scale = 1.04,\n  perspective = 800,\n  glare = true,\n  className,\n  style,\n}: TiltCardProps) {\n  return (\n    <Card\n      effect=\"tilt\"\n      maxTilt={maxTilt}\n      scale={scale}\n      perspective={perspective}\n      glare={glare}\n      className={className}\n      style={style}\n    >\n      {children}\n    </Card>\n  );\n}\n"
     }
   ]
 }

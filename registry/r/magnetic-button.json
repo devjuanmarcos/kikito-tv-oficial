@@ -1,6 +1,6 @@
 {
   "name": "magnetic-button",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Magnetic Button",
   "type": "registry:component",
   "description": "Button with magnetic cursor attraction effect.",
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/magnetic-button/MagneticButton.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/magnetic-button/MagneticButton.tsx",
-      "content": "'use client'\n\nimport { useCallback, useRef } from 'react'\nimport { cn } from '@/lib/utils'\nimport { Button } from '@/components/ui/cn/button'\nimport type { MagneticButtonProps } from './magnetic-button.types'\n\nexport function MagneticButton({\n  children,\n  strength = 0.4,\n  radius = 80,\n  onClick,\n  disabled = false,\n  className,\n  style,\n}: MagneticButtonProps) {\n  const btnRef = useRef<HTMLButtonElement>(null)\n\n  const onMouseMove = useCallback((e: React.MouseEvent) => {\n    const el = btnRef.current\n    if (!el || disabled) return\n    const rect = el.getBoundingClientRect()\n    const cx = rect.left + rect.width / 2\n    const cy = rect.top + rect.height / 2\n    const dx = e.clientX - cx\n    const dy = e.clientY - cy\n    const dist = Math.sqrt(dx * dx + dy * dy)\n    if (dist < radius) {\n      el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`\n    }\n  }, [strength, radius, disabled])\n\n  const onMouseLeave = useCallback(() => {\n    if (btnRef.current)\n      btnRef.current.style.transform = 'translate(0, 0)'\n  }, [])\n\n  return (\n    <span\n      className={cn('inline-flex', className)}\n      style={style}\n      onMouseMove={onMouseMove}\n      onMouseLeave={onMouseLeave}\n    >\n      <Button\n        ref={btnRef}\n        intent=\"primary\"\n        variant=\"solid\"\n        className=\"![transition:background-color,border-color,color,transform_150ms_cubic-bezier(0.2,0.8,0.4,1)]\"\n        disabled={disabled}\n        onClick={onClick}\n      >\n        {children}\n      </Button>\n    </span>\n  )\n}\n"
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/ui/cn/button\";\n\nimport type { MagneticButtonProps } from \"./magnetic-button.types\";\n\n/**\n * MagneticButton — backward-compat wrapper.\n * The magnetic physics now live in the Super `Button` (effect=\"magnetic\").\n * This thin wrapper preserves the original API and visual.\n */\nexport function MagneticButton({\n  children,\n  strength = 0.4,\n  radius = 80,\n  onClick,\n  disabled = false,\n  className,\n  style,\n}: MagneticButtonProps) {\n  return (\n    <Button\n      effect=\"magnetic\"\n      intent=\"primary\"\n      variant=\"solid\"\n      magneticStrength={strength}\n      magneticRadius={radius}\n      onClick={onClick}\n      disabled={disabled}\n      className={className}\n      style={style}\n    >\n      {children}\n    </Button>\n  );\n}\n"
     }
   ]
 }

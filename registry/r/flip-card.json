@@ -1,6 +1,6 @@
 {
   "name": "flip-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Flip Card",
   "type": "registry:component",
   "description": "3D flip card with front and back faces.",

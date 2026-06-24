@@ -10,7 +10,7 @@ const cwd = process.cwd();
 const program = new Command()
   .name("kikitocn")
   .description("Install Kikito CN components in your project")
-  .version("1.0.0", "-v, --version");
+  .version("1.1.0", "-v, --version");
 
 // ── init ─────────────────────────────────────────────────────────────────────
 program

@@ -1,6 +1,6 @@
 {
   "name": "inline-edit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Inline Edit",
   "type": "registry:component",
   "description": "Click-to-edit inline text field.",

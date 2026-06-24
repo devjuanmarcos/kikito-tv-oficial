@@ -1,13 +1,13 @@
 {
   "name": "glass-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Glass Card",
   "type": "registry:component",
   "description": "Frosted-glass card effect.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["card"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/glass-card/GlassCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/glass-card/GlassCard.tsx",
-      "content": "﻿import React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { GlassCardProps } from \"./glass-card.types\";\n\nexport function GlassCard({ children, blur = 12, opacity = 0.1, border = true, className, style }: GlassCardProps) {\n  return (\n    <div\n      className={cn(\"rounded-(--radius-lg) overflow-hidden\", className)}\n      style={{\n        background: `color-mix(in srgb, var(--ks-lacquer-raised) ${Math.round(opacity * 100)}%, transparent)`,\n        backdropFilter: `blur(${blur}px)`,\n        WebkitBackdropFilter: `blur(${blur}px)`,\n        border: border ? \"1px solid color-mix(in srgb, var(--ks-lacquer-raised) 20%, transparent)\" : \"none\",\n        ...style,\n      }}\n    >\n      {children}\n    </div>\n  );\n}\n"
+      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { GlassCardProps } from \"./glass-card.types\";\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"glass\"`). */\nexport function GlassCard({ blur = 12, opacity = 0.1, border = true, className, style, children }: GlassCardProps) {\n  return (\n    <Card effect=\"glass\" blur={blur} opacity={opacity} border={border} className={className} style={style}>\n      {children}\n    </Card>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/glass-card/index.ts",

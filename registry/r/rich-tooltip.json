@@ -1,13 +1,13 @@
 {
   "name": "rich-tooltip",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Rich Tooltip",
   "type": "registry:component",
   "description": "Tooltip with rich content and image.",
   "group": "overlay",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["tooltip"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/rich-tooltip/RichTooltip.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/rich-tooltip/RichTooltip.tsx",
-      "content": "'use client'\r\nimport React, { useState, cloneElement } from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { RichTooltipProps } from './rich-tooltip.types'\r\n\r\nexport function RichTooltip({\r\n  title,\r\n  content,\r\n  icon,\r\n  action,\r\n  placement = 'top',\r\n  maxWidth = 240,\r\n  children,\r\n  className,\r\n}: RichTooltipProps) {\r\n  const [open, setOpen] = useState(false)\r\n\r\n  return (\r\n    <>\r\n      <style>{`\r\n        .rt-wrap { position: relative; display: inline-flex; }\r\n        .rt-bubble {\r\n          position: absolute; z-index: 50;\r\n          pointer-events: none; opacity: 0;\r\n          transform: scale(0.95) translateY(4px);\r\n          transition: opacity 0.15s, transform 0.15s;\r\n        }\r\n        .rt-bubble[data-open=\"true\"] {\r\n          opacity: 1; transform: scale(1) translateY(0); pointer-events: auto;\r\n        }\r\n        .rt-bubble[data-placement=\"top\"]    { bottom: calc(100% + 8px); left: 50%; translate: -50% 0; }\r\n        .rt-bubble[data-placement=\"bottom\"] { top: calc(100% + 8px); left: 50%; translate: -50% 0; }\r\n        .rt-bubble[data-placement=\"left\"]   { right: calc(100% + 8px); top: 50%; translate: 0 -50%; }\r\n        .rt-bubble[data-placement=\"right\"]  { left: calc(100% + 8px); top: 50%; translate: 0 -50%; }\r\n      `}</style>\r\n      <span\r\n        className={cn('rt-wrap', className)}\r\n        onMouseEnter={() => setOpen(true)}\r\n        onMouseLeave={() => setOpen(false)}\r\n        onFocus={() => setOpen(true)}\r\n        onBlur={() => setOpen(false)}\r\n      >\r\n        {cloneElement(children)}\r\n        <span\r\n          className=\"rt-bubble bg-raised border border-rule rounded-[--radius] shadow-lg p-3 flex flex-col gap-2\"\r\n          data-open={open}\r\n          data-placement={placement}\r\n          style={{ maxWidth }}\r\n          role=\"tooltip\"\r\n        >\r\n          {(title || icon) && (\r\n            <div className=\"flex items-center gap-2\">\r\n              {icon && <span className=\"text-patina shrink-0 [&>svg]:w-4 [&>svg]:h-4\">{icon}</span>}\r\n              {title && <span className=\"text-body-callout font-semibold text-foreground leading-snug\">{title}</span>}\r\n            </div>\r\n          )}\r\n          <div className=\"text-body-callout text-muted leading-relaxed\">{content}</div>\r\n          {action && (\r\n            <button\r\n              className=\"text-body-callout text-patina font-semibold text-left hover:underline bg-transparent border-none p-0 cursor-pointer font-[inherit]\"\r\n              onClick={action.onClick}\r\n            >\r\n              {action.label}\r\n            </button>\r\n          )}\r\n        </span>\r\n      </span>\r\n    </>\r\n  )\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * RichTooltip — backward-compat wrapper.\n * Absorbed by the Tooltip Super component (`<Tooltip variant=\"rich\" />`). Kept so\n * existing imports of `RichTooltip` keep working; new code should use Tooltip directly.\n */\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\n\nimport type { RichTooltipProps } from \"./rich-tooltip.types\";\n\nexport function RichTooltip(props: RichTooltipProps) {\n  return <Tooltip variant=\"rich\" {...props} />;\n}\n"
     }
   ]
 }

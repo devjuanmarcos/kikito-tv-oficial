@@ -1,6 +1,6 @@
 {
   "name": "scroll-area",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Scroll Area",
   "type": "registry:component",
   "description": "Overflow container with styled scrollbar.",

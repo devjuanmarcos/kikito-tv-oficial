@@ -1,6 +1,6 @@
 {
   "name": "code-diff",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Code Diff",
   "type": "registry:component",
   "description": "Side-by-side or inline code diff.",

@@ -1,6 +1,6 @@
 {
   "name": "color-picker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Color Picker",
   "type": "registry:component",
   "description": "Visual color selection with hex/rgb/hsl support.",

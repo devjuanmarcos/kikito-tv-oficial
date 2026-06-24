@@ -1,13 +1,13 @@
 {
   "name": "cn-source-block",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Cn Source Block",
   "type": "registry:component",
   "description": "Cn Source Block component.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["code-block"],
+  "registryDependencies": [],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -17,7 +17,7 @@
       "path": "components/ui/cn/cn-source-block/CnSourceBlock.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/cn-source-block/CnSourceBlock.tsx",
-      "content": "\"use client\";\n\nimport { useState } from \"react\";\n\nimport { CodeBlock } from \"@/components/ui/cn/code-block\";\n\ninterface CnSourceBlockProps {\n  source: string;\n  filename?: string;\n}\n\nconst PREVIEW_LINES = 18;\n\nexport function CnSourceBlock({ source, filename }: CnSourceBlockProps) {\n  const [expanded, setExpanded] = useState(false);\n\n  const lines = source.split(\"\\n\");\n  const isLong = lines.length > PREVIEW_LINES;\n  const displaySource = expanded || !isLong ? source : lines.slice(0, PREVIEW_LINES).join(\"\\n\");\n\n  return (\n    <div data-testid=\"cn-source-block\" className=\"relative\">\n      <div className=\"flex items-center justify-between mb-2\">\n        <span className=\"text-body-caption font-semibold text-foreground\">Código-fonte</span>\n        {filename && <span className=\"text-body-caption font-mono text-faint\">{filename}</span>}\n      </div>\n\n      <div className=\"relative\">\n        <CodeBlock code={displaySource} filename={filename} language=\"tsx\" showLineNumbers />\n\n        {isLong && !expanded && (\n          <div className=\"absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-graphite to-transparent rounded-b-(--radius-md) pointer-events-none\" />\n        )}\n      </div>\n\n      {isLong && (\n        <button\n          type=\"button\"\n          data-testid=\"cn-source-toggle\"\n          onClick={() => setExpanded((e) => !e)}\n          className=\"mt-2 w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-(--radius-sm) border border-rule bg-graphite hover:bg-raised text-faint hover:text-foreground transition-colors text-body-caption\"\n        >\n          <svg\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            strokeWidth=\"2\"\n            aria-hidden\n            className={`w-3.5 h-3.5 transition-transform duration-200 ${expanded ? \"rotate-180\" : \"\"}`}\n          >\n            <polyline points=\"6 9 12 15 18 9\" />\n          </svg>\n          {expanded ? `Recolher (${lines.length} linhas)` : `Ver código completo (${lines.length} linhas)`}\n        </button>\n      )}\n    </div>\n  );\n}\n"
+      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\n\ninterface CnSourceBlockProps {\n  source: string;\n  filename?: string;\n}\n\nexport async function CnSourceBlock({ source, filename }: CnSourceBlockProps) {\n  return (\n    <div data-testid=\"cn-source-block\">\n      <div className=\"flex items-center justify-between mb-2\">\n        <span className=\"text-body-caption font-semibold text-foreground\">Código-fonte</span>\n        {filename && <span className=\"text-body-caption font-mono text-faint\">{filename}</span>}\n      </div>\n      <KkCodeBlock code={source} lang=\"tsx\" filename={filename} showLineNumbers maxHeight={480} />\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/cn-source-block/index.ts",

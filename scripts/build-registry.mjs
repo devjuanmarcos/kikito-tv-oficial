@@ -19,7 +19,7 @@ const ROOT = path.resolve(__dirname, "..");
 const CN_DIR = path.join(ROOT, "src", "components", "ui", "cn");
 const OUT_DIR = path.join(ROOT, "registry");
 const TOKENS_SRC = path.join(ROOT, "src", "styles", "kikitocn-tokens.css");
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

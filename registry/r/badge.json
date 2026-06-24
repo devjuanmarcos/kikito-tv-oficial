@@ -1,6 +1,6 @@
 {
   "name": "badge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Badge",
   "type": "registry:component",
   "description": "Status and label badges with variants and intents.",

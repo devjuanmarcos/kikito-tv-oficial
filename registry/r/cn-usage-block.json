@@ -1,0 +1,29 @@
+{
+  "name": "cn-usage-block",
+  "version": "1.1.0",
+  "title": "Cn Usage Block",
+  "type": "registry:component",
+  "description": "Cn Usage Block component.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/cn-usage-block",
+  "files": [
+    {
+      "path": "components/ui/cn/cn-usage-block/CnUsageBlock.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/cn-usage-block/CnUsageBlock.tsx",
+      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\nimport { generateUsage } from \"@/lib/cn-registry\";\nimport type { CnComponentMeta } from \"@/lib/cn-registry\";\nimport { COMPONENT_USAGE } from \"@/lib/cn-usage\";\n\ninterface CnUsageBlockProps {\n  meta: CnComponentMeta;\n}\n\nexport function CnUsageBlock({ meta }: CnUsageBlockProps) {\n  const code = generateUsage(meta, COMPONENT_USAGE);\n\n  return (\n    <div data-testid=\"cn-usage-block\">\n      <div className=\"mb-2\">\n        <span className=\"text-body-caption font-semibold text-foreground\">Exemplo de uso</span>\n      </div>\n      <KkCodeBlock code={code} lang=\"tsx\" filename={`${meta.title}Example.tsx`} showLineNumbers />\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/cn-usage-block/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/cn-usage-block/index.ts",
+      "content": "export { CnUsageBlock } from \"./CnUsageBlock\";\n"
+    }
+  ]
+}

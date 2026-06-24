@@ -1,6 +1,6 @@
 {
   "name": "radar-chart",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Radar Chart",
   "type": "registry:component",
   "description": "Multi-axis radar/spider chart.",

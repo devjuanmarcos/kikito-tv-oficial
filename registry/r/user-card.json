@@ -1,6 +1,6 @@
 {
   "name": "user-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "User Card",
   "type": "registry:component",
   "description": "User profile card with avatar and info.",

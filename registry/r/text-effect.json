@@ -1,0 +1,29 @@
+{
+  "name": "text-effect",
+  "version": "1.1.0",
+  "title": "Text Effect",
+  "type": "registry:component",
+  "description": "Text Effect component.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": ["animated-number", "morphing-text", "text-gradient", "typewriter"],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/text-effect",
+  "files": [
+    {
+      "path": "components/ui/cn/text-effect/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-effect/index.ts",
+      "content": "export { TextEffect } from \"./TextEffect\";\nexport type { TextEffectProps, TextEffectType } from \"./TextEffect\";\n"
+    },
+    {
+      "path": "components/ui/cn/text-effect/TextEffect.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/text-effect/TextEffect.tsx",
+      "content": "\"use client\";\n/**\n * TextEffect — Super component.\n * Single catalog entry that dispatches by `effect` to the dedicated animated-text\n * renderers (typewriter/morph/gradient/number). The renderers are unchanged —\n * TextEffect only routes props, so each effect keeps its exact behavior.\n * The individual components remain importable (backward-compat).\n */\nimport { AnimatedNumber } from \"@/components/ui/cn/animated-number\";\nimport type { AnimatedNumberProps } from \"@/components/ui/cn/animated-number\";\nimport { MorphingText } from \"@/components/ui/cn/morphing-text\";\nimport type { MorphingTextProps } from \"@/components/ui/cn/morphing-text\";\nimport { TextGradient } from \"@/components/ui/cn/text-gradient\";\nimport type { TextGradientProps } from \"@/components/ui/cn/text-gradient\";\nimport { Typewriter } from \"@/components/ui/cn/typewriter\";\nimport type { TypewriterProps } from \"@/components/ui/cn/typewriter\";\n\nexport type TextEffectType = \"typewriter\" | \"morph\" | \"gradient\" | \"number\";\n\nexport type TextEffectProps =\n  | ({ effect?: \"typewriter\" } & TypewriterProps)\n  | ({ effect: \"morph\" } & MorphingTextProps)\n  | ({ effect: \"gradient\" } & TextGradientProps)\n  | ({ effect: \"number\" } & AnimatedNumberProps);\n\nexport function TextEffect(props: TextEffectProps) {\n  switch (props.effect) {\n    case \"morph\": {\n      const { effect: _e, ...rest } = props;\n      return <MorphingText {...rest} />;\n    }\n    case \"gradient\": {\n      const { effect: _e, ...rest } = props;\n      return <TextGradient {...rest} />;\n    }\n    case \"number\": {\n      const { effect: _e, ...rest } = props;\n      return <AnimatedNumber {...rest} />;\n    }\n    default: {\n      const { effect: _e, ...rest } = props;\n      return <Typewriter {...rest} />;\n    }\n  }\n}\n"
+    }
+  ]
+}

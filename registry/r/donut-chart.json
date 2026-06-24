@@ -1,6 +1,6 @@
 {
   "name": "donut-chart",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Donut Chart",
   "type": "registry:component",
   "description": "Donut/pie chart.",

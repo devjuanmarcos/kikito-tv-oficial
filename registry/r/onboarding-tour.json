@@ -1,6 +1,6 @@
 {
   "name": "onboarding-tour",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Onboarding Tour",
   "type": "registry:component",
   "description": "Step-by-step product tour overlay.",

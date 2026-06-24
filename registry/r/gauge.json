@@ -1,13 +1,13 @@
 {
   "name": "gauge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Gauge",
   "type": "registry:component",
   "description": "Arc gauge meter.",
   "group": "charts",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["progress"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -17,7 +17,7 @@
       "path": "components/ui/cn/gauge/Gauge.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/gauge/Gauge.tsx",
-      "content": "﻿import { cn } from '@/lib/utils'\r\nimport type { GaugeProps } from './gauge.types'\r\n\r\nconst INTENT_COLOR: Record<string, string> = {\r\n  default: 'var(--ks-text-muted)',\r\n  primary: 'var(--ks-primary)',\r\n  success: 'var(--ks-success)',\r\n  warning: 'var(--ks-warning)',\r\n  danger:  'var(--ks-danger)',\r\n}\r\n\r\nconst SIZE_VARS: Record<string, { sz: string; fsz: string }> = {\r\n  sm: { sz: '64px',  fsz: '12px' },\r\n  md: { sz: '96px',  fsz: '16px' },\r\n  lg: { sz: '128px', fsz: '20px' },\r\n}\r\n\r\nexport function Gauge({\r\n  value,\r\n  max         = 100,\r\n  size        = 'md',\r\n  intent      = 'primary',\r\n  label,\r\n  showValue   = true,\r\n  strokeWidth,\r\n  className,\r\n  style,\r\n}: GaugeProps) {\r\n  const pct           = Math.max(0, Math.min(value / max, 1))\r\n  const radius        = 44\r\n  const circumference = 2 * Math.PI * radius\r\n  const sw            = strokeWidth ?? (size === 'sm' ? 6 : size === 'lg' ? 10 : 8)\r\n  const offset        = circumference * (1 - pct)\r\n  const displayValue  = Number.isInteger(value) ? value : value.toFixed(1)\r\n  const displayMax    = Number.isInteger(max) ? max : max.toFixed(1)\r\n  const c             = INTENT_COLOR[intent] ?? INTENT_COLOR.primary\r\n  const sz            = SIZE_VARS[size] ?? SIZE_VARS.md\r\n\r\n  return (\r\n    <div className={cn('inline-flex flex-col items-center gap-[6px]', className)} style={style}>\r\n      <div className=\"relative inline-flex items-center justify-center\" style={{ width: sz.sz, height: sz.sz }}>\r\n        <svg className=\"-rotate-90\" viewBox=\"0 0 100 100\" style={{ width: sz.sz, height: sz.sz }}>\r\n          <circle\r\n            cx=\"50\" cy=\"50\" r={radius} strokeWidth={sw}\r\n            style={{ fill: 'none', stroke: `color-mix(in srgb, ${c} 15%, transparent)` }}\r\n          />\r\n          <circle\r\n            cx=\"50\" cy=\"50\" r={radius} strokeWidth={sw}\r\n            strokeLinecap=\"round\"\r\n            strokeDasharray={circumference}\r\n            strokeDashoffset={offset}\r\n            style={{ fill: 'none', stroke: c, transition: 'stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1)' }}\r\n          />\r\n        </svg>\r\n        {showValue && (\r\n          <div className=\"absolute flex flex-col items-center justify-center\">\r\n            <span className=\"font-bold text-foreground leading-none\" style={{ fontSize: sz.fsz }}>{displayValue}</span>\r\n            {max !== 100 && <span style={{ fontSize: 10, opacity: 0.4 }}>/{displayMax}</span>}\r\n          </div>\r\n        )}\r\n      </div>\r\n      {label && <span className=\"text-body-caption text-muted\">{label}</span>}\r\n    </div>\r\n  )\r\n}\r\n"
+      "content": "import { Progress } from \"../progress/Progress\";\n\nimport type { GaugeProps } from \"./gauge.types\";\n\n/**\n * Gauge — backward-compat wrapper over the Super `Progress` component.\n * Delegates to `<Progress shape=\"gauge\" />`. Prefer importing `Progress` directly.\n */\nexport function Gauge(props: GaugeProps) {\n  return <Progress shape=\"gauge\" {...props} />;\n}\n"
     },
     {
       "path": "components/ui/cn/gauge/gauge.types.ts",

@@ -1,6 +1,6 @@
 {
   "name": "media-player",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Media Player",
   "type": "registry:component",
   "description": "Custom HTML5 video/audio player.",

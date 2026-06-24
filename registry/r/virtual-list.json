@@ -1,6 +1,6 @@
 {
   "name": "virtual-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Virtual List",
   "type": "registry:component",
   "description": "Virtualized list for large datasets.",

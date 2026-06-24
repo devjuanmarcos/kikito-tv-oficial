@@ -1,6 +1,6 @@
 {
   "name": "bento-grid",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Bento Grid",
   "type": "registry:component",
   "description": "Responsive CSS grid for feature showcases.",

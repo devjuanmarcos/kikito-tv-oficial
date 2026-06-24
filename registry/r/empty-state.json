@@ -1,6 +1,6 @@
 {
   "name": "empty-state",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Empty State",
   "type": "registry:component",
   "description": "Empty content placeholder with action.",

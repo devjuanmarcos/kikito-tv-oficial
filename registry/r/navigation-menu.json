@@ -1,6 +1,6 @@
 {
   "name": "navigation-menu",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Navigation Menu",
   "type": "registry:component",
   "description": "Horizontal nav with dropdowns.",

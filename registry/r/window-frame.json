@@ -1,6 +1,6 @@
 {
   "name": "window-frame",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Window Frame",
   "type": "registry:component",
   "description": "Browser/OS window chrome wrapper.",

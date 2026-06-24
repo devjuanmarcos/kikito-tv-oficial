@@ -1,6 +1,6 @@
 {
   "name": "funnel-chart",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Funnel Chart",
   "type": "registry:component",
   "description": "Funnel/conversion chart.",

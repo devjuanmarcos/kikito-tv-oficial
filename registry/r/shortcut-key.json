@@ -1,13 +1,13 @@
 {
   "name": "shortcut-key",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Shortcut Key",
   "type": "registry:component",
   "description": "Keyboard shortcut display.",
   "group": "navigation",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["kbd"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/shortcut-key/ShortcutKey.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/shortcut-key/ShortcutKey.tsx",
-      "content": "import React from 'react'\r\nimport { cn } from '@/lib/utils'\r\nimport type { ShortcutKeyProps } from './shortcut-key.types'\r\n\r\nconst SPECIAL: Record<string, string> = {\r\n  cmd:       '⌘',\r\n  ctrl:      '⌃',\r\n  alt:       '⌥',\r\n  opt:       '⌥',\r\n  shift:     '⇧',\r\n  enter:     '↵',\r\n  return:    '↵',\r\n  delete:    '⌫',\r\n  backspace: '⌫',\r\n  up:        '↑',\r\n  down:      '↓',\r\n  left:      '←',\r\n  right:     '→',\r\n  esc:       'Esc',\r\n  tab:       '⇥',\r\n  space:     '␣',\r\n}\r\n\r\nconst SIZE_CLASSES = {\r\n  sm: 'text-body-caption px-1 py-0.5',\r\n  md: 'text-body-caption px-1.5 py-0.5',\r\n  lg: 'text-body-callout px-2 py-1',\r\n}\r\n\r\nexport function ShortcutKey({\r\n  keys,\r\n  size = 'md',\r\n  variant = 'default',\r\n  className,\r\n  style,\r\n}: ShortcutKeyProps) {\r\n  const formatted = keys.map(k => SPECIAL[k.toLowerCase()] ?? k.toUpperCase())\r\n\r\n  return (\r\n    <span className={cn('inline-flex items-center gap-0.5', className)} style={style}>\r\n      {formatted.map((k, i) => (\r\n        <React.Fragment key={i}>\r\n          {i > 0 && <span className=\"text-faint text-body-caption px-0.5\">+</span>}\r\n          <kbd\r\n            className={cn(\r\n              'inline-flex items-center justify-center rounded font-mono font-bold leading-none',\r\n              SIZE_CLASSES[size],\r\n              variant === 'default'\r\n                ? 'border border-rule bg-raised text-muted shadow-[0_1px_0_var(--ks-rule)]'\r\n                : 'bg-graphite text-foreground'\r\n            )}\r\n          >\r\n            {k}\r\n          </kbd>\r\n        </React.Fragment>\r\n      ))}\r\n    </span>\r\n  )\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * ShortcutKey — backward-compat wrapper.\n * Absorbed by Kbd's KbdSequence (`<KbdSequence symbols separator=\"+\" />`), which\n * maps special key names to symbols. New code should use KbdSequence directly.\n */\nimport { KbdSequence } from \"@/components/ui/cn/kbd\";\n\nimport type { ShortcutKeyProps } from \"./shortcut-key.types\";\n\nexport function ShortcutKey({ keys, size = \"md\", variant = \"default\", className, style }: ShortcutKeyProps) {\n  return (\n    <span className={className} style={style}>\n      <KbdSequence keys={keys} symbols separator=\"+\" size={size} variant={variant === \"filled\" ? \"solid\" : \"default\"} />\n    </span>\n  );\n}\n"
     }
   ]
 }

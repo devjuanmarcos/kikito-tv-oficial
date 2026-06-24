@@ -1,6 +1,6 @@
 {
   "name": "carousel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Carousel",
   "type": "registry:component",
   "description": "Touch-friendly image and content carousel.",

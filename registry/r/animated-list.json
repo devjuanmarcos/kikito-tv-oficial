@@ -1,6 +1,6 @@
 {
   "name": "animated-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Animated List",
   "type": "registry:component",
   "description": "List with staggered entrance animations.",

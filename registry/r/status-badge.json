@@ -1,6 +1,6 @@
 {
   "name": "status-badge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Status Badge",
   "type": "registry:component",
   "description": "Animated status indicator dot.",

@@ -1,6 +1,6 @@
 {
   "name": "price-table",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Price Table",
   "type": "registry:component",
   "description": "Full pricing comparison table.",

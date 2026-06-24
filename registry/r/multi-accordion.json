@@ -1,6 +1,6 @@
 {
   "name": "multi-accordion",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Multi Accordion",
   "type": "registry:component",
   "description": "Multiple independently expandable accordions.",

@@ -1,6 +1,6 @@
 {
   "name": "dot-stepper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Dot Stepper",
   "type": "registry:component",
   "description": "Dot-indicator step progress.",

@@ -1,6 +1,6 @@
 {
   "name": "pricing-toggle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Pricing Toggle",
   "type": "registry:component",
   "description": "Monthly/annual pricing toggle.",

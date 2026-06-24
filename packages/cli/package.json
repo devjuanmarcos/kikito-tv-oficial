@@ -1,7 +1,7 @@
 {
   "name": "kikitocn",
-  "version": "1.0.2",
-  "description": "CLI to install Kikito CN components — 196+ animated React components for Next.js and Vite with Tailwind CSS v4",
+  "version": "1.1.0",
+  "description": "CLI to install Kikito CN components — 199+ animated React components for Next.js and Vite with Tailwind CSS v4",
   "keywords": [
     "kikito",
     "ui",
