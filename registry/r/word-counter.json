@@ -1,6 +1,6 @@
 {
   "name": "word-counter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Word Counter",
   "type": "registry:component",
   "description": "Textarea with real-time word and character count.",

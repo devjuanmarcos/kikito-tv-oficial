@@ -1,6 +1,6 @@
 {
   "name": "radio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Radio",
   "type": "registry:component",
   "description": "Radio button group with label and description.",

@@ -199,6 +199,12 @@
   --color-patina-soft: var(--ks-patina-soft);
   --color-patina-soft-fg: var(--ks-patina-soft-fg);
 
+  /* Semantic aliases: primary / secondary (used by bg-primary, bg-secondary, etc.) */
+  --color-primary: var(--ks-primary);
+  --color-primary-fg: var(--ks-primary-fg);
+  --color-secondary: var(--ks-secondary);
+  --color-secondary-fg: var(--ks-secondary-fg);
+
   /* Kinpaku */
   --color-kinpaku: var(--ks-kinpaku);
   --color-kinpaku-fg: var(--ks-kinpaku-fg);

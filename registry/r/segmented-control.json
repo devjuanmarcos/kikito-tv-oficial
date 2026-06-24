@@ -1,13 +1,13 @@
 {
   "name": "segmented-control",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Segmented Control",
   "type": "registry:component",
   "description": "Pill-style option picker.",
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["toggle-group"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/segmented-control/SegmentedControl.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/segmented-control/SegmentedControl.tsx",
-      "content": "﻿\"use client\";\nimport type React from \"react\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport interface SegmentedControlOption<T extends string = string> {\n  value: T;\n  label: React.ReactNode;\n  disabled?: boolean;\n}\n\nexport interface SegmentedControlProps<T extends string = string> {\n  options: SegmentedControlOption<T>[];\n  value?: T;\n  defaultValue?: T;\n  onChange?: (value: T) => void;\n  size?: \"sm\" | \"md\" | \"lg\";\n  fullWidth?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst SIZE_WRAP: Record<string, string> = {\n  sm: \"p-0.5 gap-0.5 rounded-(--radius-sm)\",\n  md: \"p-[3px] gap-[3px] rounded-(--radius-md)\",\n  lg: \"p-1 gap-1 rounded-(--radius-md)\",\n};\nconst SIZE_BTN: Record<string, string> = {\n  sm: \"h-6  px-2.5 text-[0.6875rem] rounded-[calc(var(--radius-sm)-2px)]\",\n  md: \"h-7  px-3   text-body-caption rounded-[calc(var(--radius-md)-3px)]\",\n  lg: \"h-8  px-4   text-body-callout rounded-[calc(var(--radius-md)-4px)]\",\n};\n\nexport function SegmentedControl<T extends string = string>({\n  options,\n  value,\n  defaultValue,\n  onChange,\n  size = \"md\",\n  fullWidth = false,\n  className,\n  style,\n}: SegmentedControlProps<T>) {\n  const isControlled = value !== undefined;\n  const [internal, setInternal] = useState<T | undefined>(defaultValue);\n  const active = isControlled ? value : internal;\n\n  function select(v: T) {\n    if (!isControlled) setInternal(v);\n    onChange?.(v);\n  }\n\n  return (\n    <div\n      role=\"group\"\n      style={style}\n      className={cn(\n        \"inline-flex bg-graphite-2 border border-rule\",\n        SIZE_WRAP[size],\n        fullWidth && \"flex w-full\",\n        className\n      )}\n    >\n      {options.map((opt) => {\n        const isActive = active === opt.value;\n        return (\n          <button\n            key={opt.value}\n            type=\"button\"\n            disabled={opt.disabled}\n            onClick={() => !opt.disabled && select(opt.value)}\n            className={cn(\n              \"inline-flex items-center justify-center font-medium transition-[background,color,box-shadow] duration-[120ms] select-none\",\n              SIZE_BTN[size],\n              fullWidth && \"flex-1\",\n              isActive\n                ? \"bg-raised text-foreground shadow-[0_1px_3px_-1px_oklch(0%_0_0/0.25),0_0_0_1px_var(--ks-rule)]\"\n                : \"text-faint hover:text-foreground\",\n              opt.disabled && \"opacity-40 cursor-not-allowed\"\n            )}\n            aria-pressed={isActive}\n          >\n            {opt.label}\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n"
+      "content": "\"use client\";\n/**\n * SegmentedControl — backward-compat wrapper.\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"segmented\" />`).\n * Kept so existing imports of `SegmentedControl` keep working; new code should use\n * ToggleGroup directly.\n */\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\nimport type { ToggleGroupSegmentedProps, SegmentedControlOption } from \"@/components/ui/cn/toggle-group/ToggleGroup\";\n\nexport type { SegmentedControlOption };\n\nexport type SegmentedControlProps<T extends string = string> = Omit<ToggleGroupSegmentedProps<T>, \"variant\">;\n\nexport function SegmentedControl<T extends string = string>(props: SegmentedControlProps<T>) {\n  return <ToggleGroup variant=\"segmented\" {...(props as ToggleGroupSegmentedProps<string>)} />;\n}\n"
     }
   ]
 }

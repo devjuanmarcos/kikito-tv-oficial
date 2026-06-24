@@ -1,6 +1,6 @@
 {
   "name": "note-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Note Card",
   "type": "registry:component",
   "description": "Sticky-note style card.",

@@ -1,13 +1,13 @@
 {
   "name": "chip-group",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Chip Group",
   "type": "registry:component",
   "description": "Multi-select tag-style chip group.",
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["toggle-group"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -17,7 +17,7 @@
       "path": "components/ui/cn/chip-group/ChipGroup.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/chip-group/ChipGroup.tsx",
-      "content": "'use client'\nimport type React from 'react'\nimport { useState } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type ChipGroupIntent = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'\nexport type ChipGroupSize   = 'sm' | 'md' | 'lg'\n\nexport interface ChipGroupChip {\n  id:        string\n  label:     string\n  icon?:     React.ReactNode\n  disabled?: boolean\n}\n\nexport interface ChipGroupProps {\n  chips:        ChipGroupChip[]\n  value?:       string[]\n  defaultValue?: string[]\n  onChange?:    (value: string[]) => void\n  multiSelect?: boolean\n  intent?:      ChipGroupIntent\n  size?:        ChipGroupSize\n  className?:   string\n  style?:       React.CSSProperties\n}\n\nconst SIZE_CLS: Record<ChipGroupSize, string> = {\n  sm: 'h-7  px-2.5 text-[0.7rem] gap-1   rounded-md',\n  md: 'h-8  px-3   text-[0.75rem] gap-1.5 rounded-lg',\n  lg: 'h-10 px-4   text-sm gap-2  rounded-lg',\n}\n\nconst INTENT_ACTIVE: Record<ChipGroupIntent, string> = {\n  primary:   'bg-patina text-patina-fg border-patina',\n  secondary: 'bg-kinpaku text-kinpaku-fg border-kinpaku',\n  success:   'bg-success text-success-fg border-success',\n  warning:   'bg-warning text-warning-fg border-warning',\n  danger:    'bg-danger text-danger-fg border-danger',\n  info:      'bg-info text-info-fg border-info',\n  neutral:   'bg-raised text-foreground border-foreground/30',\n}\n\nexport function ChipGroup({\n  chips,\n  value,\n  defaultValue = [],\n  onChange,\n  multiSelect = true,\n  intent      = 'primary',\n  size        = 'md',\n  className,\n  style,\n}: ChipGroupProps) {\n  const isControlled = value !== undefined\n  const [internal, setInternal] = useState<string[]>(defaultValue)\n  const selected = isControlled ? value! : internal\n\n  function toggle(id: string) {\n    let next: string[]\n    if (multiSelect) {\n      next = selected.includes(id)\n        ? selected.filter(v => v !== id)\n        : [...selected, id]\n    } else {\n      next = selected[0] === id ? [] : [id]\n    }\n    if (!isControlled) setInternal(next)\n    onChange?.(next)\n  }\n\n  return (\n    <div style={style} role=\"group\" className={cn('flex flex-wrap gap-2', className)}>\n      {chips.map(chip => {\n        const active = selected.includes(chip.id)\n        return (\n          <button\n            key={chip.id}\n            type=\"button\"\n            disabled={chip.disabled}\n            aria-pressed={active}\n            onClick={() => toggle(chip.id)}\n            className={cn(\n              'inline-flex items-center border font-medium select-none',\n              'transition-[background,color,border-color,opacity] duration-[100ms]',\n              SIZE_CLS[size],\n              active\n                ? INTENT_ACTIVE[intent]\n                : 'bg-transparent text-faint border-rule hover:border-foreground/30 hover:text-foreground',\n              chip.disabled && 'opacity-40 pointer-events-none',\n            )}\n          >\n            {chip.icon && <span className=\"leading-none\">{chip.icon}</span>}\n            {chip.label}\n          </button>\n        )\n      })}\n    </div>\n  )\n}\n"
+      "content": "\"use client\";\n/**\n * ChipGroup — backward-compat wrapper.\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"chip\" />`).\n * Kept so existing imports of `ChipGroup` keep working; new code should use\n * ToggleGroup directly.\n */\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\nimport type {\n  ToggleGroupChipProps,\n  ChipGroupChip,\n  ChipGroupIntent,\n  ChipGroupSize,\n} from \"@/components/ui/cn/toggle-group/ToggleGroup\";\n\nexport type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };\n\nexport type ChipGroupProps = Omit<ToggleGroupChipProps, \"variant\">;\n\nexport function ChipGroup(props: ChipGroupProps) {\n  return <ToggleGroup variant=\"chip\" {...props} />;\n}\n"
     },
     {
       "path": "components/ui/cn/chip-group/index.ts",

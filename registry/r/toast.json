@@ -1,6 +1,6 @@
 {
   "name": "toast",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Toast",
   "type": "registry:component",
   "description": "Toast notification system with context API.",

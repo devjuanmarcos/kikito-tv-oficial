@@ -3,11 +3,11 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-06-22T23:35:28.814Z",
+  "generatedAt": "2026-06-24T14:21:56.141Z",
   "items": [
     {
       "name": "accordion",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Accordion",
       "type": "registry:component",
       "description": "Collapsible content sections with animated transitions.",
@@ -18,7 +18,7 @@
     },
     {
       "name": "accordion-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Accordion Group",
       "type": "registry:component",
       "description": "Multiple accordions sharing state management.",
@@ -29,18 +29,18 @@
     },
     {
       "name": "activity-feed",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Activity Feed",
       "type": "registry:component",
       "description": "User activity timeline feed.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "alert",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Alert",
       "type": "registry:component",
       "description": "Inline alert with variants and dismiss.",
@@ -51,18 +51,18 @@
     },
     {
       "name": "alert-dialog",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Alert Dialog",
       "type": "registry:component",
       "description": "Confirmation dialog requiring user action.",
       "group": "overlay",
       "status": "live",
-      "dependencies": ["motion"],
-      "registryDependencies": ["button"]
+      "dependencies": [],
+      "registryDependencies": ["modal"]
     },
     {
       "name": "animated-list",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Animated List",
       "type": "registry:component",
       "description": "List with staggered entrance animations.",
@@ -73,7 +73,7 @@
     },
     {
       "name": "animated-number",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Animated Number",
       "type": "registry:component",
       "description": "Counter that animates to a target number.",
@@ -84,7 +84,7 @@
     },
     {
       "name": "area-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Area Chart",
       "type": "registry:component",
       "description": "Filled area chart.",
@@ -95,7 +95,7 @@
     },
     {
       "name": "aspect-ratio",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Aspect Ratio",
       "type": "registry:component",
       "description": "Maintains aspect ratio of child content.",
@@ -106,7 +106,7 @@
     },
     {
       "name": "audio-waveform",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Audio Waveform",
       "type": "registry:component",
       "description": "Audio playback with waveform visualization.",
@@ -117,7 +117,7 @@
     },
     {
       "name": "autocomplete",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Autocomplete",
       "type": "registry:component",
       "description": "Input with real-time filtered suggestions dropdown.",
@@ -128,7 +128,7 @@
     },
     {
       "name": "avatar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Avatar",
       "type": "registry:component",
       "description": "User avatar with image, initials and status.",
@@ -139,7 +139,7 @@
     },
     {
       "name": "avatar-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Avatar Group",
       "type": "registry:component",
       "description": "Stacked group of avatars with overflow count.",
@@ -150,7 +150,7 @@
     },
     {
       "name": "badge",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Badge",
       "type": "registry:component",
       "description": "Status and label badges with variants and intents.",
@@ -161,7 +161,7 @@
     },
     {
       "name": "banner",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Banner",
       "type": "registry:component",
       "description": "Full-width site announcement banner.",
@@ -172,7 +172,7 @@
     },
     {
       "name": "bar-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Bar Chart",
       "type": "registry:component",
       "description": "Vertical and horizontal bar chart.",
@@ -183,7 +183,7 @@
     },
     {
       "name": "bento-grid",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Bento Grid",
       "type": "registry:component",
       "description": "Responsive CSS grid for feature showcases.",
@@ -194,7 +194,7 @@
     },
     {
       "name": "breadcrumb",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Breadcrumb",
       "type": "registry:component",
       "description": "Location breadcrumb with separator.",
@@ -205,7 +205,7 @@
     },
     {
       "name": "button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Button",
       "type": "registry:component",
       "description": "Button with variants, intents, sizes and loading state.",
@@ -216,7 +216,7 @@
     },
     {
       "name": "button-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Button Group",
       "type": "registry:component",
       "description": "Grouped button set sharing borders.",
@@ -227,18 +227,18 @@
     },
     {
       "name": "calendar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Calendar",
       "type": "registry:component",
       "description": "Full calendar with event support.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["date-picker"]
     },
     {
       "name": "callout",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Callout",
       "type": "registry:component",
       "description": "Highlighted informational block with icon.",
@@ -249,7 +249,7 @@
     },
     {
       "name": "card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Card",
       "type": "registry:component",
       "description": "Surface card with header, body and footer.",
@@ -260,7 +260,7 @@
     },
     {
       "name": "card-stack",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Card Stack",
       "type": "registry:component",
       "description": "Layered stack of cards with hover interaction.",
@@ -271,7 +271,7 @@
     },
     {
       "name": "carousel",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Carousel",
       "type": "registry:component",
       "description": "Touch-friendly image and content carousel.",
@@ -281,8 +281,27 @@
       "registryDependencies": []
     },
     {
+      "name": "chart",
+      "version": "1.1.0",
+      "title": "Chart",
+      "type": "registry:component",
+      "description": "Chart component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": [
+        "area-chart",
+        "bar-chart",
+        "donut-chart",
+        "funnel-chart",
+        "line-chart",
+        "radar-chart",
+        "sparkline"
+      ]
+    },
+    {
       "name": "chat-bubble",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Chat Bubble",
       "type": "registry:component",
       "description": "Message bubble for chat interfaces.",
@@ -293,7 +312,7 @@
     },
     {
       "name": "checkbox",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Checkbox",
       "type": "registry:component",
       "description": "Accessible checkbox with indeterminate state support.",
@@ -304,7 +323,7 @@
     },
     {
       "name": "checklist",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Checklist",
       "type": "registry:component",
       "description": "Interactive task list with checkbox items.",
@@ -315,18 +334,18 @@
     },
     {
       "name": "chip-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Chip Group",
       "type": "registry:component",
       "description": "Multi-select tag-style chip group.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "cn-install-block",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Cn Install Block",
       "type": "registry:component",
       "description": "Cn Install Block component.",
@@ -337,7 +356,7 @@
     },
     {
       "name": "cn-props-table",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Cn Props Table",
       "type": "registry:component",
       "description": "Cn Props Table component.",
@@ -348,18 +367,29 @@
     },
     {
       "name": "cn-source-block",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Cn Source Block",
       "type": "registry:component",
       "description": "Cn Source Block component.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["code-block"]
+      "registryDependencies": []
+    },
+    {
+      "name": "cn-usage-block",
+      "version": "1.1.0",
+      "title": "Cn Usage Block",
+      "type": "registry:component",
+      "description": "Cn Usage Block component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": []
     },
     {
       "name": "code-block",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Code Block",
       "type": "registry:component",
       "description": "Syntax-highlighted code block with copy.",
@@ -370,7 +400,7 @@
     },
     {
       "name": "code-diff",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Code Diff",
       "type": "registry:component",
       "description": "Side-by-side or inline code diff.",
@@ -381,7 +411,7 @@
     },
     {
       "name": "collapsible",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Collapsible",
       "type": "registry:component",
       "description": "Animated expand/collapse section.",
@@ -392,7 +422,7 @@
     },
     {
       "name": "color-picker",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Color Picker",
       "type": "registry:component",
       "description": "Visual color selection with hex/rgb/hsl support.",
@@ -403,18 +433,18 @@
     },
     {
       "name": "combobox",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Combobox",
       "type": "registry:component",
       "description": "Multi-select combobox with tag chips and keyboard nav.",
       "group": "inputs",
       "status": "live",
-      "dependencies": ["motion"],
-      "registryDependencies": []
+      "dependencies": [],
+      "registryDependencies": ["select"]
     },
     {
       "name": "command",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Command",
       "type": "registry:component",
       "description": "Command palette with fuzzy search.",
@@ -425,18 +455,18 @@
     },
     {
       "name": "command-bar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Command Bar",
       "type": "registry:component",
       "description": "Keyboard-shortcut command bar.",
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["command"]
     },
     {
       "name": "comparison-table",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Comparison Table",
       "type": "registry:component",
       "description": "Feature comparison matrix.",
@@ -447,7 +477,7 @@
     },
     {
       "name": "confetti-button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Confetti Button",
       "type": "registry:component",
       "description": "Button that triggers confetti on click.",
@@ -458,7 +488,7 @@
     },
     {
       "name": "confirm-button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Confirm Button",
       "type": "registry:component",
       "description": "Button with inline confirmation step.",
@@ -469,7 +499,7 @@
     },
     {
       "name": "context-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Context Card",
       "type": "registry:component",
       "description": "Rich hover card with user context.",
@@ -480,18 +510,18 @@
     },
     {
       "name": "context-menu",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Context Menu",
       "type": "registry:component",
       "description": "Right-click context menu.",
       "group": "overlay",
       "status": "live",
-      "dependencies": ["motion"],
-      "registryDependencies": []
+      "dependencies": [],
+      "registryDependencies": ["dropdown-menu"]
     },
     {
       "name": "copy-button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Copy Button",
       "type": "registry:component",
       "description": "Copy-to-clipboard button with feedback.",
@@ -502,7 +532,7 @@
     },
     {
       "name": "countdown-timer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Countdown Timer",
       "type": "registry:component",
       "description": "Countdown to a target date/time.",
@@ -513,7 +543,7 @@
     },
     {
       "name": "credit-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Credit Card",
       "type": "registry:component",
       "description": "3D flip credit card visual.",
@@ -524,40 +554,40 @@
     },
     {
       "name": "currency-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Currency Input",
       "type": "registry:component",
       "description": "Formatted currency input with locale support.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["input"]
     },
     {
       "name": "data-grid",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Data Grid",
       "type": "registry:component",
       "description": "High-performance editable data grid with virtualization.",
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["checkbox"]
+      "registryDependencies": ["table"]
     },
     {
       "name": "data-list",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Data List",
       "type": "registry:component",
       "description": "Key-value pair list.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["table"]
     },
     {
       "name": "date-picker",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Date Picker",
       "type": "registry:component",
       "description": "Calendar-based single date selection.",
@@ -568,18 +598,18 @@
     },
     {
       "name": "date-range-picker",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Date Range Picker",
       "type": "registry:component",
       "description": "Calendar-based date range selection.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["date-picker"]
     },
     {
       "name": "donut-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Donut Chart",
       "type": "registry:component",
       "description": "Donut/pie chart.",
@@ -590,7 +620,7 @@
     },
     {
       "name": "dot-stepper",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Dot Stepper",
       "type": "registry:component",
       "description": "Dot-indicator step progress.",
@@ -601,7 +631,7 @@
     },
     {
       "name": "draggable",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Draggable",
       "type": "registry:component",
       "description": "Drag-and-drop wrapper.",
@@ -612,29 +642,29 @@
     },
     {
       "name": "drawer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Drawer",
       "type": "registry:component",
       "description": "Slide-in side panel drawer.",
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["modal"]
     },
     {
       "name": "dropdown-menu",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Dropdown Menu",
       "type": "registry:component",
       "description": "Trigger-based dropdown with sections and icons.",
       "group": "overlay",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": []
     },
     {
       "name": "empty-state",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Empty State",
       "type": "registry:component",
       "description": "Empty content placeholder with action.",
@@ -645,7 +675,7 @@
     },
     {
       "name": "event-calendar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Event Calendar",
       "type": "registry:component",
       "description": "Event Calendar component.",
@@ -656,7 +686,7 @@
     },
     {
       "name": "fab",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "FAB",
       "type": "registry:component",
       "description": "Floating action button with sub-actions.",
@@ -667,7 +697,7 @@
     },
     {
       "name": "feature-list",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Feature List",
       "type": "registry:component",
       "description": "Icon + text feature/benefit list.",
@@ -678,7 +708,7 @@
     },
     {
       "name": "feedback-widget",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Feedback Widget",
       "type": "registry:component",
       "description": "Floating user feedback collector.",
@@ -689,7 +719,7 @@
     },
     {
       "name": "file-upload",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "File Upload",
       "type": "registry:component",
       "description": "Drag-and-drop file upload with preview and validation.",
@@ -700,18 +730,18 @@
     },
     {
       "name": "filter-bar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Filter Bar",
       "type": "registry:component",
       "description": "Horizontal filter pill bar.",
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "flip-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Flip Card",
       "type": "registry:component",
       "description": "3D flip card with front and back faces.",
@@ -722,7 +752,7 @@
     },
     {
       "name": "floating-bar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Floating Bar",
       "type": "registry:component",
       "description": "Floating toolbar that appears on selection.",
@@ -733,29 +763,29 @@
     },
     {
       "name": "floating-label-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Floating Label Input",
       "type": "registry:component",
       "description": "Input with animated floating label on focus.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["input"]
     },
     {
       "name": "floating-menu",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Floating Menu",
       "type": "registry:component",
       "description": "Animated floating radial menu.",
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["dropdown-menu"]
     },
     {
       "name": "form-field",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Form Field",
       "type": "registry:component",
       "description": "Label + input + helper text wrapper.",
@@ -766,7 +796,7 @@
     },
     {
       "name": "funnel-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Funnel Chart",
       "type": "registry:component",
       "description": "Funnel/conversion chart.",
@@ -777,51 +807,51 @@
     },
     {
       "name": "gauge",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Gauge",
       "type": "registry:component",
       "description": "Arc gauge meter.",
       "group": "charts",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["progress"]
     },
     {
       "name": "glass-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Glass Card",
       "type": "registry:component",
       "description": "Frosted-glass card effect.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["card"]
     },
     {
       "name": "glow-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Glow Card",
       "type": "registry:component",
       "description": "Card with animated glow/spotlight effect.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["card"]
     },
     {
       "name": "gradient-border",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Gradient Border",
       "type": "registry:component",
       "description": "Animated gradient border wrapper.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["card"]
     },
     {
       "name": "grid-pattern",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Grid Pattern",
       "type": "registry:component",
       "description": "SVG dot or line grid background pattern.",
@@ -832,18 +862,18 @@
     },
     {
       "name": "hover-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Hover Card",
       "type": "registry:component",
       "description": "Rich preview card shown on hover.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "icon-box",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Icon Box",
       "type": "registry:component",
       "description": "Styled icon container with background variants.",
@@ -854,7 +884,7 @@
     },
     {
       "name": "image-compare",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Image Compare",
       "type": "registry:component",
       "description": "Before/after image slider.",
@@ -865,7 +895,7 @@
     },
     {
       "name": "image-cropper",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Image Cropper",
       "type": "registry:component",
       "description": "Interactive image cropping tool.",
@@ -876,7 +906,7 @@
     },
     {
       "name": "image-viewer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Image Viewer",
       "type": "registry:component",
       "description": "Zoomable image viewer with pan support.",
@@ -887,7 +917,7 @@
     },
     {
       "name": "infinite-scroll",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Infinite Scroll",
       "type": "registry:component",
       "description": "Load-on-scroll data fetching.",
@@ -898,7 +928,7 @@
     },
     {
       "name": "inline-edit",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Inline Edit",
       "type": "registry:component",
       "description": "Click-to-edit inline text field.",
@@ -909,7 +939,7 @@
     },
     {
       "name": "input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Input",
       "type": "registry:component",
       "description": "Base text input with variants, states and icons.",
@@ -920,7 +950,7 @@
     },
     {
       "name": "input-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Input Group",
       "type": "registry:component",
       "description": "Input with prepend/append addons.",
@@ -931,7 +961,7 @@
     },
     {
       "name": "json-viewer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "JSON Viewer",
       "type": "registry:component",
       "description": "Collapsible JSON tree viewer.",
@@ -942,7 +972,7 @@
     },
     {
       "name": "kanban",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Kanban",
       "type": "registry:component",
       "description": "Drag-and-drop kanban board.",
@@ -953,7 +983,7 @@
     },
     {
       "name": "kbd",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Kbd",
       "type": "registry:component",
       "description": "Keyboard key display element.",
@@ -964,7 +994,7 @@
     },
     {
       "name": "keyboard-shortcuts",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Keyboard Shortcuts",
       "type": "registry:component",
       "description": "Keyboard shortcut legend dialog.",
@@ -975,7 +1005,7 @@
     },
     {
       "name": "label",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Label",
       "type": "registry:component",
       "description": "Form label with required indicator.",
@@ -986,7 +1016,7 @@
     },
     {
       "name": "line-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Line Chart",
       "type": "registry:component",
       "description": "Line and curve chart.",
@@ -997,7 +1027,7 @@
     },
     {
       "name": "log-viewer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Log Viewer",
       "type": "registry:component",
       "description": "Real-time log stream viewer.",
@@ -1008,7 +1038,7 @@
     },
     {
       "name": "magnetic-button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Magnetic Button",
       "type": "registry:component",
       "description": "Button with magnetic cursor attraction effect.",
@@ -1019,7 +1049,7 @@
     },
     {
       "name": "markdown-renderer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Markdown Renderer",
       "type": "registry:component",
       "description": "Renders markdown to styled HTML.",
@@ -1030,7 +1060,7 @@
     },
     {
       "name": "marquee-text",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Marquee Text",
       "type": "registry:component",
       "description": "Infinite scrolling text marquee.",
@@ -1041,7 +1071,7 @@
     },
     {
       "name": "masonry",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Masonry",
       "type": "registry:component",
       "description": "Pinterest-style masonry grid.",
@@ -1052,7 +1082,7 @@
     },
     {
       "name": "media-player",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Media Player",
       "type": "registry:component",
       "description": "Custom HTML5 video/audio player.",
@@ -1063,18 +1093,18 @@
     },
     {
       "name": "metric-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Metric Card",
       "type": "registry:component",
       "description": "Stat card with trend indicator.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["stat"]
     },
     {
       "name": "mini-map",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Mini Map",
       "type": "registry:component",
       "description": "Miniature overview map.",
@@ -1085,18 +1115,18 @@
     },
     {
       "name": "modal",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Modal",
       "type": "registry:component",
       "description": "Accessible modal dialog with portal.",
       "group": "overlay",
       "status": "live",
-      "dependencies": [],
-      "registryDependencies": []
+      "dependencies": ["motion"],
+      "registryDependencies": ["button"]
     },
     {
       "name": "morphing-text",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Morphing Text",
       "type": "registry:component",
       "description": "Smoothly morphs between text values.",
@@ -1107,7 +1137,7 @@
     },
     {
       "name": "multi-accordion",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Multi Accordion",
       "type": "registry:component",
       "description": "Multiple independently expandable accordions.",
@@ -1118,18 +1148,18 @@
     },
     {
       "name": "multi-select",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Multi Select",
       "type": "registry:component",
       "description": "Popover-based multi-select with badges.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["select"]
     },
     {
       "name": "navigation-menu",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Navigation Menu",
       "type": "registry:component",
       "description": "Horizontal nav with dropdowns.",
@@ -1140,7 +1170,7 @@
     },
     {
       "name": "newsletter-form",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Newsletter Form",
       "type": "registry:component",
       "description": "Email subscription form.",
@@ -1151,7 +1181,7 @@
     },
     {
       "name": "note-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Note Card",
       "type": "registry:component",
       "description": "Sticky-note style card.",
@@ -1162,7 +1192,7 @@
     },
     {
       "name": "notice-bar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Notice Bar",
       "type": "registry:component",
       "description": "Sticky notice bar with dismiss.",
@@ -1173,7 +1203,7 @@
     },
     {
       "name": "notification-bell",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Notification Bell",
       "type": "registry:component",
       "description": "Notification bell with badge count.",
@@ -1184,18 +1214,18 @@
     },
     {
       "name": "number-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Number Input",
       "type": "registry:component",
       "description": "Numeric input with increment/decrement controls.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["input"]
     },
     {
       "name": "number-pad",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Number Pad",
       "type": "registry:component",
       "description": "PIN-style numeric keypad.",
@@ -1206,7 +1236,7 @@
     },
     {
       "name": "onboarding-tour",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Onboarding Tour",
       "type": "registry:component",
       "description": "Step-by-step product tour overlay.",
@@ -1217,7 +1247,7 @@
     },
     {
       "name": "otp-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "OTP Input",
       "type": "registry:component",
       "description": "One-time password input with auto-advance.",
@@ -1228,7 +1258,7 @@
     },
     {
       "name": "pagination",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Pagination",
       "type": "registry:component",
       "description": "Page navigation with page size control.",
@@ -1239,7 +1269,7 @@
     },
     {
       "name": "particle-field",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Particle Field",
       "type": "registry:component",
       "description": "Canvas-based interactive particle animation.",
@@ -1250,7 +1280,7 @@
     },
     {
       "name": "password-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Password Input",
       "type": "registry:component",
       "description": "Password input with show/hide toggle.",
@@ -1261,7 +1291,7 @@
     },
     {
       "name": "password-strength",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Password Strength",
       "type": "registry:component",
       "description": "Real-time password strength indicator.",
@@ -1272,18 +1302,18 @@
     },
     {
       "name": "phone-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Phone Input",
       "type": "registry:component",
       "description": "International phone number input with country selector.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["input"]
     },
     {
       "name": "pin-board",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Pin Board",
       "type": "registry:component",
       "description": "Draggable pin board with notes.",
@@ -1294,7 +1324,7 @@
     },
     {
       "name": "ping",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Ping",
       "type": "registry:component",
       "description": "Animated ping dot for live indicators.",
@@ -1305,18 +1335,18 @@
     },
     {
       "name": "popover",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Popover",
       "type": "registry:component",
       "description": "Positioned popover with arrow.",
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "price-table",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Price Table",
       "type": "registry:component",
       "description": "Full pricing comparison table.",
@@ -1327,7 +1357,7 @@
     },
     {
       "name": "pricing-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Pricing Card",
       "type": "registry:component",
       "description": "Subscription plan card with features.",
@@ -1338,7 +1368,7 @@
     },
     {
       "name": "pricing-toggle",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Pricing Toggle",
       "type": "registry:component",
       "description": "Monthly/annual pricing toggle.",
@@ -1349,7 +1379,7 @@
     },
     {
       "name": "progress",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Progress",
       "type": "registry:component",
       "description": "Linear progress bar with variants.",
@@ -1360,18 +1390,18 @@
     },
     {
       "name": "progress-ring",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Progress Ring",
       "type": "registry:component",
       "description": "Circular SVG progress ring.",
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["progress"]
     },
     {
       "name": "progress-steps",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Progress Steps",
       "type": "registry:component",
       "description": "Step-based progress indicator.",
@@ -1382,7 +1412,7 @@
     },
     {
       "name": "quick-actions",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Quick Actions",
       "type": "registry:component",
       "description": "Speed-dial style quick action buttons.",
@@ -1393,7 +1423,7 @@
     },
     {
       "name": "quote-block",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Quote Block",
       "type": "registry:component",
       "description": "Styled blockquote with attribution.",
@@ -1404,7 +1434,7 @@
     },
     {
       "name": "radar-chart",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Radar Chart",
       "type": "registry:component",
       "description": "Multi-axis radar/spider chart.",
@@ -1415,7 +1445,7 @@
     },
     {
       "name": "radio",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Radio",
       "type": "registry:component",
       "description": "Radio button group with label and description.",
@@ -1426,18 +1456,18 @@
     },
     {
       "name": "range-slider",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Range Slider",
       "type": "registry:component",
       "description": "Dual-thumb range slider.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["slider"]
     },
     {
       "name": "rating",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Rating",
       "type": "registry:component",
       "description": "Star rating display component.",
@@ -1448,18 +1478,18 @@
     },
     {
       "name": "rating-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Rating Input",
       "type": "registry:component",
       "description": "Interactive star rating with keyboard support.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["rating"]
     },
     {
       "name": "read-more",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Read More",
       "type": "registry:component",
       "description": "Truncated text with expand/collapse.",
@@ -1470,7 +1500,7 @@
     },
     {
       "name": "receipt-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Receipt Card",
       "type": "registry:component",
       "description": "Receipt-style summary card.",
@@ -1481,7 +1511,7 @@
     },
     {
       "name": "resizable",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Resizable",
       "type": "registry:component",
       "description": "Resizable panel layout.",
@@ -1492,7 +1522,7 @@
     },
     {
       "name": "ribbon",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Ribbon",
       "type": "registry:component",
       "description": "Corner ribbon badge for cards.",
@@ -1503,29 +1533,29 @@
     },
     {
       "name": "rich-select",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Rich Select",
       "type": "registry:component",
       "description": "Select with icons, descriptions and groups.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["select"]
     },
     {
       "name": "rich-tooltip",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Rich Tooltip",
       "type": "registry:component",
       "description": "Tooltip with rich content and image.",
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "scroll-area",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Scroll Area",
       "type": "registry:component",
       "description": "Overflow container with styled scrollbar.",
@@ -1536,7 +1566,7 @@
     },
     {
       "name": "scroll-progress",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Scroll Progress",
       "type": "registry:component",
       "description": "Reading progress bar tied to scroll.",
@@ -1547,7 +1577,7 @@
     },
     {
       "name": "scroll-reveal",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Scroll Reveal",
       "type": "registry:component",
       "description": "Animate children on scroll into view.",
@@ -1558,7 +1588,7 @@
     },
     {
       "name": "scroll-spy",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Scroll Spy",
       "type": "registry:component",
       "description": "Highlights nav items based on scroll position.",
@@ -1569,18 +1599,18 @@
     },
     {
       "name": "scroll-timeline",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Scroll Timeline",
       "type": "registry:component",
       "description": "CSS scroll-timeline animations.",
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "search-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Search Input",
       "type": "registry:component",
       "description": "Search field with icon and clear button.",
@@ -1591,18 +1621,18 @@
     },
     {
       "name": "segmented-control",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Segmented Control",
       "type": "registry:component",
       "description": "Pill-style option picker.",
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "select",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Select",
       "type": "registry:component",
       "description": "Custom select with spring animation, search and groups.",
@@ -1613,7 +1643,7 @@
     },
     {
       "name": "separator",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Separator",
       "type": "registry:component",
       "description": "Horizontal or vertical divider.",
@@ -1624,29 +1654,29 @@
     },
     {
       "name": "shortcut-key",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Shortcut Key",
       "type": "registry:component",
       "description": "Keyboard shortcut display.",
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["kbd"]
     },
     {
       "name": "side-panel",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Side Panel",
       "type": "registry:component",
       "description": "Resizable side panel layout.",
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["modal"]
     },
     {
       "name": "signature-pad",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Signature Pad",
       "type": "registry:component",
       "description": "Canvas-based signature drawing pad.",
@@ -1657,7 +1687,7 @@
     },
     {
       "name": "skeleton",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Skeleton",
       "type": "registry:component",
       "description": "Content loading placeholder skeleton.",
@@ -1668,18 +1698,18 @@
     },
     {
       "name": "skill-bar",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Skill Bar",
       "type": "registry:component",
       "description": "Animated progress bar for skill levels.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["progress"]
     },
     {
       "name": "slider",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Slider",
       "type": "registry:component",
       "description": "Single-thumb slider with tooltip.",
@@ -1690,7 +1720,7 @@
     },
     {
       "name": "sortable-list",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Sortable List",
       "type": "registry:component",
       "description": "Drag-to-reorder list.",
@@ -1701,7 +1731,7 @@
     },
     {
       "name": "sparkline",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Sparkline",
       "type": "registry:component",
       "description": "Inline mini chart.",
@@ -1712,7 +1742,7 @@
     },
     {
       "name": "spinner",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Spinner",
       "type": "registry:component",
       "description": "Loading spinner with sizes.",
@@ -1723,7 +1753,7 @@
     },
     {
       "name": "split-button",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Split Button",
       "type": "registry:component",
       "description": "Button with dropdown for secondary actions.",
@@ -1734,29 +1764,29 @@
     },
     {
       "name": "spotlight",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Spotlight",
       "type": "registry:component",
       "description": "Cursor-tracking spotlight effect.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["card"]
     },
     {
       "name": "spotlight-search",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Spotlight Search",
       "type": "registry:component",
       "description": "Full-screen spotlight-style search palette.",
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["command"]
     },
     {
       "name": "stat",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Stat",
       "type": "registry:component",
       "description": "Single stat with label and value.",
@@ -1767,18 +1797,18 @@
     },
     {
       "name": "stats-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Stats Card",
       "type": "registry:component",
       "description": "Card with multiple stats.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["stat"]
     },
     {
       "name": "status-badge",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Status Badge",
       "type": "registry:component",
       "description": "Animated status indicator dot.",
@@ -1789,7 +1819,7 @@
     },
     {
       "name": "status-page",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Status Page",
       "type": "registry:component",
       "description": "Service status dashboard.",
@@ -1800,7 +1830,7 @@
     },
     {
       "name": "step-form",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Step Form",
       "type": "registry:component",
       "description": "Multi-step form with validation per step.",
@@ -1811,7 +1841,7 @@
     },
     {
       "name": "stepper",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Stepper",
       "type": "registry:component",
       "description": "Multi-step wizard navigation.",
@@ -1822,7 +1852,7 @@
     },
     {
       "name": "stopwatch",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Stopwatch",
       "type": "registry:component",
       "description": "Start/stop/reset stopwatch.",
@@ -1833,7 +1863,7 @@
     },
     {
       "name": "survey-form",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Survey Form",
       "type": "registry:component",
       "description": "Multi-step form for surveys and feedback.",
@@ -1844,7 +1874,7 @@
     },
     {
       "name": "swipe-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Swipe Card",
       "type": "registry:component",
       "description": "Tinder-style swipeable card.",
@@ -1855,7 +1885,7 @@
     },
     {
       "name": "switch",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Switch",
       "type": "registry:component",
       "description": "Accessible toggle switch.",
@@ -1866,18 +1896,18 @@
     },
     {
       "name": "table",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Table",
       "type": "registry:component",
       "description": "Sortable data table.",
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["checkbox"]
+      "registryDependencies": ["checkbox", "pagination", "select"]
     },
     {
       "name": "table-of-contents",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Table of Contents",
       "type": "registry:component",
       "description": "Auto-generated TOC from headings.",
@@ -1888,7 +1918,7 @@
     },
     {
       "name": "tabs",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tabs",
       "type": "registry:component",
       "description": "Tabs component.",
@@ -1899,7 +1929,7 @@
     },
     {
       "name": "tag",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tag",
       "type": "registry:component",
       "description": "Removable tag with color variants.",
@@ -1910,7 +1940,7 @@
     },
     {
       "name": "tag-cloud",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tag Cloud",
       "type": "registry:component",
       "description": "Weighted tag cloud visualization.",
@@ -1921,7 +1951,7 @@
     },
     {
       "name": "tag-input",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tag Input",
       "type": "registry:component",
       "description": "Input that converts text into removable tags.",
@@ -1932,7 +1962,7 @@
     },
     {
       "name": "terminal-block",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Terminal Block",
       "type": "registry:component",
       "description": "Terminal emulator display.",
@@ -1943,7 +1973,7 @@
     },
     {
       "name": "text-editor",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Text Editor",
       "type": "registry:component",
       "description": "Rich text WYSIWYG editor.",
@@ -1953,8 +1983,19 @@
       "registryDependencies": []
     },
     {
+      "name": "text-effect",
+      "version": "1.1.0",
+      "title": "Text Effect",
+      "type": "registry:component",
+      "description": "Text Effect component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": ["animated-number", "morphing-text", "text-gradient", "typewriter"]
+    },
+    {
       "name": "text-gradient",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Text Gradient",
       "type": "registry:component",
       "description": "CSS gradient text effect.",
@@ -1965,7 +2006,7 @@
     },
     {
       "name": "textarea",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Textarea",
       "type": "registry:component",
       "description": "Auto-resize textarea with character count.",
@@ -1976,7 +2017,7 @@
     },
     {
       "name": "theme-selector",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Theme Selector",
       "type": "registry:component",
       "description": "Light/dark/system theme switcher.",
@@ -1987,18 +2028,18 @@
     },
     {
       "name": "tilt-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tilt Card",
       "type": "registry:component",
       "description": "Card with 3D perspective tilt on hover.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["card"]
     },
     {
       "name": "time-picker",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Time Picker",
       "type": "registry:component",
       "description": "Hour/minute/second time selection.",
@@ -2009,7 +2050,7 @@
     },
     {
       "name": "timeline",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Timeline",
       "type": "registry:component",
       "description": "Vertical timeline of events.",
@@ -2020,18 +2061,18 @@
     },
     {
       "name": "timeline-progress",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Timeline Progress",
       "type": "registry:component",
       "description": "Step-based progress timeline.",
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "toast",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Toast",
       "type": "registry:component",
       "description": "Toast notification system with context API.",
@@ -2042,7 +2083,7 @@
     },
     {
       "name": "toggle-group",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Toggle Group",
       "type": "registry:component",
       "description": "Toolbar-style group of toggle buttons.",
@@ -2053,7 +2094,7 @@
     },
     {
       "name": "tooltip",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tooltip",
       "type": "registry:component",
       "description": "Simple hover tooltip.",
@@ -2064,18 +2105,18 @@
     },
     {
       "name": "tree-table",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tree Table",
       "type": "registry:component",
       "description": "Expandable hierarchical table.",
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["table"]
     },
     {
       "name": "tree-view",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Tree View",
       "type": "registry:component",
       "description": "File-explorer-style tree.",
@@ -2086,7 +2127,7 @@
     },
     {
       "name": "typewriter",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Typewriter",
       "type": "registry:component",
       "description": "Animated typewriter text effect.",
@@ -2097,7 +2138,7 @@
     },
     {
       "name": "user-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "User Card",
       "type": "registry:component",
       "description": "User profile card with avatar and info.",
@@ -2108,7 +2149,7 @@
     },
     {
       "name": "vertical-nav",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Vertical Nav",
       "type": "registry:component",
       "description": "Sidebar vertical navigation.",
@@ -2119,7 +2160,7 @@
     },
     {
       "name": "video-card",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Video Card",
       "type": "registry:component",
       "description": "Card with video thumbnail and metadata.",
@@ -2130,7 +2171,7 @@
     },
     {
       "name": "virtual-list",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Virtual List",
       "type": "registry:component",
       "description": "Virtualized list for large datasets.",
@@ -2141,7 +2182,7 @@
     },
     {
       "name": "window-frame",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Window Frame",
       "type": "registry:component",
       "description": "Browser/OS window chrome wrapper.",
@@ -2152,7 +2193,7 @@
     },
     {
       "name": "word-counter",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "title": "Word Counter",
       "type": "registry:component",
       "description": "Textarea with real-time word and character count.",

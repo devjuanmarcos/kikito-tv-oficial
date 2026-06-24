@@ -1,13 +1,13 @@
 {
   "name": "currency-input",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Currency Input",
   "type": "registry:component",
   "description": "Formatted currency input with locale support.",
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["input"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/currency-input/CurrencyInput.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/currency-input/CurrencyInput.tsx",
-      "content": "﻿\"use client\";\n\nimport { useState, useRef } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { CurrencyInputProps } from \"./currency-input.types\";\n\nfunction getSymbol(currency: string, locale: string) {\n  try {\n    return (0)\n      .toLocaleString(locale, { style: \"currency\", currency, minimumFractionDigits: 0 })\n      .replace(/[\\d\\s,.']+/g, \"\")\n      .trim();\n  } catch {\n    return currency;\n  }\n}\n\nexport function CurrencyInput({\n  value,\n  onChange,\n  currency = \"USD\",\n  locale = \"en-US\",\n  min,\n  max,\n  step = 0.01,\n  placeholder = \"0.00\",\n  disabled = false,\n  label,\n  className,\n  style,\n}: CurrencyInputProps) {\n  const [editing, setEditing] = useState(false);\n  const [raw, setRaw] = useState(\"\");\n  const inputRef = useRef<HTMLInputElement>(null);\n\n  const symbol = getSymbol(currency, locale);\n\n  const formatted =\n    value !== undefined && value !== null ? value.toLocaleString(locale, { style: \"currency\", currency }) : \"\";\n\n  function onFocus() {\n    setRaw(value !== undefined && value !== null ? String(value) : \"\");\n    setEditing(true);\n    requestAnimationFrame(() => inputRef.current?.select());\n  }\n\n  function commit() {\n    const parsed = parseFloat(raw.replace(/[^0-9.\\-]/g, \"\"));\n    if (!isNaN(parsed)) {\n      let clamped = parsed;\n      if (min !== undefined) clamped = Math.max(min, clamped);\n      if (max !== undefined) clamped = Math.min(max, clamped);\n      onChange?.(clamped);\n    }\n    setEditing(false);\n  }\n\n  return (\n    <div className={cn(\"flex flex-col gap-1\", className)} style={style}>\n      {label && <label className=\"text-body-callout font-medium text-muted\">{label}</label>}\n      <div\n        className={cn(\n          \"flex items-center gap-2 px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas transition-colors\",\n          !disabled && \"focus-within:border-patina/60\",\n          disabled && \"opacity-60 cursor-not-allowed\"\n        )}\n      >\n        <span className=\"text-faint text-body-callout shrink-0\">{symbol}</span>\n        {editing ? (\n          <input\n            ref={inputRef}\n            type=\"number\"\n            step={step}\n            min={min}\n            max={max}\n            value={raw}\n            onChange={(e) => setRaw(e.target.value)}\n            onBlur={commit}\n            onKeyDown={(e) => {\n              if (e.key === \"Enter\") commit();\n            }}\n            disabled={disabled}\n            className=\"flex-1 bg-transparent outline-none text-foreground text-body-callout [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none\"\n          />\n        ) : (\n          <input\n            type=\"text\"\n            readOnly={!editing}\n            value={formatted}\n            onFocus={onFocus}\n            placeholder={placeholder}\n            disabled={disabled}\n            className=\"flex-1 bg-transparent outline-none text-foreground text-body-callout cursor-text placeholder:text-faint\"\n          />\n        )}\n      </div>\n    </div>\n  );\n}\n"
+      "content": "\"use client\";\n/**\n * CurrencyInput — backward-compat wrapper.\n * Absorbed by the Input Super component (`<Input type=\"currency\" />`). Kept so\n * existing imports of `CurrencyInput` keep working; new code should use Input.\n */\nimport { Input } from \"@/components/ui/cn/input\";\n\nimport type { CurrencyInputProps } from \"./currency-input.types\";\n\nexport function CurrencyInput(props: CurrencyInputProps) {\n  return <Input type=\"currency\" {...props} />;\n}\n"
     },
     {
       "path": "components/ui/cn/currency-input/index.ts",

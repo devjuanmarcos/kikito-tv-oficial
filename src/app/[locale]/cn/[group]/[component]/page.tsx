@@ -8,7 +8,7 @@ import { CnPropsTable } from "@/components/ui/cn/cn-props-table";
 import { CnSourceBlock } from "@/components/ui/cn/cn-source-block";
 import { CnUsageBlock } from "@/components/ui/cn/cn-usage-block";
 import { CnVariantBar } from "@/components/ui/cn/cn-variant-bar";
-import { getComponent, CN_GROUPS } from "@/lib/cn-registry";
+import { getComponent, getResolvedVariants, CN_GROUPS } from "@/lib/cn-registry";
 import { getComponentSource } from "@/lib/cn-source";
 
 import { CnShowcase } from "./_showcase";
@@ -19,6 +19,12 @@ interface Props {
 
 export const dynamic = "force-dynamic";
 
+const showcaseFallback = (
+  <div className="rounded-(--radius-lg) border border-rule bg-raised p-12 flex items-center justify-center min-h-[240px]">
+    <div className="w-5 h-5 rounded-full border-2 border-patina border-t-transparent animate-spin-icon" />
+  </div>
+);
+
 export default async function CnComponentPage({ params }: Props) {
   const { group, component } = await params;
   const meta = getComponent(group, component);
@@ -27,6 +33,10 @@ export default async function CnComponentPage({ params }: Props) {
   const groupMeta = CN_GROUPS.find((g) => g.id === group);
   const groupLabel = groupMeta?.label ?? group;
 
+  // Super component: the absorbed siblings whose own real demos are stacked below
+  // the base showcase. The variant bar deep-links (smooth scroll) to each section.
+  const siblings = getResolvedVariants(meta).filter((v) => !v.isBase);
+
   const source = meta.filePath ? getComponentSource(meta.filePath) : "";
   const filename = meta.filePath ? meta.filePath.split("/").pop() : undefined;
 
@@ -34,22 +44,35 @@ export default async function CnComponentPage({ params }: Props) {
     <div className="px-8 py-8 max-w-5xl">
       <CnPageHeader group={group} groupLabel={groupLabel} title={meta.title} description={meta.description} />
 
-      {/* Variant selector (Super components) */}
-      {meta.variants && meta.variants.length > 0 && <CnVariantBar variants={meta.variants} />}
+      {/* Quick links to the absorbed siblings rendered below (smooth scroll) */}
+      <CnVariantBar siblings={siblings} />
 
-      {/* Live showcase */}
-      <Suspense
-        fallback={
-          <div className="rounded-(--radius-lg) border border-rule bg-raised p-12 flex items-center justify-center min-h-[240px]">
-            <div className="w-5 h-5 rounded-full border-2 border-patina border-t-transparent animate-spin-icon" />
-          </div>
-        }
-      >
+      {/* Base showcase */}
+      <Suspense fallback={showcaseFallback}>
         <CnShowcase group={group} component={component} />
       </Suspense>
 
-      {/* Documentation blocks */}
-      <div className="mt-12 flex flex-col gap-8">
+      {/* Absorbed siblings: each real demo stacked inline with its own anchor */}
+      {siblings.length > 0 && (
+        <div className="mt-16 flex flex-col gap-16">
+          {siblings.map((s) => (
+            <section key={s.name} id={`cn-v-${s.name}`} className="scroll-mt-24">
+              <div className="mb-5 flex items-center gap-2.5 border-t border-rule pt-8">
+                <h2 className="text-heading-04 font-bold text-foreground">{s.label}</h2>
+                <span className="text-body-caption font-semibold uppercase tracking-[0.06em] text-patina bg-patina/10 border border-patina/30 rounded-full px-2 py-0.5">
+                  Unificado
+                </span>
+              </div>
+              <Suspense fallback={showcaseFallback}>
+                <CnShowcase group={s.group} component={s.name} />
+              </Suspense>
+            </section>
+          ))}
+        </div>
+      )}
+
+      {/* Documentation blocks (base Super) */}
+      <div className="mt-16 flex flex-col gap-8 border-t border-rule pt-10">
         {/* Install via CLI */}
         <CnInstallBlock name={component} peerDeps={meta.peerDeps} dependencies={meta.dependencies} />
 

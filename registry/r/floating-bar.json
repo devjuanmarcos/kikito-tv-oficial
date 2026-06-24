@@ -1,6 +1,6 @@
 {
   "name": "floating-bar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Floating Bar",
   "type": "registry:component",
   "description": "Floating toolbar that appears on selection.",

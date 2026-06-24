@@ -1,6 +1,6 @@
 {
   "name": "card-stack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Card Stack",
   "type": "registry:component",
   "description": "Layered stack of cards with hover interaction.",

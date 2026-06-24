@@ -302,8 +302,15 @@ Input (number/currency/phone/floating-label), Select (multi/rich/combobox), Togg
 
 **Resultado final: sidebar 197 total → 127 visíveis (70 absorvidos).** tsc limpo, `next build` verde.
 
-### Resíduo opcional (não bloqueante)
+### Item 4 — variant bar resolve irmãos absorvidos (`?v=<nome>`)
 
-Demo-switching `?prop=value` nas telas das outras 12 famílias (Chart/TextEffect já têm). O CnVariantBar já deep-linka e destaca a variante ativa em todas; falta apenas o preview curado de cada uma reagir ao param — extensão mecânica do padrão de ChartDemo/TextEffectDemo.
+O resíduo de demo-switching foi resolvido com um modelo único e zero-regressão, em vez de curar `?prop=value` família a família:
+
+- **CnVariantBar** agora mostra um chip _base_ (o Super) + um chip por irmão absorvido (`absorbs[]`), resolvido para o título/grupo real via `getResolvedVariants()`/`getComponentByName()` em `cn-registry.tsx`.
+- Selecionar um chip deep-linka para `?v=<nome-do-irmão>`. A página (`[component]/page.tsx`) lê o param e re-renderiza **showcase + install + usage + source + props** do irmão real (`docMeta`), mantendo o header e a barra do Super.
+- Reusa os demos/registry já existentes de cada irmão (intactos) — nada de preview novo por variante. Chart/TextEffect continuam com seus demos curados como chip base; os tipos viram chips de irmão.
+- `variants[]` (prop/value/aliases) permanece **só para o índice de busca** (`buildSearchIndex`); a navegação por variante na tela passou a ser name-based (`?v=`).
+
+tsc limpo nos arquivos tocados, `next build` verde.
 
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).

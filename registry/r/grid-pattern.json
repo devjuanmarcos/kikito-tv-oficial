@@ -1,6 +1,6 @@
 {
   "name": "grid-pattern",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Grid Pattern",
   "type": "registry:component",
   "description": "SVG dot or line grid background pattern.",

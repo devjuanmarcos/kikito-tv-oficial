@@ -1,6 +1,6 @@
 {
   "name": "number-pad",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Number Pad",
   "type": "registry:component",
   "description": "PIN-style numeric keypad.",

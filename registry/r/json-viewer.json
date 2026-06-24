@@ -1,6 +1,6 @@
 {
   "name": "json-viewer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "JSON Viewer",
   "type": "registry:component",
   "description": "Collapsible JSON tree viewer.",

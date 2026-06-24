@@ -1,6 +1,6 @@
 {
   "name": "ping",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Ping",
   "type": "registry:component",
   "description": "Animated ping dot for live indicators.",

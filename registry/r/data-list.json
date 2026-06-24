@@ -1,13 +1,13 @@
 {
   "name": "data-list",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Data List",
   "type": "registry:component",
   "description": "Key-value pair list.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["table"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/data-list/DataList.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/data-list/DataList.tsx",
-      "content": "﻿import { cn } from \"@/lib/utils\";\n\nimport type { DataListProps } from \"./data-list.types\";\n\nexport function DataList({\n  items,\n  layout = \"horizontal\",\n  columns = 2,\n  striped = false,\n  bordered = false,\n  compact = false,\n  className,\n  style,\n}: DataListProps) {\n  const isGrid = layout === \"grid\";\n  const isHoriz = layout === \"horizontal\";\n  const isVert = layout === \"vertical\";\n\n  return (\n    <dl\n      className={cn(isGrid ? \"grid\" : \"flex flex-col\", className)}\n      style={isGrid ? { gridTemplateColumns: `repeat(${columns}, 1fr)`, ...style } : style}\n    >\n      {items.map((item, i) => {\n        const isEven = i % 2 === 1;\n        return (\n          <div\n            key={i}\n            className={cn(\n              \"flex gap-3\",\n              isHoriz && \"flex-row items-baseline py-[10px] border-b border-rule last:border-none\",\n              isVert && \"flex-col gap-1 py-[10px] border-b border-rule last:border-none\",\n              isGrid && \"flex-col gap-1 p-3 border border-rule rounded-(--radius-base)\",\n              bordered && (isHoriz || isVert) && \"py-[10px] px-3 border border-rule rounded-(--radius-base) mb-1\",\n              striped && isEven && !bordered && \"bg-sunken rounded-(--radius-sm) px-3\",\n              compact && \"py-[6px]\"\n            )}\n            style={item.span && isGrid ? { gridColumn: `span ${item.span}` } : undefined}\n          >\n            <dt\n              className={cn(\n                \"text-body-caption font-semibold text-muted opacity-60 uppercase tracking-[0.04em] flex-shrink-0\",\n                isHoriz && \"w-40 min-w-40\"\n              )}\n            >\n              {item.label}\n            </dt>\n            <dd className=\"text-body-callout text-foreground flex-1\">{item.value}</dd>\n          </div>\n        );\n      })}\n    </dl>\n  );\n}\n"
+      "content": "\"use client\";\n\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\n\nimport type { DataListProps } from \"./data-list.types\";\n\n/**\n * DataList — backward-compat wrapper over the Super DataTable (`variant=\"list\"`).\n * Visual and API identical to the original DataList.\n */\nexport function DataList(props: DataListProps) {\n  return <DataTable variant=\"list\" {...props} />;\n}\n"
     },
     {
       "path": "components/ui/cn/data-list/index.ts",

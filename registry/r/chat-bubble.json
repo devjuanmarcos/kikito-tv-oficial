@@ -1,6 +1,6 @@
 {
   "name": "chat-bubble",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Chat Bubble",
   "type": "registry:component",
   "description": "Message bubble for chat interfaces.",

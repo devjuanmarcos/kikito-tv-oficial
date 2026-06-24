@@ -1,6 +1,6 @@
 {
   "name": "infinite-scroll",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Infinite Scroll",
   "type": "registry:component",
   "description": "Load-on-scroll data fetching.",

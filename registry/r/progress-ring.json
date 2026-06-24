@@ -1,13 +1,13 @@
 {
   "name": "progress-ring",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Progress Ring",
   "type": "registry:component",
   "description": "Circular SVG progress ring.",
   "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["progress"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/progress-ring/ProgressRing.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/progress-ring/ProgressRing.tsx",
-      "content": "﻿import { cn } from '@/lib/utils'\r\nimport type { ProgressRingProps } from './progress-ring.types'\r\n\r\nconst INTENT_STROKE: Record<string, string> = {\r\n  primary:   'var(--ks-primary)',\r\n  secondary: 'var(--ks-kinpaku)',\r\n  success:   'var(--ks-success)',\r\n  warning:   'var(--ks-warning)',\r\n  danger:    'var(--ks-danger)',\r\n  info:      'var(--ks-info)',\r\n}\r\n\r\nexport function ProgressRing({\r\n  value,\r\n  max = 100,\r\n  size = 80,\r\n  stroke = 6,\r\n  intent = 'primary',\r\n  label,\r\n  showValue = true,\r\n  className,\r\n  style,\r\n}: ProgressRingProps) {\r\n  const r = (size - stroke) / 2\r\n  const circumference = 2 * Math.PI * r\r\n  const pct = Math.min(Math.max(value / max, 0), 1)\r\n  const dashOffset = circumference * (1 - pct)\r\n  const color = INTENT_STROKE[intent] ?? 'var(--ks-primary)'\r\n\r\n  return (\r\n    <div\r\n      className={cn('relative inline-flex items-center justify-center', className)}\r\n      style={{ width: size, height: size, ...style }}\r\n    >\r\n      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className=\"-rotate-90\">\r\n        <circle\r\n          cx={size / 2} cy={size / 2} r={r}\r\n          fill=\"none\"\r\n          stroke=\"color-mix(in srgb, currentColor 12%, transparent)\"\r\n          strokeWidth={stroke}\r\n        />\r\n        <circle\r\n          cx={size / 2} cy={size / 2} r={r}\r\n          fill=\"none\"\r\n          stroke={color}\r\n          strokeWidth={stroke}\r\n          strokeDasharray={circumference}\r\n          strokeDashoffset={dashOffset}\r\n          strokeLinecap=\"round\"\r\n          style={{ transition: 'stroke-dashoffset 0.5s cubic-bezier(0.4,0,0.2,1)' }}\r\n        />\r\n      </svg>\r\n      <div className=\"absolute inset-0 flex flex-col items-center justify-center\">\r\n        {showValue && (\r\n          <span className=\"font-bold tabular-nums leading-none\" style={{ fontSize: size * 0.2, color }}>\r\n            {Math.round(pct * 100)}%\r\n          </span>\r\n        )}\r\n        {label && (\r\n          <span className=\"text-faint leading-none mt-0.5\" style={{ fontSize: size * 0.13 }}>\r\n            {label}\r\n          </span>\r\n        )}\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n"
+      "content": "import { Progress } from \"../progress/Progress\";\n\nimport type { ProgressRingProps } from \"./progress-ring.types\";\n\n/**\n * ProgressRing — backward-compat wrapper over the Super `Progress` component.\n * Delegates to `<Progress shape=\"ring\" />`. Prefer importing `Progress` directly.\n */\nexport function ProgressRing(props: ProgressRingProps) {\n  return <Progress shape=\"ring\" {...props} />;\n}\n"
     }
   ]
 }

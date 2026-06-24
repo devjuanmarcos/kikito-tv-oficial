@@ -1,6 +1,6 @@
 {
   "name": "search-input",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Search Input",
   "type": "registry:component",
   "description": "Search field with icon and clear button.",

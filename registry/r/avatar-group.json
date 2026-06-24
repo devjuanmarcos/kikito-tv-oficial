@@ -1,6 +1,6 @@
 {
   "name": "avatar-group",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Avatar Group",
   "type": "registry:component",
   "description": "Stacked group of avatars with overflow count.",

@@ -1,6 +1,6 @@
 {
   "name": "pricing-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Pricing Card",
   "type": "registry:component",
   "description": "Subscription plan card with features.",

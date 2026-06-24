@@ -1,13 +1,13 @@
 {
   "name": "metric-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Metric Card",
   "type": "registry:component",
   "description": "Stat card with trend indicator.",
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": ["stat"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
@@ -23,7 +23,7 @@
       "path": "components/ui/cn/metric-card/MetricCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/metric-card/MetricCard.tsx",
-      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport type MetricIntent = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'\nexport type MetricTrend  = 'up' | 'down' | 'flat'\n\nexport interface MetricCardProps {\n  label:        string\n  value:        string | number\n  unit?:        string\n  trend?:       MetricTrend\n  trendValue?:  string\n  trendLabel?:  string\n  sparkline?:   number[]\n  intent?:      MetricIntent\n  loading?:     boolean\n  description?: string\n  className?:   string\n  style?:       React.CSSProperties\n}\n\nconst INTENT_SPARK: Record<MetricIntent, string> = {\n  primary: 'stroke-patina',\n  success: 'stroke-success',\n  warning: 'stroke-warning',\n  danger:  'stroke-danger',\n  info:    'stroke-info',\n  neutral: 'stroke-foreground/40',\n}\n\nconst TREND_CLS: Record<MetricTrend, string> = {\n  up:   'text-success',\n  down: 'text-danger',\n  flat: 'text-faint',\n}\nconst TREND_ARROW: Record<MetricTrend, string> = {\n  up: '↑', down: '↓', flat: '→',\n}\n\nfunction Sparkline({ data, intent }: { data: number[]; intent: MetricIntent }) {\n  const min  = Math.min(...data)\n  const max  = Math.max(...data) - min || 1\n  const w    = 80\n  const h    = 28\n  const pts  = data.map((v, i) => {\n    const x = (i / (data.length - 1)) * w\n    const y = h - ((v - min) / max) * h\n    return `${x},${y}`\n  }).join(' ')\n\n  return (\n    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden=\"true\" className=\"overflow-visible\">\n      <polyline\n        points={pts}\n        fill=\"none\"\n        strokeWidth=\"1.5\"\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n        className={INTENT_SPARK[intent]}\n      />\n    </svg>\n  )\n}\n\nexport function MetricCard({\n  label,\n  value,\n  unit,\n  trend,\n  trendValue,\n  trendLabel  = 'vs last period',\n  sparkline,\n  intent      = 'primary',\n  loading     = false,\n  description,\n  className,\n  style,\n}: MetricCardProps) {\n  return (\n    <div\n      style={style}\n      className={cn(\n        'flex flex-col gap-3 p-4 rounded-xl border border-rule bg-raised',\n        className,\n      )}\n    >\n      <div className=\"flex items-start justify-between gap-2\">\n        <span className=\"text-body-caption text-faint\">{label}</span>\n        {sparkline && sparkline.length > 1 && (\n          <Sparkline data={sparkline} intent={intent} />\n        )}\n      </div>\n\n      {loading ? (\n        <div className=\"space-y-2\">\n          <div className=\"h-7 w-24 rounded bg-graphite-2 animate-pulse\" />\n          <div className=\"h-4 w-16 rounded bg-graphite-2 animate-pulse\" />\n        </div>\n      ) : (\n        <>\n          <div className=\"flex items-baseline gap-1\">\n            <span className=\"text-2xl font-bold text-foreground leading-none\">{value}</span>\n            {unit && <span className=\"text-body-caption text-faint\">{unit}</span>}\n          </div>\n          {trend && (\n            <div className=\"flex items-center gap-1\">\n              <span className={cn('text-body-caption font-medium', TREND_CLS[trend])}>\n                {TREND_ARROW[trend]} {trendValue}\n              </span>\n              <span className=\"text-body-caption text-faint\">{trendLabel}</span>\n            </div>\n          )}\n        </>\n      )}\n\n      {description && (\n        <p className=\"text-body-caption text-faint border-t border-rule pt-2\">{description}</p>\n      )}\n    </div>\n  )\n}\n"
+      "content": "\"use client\";\n/**\n * MetricCard — backward-compat wrapper.\n * Absorbed by the Stat Super component (`<Stat mode=\"metric\" />`). Kept so\n * existing imports of `MetricCard` keep working; new code should use Stat directly.\n */\nimport { Stat } from \"@/components/ui/cn/stat\";\nimport type { StatMetricProps } from \"@/components/ui/cn/stat/stat.types\";\n\nexport type { MetricIntent, MetricTrend } from \"@/components/ui/cn/stat/stat.types\";\nexport type MetricCardProps = Omit<StatMetricProps, \"mode\">;\n\nexport function MetricCard(props: MetricCardProps) {\n  return <Stat mode=\"metric\" {...props} />;\n}\n"
     }
   ]
 }
