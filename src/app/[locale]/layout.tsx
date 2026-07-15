@@ -71,6 +71,13 @@ export default async function RootLayout({
 
   return (
     <html className={`${GeistSans.variable} scroll-container`} suppressHydrationWarning lang="pt-BR">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8661729194700994"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body className={""}>
         <SkipToContent />
         <LandingPageProviders messages={messages} locale={resolvedParams.locale} session={session}>
