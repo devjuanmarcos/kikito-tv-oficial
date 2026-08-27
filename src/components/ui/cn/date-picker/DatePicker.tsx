@@ -5,76 +5,7 @@ import { useState, useRef, useEffect, useId, type KeyboardEvent } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type DatePickerVariant = "outline" | "filled" | "ghost";
-
-/* ── Shared sub-types absorbed from sibling families ──────────────────────── */
-
-/** Range value shape (absorbed from DateRangePicker). */
-export interface DateRange {
-  start: Date | null;
-  end: Date | null;
-}
-
-/** Time value shape (absorbed from TimePicker). */
-export interface TimeValue {
-  hours: number;
-  minutes: number;
-  period?: "AM" | "PM";
-}
-export type TimeFormat = "12" | "24";
-
-/** Inline-calendar event shape (absorbed from Calendar). */
-export interface CalendarEvent {
-  id: string | number;
-  date: Date;
-  title: string;
-  color?: string;
-}
-
-/* ── Discriminated props union ────────────────────────────────────────────── */
-
-interface DatePickerBaseProps {
-  placeholder?: string;
-  label?: string;
-  helperText?: string;
-  errorText?: string;
-  state?: "default" | "error";
-  disabled?: boolean;
-  clearable?: boolean;
-  showTime?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
-  formatDate?: (d: Date) => string;
-  locale?: string;
-  className?: string;
-}
-
-/** Default single-date input mode. */
-export interface DatePickerSingleProps extends DatePickerBaseProps {
-  /** Dual-calendar range mode. Omit/false for a single date. */
-  range?: false;
-  /** `input` (default, popover field) or `inline` (always-open calendar grid). */
-  mode?: "input" | "inline";
-  value?: Date | null;
-  defaultValue?: Date | null;
-  onChange?: (date: Date | null) => void;
-  /** Inline-mode events (absorbed from Calendar). */
-  events?: CalendarEvent[];
-  onEventClick?: (event: CalendarEvent) => void;
-  style?: React.CSSProperties;
-}
-
-/** Date-range mode (absorbed from DateRangePicker). value is `{ start, end }`. */
-export interface DatePickerRangeProps extends DatePickerBaseProps {
-  range: true;
-  mode?: "input";
-  value?: DateRange;
-  defaultValue?: DateRange;
-  onChange?: (range: DateRange) => void;
-  style?: React.CSSProperties;
-}
-
-export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps;
+import type { DateRange, DatePickerProps, DatePickerSingleProps, DatePickerRangeProps } from "./date-picker.types";
 
 /* ── Icons ────────────────────────────────────────────────────────────────── */
 
@@ -88,6 +19,7 @@ const ChevronL = () => (
     strokeLinejoin="round"
     width={16}
     height={16}
+    aria-hidden="true"
   >
     <polyline points="15 18 9 12 15 6" />
   </svg>
@@ -102,6 +34,7 @@ const ChevronR = () => (
     strokeLinejoin="round"
     width={16}
     height={16}
+    aria-hidden="true"
   >
     <polyline points="9 18 15 12 9 6" />
   </svg>
@@ -116,6 +49,7 @@ const CalIcon = () => (
     strokeLinejoin="round"
     width={16}
     height={16}
+    aria-hidden="true"
   >
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
     <line x1="16" y1="2" x2="16" y2="6" />
@@ -133,6 +67,7 @@ const XIcon = () => (
     strokeLinejoin="round"
     width={12}
     height={12}
+    aria-hidden="true"
   >
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
@@ -322,16 +257,24 @@ function SingleDatePicker({
     "relative aspect-square flex items-center justify-center text-body-callout rounded-(--radius-sm) border-none bg-transparent cursor-pointer text-foreground font-inherit transition-[background,color] duration-[100ms] outline-none hover:bg-graphite focus-visible:shadow-[0_0_0_2px_var(--ks-primary)]";
 
   return (
-    <div ref={wrapRef} className={cn("flex flex-col gap-[0.375rem] w-full relative", className)}>
+    <div ref={wrapRef} className={cn("flex flex-col gap-(--spacing-xs) w-full relative", className)}>
       {label && (
-        <label className="text-body-callout font-semibold text-foreground leading-none" htmlFor={uid}>
+        // id em vez de htmlFor: o alvo agora é um <div role="button"> (não labelable), associado via aria-labelledby
+        <span id={`${uid}-label`} className="text-body-callout font-semibold text-foreground leading-none">
           {label}
-        </label>
+        </span>
       )}
 
-      <button
+      {/* div (não button) porque contém um segundo controle interativo (limpar) — botão dentro de botão é HTML inválido e trava o foco por teclado no filho */}
+      <div
         id={uid}
-        type="button"
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={open ? `${uid}-popover` : undefined}
+        aria-labelledby={label ? `${uid}-label` : undefined}
+        aria-disabled={disabled || undefined}
         className={cn(
           "flex items-center w-full bg-raised border border-rule rounded-(--radius-sm) cursor-pointer font-inherit text-foreground transition-[border-color,box-shadow] duration-[140ms]",
           "focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)]",
@@ -339,35 +282,45 @@ function SingleDatePicker({
           errorText && "border-[color-mix(in_oklch,var(--ks-danger)_55%,transparent)]",
           disabled && "opacity-55 cursor-not-allowed"
         )}
-        disabled={disabled}
         onClick={() => {
           if (!disabled) {
             setOpen((o) => !o);
             setView("days");
           }
         }}
+        onKeyDown={(e) => {
+          if (disabled) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen((o) => !o);
+            setView("days");
+          }
+        }}
       >
-        <span className="inline-flex px-3 text-faint">
+        <span className="inline-flex px-(--spacing-md) text-faint">
           <CalIcon />
         </span>
-        <span className="flex-1 py-2 pr-2 text-body-callout text-left leading-normal">
+        <span className="flex-1 py-(--spacing-sm) pr-(--spacing-sm) text-body-callout text-left leading-normal">
           {displayStr ?? <span className="text-faint">{placeholder}</span>}
         </span>
         {clearable && selected && (
-          <span
-            className="inline-flex py-1 px-2 text-faint hover:text-foreground cursor-pointer"
+          <button
+            type="button"
+            className="inline-flex py-(--spacing-2xs) px-(--spacing-sm) text-faint hover:text-foreground cursor-pointer bg-transparent border-none"
             onClick={clear}
-            role="button"
             aria-label="Clear date"
           >
             <XIcon />
-          </span>
+          </button>
         )}
-      </button>
+      </div>
 
       {open && (
         <div
-          className="absolute top-[calc(100%+4px)] left-0 z-[300] bg-lacquer border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.45),0_2px_8px_-2px_oklch(0%_0_0/0.28)] p-4 w-[280px]"
+          id={`${uid}-popover`}
+          role="dialog"
+          aria-label={label ?? "Choose date"}
+          className="absolute top-[calc(100%+4px)] left-0 z-[300] bg-lacquer border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.45),0_2px_8px_-2px_oklch(0%_0_0/0.28)] p-(--spacing-lg) w-[280px]"
           style={{
             animationName: "ks-cal-in",
             animationDuration: "140ms",
@@ -377,39 +330,41 @@ function SingleDatePicker({
         >
           {view === "days" && (
             <>
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-(--spacing-md)">
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-(--spacing-2xs) rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={prevMonth}
                 >
                   <ChevronL />
                 </button>
-                <span
-                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-1 hover:bg-graphite transition-[background]"
+                <button
+                  type="button"
+                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-(--spacing-2xs) hover:bg-graphite transition-[background] bg-transparent border-none font-inherit"
                   onClick={() => setView("months")}
                 >
                   {MONTHS[viewMonth]} {viewYear}
-                </span>
+                </button>
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-(--spacing-2xs) rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={nextMonth}
                 >
                   <ChevronR />
                 </button>
               </div>
-              <div className="grid grid-cols-7 mb-1">
+              <div className="grid grid-cols-7 mb-(--spacing-2xs)">
                 {WEEKDAYS.map((d) => (
                   <div
                     key={d}
-                    className="text-center text-[0.625rem] font-bold tracking-[0.06em] uppercase text-faint py-1"
+                    // text-[0.625rem]: below scale minimum, micro-label do dia da semana (Su/Mo/Tu…)
+                    className="text-center text-[0.625rem] font-bold tracking-[0.06em] uppercase text-faint py-(--spacing-2xs)"
                   >
                     {d}
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-7 gap-[2px]">
+              <div className="grid grid-cols-7 gap-(--spacing-3xs)">
                 {grid.map(({ date, otherMonth }) => (
                   <button
                     key={date.toDateString()}
@@ -435,12 +390,12 @@ function SingleDatePicker({
                 ))}
               </div>
               {showTime && (
-                <div className="flex items-center gap-2 border-t border-rule mt-3 pt-3">
+                <div className="flex items-center gap-(--spacing-sm) border-t border-rule mt-(--spacing-md) pt-(--spacing-md)">
                   <input
                     type="number"
                     min={0}
                     max={23}
-                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
+                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-(--spacing-2xs) px-(--spacing-sm) font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
                     value={hour}
                     onChange={(e) => setHour(e.target.value.padStart(2, "0"))}
                   />
@@ -449,7 +404,7 @@ function SingleDatePicker({
                     type="number"
                     min={0}
                     max={59}
-                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
+                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-(--spacing-2xs) px-(--spacing-sm) font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
                     value={minute}
                     onChange={(e) => setMinute(e.target.value.padStart(2, "0"))}
                   />
@@ -475,34 +430,36 @@ function SingleDatePicker({
 
           {view === "months" && (
             <>
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-(--spacing-md)">
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-(--spacing-2xs) rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={() => setViewYear((y) => y - 1)}
                 >
                   <ChevronL />
                 </button>
-                <span
-                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-1 hover:bg-graphite"
+                <button
+                  type="button"
+                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-(--spacing-2xs) hover:bg-graphite bg-transparent border-none font-inherit"
                   onClick={() => setView("years")}
                 >
                   {viewYear}
-                </span>
+                </button>
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-(--spacing-2xs) rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={() => setViewYear((y) => y + 1)}
                 >
                   <ChevronR />
                 </button>
               </div>
-              <div className="grid grid-cols-4 gap-1 max-h-[200px] overflow-y-auto">
+              <div className="grid grid-cols-4 gap-(--spacing-2xs) max-h-[200px] overflow-y-auto">
                 {MONTHS.map((m, i) => (
                   <button
                     key={m}
                     type="button"
                     className={cn(
+                      // py-[0.4rem] (6.4px): sem match exato na escala de spacing
                       "py-[0.4rem] rounded-(--radius-sm) border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
                       i === viewMonth && viewYear === (selected?.getFullYear() ?? -1) && "bg-patina! text-patina-fg!"
                     )}
@@ -520,15 +477,16 @@ function SingleDatePicker({
 
           {view === "years" && (
             <>
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-(--spacing-md)">
                 <span className="flex-1 text-center text-body-callout font-bold text-foreground">Select year</span>
               </div>
-              <div className="grid grid-cols-4 gap-1 max-h-[200px] overflow-y-auto">
+              <div className="grid grid-cols-4 gap-(--spacing-2xs) max-h-[200px] overflow-y-auto">
                 {Array.from({ length: 24 }, (_, i) => now.getFullYear() - 10 + i).map((y) => (
                   <button
                     key={y}
                     type="button"
                     className={cn(
+                      // py-[0.4rem] (6.4px): sem match exato na escala de spacing
                       "py-[0.4rem] rounded-(--radius-sm) border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
                       y === viewYear && "bg-patina! text-patina-fg!"
                     )}
@@ -603,10 +561,13 @@ function InlineCalendar({
   return (
     <div
       style={style}
-      className={cn("inline-flex flex-col gap-1 p-4 rounded-2xl border border-rule bg-raised", className)}
+      className={cn(
+        "inline-flex flex-col gap-(--spacing-2xs) p-(--spacing-lg) rounded-2xl border border-rule bg-raised",
+        className
+      )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-(--spacing-sm)">
         <button
           type="button"
           onClick={prevMonth}
@@ -627,16 +588,17 @@ function InlineCalendar({
       </div>
 
       {/* Day headers */}
-      <div className="grid grid-cols-7 mb-1">
+      <div className="grid grid-cols-7 mb-(--spacing-2xs)">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="text-center text-[0.65rem] font-medium text-faint py-1">
+          // text-[0.65rem]: below scale minimum, micro-label do dia da semana
+          <div key={d} className="text-center text-[0.65rem] font-medium text-faint py-(--spacing-2xs)">
             {d}
           </div>
         ))}
       </div>
 
       {/* Cells */}
-      <div className="grid grid-cols-7 gap-y-1">
+      <div className="grid grid-cols-7 gap-y-(--spacing-2xs)">
         {cells.map((day, i) => {
           if (!day) return <div key={i} />;
           const date = new Date(viewYear, viewMonth, day);
@@ -702,8 +664,9 @@ function RangeMonthGrid({
   const endDisplay = range.end ?? hovered;
 
   return (
-    <div className="grid grid-cols-7 gap-[2px]">
+    <div className="grid grid-cols-7 gap-(--spacing-3xs)">
       {WEEKDAYS.map((d) => (
+        // py-[3px]: sem match exato na escala de spacing
         <div key={d} className="text-center text-body-caption font-semibold text-muted opacity-50 py-[3px]">
           {d}
         </div>
@@ -723,6 +686,7 @@ function RangeMonthGrid({
             key={i}
             type="button"
             className={cn(
+              // py-[5px]: sem match exato na escala de spacing
               "text-center text-body-caption py-[5px] border-0 bg-transparent text-foreground cursor-pointer transition-colors duration-100",
               !isStart && !isEnd && "rounded-(--radius-sm) hover:bg-raised",
               today_ && "font-bold",
@@ -760,6 +724,7 @@ function RangeDatePicker({
   const [leftYear, setLeftYear] = useState(today.getFullYear());
   const [leftMonth, setLeftMonth] = useState(today.getMonth());
   const rootRef = useRef<HTMLDivElement>(null);
+  const popoverId = useId();
 
   const range = controlled !== undefined ? controlled : internal;
 
@@ -809,25 +774,34 @@ function RangeDatePicker({
   return (
     <div ref={rootRef} className={cn("relative inline-flex", className)} style={style}>
       <button
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={open ? popoverId : undefined}
         className={cn(
-          "inline-flex items-center gap-2 px-3 py-2 bg-sunken border border-rule rounded-(--radius-base) cursor-pointer text-body-callout text-foreground transition-colors duration-150 min-w-[200px] justify-between hover:border-patina",
+          "inline-flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) bg-sunken border border-rule rounded-(--radius-base) cursor-pointer text-body-callout text-foreground transition-colors duration-150 min-w-[200px] justify-between hover:border-patina",
           disabled && "opacity-40 cursor-not-allowed"
         )}
         onClick={() => !disabled && setOpen((o) => !o)}
         type="button"
       >
+        {/* emoji como ícone: desaconselhado em produção, sugestão de melhoria (não bloqueante) */}
         <span className="opacity-50 text-body-paragraph">📅</span>
         <span className={cn("flex-1 text-left text-body-callout", !displayLabel && "opacity-40")}>
           {displayLabel ?? placeholder}
         </span>
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+8px)] left-0 z-[200] bg-float border border-rule rounded-(--radius-lg) shadow-[0_8px_32px_color-mix(in_srgb,black_20%,transparent)] p-4 flex gap-4 animate-in fade-in slide-in-from-top-1 duration-[120ms]">
+        <div
+          id={popoverId}
+          role="dialog"
+          aria-label="Choose date range"
+          className="absolute top-[calc(100%+8px)] left-0 z-[200] bg-float border border-rule rounded-(--radius-lg) shadow-[0_8px_32px_color-mix(in_srgb,black_20%,transparent)] p-(--spacing-lg) flex gap-(--spacing-lg) animate-in fade-in slide-in-from-top-1 duration-[120ms]"
+        >
           {/* Left month */}
           <div className="min-w-[220px]">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-(--spacing-md)">
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
                 onClick={prev}
                 type="button"
               >
@@ -837,7 +811,7 @@ function RangeDatePicker({
                 {MONTHS[leftMonth]} {leftYear}
               </span>
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs)"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs)"
                 type="button"
               >
                 ›
@@ -854,9 +828,9 @@ function RangeDatePicker({
           </div>
           {/* Right month */}
           <div className="min-w-[220px]">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-(--spacing-md)">
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs)"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs)"
                 type="button"
               >
                 ‹
@@ -865,7 +839,7 @@ function RangeDatePicker({
                 {MONTHS[rightMonth]} {rightYear}
               </span>
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
                 onClick={next}
                 type="button"
               >

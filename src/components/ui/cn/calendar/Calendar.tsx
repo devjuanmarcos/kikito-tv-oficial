@@ -1,19 +1,8 @@
 "use client";
-import type React from "react";
 
-import { DatePicker, type CalendarEvent as SuperCalendarEvent } from "../date-picker/DatePicker";
+import { DatePicker } from "../date-picker/DatePicker";
 
-export type CalendarEvent = SuperCalendarEvent;
-
-export interface CalendarProps {
-  value?: Date;
-  defaultValue?: Date;
-  onChange?: (date: Date) => void;
-  events?: CalendarEvent[];
-  onEventClick?: (event: CalendarEvent) => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { CalendarProps } from "./calendar.types";
 
 /**
  * Calendar — backward-compat wrapper.

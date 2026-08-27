@@ -96,27 +96,36 @@ export function EventCalendar({
       )}
       style={style}
     >
+      {/* px-[18px]/py-[14px]: sem match exato na escala de spacing */}
       <div className="flex items-center justify-between px-[18px] py-[14px] border-b border-rule bg-sunken">
         <button
+          type="button"
+          aria-label="Mês anterior"
           className="w-[30px] h-[30px] bg-transparent border border-rule rounded-(--radius-sm) cursor-pointer text-muted flex items-center justify-center text-body-callout transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
           onClick={prev}
         >
-          ‹
+          <span aria-hidden="true">‹</span>
         </button>
         <span className="text-body-paragraph font-bold text-foreground">
           {MONTHS[month]} {year}
         </span>
         <button
+          type="button"
+          aria-label="Próximo mês"
           className="w-[30px] h-[30px] bg-transparent border border-rule rounded-(--radius-sm) cursor-pointer text-muted flex items-center justify-center text-body-callout transition-colors duration-[120ms] hover:bg-float hover:text-foreground"
           onClick={next}
         >
-          ›
+          <span aria-hidden="true">›</span>
         </button>
       </div>
 
       <div className="grid grid-cols-7 border-b border-rule">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="py-2 text-center text-[0.625rem] font-bold uppercase tracking-[0.06em] text-faint">
+          // text-[0.625rem]: below scale minimum, micro-label do dia da semana
+          <div
+            key={d}
+            className="py-(--spacing-sm) text-center text-[0.625rem] font-bold uppercase tracking-[0.06em] text-faint"
+          >
             {d}
           </div>
         ))}
@@ -129,36 +138,70 @@ export function EventCalendar({
           return (
             <div
               key={i}
+              role={onDayClick ? "button" : undefined}
+              tabIndex={onDayClick ? 0 : undefined}
+              aria-label={onDayClick ? `Dia ${cell.day}` : undefined}
               className={cn(
-                "min-h-[80px] p-[6px_8px] border-r border-b border-rule cursor-pointer transition-colors duration-100 align-top",
+                // py-[6px]/px-[8px] (era p-[6px_8px]): matches exatos --spacing-xs/--spacing-sm
+                "min-h-[80px] py-(--spacing-xs) px-(--spacing-sm) border-r border-b border-rule cursor-pointer transition-colors duration-100 align-top",
                 "[&:nth-child(7n)]:border-r-0",
                 "hover:bg-float",
                 isToday && "bg-patina-soft",
                 cell.outside && "opacity-30"
               )}
               onClick={() => onDayClick?.(cell.str)}
+              onKeyDown={
+                onDayClick
+                  ? (e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onDayClick(cell.str);
+                      }
+                    }
+                  : undefined
+              }
             >
-              <div className={cn("text-body-caption font-semibold text-muted mb-1", isToday && "text-patina")}>
+              <div
+                className={cn(
+                  "text-body-caption font-semibold text-muted mb-(--spacing-2xs)",
+                  isToday && "text-patina"
+                )}
+              >
                 {cell.day}
               </div>
-              <div className="flex flex-col gap-[2px]">
+              <div className="flex flex-col gap-(--spacing-3xs)">
                 {dayEvents.slice(0, 3).map((ev) => (
                   <div
                     key={ev.id}
+                    role={onEventClick ? "button" : undefined}
+                    tabIndex={onEventClick ? 0 : undefined}
+                    // text-[0.625rem]: below scale minimum, chip de evento no calendário
                     className={cn(
-                      "px-[6px] py-[2px] rounded-(--radius-xs) text-[0.625rem] font-semibold whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer transition-opacity duration-[120ms] hover:opacity-80",
+                      "px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) text-[0.625rem] font-semibold whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer transition-opacity duration-[120ms] hover:opacity-80",
                       intentMap[ev.intent ?? "primary"] ?? intentMap.primary
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
                       onEventClick?.(ev);
                     }}
+                    onKeyDown={
+                      onEventClick
+                        ? (e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              onEventClick(ev);
+                            }
+                          }
+                        : undefined
+                    }
                   >
                     {ev.title}
                   </div>
                 ))}
                 {dayEvents.length > 3 && (
-                  <div className="px-[6px] py-[2px] rounded-(--radius-xs) text-[0.625rem] font-semibold bg-patina-soft text-patina opacity-60">
+                  // text-[0.625rem]: below scale minimum
+                  <div className="px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) text-[0.625rem] font-semibold bg-patina-soft text-patina opacity-60">
                     +{dayEvents.length - 3}
                   </div>
                 )}

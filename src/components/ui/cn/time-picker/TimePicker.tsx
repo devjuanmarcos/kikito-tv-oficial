@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -35,6 +35,7 @@ export function TimePicker({
   const isControlled = controlled !== undefined;
   const val = isControlled ? controlled! : internal;
   const rootRef = useRef<HTMLDivElement>(null);
+  const popoverId = useId();
 
   const hours =
     format === "12"
@@ -63,31 +64,42 @@ export function TimePicker({
     <div ref={rootRef} className={cn("relative inline-block", className)} style={style}>
       <button
         type="button"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={open ? popoverId : undefined}
         onClick={() => !disabled && setOpen((o) => !o)}
         disabled={disabled}
         className={cn(
-          "flex items-center gap-2 px-3 py-2 rounded-(--radius-sm) border text-body-callout min-w-[140px]",
+          "flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) rounded-(--radius-sm) border text-body-callout min-w-[140px]",
           "transition-colors duration-150",
           open ? "border-patina bg-raised" : "border-rule bg-canvas hover:border-patina/50",
           disabled && "opacity-50 cursor-not-allowed"
         )}
       >
-        <span>🕐</span>
+        {/* emoji como ícone: desaconselhado em produção, sugestão de melhoria (não bloqueante) */}
+        <span aria-hidden="true">🕐</span>
         <span className={isEmpty ? "text-faint" : "text-foreground"}>{isEmpty ? placeholder : fmt(val, format)}</span>
       </button>
 
       {open && (
-        <div className="absolute top-full mt-1 left-0 z-50 bg-raised border border-rule rounded-(--radius-md) shadow-lg flex items-stretch overflow-hidden animate-in fade-in slide-in-from-top-1 duration-100">
+        <div
+          id={popoverId}
+          role="dialog"
+          aria-label="Choose time"
+          className="absolute top-full mt-(--spacing-2xs) left-0 z-50 bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.45),0_2px_8px_-2px_oklch(0%_0_0/0.28)] flex items-stretch overflow-hidden animate-in fade-in slide-in-from-top-1 duration-100"
+        >
           {/* Hours */}
           <div className="flex flex-col">
-            <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-3 py-1.5 border-b border-rule">
+            {/* text-[0.625rem]: below scale minimum, micro-label de coluna */}
+            <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-(--spacing-md) py-(--spacing-xs) border-b border-rule">
               Hour
             </div>
-            <div className="overflow-y-auto max-h-44 py-1">
+            <div className="overflow-y-auto max-h-44 py-(--spacing-2xs)">
               {hours.map((h) => (
                 <button
                   key={h}
                   type="button"
+                  aria-pressed={displayH === h}
                   onClick={() => {
                     const newH =
                       format === "12"
@@ -100,7 +112,7 @@ export function TimePicker({
                     update({ hours: newH });
                   }}
                   className={cn(
-                    "block w-full px-4 py-1 text-center text-body-callout hover:bg-graphite transition-colors",
+                    "block w-full px-(--spacing-lg) py-(--spacing-2xs) text-center text-body-callout hover:bg-graphite transition-colors",
                     displayH === h ? "bg-patina text-patina-fg font-bold" : "text-foreground"
                   )}
                 >
@@ -110,21 +122,23 @@ export function TimePicker({
             </div>
           </div>
 
-          <div className="flex items-center px-1 text-muted font-bold">:</div>
+          <div className="flex items-center px-(--spacing-2xs) text-muted font-bold">:</div>
 
           {/* Minutes */}
           <div className="flex flex-col">
-            <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-3 py-1.5 border-b border-rule">
+            {/* text-[0.625rem]: below scale minimum, micro-label de coluna */}
+            <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-(--spacing-md) py-(--spacing-xs) border-b border-rule">
               Min
             </div>
-            <div className="overflow-y-auto max-h-44 py-1">
+            <div className="overflow-y-auto max-h-44 py-(--spacing-2xs)">
               {minutes.map((m) => (
                 <button
                   key={m}
                   type="button"
+                  aria-pressed={val.minutes === m}
                   onClick={() => update({ minutes: m })}
                   className={cn(
-                    "block w-full px-4 py-1 text-center text-body-callout hover:bg-graphite transition-colors",
+                    "block w-full px-(--spacing-lg) py-(--spacing-2xs) text-center text-body-callout hover:bg-graphite transition-colors",
                     val.minutes === m ? "bg-patina text-patina-fg font-bold" : "text-foreground"
                   )}
                 >
@@ -137,17 +151,19 @@ export function TimePicker({
           {/* AM/PM */}
           {format === "12" && (
             <div className="flex flex-col border-l border-rule">
-              <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-3 py-1.5 border-b border-rule">
+              {/* text-[0.625rem]: below scale minimum, micro-label de coluna */}
+              <div className="text-[0.625rem] font-bold text-faint uppercase tracking-widest px-(--spacing-md) py-(--spacing-xs) border-b border-rule">
                 Period
               </div>
-              <div className="flex flex-col gap-1 p-2">
+              <div className="flex flex-col gap-(--spacing-2xs) p-(--spacing-sm)">
                 {(["AM", "PM"] as const).map((p) => (
                   <button
                     key={p}
                     type="button"
+                    aria-pressed={val.period === p}
                     onClick={() => update({ period: p })}
                     className={cn(
-                      "px-3 py-1 rounded-(--radius-sm) text-body-callout font-medium transition-colors",
+                      "px-(--spacing-md) py-(--spacing-2xs) rounded-(--radius-sm) text-body-callout font-medium transition-colors",
                       val.period === p ? "bg-patina text-patina-fg" : "text-foreground hover:bg-graphite"
                     )}
                   >

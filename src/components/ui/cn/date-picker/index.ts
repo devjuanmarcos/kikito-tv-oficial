@@ -8,4 +8,4 @@ export type {
   TimeValue,
   TimeFormat,
   CalendarEvent,
-} from "./DatePicker";
+} from "./date-picker.types";

@@ -2066,12 +2066,6 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Exibe botão para limpar a data",
       },
       {
-        name: "showTime",
-        type: "boolean",
-        default: "false",
-        description: "Adiciona seletor de hora/minuto",
-      },
-      {
         name: "minDate",
         type: "Date",
         default: "undefined",
