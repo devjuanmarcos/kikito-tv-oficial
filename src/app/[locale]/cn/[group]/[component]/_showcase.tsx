@@ -152,6 +152,7 @@ import { Slider } from "@/components/ui/cn/slider/Slider";
 import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
 import { Spinner } from "@/components/ui/cn/spinner/Spinner";
+import { SplitButton } from "@/components/ui/cn/split-button/SplitButton";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { Stat } from "@/components/ui/cn/stat/Stat";
@@ -3105,6 +3106,34 @@ function InlineEditDemo() {
         <div className="flex flex-col gap-2">
           <InlineEdit value="" onConfirm={() => {}} placeholder="Add a name…" />
           <InlineEdit value="Locked value" onConfirm={() => {}} disabled />
+        </div>
+      </Frame>
+    </div>
+  );
+}
+
+function SplitButtonDemo() {
+  const options = [
+    { label: "Duplicate", onClick: () => {} },
+    { label: "Export", onClick: () => {} },
+    { label: "Archive", onClick: () => {}, disabled: true },
+  ];
+  return (
+    <div className="flex flex-col gap-6">
+      <Frame label="Intents">
+        <div className="flex flex-wrap gap-4">
+          <SplitButton label="Save" onClick={() => {}} options={options} intent="primary" />
+          <SplitButton label="Save" onClick={() => {}} options={options} intent="secondary" />
+          <SplitButton label="Save" onClick={() => {}} options={options} intent="success" />
+          <SplitButton label="Delete" onClick={() => {}} options={options} intent="danger" />
+          <SplitButton label="More" onClick={() => {}} options={options} intent="neutral" />
+        </div>
+      </Frame>
+      <Frame label="Sizes + disabled">
+        <div className="flex flex-wrap items-center gap-4">
+          <SplitButton label="Small" onClick={() => {}} options={options} size="sm" />
+          <SplitButton label="Large" onClick={() => {}} options={options} size="lg" />
+          <SplitButton label="Disabled" onClick={() => {}} options={options} disabled />
         </div>
       </Frame>
     </div>
@@ -6391,6 +6420,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/tag": TagDemo,
   "inputs/tag-input": TagInputDemo,
   "inputs/inline-edit": InlineEditDemo,
+  "inputs/split-button": SplitButtonDemo,
   "display/ping": PingDemo,
   "inputs/rating": RatingDemo,
   "layout/scroll-area": ScrollAreaDemo,

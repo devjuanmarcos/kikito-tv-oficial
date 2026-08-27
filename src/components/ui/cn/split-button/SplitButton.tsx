@@ -1,30 +1,13 @@
 ﻿"use client";
-import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 
-export type SplitButtonIntent = "primary" | "secondary" | "success" | "danger" | "neutral";
-export type SplitButtonSize = "sm" | "md" | "lg";
+import type { SplitButtonIntent, SplitButtonSize, SplitButtonProps } from "./split-button.types";
 
-export interface SplitButtonOption {
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-export interface SplitButtonProps {
-  label: string;
-  onClick: () => void;
-  options: SplitButtonOption[];
-  intent?: SplitButtonIntent;
-  size?: SplitButtonSize;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
+// Escala própria do componente (dimensão/padding por tier de size), não migra pra spacing
+// genérico. text-[0.8125rem] (tier sm): abaixo do mínimo da escala de tipografia.
 const SIZE_BTN: Record<SplitButtonSize, string> = {
   sm: "h-7  px-2.5 text-[0.8125rem]",
   md: "h-9  px-3.5 text-body-callout",
@@ -44,11 +27,15 @@ const INTENT_CLS: Record<SplitButtonIntent, string> = {
   neutral: "bg-raised text-foreground hover:bg-graphite border-rule",
 };
 
+// bg-current/20 + a mesma cor de texto usada pelo INTENT_CLS (o divider é um <div> irmão,
+// não filho do botão, então currentColor precisa ser setado nele mesmo) — em vez de
+// branco/preto fixo assumindo qual intent é "claro" ou "escuro" por cima. Mesma cor-fonte
+// do token já usado pelos botões, então acompanha qualquer mudança de tema.
 const DIVIDER_CLS: Record<SplitButtonIntent, string> = {
-  primary: "bg-white/20",
-  secondary: "bg-black/20",
-  success: "bg-white/20",
-  danger: "bg-white/20",
+  primary: "bg-current/20 text-patina-fg",
+  secondary: "bg-current/20 text-kinpaku-fg",
+  success: "bg-current/20 text-success-fg",
+  danger: "bg-current/20 text-danger-fg",
   neutral: "bg-rule",
 };
 
@@ -84,8 +71,15 @@ export function SplitButton({
         setOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [open]);
 
   const base = cn(
@@ -105,6 +99,7 @@ export function SplitButton({
       <button
         type="button"
         aria-label="More options"
+        aria-haspopup="menu"
         aria-expanded={open}
         disabled={disabled}
         onClick={() => setOpen((v) => !v)}
@@ -119,7 +114,8 @@ export function SplitButton({
           <div
             ref={menuRef}
             role="menu"
-            className="fixed z-[1200] p-1 bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35)]"
+            aria-label="More options"
+            className="fixed z-[1200] p-(--spacing-2xs) bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35)]"
             style={{ top: pos.top, left: pos.left, minWidth: pos.width }}
           >
             {options.map((opt, i) => (
@@ -132,7 +128,7 @@ export function SplitButton({
                   opt.onClick();
                   setOpen(false);
                 }}
-                className="w-full text-left px-3 py-1.5 text-body-callout text-foreground rounded-(--radius-xs) hover:bg-graphite transition-colors disabled:opacity-40 disabled:pointer-events-none"
+                className="w-full text-left px-(--spacing-md) py-(--spacing-xs) text-body-callout text-foreground rounded-(--radius-xs) hover:bg-graphite transition-colors disabled:opacity-40 disabled:pointer-events-none"
               >
                 {opt.label}
               </button>
