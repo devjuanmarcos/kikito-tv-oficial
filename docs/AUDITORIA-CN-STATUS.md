@@ -211,6 +211,21 @@ Super component com 3 modos (single/metric/grid), absorve `MetricCard`, `StatsCa
 - Família de wrappers (`metric-card/`, `stats-card/`) — checados, thin delegates, sem violação própria
 - Gate 9: `e2e/cn/display/stat.spec.ts` novo (4 testes) — 8/8 chromium-desktop + mobile-chrome
 
+### `display/timeline` — concluído
+
+Super component com 4 famílias (`variant`): `default`/`compact`/`reverse` (clássico), `scroll` (absorve `ScrollTimeline`), `progress` (absorve `TimelineProgress`), `activity` (absorve `ActivityFeed`). Já tinha `.types.ts` (Gate 1 ok).
+
+- Gate 2: nenhum hex/hsl/rgb cru, nenhuma sintaxe `-[--var]` quebrada, nenhum `rounded` bare
+- Gate 3: `text-xs` (banido, match exato `text-body-caption`) e `text-sm` (banido, ×2, match exato `text-body-callout`) na família `progress` → corrigidos
+- Gate 3/spacing: sweep quase completo nas famílias `default`/`scroll`/`progress` (nenhuma tem prop `size`) — `my-1`/`gap-3`/`pt-1`/`gap-2`(×2)/`mt-1`/`py-2`/`gap-4`/`mb-8`/`px-4`/`py-3`/`mb-1`(×2)/`mx-2`/`pb-6`/`pt-1.5`/`mt-2` → tokens exatos; `mt-[0.625rem]` documentado (sem match exato). Dois casos tratados como escala própria do componente (não migrados, documentados): `pb-0`/`pb-[0.875rem]`/`pb-6` por variante `compact`/`default` na família clássica, e o `pad` (`py-2 gap-[10px]` vs `py-3 gap-3`) por densidade `compact` na família `activity` — mesmo critério do `PADDING_CLS` do Card citado no CLAUDE.md
+- Gate 5 (**gaps reais de a11y encontrados e corrigidos**):
+  1. Ícones de status decorativos (`CheckIcon`/`ActiveIcon`/`PendingIcon`/`ErrorIcon`/`WarnIcon` da família clássica, `ActivityDefaultIcon` da família `activity`) não tinham `aria-hidden="true"` — inconsistente com os ícones da família `progress` (`ProgressCheckIcon`/`ProgressXIcon`) que já tinham. Adicionado em todos
+  2. Família `progress`: o passo `current` não tinha `aria-current="step"` — leitor de tela não conseguia identificar qual etapa está ativa num indicador só-visual. Adicionado
+  3. Família `activity`: os três containers de avatar/ícone (imagem, fallback com inicial, ícone) não tinham `aria-hidden="true"` — informação já duplicada no texto (`title`/`description`), então o avatar é puramente decorativo. Adicionado
+- Wrappers (`scroll-timeline/`, `timeline-progress/`, `activity-feed/`) — checados, thin delegates, sem violação própria
+- Gate 8: as 3 famílias absorvidas já tinham demo própria no showcase (`display/scroll-timeline`, `display/timeline-progress`, `display/activity-feed`), além de `display/timeline` pra família clássica — todas cobertas
+- Gate 9: `e2e/cn/display/timeline.spec.ts` novo (10 testes cobrindo as 4 rotas + dark mode + `aria-current`) — 20/20 chromium-desktop + mobile-chrome (firefox-desktop falha por falta do executável Firefox no ambiente, pré-existente, não relacionado)
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido

@@ -25,28 +25,29 @@ const CheckIcon = () => (
     strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
   >
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
 const ActiveIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <circle cx="12" cy="12" r="5" />
   </svg>
 );
 const PendingIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
     <circle cx="12" cy="12" r="4" />
   </svg>
 );
 const ErrorIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 const WarnIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
     <line x1="12" y1="9" x2="12" y2="13" />
     <line x1="12" y1="17" x2="12.01" y2="17" />
   </svg>
@@ -112,18 +113,28 @@ function DefaultTimeline({ items, variant = "default", lastLine = false, classNa
               {(!isLast || lastLine) && (
                 <div
                   className={cn(
-                    "flex-1 w-[2px] my-1 min-h-4 transition-[background] duration-[160ms]",
+                    // w-[2px]: espessura de linha, fora do escopo de spacing (regra de borda ainda não definida)
+                    "flex-1 w-[2px] my-(--spacing-2xs) min-h-4 transition-[background] duration-[160ms]",
                     LINE_STATUS_CLS[status]
                   )}
                 />
               )}
             </div>
 
-            <div className={cn("min-w-0", isLast ? "pb-0" : isCompact ? "pb-[0.875rem]" : "pb-6")}>
+            <div
+              className={cn(
+                "min-w-0",
+                // pb varia por variant (compact/default): escala própria do componente, não migra
+                isLast ? "pb-0" : isCompact ? "pb-[0.875rem]" : "pb-6"
+              )}
+            >
               <div
-                className={cn("flex items-start justify-between gap-3 min-h-8 pt-1", isReverse && "flex-row-reverse")}
+                className={cn(
+                  "flex items-start justify-between gap-(--spacing-md) min-h-8 pt-(--spacing-2xs)",
+                  isReverse && "flex-row-reverse"
+                )}
               >
-                <div className="flex items-center gap-2 flex-wrap min-w-0">
+                <div className="flex items-center gap-(--spacing-sm) flex-wrap min-w-0">
                   <span
                     className={cn(
                       "font-semibold leading-snug",
@@ -142,9 +153,18 @@ function DefaultTimeline({ items, variant = "default", lastLine = false, classNa
                 )}
               </div>
               {item.description && (
-                <div className={cn("text-muted leading-relaxed mt-1 text-body-callout")}>{item.description}</div>
+                <div className={cn("text-muted leading-relaxed mt-(--spacing-2xs) text-body-callout")}>
+                  {item.description}
+                </div>
               )}
-              {item.actions && <div className="flex gap-2 flex-wrap mt-[0.625rem]">{item.actions}</div>}
+              {item.actions && (
+                <div
+                  // mt-[0.625rem] (10px): sem match exato na escala de spacing
+                  className="flex gap-(--spacing-sm) flex-wrap mt-[0.625rem]"
+                >
+                  {item.actions}
+                </div>
+              )}
             </div>
           </li>
         );
@@ -178,7 +198,7 @@ function ScrollTimelineImpl({ events, orientation = "alternating", className, st
   return (
     <div
       className={cn(
-        "relative py-2",
+        "relative py-(--spacing-sm)",
         'before:content-[""] before:absolute before:top-0 before:bottom-0 before:w-[2px] before:bg-rule',
         SCROLL_LINE_CLS[orientation] ?? SCROLL_LINE_CLS.alternating,
         className
@@ -196,7 +216,7 @@ function ScrollTimelineImpl({ events, orientation = "alternating", className, st
           <div
             key={event.id}
             className={cn(
-              "flex items-start gap-4 relative mb-8",
+              "flex items-start gap-(--spacing-lg) relative mb-(--spacing-2xl)",
               isAlt && isOdd && "flex-row-reverse",
               orientation === "left" && "pl-12",
               orientation === "right" && "pr-12 justify-end"
@@ -211,11 +231,11 @@ function ScrollTimelineImpl({ events, orientation = "alternating", className, st
             >
               {event.icon ?? "●"}
             </div>
-            <div className="flex-1 bg-raised border border-rule rounded-(--radius-md) px-4 py-3 min-w-0">
-              <div className="text-body-caption text-muted mb-1 font-semibold uppercase tracking-[0.06em]">
+            <div className="flex-1 bg-raised border border-rule rounded-(--radius-md) px-(--spacing-lg) py-(--spacing-md) min-w-0">
+              <div className="text-body-caption text-muted mb-(--spacing-2xs) font-semibold uppercase tracking-[0.06em]">
                 {event.date}
               </div>
-              <div className="text-body-callout font-semibold text-foreground mb-1">{event.title}</div>
+              <div className="text-body-callout font-semibold text-foreground mb-(--spacing-2xs)">{event.title}</div>
               {event.description && (
                 <div className="text-body-callout text-muted leading-[1.5]">{event.description}</div>
               )}
@@ -263,23 +283,27 @@ function TimelineProgressImpl({ steps, orientation = "horizontal", className, st
       {steps.map((step, i) => {
         const isLast = i === steps.length - 1;
         return (
-          <div key={step.id} className={cn("flex", isVertical ? "flex-row gap-3" : "flex-col items-center flex-1")}>
+          <div
+            key={step.id}
+            aria-current={step.status === "current" ? "step" : undefined}
+            className={cn("flex", isVertical ? "flex-row gap-(--spacing-md)" : "flex-col items-center flex-1")}
+          >
             {/* Node + connector */}
             <div className={cn(isVertical ? "flex flex-col items-center" : "flex items-center w-full")}>
               <div
                 className={cn(
-                  "flex items-center justify-center w-8 h-8 rounded-full border-2 flex-shrink-0 transition-all duration-[200ms] font-semibold text-xs",
+                  "flex items-center justify-center w-8 h-8 rounded-full border-2 flex-shrink-0 transition-all duration-[200ms] font-semibold text-body-caption",
                   PROGRESS_STATUS_CIRCLE[step.status]
                 )}
               >
                 {step.icon && step.status === "upcoming" ? (
-                  <span className="text-sm leading-none">{step.icon}</span>
+                  <span className="text-body-callout leading-none">{step.icon}</span>
                 ) : step.status === "completed" ? (
                   <ProgressCheckIcon />
                 ) : step.status === "error" ? (
                   <ProgressXIcon />
                 ) : step.icon ? (
-                  <span className="text-sm leading-none">{step.icon}</span>
+                  <span className="text-body-callout leading-none">{step.icon}</span>
                 ) : (
                   <span>{i + 1}</span>
                 )}
@@ -288,7 +312,7 @@ function TimelineProgressImpl({ steps, orientation = "horizontal", className, st
                 <div
                   className={cn(
                     "transition-[background] duration-[200ms]",
-                    isVertical ? "w-px h-8 mx-auto" : "flex-1 h-px mx-2",
+                    isVertical ? "w-px h-8 mx-auto" : "flex-1 h-px mx-(--spacing-sm)",
                     PROGRESS_STATUS_LINE[step.status]
                   )}
                 />
@@ -296,7 +320,7 @@ function TimelineProgressImpl({ steps, orientation = "horizontal", className, st
             </div>
 
             {/* Label */}
-            <div className={cn(isVertical ? "pb-6 pt-1.5" : "mt-2 text-center")}>
+            <div className={cn(isVertical ? "pb-(--spacing-lg) pt-(--spacing-xs)" : "mt-(--spacing-sm) text-center")}>
               <p
                 className={cn(
                   "text-body-callout font-medium",
@@ -329,12 +353,13 @@ const ACTIVITY_INTENT_COLOR: Record<string, string> = {
 };
 
 const ActivityDefaultIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
     <circle cx="12" cy="12" r="4" />
   </svg>
 );
 
 function ActivityFeedImpl({ items, compact = false, className, style }: ActivityFeedProps) {
+  // pad/sz/svgSz/stemL/stemT: escala própria do componente por densidade (compact/default), não migra pra spacing genérico
   const pad = compact ? "py-2 gap-[10px]" : "py-3 gap-3";
   const sz = compact ? "w-6 h-6" : "w-[30px] h-[30px]";
   const svgSz = compact ? "[&>svg]:w-3 [&>svg]:h-3" : "[&>svg]:w-[14px] [&>svg]:h-[14px]";
@@ -354,11 +379,13 @@ function ActivityFeedImpl({ items, compact = false, className, style }: Activity
               {!isLast && <div className={cn("absolute bottom-0 w-px bg-rule", stemL, stemT)} />}
               {item.avatar ? (
                 <div
+                  aria-hidden="true"
                   className={cn("rounded-full shrink-0 z-[1]", sz)}
                   style={{ backgroundImage: `url(${item.avatar})`, backgroundSize: "cover" }}
                 />
               ) : item.avatarFallback ? (
                 <div
+                  aria-hidden="true"
                   className={cn(
                     "rounded-full shrink-0 z-[1] flex items-center justify-center bg-patina text-patina-fg text-body-caption font-bold",
                     sz
@@ -368,6 +395,7 @@ function ActivityFeedImpl({ items, compact = false, className, style }: Activity
                 </div>
               ) : (
                 <div
+                  aria-hidden="true"
                   className={cn("rounded-full shrink-0 z-[1] flex items-center justify-center border", sz, svgSz)}
                   style={{
                     background: `color-mix(in srgb,${color} 15%,var(--ks-lacquer-raised))`,
