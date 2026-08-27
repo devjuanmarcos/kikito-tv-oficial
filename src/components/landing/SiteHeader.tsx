@@ -105,7 +105,7 @@ export function SiteHeader() {
 
         .sh-spacer { flex: 1; }
         .sh-rule { width: 1px; height: 1.25rem; background: var(--ks-rule); flex-shrink: 0; }
-        .sh-kbd { font-size: 0.625rem; font-weight: 700; line-height: 1; margin-left: 0.125rem; padding: 0.1875rem 0.3125rem; border-radius: 4px; border: 1px solid var(--ks-rule); color: var(--ks-text-faint); background: color-mix(in oklch, var(--ks-lacquer) 60%, transparent); }
+        .sh-kbd { display: inline-flex; align-items: center; justify-content: center; font-size: 0.625rem; font-weight: 700; line-height: 1; padding: 0.1875rem 0.3125rem; border-radius: 4px; border: 1px solid var(--ks-rule); color: var(--ks-text-faint); background: color-mix(in oklch, var(--ks-lacquer) 60%, transparent); }
         .sh-desktop { display: none; } @media (min-width: 520px) { .sh-desktop { display: inline-flex; } }
         .sh-auth-desktop { display: none; } @media (min-width: 680px) { .sh-auth-desktop { display: inline-flex; } }
 
@@ -152,8 +152,10 @@ export function SiteHeader() {
           className="sh-desktop font-normal text-faint"
           aria-label="Buscar componentes"
         >
-          Buscar
-          <kbd className="sh-kbd">⌘K</kbd>
+          <span className="inline-flex items-center gap-(--spacing-2xs)">
+            Buscar
+            <kbd className="sh-kbd">⌘K</kbd>
+          </span>
         </Button>
 
         <Button
