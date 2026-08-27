@@ -5205,11 +5205,15 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "stepper",
     title: "Stepper",
     group: "display",
-    description:
-      "Step indicator with horizontal/vertical orientation, status icons, content, dot and progress variants.",
+    description: "Step indicator with horizontal/vertical orientation, status icons and content per step.",
     filePath: "src/components/ui/cn/stepper/Stepper.tsx",
-    absorbs: ["dot-stepper", "progress-steps"],
-    keywords: ["steps", "wizard", "dot stepper", "dot-stepper", "progress steps", "progress-steps", "etapas"],
+    // NÃO absorve dot-stepper nem progress-steps de fato — Stepper só despacha por
+    // `orientation` (horizontal/vertical), sem nenhum modo "dot"/"progress" próprio.
+    // DotStepper.tsx é standalone com dispatch interno (variant: dot/dash/progress), zero
+    // import de Stepper. ProgressSteps já confirmado como irmão standalone na validação do
+    // Progress (numbered steps com SIZE_CIRCLE, também sem relação com Stepper). O `absorbs`
+    // antigo escondia os dois, reais e funcionais, da sidebar via getVisibleComponents().
+    keywords: ["steps", "wizard", "etapas"],
     props: [
       {
         name: "steps",
