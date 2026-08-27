@@ -5811,20 +5811,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "tooltip",
     title: "Tooltip",
     group: "overlays",
-    description: "Hover/click/focus floating content: tooltip, rich tooltip, popover and hover/context card.",
+    description: "Hover/click/focus floating content: tooltip, rich tooltip, popover and hover card.",
     filePath: "src/components/ui/cn/tooltip/Tooltip.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: ["rich-tooltip", "popover", "hover-card", "context-card"],
-    keywords: [
-      "rich tooltip",
-      "rich-tooltip",
-      "popover",
-      "hover card",
-      "hover-card",
-      "context card",
-      "context-card",
-      "floating",
-    ],
+    // NÃO absorve context-card de fato — ContextCard.tsx é standalone (revelação via CSS puro
+    // :hover/:focus-within, zero delegação pro Tooltip). rich-tooltip/popover/hover-card SÃO
+    // wrappers genuínos (confirmados thin delegates). O `absorbs` antigo incluía context-card
+    // por engano, escondendo-o da sidebar via getVisibleComponents() mesmo já validado e com
+    // rota própria funcionando. Ver ContextCard.tsx.
+    absorbs: ["rich-tooltip", "popover", "hover-card"],
+    keywords: ["rich tooltip", "rich-tooltip", "popover", "hover card", "hover-card", "floating"],
     variants: [
       {
         prop: "variant",
@@ -5847,8 +5843,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         value: "hover-card",
         label: "Hover card",
         status: "stable",
-        note: "Card de preview em hover — absorvido pelo Super (ex-HoverCard/ContextCard).",
-        aliases: ["hover card", "hover-card", "context card", "context-card"],
+        note: "Card de preview em hover — absorvido pelo Super (ex-HoverCard).",
+        aliases: ["hover card", "hover-card"],
       },
     ],
     props: [

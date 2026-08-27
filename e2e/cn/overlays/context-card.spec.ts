@@ -13,6 +13,10 @@ test.describe("ContextCard (CN)", () => {
     await expect(page.locator("main")).toBeVisible();
   });
 
+  test("aparece na sidebar (absorbs falso do Tooltip corrigido)", async ({ page }) => {
+    await expect(page.getByRole("link", { name: "Context Card", exact: true })).toBeVisible();
+  });
+
   test("dark mode: pagina nao quebra ao alternar", async ({ page }) => {
     const toggle = page.getByRole("button", { name: /Ativar modo/ });
     if (await toggle.isVisible()) {
