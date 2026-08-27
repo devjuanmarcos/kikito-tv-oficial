@@ -684,7 +684,7 @@ function RichSelectImpl({
         <div
           id={listboxId}
           role="listbox"
-          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100"
+          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100"
         >
           {searchable && (
             <input

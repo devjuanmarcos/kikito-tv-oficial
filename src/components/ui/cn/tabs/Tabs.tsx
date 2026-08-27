@@ -1,9 +1,9 @@
 ﻿"use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import type { TabsProps, TabPanelProps } from "./tabs.types";
+import type { TabsProps, TabPanelProps, TabItem } from "./tabs.types";
 
 const SIZE_CLS: Record<string, { tab: string; font: string }> = {
   sm: { tab: "h-8 px-3", font: "text-body-caption" },
@@ -19,16 +19,7 @@ const ALIGN_CLS: Record<string, string> = {
 };
 
 /* line variant */
-function LineTab({
-  item,
-  active,
-  size,
-}: {
-  item: import("./tabs.types").TabItem;
-  active: boolean;
-  size: string;
-  onClick: () => void;
-}) {
+function LineTab({ item, active, size }: { item: TabItem; active: boolean; size: string; onClick: () => void }) {
   const sz = SIZE_CLS[size];
   return (
     <span
@@ -40,6 +31,7 @@ function LineTab({
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
+      {/* text-[1em] herda o tamanho do texto pai (já vem de token via SIZE_CLS), não é valor fixo fora da escala */}
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
@@ -48,7 +40,7 @@ function LineTab({
 }
 
 /* pill variant */
-function PillTab({ item, active, size }: { item: import("./tabs.types").TabItem; active: boolean; size: string }) {
+function PillTab({ item, active, size }: { item: TabItem; active: boolean; size: string }) {
   const sz = SIZE_CLS[size];
   return (
     <span
@@ -60,6 +52,7 @@ function PillTab({ item, active, size }: { item: import("./tabs.types").TabItem;
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
+      {/* text-[1em] herda o tamanho do texto pai (já vem de token via SIZE_CLS), não é valor fixo fora da escala */}
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
@@ -68,12 +61,12 @@ function PillTab({ item, active, size }: { item: import("./tabs.types").TabItem;
 }
 
 /* card variant */
-function CardTab({ item, active, size }: { item: import("./tabs.types").TabItem; active: boolean; size: string }) {
+function CardTab({ item, active, size }: { item: TabItem; active: boolean; size: string }) {
   const sz = SIZE_CLS[size];
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 shrink-0 font-medium border border-b-0 transition-[background,color] duration-[120ms] rounded-t-[--radius-sm]",
+        "inline-flex items-center gap-1.5 shrink-0 font-medium border border-b-0 transition-[background,color] duration-[120ms] rounded-t-(--radius-sm)",
         sz.tab,
         sz.font,
         active
@@ -82,6 +75,7 @@ function CardTab({ item, active, size }: { item: import("./tabs.types").TabItem;
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
+      {/* text-[1em] herda o tamanho do texto pai (já vem de token via SIZE_CLS), não é valor fixo fora da escala */}
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
@@ -96,7 +90,7 @@ function EnclosedTab({
   size,
   stretch,
 }: {
-  item: import("./tabs.types").TabItem;
+  item: TabItem;
   active: boolean;
   size: string;
   stretch?: boolean;
@@ -113,6 +107,7 @@ function EnclosedTab({
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
+      {/* text-[1em] herda o tamanho do texto pai (já vem de token via SIZE_CLS), não é valor fixo fora da escala */}
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
@@ -134,10 +129,37 @@ export function Tabs({
   const isControlled = value !== undefined;
   const [internal, setInternal] = useState(defaultValue ?? items[0]?.value ?? "");
   const active = isControlled ? value ?? "" : internal;
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   function select(v: string) {
     if (!isControlled) setInternal(v);
     onChange?.(v);
+  }
+
+  // Navegação por teclado padrão WAI-ARIA APG (tablist, ativação automática): setas
+  // movem foco e já ativam o tab; Home/End vão pro primeiro/último habilitado.
+  function handleKeyDown(e: React.KeyboardEvent, index: number) {
+    const enabled = items.map((it, i) => ({ it, i })).filter(({ it }) => !it.disabled);
+    if (enabled.length === 0) return;
+    const enabledIndexes = enabled.map(({ i }) => i);
+    const pos = enabledIndexes.indexOf(index);
+
+    let nextIndex: number | null = null;
+    if (e.key === "ArrowRight") {
+      nextIndex = enabledIndexes[(pos + 1) % enabledIndexes.length];
+    } else if (e.key === "ArrowLeft") {
+      nextIndex = enabledIndexes[(pos - 1 + enabledIndexes.length) % enabledIndexes.length];
+    } else if (e.key === "Home") {
+      nextIndex = enabledIndexes[0];
+    } else if (e.key === "End") {
+      nextIndex = enabledIndexes[enabledIndexes.length - 1];
+    }
+
+    if (nextIndex !== null) {
+      e.preventDefault();
+      tabRefs.current[nextIndex]?.focus();
+      select(items[nextIndex].value);
+    }
   }
 
   const isStretch = align === "stretch";
@@ -153,14 +175,19 @@ export function Tabs({
   return (
     <div className={cn("flex flex-col", className)}>
       <div role="tablist" className={tabListCls}>
-        {items.map((item) => (
+        {items.map((item, index) => (
           <button
             key={item.value}
+            ref={(el) => {
+              tabRefs.current[index] = el;
+            }}
             type="button"
             role="tab"
             aria-selected={active === item.value}
+            tabIndex={active === item.value ? 0 : -1}
             disabled={item.disabled}
             onClick={() => !item.disabled && select(item.value)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
             className={cn(
               "bg-transparent border-none p-0 cursor-pointer font-inherit",
               item.disabled && "cursor-not-allowed",
