@@ -26,23 +26,27 @@ export function ScrollSpy({ items, offset = 80, className, style }: ScrollSpyPro
   }, [items, offset]);
 
   return (
-    <nav className={cn("flex flex-col gap-0.5", className)} style={style}>
+    <nav className={cn("flex flex-col gap-(--spacing-3xs)", className)} style={style}>
       {items.map((item) => {
         const isActive = activeId === item.id;
         const isDeep = item.depth === 2;
         return (
           <button
             key={item.id}
+            type="button"
+            aria-current={isActive ? "true" : undefined}
             onClick={() => {
               setActiveId(item.id);
               document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
             }}
             className={cn(
-              "flex items-center gap-2.5 text-left px-3 py-1.5 rounded-(--radius-sm) text-body-callout transition-colors duration-150 w-full",
-              isDeep && "pl-6",
+              // gap-2.5 (0.625rem): sem match exato na escala de spacing
+              "flex items-center gap-2.5 text-left px-(--spacing-md) py-(--spacing-xs) rounded-(--radius-sm) text-body-callout transition-colors duration-150 w-full",
+              isDeep && "pl-(--spacing-xl)",
               isActive ? "text-patina font-semibold bg-patina/8" : "text-muted hover:text-foreground hover:bg-graphite"
             )}
           >
+            {/* w-[3px]/min-h-3: espessura/altura da barra indicadora, escala própria do componente */}
             <span
               className={cn(
                 "shrink-0 w-[3px] rounded-full self-stretch min-h-3 transition-all duration-200",

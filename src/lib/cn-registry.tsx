@@ -3888,21 +3888,15 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "scroll-spy",
     title: "Scroll Spy",
     group: "layout",
-    description: "Navigation that highlights the active section on scroll, with table-of-contents mode.",
+    description: "Flat navigation that highlights the active section based on scroll position.",
     filePath: "src/components/ui/cn/scroll-spy/ScrollSpy.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: ["table-of-contents"],
-    keywords: ["table of contents", "table-of-contents", "toc", "scroll nav", "indice", "navegação"],
-    variants: [
-      {
-        prop: "variant",
-        value: "toc",
-        label: "Table of contents",
-        status: "dev",
-        note: "Índice (TOC) com árvore expansível — mantido separado; use o TableOfContents.",
-        aliases: ["table of contents", "table-of-contents", "toc", "índice"],
-      },
-    ],
+    // NÃO absorve table-of-contents de fato — duas implementações paralelas com APIs
+    // diferentes (ScrollSpy: lista plana por `depth`, scroll listener; TableOfContents:
+    // árvore por `level`, IntersectionObserver, modo controlado via `activeId`). O
+    // `absorbs` antigo escondia o table-of-contents, real e funcional, da sidebar via
+    // getVisibleComponents(). Ver TableOfContents.tsx.
+    keywords: ["scroll nav", "active section", "índice", "navegação"],
     props: [
       {
         name: "items",
