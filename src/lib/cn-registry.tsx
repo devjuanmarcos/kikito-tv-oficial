@@ -6811,7 +6811,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       "Collapsible accordion with single/multiple expansion, 3 variants, icon support and single-panel mode.",
     filePath: "src/components/ui/cn/accordion/Accordion.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: ["accordion-group", "multi-accordion", "collapsible"],
+    // NÃO absorve de fato — accordion-group/multi-accordion/collapsible são implementações
+    // paralelas independentes, cada uma com API própria (mesmo achado do avatar/avatar-group)
     keywords: [
       "collapse",
       "expand",

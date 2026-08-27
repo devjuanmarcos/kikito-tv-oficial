@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,9 @@ export function MultiAccordion({
   className,
   style,
 }: MultiAccordionProps) {
+  // prefixa os ids por instância — item.id sozinho colidiria se a mesma lista de items
+  // for reaproveitada em múltiplas instâncias de <MultiAccordion> na mesma página
+  const instanceId = useId().replace(/:/g, "");
   const [internal, setInternal] = useState<string[]>(defaultValue);
   const open = value !== undefined ? value : internal;
 
@@ -49,7 +52,7 @@ export function MultiAccordion({
     <div
       className={cn(
         "flex flex-col",
-        isBordered ? "border border-rule rounded-(--radius-md) overflow-hidden" : "gap-1",
+        isBordered ? "border border-rule rounded-(--radius-md) overflow-hidden" : "gap-(--spacing-2xs)",
         className
       )}
       style={style}
@@ -68,8 +71,10 @@ export function MultiAccordion({
           >
             <button
               type="button"
+              id={`multi-accordion-trigger-${instanceId}-${item.id}`}
               className={cn(
-                "w-full flex items-center justify-between gap-3 px-4 py-[14px] bg-transparent border-none text-foreground text-body-callout font-semibold cursor-pointer text-left transition-[background] duration-[120ms] hover:bg-raised outline-none",
+                // py-[14px]: sem match exato na escala de spacing
+                "w-full flex items-center justify-between gap-(--spacing-md) px-(--spacing-lg) py-[14px] bg-transparent border-none text-foreground text-body-callout font-semibold cursor-pointer text-left transition-[background] duration-[120ms] hover:bg-raised outline-none",
                 isOpen && "text-patina",
                 isOpen && (INTENT_OPEN_BORDER[intent] ?? ""),
                 item.disabled && "opacity-40 cursor-not-allowed"
@@ -77,6 +82,7 @@ export function MultiAccordion({
               disabled={item.disabled}
               onClick={() => toggle(item.id)}
               aria-expanded={isOpen}
+              aria-controls={`multi-accordion-panel-${instanceId}-${item.id}`}
             >
               {item.title}
               <span
@@ -90,7 +96,13 @@ export function MultiAccordion({
               </span>
             </button>
             {isOpen && (
-              <div className="px-4 pb-[14px] text-body-callout text-muted leading-[1.6]" role="region">
+              <div
+                id={`multi-accordion-panel-${instanceId}-${item.id}`}
+                aria-labelledby={`multi-accordion-trigger-${instanceId}-${item.id}`}
+                // pb-[14px]: sem match exato na escala de spacing
+                className="px-(--spacing-lg) pb-[14px] text-body-callout text-muted leading-[1.6]"
+                role="region"
+              >
                 {item.content}
               </div>
             )}

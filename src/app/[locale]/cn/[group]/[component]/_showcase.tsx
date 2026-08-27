@@ -35,6 +35,7 @@ import { Checklist } from "@/components/ui/cn/checklist/Checklist";
 import { ChipGroup } from "@/components/ui/cn/chip-group/ChipGroup";
 import { CodeBlock } from "@/components/ui/cn/code-block";
 import { CodeDiff } from "@/components/ui/cn/code-diff/CodeDiff";
+import { Collapsible } from "@/components/ui/cn/collapsible/Collapsible";
 import { ColorPicker } from "@/components/ui/cn/color-picker/ColorPicker";
 import { Combobox } from "@/components/ui/cn/combobox/Combobox";
 import { Command } from "@/components/ui/cn/command/Command";
@@ -1440,6 +1441,23 @@ greet(user)`;
         maxHeight={320}
       />
     </Frame>
+  );
+}
+
+function CollapsibleDemo() {
+  return (
+    <div className="w-96 flex flex-col gap-4">
+      <Frame label="Single collapsible panel" align="start">
+        <Collapsible title="What is Kikito CN?" defaultOpen className="w-full">
+          A design-system component library published via <code>npx kikitocn add</code>.
+        </Collapsible>
+      </Frame>
+      <Frame label="Disabled" align="start">
+        <Collapsible title="Can't touch this" disabled className="w-full">
+          This content is not reachable while disabled.
+        </Collapsible>
+      </Frame>
+    </div>
   );
 }
 
@@ -6217,6 +6235,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/hover-card": HoverCardDemo,
   "display/tabs": TabsDemo,
   "display/accordion": AccordionDemo,
+  "display/collapsible": CollapsibleDemo,
   "feedback/progress": ProgressDemo,
   "feedback/spinner": SpinnerDemo,
   "feedback/skeleton": SkeletonDemo,
