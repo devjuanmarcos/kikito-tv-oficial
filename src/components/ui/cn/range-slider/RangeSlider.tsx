@@ -5,7 +5,7 @@
  * imports of `RangeSlider` keep working; new code should use Slider directly.
  */
 import { Slider } from "@/components/ui/cn/slider";
-import type { SliderRangeProps } from "@/components/ui/cn/slider/Slider";
+import type { SliderRangeProps } from "@/components/ui/cn/slider/slider.types";
 
 export type RangeSliderProps = Omit<SliderRangeProps, "range">;
 

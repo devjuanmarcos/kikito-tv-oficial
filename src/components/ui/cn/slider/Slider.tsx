@@ -4,46 +4,7 @@ import { useId, useState, useRef, useCallback, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type SliderSize = "sm" | "md" | "lg";
-export type SliderIntent = "primary" | "info" | "success" | "warning" | "danger";
-
-export interface SliderMark {
-  value: number;
-  label?: string;
-}
-
-interface SliderCommon {
-  min?: number;
-  max?: number;
-  step?: number;
-  label?: string;
-  formatValue?: (v: number) => string;
-  size?: SliderSize;
-  intent?: SliderIntent;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface SliderSingleProps extends SliderCommon {
-  /** Dual-thumb range mode. Omit/false for a single-value slider. */
-  range?: false;
-  value?: number;
-  defaultValue?: number;
-  onChange?: (value: number) => void;
-  showValue?: boolean;
-  marks?: SliderMark[];
-}
-
-export interface SliderRangeProps extends SliderCommon {
-  range: true;
-  value?: [number, number];
-  defaultValue?: [number, number];
-  onChange?: (value: [number, number]) => void;
-  showValues?: boolean;
-}
-
-export type SliderProps = SliderSingleProps | SliderRangeProps;
+import type { SliderSize, SliderIntent, SliderSingleProps, SliderRangeProps, SliderProps } from "./slider.types";
 
 const SIZE_TRACK: Record<SliderSize, string> = {
   sm: "h-1",
@@ -104,9 +65,9 @@ function SingleSlider({
   const displayVal = formatValue ? formatValue(current) : String(current);
 
   return (
-    <div className={cn("flex flex-col gap-1", className)} style={style}>
+    <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
       {(label || showValue) && (
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-(--spacing-md)">
           {label && (
             <label className="text-body-callout font-semibold text-foreground" htmlFor={uid}>
               {label}
@@ -116,6 +77,7 @@ function SingleSlider({
         </div>
       )}
 
+      {/* pb-5 (20px): sem match exato na escala de spacing */}
       <div className={cn("relative flex items-center", marks ? "pb-5" : "", disabled && "opacity-50")}>
         {/* track */}
         <div className={cn("relative w-full rounded-full bg-graphite-2", SIZE_TRACK[size])}>
@@ -147,7 +109,7 @@ function SingleSlider({
         {/* thumb */}
         <div
           className={cn(
-            "absolute rounded-full bg-white border-2 shadow-sm pointer-events-none transition-[left] duration-[80ms]",
+            "absolute rounded-full bg-canvas border-2 shadow-sm pointer-events-none transition-[left] duration-[80ms]",
             SIZE_THUMB[size],
             INTENT_CLS[intent].replace("bg-", "border-")
           )}
@@ -156,16 +118,17 @@ function SingleSlider({
 
         {/* marks */}
         {marks && (
-          <div className="absolute inset-x-0 top-full mt-1 pointer-events-none">
+          <div className="absolute inset-x-0 top-full mt-(--spacing-2xs) pointer-events-none">
             {marks.map((m) => {
               const mPct = ((m.value - min) / (max - min)) * 100;
               return (
                 <div
                   key={m.value}
-                  className="absolute flex flex-col items-center gap-0.5"
+                  className="absolute flex flex-col items-center gap-(--spacing-3xs)"
                   style={{ left: `${mPct}%`, transform: "translateX(-50%)" }}
                 >
                   <div className="w-px h-1 bg-rule" />
+                  {/* text-[0.625rem]: below scale minimum, micro-label de marca no slider */}
                   {m.label && <span className="text-[0.625rem] text-faint whitespace-nowrap">{m.label}</span>}
                 </div>
               );
@@ -252,11 +215,17 @@ function RangeSliderImpl({
     };
   }
 
+  // focus-visible:shadow-[...var(--x)/50]: sintaxe de opacidade inválida dentro de var() —
+  // CSS descarta o box-shadow inteiro (confirmado via getComputedStyle: foco não mudava nada
+  // visualmente). Trocado por color-mix() pra opacidade real de verdade.
   const THUMB =
-    "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-patina border-2 border-raised shadow-[0_0_0_2px_var(--ks-primary)] cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none focus-visible:shadow-[0_0_0_3px_var(--ks-primary)/50]";
+    "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-patina border-2 border-raised shadow-[0_0_0_2px_var(--ks-primary)] cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_50%,transparent)]";
 
   return (
-    <div style={style} className={cn("flex flex-col gap-2", disabled && "opacity-50 pointer-events-none", className)}>
+    <div
+      style={style}
+      className={cn("flex flex-col gap-(--spacing-sm)", disabled && "opacity-50 pointer-events-none", className)}
+    >
       {(label || showValues) && (
         <div className="flex items-center justify-between">
           {label && <span className="text-body-callout font-medium text-foreground">{label}</span>}
@@ -296,6 +265,7 @@ function RangeSliderImpl({
           type="button"
           role="slider"
           tabIndex={0}
+          disabled={disabled}
           aria-valuemin={min}
           aria-valuemax={hi - step}
           aria-valuenow={lo}
@@ -305,6 +275,7 @@ function RangeSliderImpl({
           onMouseDown={startDrag("lo")}
           onTouchStart={startDrag("lo")}
           onKeyDown={(e) => {
+            if (disabled) return;
             const delta =
               e.key === "ArrowRight" || e.key === "ArrowUp"
                 ? step
@@ -323,6 +294,7 @@ function RangeSliderImpl({
           type="button"
           role="slider"
           tabIndex={0}
+          disabled={disabled}
           aria-valuemin={lo + step}
           aria-valuemax={max}
           aria-valuenow={hi}
@@ -332,6 +304,7 @@ function RangeSliderImpl({
           onMouseDown={startDrag("hi")}
           onTouchStart={startDrag("hi")}
           onKeyDown={(e) => {
+            if (disabled) return;
             const delta =
               e.key === "ArrowRight" || e.key === "ArrowUp"
                 ? step
