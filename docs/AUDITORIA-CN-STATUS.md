@@ -49,9 +49,8 @@ Resolve pro `--radius` **nativo** do Tailwind (4px), não pra nenhum token deste
 
 ### 2. `--ks-shadow-md/lg/xl` referenciado mas nunca definido
 
-Sombra sai vazia/inválida (propriedade `shadow-[var(--ks-shadow-*)]` com var inexistente). **Corrigido em `Select.tsx`, `Autocomplete.tsx`** (trocado por valor literal igual aos outros dropdowns). **Ainda quebrados:**
+Sombra sai vazia/inválida (propriedade `shadow-[var(--ks-shadow-*)]` com var inexistente). **Corrigido em `Select.tsx`, `Autocomplete.tsx`, `Command.tsx`** (trocado por valor literal igual aos outros dropdowns/dialogs). **Ainda quebrado:**
 
-- `src/components/ui/cn/command/Command.tsx:450` — `shadow-[var(--ks-shadow-xl)]`
 - `src/components/ui/cn/dropdown-menu/DropdownMenu.tsx:279` — `shadow-[var(--ks-shadow-lg)]`
 
 Não existe token de shadow/elevação no design system ainda (nem `--shadow-sm` nem nada parecido em `kikitocn-tokens.css`). Isso é uma decisão de escopo tipo a de spacing — **perguntar ao usuário antes de inventar uma escala nova**, ou seguir o padrão ad-hoc já usado em outros lugares do Select.tsx (`shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)]` etc) como fix pontual sem criar token novo.
@@ -130,6 +129,15 @@ Grupo real é **`inputs`**, não `overlays` (verificado, não assumido).
 - Gate 5 (**3 gaps reais de a11y corrigidos**): `<label>` sem `htmlFor` e `<input>` sem `id` (label nunca associado, AT não anunciava); `aria-controls="autocomplete-listbox"` apontava pra um ID que **não existia** no DOM (a listbox não tinha `id` nenhum) — corrigido com `useId()`; `aria-activedescendant` **não existia** — durante navegação por seta a opção destacada nunca era anunciada pro AT, apesar do destaque visual funcionar. Todos os três corrigidos.
 - Gate 3/spacing: `gap-1`(4px)→`gap-(--spacing-2xs)` exato; `py-3 px-4`(empty state)→tokens exatos; `px-3`(linha de opção)→`px-(--spacing-md)` exato; `gap-[10px]`/`py-[9px]` sem match exato, documentado; `SIZE_INPUT` (px por tier) documentado como escala própria do componente, não migra
 - Gate 9: `e2e/cn/inputs/autocomplete.spec.ts` novo (6 testes, inclui `aria-activedescendant`) — 12/12 chromium-desktop + mobile-chrome
+
+### `overlays/command` — concluído
+
+Super component com 3 variantes (palette/bar/spotlight), absorve `CommandBar` e `SpotlightSearch` (backward-compat wrappers, cada um com sua própria página de showcase — não receberam spec próprio, mesma lógica do `Command.tsx` já testada via `command.spec.ts`).
+
+- Gate 2: `shadow-[var(--ks-shadow-xl)]` (achado #2 da lista de pendências, agora só falta `DropdownMenu`) → literal; `bg-[color-mix(...,var(--ks-primary)_12%,...)]` recriava manualmente `bg-patina-soft` → trocado pelo token; `rounded` bare (1×) e `rounded-[4px]` (2×) → `rounded-(--radius-sm)`; `animate-[--animate-fade-in]` removido — classe morta/redundante, a animação real já vinha 100% de um `style` inline (`animationName: "ks-cmd-in"`) que sempre ganhava da classe Tailwind
+- Gate 3: 4× `text-[0.625rem]` documentados (eyebrows de grupo, badge ESC, glyph de kbd)
+- Gate 5 (**gaps reais de a11y corrigidos nas 3 variantes**): nenhuma das três (`palette`, `bar`, `spotlight`) tinha `aria-activedescendant` — a navegação por seta already funcionava visualmente mas nunca era anunciada pro AT; `aria-controls`/`role="combobox"`/`aria-expanded` também ausentes nos 3 inputs; a variante `bar` (o `CommandBarImpl`) estava a mais crua das três — resultado sem `role="listbox"`/`role="option"`/`aria-selected` nenhum. Todas as 3 agora têm o wiring completo via `useId()` por instância (sem risco de colisão entre múltiplas paletas na mesma página, como o showcase realmente tem)
+- Gate 9: `e2e/cn/overlays/command.spec.ts` novo (6 testes: crash/dark/console/⌘K abre-fecha/filtro+seleção+activedescendant) — 10/10 chromium-desktop + mobile-chrome. Nota de teste: a página de showcase embute o variant `bar` inline na mesma página (seção "Unificados") com o mesmo `role="listbox"` — os testes escopam os locators ao `role="dialog"` da paleta pra não pegar o outro
 
 ## Fila restante
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useId } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
@@ -63,6 +63,7 @@ function CommandPalette({
   const [activeIdx, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
 
   function show(v: boolean) {
     if (!isControlled) setInternal(v);
@@ -151,7 +152,9 @@ function CommandPalette({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-[color-mix(in_oklch,var(--ks-lacquer)_60%,transparent)] backdrop-blur-[4px] flex items-start justify-center pt-[12vh] z-[9999] animate-[--animate-fade-in]"
+      // scrim usa color-mix sobre --ks-lacquer (token real de superfície), nao e cor crua
+      // animate-[--animate-fade-in] removido: era redundante/inerte — a animação real vem do style inline abaixo (ks-cmd-in)
+      className="fixed inset-0 bg-[color-mix(in_oklch,var(--ks-lacquer)_60%,transparent)] backdrop-blur-[4px] flex items-start justify-center pt-[12vh] z-[9999]"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) show(false);
       }}
@@ -180,10 +183,15 @@ function CommandPalette({
             onChange={(e) => setQuery(e.target.value)}
             placeholder={placeholder}
             aria-label={placeholder}
+            role="combobox"
+            aria-expanded="true"
+            aria-controls={listboxId}
+            aria-activedescendant={flat[activeIdx] ? `${listboxId}-opt-${activeIdx}` : undefined}
             autoComplete="off"
             spellCheck={false}
           />
           {query && (
+            // text-[0.625rem]: below scale minimum, badge inline (glyph "ESC")
             <button
               className="flex items-center justify-center bg-graphite border border-rule rounded-(--radius-sm) px-[0.3125rem] py-[0.125rem] text-[0.625rem] text-faint cursor-pointer hover:opacity-70 flex-shrink-0"
               onClick={() => setQuery("")}
@@ -194,7 +202,12 @@ function CommandPalette({
           )}
         </div>
 
-        <div className="flex-1 overflow-y-auto overscroll-contain p-[0.375rem]" ref={listRef} role="listbox">
+        <div
+          id={listboxId}
+          className="flex-1 overflow-y-auto overscroll-contain p-[0.375rem]"
+          ref={listRef}
+          role="listbox"
+        >
           {filteredGroups.length === 0 ? (
             <div className="flex flex-col items-center gap-2 py-10 px-4 text-faint text-body-callout text-center">
               {emptyMessage}
@@ -203,6 +216,7 @@ function CommandPalette({
             filteredGroups.map((group, gi) => (
               <div key={gi} className="[&+div]:border-t [&+div]:border-rule [&+div]:mt-1 [&+div]:pt-1">
                 {group.heading && (
+                  // text-[0.625rem]: below scale minimum, eyebrow de grupo
                   <div className="text-[0.625rem] font-bold tracking-[0.1em] uppercase text-faint px-[0.625rem] py-[0.375rem] pb-1">
                     {group.heading}
                   </div>
@@ -213,11 +227,12 @@ function CommandPalette({
                   return (
                     <button
                       key={item.id}
+                      id={`${listboxId}-opt-${fi}`}
                       type="button"
                       role="option"
                       className={cn(
                         "flex items-center gap-[0.625rem] py-[0.5625rem] px-[0.625rem] rounded-(--radius-sm) cursor-pointer bg-transparent border-none w-full text-left transition-[background] duration-[80ms] text-foreground",
-                        activeIdx === fi && "bg-[color-mix(in_oklch,var(--ks-primary)_12%,transparent)]",
+                        activeIdx === fi && "bg-patina-soft",
                         item.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
                       )}
                       data-cmd-idx={fi}
@@ -285,6 +300,7 @@ function CommandPalette({
 function CommandBarImpl({ actions, placeholder = "Search commands…", className, style }: CommandBarProps) {
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
+  const listboxId = useId();
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
@@ -324,10 +340,17 @@ function CommandBarImpl({ actions, placeholder = "Search commands…", className
     >
       {/* Search row */}
       <div className="flex items-center gap-2 px-3 py-2.5 border-b border-rule">
-        <span className="text-faint text-body-title">⌕</span>
+        <span className="text-faint text-body-title" aria-hidden="true">
+          ⌕
+        </span>
         <input
           className="flex-1 bg-transparent outline-none text-foreground text-body-callout placeholder:text-faint"
           placeholder={placeholder}
+          aria-label={placeholder}
+          role="combobox"
+          aria-expanded="true"
+          aria-controls={listboxId}
+          aria-activedescendant={filtered[cursor] ? `${listboxId}-opt-${cursor}` : undefined}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -340,7 +363,7 @@ function CommandBarImpl({ actions, placeholder = "Search commands…", className
       </div>
 
       {/* Results list */}
-      <div className="max-h-64 overflow-auto py-1">
+      <div id={listboxId} role="listbox" className="max-h-64 overflow-auto py-1">
         {groups.size === 0 && (
           <div className="px-4 py-6 text-center text-body-callout text-faint">No commands found</div>
         )}
@@ -354,6 +377,9 @@ function CommandBarImpl({ actions, placeholder = "Search commands…", className
               return (
                 <div
                   key={item.id}
+                  id={`${listboxId}-opt-${idx}`}
+                  role="option"
+                  aria-selected={cursor === idx}
                   className={cn(
                     "flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors",
                     cursor === idx ? "bg-patina/10 text-patina" : "text-foreground hover:bg-graphite"
@@ -366,9 +392,10 @@ function CommandBarImpl({ actions, placeholder = "Search commands…", className
                   {item.shortcut && (
                     <span className="flex items-center gap-1">
                       {item.shortcut.map((k, i) => (
+                        // text-[0.625rem]: below scale minimum, glyph de kbd
                         <kbd
                           key={i}
-                          className="text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded text-faint"
+                          className="text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded-(--radius-sm) text-faint"
                         >
                           {k}
                         </kbd>
@@ -397,6 +424,7 @@ function CommandSpotlight({
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listboxId = useId();
 
   useEffect(() => {
     if (isOpen) {
@@ -447,7 +475,8 @@ function CommandSpotlight({
     >
       <div
         className={cn(
-          "bg-float border border-rule rounded-(--radius-xl) w-[580px] max-w-[calc(100vw-32px)] max-h-[70vh] flex flex-col shadow-[var(--ks-shadow-xl)] overflow-hidden",
+          // shadow-[var(--ks-shadow-xl)] usava var indefinida (ver CLAUDE.md) — literal igual ao padrao do Select/Autocomplete
+          "bg-float border border-rule rounded-(--radius-xl) w-[580px] max-w-[calc(100vw-32px)] max-h-[70vh] flex flex-col shadow-[0_20px_60px_-16px_oklch(0%_0_0/0.55)] overflow-hidden",
           className
         )}
         onClick={(e) => e.stopPropagation()}
@@ -462,6 +491,11 @@ function CommandSpotlight({
             ref={inputRef}
             className="flex-1 bg-transparent border-none outline-none text-foreground text-body-paragraph placeholder:text-faint"
             placeholder={placeholder}
+            aria-label={placeholder}
+            role="combobox"
+            aria-expanded="true"
+            aria-controls={listboxId}
+            aria-activedescendant={filtered[focused] ? `${listboxId}-opt-${focused}` : undefined}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -470,7 +504,7 @@ function CommandSpotlight({
           />
         </div>
 
-        <div className="overflow-y-auto flex-1 py-2" role="listbox">
+        <div id={listboxId} className="overflow-y-auto flex-1 py-2" role="listbox">
           {filtered.length === 0 ? (
             <div className="py-8 px-4 text-center text-muted text-body-callout">
               Nenhuma ação encontrada para &quot;{query}&quot;
@@ -482,6 +516,7 @@ function CommandSpotlight({
               return (
                 <div key={group}>
                   {group && (
+                    // text-[0.625rem]: below scale minimum, eyebrow de grupo
                     <div className="px-4 py-2 pb-1 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
                       {group}
                     </div>
@@ -489,6 +524,7 @@ function CommandSpotlight({
                   {groupActions.map((action, i) => (
                     <button
                       key={action.id}
+                      id={`${listboxId}-opt-${globalOffset + i}`}
                       type="button"
                       className={cn(
                         "w-full flex items-center gap-3 px-[18px] py-[10px] bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms] hover:bg-raised",
@@ -518,7 +554,7 @@ function CommandSpotlight({
                           {action.shortcut.map((k, ki) => (
                             <kbd
                               key={ki}
-                              className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-body-caption text-muted font-mono"
+                              className="px-[6px] py-[2px] border border-rule bg-raised rounded-(--radius-sm) text-body-caption text-muted font-mono"
                             >
                               {k}
                             </kbd>
@@ -540,7 +576,7 @@ function CommandSpotlight({
             ["Esc", "fechar"],
           ].map(([key, hint]) => (
             <span key={hint} className="flex items-center gap-[5px] text-body-caption text-faint">
-              <kbd className="px-[6px] py-[2px] border border-rule bg-raised rounded-[4px] text-body-caption text-muted font-mono">
+              <kbd className="px-[6px] py-[2px] border border-rule bg-raised rounded-(--radius-sm) text-body-caption text-muted font-mono">
                 {key}
               </kbd>
               {hint}
