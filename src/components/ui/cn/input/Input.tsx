@@ -171,6 +171,8 @@ function TextInputImpl({
   value,
   onChange,
   floatingLabel: _floatingLabel,
+  "aria-describedby": describedByProp,
+  "aria-invalid": invalidProp,
   ...props
 }: InputBaseProps) {
   const uid = useId();
@@ -206,8 +208,12 @@ function TextInputImpl({
 
   const hasValue = typeof value === "string" ? value.length > 0 : value !== undefined;
 
-  const describedBy = hintId;
-  const invalid = resolvedStatus === "error" || undefined;
+  // bug real corrigido: descriptedBy sempre sobrescrevia qualquer aria-describedby vindo do
+  // consumidor (via spread + atributo explícito depois), mesmo quando o próprio Input não
+  // tinha hint/erro nenhum — quebrava composição externa (ex: <FormField> ligando o input
+  // a um hint/erro de fora, como em inputs/form-field). Agora combina os dois.
+  const describedBy = [hintId, describedByProp].filter(Boolean).join(" ") || undefined;
+  const invalid = resolvedStatus === "error" || invalidProp || undefined;
 
   const labelEl = label && (
     <label htmlFor={id} className="text-body-callout font-medium text-foreground">

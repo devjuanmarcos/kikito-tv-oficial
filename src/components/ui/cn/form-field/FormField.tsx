@@ -1,18 +1,16 @@
-'use client'
-import type React from 'react'
-import { cn } from '@/lib/utils'
+"use client";
+import { cn } from "@/lib/utils";
 
-export interface FormFieldProps {
-  children:      React.ReactNode
-  label?:        string
-  hint?:         string
-  errorMessage?: string
-  required?:     boolean
-  htmlFor?:      string
-  className?:    string
-  style?:        React.CSSProperties
-}
+import type { FormFieldProps } from "./form-field.types";
 
+/**
+ * `required`/`errorMessage` só afetam a aparência (asterisco no label, cor/ícone de erro) —
+ * o `<input>` real passado como `children` não recebe `required`/`aria-invalid`
+ * automaticamente (o componente não clona/injeta props no filho). O hint/erro ganha um
+ * `id` estável derivado de `htmlFor` — para o leitor de tela anunciar o texto ao focar o
+ * campo, o consumidor precisa passar `aria-describedby={`${htmlFor}-description`}` no
+ * input real também.
+ */
 export function FormField({
   children,
   label,
@@ -23,27 +21,37 @@ export function FormField({
   className,
   style,
 }: FormFieldProps) {
-  const hasError = !!errorMessage
+  const hasError = !!errorMessage;
+  const descriptionId = htmlFor ? `${htmlFor}-description` : undefined;
+
   return (
-    <div style={style} className={cn('flex flex-col gap-1', className)}>
+    <div style={style} className={cn("flex flex-col gap-(--spacing-2xs)", className)}>
       {label && (
-        <label
-          htmlFor={htmlFor}
-          className="text-body-callout font-medium text-foreground"
-        >
+        <label htmlFor={htmlFor} className="text-body-callout font-medium text-foreground">
           {label}
-          {required && <span className="ml-0.5 text-danger" aria-hidden="true"> *</span>}
+          {required && (
+            <span className="ml-(--spacing-3xs) text-danger" aria-hidden="true">
+              {" "}
+              *
+            </span>
+          )}
         </label>
       )}
       {children}
       {hasError ? (
-        <p role="alert" className="flex items-center gap-1 text-body-caption text-danger">
+        <p
+          id={descriptionId}
+          role="alert"
+          className="flex items-center gap-(--spacing-2xs) text-body-caption text-danger"
+        >
           <span aria-hidden="true">⚠</span>
           {errorMessage}
         </p>
       ) : hint ? (
-        <p className="text-body-caption text-faint">{hint}</p>
+        <p id={descriptionId} className="text-body-caption text-faint">
+          {hint}
+        </p>
       ) : null}
     </div>
-  )
+  );
 }

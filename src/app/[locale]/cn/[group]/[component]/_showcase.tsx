@@ -4120,27 +4120,36 @@ function FabDemo() {
 }
 
 function FormFieldDemo() {
+  // htmlFor/id/aria-describedby conectados manualmente aqui — FormField gera o id do
+  // hint/erro a partir de htmlFor, mas não injeta props no filho (ver JSDoc do componente)
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Basic usage">
         <Frame label="Label + hint" align="start">
           <div className="w-full max-w-sm">
-            <FormField label="Email address" hint="We'll never share your email.">
-              <Input placeholder="you@example.com" />
+            <FormField label="Email address" hint="We'll never share your email." htmlFor="ff-email">
+              <Input id="ff-email" placeholder="you@example.com" aria-describedby="ff-email-description" />
             </FormField>
           </div>
         </Frame>
         <Frame label="Required" align="start">
           <div className="w-full max-w-sm">
-            <FormField label="Username" required>
-              <Input placeholder="Enter username" />
+            <FormField label="Username" required htmlFor="ff-username">
+              <Input id="ff-username" placeholder="Enter username" required />
             </FormField>
           </div>
         </Frame>
         <Frame label="Error message" align="start">
           <div className="w-full max-w-sm">
-            <FormField label="Password" errorMessage="Password must be at least 8 characters.">
-              <Input type="password" placeholder="••••••••" status="error" />
+            <FormField label="Password" errorMessage="Password must be at least 8 characters." htmlFor="ff-password">
+              <Input
+                id="ff-password"
+                type="password"
+                placeholder="••••••••"
+                status="error"
+                aria-invalid
+                aria-describedby="ff-password-description"
+              />
             </FormField>
           </div>
         </Frame>
