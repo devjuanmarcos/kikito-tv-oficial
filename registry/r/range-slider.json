@@ -23,7 +23,7 @@
       "path": "components/ui/cn/range-slider/RangeSlider.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/range-slider/RangeSlider.tsx",
-      "content": "\"use client\";\r\n/**\r\n * RangeSlider — backward-compat wrapper.\r\n * Absorbed by the Slider Super component (`<Slider range />`). Kept so existing\r\n * imports of `RangeSlider` keep working; new code should use Slider directly.\r\n */\r\nimport { Slider } from \"@/components/ui/cn/slider\";\r\nimport type { SliderRangeProps } from \"@/components/ui/cn/slider/slider.types\";\r\n\r\nexport type RangeSliderProps = Omit<SliderRangeProps, \"range\">;\r\n\r\nexport function RangeSlider(props: RangeSliderProps) {\r\n  return <Slider range {...props} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * RangeSlider — backward-compat wrapper.\n * Absorbed by the Slider Super component (`<Slider range />`). Kept so existing\n * imports of `RangeSlider` keep working; new code should use Slider directly.\n */\nimport { Slider } from \"@/components/ui/cn/slider\";\nimport type { SliderRangeProps } from \"@/components/ui/cn/slider/slider.types\";\n\nexport type RangeSliderProps = Omit<SliderRangeProps, \"range\">;\n\nexport function RangeSlider(props: RangeSliderProps) {\n  return <Slider range {...props} />;\n}\n"
     }
   ]
 }

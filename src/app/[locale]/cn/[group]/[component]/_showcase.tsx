@@ -2361,7 +2361,7 @@ function GridPatternDemo() {
             className="w-32 h-24 rounded-(--radius-md) border border-rule"
           >
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-body-caption font-semibold text-foreground bg-raised/80 px-2 py-0.5 rounded">
+              <span className="text-body-caption font-semibold text-foreground bg-raised/80 px-2 py-0.5 rounded-(--radius-sm)">
                 {type}
               </span>
             </div>
@@ -2568,7 +2568,10 @@ function MiniMapDemo() {
 function ParticleFieldDemo() {
   return (
     <Frame label="Particle Field — canvas animation with floating connected particles">
-      <ParticleField count={50} color="120,80,255" speed={0.4} height={240} width="100%" />
+      <div className="flex flex-col gap-4 w-full">
+        <ParticleField count={50} color="120,80,255" speed={0.4} height={200} width="100%" />
+        <ParticleField count={90} color="16,185,129" speed={0.8} size={1.5} height={200} width="100%" />
+      </div>
     </Frame>
   );
 }

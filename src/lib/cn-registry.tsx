@@ -3256,21 +3256,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "grid-pattern",
     title: "Grid Pattern",
     group: "display",
-    description:
-      "SVG background pattern (dots, lines, cross, grid) as decorative layer, with animated particle field mode.",
+    description: "SVG background pattern (dots, lines, cross, grid) as decorative layer.",
     filePath: "src/components/ui/cn/grid-pattern/GridPattern.tsx",
-    absorbs: ["particle-field"],
-    keywords: ["background", "pattern", "particle field", "particle-field", "particles", "canvas", "decorative"],
-    variants: [
-      {
-        prop: "type",
-        value: "particles",
-        label: "Particle field",
-        status: "dev",
-        note: "Campo de partículas em canvas — mantido separado por divergência de render; use o ParticleField.",
-        aliases: ["particle field", "particle-field", "particles", "canvas"],
-      },
-    ],
+    // NÃO absorve particle-field de fato — implementações totalmente separadas (SVG data-URI
+    // estático vs. canvas com física de partículas via requestAnimationFrame). `type` do
+    // GridPattern nunca teve variante "particles" de verdade (buildPattern só resolve
+    // 'dots'|'lines'|'cross'|'grid'). O `absorbs` antigo escondia o particle-field, real e
+    // funcional, da sidebar via getVisibleComponents(). Ver ParticleField.tsx.
+    keywords: ["background", "pattern", "decorative"],
     props: [
       { name: "type", type: "'dots' | 'lines' | 'cross' | 'grid'", default: "'dots'", description: "Estilo do padrão" },
       { name: "size", type: "number", default: "24", description: "Espaçamento do padrão (px)" },
