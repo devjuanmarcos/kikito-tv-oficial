@@ -13,6 +13,11 @@ test.describe("Input (CN)", () => {
     await expect(page.locator("main")).toBeVisible();
   });
 
+  test("password-input/search-input aparecem na sidebar (absorbs falso corrigido)", async ({ page }) => {
+    await expect(page.getByRole("link", { name: "Password Input", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Search Input", exact: true })).toBeVisible();
+  });
+
   test("dark mode: pagina nao quebra ao alternar", async ({ page }) => {
     const toggle = page.getByRole("button", { name: /Ativar modo/ });
     if (await toggle.isVisible()) {

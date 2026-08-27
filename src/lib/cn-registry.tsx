@@ -1058,22 +1058,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Input",
     group: "inputs",
     description:
-      "Primitive text input with 3 variants, 3 sizes, status states, icons, prefix/suffix and password/search/number/currency/phone/floating-label modes.",
+      "Primitive text input with 3 variants, 3 sizes, status states, icons, prefix/suffix and number/currency/phone/floating-label modes.",
     filePath: "src/components/ui/cn/input/Input.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: [
-      "password-input",
-      "search-input",
-      "number-input",
-      "currency-input",
-      "phone-input",
-      "floating-label-input",
-    ],
+    // NÃO absorve password-input/search-input de fato — Input.tsx tem só um equivalente
+    // BÁSICO via composição de props genéricas (revealable dá toggle mostrar/ocultar,
+    // type="search"+iconLeft+clearable dá ícone+botão de limpar), mas os standalone têm
+    // funcionalidades reais e não-redundantes que o Super não replica: PasswordInput tem
+    // medidor de força (showStrength, 4 barras); SearchInput tem loading (spinner),
+    // shortcut (badge de atalho) e onSearch (callback no Enter). O `absorbs` antigo
+    // escondia os 2 da sidebar via getVisibleComponents() mesmo com capacidade real
+    // exclusiva. number-input/currency-input/phone-input/floating-label-input SÃO
+    // absorção de verdade (wrappers genuínos, dispatch real via type/floatingLabel).
+    absorbs: ["number-input", "currency-input", "phone-input", "floating-label-input"],
     keywords: [
-      "password",
-      "senha",
-      "search",
-      "busca",
       "number",
       "numero",
       "currency",
@@ -1081,30 +1079,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       "phone",
       "telefone",
       "floating label",
-      "password-input",
-      "search-input",
       "number-input",
       "currency-input",
       "phone-input",
       "floating-label-input",
     ],
     variants: [
-      {
-        prop: "revealable",
-        value: "true",
-        label: "Password",
-        status: "stable",
-        note: "Campo de senha com toggle mostrar/ocultar (use revealable). Medidor de força via password-strength.",
-        aliases: ["password", "senha", "password-input", "password input"],
-      },
-      {
-        prop: "type",
-        value: "search",
-        label: "Search",
-        status: "stable",
-        note: "Campo de busca (type=search + iconLeft + clearable).",
-        aliases: ["search", "busca", "search-input", "search input"],
-      },
       {
         prop: "type",
         value: "number",
