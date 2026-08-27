@@ -60,36 +60,44 @@ export function ColorPicker({
   }
 
   return (
+    // gap-[10px] (0.625rem): sem match exato na escala de spacing
     <div className={cn("inline-flex flex-col gap-[10px]", className)} style={style}>
       {swatches.length > 0 && (
-        <div className="flex flex-wrap gap-[6px]">
-          {swatches.map((swatch) => (
-            <button
-              key={swatch}
-              className={cn(
-                "w-7 h-7 rounded-(--radius-sm) border-2 border-transparent cursor-pointer p-0 transition-[transform,border-color] duration-[150ms] hover:scale-[1.12]",
-                current.toLowerCase() === swatch.toLowerCase() &&
-                  "border-foreground shadow-[0_0_0_1px_var(--ks-lacquer)]",
-                disabled && "opacity-40 cursor-not-allowed"
-              )}
-              style={{ background: swatch }}
-              onClick={() => update(swatch)}
-              disabled={disabled}
-              aria-label={`Select color ${swatch}`}
-              title={swatch}
-            />
-          ))}
+        <div className="flex flex-wrap gap-(--spacing-xs)">
+          {swatches.map((swatch) => {
+            const selected = current.toLowerCase() === swatch.toLowerCase();
+            return (
+              <button
+                key={swatch}
+                type="button"
+                className={cn(
+                  "w-7 h-7 rounded-(--radius-sm) border-2 border-transparent cursor-pointer p-0 transition-[transform,border-color] duration-[150ms] hover:scale-[1.12]",
+                  selected && "border-foreground shadow-[0_0_0_1px_var(--ks-lacquer)]",
+                  disabled && "opacity-40 cursor-not-allowed"
+                )}
+                style={{ background: swatch }}
+                onClick={() => update(swatch)}
+                disabled={disabled}
+                aria-label={`Select color ${swatch}`}
+                aria-pressed={selected}
+                title={swatch}
+              />
+            );
+          })}
         </div>
       )}
 
       {showInput && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-(--spacing-sm)">
           <div
+            aria-hidden="true"
             className="w-8 h-8 rounded-(--radius-sm) border-[1.5px] border-rule flex-shrink-0"
             style={{ background: current }}
           />
           <input
-            className="flex-1 py-[7px] px-[10px] rounded-[7px] border-[1.5px] border-rule bg-raised text-foreground text-body-callout font-mono outline-none transition-[border-color] duration-[150ms] uppercase focus:border-patina disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Cor em hexadecimal"
+            // py-[7px]/px-[10px]: sem match exato na escala de spacing
+            className="flex-1 py-[7px] px-[10px] rounded-(--radius-sm) border-[1.5px] border-rule bg-raised text-foreground text-body-callout font-mono outline-none transition-[border-color] duration-[150ms] uppercase focus:border-patina disabled:opacity-40 disabled:cursor-not-allowed"
             type="text"
             value={inputVal.toUpperCase()}
             onChange={handleInputChange}
@@ -100,6 +108,7 @@ export function ColorPicker({
           />
           <input
             type="color"
+            aria-label="Abrir seletor de cor do sistema"
             className="w-8 h-8 rounded-(--radius-sm) border-[1.5px] border-rule p-[2px] cursor-pointer bg-raised overflow-hidden"
             value={current}
             onChange={(e) => update(e.target.value)}

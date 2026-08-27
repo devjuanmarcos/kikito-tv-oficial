@@ -257,10 +257,19 @@ function AutocompleteDemo() {
 }
 
 function ColorPickerDemo() {
+  const [color, setColor] = useState("#22c55e");
   return (
-    <Frame label="Swatches + hex input">
-      <ColorPicker />
-    </Frame>
+    <div className="flex flex-col gap-4">
+      <Frame label="Swatches + hex input">
+        <ColorPicker />
+      </Frame>
+      <Frame label="Controlado + disabled">
+        <div className="flex items-center gap-6">
+          <ColorPicker value={color} onChange={setColor} />
+          <ColorPicker defaultValue="#8b5cf6" disabled />
+        </div>
+      </Frame>
+    </div>
   );
 }
 
