@@ -2792,9 +2792,15 @@ function ContextCardDemo() {
         <ContextCard
           placement="top"
           trigger={
-            <span className="text-body-callout font-semibold text-patina underline decoration-dashed cursor-help">
+            // <button> em vez de <span>: precisa ser focavel nativamente pra :focus-within
+            // revelar o popup no teclado (ver JSDoc do componente) — tabIndex num elemento
+            // nao-interativo seria um erro de a11y (jsx-a11y/no-noninteractive-tabindex)
+            <button
+              type="button"
+              className="bg-transparent border-none p-0 text-body-callout font-semibold text-patina underline decoration-dashed cursor-help"
+            >
               Hover me
-            </span>
+            </button>
           }
         >
           <div className="p-4">
@@ -2805,9 +2811,12 @@ function ContextCardDemo() {
         <ContextCard
           placement="right"
           trigger={
-            <span className="text-body-callout font-semibold text-kinpaku underline decoration-dashed cursor-help">
+            <button
+              type="button"
+              className="bg-transparent border-none p-0 text-body-callout font-semibold text-kinpaku underline decoration-dashed cursor-help"
+            >
               Right side
-            </span>
+            </button>
           }
         >
           <div className="p-4">

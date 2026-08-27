@@ -1,9 +1,19 @@
-import React from "react";
+import type React from "react";
 
 import { cn } from "@/lib/utils";
 
 import type { ContextCardProps } from "./context-card.types";
 
+/**
+ * ContextCard — revela `children` num popup flutuante quando o usuário faz hover
+ * ou dá foco em `trigger` (100% via CSS, `:hover`/`:focus-within`, sem JS).
+ *
+ * ⚠️ Acessibilidade: como a revelação depende de `:focus-within` no wrapper, `trigger`
+ * PRECISA ser (ou conter) um elemento nativamente focável (botão, link, input) — caso
+ * contrário usuários de teclado não conseguem abrir o popup. Se o trigger não for
+ * naturalmente focável, prefira `<Tooltip variant="card">` (absorve o antigo HoverCard),
+ * que implementa a mesma revelação via JS e funciona com qualquer trigger.
+ */
 export function ContextCard({ trigger, children, placement = "top", width = 280, className, style }: ContextCardProps) {
   return (
     <>
@@ -26,9 +36,9 @@ export function ContextCard({ trigger, children, placement = "top", width = 280,
       <div className={cn("cc-root", className)} style={style}>
         {trigger}
         <div
-          // rounded-[--radius] usava var --radius que nao existe no projeto (ficava 0px); shadow-lg bare: sem
-          // token --ks-shadow-* ainda, mantido literal do Tailwind (ver CLAUDE.md)
-          className="cc-popup bg-raised border border-rule rounded-(--radius-md) shadow-lg"
+          // rounded-[--radius] usava var --radius que nao existe no projeto (ficava 0px)
+          // shadow: mesmo literal usado nos outros paineis flutuantes do CN (Select/Command/DropdownMenu)
+          className="cc-popup bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]"
           data-placement={placement}
           style={{ width }}
         >

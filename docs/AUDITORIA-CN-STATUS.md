@@ -164,12 +164,22 @@ Contando os 3 achados de passagem do DropdownMenu, **34 páginas reais foram des
 
 **Nota**: isso é só showcase/CLI-demo — não mexe no componente em si (não precisa `registry:build`, não passa pelos gates 1-7/9). É puramente Gate 8 de 31 componentes que nunca tinham sido tocados por esta auditoria — **eles ainda precisam da passada completa de 9 gates quando chegar a vez deles na fila**.
 
+### `overlays/context-card` — concluído
+
+Componente isolado (não delega pro Tooltip), pequeno (43 linhas), único trigger é hover/focus via CSS puro (`:hover`/`:focus-within`, zero JS).
+
+- Gate 1: já tinha `.types.ts` — ok. Convertido aspas simples → duplas (convenção do resto do projeto)
+- Gate 2: `shadow-lg` bare → literal padrão dos outros painéis flutuantes do CN (mesmo usado em Select/Command/DropdownMenu), pra consistência
+- Gate 5 (**gap real de a11y encontrado e documentado, não "corrigido" por completo**): a revelação depende de `:focus-within` no wrapper — se `trigger` não for um elemento nativamente focável, **usuário de teclado não consegue abrir o popup, ponto final**. Confirmado ativamente quebrado na própria demo do showcase (`trigger` era um `<span>` sem foco nativo). Duas ações tomadas: (1) JSDoc no componente documentando a exigência e recomendando `<Tooltip variant="card">` (já 100% acessível, ver seção Tooltip) como alternativa quando o trigger não for focável nativamente; (2) a demo do showcase trocou `<span>` por `<button type="button">` (reset de estilo, sem `tabIndex` manual — colocar `tabIndex` num elemento não-interativo é o próprio erro de a11y que `jsx-a11y/no-noninteractive-tabindex` bloqueou no pre-commit da primeira tentativa) pra não ensinar o padrão quebrado. **Não fiz a reescrita completa pra JS** (o que resolveria de vez, igual ao `HoverCardImpl` do Tooltip) — seria essencialmente duplicar a variante `card` do Tooltip; a decisão de aposentar `ContextCard` em favor de `<Tooltip variant="card">` fica pra quando/se formos revisar a lista de "absorvidos" do Tooltip
+- `delay` prop: existe no tipo mas nunca foi implementada (revelação é 100% CSS, sem debounce) — marcada `@deprecated` no JSDoc do tipo em vez de removida (evita quebrar consumidores que já passam a prop)
+- Gate 9: `e2e/cn/overlays/context-card.spec.ts` novo (4 testes, inclui **revelação por teclado**, confirma que o fix do trigger na demo funciona) — 8/8 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
-1. `ContextCard` isolado (fix pontual de radius já aplicado, mas não recebeu os 9 gates completos)
-2. Achado do outline global em `globals.css:33-43` (cor do dashboard legado vazando em foco de elementos não-input) — não investigado a fundo
-3. Bare `rounded` sem sufixo — ainda pendente em ~25+ arquivos do grep original de 2026-08-26 (Table, Tooltip, Command e DropdownMenu já foram corrigidos conforme apareceram)
-4. Bug de sintaxe `-[--var]` (bracket cru) — confirmado quebrado em Tabs/PriceTable/MarkdownRenderer/ContextCard(fixado)/DropdownMenu(nenhum achado aqui); ainda não confirmado se afeta as formas simples sem direção (ver lista completa na seção de achados acima)
+1. Achado do outline global em `globals.css:33-43` (cor do dashboard legado vazando em foco de elementos não-input) — não investigado a fundo
+2. Bare `rounded` sem sufixo — ainda pendente em ~25+ arquivos do grep original de 2026-08-26 (Table, Tooltip, Command e DropdownMenu já foram corrigidos conforme apareceram)
+3. Bug de sintaxe `-[--var]` (bracket cru) — confirmado quebrado em Tabs/PriceTable/MarkdownRenderer/ContextCard(fixado)/DropdownMenu(nenhum achado aqui); ainda não confirmado se afeta as formas simples sem direção (ver lista completa na seção de achados acima)
+4. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido
 
 Depois de resolver essas 4, seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~185 componentes restantes (incluindo os 31 recém-desquebrados acima, que só passaram pelo Gate 8 até aqui).
 
