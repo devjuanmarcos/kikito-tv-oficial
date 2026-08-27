@@ -83,6 +83,7 @@ import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
 import { InlineEdit } from "@/components/ui/cn/inline-edit/InlineEdit";
 import { Input } from "@/components/ui/cn/input/Input";
+import { InputGroup } from "@/components/ui/cn/input-group/InputGroup";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { Kbd, KbdSequence } from "@/components/ui/cn/kbd";
@@ -3134,6 +3135,39 @@ function SplitButtonDemo() {
           <SplitButton label="Small" onClick={() => {}} options={options} size="sm" />
           <SplitButton label="Large" onClick={() => {}} options={options} size="lg" />
           <SplitButton label="Disabled" onClick={() => {}} options={options} disabled />
+        </div>
+      </Frame>
+    </div>
+  );
+}
+
+function InputGroupDemo() {
+  const DollarIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4" aria-hidden="true">
+      <line x1="12" y1="1" x2="12" y2="23" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  );
+  return (
+    <div className="flex flex-col gap-4 w-80">
+      <Frame label="Text prefix + suffix">
+        <InputGroup prefix="https://" suffix=".com">
+          <input type="text" defaultValue="kikito" aria-label="Domain" />
+        </InputGroup>
+      </Frame>
+      <Frame label="Icon prefix">
+        <InputGroup prefix={<DollarIcon />}>
+          <input type="number" placeholder="0.00" aria-label="Amount" />
+        </InputGroup>
+      </Frame>
+      <Frame label="Invalid + disabled">
+        <div className="flex flex-col gap-3">
+          <InputGroup suffix="@company.com" invalid>
+            <input type="text" defaultValue="user" aria-label="Username" aria-invalid />
+          </InputGroup>
+          <InputGroup prefix="$" disabled>
+            <input type="text" defaultValue="100" aria-label="Amount" disabled />
+          </InputGroup>
         </div>
       </Frame>
     </div>
@@ -6421,6 +6455,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "inputs/tag-input": TagInputDemo,
   "inputs/inline-edit": InlineEditDemo,
   "inputs/split-button": SplitButtonDemo,
+  "inputs/input-group": InputGroupDemo,
   "display/ping": PingDemo,
   "inputs/rating": RatingDemo,
   "layout/scroll-area": ScrollAreaDemo,

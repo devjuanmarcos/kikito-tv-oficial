@@ -1,23 +1,13 @@
 ﻿"use client";
-import type React from "react";
-
 import { cn } from "@/lib/utils";
 
-export type InputGroupSize = "sm" | "md" | "lg";
+import type { InputGroupSize, InputGroupProps } from "./input-group.types";
 
-export interface InputGroupProps {
-  children: React.ReactNode;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
-  size?: InputGroupSize;
-  disabled?: boolean;
-  invalid?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
+// Escala própria do componente (padding/dimensão por tier de size). text-[0.75rem] (tier
+// sm) bate exato com o token text-body-caption (12px) — corrigido abaixo, os demais ficam
+// como estão (dimensão contínua por tier).
 const SIZE_ADDON: Record<InputGroupSize, string> = {
-  sm: "px-2.5 text-[0.75rem] min-h-[1.875rem]",
+  sm: "px-2.5 text-body-caption min-h-[1.875rem]",
   md: "px-3   text-body-callout min-h-[2.25rem]",
   lg: "px-3.5 text-body-paragraph min-h-[2.625rem]",
 };
@@ -41,7 +31,8 @@ function AddonWrap({
       <span
         className={cn(
           "shrink-0 flex items-center justify-center text-faint",
-          side === "left" ? "pl-2.5 pr-1.5" : "pl-1.5 pr-2.5"
+          // pl-2.5/pr-2.5 (0.625rem): sem match exato na escala de spacing
+          side === "left" ? "pl-2.5 pr-(--spacing-xs)" : "pl-(--spacing-xs) pr-2.5"
         )}
       >
         {children}
@@ -61,6 +52,13 @@ function AddonWrap({
   );
 }
 
+/**
+ * `disabled`/`invalid` só afetam a aparência e o `pointer-events` do wrapper — o `<input>`
+ * real passado como `children` continua focável/editável por teclado a menos que o
+ * consumidor também passe `disabled`/`aria-invalid` pra ele diretamente. Isso é intencional
+ * (o wrapper não tenta clonar/injetar props no filho), mas documentado aqui pra não passar
+ * despercebido: sempre espelhar `disabled`/`invalid` no input real também.
+ */
 export function InputGroup({
   children,
   prefix,
