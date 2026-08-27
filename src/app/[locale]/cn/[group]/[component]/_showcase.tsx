@@ -84,6 +84,7 @@ import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScrol
 import { Input } from "@/components/ui/cn/input/Input";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
+import { Kbd, KbdSequence } from "@/components/ui/cn/kbd";
 import { KeyboardShortcuts } from "@/components/ui/cn/keyboard-shortcuts/KeyboardShortcuts";
 import { Label } from "@/components/ui/cn/label/Label";
 import { LineChart } from "@/components/ui/cn/line-chart/LineChart";
@@ -1552,6 +1553,38 @@ function ShortcutKeyDemo() {
         </div>
       </div>
     </Frame>
+  );
+}
+
+function KbdDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Sizes & variants">
+        <Frame label="sm · md · lg — default / ghost / solid">
+          <div className="flex flex-wrap items-center gap-4">
+            <Kbd size="sm">A</Kbd>
+            <Kbd>B</Kbd>
+            <Kbd size="lg">C</Kbd>
+            <Kbd variant="ghost">D</Kbd>
+            <Kbd variant="solid">E</Kbd>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="KbdSequence">
+        <Frame label="Key combos, with symbol mapping" align="start">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <KbdSequence keys={["cmd", "k"]} symbols />
+              <span className="text-body-callout text-muted">Open command palette</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <KbdSequence keys={["ctrl", "shift", "s"]} symbols size="lg" />
+              <span className="text-body-callout text-muted">Save all files</span>
+            </div>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 
@@ -6140,6 +6173,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/gradient-border": GradientBorderDemo,
   "display/glass-card": GlassCardDemo,
   "display/shortcut-key": ShortcutKeyDemo,
+  "display/kbd": KbdDemo,
   "charts/sparkline": SparklineDemo,
   "charts/bar-chart": BarChartDemo,
   "charts/line-chart": LineChartDemo,

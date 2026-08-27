@@ -327,6 +327,19 @@ Dois componentes standalone com nomes parecidos à família `text-effect` mas fo
 - Gate 8: `display/accordion`, `display/accordion-group`, `display/multi-accordion` já tinham demo; `display/collapsible` criada agora (achado acima)
 - Gate 9: `e2e/cn/display/accordion.spec.ts` novo (12 testes cobrindo as 4 rotas + confirma as 3 antes-escondidas na sidebar + a11y de `aria-controls`/`role=region` no `Accordion` e `Collapsible`) — 22/22 chromium-desktop + mobile-chrome
 
+### `display/kbd` — concluído
+
+Diferente de `avatar`/`accordion`: aqui o `absorbs: ["shortcut-key"]` **é verdadeiro** — `ShortcutKey.tsx` é um wrapper backward-compat genuíno, delega de fato pra `KbdSequence` (`<KbdSequence symbols separator="+" />`). Nenhum achado de arquitetura falsa desta vez.
+
+- **Achado de showcase**: `display/kbd` (o próprio Super, não um absorvido) nunca foi importado em `_showcase.tsx` — sem função de demo, sem entrada no `DEMOS`, página renderizava "não encontrada" mesmo com componente 100% funcional (mesma classe de bug de `collapsible`/`tree-view`/as 34 fechadas antes). Criada `KbdDemo` e wired
+- Gate 1: `Kbd.tsx` tinha tipos inline — criado `kbd.types.ts`, `.tsx`/`index.ts` atualizados
+- Gate 2: `text-base` na variante `solid` — não é a classe de tamanho de fonte banida; resolve pra `color: var(--color-base)` (mesmo comportamento confirmado em `border-base`/`ring-base` durante o Gate 2 do `avatar`), uso correto de token de superfície como cor de texto
+- Gate 3: `text-[0.6/0.7/0.8rem]` e `rounded-[3px]`/`rounded-[4px]` no `SIZE` (sm/md/lg) documentados como escala própria do componente, sem match exato nas escalas de tipografia/radius
+- Gate 3/spacing: `gap-1` no `KbdSequence` (não ligado a nenhum tier de size) → `gap-(--spacing-2xs)`; `px-1`/`px-1.5`/`px-2` do `SIZE` mantidos como estão (escala própria por tier, valores genuinamente diferentes por tamanho)
+- Gate 5: separador decorativo entre teclas (`+`/`⌘`) sem `aria-hidden` — adicionado, evita leitor de tela anunciar "mais" entre cada tecla
+- Gate 8: `display/shortcut-key` já tinha demo; `display/kbd` criada agora (achado acima)
+- Gate 9: `e2e/cn/display/kbd.spec.ts` novo (5 testes cobrindo as 2 rotas + conteúdo do `Kbd`) — 10/10 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 0. **Achado sistêmico**: o campo `absorbs` de `cn-registry.tsx` já se provou **falso duas vezes** (`avatar`→`avatar-group`, `accordion`→`accordion-group`/`multi-accordion`/`collapsible`) — nos dois casos os componentes "absorvidos" são implementações paralelas reais, nunca de fato unificadas, e ficam escondidos da sidebar por isso (`getVisibleComponents()` filtra qualquer nome em `absorbs`). **Não confiar em `absorbs` sem verificar** — antes de assumir que um Super component genuinamente despacha pros nomes listados, abrir o arquivo e conferir se há de fato um dispatcher (`switch`/discriminated union), como em `Table`/`Progress`/`Timeline`/`Chart`/`TextEffect` (confirmados), e não uma implementação solta como `Avatar`/`Accordion` (confirmados falsos). Vale a pena um grep sistemático em `grep -n 'absorbs:' cn-registry.tsx` cruzado com leitura de cada arquivo antes de seguir pra próxima família

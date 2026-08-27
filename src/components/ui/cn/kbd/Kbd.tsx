@@ -1,24 +1,7 @@
 "use client";
-import type React from "react";
-
 import { cn } from "@/lib/utils";
 
-export type KbdSize = "sm" | "md" | "lg";
-export type KbdVariant = "default" | "ghost" | "solid";
-
-export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
-  size?: KbdSize;
-  variant?: KbdVariant;
-}
-
-export interface KbdSequenceProps {
-  keys: string[];
-  separator?: string;
-  size?: KbdSize;
-  variant?: KbdVariant;
-  /** Map special key names (cmd, shift, enter…) to symbols and uppercase the rest. */
-  symbols?: boolean;
-}
+import type { KbdSize, KbdVariant, KbdProps, KbdSequenceProps } from "./kbd.types";
 
 /** Special key-name → symbol map (used when `symbols` is enabled). */
 const KBD_SPECIAL: Record<string, string> = {
@@ -48,6 +31,8 @@ export function formatKbdKey(k: string): string {
   return KBD_SPECIAL[k.toLowerCase()] ?? k.toUpperCase();
 }
 
+// text-[Nrem]/rounded-[Npx]: escala própria do componente por size, sem match exato nas escalas
+// de tipografia (sm/md abaixo do mínimo de 12px) e radius (entre --radius-xs 2px e --radius-sm 6px)
 const SIZE: Record<KbdSize, string> = {
   sm: "h-4 min-w-[1rem] px-1   text-[0.6rem]  rounded-[3px]",
   md: "h-5 min-w-[1.25rem] px-1.5 text-[0.7rem]  rounded-[4px]",
@@ -84,10 +69,15 @@ export function KbdSequence({
   symbols = false,
 }: KbdSequenceProps) {
   return (
-    <span className="inline-flex items-center gap-1">
+    <span className="inline-flex items-center gap-(--spacing-2xs)">
       {keys.map((k, i) => (
-        <span key={i} className="inline-flex items-center gap-1">
-          {i > 0 && <span className="text-faint text-[0.7rem] select-none">{separator ?? "+"}</span>}
+        <span key={i} className="inline-flex items-center gap-(--spacing-2xs)">
+          {i > 0 && (
+            // text-[0.7rem]: below scale minimum, glifo separador decorativo
+            <span aria-hidden="true" className="text-faint text-[0.7rem] select-none">
+              {separator ?? "+"}
+            </span>
+          )}
           <Kbd size={size} variant={variant}>
             {symbols ? formatKbdKey(k) : k}
           </Kbd>
