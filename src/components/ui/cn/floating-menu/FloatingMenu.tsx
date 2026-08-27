@@ -1,35 +1,10 @@
 "use client";
-import type React from "react";
 
 import { DropdownMenu, type MenuEntry } from "@/components/ui/cn/dropdown-menu/DropdownMenu";
 
-export type FloatingMenuPlacement =
-  | "top"
-  | "top-start"
-  | "top-end"
-  | "bottom"
-  | "bottom-start"
-  | "bottom-end"
-  | "left"
-  | "right";
+import type { FloatingMenuProps } from "./floating-menu.types";
 
-export interface FloatingMenuItem {
-  id: string;
-  label: string;
-  icon?: React.ReactNode;
-  intent?: "danger" | "default";
-  disabled?: boolean;
-  onClick?: () => void;
-}
-
-export interface FloatingMenuProps {
-  items: FloatingMenuItem[];
-  trigger: React.ReactNode;
-  placement?: FloatingMenuPlacement;
-  openOnHover?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+export type { FloatingMenuProps, FloatingMenuItem, FloatingMenuPlacement } from "./floating-menu.types";
 
 /**
  * FloatingMenu — backward-compat wrapper over the Super `DropdownMenu`

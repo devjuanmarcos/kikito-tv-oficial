@@ -1,2 +1,2 @@
-export { FloatingMenu } from './FloatingMenu'
-export type { FloatingMenuProps, FloatingMenuItem, FloatingMenuPlacement } from './FloatingMenu'
+export { FloatingMenu } from "./FloatingMenu";
+export type { FloatingMenuProps, FloatingMenuItem, FloatingMenuPlacement } from "./floating-menu.types";

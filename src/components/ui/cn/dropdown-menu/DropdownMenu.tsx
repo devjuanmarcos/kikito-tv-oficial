@@ -1,60 +1,23 @@
 "use client";
 import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
-import { useState, useRef, useEffect, useCallback, cloneElement, Children } from "react";
+import { useState, useRef, useEffect, useCallback, useId, cloneElement, Children } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 
-export type MenuPlacement = "bottom-start" | "bottom" | "bottom-end" | "top-start" | "top" | "top-end";
+import type { MenuPlacement, MenuItem, MenuEntry, DropdownMenuProps } from "./dropdown-menu.types";
 
-export interface MenuItem {
-  type: "item";
-  value: string;
-  label: React.ReactNode;
-  icon?: React.ReactNode;
-  shortcut?: string;
-  disabled?: boolean;
-  danger?: boolean;
-  onClick?: () => void;
-}
-
-export interface MenuSeparator {
-  type: "separator";
-}
-
-export interface MenuGroup {
-  type: "group";
-  label: string;
-  items: MenuItem[];
-}
-
-export type MenuEntry = MenuItem | MenuSeparator | MenuGroup;
-
-/** Discriminator selecting how the menu opens. */
-export type DropdownMenuTrigger = "click" | "contextmenu" | "hover";
-
-/** Placement set accepted by the hover trigger (superset incl. left/right). */
-export type HoverMenuPlacement = MenuPlacement | "left" | "right";
-
-export interface DropdownMenuProps {
-  items: MenuEntry[];
-  placement?: MenuPlacement | HoverMenuPlacement;
-  children: React.ReactElement;
-  /**
-   * How the menu is opened (default `"click"`).
-   * - `"click"` — click the trigger (classic dropdown).
-   * - `"contextmenu"` — right-click anywhere on the trigger (absorbs ContextMenu).
-   * - `"hover"` — hover/click the trigger (absorbs FloatingMenu).
-   */
-  trigger?: DropdownMenuTrigger;
-  /**
-   * Only meaningful when `trigger="hover"`. When `true` the menu opens on
-   * mouse-enter; when `false` (default) it toggles on click. Mirrors the
-   * former FloatingMenu `openOnHover`.
-   */
-  openOnHover?: boolean;
-}
+export type {
+  MenuPlacement,
+  MenuItem,
+  MenuSeparator,
+  MenuGroup,
+  MenuEntry,
+  DropdownMenuTrigger,
+  HoverMenuPlacement,
+  DropdownMenuProps,
+} from "./dropdown-menu.types";
 
 const GAP = 4;
 
@@ -101,12 +64,13 @@ function getMenuPos(trigger: DOMRect, menu: DOMRect, placement: MenuPlacement) {
 /* Shared item renderer for the click-driven dropdown. */
 function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.ReactNode {
   if (entry.type === "separator") {
-    return <div key={i} role="separator" className="my-1 -mx-1 h-px bg-rule" />;
+    return <div key={i} role="separator" className="my-(--spacing-2xs) -mx-(--spacing-2xs) h-px bg-rule" />;
   }
   if (entry.type === "group") {
     return (
-      <div key={i} className="mb-1">
-        <div className="px-2 pb-1 text-[0.625rem] font-semibold uppercase tracking-widest text-faint select-none">
+      <div key={i} className="mb-(--spacing-2xs)">
+        {/* text-[0.625rem]: below scale minimum, eyebrow de grupo */}
+        <div className="px-(--spacing-sm) pb-(--spacing-2xs) text-[0.625rem] font-semibold uppercase tracking-widest text-faint select-none">
           {entry.label}
         </div>
         {entry.items.map((it, j) => renderMenuItem(it, j, close))}
@@ -124,7 +88,7 @@ function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.R
         close();
       }}
       className={cn(
-        "w-full flex items-center gap-2 px-2 py-1.5 text-body-callout rounded-(--radius-xs) transition-colors duration-[80ms] text-left select-none",
+        "w-full flex items-center gap-(--spacing-sm) px-(--spacing-sm) py-(--spacing-xs) text-body-callout rounded-(--radius-xs) transition-colors duration-[80ms] text-left select-none",
         entry.danger ? "text-danger hover:bg-danger/10" : "text-foreground hover:bg-graphite",
         entry.disabled && "opacity-40 cursor-not-allowed"
       )}
@@ -133,6 +97,7 @@ function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.R
         <span className="shrink-0 w-3.5 h-3.5 flex items-center justify-center text-faint">{entry.icon}</span>
       )}
       <span className="flex-1 truncate">{entry.label}</span>
+      {/* text-[0.6875rem]: below scale minimum, glyph de shortcut */}
       {entry.shortcut && (
         <span className="shrink-0 text-[0.6875rem] text-faint font-mono ml-auto">{entry.shortcut}</span>
       )}
@@ -147,6 +112,7 @@ function ClickMenu({ items, placement = "bottom-start", children }: Omit<Dropdow
   const [ready, setReady] = useState(false);
   const triggerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
 
   useEffect(() => {
     if (!open) {
@@ -186,6 +152,9 @@ function ClickMenu({ items, placement = "bottom-start", children }: Omit<Dropdow
 
   const triggerEl = cloneElement(Children.only(children), {
     ref: triggerRef,
+    "aria-haspopup": "menu",
+    "aria-expanded": open,
+    "aria-controls": open ? menuId : undefined,
     onClick: (e: React.MouseEvent) => {
       e.stopPropagation();
       setOpen((v) => !v);
@@ -202,9 +171,10 @@ function ClickMenu({ items, placement = "bottom-start", children }: Omit<Dropdow
         createPortal(
           <div
             ref={menuRef}
+            id={menuId}
             role="menu"
             className={cn(
-              "fixed z-[1200] min-w-[160px] max-w-[280px] p-1",
+              "fixed z-[1200] min-w-[160px] max-w-[280px] p-(--spacing-2xs)",
               "bg-raised border border-rule rounded-(--radius-md)",
               "shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]",
               "transition-[opacity,transform] duration-[140ms]",
@@ -276,7 +246,8 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                 />
                 <motion.div
                   ref={menuRef}
-                  className="fixed z-[9999] bg-float border border-rule rounded-(--radius-base) p-1 min-w-[180px] shadow-[var(--ks-shadow-lg)]"
+                  // shadow-[var(--ks-shadow-lg)] usava var indefinida (ver CLAUDE.md) — literal igual ao ClickMenu abaixo
+                  className="fixed z-[9999] bg-float border border-rule rounded-(--radius-base) p-(--spacing-2xs) min-w-[180px] shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]"
                   style={{
                     top: pos.y,
                     left: pos.x,
@@ -289,7 +260,7 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                 >
                   {items.map((entry, gi) => {
                     if (entry.type === "separator") {
-                      return <div key={gi} role="separator" className="h-px bg-rule my-1" />;
+                      return <div key={gi} role="separator" className="h-px bg-rule my-(--spacing-2xs)" />;
                     }
                     if (entry.type === "group") {
                       return (
@@ -297,11 +268,13 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                           key={gi}
                           className={cn(
                             "flex flex-col",
-                            gi > 0 && 'before:content-[""] before:block before:h-px before:bg-rule before:my-1'
+                            gi > 0 &&
+                              'before:content-[""] before:block before:h-px before:bg-rule before:my-(--spacing-2xs)'
                           )}
                         >
                           {entry.label && (
-                            <div className="text-[0.625rem] font-semibold tracking-[0.06em] uppercase text-muted py-1 px-2">
+                            // text-[0.625rem]: below scale minimum, eyebrow de grupo
+                            <div className="text-[0.625rem] font-semibold tracking-[0.06em] uppercase text-muted py-(--spacing-2xs) px-(--spacing-sm)">
                               {entry.label}
                             </div>
                           )}
@@ -309,14 +282,11 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                             <button
                               key={ii}
                               className={cn(
-                                "flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
-                                !item.disabled &&
-                                  !item.danger &&
-                                  "hover:bg-[color-mix(in_srgb,var(--ks-primary)_10%,transparent)] hover:text-patina",
+                                // py-[7px]: sem match exato entre --spacing-xs(6px) e --spacing-sm(8px)
+                                "flex items-center gap-(--spacing-sm) py-[7px] px-(--spacing-sm) rounded-(--radius-sm) text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
+                                !item.disabled && !item.danger && "hover:bg-patina-soft hover:text-patina",
                                 item.danger && "text-danger",
-                                item.danger &&
-                                  !item.disabled &&
-                                  "hover:bg-[color-mix(in_srgb,var(--ks-danger)_10%,transparent)]",
+                                item.danger && !item.disabled && "hover:bg-danger-soft",
                                 item.disabled && "opacity-35 cursor-default"
                               )}
                               role="menuitem"
@@ -347,14 +317,11 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                       <button
                         key={gi}
                         className={cn(
-                          "flex items-center gap-2 py-[7px] px-2 rounded-[5px] text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
-                          !entry.disabled &&
-                            !entry.danger &&
-                            "hover:bg-[color-mix(in_srgb,var(--ks-primary)_10%,transparent)] hover:text-patina",
+                          // py-[7px]: sem match exato entre --spacing-xs(6px) e --spacing-sm(8px)
+                          "flex items-center gap-(--spacing-sm) py-[7px] px-(--spacing-sm) rounded-(--radius-sm) text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
+                          !entry.disabled && !entry.danger && "hover:bg-patina-soft hover:text-patina",
                           entry.danger && "text-danger",
-                          entry.danger &&
-                            !entry.disabled &&
-                            "hover:bg-[color-mix(in_srgb,var(--ks-danger)_10%,transparent)]",
+                          entry.danger && !entry.disabled && "hover:bg-danger-soft",
                           entry.disabled && "opacity-35 cursor-default"
                         )}
                         role="menuitem"
@@ -489,7 +456,7 @@ function HoverMenu({
           <div
             ref={menuRef}
             style={{ top: pos.top, left: pos.left, minWidth: 180 }}
-            className="fixed z-[950] py-1.5 rounded-xl border border-rule bg-raised shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.5)]"
+            className="fixed z-[950] py-(--spacing-xs) rounded-xl border border-rule bg-raised shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.5)]"
             {...(openOnHover
               ? {
                   onMouseEnter: () => clearTimeout(hoverTimer.current),
@@ -509,13 +476,14 @@ function HoverMenu({
                   setOpen(false);
                 }}
                 className={cn(
-                  "w-full flex items-center gap-2.5 px-3 py-2 text-body-callout text-left",
+                  // gap-2.5 (10px): sem match exato entre --spacing-sm(8px) e --spacing-md(12px)
+                  "w-full flex items-center gap-2.5 px-(--spacing-md) py-(--spacing-sm) text-body-callout text-left",
                   "transition-colors duration-[80ms] hover:bg-graphite",
                   item.danger ? "text-danger hover:text-danger" : "text-foreground",
                   item.disabled && "opacity-40 pointer-events-none"
                 )}
               >
-                {item.icon && <span className="text-base leading-none">{item.icon}</span>}
+                {item.icon && <span className="text-body-paragraph leading-none">{item.icon}</span>}
                 {item.label}
               </button>
             ))}

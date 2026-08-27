@@ -8,4 +8,4 @@ export type {
   MenuGroup,
   MenuPlacement,
   HoverMenuPlacement,
-} from "./DropdownMenu";
+} from "./dropdown-menu.types";

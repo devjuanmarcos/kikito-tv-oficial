@@ -56,6 +56,7 @@ import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
 import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
 import { Draggable } from "@/components/ui/cn/draggable/Draggable";
 import { Drawer } from "@/components/ui/cn/drawer/Drawer";
+import { DropdownMenu } from "@/components/ui/cn/dropdown-menu/DropdownMenu";
 import { EmptyState } from "@/components/ui/cn/empty-state/EmptyState";
 import { EventCalendar } from "@/components/ui/cn/event-calendar/EventCalendar";
 import { Fab } from "@/components/ui/cn/fab/Fab";
@@ -74,6 +75,7 @@ import { GlassCard } from "@/components/ui/cn/glass-card/GlassCard";
 import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
 import { GridPattern } from "@/components/ui/cn/grid-pattern/GridPattern";
+import { HoverCard } from "@/components/ui/cn/hover-card/HoverCard";
 import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
@@ -159,33 +161,33 @@ import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
 import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
 import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
+import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
+import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
+import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
+import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
+import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
+import { TextEffect } from "@/components/ui/cn/text-effect/TextEffect";
+import type { TextEffectType } from "@/components/ui/cn/text-effect/TextEffect";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
+import { Textarea } from "@/components/ui/cn/textarea/Textarea";
+import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
+import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
-import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
-import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
-import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
-import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
-import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
 import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
-import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
-import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
 import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
-import { TextEffect } from "@/components/ui/cn/text-effect/TextEffect";
-import type { TextEffectType } from "@/components/ui/cn/text-effect/TextEffect";
 
 interface ShowcaseProps {
   group: string;
@@ -609,6 +611,59 @@ function ContextMenuDemo() {
         </div>
       </ContextMenu>
     </Frame>
+  );
+}
+
+function DropdownMenuDemo() {
+  const items = [
+    {
+      type: "group" as const,
+      label: "Actions",
+      items: [
+        { type: "item" as const, value: "edit", label: "Edit", icon: "✏️", shortcut: "⌘E", onClick: () => {} },
+        {
+          type: "item" as const,
+          value: "duplicate",
+          label: "Duplicate",
+          icon: "📋",
+          shortcut: "⌘D",
+          onClick: () => {},
+        },
+      ],
+    },
+    { type: "separator" as const },
+    {
+      type: "item" as const,
+      value: "delete",
+      label: "Delete",
+      icon: "🗑️",
+      danger: true,
+      onClick: () => {},
+    },
+  ];
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Click trigger">
+        <Frame label="Default (bottom-start)">
+          <DropdownMenu items={items}>
+            <Button variant="outline">Open menu</Button>
+          </DropdownMenu>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Placements">
+        <Frame label="bottom-start · bottom-end · top-start · top-end">
+          <div className="flex flex-wrap gap-4 justify-center">
+            {(["bottom-start", "bottom-end", "top-start", "top-end"] as const).map((placement) => (
+              <DropdownMenu key={placement} items={items} placement={placement}>
+                <Button variant="outline" size="sm">
+                  {placement}
+                </Button>
+              </DropdownMenu>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 
@@ -5367,6 +5422,40 @@ function PopoverDemo() {
   );
 }
 
+function HoverCardDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Hover to preview">
+          <HoverCard
+            content={
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold text-foreground">Kikito CN</span>
+                <span className="text-body-caption text-faint">Design system component library</span>
+              </div>
+            }
+          >
+            <Button variant="outline">Hover me</Button>
+          </HoverCard>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sides">
+        <Frame label="top · bottom · left · right">
+          <div className="flex gap-6 flex-wrap justify-center">
+            {(["top", "bottom", "left", "right"] as const).map((side) => (
+              <HoverCard key={side} side={side} content={<span className="text-body-callout">Side: {side}</span>}>
+                <Button variant="outline" size="sm">
+                  {side}
+                </Button>
+              </HoverCard>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function TabsDemo() {
   const [activeTab, setActiveTab] = useState("overview");
   const items = [
@@ -6015,6 +6104,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "feedback/confetti-button": ConfettiButtonDemo,
   "overlays/command": CommandDemo,
   "overlays/context-menu": ContextMenuDemo,
+  "overlays/dropdown-menu": DropdownMenuDemo,
+  "overlays/floating-menu": FloatingMenuDemo,
   "overlays/spotlight-search": SpotlightSearchDemo,
   "charts/radar-chart": RadarChartDemo,
   "charts/funnel-chart": FunnelChartDemo,
@@ -6078,6 +6169,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/avatar": AvatarDemo,
   "overlays/tooltip": TooltipDemo,
   "overlays/popover": PopoverDemo,
+  "display/hover-card": HoverCardDemo,
   "display/tabs": TabsDemo,
   "display/accordion": AccordionDemo,
   "feedback/progress": ProgressDemo,

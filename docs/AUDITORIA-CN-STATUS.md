@@ -47,11 +47,9 @@ Todos os 6: typecheck limpo, Playwright verde, registry rebuildado, dark/light c
 
 Resolve pro `--radius` **nativo** do Tailwind (4px), não pra nenhum token deste projeto. Confirmado via computed style real. Só corrigido em `Table.tsx` até agora. Grep de 2026-08-26 achou em ~30 arquivos (lista não re-verificada hoje, pode ter mudado): Alert, Avatar (é um type string, falso-positivo), CnInstallBlock, Banner, Command, CodeBlock, Fab, CreditCard, EventCalendar, DatePicker (4x), FloatingBar, ImageCompare (2x), VideoCard, InlineEdit (2x), LogViewer, NoticeBar, Select (linha 459, ainda não migrada), NotificationBell, Tooltip (2x), Stat (3x), Toast, SwipeCard (2x). **Reconfirmar com grep antes de corrigir cada um** (regex usada: `"[^"]*\brounded\b[^"-][^"]*"|"[^"]*\brounded"` no path do componente).
 
-### 2. `--ks-shadow-md/lg/xl` referenciado mas nunca definido
+### 2. `--ks-shadow-md/lg/xl` referenciado mas nunca definido — ✅ FECHADO
 
-Sombra sai vazia/inválida (propriedade `shadow-[var(--ks-shadow-*)]` com var inexistente). **Corrigido em `Select.tsx`, `Autocomplete.tsx`, `Command.tsx`** (trocado por valor literal igual aos outros dropdowns/dialogs). **Ainda quebrado:**
-
-- `src/components/ui/cn/dropdown-menu/DropdownMenu.tsx:279` — `shadow-[var(--ks-shadow-lg)]`
+Sombra saía vazia/inválida (propriedade `shadow-[var(--ks-shadow-*)]` com var inexistente). **Corrigido em `Select.tsx`, `Autocomplete.tsx`, `Command.tsx`, `DropdownMenu.tsx`** — os 4 arquivos confirmados agora usam valor literal (mesmo padrão de sombra elevada repetido em todos). Nenhuma decisão de criar uma escala `--ks-shadow-*` de verdade foi tomada — se aparecer mais um caso, resolver do mesmo jeito (literal) até decidirmos criar o token.
 
 Não existe token de shadow/elevação no design system ainda (nem `--shadow-sm` nem nada parecido em `kikitocn-tokens.css`). Isso é uma decisão de escopo tipo a de spacing — **perguntar ao usuário antes de inventar uma escala nova**, ou seguir o padrão ad-hoc já usado em outros lugares do Select.tsx (`shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)]` etc) como fix pontual sem criar token novo.
 
@@ -139,9 +137,32 @@ Super component com 3 variantes (palette/bar/spotlight), absorve `CommandBar` e 
 - Gate 5 (**gaps reais de a11y corrigidos nas 3 variantes**): nenhuma das três (`palette`, `bar`, `spotlight`) tinha `aria-activedescendant` — a navegação por seta already funcionava visualmente mas nunca era anunciada pro AT; `aria-controls`/`role="combobox"`/`aria-expanded` também ausentes nos 3 inputs; a variante `bar` (o `CommandBarImpl`) estava a mais crua das três — resultado sem `role="listbox"`/`role="option"`/`aria-selected` nenhum. Todas as 3 agora têm o wiring completo via `useId()` por instância (sem risco de colisão entre múltiplas paletas na mesma página, como o showcase realmente tem)
 - Gate 9: `e2e/cn/overlays/command.spec.ts` novo (6 testes: crash/dark/console/⌘K abre-fecha/filtro+seleção+activedescendant) — 10/10 chromium-desktop + mobile-chrome. Nota de teste: a página de showcase embute o variant `bar` inline na mesma página (seção "Unificados") com o mesmo `role="listbox"` — os testes escopam os locators ao `role="dialog"` da paleta pra não pegar o outro
 
+### `overlays/dropdown-menu` — concluído
+
+Super component com 3 variantes (click/contextmenu/hover), absorve `ContextMenu` e `FloatingMenu`.
+
+- Gate 1: não tinha `.types.ts` — criado. `floating-menu/FloatingMenu.tsx` (wrapper) também não tinha — criado de passagem
+- Gate 2: `shadow-[var(--ks-shadow-lg)]` (achado #2, **agora fechado, era o último confirmado**) → literal; `hover:bg-[color-mix(...,var(--ks-primary)_10%,...)] hover:text-patina` (2×) → `hover:bg-patina-soft hover:text-patina`; `hover:bg-[color-mix(...,var(--ks-danger)_10%,...)]` (2×) → `hover:bg-danger-soft`; `rounded-[5px]` (2×) → `rounded-(--radius-sm)`; `text-base` no ícone do HoverMenu (banido, era pra ser tamanho, não cor) → `text-body-paragraph` (match exato 1rem)
+- Gate 3: spacing — sweep quase completo do arquivo (`gap-2`→sm, `px-2`→sm, `px-3`→md, `py-1.5`→xs, `py-2`→sm, `py-1`→2xs, `p-1`→2xs, `mb-1`/`my-1`/`mx-1`/`pb-1`→2xs); `py-[7px]` (×2) e `gap-2.5` documentados (sem match exato); 3× `text-[0.625rem]`/`text-[0.6875rem]` documentados
+- Gate 5 (**gap real de a11y corrigido**): o trigger do `ClickMenu` não tinha `aria-haspopup`/`aria-expanded`/`aria-controls` — padrão WAI-ARIA menu button. Corrigido via `useId()`. Nota: navegação por seta (Up/Down) **dentro** do menu aberto não foi implementada — os itens são `<button>` reais, então Tab já alcança cada um nativamente (não é "quebrado", só não é o idioma ARIA completo de menu); registrado como melhoria futura, não bloqueante
+- **Achado colateral importante**: durante a checagem do Gate 8, descobri que **`overlays/dropdown-menu` não tinha demo nenhuma no showcase** (nem função, nem entrada no mapa `DEMOS`) — a página real provavelmente quebrava/ficava vazia pra usuários reais. Investigando o mesmo padrão achei mais dois: `overlays/floating-menu` (a função `FloatingMenuDemo` existia mas nunca foi wireada no mapa `DEMOS`) e `display/hover-card` (nem função existia). Corrigi os 3 agora. **Rodando o lint no arquivo de showcase inteiro achei ~35 outras funções `XyzDemo` definidas e nunca usadas** (warning `no-unused-vars` do eslint) — ou seja, o mesmo bug provavelmente se repete em dezenas de componentes espalhados pelo showcase inteiro. **Não investigado/corrigido — é um achado novo, separado, que merece sua própria varredura dedicada** (rodar `npx eslint` no arquivo de showcase e cruzar cada `XyzDemo` não usado com seu registro em `cn-registry.tsx` pra descobrir se falta o import, a função, ou só a entrada no mapa).
+- Gate 9: `e2e/cn/overlays/dropdown-menu.spec.ts` novo (5 testes, inclui aria-haspopup/expanded) — 10/10 chromium-desktop + mobile-chrome. `floating-menu`/`hover-card` verificados só por smoke-check (curl 200, sem spec dedicado — são wrappers finos, mesmo padrão usado pra Popover/HoverCard/RichTooltip no passe do Tooltip)
+
 ## Fila restante
 
-`Tabs` ✅ → `Tooltip` ✅ → `Modal` ✅ → `Checkbox` ✅ — **lote Tier-0 completo** (Button, Badge, Input, Select, Card, Table, Tabs, Tooltip, Modal, Checkbox, todos commitados e pushados). Próximo: seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~190 componentes restantes (incluindo `ContextCard` isolado, ver nota da seção Tooltip, e investigar o achado do outline global acima antes de tocar em mais componentes com foco customizado).
+`Tabs` ✅ → `Tooltip` ✅ → `Modal` ✅ → `Checkbox` ✅ — **lote Tier-0 completo** (Button, Badge, Input, Select, Card, Table, Tabs, Tooltip, Modal, Checkbox, todos commitados e pushados).
+
+Continuado depois do Tier-0, seguindo pelos componentes com `--ks-shadow-*` quebrado (mesma família de achado, contexto quente): `Autocomplete` ✅ → `Command` ✅ → `DropdownMenu` ✅ — **lista de `--ks-shadow-*` pendente agora fechada** (achado #2 resolvido nos 4 arquivos).
+
+**Pendências abertas pra próxima sessão, em ordem de prioridade:**
+
+1. **Achado grande, não investigado**: dezenas de funções `XyzDemo` no showcase definidas e nunca usadas (~35, via `npx eslint` no arquivo `_showcase.tsx`) — sinal de que vários componentes publicados podem ter página de showcase vazia/quebrada, do mesmo jeito que `dropdown-menu`/`floating-menu`/`hover-card` estavam antes desta sessão corrigir os 3. Precisa de uma varredura dedicada: listar os warnings, cruzar cada nome com `cn-registry.tsx` (existe o componente? existe a entrada no grupo certo?) e com o mapa `DEMOS` (falta só a entrada, ou falta a função inteira?).
+2. `ContextCard` isolado (fix pontual de radius já aplicado, mas não recebeu os 9 gates completos)
+3. Achado do outline global em `globals.css:33-43` (cor do dashboard legado vazando em foco de elementos não-input) — não investigado a fundo
+4. Bare `rounded` sem sufixo — ainda pendente em ~25+ arquivos do grep original de 2026-08-26 (Table, Tooltip, Command e DropdownMenu já foram corrigidos conforme apareceram)
+5. Bug de sintaxe `-[--var]` (bracket cru) — confirmado quebrado em Tabs/PriceTable/MarkdownRenderer/ContextCard(fixado)/DropdownMenu(nenhum achado aqui); ainda não confirmado se afeta as formas simples sem direção (ver lista completa na seção de achados acima)
+
+Depois de resolver essas 5, seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~185 componentes restantes.
 
 ---
 
