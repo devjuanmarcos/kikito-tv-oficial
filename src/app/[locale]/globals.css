@@ -30,16 +30,27 @@
   );
 }
 
-/* Remove outline apenas quando :focus-visible não se aplica (ex: clique com mouse).
-   Preserva acessibilidade para navegação por teclado e tecnologias assistivas. */
-:focus:not(:focus-visible) {
-  outline: none;
-}
+/* @layer base: essas regras precisam ceder pras utilities do Tailwind (ex: focus-visible:outline-patina
+   do Kikito CN) quando um componente define seu próprio anel de foco. Fora de um @layer, uma regra "vence"
+   qualquer utility do Tailwind independente de especificidade (unlayered sempre bate layered) — foi
+   exatamente isso que fazia todo componente CN com foco customizado (Button, Tabs, Modal, DropdownMenu,
+   Command) renderizar o verde legado do dashboard (--brand-primary-mid) em vez do dourado --ks-patina.
+   Confirmado via computed style real: outline-color virava rgb(16,81,68) (verde) em vez do patina.
+   Achado em 2026-08-27, ver docs/AUDITORIA-CN-STATUS.md. */
+@layer base {
+  /* Remove outline apenas quando :focus-visible não se aplica (ex: clique com mouse).
+     Preserva acessibilidade para navegação por teclado e tecnologias assistivas. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 
-/* Form elements têm próprio focus ring (border + box-shadow) — excluir do outline global */
-:focus-visible:not(input):not(select):not(textarea):not([role="combobox"]):not([role="listbox"]) {
-  outline: 1px solid hsl(var(--brand-primary-mid));
-  outline-offset: 2px;
+  /* Form elements têm próprio focus ring (border + box-shadow) — excluir do outline global.
+     Esse anel verde é o fallback pro dashboard legado; qualquer componente (dashboard ou CN) que
+     define seu próprio focus-visible:outline-* correspondente sempre ganha, por estar na layer utilities. */
+  :focus-visible:not(input):not(select):not(textarea):not([role="combobox"]):not([role="listbox"]) {
+    outline: 1px solid hsl(var(--brand-primary-mid));
+    outline-offset: 2px;
+  }
 }
 
 :root {
