@@ -1,2 +1,2 @@
-export { InlineEdit } from './InlineEdit'
-export type { InlineEditProps } from './InlineEdit'
+export { InlineEdit } from "./InlineEdit";
+export type { InlineEditProps } from "./inline-edit.types";

@@ -81,6 +81,7 @@ import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
 import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScroll";
+import { InlineEdit } from "@/components/ui/cn/inline-edit/InlineEdit";
 import { Input } from "@/components/ui/cn/input/Input";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
@@ -3083,6 +3084,27 @@ function TagInputDemo() {
         <div className="flex flex-col gap-4 w-80">
           <TagInput defaultValue={["one", "two"]} max={3} placeholder="Add tag (max 3)…" />
           <TagInput defaultValue={["locked"]} disabled placeholder="Disabled tag input" />
+        </div>
+      </Frame>
+    </div>
+  );
+}
+
+function InlineEditDemo() {
+  const [title, setTitle] = useState("Project Alpha");
+  const [note, setNote] = useState("Click to add a longer description here…");
+  return (
+    <div className="flex flex-col gap-4 items-start">
+      <Frame label="Single line — click to edit, Enter confirms, Esc cancels">
+        <InlineEdit value={title} onConfirm={setTitle} />
+      </Frame>
+      <Frame label="Multiline — Cmd/Ctrl+Enter confirms">
+        <InlineEdit value={note} onConfirm={setNote} multiline />
+      </Frame>
+      <Frame label="Empty (placeholder) + disabled">
+        <div className="flex flex-col gap-2">
+          <InlineEdit value="" onConfirm={() => {}} placeholder="Add a name…" />
+          <InlineEdit value="Locked value" onConfirm={() => {}} disabled />
         </div>
       </Frame>
     </div>
@@ -6368,6 +6390,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/status-badge": StatusBadgeDemo,
   "display/tag": TagDemo,
   "inputs/tag-input": TagInputDemo,
+  "inputs/inline-edit": InlineEditDemo,
   "display/ping": PingDemo,
   "inputs/rating": RatingDemo,
   "layout/scroll-area": ScrollAreaDemo,

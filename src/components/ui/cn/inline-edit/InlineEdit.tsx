@@ -1,18 +1,10 @@
 ﻿"use client";
-import type React from "react";
 import { useState, useRef, useEffect } from "react";
+import type React from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface InlineEditProps {
-  value: string;
-  onConfirm: (value: string) => void;
-  placeholder?: string;
-  multiline?: boolean;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { InlineEditProps } from "./inline-edit.types";
 
 const CheckIcon = () => (
   <svg
@@ -112,21 +104,27 @@ export function InlineEdit({
         if ((e.relatedTarget as HTMLElement)?.dataset?.inlineeditbtn) return;
         confirm();
       },
+      "aria-label": placeholder,
       className: "flex-1 min-w-0 bg-transparent outline-none text-foreground text-inherit font-inherit resize-none",
     };
 
     return (
-      <div style={style} className={cn("flex items-start gap-1.5 group", className)}>
-        <div className="flex-1 flex rounded-(--radius-xs) border border-patina bg-raised px-2 py-1 focus-within:shadow-[0_0_0_2px_var(--ks-primary)/20]">
+      <div style={style} className={cn("flex items-start gap-(--spacing-xs) group", className)}>
+        <div
+          // focus-within:shadow-[...var(--x)/20]: sintaxe de opacidade invalida dentro de var()
+          // — CSS descarta a declaracao inteira (mesmo achado confirmado no Slider). Trocado
+          // por color-mix() pra opacidade real.
+          className="flex-1 flex rounded-(--radius-xs) border border-patina bg-raised px-(--spacing-sm) py-(--spacing-2xs) focus-within:shadow-[0_0_0_2px_color-mix(in_oklch,var(--ks-primary)_20%,transparent)]"
+        >
           {multiline ? <textarea {...sharedProps} rows={3} /> : <input {...sharedProps} type="text" />}
         </div>
-        <div className="flex flex-col gap-1 pt-1">
+        <div className="flex flex-col gap-(--spacing-2xs) pt-(--spacing-2xs)">
           <button
             type="button"
             data-inlineeditbtn="true"
             aria-label="Confirm"
             onClick={confirm}
-            className="p-0.5 rounded-(--radius-xs) text-success hover:bg-success/10 transition-colors"
+            className="p-(--spacing-3xs) rounded-(--radius-xs) text-success hover:bg-success/10 transition-colors"
           >
             <CheckIcon />
           </button>
@@ -135,7 +133,7 @@ export function InlineEdit({
             data-inlineeditbtn="true"
             aria-label="Cancel"
             onClick={cancel}
-            className="p-0.5 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors"
+            className="p-(--spacing-3xs) rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors"
           >
             <XIcon />
           </button>
@@ -154,7 +152,7 @@ export function InlineEdit({
       }}
       style={style}
       className={cn(
-        "group inline-flex items-center gap-1.5 px-2 py-1 rounded-(--radius-xs) text-left text-inherit font-inherit leading-inherit",
+        "group inline-flex items-center gap-(--spacing-xs) px-(--spacing-sm) py-(--spacing-2xs) rounded-(--radius-xs) text-left text-inherit font-inherit leading-inherit",
         "border border-transparent hover:border-rule hover:bg-graphite transition-colors duration-[80ms]",
         disabled ? "pointer-events-none" : "",
         className
