@@ -154,15 +154,24 @@ Super component com 3 variantes (click/contextmenu/hover), absorve `ContextMenu`
 
 Continuado depois do Tier-0, seguindo pelos componentes com `--ks-shadow-*` quebrado (mesma família de achado, contexto quente): `Autocomplete` ✅ → `Command` ✅ → `DropdownMenu` ✅ — **lista de `--ks-shadow-*` pendente agora fechada** (achado #2 resolvido nos 4 arquivos).
 
-**Pendências abertas pra próxima sessão, em ordem de prioridade:**
+### Achado grande — 33 páginas de showcase quebradas/em branco, ✅ FECHADO
 
-1. **Achado grande, não investigado**: dezenas de funções `XyzDemo` no showcase definidas e nunca usadas (~35, via `npx eslint` no arquivo `_showcase.tsx`) — sinal de que vários componentes publicados podem ter página de showcase vazia/quebrada, do mesmo jeito que `dropdown-menu`/`floating-menu`/`hover-card` estavam antes desta sessão corrigir os 3. Precisa de uma varredura dedicada: listar os warnings, cruzar cada nome com `cn-registry.tsx` (existe o componente? existe a entrada no grupo certo?) e com o mapa `DEMOS` (falta só a entrada, ou falta a função inteira?).
-2. `ContextCard` isolado (fix pontual de radius já aplicado, mas não recebeu os 9 gates completos)
-3. Achado do outline global em `globals.css:33-43` (cor do dashboard legado vazando em foco de elementos não-input) — não investigado a fundo
-4. Bare `rounded` sem sufixo — ainda pendente em ~25+ arquivos do grep original de 2026-08-26 (Table, Tooltip, Command e DropdownMenu já foram corrigidos conforme apareceram)
-5. Bug de sintaxe `-[--var]` (bracket cru) — confirmado quebrado em Tabs/PriceTable/MarkdownRenderer/ContextCard(fixado)/DropdownMenu(nenhum achado aqui); ainda não confirmado se afeta as formas simples sem direção (ver lista completa na seção de achados acima)
+Investigação completa (não só os 3 achados de passagem durante o DropdownMenu). Rodei `npx eslint` no `_showcase.tsx` inteiro, extraí toda função `XyzDemo` marcada "defined but never used", e cruzei cada uma com `cn-registry.tsx` (componente existe? qual grupo real?) e com o mapa `DEMOS` (a chave `grupo/nome` já está wireada sob outro nome, ou falta mesmo?). Resultado: **31 componentes publicados, com demo já escrita, nunca conectados ao mapa `DEMOS`** — mesma causa raiz de `floating-menu`/`hover-card`. Nenhum caso de "componente não existe" ou "já wireada sob outro nome" — todos os 31 eram gap puro de wiring, fix de uma linha cada.
 
-Depois de resolver essas 5, seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~185 componentes restantes.
+Lista corrigida (todas verificadas via `curl` retornando 200, sem texto de error boundary): `display/accordion-group`, `layout/aspect-ratio`, `inputs/calendar`, `display/chat-bubble`, `inputs/chip-group`, `display/dot-stepper`, `inputs/fab`, `display/feature-list`, `layout/floating-bar`, `inputs/form-field`, `display/keyboard-shortcuts`, `display/media-player`, `display/metric-card`, `layout/navigation-menu`, `display/note-card`, `feedback/notification-bell`, `feedback/onboarding-tour`, `display/password-strength`, `display/pricing-card`, `display/progress-steps`, `inputs/rating-input`, `display/receipt-card`, `display/ribbon`, `inputs/signature-pad`, `layout/sortable-list`, `display/stats-card`, `display/tag-cloud`, `display/terminal-block`, `inputs/text-editor`, `display/timeline-progress`, `layout/vertical-nav`, `display/window-frame`.
+
+Contando os 3 achados de passagem do DropdownMenu, **34 páginas reais foram desquebradas nesta sessão**. `npx eslint` no arquivo agora dá zero warnings de `XyzDemo` não usada.
+
+**Nota**: isso é só showcase/CLI-demo — não mexe no componente em si (não precisa `registry:build`, não passa pelos gates 1-7/9). É puramente Gate 8 de 31 componentes que nunca tinham sido tocados por esta auditoria — **eles ainda precisam da passada completa de 9 gates quando chegar a vez deles na fila**.
+
+## Pendências abertas pra próxima sessão, em ordem de prioridade
+
+1. `ContextCard` isolado (fix pontual de radius já aplicado, mas não recebeu os 9 gates completos)
+2. Achado do outline global em `globals.css:33-43` (cor do dashboard legado vazando em foco de elementos não-input) — não investigado a fundo
+3. Bare `rounded` sem sufixo — ainda pendente em ~25+ arquivos do grep original de 2026-08-26 (Table, Tooltip, Command e DropdownMenu já foram corrigidos conforme apareceram)
+4. Bug de sintaxe `-[--var]` (bracket cru) — confirmado quebrado em Tabs/PriceTable/MarkdownRenderer/ContextCard(fixado)/DropdownMenu(nenhum achado aqui); ainda não confirmado se afeta as formas simples sem direção (ver lista completa na seção de achados acima)
+
+Depois de resolver essas 4, seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~185 componentes restantes (incluindo os 31 recém-desquebrados acima, que só passaram pelo Gate 8 até aqui).
 
 ---
 

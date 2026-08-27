@@ -173,21 +173,21 @@ import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
+import { Timeline } from "@/components/ui/cn/timeline/Timeline";
+import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
+import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
+import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
+import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
+import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
-import { Timeline } from "@/components/ui/cn/timeline/Timeline";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
-import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
-import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
-import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
-import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
 
 interface ShowcaseProps {
   group: string;
@@ -6189,6 +6189,40 @@ const DEMOS: Record<string, React.ComponentType> = {
   "layout/table-of-contents": TableOfContentsDemo,
   "display/word-counter": WordCounterDemo,
   "display/animated-list": AnimatedListDemo,
+  // achado 2026-08-27: as 31 abaixo tinham a funcao Demo escrita mas nunca foram wireadas
+  // aqui — pagina real ficava em branco/quebrada pra usuario (mesmo bug de floating-menu/hover-card)
+  "display/accordion-group": AccordionGroupDemo,
+  "layout/aspect-ratio": AspectRatioDemo,
+  "inputs/calendar": CalendarDemo,
+  "display/chat-bubble": ChatBubbleDemo,
+  "inputs/chip-group": ChipGroupDemo,
+  "display/dot-stepper": DotStepperDemo,
+  "inputs/fab": FabDemo,
+  "display/feature-list": FeatureListDemo,
+  "layout/floating-bar": FloatingBarDemo,
+  "inputs/form-field": FormFieldDemo,
+  "display/keyboard-shortcuts": KeyboardShortcutsDemo,
+  "display/media-player": MediaPlayerDemo,
+  "display/metric-card": MetricCardDemo,
+  "layout/navigation-menu": NavigationMenuDemo,
+  "display/note-card": NoteCardDemo,
+  "feedback/notification-bell": NotificationBellDemo,
+  "feedback/onboarding-tour": OnboardingTourDemo,
+  "display/password-strength": PasswordStrengthDemo,
+  "display/pricing-card": PricingCardDemo,
+  "display/progress-steps": ProgressStepsDemo,
+  "inputs/rating-input": RatingInputDemo,
+  "display/receipt-card": ReceiptCardDemo,
+  "display/ribbon": RibbonDemo,
+  "inputs/signature-pad": SignaturePadDemo,
+  "layout/sortable-list": SortableListDemo,
+  "display/stats-card": StatsCardDemo,
+  "display/tag-cloud": TagCloudDemo,
+  "display/terminal-block": TerminalBlockDemo,
+  "inputs/text-editor": TextEditorDemo,
+  "display/timeline-progress": TimelineProgressDemo,
+  "layout/vertical-nav": VerticalNavDemo,
+  "display/window-frame": WindowFrameDemo,
 };
 
 /* ── Showcase wrapper ── */
