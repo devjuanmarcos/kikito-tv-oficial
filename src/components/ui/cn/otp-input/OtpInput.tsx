@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 import type { OtpInputProps } from "./otp-input.types";
 
+// Escala própria do componente (gap por tier de size), não migra pra spacing genérico.
 const SIZE_WRAP: Record<string, string> = {
   sm: "gap-[6px]",
   md: "gap-[8px]",
@@ -39,12 +40,21 @@ export function OtpInput({
   style,
 }: OtpInputProps) {
   const controlled = value !== undefined;
-  const [internal, setInternal] = useState<string[]>(() =>
-    (controlled ? value! : defaultValue).split("").slice(0, length)
-  );
+
+  // Array.from é essencial aqui — `str.padEnd(length, "")` é um no-op (fillString vazio
+  // sempre retorna a string original, sem padding: MDN/spec). Com defaultValue="" (ou
+  // value="" no modo controlado), o `.padEnd` antigo produzia um array VAZIO em vez de um
+  // array de `length` posições vazias, e cells.map() nunca renderizava nenhuma célula —
+  // bug real encontrado nesta validação, o componente nunca mostrava nenhum input com o
+  // valor inicial vazio (o caso mais comum).
+  function toCells(v: string): string[] {
+    return Array.from({ length }, (_, i) => v[i] ?? "");
+  }
+
+  const [internal, setInternal] = useState<string[]>(() => toCells(controlled ? value! : defaultValue));
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const cells = controlled ? value!.padEnd(length, "").split("").slice(0, length) : internal;
+  const cells = controlled ? toCells(value!) : internal;
 
   const update = useCallback(
     (next: string[]) => {
@@ -102,10 +112,17 @@ export function OtpInput({
   }
 
   return (
-    <div className={cn("inline-flex items-center", SIZE_WRAP[size] ?? SIZE_WRAP.md, className)} style={style}>
+    <div
+      role="group"
+      aria-label="One-time passcode"
+      className={cn("inline-flex items-center", SIZE_WRAP[size] ?? SIZE_WRAP.md, className)}
+      style={style}
+    >
       {cells.map((cell, i) => (
         <span key={i} className="contents">
-          {i === 3 && length === 6 && <span className="text-body-title opacity-30 mx-0.5 select-none">—</span>}
+          {i === 3 && length === 6 && (
+            <span className="text-body-title opacity-30 mx-(--spacing-3xs) select-none">—</span>
+          )}
           <input
             ref={(el) => {
               refs.current[i] = el;
@@ -121,6 +138,7 @@ export function OtpInput({
             type={mask ? "password" : "text"}
             inputMode="numeric"
             pattern="[0-9]*"
+            autoComplete="one-time-code"
             maxLength={1}
             value={cell}
             disabled={disabled}
