@@ -7,21 +7,11 @@
  * The individual components remain importable (backward-compat).
  */
 import { AnimatedNumber } from "@/components/ui/cn/animated-number";
-import type { AnimatedNumberProps } from "@/components/ui/cn/animated-number";
 import { MorphingText } from "@/components/ui/cn/morphing-text";
-import type { MorphingTextProps } from "@/components/ui/cn/morphing-text";
 import { TextGradient } from "@/components/ui/cn/text-gradient";
-import type { TextGradientProps } from "@/components/ui/cn/text-gradient";
 import { Typewriter } from "@/components/ui/cn/typewriter";
-import type { TypewriterProps } from "@/components/ui/cn/typewriter";
 
-export type TextEffectType = "typewriter" | "morph" | "gradient" | "number";
-
-export type TextEffectProps =
-  | ({ effect?: "typewriter" } & TypewriterProps)
-  | ({ effect: "morph" } & MorphingTextProps)
-  | ({ effect: "gradient" } & TextGradientProps)
-  | ({ effect: "number" } & AnimatedNumberProps);
+import type { TextEffectProps } from "./text-effect.types";
 
 export function TextEffect(props: TextEffectProps) {
   switch (props.effect) {

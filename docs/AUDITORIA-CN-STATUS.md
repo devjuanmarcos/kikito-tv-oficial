@@ -283,12 +283,24 @@ Diferente dos outros Super components desta lista: `Chart` é um **router puro**
 - Gate 8: as 7 rotas (`charts/chart`, `charts/line-chart`, `charts/bar-chart`, `charts/area-chart`, `charts/donut-chart`, `charts/radar-chart`, `charts/funnel-chart`) já tinham demo própria
 - Gate 9: `e2e/cn/charts/chart.spec.ts` novo (16 testes cobrindo as 7 rotas + a11y `role=img`/`aria-label` + dark mode) — 32/32 chromium-desktop + mobile-chrome. Teste de a11y usa `svg[role="img"]` em vez de `getByRole("img")` — SVGs decorativos de navegação da página também se expõem implicitamente como `role=img` na árvore de acessibilidade, poluindo o match genérico
 
+### `display/text-effect` — concluído
+
+Igual ao `Chart`: **router puro** sobre 4 renderers standalone (`typewriter`/`morph`/`gradient`/`number` → `Typewriter`/`MorphingText`/`TextGradient`/`AnimatedNumber`), não uma absorção — cada um continua totalmente independente e documentado isoladamente. `marquee-text` e `scroll-reveal` têm nomes parecidos mas **não fazem parte desta família** (não são dispatch do `TextEffect`), ficam pendentes pra uma validação própria futura.
+
+- Gate 1: `TextEffect.tsx` tinha `TextEffectType`/`TextEffectProps` inline — criado `text-effect.types.ts`, `.tsx`/`index.ts` atualizados; import de tipo em `_showcase.tsx` ajustado
+- Gate 2/3: nenhum hex/hsl/rgb cru, nenhum `rounded` bare, nenhuma sintaxe `-[--var]` quebrada, nenhum `text-xs/sm/base/lg/xl/2xl` cru nos 5 arquivos — os 4 renderers já estavam bem alinhados aos tokens (`from`/`to` do `TextGradient` já usam `var(--ks-violet)`/`var(--ks-rose)` por padrão)
+- Gate 5 (**gap real de a11y encontrado e corrigido**): `TextGradient` usa a técnica `background-clip: text` + `color: transparent` pra pintar o texto com gradiente — em **modo de alto contraste forçado** (Windows High Contrast / `forced-colors: active`), o navegador ignora `background`, e o texto fica **completamente invisível** (permanece `color: transparent`, sem nada visível). Adicionado fallback via `@media (forced-colors: active)` que restaura `color: CanvasText` e remove o gradiente nesse modo
+- `Typewriter`/`MorphingText`/`AnimatedNumber` já tinham a11y correta (cursor com `aria-hidden`, `aria-label` com o texto completo pro typewriter, `aria-live="polite"` pro morph) — nenhum gap encontrado
+- Gate 8: as 5 rotas (`display/text-effect`, `display/typewriter`, `display/morphing-text`, `display/text-gradient`, `display/animated-number`) já tinham demo própria
+- Gate 9: `e2e/cn/display/text-effect.spec.ts` novo (11 testes cobrindo as 5 rotas + a11y de `forced-colors` no `TextGradient`) — 22/22 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido
 2. Cobertura de `focus-visible:outline-patina` em componentes com foco customizado por `role` (Tabs e possivelmente outros `role="tab"`/`role="menuitem"`) que nunca tiveram anel de foco próprio, dependendo só do fallback verde do dashboard — achado colateral do fix do outline global, não é regressão, é lacuna pré-existente
 3. `text-lg`/`text-xl` cru achado de passagem em `avatar/Avatar.tsx` durante o sweep de `rounded` — corrigido pro tamanho, mas os `text-[Npx]` arbitrários no mesmo `SIZE_DIM` (xs/sm/md/lg, ex: `text-[0.5625rem]`) não foram tocados, ficam pendentes pro Gate 3 completo do Avatar
 4. `cn-install-block/CnInstallBlock.tsx` usa hex cru (`#0d1117`, `#79c0ff` etc, paleta do GitHub) — provavelmente exceção válida (mimetiza tema de código real, independente do tema CN) mas nunca recebeu o comentário de exceção documentada; fica pendente confirmar e comentar quando for a vez desse componente
+5. `marquee-text` e `scroll-reveal` têm nomes parecidos com a família `text-effect` mas não fazem parte dela (não são dispatch do `TextEffect`) — ainda não receberam nenhum gate, ficam pendentes como itens standalone próprios
 
 ## Achado grande — sweep de `rounded` bare (23 arquivos) e sintaxe `-[--var]` (10 arquivos) — ✅ FECHADOS
 
