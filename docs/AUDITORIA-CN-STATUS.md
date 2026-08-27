@@ -84,11 +84,22 @@ Tailwind v4 tem um shorthand documentado onde `algo-[--foo]` vira automaticament
 
 ---
 
+### `overlays/tooltip` — concluído
+
+Grupo real é **`overlays`**, não `display` (confirmado via `cn-registry.tsx` — não assumir grupo pelo nome, checar sempre).
+
+- Gate 1: não tinha `tooltip.types.ts` — criado, tipos extraídos do `.tsx`
+- Gate 2: `text-base` (era pra ser `text-canvas` — bug real: texto do tooltip simples não tinha cor definida contra `bg-foreground`, herdava ambiente) → `text-canvas`; `rounded-[5px]` → `rounded-(--radius-sm)`; `rounded-[--radius]` (var inexistente, 2 ocorrências: RichTooltip bubble + `ContextCard.tsx` standalone) → `rounded-(--radius-md)`; `rounded` bare (2×, botões de fechar do Popover) → `rounded-(--radius-xs)`
+- Gate 3: `leading-[1.5]` → `leading-normal`
+- Gate 5: `SimpleTooltip` e `RichTooltip` não tinham `aria-describedby` ligando trigger↔tooltip (gap real de a11y, AT não anunciava o conteúdo) — adicionado via `useId()`; `SimpleTooltip` sem Escape-to-dismiss — adicionado
+- **Bug real encontrado**: `HoverCardImpl` (variant="card") destructurava `className` mas nunca aplicava no `cn(...)` do portal — prop do consumidor era descartada silenciosamente. Corrigido.
+- Família de wrappers backward-compat (`popover/`, `hover-card/`, `rich-tooltip/`) — checados, são thin delegates pro `Tooltip`, sem violação própria
+- `ContextCard.tsx` (componente standalone, NÃO delega pro Tooltip) — fix pontual do achado #3 pendente (`rounded-[--radius]`) aplicado de passagem, mas **não recebeu os 9 gates completos** — fica pendente pra quando for a vez dele na fila
+- Gate 9: `e2e/cn/overlays/tooltip.spec.ts` novo (4 testes) — 8/8 em chromium-desktop + mobile-chrome
+
 ## Fila restante
 
-`Tabs` ✅ concluído → **`Tooltip`** (próximo) → `Modal` → `Checkbox` (fecha os 10 "Tier-0 sujos" do panorama inicial) → depois seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~190 componentes restantes.
-
-Nota pra `Tooltip`: já sabemos de 2 achados de infraestrutura que batem nele antes mesmo de começar (ver seção de achados pendentes acima) — `rounded-[--radius]` (suspeito, não testado) e `shadow-lg` bare. Confirmar os dois como parte do Gate 2/2-radius normal do componente, não como descoberta nova.
+`Tabs` ✅ → `Tooltip` ✅ → **`Modal`** (próximo) → `Checkbox` (fecha os 10 "Tier-0 sujos" do panorama inicial) → depois seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES.md` pros ~190 componentes restantes (incluindo `ContextCard` isolado, ver nota acima).
 
 ---
 

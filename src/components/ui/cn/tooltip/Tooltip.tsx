@@ -1,80 +1,34 @@
 "use client";
 import type React from "react";
-import { useState, useRef, cloneElement, useEffect, Children } from "react";
+import { useState, useRef, cloneElement, useEffect, useId, Children } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 
-export type TooltipPlacement =
-  | "top"
-  | "top-start"
-  | "top-end"
-  | "bottom"
-  | "bottom-start"
-  | "bottom-end"
-  | "left"
-  | "right";
+import type {
+  TooltipPlacement,
+  TooltipProps,
+  TooltipSimpleProps,
+  TooltipRichProps,
+  TooltipCardProps,
+  HoverCardSide,
+  HoverCardAlign,
+  PopoverPlacement,
+} from "./tooltip.types";
 
-/** Trigger interaction mode for the Super Tooltip. */
-export type TooltipTrigger = "hover" | "click" | "focus";
-/** Visual variant for the Super Tooltip. */
-export type TooltipVariant = "simple" | "rich" | "card";
-
-/* ── Rich-tooltip placement (subset, anchored CSS positioning) ───────────── */
-export type RichTooltipPlacement = "top" | "bottom" | "left" | "right";
-/* ── Hover/context card placement primitives ─────────────────────────────── */
-export type HoverCardSide = "top" | "bottom" | "left" | "right";
-export type HoverCardAlign = "start" | "center" | "end";
-/* ── Popover placement (full 8-way) ──────────────────────────────────────── */
-export type PopoverPlacement = TooltipPlacement;
-
-interface TooltipBase {
-  /** Element that triggers the floating content (must forward ref). */
-  children: React.ReactElement;
-}
-
-export interface TooltipSimpleProps extends TooltipBase {
-  variant?: "simple";
-  /** 'hover' (default) and 'focus' share the same hover-tooltip behavior; 'click' dispatches to the Popover render. */
-  trigger?: "hover" | "focus" | "click";
-  content: React.ReactNode;
-  placement?: TooltipPlacement;
-  delay?: number;
-  disabled?: boolean;
-
-  /* ── Popover-only fields (trigger='click') ─────────────────────────────── */
-  title?: string;
-  description?: string;
-  footer?: React.ReactNode;
-  showClose?: boolean;
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-}
-
-export interface TooltipRichProps extends TooltipBase {
-  variant: "rich";
-  title?: React.ReactNode;
-  content: React.ReactNode;
-  icon?: React.ReactNode;
-  action?: { label: string; onClick: () => void };
-  placement?: RichTooltipPlacement;
-  maxWidth?: number;
-  className?: string;
-}
-
-export interface TooltipCardProps extends TooltipBase {
-  variant: "card";
-  content: React.ReactNode;
-  side?: HoverCardSide;
-  align?: HoverCardAlign;
-  openDelay?: number;
-  closeDelay?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export type TooltipProps = TooltipSimpleProps | TooltipRichProps | TooltipCardProps;
+export type {
+  TooltipPlacement,
+  TooltipTrigger,
+  TooltipVariant,
+  TooltipProps,
+  TooltipSimpleProps,
+  TooltipRichProps,
+  TooltipCardProps,
+  RichTooltipPlacement,
+  HoverCardSide,
+  HoverCardAlign,
+  PopoverPlacement,
+} from "./tooltip.types";
 
 /* ════════════════════════════════════════════════════════════════════════
  * Shared positioning (absorbed verbatim from Tooltip + Popover)
@@ -175,6 +129,7 @@ function SimpleTooltip({ content, placement = "top", delay = 300, disabled = fal
   const triggerRef = useRef<Element>(null);
   const tipRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>(null);
+  const tooltipId = useId();
 
   function show() {
     if (disabled) return;
@@ -201,12 +156,23 @@ function SimpleTooltip({ content, placement = "top", delay = 300, disabled = fal
     []
   );
 
+  // Escape fecha sem mover foco, padrao WAI-ARIA pra tooltip.
+  useEffect(() => {
+    if (!visible) return;
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") hide();
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [visible]);
+
   const trigger = cloneElement(Children.only(children), {
     ref: triggerRef,
     onMouseEnter: show,
     onMouseLeave: hide,
     onFocus: show,
     onBlur: hide,
+    "aria-describedby": visible ? tooltipId : undefined,
   });
 
   if (typeof document === "undefined") return trigger;
@@ -217,11 +183,14 @@ function SimpleTooltip({ content, placement = "top", delay = 300, disabled = fal
       {createPortal(
         <div
           ref={tipRef}
+          id={tooltipId}
           role="tooltip"
           className={cn(
             "fixed z-[2000] pointer-events-none",
             "max-w-[260px] px-2.5 py-1.5 text-body-caption",
-            "bg-foreground text-base rounded-[5px] shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.5)]",
+            // bg-foreground/text-canvas inverte a superfície de propósito (tooltip escuro no light, claro no dark)
+            // shadow em oklch literal: nao existe token --ks-shadow-* ainda (ver CLAUDE.md)
+            "bg-foreground text-canvas rounded-(--radius-sm) shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.5)]",
             "transition-[opacity,transform] duration-[140ms]",
             visible ? "opacity-100 scale-100" : "opacity-0 scale-[0.95]"
           )}
@@ -249,6 +218,7 @@ function RichTooltipImpl({
   className,
 }: TooltipRichProps) {
   const [open, setOpen] = useState(false);
+  const tooltipId = useId();
 
   return (
     <>
@@ -275,9 +245,12 @@ function RichTooltipImpl({
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
       >
-        {cloneElement(children)}
+        {cloneElement(children, { "aria-describedby": open ? tooltipId : undefined })}
         <span
-          className="rt-bubble bg-raised border border-rule rounded-[--radius] shadow-lg p-3 flex flex-col gap-2"
+          id={tooltipId}
+          // rounded-[--radius] usava var --radius que nao existe no projeto (ficava 0px); shadow-lg bare: sem
+          // token --ks-shadow-* ainda, mantido literal do Tailwind (ver CLAUDE.md)
+          className="rt-bubble bg-raised border border-rule rounded-(--radius-md) shadow-lg p-3 flex flex-col gap-2"
           data-open={open}
           data-placement={placement}
           style={{ maxWidth }}
@@ -417,14 +390,14 @@ function PopoverImpl({
               <div className={cn("flex items-start gap-2 px-4 pt-4", content || footer ? "pb-2" : "pb-4")}>
                 <div className="flex-1 min-w-0">
                   {title && <p className="text-body-callout font-semibold text-foreground leading-tight">{title}</p>}
-                  {description && <p className="text-body-caption text-faint mt-0.5 leading-[1.5]">{description}</p>}
+                  {description && <p className="text-body-caption text-faint mt-0.5 leading-normal">{description}</p>}
                 </div>
                 {showClose && (
                   <button
                     type="button"
                     aria-label="Close"
                     onClick={() => setOpen(false)}
-                    className="shrink-0 mt-0.5 p-0.5 rounded text-faint hover:text-foreground hover:bg-graphite transition-colors"
+                    className="shrink-0 mt-0.5 p-0.5 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors"
                   >
                     <XIcon />
                   </button>
@@ -447,7 +420,7 @@ function PopoverImpl({
                     type="button"
                     aria-label="Close"
                     onClick={() => setOpen(false)}
-                    className="absolute top-2 right-2 p-0.5 rounded text-faint hover:text-foreground hover:bg-graphite transition-colors"
+                    className="absolute top-2 right-2 p-0.5 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors"
                   >
                     <XIcon />
                   </button>
@@ -534,7 +507,8 @@ function HoverCardImpl({
               "bg-raised border border-rule rounded-(--radius-md)",
               "shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]",
               "transition-[opacity,transform] duration-[140ms]",
-              ready ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
+              ready ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]",
+              className
             )}
             style={{ top: pos.top, left: pos.left, ...style }}
             onMouseEnter={scheduleOpen}

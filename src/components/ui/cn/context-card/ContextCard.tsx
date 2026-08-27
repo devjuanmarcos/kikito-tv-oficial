@@ -1,15 +1,10 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import type { ContextCardProps } from './context-card.types'
+import React from "react";
 
-export function ContextCard({
-  trigger,
-  children,
-  placement = 'top',
-  width = 280,
-  className,
-  style,
-}: ContextCardProps) {
+import { cn } from "@/lib/utils";
+
+import type { ContextCardProps } from "./context-card.types";
+
+export function ContextCard({ trigger, children, placement = "top", width = 280, className, style }: ContextCardProps) {
   return (
     <>
       <style>{`
@@ -28,10 +23,12 @@ export function ContextCard({
         .cc-popup[data-placement="left"]   { right: calc(100% + 8px); top: 50%; translate: 0 -50%; }
         .cc-popup[data-placement="right"]  { left: calc(100% + 8px); top: 50%; translate: 0 -50%; }
       `}</style>
-      <div className={cn('cc-root', className)} style={style}>
+      <div className={cn("cc-root", className)} style={style}>
         {trigger}
         <div
-          className="cc-popup bg-raised border border-rule rounded-[--radius] shadow-lg"
+          // rounded-[--radius] usava var --radius que nao existe no projeto (ficava 0px); shadow-lg bare: sem
+          // token --ks-shadow-* ainda, mantido literal do Tailwind (ver CLAUDE.md)
+          className="cc-popup bg-raised border border-rule rounded-(--radius-md) shadow-lg"
           data-placement={placement}
           style={{ width }}
         >
@@ -39,5 +36,5 @@ export function ContextCard({
         </div>
       </div>
     </>
-  )
+  );
 }
