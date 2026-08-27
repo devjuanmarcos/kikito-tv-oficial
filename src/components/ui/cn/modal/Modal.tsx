@@ -7,64 +7,26 @@ import { Button } from "@/components/ui/cn/button";
 import type { ButtonIntent } from "@/components/ui/cn/button";
 import { cn } from "@/lib/utils";
 
-export type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
+import type {
+  ModalProps,
+  ModalBodyProps,
+  ModalFooterProps,
+  ModalSize,
+  AlertDialogIntent,
+  DrawerSide,
+  DrawerSize,
+} from "./modal.types";
 
-/* ── Absorbed variant types ─────────────────────────────────────────────── */
-export type AlertDialogIntent = "danger" | "warning" | "primary";
-export type DrawerSide = "right" | "left" | "bottom" | "top";
-export type DrawerSize = "sm" | "md" | "lg" | "xl";
-
-export type ModalVariant = "modal" | "alert" | "drawer" | "panel";
-
-export interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  title?: string;
-  description?: string;
-  children?: React.ReactNode;
-  size?: ModalSize;
-  closeOnOverlay?: boolean;
-  closeOnEscape?: boolean;
-  hideClose?: boolean;
-  className?: string;
-  /** Selects render family. Default `modal`. */
-  variant?: ModalVariant;
-
-  /* ── alert variant extras ── */
-  intent?: AlertDialogIntent;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  loading?: boolean;
-  style?: React.CSSProperties;
-
-  /* ── drawer variant extras ── */
-  side?: DrawerSide;
-  /** Drawer-specific size scale (sm|md|lg|xl). Falls back to `size` semantics. */
-  drawerSize?: DrawerSize;
-  footer?: React.ReactNode;
-  footerAlign?: "left" | "right" | "center" | "between";
-
-  /* ── panel variant extras ── */
-  panel?: React.ReactNode;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  panelSide?: "left" | "right";
-  panelWidth?: number;
-  collapsedWidth?: number;
-}
-
-export interface ModalBodyProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-
-export interface ModalFooterProps {
-  children?: React.ReactNode;
-  align?: "left" | "right" | "center" | "between";
-  className?: string;
-}
+export type {
+  ModalProps,
+  ModalBodyProps,
+  ModalFooterProps,
+  ModalSize,
+  ModalVariant,
+  AlertDialogIntent,
+  DrawerSide,
+  DrawerSize,
+} from "./modal.types";
 
 const FOCUSABLE = 'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])';
 
@@ -81,6 +43,45 @@ const FOOTER_ALIGN: Record<NonNullable<ModalFooterProps["align"]>, string> = {
   center: "justify-center",
   between: "justify-between",
 };
+
+/** Escape-to-close + Tab focus trap padrao WAI-ARIA pra dialog/alertdialog — compartilhado pelas 4 variantes. */
+function useFocusTrap(
+  ref: React.RefObject<HTMLElement | null>,
+  open: boolean,
+  onClose: () => void,
+  closeOnEscape: boolean
+) {
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (closeOnEscape) {
+          e.preventDefault();
+          onClose();
+        }
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const container = ref.current;
+      if (!container) return;
+      const focusables = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => !el.hasAttribute("disabled")
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, [ref, open, closeOnEscape, onClose]);
+}
 
 const XIcon = () => (
   <svg
@@ -122,17 +123,7 @@ function ModalDialog({
     };
   }, [open]);
 
-  useEffect(() => {
-    if (!open || !closeOnEscape) return;
-    const h = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", h);
-    return () => document.removeEventListener("keydown", h);
-  }, [open, closeOnEscape, onClose]);
+  useFocusTrap(panelRef, open, onClose, closeOnEscape);
 
   if (typeof document === "undefined") return null;
 
@@ -145,6 +136,7 @@ function ModalDialog({
         .ks-modal-panel[data-open="false"] { opacity: 0; transform: scale(0.96) translateY(8px); pointer-events: none; }
       `}</style>
       <div>
+        {/* bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light) */}
         <div
           className="fixed inset-0 bg-black/55 z-[1200] ks-modal-overlay"
           data-open={String(open)}
@@ -170,17 +162,20 @@ function ModalDialog({
               <div className="flex items-start gap-3 px-6 pt-5 pb-4 border-b border-rule shrink-0">
                 <div className="flex-1 min-w-0">
                   {title && <p className="text-body-paragraph font-bold text-foreground">{title}</p>}
-                  {description && <p className="text-body-callout text-faint mt-1 leading-[1.45]">{description}</p>}
+                  {description && <p className="text-body-callout text-faint mt-1 leading-normal">{description}</p>}
                 </div>
                 {!hideClose && (
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    intent="neutral"
+                    size="sm"
+                    iconOnly
+                    iconLeft={<XIcon />}
                     onClick={onClose}
-                    className="shrink-0 inline-flex bg-transparent border-none cursor-pointer p-1 rounded-sm text-faint hover:text-foreground hover:bg-graphite-2 transition-[color,background] duration-[120ms] [&>svg]:w-[1.125rem] [&>svg]:h-[1.125rem]"
+                    className="shrink-0"
                     aria-label="Close"
-                  >
-                    <XIcon />
-                  </button>
+                  />
                 )}
               </div>
             )}
@@ -194,10 +189,10 @@ function ModalDialog({
 }
 
 /* ── alert variant (absorbed from AlertDialog, verbatim render) ──────────── */
-const ALERT_ICON_CLS: Record<string, string> = {
-  danger: "bg-[color-mix(in_srgb,var(--ks-danger)_12%,transparent)] text-danger",
-  warning: "bg-[color-mix(in_srgb,var(--ks-warning)_12%,transparent)] text-warning",
-  primary: "bg-[color-mix(in_srgb,var(--ks-primary)_12%,transparent)] text-patina",
+const ALERT_ICON_CLS: Record<AlertDialogIntent, string> = {
+  danger: "bg-danger-soft text-danger",
+  warning: "bg-warning-soft text-warning",
+  primary: "bg-patina-soft text-patina",
 };
 
 const AlertDangerIcon = () => (
@@ -230,24 +225,22 @@ function ModalAlert({
   className,
   style,
 }: ModalProps) {
-  const onOpenChange = (next: boolean) => {
-    if (!next) onClose();
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleCancel = () => {
+    onCancel?.();
+    onClose();
   };
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onOpenChange(false);
-    };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, onClose]);
+    const el = panelRef.current?.querySelector<HTMLElement>(FOCUSABLE);
+    el?.focus();
+  }, [open]);
 
-  const handleCancel = () => {
-    onCancel?.();
-    onOpenChange(false);
-  };
+  // Escape se comporta como Cancel (chama onCancel), nao so onClose — consistente com o
+  // clique fora e com o botao Cancel.
+  useFocusTrap(panelRef, open, handleCancel, true);
 
   if (typeof document === "undefined") return null;
 
@@ -256,6 +249,7 @@ function ModalAlert({
       {open && (
         <motion.div
           key="alert-dialog-overlay"
+          // bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light)
           className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -267,8 +261,9 @@ function ModalAlert({
         >
           <motion.div
             key="alert-dialog-panel"
+            ref={panelRef}
             className={cn(
-              "bg-raised border border-rule rounded-[12px] p-6 w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)]",
+              "bg-raised border border-rule rounded-(--radius-md) p-6 w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)]",
               className
             )}
             style={style}
@@ -317,8 +312,9 @@ function ModalAlert({
 const DRAWER_SIDE_CLS: Record<DrawerSide, string> = {
   right: "top-0 right-0 bottom-0 border-l border-rule shadow-[-8px_0_40px_-8px_oklch(0%_0_0/0.40)]",
   left: "top-0 left-0 bottom-0 border-r border-rule shadow-[8px_0_40px_-8px_oklch(0%_0_0/0.40)]",
-  bottom: "left-0 right-0 bottom-0 border-t border-rule rounded-t-[14px] shadow-[0_-8px_40px_-8px_oklch(0%_0_0/0.40)]",
-  top: "left-0 right-0 top-0 border-b border-rule rounded-b-[14px] shadow-[0_8px_40px_-8px_oklch(0%_0_0/0.40)]",
+  bottom:
+    "left-0 right-0 bottom-0 border-t border-rule rounded-t-(--radius-lg) shadow-[0_-8px_40px_-8px_oklch(0%_0_0/0.40)]",
+  top: "left-0 right-0 top-0 border-b border-rule rounded-b-(--radius-lg) shadow-[0_8px_40px_-8px_oklch(0%_0_0/0.40)]",
 };
 
 const DRAWER_SLIDE_IN: Record<DrawerSide, string> = {
@@ -381,17 +377,7 @@ function ModalDrawer({
     };
   }, [open]);
 
-  useEffect(() => {
-    if (!open || !closeOnEscape) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [open, closeOnEscape, onClose]);
+  useFocusTrap(drawerRef, open, onClose, closeOnEscape);
 
   if (typeof document === "undefined") return null;
 
@@ -403,6 +389,7 @@ function ModalDrawer({
         .dr-panel { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1); }
       `}</style>
       <div>
+        {/* bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light) */}
         <div
           className="fixed inset-0 bg-black/55 z-[1100] dr-overlay"
           data-open={String(open)}
@@ -428,17 +415,20 @@ function ModalDrawer({
             <div className="flex items-start gap-3 px-6 py-5 border-b border-rule shrink-0">
               <div className="flex-1 min-w-0">
                 {title && <p className="text-body-paragraph font-bold text-foreground">{title}</p>}
-                {description && <p className="text-body-callout text-faint mt-1 leading-[1.45]">{description}</p>}
+                {description && <p className="text-body-callout text-faint mt-1 leading-normal">{description}</p>}
               </div>
               {!hideClose && (
-                <button
+                <Button
                   type="button"
-                  className="inline-flex bg-transparent border-none cursor-pointer p-1 rounded-sm text-faint shrink-0 transition-[color,background] duration-[120ms] hover:text-foreground hover:bg-graphite-2 [&>svg]:w-[1.125rem] [&>svg]:h-[1.125rem]"
+                  variant="ghost"
+                  intent="neutral"
+                  size="sm"
+                  iconOnly
+                  iconLeft={<XIcon />}
+                  className="shrink-0"
                   aria-label="Close"
                   onClick={onClose}
-                >
-                  <XIcon />
-                </button>
+                />
               )}
             </div>
           )}
@@ -446,6 +436,7 @@ function ModalDrawer({
           {footer && (
             <div
               className={cn(
+                // gap-[0.625rem] (10px) fica entre --spacing-sm (8px) e --spacing-md (12px), sem match exato
                 "flex items-center gap-[0.625rem] px-6 py-4 border-t border-rule shrink-0",
                 DRAWER_FOOTER_ALIGN[footerAlign]
               )}
@@ -499,8 +490,10 @@ function ModalPanel({
           {panel}
         </div>
 
-        {/* Toggle button */}
+        {/* Toggle button — tamanho/posicionamento e escala propria do componente (tab semicircular
+            grudado na borda do painel), nao encaixa no icon-only scale do Button CN */}
         <button
+          type="button"
           onClick={toggle}
           className={cn(
             "absolute top-1/2 -translate-y-1/2 z-10 w-5 h-10 flex items-center justify-center rounded-(--radius-sm) border border-rule bg-raised text-muted hover:text-foreground hover:bg-graphite transition-colors text-body-caption",
@@ -548,6 +541,7 @@ export function ModalFooter({ children, align = "right", className }: ModalFoote
   return (
     <div
       className={cn(
+        // gap-[0.625rem] (10px) fica entre --spacing-sm (8px) e --spacing-md (12px), sem match exato
         "flex items-center gap-[0.625rem] px-6 py-4 border-t border-rule shrink-0",
         FOOTER_ALIGN[align],
         className

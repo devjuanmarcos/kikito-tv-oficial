@@ -8,4 +8,4 @@ export type {
   AlertDialogIntent,
   DrawerSide,
   DrawerSize,
-} from "./Modal";
+} from "./modal.types";
