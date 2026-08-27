@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useRef, useEffect, useMemo, useCallback, type ReactNode, type CSSProperties } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback, useId, type ReactNode, type CSSProperties } from "react";
 
 import { Button } from "@/components/ui/cn/button/Button";
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
@@ -28,6 +28,7 @@ const SortNone = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-[14px] h-[14px]"
+    aria-hidden="true"
   >
     <path d="M7 15l5 5 5-5" />
     <path d="M7 9l5-5 5 5" />
@@ -42,6 +43,7 @@ const SortAsc = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-[14px] h-[14px]"
+    aria-hidden="true"
   >
     <path d="M12 4v16m-5-5l5 5 5-5" />
   </svg>
@@ -55,6 +57,7 @@ const SortDesc = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-[14px] h-[14px]"
+    aria-hidden="true"
   >
     <path d="M12 20V4M7 9l5-5 5 5" />
   </svg>
@@ -68,6 +71,7 @@ const FilterIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-3 h-3 flex-shrink-0"
+    aria-hidden="true"
   >
     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
   </svg>
@@ -81,6 +85,7 @@ const PlusIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-3 h-3 flex-shrink-0"
+    aria-hidden="true"
   >
     <line x1="12" y1="5" x2="12" y2="19" />
     <line x1="5" y1="12" x2="19" y2="12" />
@@ -95,6 +100,7 @@ const XIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-3 h-3"
+    aria-hidden="true"
   >
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
@@ -109,6 +115,7 @@ const CheckIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-[10px] h-[10px]"
+    aria-hidden="true"
   >
     <polyline points="20 6 9 17 4 12" />
   </svg>
@@ -122,6 +129,7 @@ const ViewIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-[14px] h-[14px]"
+    aria-hidden="true"
   >
     <line x1="8" y1="6" x2="21" y2="6" />
     <line x1="8" y1="12" x2="21" y2="12" />
@@ -140,6 +148,7 @@ const SearchIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-3 h-3 text-faint flex-shrink-0"
+    aria-hidden="true"
   >
     <circle cx="11" cy="11" r="8" />
     <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -154,6 +163,7 @@ const EmptyIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="w-8 h-8"
+    aria-hidden="true"
   >
     <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
     <line x1="8" y1="21" x2="16" y2="21" />
@@ -269,7 +279,8 @@ export function TableCell({
   return (
     <td
       className={cn(
-        "px-[14px] py-3 align-middle",
+        // px-[14px]: sem match exato na escala de spacing (entre --spacing-md 12px e --spacing-lg 16px) — padding canônico de célula usado em todo o componente
+        "px-[14px] py-(--spacing-md) align-middle",
         align === "center" && "text-center",
         align === "right" && "text-right",
         pinRight && "sticky right-0 bg-inherit shadow-[-1px_0_0_var(--ks-rule)]",
@@ -307,6 +318,7 @@ export function TableHeadCell({
   return (
     <th
       className={cn(
+        // px-[14px]/py-[11px]: sem match exato na escala de spacing
         "px-[14px] py-[11px] text-body-caption font-semibold tracking-[0.02em] text-faint text-left whitespace-nowrap select-none relative",
         sortable && "cursor-pointer hover:text-foreground",
         sorted && "text-foreground",
@@ -331,6 +343,7 @@ export function TableHeadCell({
       style={style}
       aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : sortable ? "none" : undefined}
     >
+      {/* gap-[5px]: sem match exato na escala de spacing */}
       <span className="inline-flex items-center gap-[5px]">
         {children}
         {sortable && (
@@ -350,6 +363,7 @@ export function TableHeadCell({
 
 export function TableCaption({ children, className }: { children?: ReactNode; className?: string }) {
   return (
+    // px-[14px]/py-[10px]: sem match exato na escala de spacing
     <caption className={cn("text-body-caption text-faint px-[14px] py-[10px] text-left caption-bottom", className)}>
       {children}
     </caption>
@@ -374,6 +388,7 @@ function SelectFilter({
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const ref = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -400,7 +415,11 @@ function SelectFilter({
       <div
         role="button"
         tabIndex={0}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listboxId}
         className={cn(
+          // px-[10px]: sem match exato na escala de spacing (padrão de chip de filtro/toolbar, repetido no arquivo)
           "inline-flex items-center gap-(--spacing-xs) h-8 px-[10px] border border-dashed border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:border-patina hover:text-foreground",
           value.length > 0 && "border-patina border-solid text-foreground"
         )}
@@ -430,7 +449,7 @@ function SelectFilter({
         {title}
         {value.length > 0 && (
           // below scale minimum: inline count pill, matches Badge's sm-size scale
-          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-patina-soft text-patina rounded-(--radius-xs) text-[0.625rem] font-bold">
+          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-(--spacing-2xs) bg-patina-soft text-patina rounded-(--radius-xs) text-[0.625rem] font-bold">
             {value.length}
           </span>
         )}
@@ -444,15 +463,24 @@ function SelectFilter({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={`Search ${title}…`}
-              className="w-full bg-graphite border border-rule rounded-(--radius-sm) px-2 py-[5px] text-body-callout text-foreground outline-none placeholder:text-faint"
+              // py-[5px]: sem match exato na escala de spacing
+              className="w-full bg-graphite border border-rule rounded-(--radius-sm) px-(--spacing-sm) py-[5px] text-body-callout text-foreground outline-none placeholder:text-faint"
             />
           </div>
-          <div className="max-h-[220px] overflow-y-auto p-(--spacing-2xs)">
+          <div
+            id={listboxId}
+            role="listbox"
+            aria-multiselectable={multiple}
+            className="max-h-[220px] overflow-y-auto p-(--spacing-2xs)"
+          >
             {filtered.map((opt) => (
               <button
                 key={opt.value}
                 type="button"
-                className="flex items-center gap-2 px-2 py-[7px] rounded-(--radius-sm) cursor-pointer text-body-callout border-0 bg-transparent w-full text-left text-foreground transition-colors duration-[80ms] hover:bg-patina/8"
+                role="option"
+                aria-selected={value.includes(opt.value)}
+                // py-[7px]: sem match exato na escala de spacing
+                className="flex items-center gap-(--spacing-sm) px-(--spacing-sm) py-[7px] rounded-(--radius-sm) cursor-pointer text-body-callout border-0 bg-transparent w-full text-left text-foreground transition-colors duration-[80ms] hover:bg-patina/8"
                 onClick={() => toggle(opt.value)}
               >
                 <span
@@ -495,6 +523,7 @@ function ViewOptions({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const menuId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -511,6 +540,9 @@ function ViewOptions({
     <div className="relative" ref={ref}>
       <button
         type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={menuId}
         className="inline-flex items-center gap-(--spacing-xs) h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer relative transition-colors duration-[120ms] hover:text-foreground"
         onClick={() => setOpen((o) => !o)}
       >
@@ -518,15 +550,22 @@ function ViewOptions({
         View
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] right-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] p-(--spacing-xs)">
+        <div
+          id={menuId}
+          role="menu"
+          className="absolute top-[calc(100%+4px)] right-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] p-(--spacing-xs)"
+        >
           {toggleable.map((col) => {
             const visible = !hidden.has(col.key);
             return (
               <button
                 key={col.key}
                 type="button"
+                role="menuitemcheckbox"
+                aria-checked={visible}
                 className={cn(
-                  "flex items-center gap-2 px-2 py-[7px] rounded-(--radius-sm) cursor-pointer text-body-callout border-0 bg-transparent w-full text-left transition-colors duration-[80ms] hover:bg-patina/8",
+                  // py-[7px]: sem match exato na escala de spacing
+                  "flex items-center gap-(--spacing-sm) px-(--spacing-sm) py-[7px] rounded-(--radius-sm) cursor-pointer text-body-callout border-0 bg-transparent w-full text-left transition-colors duration-[80ms] hover:bg-patina/8",
                   visible ? "text-foreground" : "text-faint"
                 )}
                 onClick={() => onToggle(col.key)}
@@ -731,6 +770,7 @@ function TableVariant<TRow extends object>({
   const filterCols = columns.filter((c) => c.filterable && !hidden.has(c.key));
   const skeletonRows = Array.from({ length: Math.min(pageSize, 5) });
 
+  // thCls/tdCls variam por `size` (sm/md/lg): escala própria do componente, não migra pra spacing genérico
   const thCls = cn(
     "text-left whitespace-nowrap select-none relative text-faint font-semibold tracking-[0.02em]",
     size === "sm"
@@ -745,10 +785,15 @@ function TableVariant<TRow extends object>({
   );
 
   return (
-    <div className={cn("flex flex-col gap-[10px] w-full", className)} style={style}>
+    <div
+      aria-busy={loading || undefined}
+      // gap-[10px]: sem match exato na escala de spacing
+      className={cn("flex flex-col gap-[10px] w-full", className)}
+      style={style}
+    >
       {/* Toolbar */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="flex items-center gap-2 flex-1 flex-wrap">
+      <div className="flex items-center gap-(--spacing-sm) flex-wrap">
+        <div className="flex items-center gap-(--spacing-sm) flex-1 flex-wrap">
           {filterCols.map((col) => {
             const fv = filters[col.key];
             if (col.filterVariant === "text" || !col.filterVariant) {
@@ -785,7 +830,7 @@ function TableVariant<TRow extends object>({
             </Button>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-(--spacing-sm) flex-shrink-0">
           <ViewOptions columns={columns.filter((c) => c.hideable !== false)} hidden={hidden} onToggle={toggleCol} />
         </div>
       </div>
@@ -793,7 +838,8 @@ function TableVariant<TRow extends object>({
       {/* Action bar */}
       {selectable && selected.size > 0 && actionBar && (
         <div
-          className="flex items-center gap-3 px-[14px] py-[10px] rounded-(--radius-md) text-body-callout border"
+          // px-[14px]/py-[10px]: sem match exato na escala de spacing
+          className="flex items-center gap-(--spacing-md) px-[14px] py-[10px] rounded-(--radius-md) text-body-callout border"
           style={{
             background: "color-mix(in oklch, var(--ks-primary) 10%, var(--ks-lacquer-raised))",
             borderColor: "color-mix(in oklch, var(--ks-primary) 30%, transparent)",
@@ -857,6 +903,7 @@ function TableVariant<TRow extends object>({
                         : undefined
                   }
                 >
+                  {/* gap-[5px]: sem match exato na escala de spacing */}
                   <span className="inline-flex items-center gap-[5px]">
                     {col.header}
                     {col.sortable && (
@@ -1042,6 +1089,7 @@ function GridVariant<T = Record<string, unknown>>({
             {selectable && (
               <th
                 className={cn(
+                  // py-[10px]/px-[14px]: sem match exato na escala de spacing
                   "py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none",
                   stickyHeader && "sticky top-0 z-[2]"
                 )}
@@ -1060,6 +1108,7 @@ function GridVariant<T = Record<string, unknown>>({
               <th
                 key={col.key}
                 className={cn(
+                  // py-[10px]/px-[14px]: sem match exato na escala de spacing
                   "py-[10px] px-[14px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted bg-sunken border-b border-rule whitespace-nowrap select-none",
                   stickyHeader && "sticky top-0 z-[2]",
                   col.align === "center" && "text-center",
@@ -1069,7 +1118,7 @@ function GridVariant<T = Record<string, unknown>>({
               >
                 {col.sortable ? (
                   <button
-                    className="bg-transparent border-none cursor-pointer text-inherit inline-flex items-center gap-1 p-0 font-[inherit] text-[inherit] tracking-[inherit] uppercase hover:text-foreground"
+                    className="bg-transparent border-none cursor-pointer text-inherit inline-flex items-center gap-(--spacing-2xs) p-0 font-[inherit] text-[inherit] tracking-[inherit] uppercase hover:text-foreground"
                     onClick={() => toggleSort(col.key)}
                   >
                     {col.header}
@@ -1099,6 +1148,7 @@ function GridVariant<T = Record<string, unknown>>({
                 )}
               >
                 {selectable && (
+                  // py-[9px]/px-[14px]: sem match exato na escala de spacing
                   <td className="py-[9px] px-[14px] align-middle text-center">
                     <Checkbox
                       className="justify-center"
@@ -1112,6 +1162,7 @@ function GridVariant<T = Record<string, unknown>>({
                   <td
                     key={col.key}
                     className={cn(
+                      // py-[9px]/px-[14px]: sem match exato na escala de spacing
                       "py-[9px] px-[14px] align-middle",
                       col.align === "center" && "text-center",
                       col.align === "right" && "text-right"
@@ -1156,13 +1207,16 @@ function ListVariant({
           <div
             key={i}
             className={cn(
-              "flex gap-3",
+              "flex gap-(--spacing-md)",
+              // py-[10px]: sem match exato na escala de spacing
               isHoriz && "flex-row items-baseline py-[10px] border-b border-rule last:border-none",
-              isVert && "flex-col gap-1 py-[10px] border-b border-rule last:border-none",
-              isGrid && "flex-col gap-1 p-3 border border-rule rounded-(--radius-base)",
-              bordered && (isHoriz || isVert) && "py-[10px] px-3 border border-rule rounded-(--radius-base) mb-1",
-              striped && isEven && !bordered && "bg-sunken rounded-(--radius-sm) px-3",
-              compact && "py-[6px]"
+              isVert && "flex-col gap-(--spacing-2xs) py-[10px] border-b border-rule last:border-none",
+              isGrid && "flex-col gap-(--spacing-2xs) p-(--spacing-md) border border-rule rounded-(--radius-base)",
+              bordered &&
+                (isHoriz || isVert) &&
+                "py-[10px] px-(--spacing-md) border border-rule rounded-(--radius-base) mb-(--spacing-2xs)",
+              striped && isEven && !bordered && "bg-sunken rounded-(--radius-sm) px-(--spacing-md)",
+              compact && "py-(--spacing-xs)" // py-[6px] === --spacing-xs (6px), match exato
             )}
             style={item.span && isGrid ? { gridColumn: `span ${item.span}` } : undefined}
           >
@@ -1202,6 +1256,7 @@ function TreeRow<T>({
     <>
       <tr className="border-b border-rule transition-colors duration-100 last:border-b-0 hover:bg-raised">
         {columns.map((col, ci) => (
+          // px-[14px]/py-[9px]: sem match exato na escala de spacing
           <td key={col.key} className="px-[14px] py-[9px] align-middle text-body-callout text-foreground">
             {ci === 0 ? (
               <span className="inline-flex items-center gap-(--spacing-xs)" style={{ paddingLeft: depth * 20 }}>
@@ -1250,6 +1305,7 @@ function TreeVariant<T = Record<string, unknown>>({
             {columns.map((col) => (
               <th
                 key={col.key}
+                // px-[14px]/py-[10px]: sem match exato na escala de spacing
                 className="px-[14px] py-[10px] text-left text-body-caption font-bold uppercase tracking-[0.06em] text-muted border-b border-rule bg-sunken whitespace-nowrap"
                 style={col.width ? { width: col.width } : undefined}
               >

@@ -239,6 +239,24 @@ Super component com 4 formas (`shape`/`mode`): `bar` (default, linear), `ring` (
 - Gate 8: `feedback/progress` (bar), `feedback/progress-ring`, `charts/gauge`, `charts/skill-bar`, `display/progress-steps` — todas as 5 rotas já tinham demo própria cobrindo múltiplas variações
 - Gate 9: `e2e/cn/feedback/progress.spec.ts` novo (13 testes cobrindo as 5 rotas + a11y `role=progressbar`/`aria-valuenow` + `aria-current` do `ProgressSteps` + dark mode) — 26/26 chromium-desktop + mobile-chrome. Teste de a11y usa `toBeAttached()`/atributo em vez de `toBeVisible()` — o layout do showcase (sidebar fixa) deixa o primeiro elemento fora da área visível em viewport mobile estreito, não é bug do componente
 
+### `data/table` — concluído
+
+Super component com 4 variantes (`variant`): `table` (default, full-featured: sort/filter/paginate/select), `grid` (absorve `DataGrid`), `list` (absorve `DataList`), `tree` (absorve `TreeTable`). Mais o componente irmão standalone `TreeView` (árvore de navegação hierárquica com seleção, distinto do `variant="tree"` do `DataTable` — este é tabular com colunas, aquele é uma lista de nós). Já tinha `.types.ts` (Gate 1 ok pro `Table.tsx`).
+
+- Gate 1: `TreeView.tsx` tinha `TreeNode`/`TreeViewProps` inline — criado `tree-view.types.ts`, `.tsx`/`index.ts` atualizados
+- Gate 2: nenhum hex/hsl/rgb cru, nenhum `rounded` bare, nenhuma sintaxe `-[--var]` quebrada em nenhum dos 2 arquivos
+- Gate 3: nenhum `text-xs`/`text-sm`/etc. cru — já usava tokens (`text-[0.625rem]` já documentado como abaixo do mínimo, herdado de sessão anterior)
+- Gate 3/spacing: sweep grande no `Table.tsx` (arquivo de 1291 linhas, 4 variantes) — `gap-2`/`gap-3`/`gap-1`/`px-1`/`px-2`/`mb-1`/`py-3`/`py-[6px]` (match exato) → tokens; `px-[14px]` (padding canônico de célula, repetido ~15× no arquivo todo) e `py-[5px]`/`py-[7px]`/`py-[9px]`/`py-[10px]`/`py-[11px]`/`gap-[5px]`/`px-[10px]`/`gap-[10px]` documentados (sem match exato). `thCls`/`tdCls` por `size` (sm/md/lg) e as escalas de `sz`/`svgSz` do `ActivityFeed`-like em outros componentes ficaram como estão — escala própria. `TreeView.tsx`: `gap-1.5`/`px-2`/`gap-0.5`(×2) → tokens exatos; `py-[0.3125rem]` documentado; `paddingLeft` proporcional a `depth` documentado como continuo, sem token aplicável
+- Gate 5 (**gaps reais de a11y encontrados e corrigidos**, todos em `Table.tsx`):
+  1. Ícones decorativos (`SortNone`/`SortAsc`/`SortDesc`/`FilterIcon`/`PlusIcon`/`XIcon`/`CheckIcon`/`ViewIcon`/`SearchIcon`/`EmptyIcon`, 10 no total) não tinham `aria-hidden="true"` — nenhum tinha. Adicionado em todos
+  2. `SelectFilter` (dropdown de filtro por coluna) e `ViewOptions` (dropdown de colunas visíveis) — nenhum dos dois tinha `aria-haspopup`/`aria-expanded`/`aria-controls` no trigger, nem `role="listbox"`/`"menu"` no popup (mesmo padrão de achado já corrigido em `DropdownMenu`/`Command`/`Autocomplete` em sessões anteriores). Adicionado `aria-haspopup="listbox"` + `role="listbox"`/`"option"` no primeiro; `aria-haspopup="menu"` + `role="menu"`/`"menuitemcheckbox"` no segundo, ambos via `useId()`
+  3. Estado `loading` (skeleton rows) não tinha `aria-busy` no wrapper — adicionado
+- `TreeView.tsx` já estava bem coberto de a11y (`role="tree"/"treeitem"/"group"`, `aria-selected`/`aria-expanded`, ícone com `aria-hidden` já presente) — nenhum gap encontrado
+- **Achado de showcase**: `data/tree-view` estava registrado no `cn-registry.tsx` mas não tinha demo nenhuma no `_showcase.tsx` (nem função nem entrada no `DEMOS`) — página renderizava "não encontrada" (mesma classe de bug das 34 páginas fechadas antes). Criada `TreeViewDemo` e wired
+- Wrappers (`data-grid/`, `data-list/`, `tree-table/`) — checados, thin delegates, sem violação própria
+- Gate 8: `data/table`, `data/data-grid`, `data/data-list`, `data/tree-table` já tinham demo; `data/tree-view` criada agora (achado acima)
+- Gate 9: `e2e/cn/data/table.spec.ts` (já existia com 4 testes pro `data/table`) — estendido com as 4 rotas restantes + a11y do `aria-haspopup`/`aria-expanded` do `ViewOptions` + `aria-expanded` de nó da `TreeView` — 28/28 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido

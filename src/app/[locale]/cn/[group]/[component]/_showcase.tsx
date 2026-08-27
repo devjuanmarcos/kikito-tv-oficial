@@ -181,6 +181,7 @@ import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
 import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
+import { TreeView } from "@/components/ui/cn/tree-view/TreeView";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
@@ -921,6 +922,40 @@ function TreeTableDemo() {
   return (
     <Frame label="Tree Table — expandable hierarchy with toggle controls">
       <TreeTable<NodeData> columns={columns} rows={rows} />
+    </Frame>
+  );
+}
+
+function TreeViewDemo() {
+  const nodes = [
+    {
+      id: "src",
+      label: "src",
+      children: [
+        {
+          id: "components",
+          label: "components",
+          children: [
+            { id: "button", label: "Button.tsx" },
+            { id: "input", label: "Input.tsx" },
+          ],
+        },
+        { id: "utils", label: "utils.ts" },
+      ],
+    },
+    {
+      id: "public",
+      label: "public",
+      children: [{ id: "favicon", label: "favicon.ico" }],
+    },
+    { id: "package", label: "package.json", disabled: true },
+  ];
+  const [selected, setSelected] = useState("button");
+  return (
+    <Frame label="Tree View — expand/collapse, selection, keyboard navigation" align="start">
+      <div className="w-64">
+        <TreeView nodes={nodes} selected={selected} defaultExpanded={["src", "components"]} onSelect={setSelected} />
+      </div>
     </Frame>
   );
 }
@@ -6096,6 +6131,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "data/data-list": DataListDemo,
   "data/table": TableDemo,
   "data/tree-table": TreeTableDemo,
+  "data/tree-view": TreeViewDemo,
   "data/comparison-table": ComparisonTableDemo,
   "data/kanban": KanbanDemo,
   "data/json-viewer": JsonViewerDemo,

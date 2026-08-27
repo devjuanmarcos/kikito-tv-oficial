@@ -1,27 +1,9 @@
 ﻿"use client";
-import type React from "react";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface TreeNode {
-  id: string;
-  label: React.ReactNode;
-  icon?: React.ReactNode;
-  children?: TreeNode[];
-  disabled?: boolean;
-}
-
-export interface TreeViewProps {
-  nodes: TreeNode[];
-  selected?: string;
-  expanded?: string[];
-  defaultExpanded?: string[];
-  onSelect?: (id: string, node: TreeNode) => void;
-  onExpand?: (expanded: string[]) => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { TreeNode, TreeViewProps } from "./tree-view.types";
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
   <svg
@@ -61,10 +43,12 @@ function TreeNodeRow({ node, depth, selected, expanded, onSelect, onToggle }: No
           else onSelect(node.id, node);
         }}
         className={cn(
-          "w-full flex items-center gap-1.5 px-2 py-[0.3125rem] rounded-(--radius-xs) text-left text-body-callout transition-colors duration-[80ms] select-none",
+          // py-[0.3125rem] (5px): sem match exato na escala de spacing
+          "w-full flex items-center gap-(--spacing-xs) px-(--spacing-sm) py-[0.3125rem] rounded-(--radius-xs) text-left text-body-callout transition-colors duration-[80ms] select-none",
           isSelected ? "bg-patina/15 text-patina" : "text-foreground hover:bg-graphite",
           node.disabled && "opacity-40 cursor-not-allowed"
         )}
+        // paddingLeft escala continuamente com `depth` (profundidade da árvore) — não é um tier de tamanho, sem token de spacing aplicável
         style={{ paddingLeft: `${0.5 + depth * 1.25}rem` }}
       >
         {hasChildren && (
@@ -78,7 +62,7 @@ function TreeNodeRow({ node, depth, selected, expanded, onSelect, onToggle }: No
       </button>
 
       {hasChildren && isExpanded && (
-        <ul role="group" className="mt-0.5">
+        <ul role="group" className="mt-(--spacing-3xs)">
           {node.children!.map((child) => (
             <TreeNodeRow
               key={child.id}
@@ -121,7 +105,7 @@ export function TreeView({
   }
 
   return (
-    <ul role="tree" style={style} className={cn("flex flex-col gap-0.5", className)}>
+    <ul role="tree" style={style} className={cn("flex flex-col gap-(--spacing-3xs)", className)}>
       {nodes.map((node) => (
         <TreeNodeRow
           key={node.id}
