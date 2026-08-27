@@ -9,4 +9,4 @@ export type {
   CardRadius,
   CardEffect,
   CardGradientBorderVariant,
-} from "./Card";
+} from "./card.types";

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/tree-table/TreeTable.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/tree-table/TreeTable.tsx",
-      "content": "\"use client\";\n\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\n\nimport type { TreeTableProps } from \"./tree-table.types\";\n\n/**\n * TreeTable — backward-compat wrapper over the Super DataTable (`variant=\"tree\"`).\n * Visual and API identical to the original TreeTable.\n */\nexport function TreeTable<T = Record<string, unknown>>(props: TreeTableProps<T>) {\n  return <DataTable variant=\"tree\" {...(props as TreeTableProps<Record<string, unknown>>)} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\r\n\r\nimport type { TreeTableProps } from \"./tree-table.types\";\r\n\r\n/**\r\n * TreeTable — backward-compat wrapper over the Super DataTable (`variant=\"tree\"`).\r\n * Visual and API identical to the original TreeTable.\r\n */\r\nexport function TreeTable<T = Record<string, unknown>>(props: TreeTableProps<T>) {\r\n  return <DataTable variant=\"tree\" {...(props as TreeTableProps<Record<string, unknown>>)} />;\r\n}\r\n"
     }
   ]
 }

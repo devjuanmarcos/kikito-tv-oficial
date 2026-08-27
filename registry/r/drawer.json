@@ -17,7 +17,7 @@
       "path": "components/ui/cn/drawer/Drawer.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/drawer/Drawer.tsx",
-      "content": "\"use client\";\nimport React from \"react\";\n\nimport { Modal } from \"@/components/ui/cn/modal\";\n\nimport type { DrawerProps } from \"./drawer.types\";\n\n/**\n * Drawer — backward-compat wrapper over the Super `Modal` (variant=\"drawer\").\n * Render/behavior absorbed verbatim into Modal; the legacy `size` prop maps to\n * Modal's `drawerSize` (Modal.size is the centered-dialog scale).\n */\nexport function Drawer({ size = \"md\", ...rest }: DrawerProps) {\n  return <Modal variant=\"drawer\" drawerSize={size} {...rest} />;\n}\n"
+      "content": "\"use client\";\r\nimport React from \"react\";\r\n\r\nimport { Modal } from \"@/components/ui/cn/modal\";\r\n\r\nimport type { DrawerProps } from \"./drawer.types\";\r\n\r\n/**\r\n * Drawer — backward-compat wrapper over the Super `Modal` (variant=\"drawer\").\r\n * Render/behavior absorbed verbatim into Modal; the legacy `size` prop maps to\r\n * Modal's `drawerSize` (Modal.size is the centered-dialog scale).\r\n */\r\nexport function Drawer({ size = \"md\", ...rest }: DrawerProps) {\r\n  return <Modal variant=\"drawer\" drawerSize={size} {...rest} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/drawer/drawer.types.ts",

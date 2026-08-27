@@ -23,7 +23,7 @@
       "path": "components/ui/cn/spotlight/Spotlight.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/spotlight/Spotlight.tsx",
-      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { SpotlightProps } from \"./spotlight.types\";\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"spotlight\"`). */\nexport function Spotlight({ children, color = \"var(--ks-violet-soft)\", size = 300, className, style }: SpotlightProps) {\n  return (\n    <Card effect=\"spotlight\" color={color} size={size} className={className} style={style}>\n      {children}\n    </Card>\n  );\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Card } from \"../card/Card\";\r\n\r\nimport type { SpotlightProps } from \"./spotlight.types\";\r\n\r\n/** Backward-compat wrapper over the Super `Card` (`effect=\"spotlight\"`). */\r\nexport function Spotlight({ children, color = \"var(--ks-violet-soft)\", size = 300, className, style }: SpotlightProps) {\r\n  return (\r\n    <Card effect=\"spotlight\" color={color} size={size} className={className} style={style}>\r\n      {children}\r\n    </Card>\r\n  );\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/spotlight/spotlight.types.ts",

@@ -3,82 +3,28 @@ import React, { useCallback, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type CardVariant = "default" | "outlined" | "elevated" | "filled" | "ghost";
-export type CardPadding = "none" | "sm" | "md" | "lg";
-export type CardRadius = "sm" | "md" | "lg" | "xl";
-export type CardEffect = "none" | "glass" | "glow" | "tilt" | "spotlight" | "gradient-border";
-export type CardGradientBorderVariant = "spin" | "pulse" | "static";
+import type {
+  CardProps,
+  CardHeaderProps,
+  CardBodyProps,
+  CardFooterProps,
+  CardVariant,
+  CardPadding,
+  CardRadius,
+  CardGradientBorderVariant,
+} from "./card.types";
 
-export interface CardProps {
-  variant?: CardVariant;
-  padding?: CardPadding;
-  radius?: CardRadius;
-  hoverable?: boolean;
-  clickable?: boolean;
-  href?: string;
-  onClick?: React.MouseEventHandler<HTMLElement>;
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-
-  /** Visual effect dispatch. Default `none` keeps the standard card. */
-  effect?: CardEffect;
-
-  /* effect=glass */
-  blur?: number;
-  opacity?: number;
-  border?: boolean;
-
-  /* effect=glow */
-  glowColor?: string;
-  glowSize?: number;
-  glowOpacity?: number;
-
-  /* effect=tilt */
-  maxTilt?: number;
-  scale?: number;
-  perspective?: number;
-  glare?: boolean;
-
-  /* effect=spotlight */
-  color?: string;
-  size?: number;
-
-  /* effect=gradient-border */
-  colors?: string[];
-  borderWidth?: number;
-  borderRadius?: number;
-  speed?: number;
-  gradientVariant?: CardGradientBorderVariant;
-  /** Numeric corner radius shared by glow/gradient-border effects. */
-  effectRadius?: number;
-  /** Inner padding for glow effect. */
-  effectPadding?: number | string;
-}
-
-export interface CardHeaderProps {
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  icon?: React.ReactNode;
-  badge?: React.ReactNode;
-  action?: React.ReactNode;
-  className?: string;
-}
-
-export interface CardBodyProps {
-  noPadding?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-}
-
-export interface CardFooterProps {
-  align?: "left" | "right" | "center" | "between";
-  separator?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-}
+export type {
+  CardProps,
+  CardHeaderProps,
+  CardBodyProps,
+  CardFooterProps,
+  CardVariant,
+  CardPadding,
+  CardRadius,
+  CardEffect,
+  CardGradientBorderVariant,
+} from "./card.types";
 
 const VARIANT_CLS: Record<CardVariant, string> = {
   default: "bg-raised border border-rule",
@@ -97,7 +43,7 @@ const RADIUS_CLS: Record<CardRadius, string> = {
   sm: "rounded-(--radius-sm)",
   md: "rounded-(--radius-md)",
   lg: "rounded-(--radius-lg)",
-  xl: "rounded-[24px]",
+  xl: "rounded-[24px]", // above scale maximum: no token past --radius-xl (20px)
 };
 const FOOTER_ALIGN: Record<NonNullable<CardFooterProps["align"]>, string> = {
   left: "justify-start",
@@ -199,7 +145,7 @@ function GlowCardImpl({
           position: relative;
           border-radius: var(--_r, 16px);
           border: 1px solid var(--ks-rule);
-          background: var(--ks-raised);
+          background: var(--ks-lacquer-raised);
           overflow: hidden;
           isolation: isolate;
         }
@@ -291,6 +237,7 @@ function TiltCardImpl({
             ref={glareRef}
             className="absolute inset-0 pointer-events-none rounded-[inherit] opacity-0 transition-opacity duration-200"
             style={{
+              // no token equivalent: glare highlight must render white regardless of theme, mimicking a light reflection
               background:
                 "radial-gradient(circle at var(--_gx,50%) var(--_gy,50%), color-mix(in srgb, white 18%, transparent) 0%, transparent 65%)",
             }}
@@ -379,7 +326,7 @@ function GradientBorderImpl({
         @keyframes gb-spin { to { --_angle: 360deg; } }
         @property --_angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes gb-pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
-        .gb-content { position: relative; z-index: 1; background: var(--ks-raised); }
+        .gb-content { position: relative; z-index: 1; background: var(--ks-lacquer-raised); }
       `}</style>
       <div className={cn("gb-wrap", className)} style={{ borderRadius, ...style }}>
         <div
@@ -428,7 +375,8 @@ export function Card(props: CardProps) {
 
 export function CardHeader({ title, description, icon, badge, action, className }: CardHeaderProps) {
   return (
-    <div className={cn("flex items-start gap-3 px-5 pt-5 pb-0", className)}>
+    // px-5/pt-5 (1.25rem) sit between --spacing-lg (1rem) and --spacing-xl (1.5rem) — no exact token match
+    <div className={cn("flex items-start gap-(--spacing-md) px-5 pt-5 pb-0", className)}>
       {icon && (
         <span className="shrink-0 mt-0.5 w-[1.125rem] h-[1.125rem] text-faint [&>svg]:w-full [&>svg]:h-full">
           {icon}
@@ -436,7 +384,7 @@ export function CardHeader({ title, description, icon, badge, action, className 
       )}
       <div className="flex-1 min-w-0">
         {title && <p className="text-body-paragraph font-semibold text-foreground leading-tight">{title}</p>}
-        {description && <p className="text-body-callout text-faint mt-[0.2rem] leading-[1.4]">{description}</p>}
+        {description && <p className="text-body-callout text-faint mt-[0.2rem] leading-normal">{description}</p>}
       </div>
       {badge && <span className="shrink-0 ml-1">{badge}</span>}
       {action && <span className="shrink-0 ml-1">{action}</span>}
@@ -446,7 +394,7 @@ export function CardHeader({ title, description, icon, badge, action, className 
 
 export function CardBody({ noPadding = false, className, children, style }: CardBodyProps) {
   return (
-    <div className={cn(!noPadding && "px-5 py-4", className)} style={style}>
+    <div className={cn(!noPadding && "px-5 py-(--spacing-lg)", className)} style={style}>
       {children}
     </div>
   );
@@ -456,7 +404,7 @@ export function CardFooter({ align = "right", separator = true, className, style
   return (
     <div
       className={cn(
-        "flex items-center gap-2 px-5 py-4",
+        "flex items-center gap-(--spacing-sm) px-5 py-(--spacing-lg)",
         separator && "border-t border-rule",
         FOOTER_ALIGN[align],
         className

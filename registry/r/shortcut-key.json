@@ -29,7 +29,7 @@
       "path": "components/ui/cn/shortcut-key/ShortcutKey.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/shortcut-key/ShortcutKey.tsx",
-      "content": "\"use client\";\n/**\n * ShortcutKey — backward-compat wrapper.\n * Absorbed by Kbd's KbdSequence (`<KbdSequence symbols separator=\"+\" />`), which\n * maps special key names to symbols. New code should use KbdSequence directly.\n */\nimport { KbdSequence } from \"@/components/ui/cn/kbd\";\n\nimport type { ShortcutKeyProps } from \"./shortcut-key.types\";\n\nexport function ShortcutKey({ keys, size = \"md\", variant = \"default\", className, style }: ShortcutKeyProps) {\n  return (\n    <span className={className} style={style}>\n      <KbdSequence keys={keys} symbols separator=\"+\" size={size} variant={variant === \"filled\" ? \"solid\" : \"default\"} />\n    </span>\n  );\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * ShortcutKey — backward-compat wrapper.\r\n * Absorbed by Kbd's KbdSequence (`<KbdSequence symbols separator=\"+\" />`), which\r\n * maps special key names to symbols. New code should use KbdSequence directly.\r\n */\r\nimport { KbdSequence } from \"@/components/ui/cn/kbd\";\r\n\r\nimport type { ShortcutKeyProps } from \"./shortcut-key.types\";\r\n\r\nexport function ShortcutKey({ keys, size = \"md\", variant = \"default\", className, style }: ShortcutKeyProps) {\r\n  return (\r\n    <span className={className} style={style}>\r\n      <KbdSequence keys={keys} symbols separator=\"+\" size={size} variant={variant === \"filled\" ? \"solid\" : \"default\"} />\r\n    </span>\r\n  );\r\n}\r\n"
     }
   ]
 }

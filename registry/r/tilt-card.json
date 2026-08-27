@@ -29,7 +29,7 @@
       "path": "components/ui/cn/tilt-card/TiltCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/tilt-card/TiltCard.tsx",
-      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { TiltCardProps } from \"./tilt-card.types\";\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"tilt\"`). */\nexport function TiltCard({\n  children,\n  maxTilt = 15,\n  scale = 1.04,\n  perspective = 800,\n  glare = true,\n  className,\n  style,\n}: TiltCardProps) {\n  return (\n    <Card\n      effect=\"tilt\"\n      maxTilt={maxTilt}\n      scale={scale}\n      perspective={perspective}\n      glare={glare}\n      className={className}\n      style={style}\n    >\n      {children}\n    </Card>\n  );\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Card } from \"../card/Card\";\r\n\r\nimport type { TiltCardProps } from \"./tilt-card.types\";\r\n\r\n/** Backward-compat wrapper over the Super `Card` (`effect=\"tilt\"`). */\r\nexport function TiltCard({\r\n  children,\r\n  maxTilt = 15,\r\n  scale = 1.04,\r\n  perspective = 800,\r\n  glare = true,\r\n  className,\r\n  style,\r\n}: TiltCardProps) {\r\n  return (\r\n    <Card\r\n      effect=\"tilt\"\r\n      maxTilt={maxTilt}\r\n      scale={scale}\r\n      perspective={perspective}\r\n      glare={glare}\r\n      className={className}\r\n      style={style}\r\n    >\r\n      {children}\r\n    </Card>\r\n  );\r\n}\r\n"
     }
   ]
 }

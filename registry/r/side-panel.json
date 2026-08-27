@@ -29,7 +29,7 @@
       "path": "components/ui/cn/side-panel/SidePanel.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/side-panel/SidePanel.tsx",
-      "content": "\"use client\";\n\nimport React from \"react\";\n\nimport { Modal } from \"@/components/ui/cn/modal\";\n\nimport type { SidePanelProps } from \"./side-panel.types\";\n\n/**\n * SidePanel — backward-compat wrapper over the Super `Modal` (variant=\"panel\").\n * Render/behavior absorbed verbatim into Modal; legacy `side` maps to\n * Modal's `panelSide`. SidePanel has no dismiss action, so `onClose` is a no-op.\n */\nexport function SidePanel({ side = \"left\", ...rest }: SidePanelProps) {\n  return <Modal variant=\"panel\" panelSide={side} onClose={() => {}} {...rest} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport React from \"react\";\r\n\r\nimport { Modal } from \"@/components/ui/cn/modal\";\r\n\r\nimport type { SidePanelProps } from \"./side-panel.types\";\r\n\r\n/**\r\n * SidePanel — backward-compat wrapper over the Super `Modal` (variant=\"panel\").\r\n * Render/behavior absorbed verbatim into Modal; legacy `side` maps to\r\n * Modal's `panelSide`. SidePanel has no dismiss action, so `onClose` is a no-op.\r\n */\r\nexport function SidePanel({ side = \"left\", ...rest }: SidePanelProps) {\r\n  return <Modal variant=\"panel\" panelSide={side} onClose={() => {}} {...rest} />;\r\n}\r\n"
     }
   ]
 }

@@ -23,7 +23,7 @@
       "path": "components/ui/cn/alert-dialog/AlertDialog.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/alert-dialog/AlertDialog.tsx",
-      "content": "\"use client\";\nimport React from \"react\";\n\nimport { Modal } from \"@/components/ui/cn/modal\";\n\nimport type { AlertDialogProps } from \"./alert-dialog.types\";\n\n/**\n * AlertDialog — backward-compat wrapper over the Super `Modal` (variant=\"alert\").\n * Render/behavior absorbed verbatim into Modal; this maps the legacy\n * `onOpenChange` API onto Modal's `onClose`.\n */\nexport function AlertDialog({ open, onOpenChange, ...rest }: AlertDialogProps) {\n  return <Modal variant=\"alert\" open={open} onClose={() => onOpenChange(false)} {...rest} />;\n}\n"
+      "content": "\"use client\";\r\nimport React from \"react\";\r\n\r\nimport { Modal } from \"@/components/ui/cn/modal\";\r\n\r\nimport type { AlertDialogProps } from \"./alert-dialog.types\";\r\n\r\n/**\r\n * AlertDialog — backward-compat wrapper over the Super `Modal` (variant=\"alert\").\r\n * Render/behavior absorbed verbatim into Modal; this maps the legacy\r\n * `onOpenChange` API onto Modal's `onClose`.\r\n */\r\nexport function AlertDialog({ open, onOpenChange, ...rest }: AlertDialogProps) {\r\n  return <Modal variant=\"alert\" open={open} onClose={() => onOpenChange(false)} {...rest} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/alert-dialog/index.ts",

@@ -5,117 +5,41 @@ import { useState, useRef, useEffect, useId, useMemo, type KeyboardEvent } from 
 
 import { cn } from "@/lib/utils";
 
-export type SelectSize = "sm" | "md" | "lg";
-export type SelectVariant = "outline" | "filled" | "ghost";
-export type SelectState = "default" | "error" | "success" | "warning";
+import type {
+  SelectSize,
+  SelectVariant,
+  SelectState,
+  SelectOption,
+  SelectGroup,
+  SelectItem,
+  MultiSelectSize,
+  MultiSelectOption,
+  RichSelectOption,
+  ComboboxOption,
+  SelectSingleProps,
+  MultiSelectProps,
+  RichSelectProps,
+  ComboboxProps,
+  SelectProps,
+} from "./select.types";
 
-export interface SelectOption {
-  value: string;
-  label: string;
-  icon?: React.ReactNode;
-  disabled?: boolean;
-}
-export interface SelectGroup {
-  label: string;
-  options: SelectOption[];
-}
-export type SelectItem = SelectOption | SelectGroup;
-
-/* ── absorbed family option types ──────────────────────────────────────── */
-export type MultiSelectSize = "sm" | "md" | "lg";
-export interface MultiSelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
-export interface RichSelectOption {
-  value: string;
-  label: string;
-  description?: string;
-  icon?: React.ReactNode;
-  badge?: string;
-  disabled?: boolean;
-  group?: string;
-}
-export interface ComboboxOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
-
-/* ── per-mode prop shapes ──────────────────────────────────────────────── */
-export interface SelectSingleProps {
-  /** Single-value dropdown (default). */
-  mode?: "single";
-  options?: SelectItem[];
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string, option?: SelectOption) => void;
-  placeholder?: string;
-  variant?: SelectVariant;
-  size?: SelectSize;
-  state?: SelectState;
-  disabled?: boolean;
-  clearable?: boolean;
-  searchable?: boolean;
-  label?: string;
-  helperText?: string;
-  errorText?: string;
-  successText?: string;
-  warningText?: string;
-  iconLeft?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface MultiSelectProps {
-  mode: "multi";
-  options: MultiSelectOption[];
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (value: string[]) => void;
-  placeholder?: string;
-  size?: MultiSelectSize;
-  disabled?: boolean;
-  maxSelected?: number;
-  searchable?: boolean;
-  clearable?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface RichSelectProps {
-  mode: "rich";
-  options: RichSelectOption[];
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  placeholder?: string;
-  label?: string;
-  disabled?: boolean;
-  searchable?: boolean;
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface ComboboxProps {
-  mode: "combobox";
-  options: ComboboxOption[];
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (values: string[], options: ComboboxOption[]) => void;
-  placeholder?: string;
-  label?: string;
-  helperText?: string;
-  errorText?: string;
-  state?: "default" | "error" | "success";
-  disabled?: boolean;
-  maxSelected?: number;
-  className?: string;
-}
-
-export type SelectProps = SelectSingleProps | MultiSelectProps | RichSelectProps | ComboboxProps;
+export type {
+  SelectSize,
+  SelectVariant,
+  SelectState,
+  SelectOption,
+  SelectGroup,
+  SelectItem,
+  MultiSelectSize,
+  MultiSelectOption,
+  RichSelectOption,
+  ComboboxOption,
+  SelectSingleProps,
+  MultiSelectProps,
+  RichSelectProps,
+  ComboboxProps,
+  SelectProps,
+} from "./select.types";
 
 function isGroup(item: SelectItem): item is SelectGroup {
   return "options" in item;
@@ -290,7 +214,7 @@ function SingleSelectImpl({
   const effectiveState: SelectState = errorText ? "error" : successText ? "success" : warningText ? "warning" : state;
 
   return (
-    <div ref={wrapRef} className={cn("relative flex flex-col gap-[0.375rem]", className)} style={style}>
+    <div ref={wrapRef} className={cn("relative flex flex-col gap-(--spacing-xs)", className)} style={style}>
       {label && (
         <label className="text-body-callout font-semibold text-foreground leading-none" htmlFor={uid}>
           {label}
@@ -302,8 +226,12 @@ function SingleSelectImpl({
         type="button"
         disabled={disabled}
         onClick={toggle}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={`${uid}-listbox`}
         className={cn(
           "relative flex items-center w-full rounded-(--radius-sm) cursor-pointer font-inherit transition-[border-color,box-shadow,background] duration-[140ms] outline-none",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
           SIZE_H[size],
           VARIANT_CLS[variant],
           open && VARIANT_OPEN[variant],
@@ -352,25 +280,28 @@ function SingleSelectImpl({
             style={{ transformOrigin: "top" }}
           >
             {searchable && (
-              <div className="p-2 border-b border-rule">
+              <div className="p-(--spacing-sm) border-b border-rule">
                 <input
                   ref={inputRef}
                   type="text"
-                  className="w-full bg-graphite border border-rule rounded-[4px] px-2.5 py-1.5 text-body-callout text-foreground placeholder:text-faint outline-none focus:border-patina"
+                  className="w-full bg-graphite border border-rule rounded-(--radius-xs) px-2.5 py-1.5 text-body-callout text-foreground placeholder:text-faint outline-none focus:border-patina"
                   placeholder="Search…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             )}
-            <div className="max-h-[240px] overflow-y-auto py-1">
+            <div id={`${uid}-listbox`} role="listbox" className="max-h-[240px] overflow-y-auto py-(--spacing-2xs)">
               {filtered.length === 0 ? (
-                <div className="px-3 py-6 text-center text-body-callout text-faint">No options found</div>
+                <div className="px-(--spacing-md) py-(--spacing-xl) text-center text-body-callout text-faint">
+                  No options found
+                </div>
               ) : (
                 filtered.map((item, gi) =>
                   isGroup(item) ? (
                     <div key={gi}>
-                      <p className="px-3 pt-3 pb-1 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
+                      {/* below scale minimum: uppercase group-header eyebrow, smaller than text-body-caption by design */}
+                      <p className="px-(--spacing-md) pt-(--spacing-md) pb-(--spacing-2xs) text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
                         {item.label}
                       </p>
                       {item.options.map((opt) => (
@@ -410,6 +341,8 @@ function OptionRow({
   return (
     <button
       type="button"
+      role="option"
+      aria-selected={selected}
       className={cn(
         "flex items-center gap-2.5 w-full text-left px-3 py-2 text-body-callout font-inherit border-none bg-transparent cursor-pointer transition-[background,color] duration-[80ms]",
         selected ? "text-patina" : "text-foreground",
@@ -444,7 +377,9 @@ function MultiSelectImpl({
   const [internal, setInternal] = useState<string[]>(defaultValue);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [highlighted, setHighlighted] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
 
   const selected = isControlled ? controlledValue ?? [] : internal;
 
@@ -464,6 +399,29 @@ function MultiSelectImpl({
 
   const filtered = options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()));
 
+  function handleKey(e: KeyboardEvent<HTMLElement>) {
+    if (disabled) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!open) setOpen(true);
+      else setHighlighted((i) => Math.min(i + 1, filtered.length - 1));
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!open) setOpen(true);
+      else setHighlighted((i) => Math.max(i - 1, 0));
+    }
+    if (e.key === "Enter" && open) {
+      e.preventDefault();
+      const opt = filtered[highlighted];
+      if (opt && !opt.disabled) addItem(opt.value);
+    }
+    if (e.key === "Escape" && open) {
+      e.preventDefault();
+      setOpen(false);
+    }
+  }
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
@@ -476,7 +434,7 @@ function MultiSelectImpl({
   }, []);
 
   return (
-    <div ref={wrapperRef} className={cn("relative flex flex-col gap-1", className)} style={style}>
+    <div ref={wrapperRef} className={cn("relative flex flex-col gap-(--spacing-2xs)", className)} style={style}>
       <div
         className={cn(
           "flex items-center flex-wrap gap-1 min-h-[38px] px-2 py-1 border border-rule bg-raised rounded-(--radius-base) cursor-pointer transition-colors duration-150 relative focus-within:border-patina",
@@ -486,6 +444,12 @@ function MultiSelectImpl({
           size === "lg" && "min-h-[46px] px-[10px] py-[6px]"
         )}
         onClick={() => !disabled && setOpen((o) => !o)}
+        role={searchable ? undefined : "combobox"}
+        tabIndex={searchable || disabled ? undefined : 0}
+        onKeyDown={searchable ? undefined : handleKey}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listboxId}
       >
         {selected.map((v) => {
           const opt = options.find((o) => o.value === v);
@@ -496,7 +460,7 @@ function MultiSelectImpl({
             >
               {opt.label}
               <button
-                className="flex items-center justify-center w-[14px] h-[14px] bg-transparent text-current cursor-pointer p-0 rounded-[2px] opacity-70 hover:opacity-100 border-0"
+                className="flex items-center justify-center w-[14px] h-[14px] bg-transparent text-current cursor-pointer p-0 rounded-(--radius-xs) opacity-70 hover:opacity-100 border-0"
                 onClick={(e) => {
                   e.stopPropagation();
                   removeItem(v);
@@ -516,9 +480,17 @@ function MultiSelectImpl({
             onChange={(e) => {
               setQuery(e.target.value);
               setOpen(true);
+              setHighlighted(0);
             }}
+            onFocus={() => setOpen(true)}
+            onKeyDown={handleKey}
             placeholder={selected.length === 0 ? placeholder : ""}
             onClick={(e) => e.stopPropagation()}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-haspopup="listbox"
+            aria-expanded={open}
+            aria-controls={listboxId}
           />
         ) : (
           selected.length === 0 && (
@@ -555,18 +527,30 @@ function MultiSelectImpl({
       </div>
 
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-raised border border-rule rounded-(--radius-base) shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] z-[200] overflow-hidden max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-100">
+        <div
+          id={listboxId}
+          role="listbox"
+          aria-multiselectable="true"
+          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-raised border border-rule rounded-(--radius-base) shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] z-[200] overflow-hidden max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-1 duration-100"
+        >
           {filtered.length === 0 ? (
-            <p className="px-3 py-3 text-body-callout text-center opacity-40">No options found</p>
+            <p className="px-(--spacing-md) py-(--spacing-md) text-body-callout text-center opacity-40">
+              No options found
+            </p>
           ) : (
-            filtered.map((opt) => (
+            filtered.map((opt, i) => (
               <div
                 key={opt.value}
+                role="option"
+                aria-selected={selected.includes(opt.value)}
+                aria-disabled={opt.disabled || undefined}
                 className={cn(
                   "px-3 py-2 text-body-callout cursor-pointer flex items-center gap-2 transition-colors duration-100 text-foreground hover:bg-sunken",
                   selected.includes(opt.value) && "text-patina",
+                  highlighted === i && "bg-sunken",
                   opt.disabled && "opacity-40 cursor-not-allowed"
                 )}
+                onMouseEnter={() => setHighlighted(i)}
                 onClick={() => !opt.disabled && addItem(opt.value)}
               >
                 <svg
@@ -610,6 +594,7 @@ function RichSelectImpl({
   const [search, setSearch] = useState("");
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
   const controlled = value !== undefined;
   const selected = controlled ? value : internalValue;
 
@@ -620,6 +605,29 @@ function RichSelectImpl({
       o.label.toLowerCase().includes(search.toLowerCase()) ||
       o.description?.toLowerCase().includes(search.toLowerCase())
   );
+
+  function handleTriggerKey(e: KeyboardEvent<HTMLButtonElement>) {
+    if (disabled) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!open) setOpen(true);
+      else setHighlighted((i) => Math.min(i + 1, filtered.length - 1));
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!open) setOpen(true);
+      else setHighlighted((i) => Math.max(i - 1, 0));
+    }
+    if ((e.key === "Enter" || e.key === " ") && open) {
+      e.preventDefault();
+      const opt = filtered[highlighted];
+      if (opt && !opt.disabled) select(opt.value);
+    }
+    if (e.key === "Escape" && open) {
+      e.preventDefault();
+      setOpen(false);
+    }
+  }
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -639,7 +647,7 @@ function RichSelectImpl({
   const selectedOpt = options.find((o) => o.value === selected);
 
   return (
-    <div ref={rootRef} className={cn("relative flex flex-col gap-1", className)} style={style}>
+    <div ref={rootRef} className={cn("relative flex flex-col gap-(--spacing-2xs)", className)} style={style}>
       {label && <label className="text-body-caption font-semibold text-muted">{label}</label>}
       <button
         type="button"
@@ -652,6 +660,10 @@ function RichSelectImpl({
         )}
         disabled={disabled}
         onClick={() => !disabled && setOpen((o) => !o)}
+        onKeyDown={handleTriggerKey}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listboxId}
       >
         {selectedOpt?.icon && <span className="flex-shrink-0">{selectedOpt.icon}</span>}
         {selectedOpt ? (
@@ -659,6 +671,7 @@ function RichSelectImpl({
         ) : (
           <span className="flex-1 text-faint">{placeholder}</span>
         )}
+        {/* below scale minimum: chevron glyph sized as icon, not content text */}
         <span
           className="ml-auto text-[0.625rem] text-faint flex-shrink-0 transition-transform duration-200"
           style={{ transform: open ? "rotate(180deg)" : undefined }}
@@ -668,10 +681,14 @@ function RichSelectImpl({
       </button>
 
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100">
+        <div
+          id={listboxId}
+          role="listbox"
+          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[280px] flex flex-col animate-in fade-in slide-in-from-top-1 duration-100"
+        >
           {searchable && (
             <input
-              className="px-3 py-2 border-b border-rule border-t-0 border-l-0 border-r-0 bg-transparent text-foreground text-body-callout outline-none flex-shrink-0 placeholder:text-faint"
+              className="px-(--spacing-md) py-(--spacing-sm) border-b border-rule border-t-0 border-l-0 border-r-0 bg-transparent text-foreground text-body-callout outline-none flex-shrink-0 placeholder:text-faint"
               placeholder="Buscar…"
               value={search}
               onChange={(e) => {
@@ -682,7 +699,7 @@ function RichSelectImpl({
               autoFocus
             />
           )}
-          <div className="overflow-y-auto flex-1 py-1">
+          <div className="overflow-y-auto flex-1 py-(--spacing-2xs)">
             {groups.map((group) => {
               const groupOpts = filtered.filter((o) => (o.group ?? "") === group);
               if (groupOpts.length === 0) return null;
@@ -690,13 +707,17 @@ function RichSelectImpl({
               return (
                 <div key={group}>
                   {group && (
-                    <div className="px-3 pt-[6px] pb-[2px] text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
+                    // below scale minimum: uppercase group-header eyebrow, smaller than text-body-caption by design
+                    <div className="px-(--spacing-md) pt-(--spacing-xs) pb-(--spacing-3xs) text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
                       {group}
                     </div>
                   )}
                   {groupOpts.map((opt, i) => (
                     <div
                       key={opt.value}
+                      role="option"
+                      aria-selected={opt.value === selected}
+                      aria-disabled={opt.disabled || undefined}
                       className={cn(
                         "flex items-center gap-[10px] px-3 py-[9px] cursor-pointer transition-colors duration-100",
                         highlighted === gOffset + i || opt.value === selected ? "bg-raised" : "hover:bg-raised",
@@ -723,11 +744,16 @@ function RichSelectImpl({
                         )}
                       </span>
                       {opt.badge && (
+                        // below scale minimum: inline micro-badge, matches Badge's sm-size scale
                         <span className="px-[7px] py-[1px] rounded-pill bg-patina-soft text-patina text-[0.625rem] font-bold flex-shrink-0">
                           {opt.badge}
                         </span>
                       )}
-                      {opt.value === selected && <span className="ml-auto text-patina text-body-callout">✓</span>}
+                      {opt.value === selected && (
+                        <span aria-hidden="true" className="ml-auto text-patina text-body-callout">
+                          ✓
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -807,6 +833,7 @@ function ComboboxImpl({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIdx, setActiveIdx] = useState(-1);
+  const listboxId = useId();
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -890,7 +917,7 @@ function ComboboxImpl({
       : null;
 
   return (
-    <div ref={wrapRef} className={cn("flex flex-col gap-[0.375rem] w-full relative", className)}>
+    <div ref={wrapRef} className={cn("flex flex-col gap-(--spacing-xs) w-full relative", className)}>
       {label && (
         <label
           className="text-body-callout font-semibold text-foreground leading-none"
@@ -922,7 +949,7 @@ function ComboboxImpl({
           return (
             <span
               key={val}
-              className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina rounded-[4px] text-body-callout font-medium max-w-[200px]"
+              className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina rounded-(--radius-xs) text-body-callout font-medium max-w-[200px]"
             >
               <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{opt.label}</span>
               <button
@@ -950,7 +977,7 @@ function ComboboxImpl({
           onFocus={() => setOpen(true)}
           onKeyDown={handleKey}
           aria-autocomplete="list"
-          aria-controls="combobox-listbox"
+          aria-controls={listboxId}
           aria-expanded={open}
           aria-haspopup="listbox"
           role="combobox"
@@ -977,12 +1004,13 @@ function ComboboxImpl({
           >
             <div
               ref={listRef}
-              className="max-h-[220px] overflow-y-auto p-1 [scrollbar-width:thin]"
+              id={listboxId}
+              className="max-h-[220px] overflow-y-auto p-(--spacing-2xs) [scrollbar-width:thin]"
               role="listbox"
               aria-multiselectable="true"
             >
               {filtered.length === 0 ? (
-                <div className="py-5 px-4 text-center text-body-callout text-faint">
+                <div className="py-5 px-(--spacing-lg) text-center text-body-callout text-faint">
                   No results for &quot;{query}&quot;
                 </div>
               ) : (
@@ -994,7 +1022,7 @@ function ComboboxImpl({
                     data-idx={idx}
                     aria-selected={selected.includes(opt.value)}
                     className={cn(
-                      "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-[5px] text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
+                      "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-(--radius-sm) text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
                       activeIdx === idx && "bg-graphite",
                       selected.includes(opt.value) && "bg-patina-soft text-patina",
                       opt.disabled && "opacity-40 cursor-not-allowed"

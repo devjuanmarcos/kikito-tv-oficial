@@ -23,7 +23,7 @@
       "path": "components/ui/cn/glow-card/GlowCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/glow-card/GlowCard.tsx",
-      "content": "\"use client\";\n\nimport { Card } from \"../card/Card\";\n\nimport type { GlowCardProps } from \"./glow-card.types\";\n\n/** Backward-compat wrapper over the Super `Card` (`effect=\"glow\"`). */\nexport function GlowCard({\n  children,\n  glowColor = \"var(--ks-primary)\",\n  glowSize = 400,\n  glowOpacity = 0.14,\n  radius = 16,\n  padding = 20,\n  className,\n  style,\n}: GlowCardProps) {\n  return (\n    <Card\n      effect=\"glow\"\n      glowColor={glowColor}\n      glowSize={glowSize}\n      glowOpacity={glowOpacity}\n      effectRadius={radius}\n      effectPadding={padding}\n      className={className}\n      style={style}\n    >\n      {children}\n    </Card>\n  );\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Card } from \"../card/Card\";\r\n\r\nimport type { GlowCardProps } from \"./glow-card.types\";\r\n\r\n/** Backward-compat wrapper over the Super `Card` (`effect=\"glow\"`). */\r\nexport function GlowCard({\r\n  children,\r\n  glowColor = \"var(--ks-primary)\",\r\n  glowSize = 400,\r\n  glowOpacity = 0.14,\r\n  radius = 16,\r\n  padding = 20,\r\n  className,\r\n  style,\r\n}: GlowCardProps) {\r\n  return (\r\n    <Card\r\n      effect=\"glow\"\r\n      glowColor={glowColor}\r\n      glowSize={glowSize}\r\n      glowOpacity={glowOpacity}\r\n      effectRadius={radius}\r\n      effectPadding={padding}\r\n      className={className}\r\n      style={style}\r\n    >\r\n      {children}\r\n    </Card>\r\n  );\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/glow-card/index.ts",

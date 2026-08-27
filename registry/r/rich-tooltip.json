@@ -29,7 +29,7 @@
       "path": "components/ui/cn/rich-tooltip/RichTooltip.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/rich-tooltip/RichTooltip.tsx",
-      "content": "\"use client\";\n/**\n * RichTooltip — backward-compat wrapper.\n * Absorbed by the Tooltip Super component (`<Tooltip variant=\"rich\" />`). Kept so\n * existing imports of `RichTooltip` keep working; new code should use Tooltip directly.\n */\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\n\nimport type { RichTooltipProps } from \"./rich-tooltip.types\";\n\nexport function RichTooltip(props: RichTooltipProps) {\n  return <Tooltip variant=\"rich\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * RichTooltip — backward-compat wrapper.\r\n * Absorbed by the Tooltip Super component (`<Tooltip variant=\"rich\" />`). Kept so\r\n * existing imports of `RichTooltip` keep working; new code should use Tooltip directly.\r\n */\r\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\r\n\r\nimport type { RichTooltipProps } from \"./rich-tooltip.types\";\r\n\r\nexport function RichTooltip(props: RichTooltipProps) {\r\n  return <Tooltip variant=\"rich\" {...props} />;\r\n}\r\n"
     }
   ]
 }

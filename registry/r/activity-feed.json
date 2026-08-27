@@ -23,7 +23,7 @@
       "path": "components/ui/cn/activity-feed/ActivityFeed.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/activity-feed/ActivityFeed.tsx",
-      "content": "\"use client\";\nimport { Timeline } from \"../timeline/Timeline\";\n\nimport type { ActivityFeedProps } from \"./activity-feed.types\";\n\n/**\n * ActivityFeed — backward-compat wrapper over the Super `Timeline`.\n * Forwards to `<Timeline variant=\"activity\" />`.\n */\nexport function ActivityFeed(props: ActivityFeedProps) {\n  return <Timeline variant=\"activity\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\nimport { Timeline } from \"../timeline/Timeline\";\r\n\r\nimport type { ActivityFeedProps } from \"./activity-feed.types\";\r\n\r\n/**\r\n * ActivityFeed — backward-compat wrapper over the Super `Timeline`.\r\n * Forwards to `<Timeline variant=\"activity\" />`.\r\n */\r\nexport function ActivityFeed(props: ActivityFeedProps) {\r\n  return <Timeline variant=\"activity\" {...props} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/activity-feed/index.ts",

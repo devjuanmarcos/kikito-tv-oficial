@@ -29,7 +29,7 @@
       "path": "components/ui/cn/spotlight-search/SpotlightSearch.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/spotlight-search/SpotlightSearch.tsx",
-      "content": "\"use client\";\n\nimport { Command } from \"@/components/ui/cn/command\";\n\nimport type { SpotlightSearchProps } from \"./spotlight-search.types\";\n\n/**\n * SpotlightSearch — backward-compat wrapper over the Super `Command` component.\n * Renders the fullscreen spotlight search via `variant=\"spotlight\"`.\n */\nexport function SpotlightSearch(props: SpotlightSearchProps) {\n  return <Command variant=\"spotlight\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Command } from \"@/components/ui/cn/command\";\r\n\r\nimport type { SpotlightSearchProps } from \"./spotlight-search.types\";\r\n\r\n/**\r\n * SpotlightSearch — backward-compat wrapper over the Super `Command` component.\r\n * Renders the fullscreen spotlight search via `variant=\"spotlight\"`.\r\n */\r\nexport function SpotlightSearch(props: SpotlightSearchProps) {\r\n  return <Command variant=\"spotlight\" {...props} />;\r\n}\r\n"
     }
   ]
 }

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/progress-ring/ProgressRing.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/progress-ring/ProgressRing.tsx",
-      "content": "import { Progress } from \"../progress/Progress\";\n\nimport type { ProgressRingProps } from \"./progress-ring.types\";\n\n/**\n * ProgressRing — backward-compat wrapper over the Super `Progress` component.\n * Delegates to `<Progress shape=\"ring\" />`. Prefer importing `Progress` directly.\n */\nexport function ProgressRing(props: ProgressRingProps) {\n  return <Progress shape=\"ring\" {...props} />;\n}\n"
+      "content": "import { Progress } from \"../progress/Progress\";\r\n\r\nimport type { ProgressRingProps } from \"./progress-ring.types\";\r\n\r\n/**\r\n * ProgressRing — backward-compat wrapper over the Super `Progress` component.\r\n * Delegates to `<Progress shape=\"ring\" />`. Prefer importing `Progress` directly.\r\n */\r\nexport function ProgressRing(props: ProgressRingProps) {\r\n  return <Progress shape=\"ring\" {...props} />;\r\n}\r\n"
     }
   ]
 }

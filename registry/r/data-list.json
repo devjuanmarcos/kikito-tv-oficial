@@ -23,7 +23,7 @@
       "path": "components/ui/cn/data-list/DataList.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/data-list/DataList.tsx",
-      "content": "\"use client\";\n\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\n\nimport type { DataListProps } from \"./data-list.types\";\n\n/**\n * DataList — backward-compat wrapper over the Super DataTable (`variant=\"list\"`).\n * Visual and API identical to the original DataList.\n */\nexport function DataList(props: DataListProps) {\n  return <DataTable variant=\"list\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\r\n\r\nimport type { DataListProps } from \"./data-list.types\";\r\n\r\n/**\r\n * DataList — backward-compat wrapper over the Super DataTable (`variant=\"list\"`).\r\n * Visual and API identical to the original DataList.\r\n */\r\nexport function DataList(props: DataListProps) {\r\n  return <DataTable variant=\"list\" {...props} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/data-list/index.ts",

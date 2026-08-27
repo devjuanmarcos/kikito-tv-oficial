@@ -23,7 +23,7 @@
       "path": "components/ui/cn/command-bar/CommandBar.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/command-bar/CommandBar.tsx",
-      "content": "\"use client\";\n\nimport { Command } from \"@/components/ui/cn/command\";\n\nimport type { CommandBarProps } from \"./command-bar.types\";\n\n/**\n * CommandBar — backward-compat wrapper over the Super `Command` component.\n * Renders the inline command bar via `variant=\"bar\"`.\n */\nexport function CommandBar(props: CommandBarProps) {\n  return <Command variant=\"bar\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Command } from \"@/components/ui/cn/command\";\r\n\r\nimport type { CommandBarProps } from \"./command-bar.types\";\r\n\r\n/**\r\n * CommandBar — backward-compat wrapper over the Super `Command` component.\r\n * Renders the inline command bar via `variant=\"bar\"`.\r\n */\r\nexport function CommandBar(props: CommandBarProps) {\r\n  return <Command variant=\"bar\" {...props} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/command-bar/index.ts",

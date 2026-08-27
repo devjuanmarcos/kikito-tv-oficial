@@ -17,7 +17,7 @@
       "path": "components/ui/cn/gauge/Gauge.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/gauge/Gauge.tsx",
-      "content": "import { Progress } from \"../progress/Progress\";\n\nimport type { GaugeProps } from \"./gauge.types\";\n\n/**\n * Gauge — backward-compat wrapper over the Super `Progress` component.\n * Delegates to `<Progress shape=\"gauge\" />`. Prefer importing `Progress` directly.\n */\nexport function Gauge(props: GaugeProps) {\n  return <Progress shape=\"gauge\" {...props} />;\n}\n"
+      "content": "import { Progress } from \"../progress/Progress\";\r\n\r\nimport type { GaugeProps } from \"./gauge.types\";\r\n\r\n/**\r\n * Gauge — backward-compat wrapper over the Super `Progress` component.\r\n * Delegates to `<Progress shape=\"gauge\" />`. Prefer importing `Progress` directly.\r\n */\r\nexport function Gauge(props: GaugeProps) {\r\n  return <Progress shape=\"gauge\" {...props} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/gauge/gauge.types.ts",

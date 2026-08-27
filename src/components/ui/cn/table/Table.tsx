@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback, type ReactNode, type CSSProperties } from "react";
 
+import { Button } from "@/components/ui/cn/button/Button";
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { Select } from "@/components/ui/cn/select/Select";
@@ -233,6 +234,17 @@ export function TableRow({
         className
       )}
       onClick={onClick}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
     >
       {children}
     </tr>
@@ -304,6 +316,17 @@ export function TableHeadCell({
         className
       )}
       onClick={sortable ? onSort : undefined}
+      tabIndex={sortable ? 0 : undefined}
+      onKeyDown={
+        sortable
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSort?.();
+              }
+            }
+          : undefined
+      }
       colSpan={colSpan}
       style={style}
       aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : sortable ? "none" : undefined}
@@ -374,37 +397,47 @@ function SelectFilter({
 
   return (
     <div className="relative" ref={ref}>
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={0}
         className={cn(
-          "inline-flex items-center gap-[6px] h-8 px-[10px] border border-dashed border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:border-patina hover:text-foreground",
+          "inline-flex items-center gap-(--spacing-xs) h-8 px-[10px] border border-dashed border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:border-patina hover:text-foreground",
           value.length > 0 && "border-patina border-solid text-foreground"
         )}
         onClick={() => setOpen((o) => !o)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setOpen((o) => !o);
+          }
+        }}
       >
         {value.length > 0 ? (
-          <span
-            className="w-[14px] h-[14px] border border-rule rounded flex items-center justify-center flex-shrink-0 bg-patina border-patina text-patina-fg cursor-pointer"
+          <button
+            type="button"
+            aria-label="Limpar filtro"
+            className="w-[14px] h-[14px] border border-rule rounded-(--radius-xs) flex items-center justify-center flex-shrink-0 bg-patina border-patina text-patina-fg cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               onChange([]);
             }}
           >
             <XIcon />
-          </span>
+          </button>
         ) : (
           <PlusIcon />
         )}
         {title}
         {value.length > 0 && (
-          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-patina-soft text-patina rounded-[3px] text-[0.625rem] font-bold">
+          // below scale minimum: inline count pill, matches Badge's sm-size scale
+          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-patina-soft text-patina rounded-(--radius-xs) text-[0.625rem] font-bold">
             {value.length}
           </span>
         )}
-      </button>
+      </div>
       {open && (
         <div className="absolute top-[calc(100%+4px)] left-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] overflow-hidden">
-          <div className="p-2 border-b border-rule">
+          <div className="p-(--spacing-sm) border-b border-rule">
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
@@ -414,7 +447,7 @@ function SelectFilter({
               className="w-full bg-graphite border border-rule rounded-(--radius-sm) px-2 py-[5px] text-body-callout text-foreground outline-none placeholder:text-faint"
             />
           </div>
-          <div className="max-h-[220px] overflow-y-auto p-1">
+          <div className="max-h-[220px] overflow-y-auto p-(--spacing-2xs)">
             {filtered.map((opt) => (
               <button
                 key={opt.value}
@@ -424,7 +457,7 @@ function SelectFilter({
               >
                 <span
                   className={cn(
-                    "w-[14px] h-[14px] border border-rule rounded-[3px] flex items-center justify-center flex-shrink-0 transition-colors duration-100",
+                    "w-[14px] h-[14px] border border-rule rounded-(--radius-xs) flex items-center justify-center flex-shrink-0 transition-colors duration-100",
                     value.includes(opt.value) && "bg-patina border-patina text-patina-fg"
                   )}
                 >
@@ -437,7 +470,7 @@ function SelectFilter({
           </div>
           {value.length > 0 && (
             <button
-              className="flex items-center justify-center p-[6px] border-t border-rule text-body-caption text-faint cursor-pointer bg-transparent border-l-0 border-r-0 border-b-0 w-full transition-colors duration-[120ms] hover:text-danger"
+              className="flex items-center justify-center p-(--spacing-xs) border-t border-rule text-body-caption text-faint cursor-pointer bg-transparent border-l-0 border-r-0 border-b-0 w-full transition-colors duration-[120ms] hover:text-danger"
               onClick={() => onChange([])}
             >
               Clear filters
@@ -478,14 +511,14 @@ function ViewOptions({
     <div className="relative" ref={ref}>
       <button
         type="button"
-        className="inline-flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer relative transition-colors duration-[120ms] hover:text-foreground"
+        className="inline-flex items-center gap-(--spacing-xs) h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer relative transition-colors duration-[120ms] hover:text-foreground"
         onClick={() => setOpen((o) => !o)}
       >
         <ViewIcon />
         View
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] right-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] p-[6px]">
+        <div className="absolute top-[calc(100%+4px)] right-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] p-(--spacing-xs)">
           {toggleable.map((col) => {
             const visible = !hidden.has(col.key);
             return (
@@ -500,7 +533,7 @@ function ViewOptions({
               >
                 <span
                   className={cn(
-                    "w-[14px] h-[14px] border border-rule rounded-[3px] flex items-center justify-center flex-shrink-0 transition-colors duration-100",
+                    "w-[14px] h-[14px] border border-rule rounded-(--radius-xs) flex items-center justify-center flex-shrink-0 transition-colors duration-100",
                     visible && "bg-patina border-patina text-patina-fg"
                   )}
                 >
@@ -536,7 +569,7 @@ function PaginationBar({
   onPageSizeChange: (ps: number) => void;
 }) {
   return (
-    <div className="flex items-center gap-3 flex-wrap">
+    <div className="flex items-center gap-(--spacing-md) flex-wrap">
       <Pagination
         page={page}
         totalPages={totalPages}
@@ -546,7 +579,7 @@ function PaginationBar({
         size="sm"
         className="flex-1"
       />
-      <div className="flex items-center gap-2 text-body-callout text-faint shrink-0">
+      <div className="flex items-center gap-(--spacing-sm) text-body-callout text-faint shrink-0">
         <span>Rows per page</span>
         <Select
           size="sm"
@@ -722,7 +755,7 @@ function TableVariant<TRow extends object>({
               return (
                 <label
                   key={col.key}
-                  className="flex items-center gap-[6px] h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-raised text-body-callout text-foreground min-w-[140px] transition-colors duration-[120ms] focus-within:border-patina cursor-text"
+                  className="flex items-center gap-(--spacing-xs) h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-raised text-body-callout text-foreground min-w-[140px] transition-colors duration-[120ms] focus-within:border-patina cursor-text"
                 >
                   <SearchIcon />
                   <input
@@ -747,13 +780,9 @@ function TableVariant<TRow extends object>({
             );
           })}
           {hasFilters && (
-            <button
-              className="inline-flex items-center gap-[5px] h-8 px-[10px] border border-rule rounded-(--radius-sm) bg-transparent text-body-callout text-faint cursor-pointer whitespace-nowrap transition-colors duration-[120ms] hover:text-foreground hover:border-faint"
-              onClick={() => setFilters({})}
-            >
-              <XIcon />
+            <Button variant="outline" intent="neutral" size="sm" iconLeft={<XIcon />} onClick={() => setFilters({})}>
               Reset
-            </button>
+            </Button>
           )}
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
@@ -806,6 +835,17 @@ function TableVariant<TRow extends object>({
                     col.pinRight && "sticky right-0 bg-graphite shadow-[-1px_0_0_var(--ks-rule)]"
                   )}
                   onClick={col.sortable ? () => toggleSort(col.key) : undefined}
+                  tabIndex={col.sortable ? 0 : undefined}
+                  onKeyDown={
+                    col.sortable
+                      ? (e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            toggleSort(col.key);
+                          }
+                        }
+                      : undefined
+                  }
                   style={{ width: col.width, minWidth: col.minWidth }}
                   aria-sort={
                     sortKey === col.key
@@ -848,7 +888,7 @@ function TableVariant<TRow extends object>({
                   {visibleCols.map((col) => (
                     <td key={col.key} className={tdCls}>
                       <div
-                        className="h-4 bg-graphite rounded-[3px]"
+                        className="h-4 bg-graphite rounded-(--radius-xs)"
                         style={{ width: `${55 + ((ri * 13 + col.key.length * 7) % 35)}%` }}
                       />
                     </td>
@@ -858,7 +898,7 @@ function TableVariant<TRow extends object>({
             ) : paged.length === 0 ? (
               <tr>
                 <td colSpan={visibleCols.length + (selectable ? 1 : 0)}>
-                  <div className="flex flex-col items-center justify-center gap-2 py-12 px-4 text-faint text-body-callout text-center">
+                  <div className="flex flex-col items-center justify-center gap-(--spacing-sm) py-(--spacing-3xl) px-(--spacing-lg) text-faint text-body-callout text-center">
                     <span className="opacity-35">
                       <EmptyIcon />
                     </span>
@@ -882,10 +922,25 @@ function TableVariant<TRow extends object>({
                       "hover:bg-patina/5"
                     )}
                     onClick={() => onRowClick?.(row)}
+                    tabIndex={onRowClick ? 0 : undefined}
+                    onKeyDown={
+                      onRowClick
+                        ? (e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              onRowClick(row);
+                            }
+                          }
+                        : undefined
+                    }
                   >
                     {selectable && (
                       <td className={cn(tdCls, "w-10 pr-1")} onClick={(e) => e.stopPropagation()}>
-                        <Checkbox checked={isSelected} onChange={() => toggleRow(id)} />
+                        <Checkbox
+                          checked={isSelected}
+                          onChange={() => toggleRow(id)}
+                          aria-label={`Selecionar linha ${id}`}
+                        />
                       </td>
                     )}
                     {visibleCols.map((col) => {
@@ -997,6 +1052,7 @@ function GridVariant<T = Record<string, unknown>>({
                   checked={allSelected}
                   indeterminate={someSelected}
                   onChange={() => toggleAll()}
+                  aria-label="Selecionar todas as linhas"
                 />
               </th>
             )}
@@ -1017,6 +1073,7 @@ function GridVariant<T = Record<string, unknown>>({
                     onClick={() => toggleSort(col.key)}
                   >
                     {col.header}
+                    {/* below scale minimum: sort-direction glyph sized as icon, not content text */}
                     <span className={cn("text-faint text-[0.625rem]", sortKey === col.key && "text-patina")}>
                       {sortKey === col.key ? (sortDir === "asc" ? "▲" : "▼") : "⇅"}
                     </span>
@@ -1047,6 +1104,7 @@ function GridVariant<T = Record<string, unknown>>({
                       className="justify-center"
                       checked={selected.includes(key)}
                       onChange={() => toggleRow(key)}
+                      aria-label={`Selecionar linha ${key}`}
                     />
                   </td>
                 )}
@@ -1146,10 +1204,10 @@ function TreeRow<T>({
         {columns.map((col, ci) => (
           <td key={col.key} className="px-[14px] py-[9px] align-middle text-body-callout text-foreground">
             {ci === 0 ? (
-              <span className="inline-flex items-center gap-[6px]" style={{ paddingLeft: depth * 20 }}>
+              <span className="inline-flex items-center gap-(--spacing-xs)" style={{ paddingLeft: depth * 20 }}>
                 {hasChildren ? (
                   <button
-                    className="w-[18px] h-[18px] bg-transparent border border-rule rounded cursor-pointer inline-flex items-center justify-center text-muted text-body-caption flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina"
+                    className="w-[18px] h-[18px] bg-transparent border border-rule rounded-(--radius-xs) cursor-pointer inline-flex items-center justify-center text-muted text-body-caption flex-shrink-0 transition-colors duration-[120ms] hover:bg-float hover:border-patina"
                     onClick={() => setExpanded((e) => !e)}
                     aria-label={expanded ? "Recolher" : "Expandir"}
                   >

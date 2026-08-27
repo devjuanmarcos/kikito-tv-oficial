@@ -17,7 +17,7 @@
       "path": "components/ui/cn/multi-select/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/multi-select/index.ts",
-      "content": "export { MultiSelect } from \"./MultiSelect\";\nexport type { MultiSelectProps } from \"./MultiSelect\";\nexport type { MultiSelectOption, MultiSelectSize } from \"./multi-select.types\";\n"
+      "content": "export { MultiSelect } from \"./MultiSelect\";\r\nexport type { MultiSelectProps } from \"./MultiSelect\";\r\nexport type { MultiSelectOption, MultiSelectSize } from \"./multi-select.types\";\r\n"
     },
     {
       "path": "components/ui/cn/multi-select/multi-select.types.ts",
@@ -29,7 +29,7 @@
       "path": "components/ui/cn/multi-select/MultiSelect.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/multi-select/MultiSelect.tsx",
-      "content": "\"use client\";\n/**\n * MultiSelect — backward-compat wrapper.\n * Absorbed by the Select Super component (`<Select mode=\"multi\" />`). Kept so\n * existing imports of `MultiSelect` keep working; new code should use Select.\n */\nimport { Select } from \"@/components/ui/cn/select\";\nimport type { MultiSelectProps as SelectMultiProps } from \"@/components/ui/cn/select/Select\";\n\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\n\nexport function MultiSelect(props: MultiSelectProps) {\n  return <Select mode=\"multi\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * MultiSelect — backward-compat wrapper.\r\n * Absorbed by the Select Super component (`<Select mode=\"multi\" />`). Kept so\r\n * existing imports of `MultiSelect` keep working; new code should use Select.\r\n */\r\nimport { Select } from \"@/components/ui/cn/select\";\r\nimport type { MultiSelectProps as SelectMultiProps } from \"@/components/ui/cn/select/Select\";\r\n\r\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\r\n\r\nexport function MultiSelect(props: MultiSelectProps) {\r\n  return <Select mode=\"multi\" {...props} />;\r\n}\r\n"
     }
   ]
 }

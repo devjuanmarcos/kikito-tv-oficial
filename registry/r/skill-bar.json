@@ -29,7 +29,7 @@
       "path": "components/ui/cn/skill-bar/SkillBar.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/skill-bar/SkillBar.tsx",
-      "content": "\"use client\";\n\nimport { Progress } from \"../progress/Progress\";\n\nimport type { SkillBarProps } from \"./skill-bar.types\";\n\n/**\n * SkillBar — backward-compat wrapper over the Super `Progress` component.\n * Delegates to `<Progress mode=\"skill-list\" />`. Prefer importing `Progress` directly.\n */\nexport function SkillBar(props: SkillBarProps) {\n  return <Progress mode=\"skill-list\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { Progress } from \"../progress/Progress\";\r\n\r\nimport type { SkillBarProps } from \"./skill-bar.types\";\r\n\r\n/**\r\n * SkillBar — backward-compat wrapper over the Super `Progress` component.\r\n * Delegates to `<Progress mode=\"skill-list\" />`. Prefer importing `Progress` directly.\r\n */\r\nexport function SkillBar(props: SkillBarProps) {\r\n  return <Progress mode=\"skill-list\" {...props} />;\r\n}\r\n"
     }
   ]
 }

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/phone-input/PhoneInput.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/phone-input/PhoneInput.tsx",
-      "content": "\"use client\";\n/**\n * PhoneInput — backward-compat wrapper.\n * Absorbed by the Input Super component (`<Input type=\"phone\" />`). Kept so\n * existing imports of `PhoneInput` keep working; new code should use Input.\n */\nimport { Input } from \"@/components/ui/cn/input\";\n\nimport type { PhoneInputProps } from \"./phone-input.types\";\n\nexport function PhoneInput(props: PhoneInputProps) {\n  return <Input type=\"phone\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * PhoneInput — backward-compat wrapper.\r\n * Absorbed by the Input Super component (`<Input type=\"phone\" />`). Kept so\r\n * existing imports of `PhoneInput` keep working; new code should use Input.\r\n */\r\nimport { Input } from \"@/components/ui/cn/input\";\r\n\r\nimport type { PhoneInputProps } from \"./phone-input.types\";\r\n\r\nexport function PhoneInput(props: PhoneInputProps) {\r\n  return <Input type=\"phone\" {...props} />;\r\n}\r\n"
     }
   ]
 }

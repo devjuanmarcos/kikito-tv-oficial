@@ -6,10 +6,12 @@ import { cn } from "@/lib/utils";
 
 import type { BadgeProps, BadgeVariant, BadgeSize, BadgeRounded, BadgeIntent } from "./badge.types";
 
+/* sm/md below scale minimum: badges intentionally render micro-labels smaller
+   than the smallest typography token (text-body-caption, 0.75rem) */
 const SIZE: Record<BadgeSize, string> = {
   sm: "px-2   py-[0.1875rem] gap-1   text-[0.625rem]  tracking-[0.04em] leading-none",
   md: "px-2.5 py-1           gap-1.5 text-[0.6875rem] tracking-[0.03em] leading-none",
-  lg: "px-3   py-[0.3125rem] gap-1.5 text-[0.75rem]   tracking-[0.02em] leading-none",
+  lg: "px-3   py-[0.3125rem] gap-1.5 text-body-caption tracking-[0.02em] leading-none",
 };
 
 const ROUNDED_MAP: Record<BadgeRounded, string> = {
@@ -32,9 +34,9 @@ const INTENT_VARIANT: Record<IntentVariantKey, string> = {
   /* primary */
   "primary/solid": "bg-patina text-patina-fg border-transparent",
   "primary/outline": "bg-transparent text-patina border-patina/45",
-  "primary/soft": "bg-patina-soft text-patina border-transparent",
+  "primary/soft": "bg-patina-soft text-patina-soft-fg border-transparent",
   "primary/ghost": "bg-transparent text-patina border-transparent",
-  "primary/dot": "bg-patina-soft text-patina border-transparent",
+  "primary/dot": "bg-patina-soft text-patina-soft-fg border-transparent",
 
   /* secondary */
   "secondary/solid": "bg-kinpaku text-kinpaku-fg border-transparent",

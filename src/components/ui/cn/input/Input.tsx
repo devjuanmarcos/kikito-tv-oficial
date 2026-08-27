@@ -92,9 +92,6 @@ const ICON_BOX =
 const ICON_BTN =
   "absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-muted hover:text-foreground transition-colors [&>svg]:w-full [&>svg]:h-full";
 
-let _uid = 0;
-const uniqueId = (prefix: string) => `${prefix}-${++_uid}`;
-
 function EyeIcon({ open }: { open: boolean }) {
   return open ? (
     <svg
@@ -176,7 +173,8 @@ function TextInputImpl({
   floatingLabel: _floatingLabel,
   ...props
 }: InputBaseProps) {
-  const [id] = useState(() => idProp ?? uniqueId("ks-input"));
+  const uid = useId();
+  const id = idProp ?? uid;
   const [revealed, setRevealed] = useState(false);
 
   const resolvedError = error ?? errorText;
@@ -226,7 +224,7 @@ function TextInputImpl({
   /* ── Prefix / suffix: in-flow group so the addon never overlaps the placeholder ── */
   if (hasAddon) {
     return (
-      <div className={cn("flex flex-col gap-1", fullWidth ? "w-full" : "w-auto")}>
+      <div className={cn("flex flex-col gap-(--spacing-2xs)", fullWidth ? "w-full" : "w-auto")}>
         {labelEl}
         <div
           className={cn(
@@ -239,7 +237,7 @@ function TextInputImpl({
           )}
         >
           {hasPrefix && (
-            <span className="flex items-center px-3 text-muted bg-graphite border-r border-rule select-none whitespace-nowrap text-body-callout">
+            <span className="flex items-center px-(--spacing-md) text-muted bg-graphite border-r border-rule select-none whitespace-nowrap text-body-callout">
               {prefix}
             </span>
           )}
@@ -253,14 +251,14 @@ function TextInputImpl({
             aria-describedby={describedBy}
             aria-invalid={invalid}
             className={cn(
-              "flex-1 min-w-0 bg-transparent outline-none px-3 text-foreground placeholder:text-faint",
+              "flex-1 min-w-0 bg-transparent outline-none px-(--spacing-md) text-foreground placeholder:text-faint",
               "disabled:cursor-not-allowed",
               SIZE_TEXT[size],
               className
             )}
           />
           {hasSuffix && (
-            <span className="flex items-center px-3 text-muted bg-graphite border-l border-rule select-none whitespace-nowrap text-body-callout">
+            <span className="flex items-center px-(--spacing-md) text-muted bg-graphite border-l border-rule select-none whitespace-nowrap text-body-callout">
               {suffix}
             </span>
           )}
@@ -271,7 +269,7 @@ function TextInputImpl({
   }
 
   return (
-    <div className={cn("flex flex-col gap-1", fullWidth ? "w-full" : "w-auto")}>
+    <div className={cn("flex flex-col gap-(--spacing-2xs)", fullWidth ? "w-full" : "w-auto")}>
       {labelEl}
 
       <div className="relative flex items-center">
@@ -349,15 +347,17 @@ const FL_SIZE_WRAP: Record<FloatingLabelSize, string> = {
   lg: "h-14",
 };
 const FL_SIZE_INPUT: Record<FloatingLabelSize, string> = {
-  sm: "text-sm px-3",
-  md: "text-sm px-3",
-  lg: "text-base px-4",
+  sm: "text-body-callout px-3",
+  md: "text-body-callout px-3",
+  lg: "text-body-paragraph px-4",
 };
 const FL_SIZE_LABEL_RESTING: Record<FloatingLabelSize, string> = {
-  sm: "text-sm top-[50%] -translate-y-1/2 left-3",
-  md: "text-sm top-[50%] -translate-y-1/2 left-3",
-  lg: "text-base top-[50%] -translate-y-1/2 left-4",
+  sm: "text-body-callout top-[50%] -translate-y-1/2 left-3",
+  md: "text-body-callout top-[50%] -translate-y-1/2 left-3",
+  lg: "text-body-paragraph top-[50%] -translate-y-1/2 left-4",
 };
+/* below scale minimum: floated micro-label is intentionally smaller than
+   text-body-caption (0.75rem) to fit the compact floating-label affordance */
 const FL_SIZE_LABEL_FLOAT: Record<FloatingLabelSize, string> = {
   sm: "text-[0.65rem] top-1.5 left-3",
   md: "text-[0.65rem] top-1.5 left-3",
@@ -450,7 +450,7 @@ function FloatingLabelImpl({
   const labelText = label ?? "";
 
   return (
-    <div style={style} className={cn("flex flex-col gap-1", className)}>
+    <div style={style} className={cn("flex flex-col gap-(--spacing-2xs)", className)}>
       <div
         className={cn(
           "relative w-full transition-[border-color,background] duration-[120ms]",
@@ -498,7 +498,11 @@ function FloatingLabelImpl({
         </label>
       </div>
       {hasError && errorMessage ? (
-        <p id={`${inputId}-err`} role="alert" className="flex items-center gap-1 text-body-caption text-danger">
+        <p
+          id={`${inputId}-err`}
+          role="alert"
+          className="flex items-center gap-(--spacing-2xs) text-body-caption text-danger"
+        >
           <span aria-hidden="true">⚠</span>
           {errorMessage}
         </p>
@@ -515,7 +519,7 @@ function FloatingLabelImpl({
  * NumberInputImpl — type="number" (former NumberInput, verbatim logic).
  * ─────────────────────────────────────────────────────────────────────── */
 const NUM_SIZE: Record<InputSize, string> = {
-  sm: "h-7  text-[0.8125rem]",
+  sm: "h-7  text-body-caption",
   md: "h-9  text-body-callout",
   lg: "h-11 text-body-paragraph",
 };
@@ -625,7 +629,7 @@ function NumberInputImpl({
   const atMax = max !== undefined && current >= max;
 
   return (
-    <div style={style} className={cn("flex flex-col gap-1", className)}>
+    <div style={style} className={cn("flex flex-col gap-(--spacing-2xs)", className)}>
       {label && (
         <label htmlFor={inputId} className="text-body-callout font-medium text-foreground">
           {label}
@@ -640,7 +644,7 @@ function NumberInputImpl({
           disabled ? "opacity-50 pointer-events-none" : ""
         )}
       >
-        {prefix && <span className="flex items-center px-2 text-faint shrink-0">{prefix}</span>}
+        {prefix && <span className="flex items-center px-(--spacing-sm) text-faint shrink-0">{prefix}</span>}
         <input
           id={inputId}
           type="text"
@@ -651,6 +655,7 @@ function NumberInputImpl({
           onBlur={handleBlur}
           readOnly={readOnly}
           disabled={disabled}
+          aria-invalid={error || undefined}
           onKeyDown={(e) => {
             if (e.key === "ArrowUp") {
               e.preventDefault();
@@ -661,9 +666,9 @@ function NumberInputImpl({
               decrement();
             }
           }}
-          className="flex-1 min-w-0 h-full bg-transparent outline-none text-foreground text-center tabular-nums px-1"
+          className="flex-1 min-w-0 h-full bg-transparent outline-none text-foreground text-center tabular-nums px-(--spacing-2xs)"
         />
-        {suffix && <span className="flex items-center px-2 text-faint shrink-0">{suffix}</span>}
+        {suffix && <span className="flex items-center px-(--spacing-sm) text-faint shrink-0">{suffix}</span>}
         <div className={cn("flex flex-col h-full border-l border-rule shrink-0", NUM_SIZE_BTN[size])}>
           <button
             type="button"
@@ -720,6 +725,8 @@ function CurrencyInputImpl({
   className,
   style,
 }: Omit<CurrencyModeProps, "type">) {
+  const uid = useId();
+  const inputId = uid;
   const [editing, setEditing] = useState(false);
   const [raw, setRaw] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -747,11 +754,15 @@ function CurrencyInputImpl({
   }
 
   return (
-    <div className={cn("flex flex-col gap-1", className)} style={style}>
-      {label && <label className="text-body-callout font-medium text-muted">{label}</label>}
+    <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
+      {label && (
+        <label htmlFor={inputId} className="text-body-callout font-medium text-muted">
+          {label}
+        </label>
+      )}
       <div
         className={cn(
-          "flex items-center gap-2 px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas transition-colors",
+          "flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) rounded-(--radius-sm) border border-rule bg-canvas transition-colors",
           !disabled && "focus-within:border-patina/60",
           disabled && "opacity-60 cursor-not-allowed"
         )}
@@ -760,6 +771,7 @@ function CurrencyInputImpl({
         {editing ? (
           <input
             ref={inputRef}
+            id={inputId}
             type="number"
             step={step}
             min={min}
@@ -775,6 +787,7 @@ function CurrencyInputImpl({
           />
         ) : (
           <input
+            id={inputId}
             type="text"
             readOnly={!editing}
             value={formatted}
@@ -845,7 +858,8 @@ function PhoneInputImpl({
       style={style}
     >
       {/* Country selector */}
-      <div className="relative flex items-center gap-1.5 px-2.5 border-r border-rule bg-graphite/40 shrink-0">
+      {/* px-2.5 (0.625rem) sits between --spacing-sm (0.5rem) and --spacing-md (0.75rem) — no exact token match */}
+      <div className="relative flex items-center gap-(--spacing-xs) px-2.5 border-r border-rule bg-graphite/40 shrink-0">
         <span className="text-body-paragraph leading-none">{country.flag}</span>
         <span className="text-body-callout text-muted font-medium tabular-nums">{country.dial}</span>
         <select
@@ -868,11 +882,12 @@ function PhoneInputImpl({
 
       <input
         type="tel"
+        aria-label="Phone number"
         value={phone}
         disabled={disabled}
         placeholder={placeholder}
         onChange={handleChange}
-        className="flex-1 px-3 bg-transparent outline-none text-foreground placeholder:text-faint"
+        className="flex-1 px-(--spacing-md) bg-transparent outline-none text-foreground placeholder:text-faint"
       />
     </div>
   );

@@ -23,7 +23,7 @@
       "path": "components/ui/cn/timeline-progress/TimelineProgress.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/timeline-progress/TimelineProgress.tsx",
-      "content": "\"use client\";\nimport { Timeline } from \"../timeline/Timeline\";\nimport type {\n  TimelineProgressProps,\n  TimelineProgressStep,\n  TimelineStepStatus,\n  TimelineOrientation,\n} from \"../timeline/timeline.types\";\n\nexport type { TimelineProgressProps, TimelineProgressStep, TimelineStepStatus, TimelineOrientation };\n\n/**\n * TimelineProgress — backward-compat wrapper over the Super `Timeline`.\n * Forwards to `<Timeline variant=\"progress\" />`.\n */\nexport function TimelineProgress(props: TimelineProgressProps) {\n  return <Timeline variant=\"progress\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\nimport { Timeline } from \"../timeline/Timeline\";\r\nimport type {\r\n  TimelineProgressProps,\r\n  TimelineProgressStep,\r\n  TimelineStepStatus,\r\n  TimelineOrientation,\r\n} from \"../timeline/timeline.types\";\r\n\r\nexport type { TimelineProgressProps, TimelineProgressStep, TimelineStepStatus, TimelineOrientation };\r\n\r\n/**\r\n * TimelineProgress — backward-compat wrapper over the Super `Timeline`.\r\n * Forwards to `<Timeline variant=\"progress\" />`.\r\n */\r\nexport function TimelineProgress(props: TimelineProgressProps) {\r\n  return <Timeline variant=\"progress\" {...props} />;\r\n}\r\n"
     }
   ]
 }

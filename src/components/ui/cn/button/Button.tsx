@@ -573,7 +573,7 @@ const ConfirmImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function Co
       {label}
       {mode === "hold" && holdProgress > 0 && (
         <span
-          className="absolute inset-y-0 left-0 bg-white/20 pointer-events-none transition-none"
+          className="absolute inset-y-0 left-0 bg-current/20 pointer-events-none transition-none"
           style={{ width: `${holdProgress * 100}%` }}
         />
       )}

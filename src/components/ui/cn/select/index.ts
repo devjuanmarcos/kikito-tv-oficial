@@ -15,4 +15,4 @@ export type {
   RichSelectOption,
   ComboboxProps,
   ComboboxOption,
-} from "./Select";
+} from "./select.types";

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/scroll-timeline/ScrollTimeline.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/scroll-timeline/ScrollTimeline.tsx",
-      "content": "\"use client\";\nimport { Timeline } from \"../timeline/Timeline\";\n\nimport type { ScrollTimelineProps } from \"./scroll-timeline.types\";\n\n/**\n * ScrollTimeline — backward-compat wrapper over the Super `Timeline`.\n * Forwards to `<Timeline variant=\"scroll\" />`.\n */\nexport function ScrollTimeline(props: ScrollTimelineProps) {\n  return <Timeline variant=\"scroll\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\nimport { Timeline } from \"../timeline/Timeline\";\r\n\r\nimport type { ScrollTimelineProps } from \"./scroll-timeline.types\";\r\n\r\n/**\r\n * ScrollTimeline — backward-compat wrapper over the Super `Timeline`.\r\n * Forwards to `<Timeline variant=\"scroll\" />`.\r\n */\r\nexport function ScrollTimeline(props: ScrollTimelineProps) {\r\n  return <Timeline variant=\"scroll\" {...props} />;\r\n}\r\n"
     }
   ]
 }

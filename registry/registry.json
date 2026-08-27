@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-06-24T14:21:56.141Z",
+  "generatedAt": "2026-08-27T01:51:43.893Z",
   "items": [
     {
       "name": "accordion",
@@ -1903,7 +1903,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["checkbox", "pagination", "select"]
+      "registryDependencies": ["button", "checkbox", "pagination", "select"]
     },
     {
       "name": "table-of-contents",

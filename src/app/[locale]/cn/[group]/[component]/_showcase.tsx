@@ -100,11 +100,13 @@ import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigatio
 import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
+import { NumberInput } from "@/components/ui/cn/number-input/NumberInput";
 import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
 import { OnboardingTour } from "@/components/ui/cn/onboarding-tour/OnboardingTour";
 import { OtpInput } from "@/components/ui/cn/otp-input/OtpInput";
 import { Pagination } from "@/components/ui/cn/pagination/Pagination";
 import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
+import { PasswordInput } from "@/components/ui/cn/password-input/PasswordInput";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
@@ -123,64 +125,65 @@ import { Rating } from "@/components/ui/cn/rating/Rating";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
+import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { RichSelect } from "@/components/ui/cn/rich-select/RichSelect";
+import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
+import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
+import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
+import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
+import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
 import { ScrollTimeline } from "@/components/ui/cn/scroll-timeline/ScrollTimeline";
+import { SearchInput } from "@/components/ui/cn/search-input/SearchInput";
+import { SegmentedControl } from "@/components/ui/cn/segmented-control/SegmentedControl";
+import { Select } from "@/components/ui/cn/select/Select";
+import { Separator } from "@/components/ui/cn/separator/Separator";
+import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
+import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
+import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
+import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
+import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
+import { Slider } from "@/components/ui/cn/slider/Slider";
+import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
 import { Sparkline } from "@/components/ui/cn/sparkline/Sparkline";
 import { Spinner } from "@/components/ui/cn/spinner/Spinner";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
 import { Stat } from "@/components/ui/cn/stat/Stat";
+import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
 import { StatusPage } from "@/components/ui/cn/status-page/StatusPage";
 import { StepForm } from "@/components/ui/cn/step-form/StepForm";
+import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
 import { Stopwatch } from "@/components/ui/cn/stopwatch/Stopwatch";
 import { SurveyForm } from "@/components/ui/cn/survey-form/SurveyForm";
 import { SwipeCard } from "@/components/ui/cn/swipe-card/SwipeCard";
 import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
+import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
+import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
 import { TimePicker } from "@/components/ui/cn/time-picker/TimePicker";
 import { TreeTable } from "@/components/ui/cn/tree-table/TreeTable";
-import { ScrollProgress } from "@/components/ui/cn/scroll-progress/ScrollProgress";
-import { ShortcutKey } from "@/components/ui/cn/shortcut-key/ShortcutKey";
 import { Typewriter } from "@/components/ui/cn/typewriter/Typewriter";
-import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
-import { ScrollSpy } from "@/components/ui/cn/scroll-spy/ScrollSpy";
-import { SidePanel } from "@/components/ui/cn/side-panel/SidePanel";
 import { ToastProvider, useToast } from "@/components/ui/cn/toast/Toast";
-import { ScrollReveal } from "@/components/ui/cn/scroll-reveal/ScrollReveal";
-import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
 import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { Timeline } from "@/components/ui/cn/timeline/Timeline";
-import { Stepper, useStepper } from "@/components/ui/cn/stepper/Stepper";
-import { RichTooltip } from "@/components/ui/cn/rich-tooltip/RichTooltip";
-import { ScrollArea } from "@/components/ui/cn/scroll-area/ScrollArea";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
-import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
 import { TimelineProgress } from "@/components/ui/cn/timeline-progress/TimelineProgress";
-import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
-import { SignaturePad } from "@/components/ui/cn/signature-pad/SignaturePad";
-import { SkillBar } from "@/components/ui/cn/skill-bar/SkillBar";
-import { SortableList } from "@/components/ui/cn/sortable-list/SortableList";
 import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
 import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
 import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import { ColorsTokens } from "@/components/ui/cn/tokens/ColorsTokens";
 import { TypographyTokens } from "@/components/ui/cn/tokens/TypographyTokens";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
-import { Select } from "@/components/ui/cn/select/Select";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { Tooltip } from "@/components/ui/cn/tooltip/Tooltip";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
-import { Skeleton } from "@/components/ui/cn/skeleton/Skeleton";
-import { Separator } from "@/components/ui/cn/separator/Separator";
-import { Slider } from "@/components/ui/cn/slider/Slider";
 import { ToggleGroup } from "@/components/ui/cn/toggle-group/ToggleGroup";
-import { SegmentedControl } from "@/components/ui/cn/segmented-control/SegmentedControl";
 import { TextEffect } from "@/components/ui/cn/text-effect/TextEffect";
 import type { TextEffectType } from "@/components/ui/cn/text-effect/TextEffect";
 
@@ -1701,6 +1704,41 @@ function CurrencyInputDemo() {
         <p className="text-body-caption text-faint">
           USD: {usd} · EUR: {eur}
         </p>
+      </div>
+    </Frame>
+  );
+}
+
+function PasswordInputDemo() {
+  return (
+    <Frame label="Password Input — reveal toggle, optional strength meter">
+      <div className="flex flex-col gap-4 w-72">
+        <PasswordInput placeholder="Enter password" />
+        <PasswordInput placeholder="With strength meter" showStrength defaultValue="Str0ng!Pass" />
+        <PasswordInput placeholder="Invalid" invalid errorMessage="Password is too short." />
+      </div>
+    </Frame>
+  );
+}
+
+function SearchInputDemo() {
+  return (
+    <Frame label="Search Input — clear button, loading, shortcut hint">
+      <div className="flex flex-col gap-4 w-72">
+        <SearchInput placeholder="Search…" shortcut="⌘K" />
+        <SearchInput placeholder="Searching…" loading defaultValue="kikito" />
+      </div>
+    </Frame>
+  );
+}
+
+function NumberInputDemo() {
+  const [qty, setQty] = useState(1);
+  return (
+    <Frame label="Number Input — stepper with min/max/step">
+      <div className="flex flex-col gap-4 w-56">
+        <NumberInput value={qty} onChange={setQty} min={0} max={10} step={1} />
+        <NumberInput defaultValue={9.5} step={0.5} precision={1} allowDecimal prefix="$" />
       </div>
     </Frame>
   );
@@ -5982,6 +6020,10 @@ const DEMOS: Record<string, React.ComponentType> = {
   "charts/funnel-chart": FunnelChartDemo,
   "inputs/step-form": StepFormDemo,
   "inputs/currency-input": CurrencyInputDemo,
+  "inputs/floating-label-input": FloatingLabelInputDemo,
+  "inputs/password-input": PasswordInputDemo,
+  "inputs/search-input": SearchInputDemo,
+  "inputs/number-input": NumberInputDemo,
   "inputs/pricing-toggle": PricingToggleDemo,
   "feedback/feedback-widget": FeedbackWidgetDemo,
   "layout/infinite-scroll": InfiniteScrollDemo,

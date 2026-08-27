@@ -23,7 +23,7 @@
       "path": "components/ui/cn/currency-input/CurrencyInput.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/currency-input/CurrencyInput.tsx",
-      "content": "\"use client\";\n/**\n * CurrencyInput — backward-compat wrapper.\n * Absorbed by the Input Super component (`<Input type=\"currency\" />`). Kept so\n * existing imports of `CurrencyInput` keep working; new code should use Input.\n */\nimport { Input } from \"@/components/ui/cn/input\";\n\nimport type { CurrencyInputProps } from \"./currency-input.types\";\n\nexport function CurrencyInput(props: CurrencyInputProps) {\n  return <Input type=\"currency\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * CurrencyInput — backward-compat wrapper.\r\n * Absorbed by the Input Super component (`<Input type=\"currency\" />`). Kept so\r\n * existing imports of `CurrencyInput` keep working; new code should use Input.\r\n */\r\nimport { Input } from \"@/components/ui/cn/input\";\r\n\r\nimport type { CurrencyInputProps } from \"./currency-input.types\";\r\n\r\nexport function CurrencyInput(props: CurrencyInputProps) {\r\n  return <Input type=\"currency\" {...props} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/currency-input/index.ts",

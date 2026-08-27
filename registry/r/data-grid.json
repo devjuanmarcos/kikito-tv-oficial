@@ -23,7 +23,7 @@
       "path": "components/ui/cn/data-grid/DataGrid.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/data-grid/DataGrid.tsx",
-      "content": "\"use client\";\n\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\n\nimport type { DataGridProps } from \"./data-grid.types\";\n\n/**\n * DataGrid — backward-compat wrapper over the Super DataTable (`variant=\"grid\"`).\n * Visual and API identical to the original DataGrid.\n */\nexport function DataGrid<T = Record<string, unknown>>(props: DataGridProps<T>) {\n  return <DataTable variant=\"grid\" {...(props as DataGridProps<Record<string, unknown>>)} />;\n}\n"
+      "content": "\"use client\";\r\n\r\nimport { DataTable } from \"@/components/ui/cn/table/Table\";\r\n\r\nimport type { DataGridProps } from \"./data-grid.types\";\r\n\r\n/**\r\n * DataGrid — backward-compat wrapper over the Super DataTable (`variant=\"grid\"`).\r\n * Visual and API identical to the original DataGrid.\r\n */\r\nexport function DataGrid<T = Record<string, unknown>>(props: DataGridProps<T>) {\r\n  return <DataTable variant=\"grid\" {...(props as DataGridProps<Record<string, unknown>>)} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/data-grid/index.ts",
