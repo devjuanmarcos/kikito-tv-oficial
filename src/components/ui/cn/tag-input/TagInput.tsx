@@ -1,25 +1,14 @@
 ﻿"use client";
-import type React from "react";
 import { useState, useRef, type KeyboardEvent } from "react";
+import type React from "react";
 
 import { cn } from "@/lib/utils";
 
-export type TagInputSize = "sm" | "md" | "lg";
+import type { TagInputSize, TagInputProps } from "./tag-input.types";
 
-export interface TagInputProps {
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (tags: string[]) => void;
-  placeholder?: string;
-  max?: number;
-  allowDuplicates?: boolean;
-  delimiter?: string | RegExp;
-  size?: TagInputSize;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
+// Escalas próprias do componente (padding/gap/dimensão por tier de size), não migram pra
+// spacing genérico. text-[0.8125rem]/[0.625rem]/[0.6875rem]: abaixo ou fora da escala de
+// tipografia — micro-labels de tier específicos do componente.
 const SIZE_WRAP: Record<TagInputSize, string> = {
   sm: "min-h-[1.875rem] px-2 py-1 gap-1 text-[0.8125rem]",
   md: "min-h-[2.25rem]  px-2.5 py-1.5 gap-1.5 text-body-callout",
@@ -106,7 +95,7 @@ export function TagInput({
         <span
           key={i}
           className={cn(
-            "inline-flex items-center gap-1 bg-patina/10 text-patina rounded-(--radius-xs) font-medium select-none whitespace-nowrap",
+            "inline-flex items-center gap-(--spacing-2xs) bg-patina/10 text-patina rounded-(--radius-xs) font-medium select-none whitespace-nowrap",
             SIZE_TAG[size]
           )}
         >
@@ -143,6 +132,10 @@ export function TagInput({
           onPaste={handlePaste}
           placeholder={tags.length === 0 ? placeholder : undefined}
           disabled={disabled}
+          // aria-label independente do placeholder: o placeholder some quando já existe
+          // alguma tag (linha acima), então sem isso o input ficava sem nome acessível
+          // nenhum depois da primeira tag adicionada
+          aria-label={placeholder}
           className="flex-1 min-w-[6rem] bg-transparent outline-none text-foreground placeholder:text-faint"
         />
       )}

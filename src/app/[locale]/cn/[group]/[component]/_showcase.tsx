@@ -168,6 +168,7 @@ import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfCon
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
 import { Tag } from "@/components/ui/cn/tag/Tag";
 import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
+import { TagInput } from "@/components/ui/cn/tag-input/TagInput";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import type { TextEffectType } from "@/components/ui/cn/text-effect/text-effect.types";
@@ -3066,6 +3067,25 @@ function TagDemo() {
         </div>
       </div>
     </Frame>
+  );
+}
+
+function TagInputDemo() {
+  const [tags, setTags] = useState(["design", "react"]);
+  return (
+    <div className="flex flex-col gap-4">
+      <Frame label="Type + Enter/comma to add, Backspace to remove last">
+        <div className="w-80">
+          <TagInput value={tags} onChange={setTags} placeholder="Add tag…" />
+        </div>
+      </Frame>
+      <Frame label="Max 3 tags + disabled">
+        <div className="flex flex-col gap-4 w-80">
+          <TagInput defaultValue={["one", "two"]} max={3} placeholder="Add tag (max 3)…" />
+          <TagInput defaultValue={["locked"]} disabled placeholder="Disabled tag input" />
+        </div>
+      </Frame>
+    </div>
   );
 }
 
@@ -6347,6 +6367,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "feedback/status-page": StatusPageDemo,
   "display/status-badge": StatusBadgeDemo,
   "display/tag": TagDemo,
+  "inputs/tag-input": TagInputDemo,
   "display/ping": PingDemo,
   "inputs/rating": RatingDemo,
   "layout/scroll-area": ScrollAreaDemo,
