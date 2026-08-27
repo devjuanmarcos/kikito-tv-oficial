@@ -271,6 +271,18 @@ Super component com 3 dispatches (`range`/`mode`): default (single-date popover)
 - Gate 8: as 5 rotas já tinham demo (`inputs/date-picker`, `inputs/date-range-picker`, `inputs/calendar`, `inputs/time-picker`, `display/event-calendar`)
 - Gate 9: `e2e/cn/inputs/date-picker.spec.ts` novo (12 testes cobrindo as 5 rotas + a11y do popover: `aria-haspopup`/`aria-expanded` e fluxo de seleção de dia) — 24/24 chromium-desktop + mobile-chrome
 
+### `charts/chart` — concluído
+
+Diferente dos outros Super components desta lista: `Chart` é um **router puro** sobre 6 renderers SVG standalone (`line`/`area`/`bar`/`donut`/`radar`/`funnel`, + `sparkline` já validado antes), não uma absorção/refatoração — cada um continua uma implementação própria completa, plenamente importável e documentada isoladamente no catálogo. Todos os 7 avaliados juntos por serem a mesma família visual.
+
+- Gate 1: `Chart.tsx` tinha `ChartType`/`ChartProps` inline — criado `chart.types.ts`, `.tsx`/`index.ts` atualizados; import de tipo em `_showcase.tsx` ajustado
+- Gate 2 (**violação real de cor encontrada e corrigida**): `FunnelChart` usava `text-white` hardcoded (classe banida) pro texto dentro da barra colorida — corrigido com um array `STAGE_FG_CLS` pareado 1:1 com `STAGE_COLORS` (usa os tokens `-fg` corretos: `text-patina-fg`, `text-info-fg` etc.); mantido `text-white` só como fallback documentado quando o consumidor passa `stage.color` customizado (cor arbitrária sem token de contraste garantido). `AreaChart`: `shadow-lg` (Tailwind bruto) → alinhado ao padrão oklch literal já usado no `DatePicker`
+- Gate 3: `fontSize={N}` nos `<text>` SVG (`Line`/`Bar`/`Area`/`Donut`/`Radar`Chart, todos abaixo de 12px) documentados como exceção — são atributos numéricos de elemento SVG, não alcançáveis por classe Tailwind no contexto de um `viewBox` escalável
+- Gate 3/spacing: sweep completo nas legendas/tooltips (nenhum componente tem prop `size`) — `gap-x-4`/`gap-y-1`/`gap-1.5`/`gap-3`/`gap-4`/`mt-2`/`px-1`/`px-3`/`py-2`/`mb-1`/`gap-2` → tokens exatos, repetido de forma idêntica em `LineChart`/`AreaChart`/`RadarChart`/`DonutChart`/`FunnelChart`
+- Gate 5 (**gap real de a11y encontrado e corrigido, em toda a família**): nenhum dos 5 charts SVG (`Line`/`Bar`/`Area`/`Donut`/`Radar`) tinha `role="img"` ou `aria-label` no `<svg>` raiz — pra leitor de tela, um gráfico inteiro era invisível/sem nenhuma informação. Adicionado `role="img"` + `aria-label` resumindo os dados (série/valores) nos 5. `FunnelChart` (que não usa SVG, é HTML) já tinha texto real (`toLocaleString()`, labels) legível por padrão
+- Gate 8: as 7 rotas (`charts/chart`, `charts/line-chart`, `charts/bar-chart`, `charts/area-chart`, `charts/donut-chart`, `charts/radar-chart`, `charts/funnel-chart`) já tinham demo própria
+- Gate 9: `e2e/cn/charts/chart.spec.ts` novo (16 testes cobrindo as 7 rotas + a11y `role=img`/`aria-label` + dark mode) — 32/32 chromium-desktop + mobile-chrome. Teste de a11y usa `svg[role="img"]` em vez de `getByRole("img")` — SVGs decorativos de navegação da página também se expõem implicitamente como `role=img` na árvore de acessibilidade, poluindo o match genérico
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido

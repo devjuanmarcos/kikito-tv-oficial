@@ -28,7 +28,7 @@ import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/cn/card/
 import { CardStack } from "@/components/ui/cn/card-stack/CardStack";
 import { Carousel } from "@/components/ui/cn/carousel/Carousel";
 import { Chart } from "@/components/ui/cn/chart/Chart";
-import type { ChartType } from "@/components/ui/cn/chart/Chart";
+import type { ChartType } from "@/components/ui/cn/chart/chart.types";
 import { ChatBubble } from "@/components/ui/cn/chat-bubble/ChatBubble";
 import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
 import { Checklist } from "@/components/ui/cn/checklist/Checklist";

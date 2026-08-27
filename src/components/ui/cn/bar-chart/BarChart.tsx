@@ -1,8 +1,10 @@
-﻿'use client'
+﻿"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { BarChartProps } from './bar-chart.types'
+import { useEffect, useRef, useState } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { BarChartProps } from "./bar-chart.types";
 
 export function BarChart({
   data,
@@ -16,43 +18,47 @@ export function BarChart({
   className,
   style,
 }: BarChartProps) {
-  const [visible, setVisible] = useState(!animate)
-  const ref = useRef<SVGSVGElement>(null)
+  const [visible, setVisible] = useState(!animate);
+  const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!animate) return
+    if (!animate) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } },
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
       { threshold: 0.1 }
-    )
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [animate])
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [animate]);
 
-  const max = Math.max(...data.map(d => d.value), 1)
-  const chartH = height - 32
-  const totalW = data.length * (barWidth + gap) - gap + 2
+  // fontSize={11} abaixo: atributo numérico de <text> em SVG, sem classe Tailwind aplicável ao viewBox
+  const max = Math.max(...data.map((d) => d.value), 1);
+  const chartH = height - 32;
+  const totalW = data.length * (barWidth + gap) - gap + 2;
+  const chartSummary = data.map((d) => `${d.label} ${d.value}`).join(", ");
 
   return (
     <svg
       ref={ref}
-      className={cn('overflow-visible', className)}
+      className={cn("overflow-visible", className)}
       width={totalW}
       height={height}
       style={style}
+      role="img"
+      aria-label={`Bar chart: ${chartSummary}`}
     >
-      {showBaseline && (
-        <line
-          x1={0} y1={chartH} x2={totalW} y2={chartH}
-          stroke="var(--ks-rule)" strokeWidth={1}
-        />
-      )}
+      {showBaseline && <line x1={0} y1={chartH} x2={totalW} y2={chartH} stroke="var(--ks-rule)" strokeWidth={1} />}
 
       {data.map((item, i) => {
-        const barH = visible ? (item.value / max) * chartH : 0
-        const x = i * (barWidth + gap) + 1
-        const y = chartH - barH
-        const fillColor = item.color ?? color ?? 'var(--ks-primary)'
+        const barH = visible ? (item.value / max) * chartH : 0;
+        const x = i * (barWidth + gap) + 1;
+        const y = chartH - barH;
+        const fillColor = item.color ?? color ?? "var(--ks-primary)";
 
         return (
           <g key={item.label}>
@@ -63,29 +69,30 @@ export function BarChart({
               height={visible ? barH : 0}
               rx={4}
               fill={fillColor}
-              style={{ transition: animate ? 'height 0.6s cubic-bezier(0.4,0,0.2,1), y 0.6s cubic-bezier(0.4,0,0.2,1)' : undefined }}
+              style={{
+                transition: animate
+                  ? "height 0.6s cubic-bezier(0.4,0,0.2,1), y 0.6s cubic-bezier(0.4,0,0.2,1)"
+                  : undefined,
+              }}
             />
             {showValues && barH > 12 && (
               <text
-                x={x + barWidth / 2} y={y - 4}
+                x={x + barWidth / 2}
+                y={y - 4}
                 textAnchor="middle"
-                fontSize={11} fontWeight={600}
+                fontSize={11}
+                fontWeight={600}
                 fill="var(--ks-text-muted)"
               >
                 {item.value}
               </text>
             )}
-            <text
-              x={x + barWidth / 2} y={chartH + 16}
-              textAnchor="middle"
-              fontSize={11}
-              fill="var(--ks-text-faint)"
-            >
+            <text x={x + barWidth / 2} y={chartH + 16} textAnchor="middle" fontSize={11} fill="var(--ks-text-faint)">
               {item.label}
             </text>
           </g>
-        )
+        );
       })}
     </svg>
-  )
+  );
 }

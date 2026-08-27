@@ -37,6 +37,7 @@ export function AreaChart({
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
+  // fontSize={10} abaixo (×2): atributo numérico de <text> em SVG, sem classe Tailwind aplicável ao viewBox
   const PAD = { top: 16, right: 16, bottom: 32, left: 44 };
   const W = 560;
   const H = height;
@@ -106,6 +107,8 @@ export function AreaChart({
         viewBox={`0 0 ${W} ${H}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setTooltip(null)}
+        role="img"
+        aria-label={`Area chart: ${series.map((s) => s.label ?? s.key).join(", ")}`}
       >
         <defs>
           {series.map((s, i) => (
@@ -204,9 +207,9 @@ export function AreaChart({
       </svg>
 
       {showLegend && (
-        <div className="flex flex-wrap gap-x-4 gap-y-1 px-1">
+        <div className="flex flex-wrap gap-x-(--spacing-lg) gap-y-(--spacing-2xs) px-(--spacing-2xs)">
           {series.map((s, i) => (
-            <div key={s.key} className="flex items-center gap-1.5">
+            <div key={s.key} className="flex items-center gap-(--spacing-xs)">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: getColor(i) }} />
               <span className="text-body-caption text-muted">{s.label ?? s.key}</span>
             </div>
@@ -216,12 +219,12 @@ export function AreaChart({
 
       {tooltip && showTooltip && data[tooltip.index] && (
         <div
-          className="fixed z-50 pointer-events-none bg-raised border border-rule rounded-(--radius-sm) px-3 py-2 shadow-lg text-body-caption"
+          className="fixed z-50 pointer-events-none bg-raised border border-rule rounded-(--radius-sm) px-(--spacing-md) py-(--spacing-sm) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.45),0_2px_8px_-2px_oklch(0%_0_0/0.28)] text-body-caption"
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
-          <div className="font-semibold text-foreground mb-1">{data[tooltip.index].label}</div>
+          <div className="font-semibold text-foreground mb-(--spacing-2xs)">{data[tooltip.index].label}</div>
           {series.map((s, i) => (
-            <div key={s.key} className="flex items-center gap-2">
+            <div key={s.key} className="flex items-center gap-(--spacing-sm)">
               <div className="w-2 h-2 rounded-full" style={{ background: getColor(i) }} />
               <span className="text-muted">{s.label ?? s.key}:</span>
               <strong className="text-foreground">{data[tooltip.index][s.key]}</strong>
