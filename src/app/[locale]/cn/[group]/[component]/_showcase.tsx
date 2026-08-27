@@ -4942,6 +4942,18 @@ function SignaturePadDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Custom color + read-only">
+        <div className="flex flex-wrap gap-6">
+          <Frame label="Custom stroke color">
+            {/* color e literal repassado direto pro canvas strokeStyle (API do browser
+                não avalia CSS var) — valor de exemplo, não precisa ser token */}
+            <SignaturePad width={320} height={140} color="#2563eb" />
+          </Frame>
+          <Frame label="Read-only (display only)">
+            <SignaturePad width={320} height={140} readOnly />
+          </Frame>
+        </div>
+      </ShowcaseSection>
     </div>
   );
 }
