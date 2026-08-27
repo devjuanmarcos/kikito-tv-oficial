@@ -340,6 +340,17 @@ Diferente de `avatar`/`accordion`: aqui o `absorbs: ["shortcut-key"]` **é verda
 - Gate 8: `display/shortcut-key` já tinha demo; `display/kbd` criada agora (achado acima)
 - Gate 9: `e2e/cn/display/kbd.spec.ts` novo (5 testes cobrindo as 2 rotas + conteúdo do `Kbd`) — 10/10 chromium-desktop + mobile-chrome
 
+### `inputs/rating` — concluído
+
+`RatingInput` absorvido de fato — wrapper genuíno (`<Rating toggleOff icon="★" emptyIcon="☆" />`), sem achado de arquitetura falsa.
+
+- **Suspeita investigada e descartada empiricamente**: `SIZE_CLS.sm.textSz = "text-base"` parecia colidir com o token de cor `--color-base` (confirmado existir em `kikitocn-tokens.css:184`) e resolver como `color` em vez de tamanho de fonte — mesmo padrão que exigiu `text-(length:--x)` no `AvatarGroup`. Testado ao vivo (`getComputedStyle` no botão real, depois de adicionar uma instância `size="sm"` com ícone customizado na demo, que antes não existia): `fontSize: 16px` confirmado correto, cor controlada corretamente por `text-kinpaku`/`text-rule` à parte. **Não é bug** — documentado aqui pra não reabrir a mesma dúvida à toa numa sessão futura
+- Gate 2/3: `text-xl`/`text-2xl` cru (banidos) no `SIZE_CLS` (tiers `md`/`lg`) → `text-body-title`/`text-heading-05` (matches exatos); `text-base` (tier `sm`) mantido — ver nota acima; `gap-[2px]`/`gap-[3px]`/`gap-1` do `SIZE_CLS` documentados como escala própria do componente
+- Gate 3/spacing: `gap-1` (wrapper raiz, não ligado a tier) → `gap-(--spacing-2xs)`; `ml-2` (label do `showValue`) → `ml-(--spacing-sm)`
+- Gate 5 (**gap real de a11y encontrado e corrigido**): em modo `readOnly`, os botões continuavam expondo `aria-label="Rate N of M"` e ficavam focáveis via Tab — um leitor de tela ouvia "Rate 3 of 5" como se fosse uma ação disponível, quando na verdade é só exibição. Corrigido: o wrapper ganha `role="img"` + `aria-label="X out of Y"` quando `readOnly`, e os botões internos ficam `aria-hidden`/`tabIndex={-1}` (a unidade inteira é anunciada de uma vez, não estrela por estrela). Ícones SVG de estrela (`StarIcon`, cheio/vazio/meio) sem `aria-hidden` — adicionado
+- Gate 8: demo já cobria a maioria das variações; adicionadas 2 instâncias `size="sm"`/`"md"` com ícone customizado (faltava exercitar esse caminho, foi o que motivou o teste empírico acima)
+- Gate 9: `e2e/cn/inputs/rating.spec.ts` novo (6 testes cobrindo as 2 rotas + clique atualiza valor + a11y `role=img`/`aria-hidden` em read-only) — 12/12 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 0. **Achado sistêmico**: o campo `absorbs` de `cn-registry.tsx` já se provou **falso duas vezes** (`avatar`→`avatar-group`, `accordion`→`accordion-group`/`multi-accordion`/`collapsible`) — nos dois casos os componentes "absorvidos" são implementações paralelas reais, nunca de fato unificadas, e ficam escondidos da sidebar por isso (`getVisibleComponents()` filtra qualquer nome em `absorbs`). **Não confiar em `absorbs` sem verificar** — antes de assumir que um Super component genuinamente despacha pros nomes listados, abrir o arquivo e conferir se há de fato um dispatcher (`switch`/discriminated union), como em `Table`/`Progress`/`Timeline`/`Chart`/`TextEffect` (confirmados), e não uma implementação solta como `Avatar`/`Accordion` (confirmados falsos). Vale a pena um grep sistemático em `grep -n 'absorbs:' cn-registry.tsx` cruzado com leitura de cada arquivo antes de seguir pra próxima família

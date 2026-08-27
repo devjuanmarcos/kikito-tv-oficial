@@ -8,7 +8,7 @@ import type { RatingProps } from "./rating.types";
 function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
   if (half) {
     return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <defs>
           <linearGradient id="half-fill" x1="0" x2="1" y1="0" y2="0">
             <stop offset="50%" stopColor="currentColor" stopOpacity="1" />
@@ -24,16 +24,23 @@ function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
     );
   }
   return (
-    <svg viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
+    <svg
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden="true"
+    >
       <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
     </svg>
   );
 }
 
+// gap/textSz: escala própria do componente por size, sem match exato na escala de spacing (sm/md)
 const SIZE_CLS: Record<string, { gap: string; sz: string; textSz: string }> = {
   sm: { gap: "gap-[2px]", sz: "w-4 h-4", textSz: "text-base" },
-  md: { gap: "gap-[3px]", sz: "w-[22px] h-[22px]", textSz: "text-xl" },
-  lg: { gap: "gap-1", sz: "w-[30px] h-[30px]", textSz: "text-2xl" },
+  md: { gap: "gap-[3px]", sz: "w-[22px] h-[22px]", textSz: "text-body-title" },
+  lg: { gap: "gap-1", sz: "w-[30px] h-[30px]", textSz: "text-heading-05" },
 };
 
 export function Rating({
@@ -90,7 +97,7 @@ export function Rating({
   const sz = SIZE_CLS[size];
 
   return (
-    <div className={cn("inline-flex flex-col gap-1", className)} style={style}>
+    <div className={cn("inline-flex flex-col gap-(--spacing-2xs)", className)} style={style}>
       {label && <span className="text-body-callout text-faint font-medium">{label}</span>}
       <div
         className={cn(
@@ -100,6 +107,9 @@ export function Rating({
           readOnly && "pointer-events-none"
         )}
         onMouseLeave={() => setHover(null)}
+        // read-only não é interativo — anuncia o valor como uma unidade em vez de N botões "Rate" enganosos
+        role={readOnly ? "img" : undefined}
+        aria-label={readOnly ? `${display} out of ${max}` : undefined}
       >
         {Array.from({ length: max }, (_, i) => i + 1).map((star) => {
           const filled = isFilled(star);
@@ -110,6 +120,8 @@ export function Rating({
             <button
               key={star}
               type="button"
+              tabIndex={readOnly ? -1 : undefined}
+              aria-hidden={readOnly || undefined}
               className={cn(
                 "relative cursor-pointer transition-transform duration-[100ms] border-none bg-transparent p-0",
                 sz.sz,
@@ -122,7 +134,7 @@ export function Rating({
               onClick={() => handleClick(!hasCustomIcon && allowHalf ? hover ?? star : star)}
               onMouseMove={(e) => handleMouseMove(e, star)}
               disabled={disabled}
-              aria-label={`Rate ${star} of ${max}`}
+              aria-label={readOnly ? undefined : `Rate ${star} of ${max}`}
             >
               {hasCustomIcon ? (
                 active ? (
@@ -137,7 +149,7 @@ export function Rating({
           );
         })}
         {showValue && (
-          <span className="ml-2 text-body-callout text-faint tabular-nums">
+          <span className="ml-(--spacing-sm) text-body-callout text-faint tabular-nums">
             {display} / {max}
           </span>
         )}

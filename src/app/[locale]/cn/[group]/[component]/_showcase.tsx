@@ -3046,6 +3046,10 @@ function RatingDemo() {
           <Rating value={3} readOnly size="md" />
           <Rating value={5} readOnly size="lg" />
         </div>
+        <div className="flex items-center gap-6">
+          <Rating value={2} readOnly size="sm" icon="★" emptyIcon="☆" />
+          <Rating value={3} readOnly size="md" icon="★" emptyIcon="☆" />
+        </div>
       </div>
     </Frame>
   );
