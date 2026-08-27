@@ -460,11 +460,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "avatar",
     title: "Avatar",
     group: "display",
-    description: "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes and stacked group mode.",
+    description:
+      "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes and a lightweight children-composition group mode.",
     filePath: "src/components/ui/cn/avatar/Avatar.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: ["avatar-group"],
-    keywords: ["avatar group", "avatar-group", "stacked", "empilhado", "overflow", "+N"],
+    // NÃO absorve avatar-group de fato — são duas implementações paralelas com APIs diferentes
+    // (esta é children-composition; avatar-group é data-driven via prop `avatars`). Ver nota no Avatar.tsx.
+    keywords: ["avatar group", "stacked", "empilhado", "overflow", "+N"],
     props: [
       {
         name: "src",

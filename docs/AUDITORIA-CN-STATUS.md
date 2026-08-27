@@ -305,12 +305,21 @@ Dois componentes standalone com nomes parecidos à família `text-effect` mas fo
 - Gate 8: `display/marquee-text` e `layout/scroll-reveal` já tinham demo própria
 - Gate 9: `e2e/cn/display/marquee-text.spec.ts` novo (6 testes cobrindo as 2 rotas + a11y do `aria-hidden`/`sr-only` do marquee + `prefers-reduced-motion` do scroll-reveal) — 12/12 chromium-desktop + mobile-chrome
 
+### `display/avatar` — concluído
+
+- **Achado de arquitetura confirmado (não é bug de runtime, mas era enganoso)**: `cn-registry.tsx` declarava `absorbs: ["avatar-group"]` no `avatar`, mas isso **nunca foi verdade** — `avatar-group/AvatarGroup.tsx` é uma implementação totalmente paralela e independente (API orientada a dados via prop `avatars`), enquanto o `AvatarGroup` exportado por `Avatar.tsx` é outra implementação, por composição de `children`. As duas nunca foram unificadas. Consequência real: `getVisibleComponents()` filtra qualquer nome listado em `absorbs` da barra lateral — **`avatar-group` ficava escondido da navegação** mesmo tendo rota, demo e componente 100% funcionais. Corrigido removendo a entrada falsa de `absorbs`; `avatar-group` agora aparece na sidebar. `AvatarGroup` do `Avatar.tsx` **não foi removido** (é API pública publicada via `npx kikitocn add avatar` — pode ter consumidores externos) — documentado com JSDoc explicando que são dois componentes distintos, mantidos de propósito
+- Gate 1: `Avatar.tsx` tinha tipos inline — criado `avatar.types.ts`, `.tsx`/`index.ts` atualizados
+- Gate 2: `BG_PALETTE` (`Avatar.tsx`) usa `oklch(...)` literal e `colorForName`/`textColorForName` (`avatar-group/AvatarGroup.tsx`) usam `hsl(...)` literal — ambos precisam de mais matizes distintos do que os ~10 tokens semânticos oferecem pra diferenciar avatares por iniciais; exceção legítima, mas nenhuma tinha o comentário de exceção documentada. Adicionado nos dois
+- Gate 3: os 4 `text-[Nrem]` do `SIZE_DIM` (xs/sm/md/lg) — pendência já registrada de uma sessão anterior — documentados como escala própria do componente, sem match exato na escala de tipografia
+- Gate 5 (**gaps reais de a11y encontrados e corrigidos**): iniciais (`Avatar.tsx`) e status dot (`Avatar.tsx`) usavam `aria-label` num `<span>` sem `role` — sem `role`, leitores de tela costumam ignorar `aria-label` num elemento genérico. Adicionado `role="img"` nos dois. Mesmo gap no `AvatarItem` de `avatar-group/AvatarGroup.tsx` (initials `<div>` com `aria-label` sem `role`) — corrigido igual. SVG de silhueta decorativo (fallback sem nome/ícone) sem `aria-hidden` — adicionado
+- Gate 8: `display/avatar` e `display/avatar-group` já tinham demo própria (a de `avatar-group` só não aparecia na sidebar, ver achado acima)
+- Gate 9: `e2e/cn/display/avatar.spec.ts` novo (6 testes cobrindo as 2 rotas + confirma `avatar-group` na sidebar + a11y `role=img`) — 12/12 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido
 2. Cobertura de `focus-visible:outline-patina` em componentes com foco customizado por `role` (Tabs e possivelmente outros `role="tab"`/`role="menuitem"`) que nunca tiveram anel de foco próprio, dependendo só do fallback verde do dashboard — achado colateral do fix do outline global, não é regressão, é lacuna pré-existente
-3. `text-lg`/`text-xl` cru achado de passagem em `avatar/Avatar.tsx` durante o sweep de `rounded` — corrigido pro tamanho, mas os `text-[Npx]` arbitrários no mesmo `SIZE_DIM` (xs/sm/md/lg, ex: `text-[0.5625rem]`) não foram tocados, ficam pendentes pro Gate 3 completo do Avatar
-4. `cn-install-block/CnInstallBlock.tsx` usa hex cru (`#0d1117`, `#79c0ff` etc, paleta do GitHub) — provavelmente exceção válida (mimetiza tema de código real, independente do tema CN) mas nunca recebeu o comentário de exceção documentada; fica pendente confirmar e comentar quando for a vez desse componente
+3. `cn-install-block/CnInstallBlock.tsx` usa hex cru (`#0d1117`, `#79c0ff` etc, paleta do GitHub) — provavelmente exceção válida (mimetiza tema de código real, independente do tema CN) mas nunca recebeu o comentário de exceção documentada; fica pendente confirmar e comentar quando for a vez desse componente
 
 ## Achado grande — sweep de `rounded` bare (23 arquivos) e sintaxe `-[--var]` (10 arquivos) — ✅ FECHADOS
 

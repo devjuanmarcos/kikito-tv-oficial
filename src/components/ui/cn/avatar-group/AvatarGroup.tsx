@@ -14,6 +14,8 @@ function getInitials(name?: string) {
     .toUpperCase();
 }
 
+// hsl() literal intencional (no token equivalent): precisa de matizes contínuos derivados do nome,
+// mais do que os ~10 tokens semânticos oferecem, pra diferenciar avatares por iniciais visualmente
 function colorForName(name?: string) {
   if (!name) return "var(--ks-graphite-2)";
   const hue = Array.from(name).reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
@@ -54,6 +56,7 @@ function AvatarItem({ item, isOverflow }: { item: AvatarGroupItem; isOverflow?: 
   }
   return (
     <div
+      role="img"
       className={cn(avatarCls, overflowCls)}
       style={!isOverflow ? { background: colorForName(item.name), color: textColorForName(item.name) } : undefined}
       aria-label={item.name}

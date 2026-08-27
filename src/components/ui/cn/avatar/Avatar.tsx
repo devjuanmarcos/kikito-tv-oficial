@@ -1,33 +1,13 @@
 ﻿"use client";
-import type React from "react";
 import { useState, Children } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-export type AvatarVariant = "circle" | "rounded" | "square";
-export type AvatarStatus = "online" | "offline" | "away" | "busy" | "none";
-
-export interface AvatarProps {
-  src?: string;
-  alt?: string;
-  name?: string;
-  icon?: React.ReactNode;
-  size?: AvatarSize;
-  variant?: AvatarVariant;
-  status?: AvatarStatus;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface AvatarGroupProps {
-  size?: AvatarSize;
-  max?: number;
-  children: React.ReactNode;
-  className?: string;
-}
+import type { AvatarSize, AvatarVariant, AvatarStatus, AvatarProps, AvatarGroupProps } from "./avatar.types";
 
 /* ── size maps ── */
+// text-[Nrem] abaixo: escala própria do componente por size, sem match exato na escala de tipografia
+// (xs/sm ficam abaixo do mínimo — text-body-caption 12px; md/lg caem entre body-caption e body-callout/paragraph)
 const SIZE_DIM: Record<AvatarSize, string> = {
   xs: "w-6 h-6 text-[0.5625rem]",
   sm: "w-8 h-8 text-[0.6875rem]",
@@ -56,6 +36,7 @@ const VARIANT_CLS: Record<AvatarVariant, string> = {
   square: "rounded-none",
 };
 
+// margens negativas por size: escala própria do componente (sobreposição visual por tier), não migra pra spacing genérico
 const GROUP_OVERLAP: Record<AvatarSize, string> = {
   xs: "-ml-2",
   sm: "-ml-2.5",
@@ -65,7 +46,9 @@ const GROUP_OVERLAP: Record<AvatarSize, string> = {
   "2xl": "-ml-6",
 };
 
-/* deterministic color from name string */
+/* deterministic color from name string — precisa de mais matizes distintos do que os tokens
+   semânticos oferecem (só ~10) pra diferenciar visualmente muitos avatares por iniciais;
+   oklch literal é intencional aqui, não um token esquecido (no token equivalent) */
 const BG_PALETTE = [
   ["oklch(42% .12 200)", "oklch(88% .06 200)"], // teal
   ["oklch(42% .12 270)", "oklch(88% .06 270)"], // purple
@@ -119,6 +102,7 @@ export function Avatar({
         />
       ) : name || icon ? (
         <span
+          role="img"
           className={cn(
             "w-full h-full flex items-center justify-center font-semibold select-none",
             VARIANT_CLS[variant]
@@ -135,7 +119,14 @@ export function Avatar({
             VARIANT_CLS[variant]
           )}
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-1/2 h-1/2">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="w-1/2 h-1/2"
+            aria-hidden="true"
+          >
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
@@ -144,6 +135,7 @@ export function Avatar({
 
       {status !== "none" && (
         <span
+          role="img"
           className={cn(
             "absolute bottom-0 right-0 rounded-full border-base",
             STATUS_DOT_SIZE[size],
@@ -156,6 +148,12 @@ export function Avatar({
   );
 }
 
+/**
+ * AvatarGroup — lightweight children-composition variant (wrap `<Avatar>` elements directly).
+ * NOT the same component as `avatar-group/AvatarGroup` (data-driven via an `avatars` prop array,
+ * with its own overlap/overflow styling) — the two are separate, parallel implementations with
+ * different APIs, kept both on purpose. `cn-registry.tsx` no longer claims one absorbs the other.
+ */
 export function AvatarGroup({ size = "md", max, children, className }: AvatarGroupProps) {
   const items = Children.toArray(children);
   const shown = max ? items.slice(0, max) : items;
