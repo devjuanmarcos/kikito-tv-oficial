@@ -216,7 +216,7 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
 
         {item.dismissible && (
           <button
-            className="inline-flex items-center bg-transparent border-none cursor-pointer p-0.5 rounded opacity-50 shrink-0 self-start transition-opacity hover:opacity-100"
+            className="inline-flex items-center bg-transparent border-none cursor-pointer p-0.5 rounded-(--radius-xs) opacity-50 shrink-0 self-start transition-opacity hover:opacity-100"
             aria-label="Dismiss"
             onClick={() => onDismiss(item.id)}
           >

@@ -42,7 +42,7 @@ export function VideoCard({
           </div>
         </div>
         {duration && (
-          <div className="absolute bottom-2 right-2 bg-canvas/80 text-foreground text-body-caption font-mono px-1.5 py-0.5 rounded">
+          <div className="absolute bottom-2 right-2 bg-canvas/80 text-foreground text-body-caption font-mono px-1.5 py-0.5 rounded-(--radius-xs)">
             {duration}
           </div>
         )}

@@ -109,7 +109,7 @@ function SingleStat({
       </div>
 
       {loading ? (
-        <div className="h-8 w-20 bg-graphite rounded animate-pulse" />
+        <div className="h-8 w-20 bg-graphite rounded-(--radius-sm) animate-pulse" />
       ) : (
         <div className="text-heading-03 font-bold text-foreground leading-none tabular-nums tracking-tight">
           {value}
@@ -211,8 +211,8 @@ function MetricStat({
 
       {loading ? (
         <div className="space-y-2">
-          <div className="h-7 w-24 rounded bg-graphite-2 animate-pulse" />
-          <div className="h-4 w-16 rounded bg-graphite-2 animate-pulse" />
+          <div className="h-7 w-24 rounded-(--radius-sm) bg-graphite-2 animate-pulse" />
+          <div className="h-4 w-16 rounded-(--radius-sm) bg-graphite-2 animate-pulse" />
         </div>
       ) : (
         <>

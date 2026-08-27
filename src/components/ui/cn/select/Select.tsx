@@ -456,7 +456,7 @@ function MultiSelectImpl({
           return opt ? (
             <span
               key={v}
-              className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded bg-patina/15 text-patina text-body-caption font-medium"
+              className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded-(--radius-xs) bg-patina/15 text-patina text-body-caption font-medium"
             >
               {opt.label}
               <button

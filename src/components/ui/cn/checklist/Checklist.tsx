@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 import type { ChecklistItem, ChecklistProps } from "./checklist.types";
 
+// bg-[--c]/text-[--c-fg] (bracket cru, consumo) confirmado quebrado em 2026-08-27 — usa sintaxe de parenteses
 const INTENT_CLS: Record<string, string> = {
   primary: "[--c:var(--ks-primary)] [--c-fg:var(--ks-primary-fg)]",
   success: "[--c:var(--ks-success)] [--c-fg:var(--ks-success-fg)]",
@@ -45,7 +46,7 @@ export function Checklist({
           </div>
           <div className="h-[6px] bg-sunken rounded-pill overflow-hidden">
             <div
-              className="h-full rounded-pill bg-[--c] transition-[width] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+              className="h-full rounded-pill bg-(--c) transition-[width] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
               style={{ width: `${pct}%` }}
             />
           </div>
@@ -65,11 +66,11 @@ export function Checklist({
           >
             <div
               className={cn(
-                "w-[18px] h-[18px] rounded-[5px] border-2 border-rule shrink-0 mt-px flex items-center justify-center transition-[background,border-color] duration-[150ms]",
-                item.checked && "bg-[--c] border-[--c]"
+                "w-[18px] h-[18px] rounded-(--radius-sm) border-2 border-rule shrink-0 mt-px flex items-center justify-center transition-[background,border-color] duration-[150ms]",
+                item.checked && "bg-(--c) border-(--c)"
               )}
             >
-              {item.checked && <span className="text-[--c-fg] text-[0.625rem] leading-none">✓</span>}
+              {item.checked && <span className="text-(--c-fg) text-[0.625rem] leading-none">✓</span>}
             </div>
             <div className="flex-1">
               <div

@@ -93,12 +93,12 @@ export function SwipeCard({ items, onSwipe, onEmpty, className, style }: SwipeCa
             </div>
 
             {isTop && drag && drag.x > 20 && (
-              <div className="absolute top-4 left-4 px-2 py-0.5 rounded border-2 border-success text-success font-bold text-body-callout rotate-[-15deg]">
+              <div className="absolute top-4 left-4 px-2 py-0.5 rounded-(--radius-sm) border-2 border-success text-success font-bold text-body-callout rotate-[-15deg]">
                 KEEP
               </div>
             )}
             {isTop && drag && drag.x < -20 && (
-              <div className="absolute top-4 right-4 px-2 py-0.5 rounded border-2 border-danger text-danger font-bold text-body-callout rotate-[15deg]">
+              <div className="absolute top-4 right-4 px-2 py-0.5 rounded-(--radius-sm) border-2 border-danger text-danger font-bold text-body-callout rotate-[15deg]">
                 SKIP
               </div>
             )}

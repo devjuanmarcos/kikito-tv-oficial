@@ -146,7 +146,7 @@ export function EventCalendar({
                   <div
                     key={ev.id}
                     className={cn(
-                      "px-[6px] py-[2px] rounded text-[0.625rem] font-semibold whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer transition-opacity duration-[120ms] hover:opacity-80",
+                      "px-[6px] py-[2px] rounded-(--radius-xs) text-[0.625rem] font-semibold whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer transition-opacity duration-[120ms] hover:opacity-80",
                       intentMap[ev.intent ?? "primary"] ?? intentMap.primary
                     )}
                     onClick={(e) => {
@@ -158,7 +158,7 @@ export function EventCalendar({
                   </div>
                 ))}
                 {dayEvents.length > 3 && (
-                  <div className="px-[6px] py-[2px] rounded text-[0.625rem] font-semibold bg-patina-soft text-patina opacity-60">
+                  <div className="px-[6px] py-[2px] rounded-(--radius-xs) text-[0.625rem] font-semibold bg-patina-soft text-patina opacity-60">
                     +{dayEvents.length - 3}
                   </div>
                 )}

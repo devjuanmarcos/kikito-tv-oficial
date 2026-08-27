@@ -33,8 +33,8 @@ const SIZE_DIM: Record<AvatarSize, string> = {
   sm: "w-8 h-8 text-[0.6875rem]",
   md: "w-10 h-10 text-[0.8125rem]",
   lg: "w-12 h-12 text-[0.9375rem]",
-  xl: "w-16 h-16 text-lg",
-  "2xl": "w-20 h-20 text-xl",
+  xl: "w-16 h-16 text-body-title",
+  "2xl": "w-20 h-20 text-heading-05",
 };
 const STATUS_DOT_SIZE: Record<AvatarSize, string> = {
   xs: "w-1.5 h-1.5 border",

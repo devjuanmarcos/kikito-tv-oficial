@@ -1,44 +1,37 @@
-'use client'
-import type React from 'react'
-import { cn } from '@/lib/utils'
+"use client";
+import type React from "react";
 
-export type NoteCardColor = 'yellow' | 'blue' | 'green' | 'pink' | 'purple' | 'orange'
+import { cn } from "@/lib/utils";
+
+export type NoteCardColor = "yellow" | "blue" | "green" | "pink" | "purple" | "orange";
 
 export interface NoteCardProps {
-  children:   React.ReactNode
-  color?:     NoteCardColor
-  rotate?:    number
-  author?:    string
-  date?:      string
-  className?: string
-  style?:     React.CSSProperties
+  children: React.ReactNode;
+  color?: NoteCardColor;
+  rotate?: number;
+  author?: string;
+  date?: string;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const COLOR_CLS: Record<NoteCardColor, string> = {
-  yellow: 'bg-[#fef08a] text-[#713f12]',
-  blue:   'bg-[#bfdbfe] text-[#1e3a5f]',
-  green:  'bg-[#bbf7d0] text-[#14532d]',
-  pink:   'bg-[#fbcfe8] text-[#831843]',
-  purple: 'bg-[#ddd6fe] text-[#4c1d95]',
-  orange: 'bg-[#fed7aa] text-[#7c2d12]',
-}
+  yellow: "bg-[#fef08a] text-[#713f12]",
+  blue: "bg-[#bfdbfe] text-[#1e3a5f]",
+  green: "bg-[#bbf7d0] text-[#14532d]",
+  pink: "bg-[#fbcfe8] text-[#831843]",
+  purple: "bg-[#ddd6fe] text-[#4c1d95]",
+  orange: "bg-[#fed7aa] text-[#7c2d12]",
+};
 
-export function NoteCard({
-  children,
-  color     = 'yellow',
-  rotate    = 0,
-  author,
-  date,
-  className,
-  style,
-}: NoteCardProps) {
+export function NoteCard({ children, color = "yellow", rotate = 0, author, date, className, style }: NoteCardProps) {
   return (
     <div
       style={{ transform: rotate !== 0 ? `rotate(${rotate}deg)` : undefined, ...style }}
       className={cn(
-        'relative p-4 rounded shadow-[2px_4px_12px_oklch(0%_0_0/0.2)] min-w-[120px]',
+        "relative p-4 rounded-(--radius-md) shadow-[2px_4px_12px_oklch(0%_0_0/0.2)] min-w-[120px]",
         COLOR_CLS[color],
-        className,
+        className
       )}
     >
       {/* Pin decoration */}
@@ -53,5 +46,5 @@ export function NoteCard({
         </div>
       )}
     </div>
-  )
+  );
 }

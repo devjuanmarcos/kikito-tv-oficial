@@ -91,7 +91,7 @@ export function LogViewer({
               {showLevelBadge && (
                 <span
                   className={cn(
-                    "shrink-0 text-[0.5625rem] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide",
+                    "shrink-0 text-[0.5625rem] font-bold px-1.5 py-0.5 rounded-(--radius-xs) uppercase tracking-wide",
                     LEVEL_STYLES[entry.level]
                   )}
                 >

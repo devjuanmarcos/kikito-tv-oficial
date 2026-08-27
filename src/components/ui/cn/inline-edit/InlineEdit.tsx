@@ -126,7 +126,7 @@ export function InlineEdit({
             data-inlineeditbtn="true"
             aria-label="Confirm"
             onClick={confirm}
-            className="p-0.5 rounded text-success hover:bg-success/10 transition-colors"
+            className="p-0.5 rounded-(--radius-xs) text-success hover:bg-success/10 transition-colors"
           >
             <CheckIcon />
           </button>
@@ -135,7 +135,7 @@ export function InlineEdit({
             data-inlineeditbtn="true"
             aria-label="Cancel"
             onClick={cancel}
-            className="p-0.5 rounded text-faint hover:text-foreground hover:bg-graphite transition-colors"
+            className="p-0.5 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors"
           >
             <XIcon />
           </button>

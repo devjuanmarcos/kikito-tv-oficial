@@ -199,7 +199,7 @@ export function Alert({
   return (
     <div role="alert" className={cn("flex items-start", sz.root, variantCls, className)} style={style}>
       {showIcon && resolvedIcon && (
-        <span className={cn("shrink-0 mt-[0.06rem] [&>svg]:w-full [&>svg]:h-full text-[--alert-ic]", sz.icon)}>
+        <span className={cn("shrink-0 mt-[0.06rem] [&>svg]:w-full [&>svg]:h-full text-(--alert-ic)", sz.icon)}>
           {resolvedIcon}
         </span>
       )}
@@ -212,7 +212,7 @@ export function Alert({
         <button
           type="button"
           onClick={onDismiss}
-          className="shrink-0 p-0.5 -mt-0.5 -mr-0.5 rounded opacity-60 hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer text-current [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]"
+          className="shrink-0 p-0.5 -mt-0.5 -mr-0.5 rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer text-current [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]"
           aria-label="Dismiss"
         >
           <XIcon />

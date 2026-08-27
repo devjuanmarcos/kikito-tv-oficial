@@ -50,14 +50,16 @@ const XIcon = () => (
   </svg>
 );
 
+// text-[--ks-*] (sintaxe de colchete cru sem var()) confirmado quebrado empiricamente em 2026-08-27
+// (as 4 intents renderizavam a MESMA cor herdada, nao a cor do intent) — trocado por text-{intent}
 const INTENT_CLS: Record<string, string> = {
-  info: "bg-[color-mix(in_oklch,var(--ks-info)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-info)_25%,transparent)] text-[--ks-info]",
+  info: "bg-[color-mix(in_oklch,var(--ks-info)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-info)_25%,transparent)] text-info",
   success:
-    "bg-[color-mix(in_oklch,var(--ks-success)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-success)_25%,transparent)] text-[--ks-success]",
+    "bg-[color-mix(in_oklch,var(--ks-success)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-success)_25%,transparent)] text-success",
   warning:
-    "bg-[color-mix(in_oklch,var(--ks-warning)_12%,transparent)] border-[color-mix(in_oklch,var(--ks-warning)_30%,transparent)] text-[--ks-warning]",
+    "bg-[color-mix(in_oklch,var(--ks-warning)_12%,transparent)] border-[color-mix(in_oklch,var(--ks-warning)_30%,transparent)] text-warning",
   danger:
-    "bg-[color-mix(in_oklch,var(--ks-danger)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-danger)_25%,transparent)] text-[--ks-danger]",
+    "bg-[color-mix(in_oklch,var(--ks-danger)_10%,transparent)] border-[color-mix(in_oklch,var(--ks-danger)_25%,transparent)] text-danger",
   neutral: "bg-[color-mix(in_oklch,var(--ks-text-muted)_10%,transparent)] border-rule text-muted",
 };
 
@@ -96,7 +98,7 @@ export function Banner({
       {dismissible && (
         <button
           type="button"
-          className="flex items-center justify-center w-5 h-5 border-none bg-transparent cursor-pointer text-current opacity-50 rounded p-0 shrink-0 [&>svg]:w-full [&>svg]:h-full hover:opacity-100"
+          className="flex items-center justify-center w-5 h-5 border-none bg-transparent cursor-pointer text-current opacity-50 rounded-(--radius-xs) p-0 shrink-0 [&>svg]:w-full [&>svg]:h-full hover:opacity-100"
           onClick={() => {
             setVisible(false);
             onDismiss?.();

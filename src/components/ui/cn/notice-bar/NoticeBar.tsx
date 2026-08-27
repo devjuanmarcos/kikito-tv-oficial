@@ -94,7 +94,7 @@ export function NoticeBar({
           type="button"
           aria-label="Dismiss"
           onClick={() => setDismissed(true)}
-          className="shrink-0 p-0.5 rounded opacity-60 hover:opacity-100 transition-opacity ml-1"
+          className="shrink-0 p-0.5 rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity ml-1"
         >
           <XIcon />
         </button>

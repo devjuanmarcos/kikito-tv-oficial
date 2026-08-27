@@ -74,8 +74,9 @@ const SIZE_VARS: Record<string, string> = {
   md: "[--pg-h:2rem] [--pg-fs:0.8125rem] [--pg-min:2rem] [--pg-px:0.625rem]",
 };
 
+// h-[--pg-h] etc (bracket cru) confirmado quebrado em 2026-08-27 — usa sintaxe de parenteses
 const BTN_BASE =
-  "inline-flex items-center justify-center h-[--pg-h] min-w-[--pg-min] px-[--pg-px] text-[length:--pg-fs] font-medium font-[inherit] text-faint bg-transparent border border-transparent rounded-(--radius-sm) cursor-pointer leading-none whitespace-nowrap shrink-0 transition-[background,color,border-color] duration-[120ms] [&>svg]:w-[calc(var(--pg-fs)+0.125rem)] [&>svg]:h-[calc(var(--pg-fs)+0.125rem)] hover:not-disabled:bg-graphite hover:not-disabled:text-foreground hover:not-disabled:border-rule active:not-disabled:bg-[color-mix(in_oklch,var(--ks-graphite)_80%,var(--ks-primary)_20%)] disabled:opacity-35 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center h-(--pg-h) min-w-(--pg-min) px-(--pg-px) text-(length:--pg-fs) font-medium font-[inherit] text-faint bg-transparent border border-transparent rounded-(--radius-sm) cursor-pointer leading-none whitespace-nowrap shrink-0 transition-[background,color,border-color] duration-[120ms] [&>svg]:w-[calc(var(--pg-fs)+0.125rem)] [&>svg]:h-[calc(var(--pg-fs)+0.125rem)] hover:not-disabled:bg-graphite hover:not-disabled:text-foreground hover:not-disabled:border-rule active:not-disabled:bg-[color-mix(in_oklch,var(--ks-graphite)_80%,var(--ks-primary)_20%)] disabled:opacity-35 disabled:cursor-not-allowed";
 
 export function Pagination({
   page,
@@ -139,7 +140,7 @@ export function Pagination({
         p === "…left" || p === "…right" ? (
           <span
             key={p}
-            className="inline-flex items-center justify-center h-[--pg-h] min-w-[--pg-min] text-[length:--pg-fs] text-faint tracking-[0.05em] shrink-0 pointer-events-none"
+            className="inline-flex items-center justify-center h-(--pg-h) min-w-(--pg-min) text-(length:--pg-fs) text-faint tracking-[0.05em] shrink-0 pointer-events-none"
           >
             …
           </span>

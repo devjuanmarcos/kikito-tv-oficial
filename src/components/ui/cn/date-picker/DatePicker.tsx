@@ -380,20 +380,20 @@ function SingleDatePicker({
               <div className="flex items-center mb-3">
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={prevMonth}
                 >
                   <ChevronL />
                 </button>
                 <span
-                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite transition-[background]"
+                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-1 hover:bg-graphite transition-[background]"
                   onClick={() => setView("months")}
                 >
                   {MONTHS[viewMonth]} {viewYear}
                 </span>
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={nextMonth}
                 >
                   <ChevronR />
@@ -440,7 +440,7 @@ function SingleDatePicker({
                     type="number"
                     min={0}
                     max={23}
-                    className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
+                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
                     value={hour}
                     onChange={(e) => setHour(e.target.value.padStart(2, "0"))}
                   />
@@ -449,7 +449,7 @@ function SingleDatePicker({
                     type="number"
                     min={0}
                     max={59}
-                    className="flex-1 bg-graphite border border-rule rounded-[5px] py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
+                    className="flex-1 bg-graphite border border-rule rounded-(--radius-sm) py-1 px-2 font-inherit text-body-callout text-foreground text-center outline-none focus:border-patina"
                     value={minute}
                     onChange={(e) => setMinute(e.target.value.padStart(2, "0"))}
                   />
@@ -478,20 +478,20 @@ function SingleDatePicker({
               <div className="flex items-center mb-3">
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={() => setViewYear((y) => y - 1)}
                 >
                   <ChevronL />
                 </button>
                 <span
-                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-[5px] p-1 hover:bg-graphite"
+                  className="flex-1 text-center text-body-callout font-bold text-foreground cursor-pointer rounded-(--radius-sm) p-1 hover:bg-graphite"
                   onClick={() => setView("years")}
                 >
                   {viewYear}
                 </span>
                 <button
                   type="button"
-                  className="inline-flex text-faint p-1 rounded-[5px] border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
+                  className="inline-flex text-faint p-1 rounded-(--radius-sm) border-none bg-transparent cursor-pointer hover:text-foreground hover:bg-graphite flex-shrink-0"
                   onClick={() => setViewYear((y) => y + 1)}
                 >
                   <ChevronR />
@@ -503,7 +503,7 @@ function SingleDatePicker({
                     key={m}
                     type="button"
                     className={cn(
-                      "py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
+                      "py-[0.4rem] rounded-(--radius-sm) border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
                       i === viewMonth && viewYear === (selected?.getFullYear() ?? -1) && "bg-patina! text-patina-fg!"
                     )}
                     onClick={() => {
@@ -529,7 +529,7 @@ function SingleDatePicker({
                     key={y}
                     type="button"
                     className={cn(
-                      "py-[0.4rem] rounded-[5px] border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
+                      "py-[0.4rem] rounded-(--radius-sm) border-none bg-transparent cursor-pointer font-inherit text-body-callout text-foreground text-center hover:bg-graphite transition-[background]",
                       y === viewYear && "bg-patina! text-patina-fg!"
                     )}
                     onClick={() => {
@@ -727,8 +727,8 @@ function RangeMonthGrid({
               !isStart && !isEnd && "rounded-(--radius-sm) hover:bg-raised",
               today_ && "font-bold",
               (isStart || isEnd) && "bg-patina text-patina-fg font-bold",
-              isStart && !isEnd && "rounded-l-[6px] rounded-r-none",
-              isEnd && !isStart && "rounded-r-[6px] rounded-l-none",
+              isStart && !isEnd && "rounded-l-(--radius-sm) rounded-r-none",
+              isEnd && !isStart && "rounded-r-(--radius-sm) rounded-l-none",
               isStart && isEnd && "rounded-(--radius-sm)",
               inRange && "bg-patina/18 rounded-none"
             )}
@@ -827,7 +827,7 @@ function RangeDatePicker({
           <div className="min-w-[220px]">
             <div className="flex items-center justify-between mb-3">
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
                 onClick={prev}
                 type="button"
               >
@@ -837,7 +837,7 @@ function RangeDatePicker({
                 {MONTHS[leftMonth]} {leftYear}
               </span>
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs)"
                 type="button"
               >
                 ›
@@ -856,7 +856,7 @@ function RangeDatePicker({
           <div className="min-w-[220px]">
             <div className="flex items-center justify-between mb-3">
               <button
-                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded"
+                className="invisible bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs)"
                 type="button"
               >
                 ‹
@@ -865,7 +865,7 @@ function RangeDatePicker({
                 {MONTHS[rightMonth]} {rightYear}
               </span>
               <button
-                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded hover:bg-raised transition-colors duration-100"
+                className="bg-transparent border-0 cursor-pointer text-muted text-body-paragraph px-[6px] py-[2px] rounded-(--radius-xs) hover:bg-raised transition-colors duration-100"
                 onClick={next}
                 type="button"
               >

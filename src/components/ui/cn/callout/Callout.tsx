@@ -103,10 +103,11 @@ const INTENT_VARS: Record<string, string> = {
   neutral: "[--i:var(--ks-text-muted)] [--i-fg:var(--ks-text)] [--i-soft:var(--ks-graphite)] [--i-deep:var(--ks-text)]",
 };
 
+// bg-[--i]/text-[--i-fg] (bracket cru) confirmado quebrado empiricamente em 2026-08-27 — trocado por sintaxe de parenteses
 const APPEARANCE_CLS: Record<string, string> = {
-  soft: "bg-[--i-soft] border border-[color-mix(in_oklch,var(--i)_30%,transparent)]",
-  outline: "bg-transparent border-[1.5px] border-[--i]",
-  solid: "bg-[--i] border border-[--i-deep] text-[--i-fg]",
+  soft: "bg-(--i-soft) border border-[color-mix(in_oklch,var(--i)_30%,transparent)]",
+  outline: "bg-transparent border-[1.5px] border-(--i)",
+  solid: "bg-(--i) border border-(--i-deep) text-(--i-fg)",
 };
 
 export function Callout({
@@ -138,7 +139,7 @@ export function Callout({
         <span
           className={cn(
             "shrink-0 flex items-start pt-px [&>svg]:w-[18px] [&>svg]:h-[18px]",
-            isSolid ? "text-[--i-fg]" : "text-[--i]"
+            isSolid ? "text-(--i-fg)" : "text-(--i)"
           )}
           aria-hidden="true"
         >
@@ -148,7 +149,7 @@ export function Callout({
 
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         {title && (
-          <p className={cn("font-semibold text-body-callout leading-snug", isSolid ? "text-[--i-fg]" : "text-[--i]")}>
+          <p className={cn("font-semibold text-body-callout leading-snug", isSolid ? "text-(--i-fg)" : "text-(--i)")}>
             {title}
           </p>
         )}

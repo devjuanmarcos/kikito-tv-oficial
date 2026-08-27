@@ -89,7 +89,7 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
                   {peerDeps.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-[#79c0ff] bg-[#0d1117] border border-[#30363d] rounded px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#79c0ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-1.5 py-0.5"
                     >
                       {d}
                     </code>
@@ -104,7 +104,7 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
                   {dependencies.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-[#d2a8ff] bg-[#0d1117] border border-[#30363d] rounded px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#d2a8ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-1.5 py-0.5"
                     >
                       {d}
                     </code>
