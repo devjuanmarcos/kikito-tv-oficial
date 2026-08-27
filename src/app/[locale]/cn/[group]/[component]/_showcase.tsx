@@ -4769,6 +4769,14 @@ function FeatureListDemo() {
             ))}
           </div>
         </Frame>
+        <Frame label="Item indisponível (available: false)">
+          <FeatureList
+            items={[
+              ...features.slice(0, 2),
+              { title: "White-label branding", description: "Plano Enterprise apenas", available: false },
+            ]}
+          />
+        </Frame>
       </ShowcaseSection>
     </div>
   );
