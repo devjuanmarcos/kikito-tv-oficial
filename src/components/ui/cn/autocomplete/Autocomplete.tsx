@@ -1,11 +1,12 @@
 ﻿"use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useId } from "react";
 
 import { cn } from "@/lib/utils";
 
 import type { AutocompleteProps } from "./autocomplete.types";
 
+// escala propria do componente por size (px por tier) — nao migra pra token de spacing generico (ver CLAUDE.md)
 const SIZE_INPUT: Record<string, string> = {
   sm: "h-8 px-[10px] text-body-caption",
   md: "h-9 px-[12px] text-body-callout",
@@ -33,6 +34,9 @@ export function Autocomplete({
   const controlled = value !== undefined;
   const display = controlled ? value : inputVal;
   const rootRef = useRef<HTMLDivElement>(null);
+  const uid = useId();
+  const inputId = `${uid}-input`;
+  const listboxId = `${uid}-listbox`;
 
   const filtered = options
     .filter((o) => !display || o.label.toLowerCase().includes(display.toLowerCase()))
@@ -74,9 +78,14 @@ export function Autocomplete({
   };
 
   return (
-    <div ref={rootRef} className={cn("relative flex flex-col gap-1", className)} style={style}>
-      {label && <label className="text-body-callout font-medium text-foreground leading-none">{label}</label>}
+    <div ref={rootRef} className={cn("relative flex flex-col gap-(--spacing-2xs)", className)} style={style}>
+      {label && (
+        <label htmlFor={inputId} className="text-body-callout font-medium text-foreground leading-none">
+          {label}
+        </label>
+      )}
       <input
+        id={inputId}
         className={cn(
           "w-full bg-sunken border border-rule rounded-(--radius-md) text-foreground outline-none transition-[border-color,box-shadow] duration-[150ms] placeholder:text-faint focus:border-patina focus:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_18%,transparent)] box-border",
           SIZE_INPUT[size] ?? SIZE_INPUT.md,
@@ -89,24 +98,31 @@ export function Autocomplete({
         placeholder={placeholder}
         disabled={disabled}
         role="combobox"
-        aria-controls="autocomplete-listbox"
+        aria-controls={listboxId}
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-activedescendant={open && filtered[highlighted] ? `${listboxId}-opt-${highlighted}` : undefined}
         autoComplete="off"
       />
       {open && (
         <div
-          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[var(--ks-shadow-md)] z-[100] overflow-hidden max-h-[240px] overflow-y-auto"
+          id={listboxId}
+          // shadow-[var(--ks-shadow-md)] usava var indefinida (ver CLAUDE.md) — literal igual aos outros dropdowns
+          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-float border border-rule rounded-(--radius-md) shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] z-[100] overflow-hidden max-h-[240px] overflow-y-auto"
           role="listbox"
         >
           {filtered.length === 0 ? (
-            <div className="py-3 px-4 text-body-callout text-muted text-center">{emptyMessage}</div>
+            <div className="py-(--spacing-md) px-(--spacing-lg) text-body-callout text-muted text-center">
+              {emptyMessage}
+            </div>
           ) : (
             filtered.map((opt, i) => (
               <div
                 key={opt.value}
+                id={`${listboxId}-opt-${i}`}
                 className={cn(
-                  "flex items-center gap-[10px] py-[9px] px-3 cursor-pointer transition-[background] duration-[100ms] text-body-callout text-foreground",
+                  // gap-[10px]/py-[9px]: sem match exato entre --spacing-sm(8px) e --spacing-md(12px)
+                  "flex items-center gap-[10px] py-[9px] px-(--spacing-md) cursor-pointer transition-[background] duration-[100ms] text-body-callout text-foreground",
                   i === highlighted && "bg-raised",
                   opt.disabled && "opacity-40 pointer-events-none"
                 )}
