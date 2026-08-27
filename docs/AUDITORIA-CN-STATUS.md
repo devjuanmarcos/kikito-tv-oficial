@@ -201,6 +201,16 @@ Super component com 4 variantes (outline/solid/ghost base, segmented, chip, filt
 - Família de wrappers (`segmented-control/`, `chip-group/`, `filter-bar/`) — checados, thin delegates, sem violação própria
 - Gate 9: `e2e/cn/inputs/toggle-group.spec.ts` novo (5 testes, inclui single exclusivo vs multiple acumulativo) — 10/10 chromium-desktop + mobile-chrome. Fix do `filter` confirmado à parte via smoke-check no `inputs/filter-bar` (aria-pressed correto nas duas instâncias da demo)
 
+### `display/stat` — concluído
+
+Super component com 3 modos (single/metric/grid), absorve `MetricCard`, `StatsCard`. Já tinha `.types.ts` (Gate 1 ok).
+
+- Gate 3: `text-2xl` (banido, match exato `text-heading-05`), `text-xl` (match exato `text-body-title`, 2×) e `text-lg` (mapeado pra `text-body-title`, ícone de grid) → corrigidos nos 3 modos
+- Gate 3/spacing: sweep quase completo — sem escala própria por `size` neste componente (não tem prop `size`), então quase tudo é estrutural: `gap-3`/`px-6`/`gap-2`/`gap-1`/`pt-2`/`p-4`/`gap-1.5`/`py-4`/`py-0.5`/`px-2` → tokens exatos; `py-5`/`px-5`(×2)/`gap-[3px]` documentados (sem match exato na escala 0.5–12)
+- Gate 5 (**gap real de a11y encontrado e corrigido**): os estados `loading` (`SingleStat` e `MetricStat`, ambos trocam conteúdo real por skeleton `animate-pulse`) não tinham `aria-busy` — leitor de tela não tinha nenhuma indicação de que o card estava carregando. Adicionado `aria-busy={loading}` no wrapper das duas
+- Família de wrappers (`metric-card/`, `stats-card/`) — checados, thin delegates, sem violação própria
+- Gate 9: `e2e/cn/display/stat.spec.ts` novo (4 testes) — 8/8 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido

@@ -89,12 +89,14 @@ function SingleStat({
   return (
     <div
       className={cn(
-        "flex flex-col gap-3 px-6 py-5 rounded-(--radius-md) border border-rule bg-raised min-w-[180px]",
+        // py-5 (20px): sem match exato na escala de spacing (entre --spacing-lg 16px e --spacing-xl 24px)
+        "flex flex-col gap-(--spacing-md) px-(--spacing-xl) py-5 rounded-(--radius-md) border border-rule bg-raised min-w-[180px]",
         className
       )}
       style={style}
+      aria-busy={loading || undefined}
     >
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-(--spacing-sm)">
         <span className="text-body-callout font-medium text-muted tracking-[0.01em] leading-snug">{label}</span>
         {icon && (
           <span
@@ -117,14 +119,15 @@ function SingleStat({
       )}
 
       {(trend || description) && (
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-(--spacing-sm) flex-wrap">
           {loading ? (
             <div className="h-5 w-16 bg-graphite rounded-full animate-pulse" />
           ) : (
             trend && (
               <span
                 className={cn(
-                  "inline-flex items-center gap-[3px] text-body-caption font-semibold py-0.5 px-2 rounded-full",
+                  // gap-[3px]: sem match exato na escala de spacing
+                  "inline-flex items-center gap-[3px] text-body-caption font-semibold py-(--spacing-3xs) px-(--spacing-sm) rounded-full",
                   TREND_CLS[trend]
                 )}
               >
@@ -203,25 +206,32 @@ function MetricStat({
   style,
 }: StatMetricProps) {
   return (
-    <div style={style} className={cn("flex flex-col gap-3 p-4 rounded-xl border border-rule bg-raised", className)}>
-      <div className="flex items-start justify-between gap-2">
+    <div
+      style={style}
+      className={cn(
+        "flex flex-col gap-(--spacing-md) p-(--spacing-lg) rounded-xl border border-rule bg-raised",
+        className
+      )}
+      aria-busy={loading || undefined}
+    >
+      <div className="flex items-start justify-between gap-(--spacing-sm)">
         <span className="text-body-caption text-faint">{label}</span>
         {sparkline && sparkline.length > 1 && <Sparkline data={sparkline} intent={intent} />}
       </div>
 
       {loading ? (
-        <div className="space-y-2">
+        <div className="space-y-(--spacing-sm)">
           <div className="h-7 w-24 rounded-(--radius-sm) bg-graphite-2 animate-pulse" />
           <div className="h-4 w-16 rounded-(--radius-sm) bg-graphite-2 animate-pulse" />
         </div>
       ) : (
         <>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-foreground leading-none">{value}</span>
+          <div className="flex items-baseline gap-(--spacing-2xs)">
+            <span className="text-heading-05 font-bold text-foreground leading-none">{value}</span>
             {unit && <span className="text-body-caption text-faint">{unit}</span>}
           </div>
           {trend && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-(--spacing-2xs)">
               <span className={cn("text-body-caption font-medium", METRIC_TREND_CLS[trend])}>
                 {METRIC_TREND_ARROW[trend]} {trendValue}
               </span>
@@ -231,7 +241,9 @@ function MetricStat({
         </>
       )}
 
-      {description && <p className="text-body-caption text-faint border-t border-rule pt-2">{description}</p>}
+      {description && (
+        <p className="text-body-caption text-faint border-t border-rule pt-(--spacing-sm)">{description}</p>
+      )}
     </div>
   );
 }
@@ -265,12 +277,13 @@ function GridStat({ stats, cols = 3, className, style }: StatGridProps) {
       )}
     >
       {stats.map((stat, i) => (
-        <div key={i} className="flex flex-col gap-1.5 px-5 py-4">
-          <div className="flex items-center justify-between gap-2">
+        // px-5 (20px): sem match exato na escala de spacing
+        <div key={i} className="flex flex-col gap-(--spacing-xs) px-5 py-(--spacing-lg)">
+          <div className="flex items-center justify-between gap-(--spacing-sm)">
             <span className="text-body-caption text-faint">{stat.label}</span>
-            {stat.icon && <span className="text-lg leading-none">{stat.icon}</span>}
+            {stat.icon && <span className="text-body-title leading-none">{stat.icon}</span>}
           </div>
-          <span className="text-xl font-bold text-foreground">{stat.value}</span>
+          <span className="text-body-title font-bold text-foreground">{stat.value}</span>
           {stat.change && (
             <span
               className={cn("text-body-caption font-medium", stat.trend ? GRID_TREND_CLS[stat.trend] : "text-faint")}
