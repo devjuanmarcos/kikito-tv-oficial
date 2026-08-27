@@ -1,90 +1,18 @@
 "use client";
 
-import type React from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type ProgressIntent = "primary" | "info" | "success" | "warning" | "danger";
-export type ProgressSize = "xs" | "sm" | "md" | "lg";
-
-/* ── Ring (circular) types ───────────────────────────────────────────────── */
-export type ProgressRingIntent = "primary" | "secondary" | "success" | "warning" | "danger" | "info";
-
-/* ── Gauge (arc) types ───────────────────────────────────────────────────── */
-export type GaugeIntent = "default" | "primary" | "success" | "warning" | "danger";
-export type GaugeSize = "sm" | "md" | "lg";
-
-/* ── Skill-list types ────────────────────────────────────────────────────── */
-export type SkillBarIntent = "primary" | "success" | "warning" | "danger" | "secondary";
-
-export interface SkillItem {
-  label: string;
-  value: number;
-  max?: number;
-  intent?: SkillBarIntent;
-  sublabel?: string;
-}
-
-/* ── Props (discriminated by shape / mode) ───────────────────────────────── */
-export interface ProgressBarProps {
-  /** Render shape. Default 'bar' (linear). */
-  shape?: "bar";
-  mode?: "single";
-  value?: number;
-  max?: number;
-  intent?: ProgressIntent;
-  size?: ProgressSize;
-  label?: string;
-  showValue?: boolean;
-  animated?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface ProgressRingShapeProps {
-  shape: "ring";
-  value: number;
-  max?: number;
-  size?: number;
-  stroke?: number;
-  intent?: ProgressRingIntent;
-  label?: React.ReactNode;
-  showValue?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface ProgressGaugeShapeProps {
-  shape: "gauge";
-  value: number;
-  max?: number;
-  size?: GaugeSize;
-  intent?: GaugeIntent;
-  label?: string;
-  showValue?: boolean;
-  strokeWidth?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface ProgressSkillListProps {
-  mode: "skill-list";
-  shape?: "bar";
-  skills: SkillItem[];
-  animate?: boolean;
-  showValues?: boolean;
-  height?: number;
-  intent?: SkillBarIntent;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export type ProgressProps =
-  | ProgressBarProps
-  | ProgressRingShapeProps
-  | ProgressGaugeShapeProps
-  | ProgressSkillListProps;
+import type {
+  ProgressProps,
+  ProgressIntent,
+  ProgressSize,
+  ProgressBarProps,
+  ProgressRingShapeProps,
+  ProgressGaugeShapeProps,
+  ProgressSkillListProps,
+} from "./progress.types";
 
 const SIZE_H: Record<ProgressSize, string> = {
   xs: "h-1",
@@ -116,9 +44,9 @@ function ProgressBar({
   const pct = indeterminate ? 0 : Math.min(100, Math.max(0, (value / max) * 100));
 
   return (
-    <div className={cn("flex flex-col gap-1", className)} style={style}>
+    <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
       {(label || showValue) && (
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-(--spacing-sm)">
           {label && <span className="text-body-callout font-medium text-foreground">{label}</span>}
           {showValue && !indeterminate && (
             <span className="text-body-callout text-faint tabular-nums shrink-0">{Math.round(pct)}%</span>
@@ -145,6 +73,7 @@ function ProgressBar({
             className={cn(
               "h-full rounded-full transition-[width] duration-[300ms] ease-out",
               INTENT_FILL[intent],
+              // glare listrado sobre o preenchimento: precisa ser branco translúcido literal, independente do tema (no token equivalent)
               animated &&
                 "bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgba(255,255,255,0.18)_8px,rgba(255,255,255,0.18)_16px)] bg-[length:28px_100%] animate-[ks-progress-stripe_0.7s_linear_infinite]"
             )}
@@ -195,10 +124,15 @@ function ProgressRingShape({
 
   return (
     <div
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={typeof label === "string" ? label : `${Math.round(pct * 100)}%`}
       className={cn("relative inline-flex items-center justify-center", className)}
       style={{ width: size, height: size, ...style }}
     >
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden="true">
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -222,12 +156,13 @@ function ProgressRingShape({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {showValue && (
+          // fontSize proporcional ao `size` (número livre em px, não enum) — sem token de tipografia possível
           <span className="font-bold tabular-nums leading-none" style={{ fontSize: size * 0.2, color }}>
             {Math.round(pct * 100)}%
           </span>
         )}
         {label && (
-          <span className="text-faint leading-none mt-0.5" style={{ fontSize: size * 0.13 }}>
+          <span className="text-faint leading-none mt-(--spacing-3xs)" style={{ fontSize: size * 0.13 }}>
             {label}
           </span>
         )}
@@ -245,10 +180,16 @@ const GAUGE_INTENT_COLOR: Record<string, string> = {
   danger: "var(--ks-danger)",
 };
 
-const GAUGE_SIZE_VARS: Record<string, { sz: string; fsz: string }> = {
-  sm: { sz: "64px", fsz: "12px" },
-  md: { sz: "96px", fsz: "16px" },
-  lg: { sz: "128px", fsz: "20px" },
+const GAUGE_SIZE_VARS: Record<string, { sz: string }> = {
+  sm: { sz: "64px" },
+  md: { sz: "96px" },
+  lg: { sz: "128px" },
+};
+// fsz mapeado pra token de tipografia (12px/16px/20px batem exato com body-caption/body-paragraph/body-title)
+const GAUGE_VALUE_TEXT_CLS: Record<string, string> = {
+  sm: "text-body-caption",
+  md: "text-body-paragraph",
+  lg: "text-body-title",
 };
 
 function ProgressGaugeShape({
@@ -271,11 +212,20 @@ function ProgressGaugeShape({
   const displayMax = Number.isInteger(max) ? max : max.toFixed(1);
   const c = GAUGE_INTENT_COLOR[intent] ?? GAUGE_INTENT_COLOR.primary;
   const sz = GAUGE_SIZE_VARS[size] ?? GAUGE_SIZE_VARS.md;
+  const valueTextCls = GAUGE_VALUE_TEXT_CLS[size] ?? GAUGE_VALUE_TEXT_CLS.md;
 
   return (
-    <div className={cn("inline-flex flex-col items-center gap-[6px]", className)} style={style}>
+    <div
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={label ?? `${Math.round(pct * 100)}%`}
+      className={cn("inline-flex flex-col items-center gap-(--spacing-xs)", className)}
+      style={style}
+    >
       <div className="relative inline-flex items-center justify-center" style={{ width: sz.sz, height: sz.sz }}>
-        <svg className="-rotate-90" viewBox="0 0 100 100" style={{ width: sz.sz, height: sz.sz }}>
+        <svg className="-rotate-90" viewBox="0 0 100 100" style={{ width: sz.sz, height: sz.sz }} aria-hidden="true">
           <circle
             cx="50"
             cy="50"
@@ -296,10 +246,11 @@ function ProgressGaugeShape({
         </svg>
         {showValue && (
           <div className="absolute flex flex-col items-center justify-center">
-            <span className="font-bold text-foreground leading-none" style={{ fontSize: sz.fsz }}>
-              {displayValue}
-            </span>
-            {max !== 100 && <span style={{ fontSize: 10, opacity: 0.4 }}>/{displayMax}</span>}
+            <span className={cn("font-bold text-foreground leading-none", valueTextCls)}>{displayValue}</span>
+            {max !== 100 && (
+              // text-[10px]: below scale minimum, micro-label de unidade (/max)
+              <span className="text-[10px] opacity-40">/{displayMax}</span>
+            )}
           </div>
         )}
       </div>
@@ -349,14 +300,19 @@ function ProgressSkillList({
   }, [animate]);
 
   return (
-    <div ref={ref} className={cn("flex flex-col gap-[14px]", className)} style={style}>
+    <div
+      ref={ref}
+      // gap-[14px]: sem match exato na escala de spacing (entre --spacing-md 12px e --spacing-lg 16px)
+      className={cn("flex flex-col gap-[14px]", className)}
+      style={style}
+    >
       {skills.map((skill, i) => {
         const max = skill.max ?? 100;
         const pct = Math.min((skill.value / max) * 100, 100);
         const color = SKILL_INTENT_COLOR[skill.intent ?? rootIntent] ?? SKILL_INTENT_COLOR.primary;
 
         return (
-          <div key={i} className="flex flex-col gap-[6px]">
+          <div key={i} className="flex flex-col gap-(--spacing-xs)">
             <div className="flex items-baseline justify-between">
               <div>
                 <span className="text-body-callout font-semibold text-foreground">{skill.label}</span>
@@ -369,7 +325,15 @@ function ProgressSkillList({
                 </span>
               )}
             </div>
-            <div className="rounded-pill bg-sunken overflow-hidden" style={{ height }}>
+            <div
+              role="progressbar"
+              aria-valuenow={skill.value}
+              aria-valuemin={0}
+              aria-valuemax={max}
+              aria-label={skill.label}
+              className="rounded-pill bg-sunken overflow-hidden"
+              style={{ height }}
+            >
               <div
                 className="rounded-pill transition-[width] duration-[900ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
                 style={{ width: visible ? `${pct}%` : "0%", height, background: color }}

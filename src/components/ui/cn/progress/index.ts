@@ -12,4 +12,4 @@ export type {
   GaugeSize,
   SkillBarIntent,
   SkillItem,
-} from "./Progress";
+} from "./progress.types";
