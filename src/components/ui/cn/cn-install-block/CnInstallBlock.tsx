@@ -50,6 +50,9 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
         <span className="text-body-caption font-semibold text-foreground">Instalação via CLI</span>
       </div>
 
+      {/* Paleta hex crua (GitHub dark) intencional daqui até o fim do componente: bloco de
+          terminal/CLI, deliberadamente independente do tema claro/escuro do site — sem
+          token equivalente, já que o objetivo é imitar um terminal real. */}
       <div className="rounded-(--radius-md) border border-rule bg-[#0d1117] overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2 min-w-0">

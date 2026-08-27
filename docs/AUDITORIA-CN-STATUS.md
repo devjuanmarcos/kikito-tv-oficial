@@ -448,7 +448,7 @@ Teste marcado como `test.fail(...)` em `confirm-button.spec.ts` (documenta o bug
    0c. **Achado grave, prioridade alta**: `Button.tsx` — modo `confirm="doubleclick"` não reflete cliques reais (mouse/teclado/CDP) no DOM, só clique programático funciona. Ver seção `inputs/button (revisita)` acima pra investigação completa. Não resolvido — flagado como task separada
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido
 2. Cobertura de `focus-visible:outline-patina` em componentes com foco customizado por `role` (Tabs e possivelmente outros `role="tab"`/`role="menuitem"`) que nunca tiveram anel de foco próprio, dependendo só do fallback verde do dashboard — achado colateral do fix do outline global, não é regressão, é lacuna pré-existente
-3. `cn-install-block/CnInstallBlock.tsx` usa hex cru (`#0d1117`, `#79c0ff` etc, paleta do GitHub) — provavelmente exceção válida (mimetiza tema de código real, independente do tema CN) mas nunca recebeu o comentário de exceção documentada; fica pendente confirmar e comentar quando for a vez desse componente
+3. ~~`cn-install-block/CnInstallBlock.tsx` usa hex cru~~ — ✅ FECHADO. Confirmado exceção válida (bloco de terminal/CLI, paleta GitHub dark deliberadamente fixa, independente do tema claro/escuro do site). Comentário de exceção adicionado. De passagem, achado igual em `terminal-block/TerminalBlock.tsx` (mesmo `bg-[#0d1117]` sem comentário) — também documentado; e um `text-sm` cru (banido) no mesmo arquivo → `text-body-callout` (match exato)
 
 ## Achado grande — sweep de `rounded` bare (23 arquivos) e sintaxe `-[--var]` (10 arquivos) — ✅ FECHADOS
 
