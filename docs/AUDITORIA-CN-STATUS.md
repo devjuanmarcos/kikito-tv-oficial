@@ -294,13 +294,23 @@ Igual ao `Chart`: **router puro** sobre 4 renderers standalone (`typewriter`/`mo
 - Gate 8: as 5 rotas (`display/text-effect`, `display/typewriter`, `display/morphing-text`, `display/text-gradient`, `display/animated-number`) já tinham demo própria
 - Gate 9: `e2e/cn/display/text-effect.spec.ts` novo (11 testes cobrindo as 5 rotas + a11y de `forced-colors` no `TextGradient`) — 22/22 chromium-desktop + mobile-chrome
 
+### `display/marquee-text` + `layout/scroll-reveal` — concluído
+
+Dois componentes standalone com nomes parecidos à família `text-effect` mas fora dela (não são dispatch do `TextEffect`) — fechados juntos por serem pequenos e terem sido apontados como pendência na validação anterior.
+
+- Gate 1/2/3: ambos já tinham `.types.ts`, nenhum hex/hsl/rgb cru, nenhum `rounded` bare, `SIZE_CLASSES` do `MarqueeText` já usava tokens de tipografia corretos
+- Gate 5 (**2 gaps reais de a11y encontrados e corrigidos**):
+  1. `MarqueeText`: o texto era duplicado `repeat × 2` vezes (padrão 16×) só pra criar o loop visual contínuo — sem nenhum tratamento de a11y, um leitor de tela lia o mesmo texto até 16 vezes seguidas. Adicionado `aria-hidden="true"` na faixa visual repetida + um `<span className="sr-only">{text}</span>` com o conteúdo real, lido uma única vez
+  2. Nenhum dos dois respeitava `prefers-reduced-motion`: `MarqueeText` tem rolagem horizontal **infinita** (não para nunca, viola WCAG 2.2.2 Pause/Stop/Hide) e `ScrollReveal` anima `translate`/`scale` (movimento real, não só opacidade) a cada elemento que entra na viewport. Adicionado `@media (prefers-reduced-motion: reduce) { animation: none }` no primeiro; no segundo, um hook que detecta a preferência (com listener de mudança) e pula direto pro estado final sem transição de transform quando ativa
+- Gate 8: `display/marquee-text` e `layout/scroll-reveal` já tinham demo própria
+- Gate 9: `e2e/cn/display/marquee-text.spec.ts` novo (6 testes cobrindo as 2 rotas + a11y do `aria-hidden`/`sr-only` do marquee + `prefers-reduced-motion` do scroll-reveal) — 12/12 chromium-desktop + mobile-chrome
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido
 2. Cobertura de `focus-visible:outline-patina` em componentes com foco customizado por `role` (Tabs e possivelmente outros `role="tab"`/`role="menuitem"`) que nunca tiveram anel de foco próprio, dependendo só do fallback verde do dashboard — achado colateral do fix do outline global, não é regressão, é lacuna pré-existente
 3. `text-lg`/`text-xl` cru achado de passagem em `avatar/Avatar.tsx` durante o sweep de `rounded` — corrigido pro tamanho, mas os `text-[Npx]` arbitrários no mesmo `SIZE_DIM` (xs/sm/md/lg, ex: `text-[0.5625rem]`) não foram tocados, ficam pendentes pro Gate 3 completo do Avatar
 4. `cn-install-block/CnInstallBlock.tsx` usa hex cru (`#0d1117`, `#79c0ff` etc, paleta do GitHub) — provavelmente exceção válida (mimetiza tema de código real, independente do tema CN) mas nunca recebeu o comentário de exceção documentada; fica pendente confirmar e comentar quando for a vez desse componente
-5. `marquee-text` e `scroll-reveal` têm nomes parecidos com a família `text-effect` mas não fazem parte dela (não são dispatch do `TextEffect`) — ainda não receberam nenhum gate, ficam pendentes como itens standalone próprios
 
 ## Achado grande — sweep de `rounded` bare (23 arquivos) e sintaxe `-[--var]` (10 arquivos) — ✅ FECHADOS
 
