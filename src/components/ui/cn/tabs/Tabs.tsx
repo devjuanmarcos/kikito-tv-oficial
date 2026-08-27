@@ -189,7 +189,8 @@ export function Tabs({
             onClick={() => !item.disabled && select(item.value)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             className={cn(
-              "bg-transparent border-none p-0 cursor-pointer font-inherit",
+              "bg-transparent border-none p-0 cursor-pointer font-inherit rounded-(--radius-xs)",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
               item.disabled && "cursor-not-allowed",
               isStretch && variant === "enclosed" && "flex-1"
             )}

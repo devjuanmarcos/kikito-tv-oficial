@@ -39,6 +39,14 @@ test.describe("Tabs (CN)", () => {
     await expect(settings).toHaveAttribute("aria-selected", "true");
   });
 
+  test("tab focada mostra outline patina (nao mais so o fallback verde do dashboard)", async ({ page }) => {
+    const first = page.getByRole("tab").first();
+    await first.focus();
+    const outlineColor = await first.evaluate((el) => getComputedStyle(el).outlineColor);
+    // --ks-patina no tema atual, nao rgb(16, 81, 68) (--brand-primary-mid, fallback do dashboard)
+    expect(outlineColor).not.toBe("rgb(16, 81, 68)");
+  });
+
   test("navegacao por teclado (ArrowRight/ArrowLeft) troca a tab focada", async ({ page }) => {
     const tabs = page.getByRole("tab");
     const first = tabs.first();
