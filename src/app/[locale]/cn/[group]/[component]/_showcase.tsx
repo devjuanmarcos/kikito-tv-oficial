@@ -4052,7 +4052,9 @@ function FabDemo() {
     <div className="flex flex-col">
       <ShowcaseSection title="Position">
         <Frame label="Speed-dial (bottom-right)">
-          <div className="relative w-72 h-56 rounded-(--radius-lg) border border-rule bg-base overflow-hidden">
+          {/* [contain:layout]: cria containing-block pra descendente position:fixed — sem isso o
+              Fab escapa da caixa e fica preso no canto real do viewport em vez de dentro do demo */}
+          <div className="relative w-72 h-56 rounded-(--radius-lg) border border-rule bg-base overflow-hidden [contain:layout]">
             <Fab
               icon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -4108,6 +4110,25 @@ function FabDemo() {
                 }
                 position="bottom-right"
                 intent={i}
+                tooltip={`Adicionar (${i})`}
+                className="static!"
+                style={{ position: "static", margin: 0 }}
+              />
+            ))}
+          </div>
+        </Frame>
+        <Frame label="Sizes">
+          <div className="flex items-end gap-6">
+            {(["sm", "md", "lg"] as const).map((s) => (
+              <Fab
+                key={s}
+                icon={
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                }
+                size={s}
+                tooltip={`Tamanho ${s}`}
                 className="static!"
                 style={{ position: "static", margin: 0 }}
               />

@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-27T20:33:14.781Z",
+  "generatedAt": "2026-08-27T23:37:53.810Z",
   "items": [
     {
       "name": "accordion",
@@ -726,7 +726,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["button"]
     },
     {
       "name": "filter-bar",
@@ -1683,7 +1683,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["button"]
     },
     {
       "name": "skeleton",

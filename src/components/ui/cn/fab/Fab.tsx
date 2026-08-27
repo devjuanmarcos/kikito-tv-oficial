@@ -1,41 +1,21 @@
 "use client";
-import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type FabIntent = "primary" | "secondary" | "success" | "danger" | "neutral";
-export type FabSize = "sm" | "md" | "lg";
-export type FabPosition = "bottom-right" | "bottom-left" | "top-right" | "top-left";
+import type { FabProps, FabIntent, FabPosition, FabSize } from "./fab.types";
 
-export interface FabAction {
-  icon: React.ReactNode;
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-export interface FabProps {
-  icon: React.ReactNode;
-  actions?: FabAction[];
-  position?: FabPosition;
-  intent?: FabIntent;
-  size?: FabSize;
-  tooltip?: string;
-  onClick?: () => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
+/* Sem token de shadow/elevação no design system ainda (pendência #2 do audit doc) —
+   literal oklch ad-hoc, mesmo padrão já usado em Select/Autocomplete/Command/DropdownMenu. */
 const SIZE_BTN: Record<FabSize, string> = {
-  sm: "w-10 h-10 text-sm shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.4)]",
-  md: "w-14 h-14 text-lg shadow-[0_6px_24px_-6px_oklch(0%_0_0/0.4)]",
-  lg: "w-16 h-16 text-xl shadow-[0_8px_28px_-6px_oklch(0%_0_0/0.4)]",
+  sm: "w-10 h-10 text-body-callout shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.4)]",
+  md: "w-14 h-14 text-body-paragraph shadow-[0_6px_24px_-6px_oklch(0%_0_0/0.4)]",
+  lg: "w-16 h-16 text-body-title shadow-[0_8px_28px_-6px_oklch(0%_0_0/0.4)]",
 };
 const SIZE_ACTION: Record<FabSize, string> = {
-  sm: "w-8  h-8  text-xs",
-  md: "w-10 h-10 text-sm",
-  lg: "w-12 h-12 text-base",
+  sm: "w-8 h-8 text-body-caption",
+  md: "w-10 h-10 text-body-callout",
+  lg: "w-12 h-12 text-body-paragraph",
 };
 
 const INTENT_CLS: Record<FabIntent, string> = {
@@ -47,10 +27,10 @@ const INTENT_CLS: Record<FabIntent, string> = {
 };
 
 const POSITION_CLS: Record<FabPosition, string> = {
-  "bottom-right": "fixed bottom-6 right-6",
-  "bottom-left": "fixed bottom-6 left-6",
-  "top-right": "fixed top-6 right-6",
-  "top-left": "fixed top-6 left-6",
+  "bottom-right": "fixed bottom-(--spacing-xl) right-(--spacing-xl)",
+  "bottom-left": "fixed bottom-(--spacing-xl) left-(--spacing-xl)",
+  "top-right": "fixed top-(--spacing-xl) right-(--spacing-xl)",
+  "top-left": "fixed top-(--spacing-xl) left-(--spacing-xl)",
 };
 
 const CloseIcon = () => (
@@ -59,6 +39,12 @@ const CloseIcon = () => (
   </svg>
 );
 
+/**
+ * Botões circulares/tamanho fora da escala do `<Button>` CN (`rounded-full`, `lg` chega a 64px)
+ * são específicos deste componente (floating action button + speed-dial) — não reusam `<Button>`
+ * pelo mesmo motivo que o chevron do SplitButton não reusa: forma e escala bespoke, não um botão
+ * retangular padrão.
+ */
 export function Fab({
   icon,
   actions = [],
@@ -73,20 +59,31 @@ export function Fab({
   const [open, setOpen] = useState(false);
   const hasActions = actions.length > 0;
 
+  useEffect(() => {
+    if (!hasActions || !open) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [hasActions, open]);
+
   const isBottom = position === "bottom-right" || position === "bottom-left";
   const actionsDir = isBottom ? "flex-col-reverse" : "flex-col";
+
+  const mainLabel = tooltip ?? (hasActions ? (open ? "Fechar" : "Abrir menu") : "Ação");
 
   return (
     <div
       style={style}
-      className={cn("z-[900] flex items-center", actionsDir, "gap-3", POSITION_CLS[position], className)}
+      className={cn("z-[900] flex items-center", actionsDir, "gap-(--spacing-md)", POSITION_CLS[position], className)}
     >
       {/* Speed-dial actions */}
       {hasActions && open && (
-        <div className={cn("flex", actionsDir, "gap-2")}>
+        <div className={cn("flex", actionsDir, "gap-(--spacing-sm)")} role="group" aria-label="Ações rápidas">
           {actions.map((action, i) => (
-            <div key={i} className="flex items-center gap-2 group">
-              <span className="text-body-caption text-foreground bg-raised border border-rule rounded-(--radius-sm) px-2 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none">
+            <div key={i} className="flex items-center gap-(--spacing-sm) group">
+              <span className="text-body-caption text-foreground bg-raised border border-rule rounded-(--radius-sm) px-(--spacing-sm) py-(--spacing-3xs) whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none">
                 {action.label}
               </span>
               <button
@@ -115,7 +112,9 @@ export function Fab({
       {/* Main button */}
       <button
         type="button"
-        aria-label={tooltip ?? (hasActions ? (open ? "Close" : "Open menu") : undefined)}
+        aria-label={mainLabel}
+        aria-haspopup={hasActions ? "true" : undefined}
+        aria-expanded={hasActions ? open : undefined}
         title={tooltip}
         onClick={() => {
           if (hasActions) setOpen((v) => !v);

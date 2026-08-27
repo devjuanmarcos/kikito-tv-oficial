@@ -7065,14 +7065,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       {
         name: "intent",
-        type: "'primary' | 'secondary' | 'neutral'",
+        type: "'primary' | 'secondary' | 'success' | 'danger' | 'neutral'",
         default: "'primary'",
         description: "Cor do botão",
       },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do botão" },
-      { name: "tooltip", type: "string", description: "Texto do tooltip ao hover" },
+      {
+        name: "tooltip",
+        type: "string",
+        description: "Nome acessível do botão principal (aria-label + tooltip nativo). Recomendado sempre informar.",
+      },
       { name: "onClick", type: "() => void", description: "Callback ao clicar (sem sub-ações)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── feature-list
