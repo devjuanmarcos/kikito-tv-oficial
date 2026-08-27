@@ -1,25 +1,11 @@
 ﻿"use client";
-import type React from "react";
 
 import { cn } from "@/lib/utils";
 
-export type TagIntent = "primary" | "info" | "success" | "warning" | "danger" | "neutral";
-export type TagAppearance = "soft" | "solid" | "outline";
-export type TagSize = "sm" | "md" | "lg";
+import type { TagIntent, TagAppearance, TagSize, TagProps } from "./tag.types";
 
-export interface TagProps {
-  intent?: TagIntent;
-  appearance?: TagAppearance;
-  size?: TagSize;
-  icon?: React.ReactNode;
-  removable?: boolean;
-  onRemove?: () => void;
-  onClick?: () => void;
-  className?: string;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
-}
-
+// Escala própria do componente (dimensão/tipografia por size), não migra pra spacing
+// genérico. text-[0.6875rem] (11px, tier sm): below scale minimum.
 const SIZE: Record<TagSize, string> = {
   sm: "h-5  px-1.5 gap-1   text-[0.6875rem] rounded-(--radius-xs)",
   md: "h-6  px-2   gap-1   text-body-caption rounded-(--radius-xs)",

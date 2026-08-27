@@ -114,6 +114,7 @@ import { PasswordInput } from "@/components/ui/cn/password-input/PasswordInput";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
+import { Ping } from "@/components/ui/cn/ping/Ping";
 import { Popover } from "@/components/ui/cn/popover/Popover";
 import { PriceTable } from "@/components/ui/cn/price-table/PriceTable";
 import { PricingCard } from "@/components/ui/cn/pricing-card/PricingCard";
@@ -165,6 +166,7 @@ import { Switch } from "@/components/ui/cn/switch/Switch";
 import { DataTable } from "@/components/ui/cn/table/Table";
 import { TableOfContents } from "@/components/ui/cn/table-of-contents/TableOfContents";
 import { Tabs, TabPanel } from "@/components/ui/cn/tabs/Tabs";
+import { Tag } from "@/components/ui/cn/tag/Tag";
 import { TagCloud } from "@/components/ui/cn/tag-cloud/TagCloud";
 import { TerminalBlock } from "@/components/ui/cn/terminal-block/TerminalBlock";
 import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
@@ -3016,6 +3018,67 @@ function StatusBadgeDemo() {
           <StatusBadge status="online" showLabel pulse size="lg" />
           <StatusBadge status="busy" showLabel size="lg" />
           <StatusBadge status="away" showLabel size="sm" />
+        </div>
+      </div>
+    </Frame>
+  );
+}
+
+function TagDemo() {
+  return (
+    <Frame label="Tag — intent colors, appearance variants, removable">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Tag intent="primary">Primary</Tag>
+          <Tag intent="success">Success</Tag>
+          <Tag intent="warning">Warning</Tag>
+          <Tag intent="danger">Danger</Tag>
+          <Tag intent="info">Info</Tag>
+          <Tag intent="neutral">Neutral</Tag>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Tag intent="primary" appearance="solid">
+            Solid
+          </Tag>
+          <Tag intent="primary" appearance="outline">
+            Outline
+          </Tag>
+          <Tag intent="primary" appearance="soft">
+            Soft
+          </Tag>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Tag intent="info" removable onRemove={() => {}}>
+            Removable
+          </Tag>
+          <Tag intent="success" onClick={() => {}}>
+            Clickable
+          </Tag>
+        </div>
+      </div>
+    </Frame>
+  );
+}
+
+function PingDemo() {
+  return (
+    <Frame label="Ping — animated status dot with intent colors">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-6">
+          <Ping intent="primary" />
+          <Ping intent="success" />
+          <Ping intent="warning" />
+          <Ping intent="danger" />
+          <Ping intent="info" />
+          <Ping intent="neutral" animate={false} />
+        </div>
+        <div className="flex items-center gap-6">
+          <Ping intent="success" size="lg">
+            <div className="w-10 h-10 rounded-(--radius-md) bg-raised border border-rule" />
+          </Ping>
+          <Ping intent="danger" size="sm">
+            <div className="w-10 h-10 rounded-(--radius-md) bg-raised border border-rule" />
+          </Ping>
         </div>
       </div>
     </Frame>
@@ -6262,6 +6325,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/user-card": UserCardDemo,
   "feedback/status-page": StatusPageDemo,
   "display/status-badge": StatusBadgeDemo,
+  "display/tag": TagDemo,
+  "display/ping": PingDemo,
   "inputs/rating": RatingDemo,
   "layout/scroll-area": ScrollAreaDemo,
   "data/virtual-list": VirtualListDemo,

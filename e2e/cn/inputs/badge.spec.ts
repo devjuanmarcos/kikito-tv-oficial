@@ -13,6 +13,12 @@ test.describe("Badge (CN)", () => {
     await expect(page.locator("main")).toBeVisible();
   });
 
+  test("tag/status-badge/ping aparecem na sidebar (absorbs falso corrigido)", async ({ page }) => {
+    await expect(page.getByRole("link", { name: "Tag", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Status Badge", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Ping", exact: true })).toBeVisible();
+  });
+
   test("dark mode: pagina nao quebra ao alternar", async ({ page }) => {
     const toggle = page.getByRole("button", { name: /Ativar modo/ });
     if (await toggle.isVisible()) {

@@ -988,11 +988,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "badge",
     title: "Badge",
     group: "inputs",
-    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator, dismiss and status/ping/tag modes.",
+    description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator and dismiss.",
     filePath: "src/components/ui/cn/badge/Badge.tsx",
     peerDeps: ["@/lib/utils"],
-    absorbs: ["tag", "status-badge", "ping"],
-    keywords: ["tag", "chip", "status badge", "status-badge", "ping", "dot", "presence", "removível", "removable"],
+    // NÃO absorve tag/status-badge/ping de fato — Badge.tsx não tem nenhum dispatch interno
+    // pra esses 3 (nenhuma menção a "tag"/"status"/"ping" no arquivo). Os 3 são standalone,
+    // cada um com sua própria escala de intent/size, zero import de Badge. O `absorbs`
+    // antigo escondia os 3, reais e funcionais, da sidebar via getVisibleComponents().
+    keywords: ["dot", "dismiss"],
     props: [
       {
         name: "variant",

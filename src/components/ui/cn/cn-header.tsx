@@ -159,7 +159,8 @@ export function CnHeader() {
         .cnh-spacer { flex: 1; }
         .cnh-rule { width: 1px; height: 1.25rem; background: var(--ks-rule); flex-shrink: 0; }
         .cnh-kbd {
-          font-size: 0.625rem; font-weight: 700; line-height: 1; margin-left: 0.125rem;
+          display: inline-flex; align-items: center; justify-content: center;
+          font-size: 0.625rem; font-weight: 700; line-height: 1;
           padding: 0.1875rem 0.3125rem; border-radius: 4px;
           border: 1px solid var(--ks-rule); color: var(--ks-text-faint);
           background: color-mix(in oklch, var(--ks-lacquer) 60%, transparent);
@@ -200,8 +201,10 @@ export function CnHeader() {
           className="hidden sm:inline-flex font-normal text-faint"
           aria-label="Buscar componentes"
         >
-          Buscar
-          <kbd className="cnh-kbd">⌘K</kbd>
+          <span className="inline-flex items-center gap-(--spacing-2xs)">
+            Buscar
+            <kbd className="cnh-kbd">⌘K</kbd>
+          </span>
         </Button>
 
         {/* GitHub */}
