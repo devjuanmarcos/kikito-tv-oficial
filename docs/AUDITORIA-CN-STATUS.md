@@ -186,6 +186,21 @@ Investigado a fundo (2026-08-27). Confirmação empírica em 3 camadas:
 
 **Achado colateral, não corrigido, prioridade menor**: `Tabs` (e provavelmente outros componentes com foco customizado por `role`, tipo `role="tab"`/`role="menuitem"`) **nunca tiveram um `focus-visible:outline-patina` próprio** — sempre dependeram só do fallback verde do dashboard, mesmo antes deste bug existir. Isso não é uma regressão do fix de hoje, é uma lacuna de cobertura pré-existente: decidir se vale a pena adicionar o anel de foco patina explicitamente nesses componentes também, componente a componente, na próxima rodada.
 
+## Continuando a fila geral — Super components sem os 9 gates
+
+`docs/UNIFICACAO-COMPONENTES.md` **não é uma fila de validação** — é o plano (já concluído) de absorver componentes-irmãos em Super components pra reduzir a sidebar. Nenhuma das duas coisas tem uma "ordem geral" pronta; a fila de validação de 9 gates é só o que está registrado aqui neste doc. Retomando pelos Super components ainda sem 9 gates completos, por serem os que afetam mais páginas de uma vez (cada um tem irmãos absorvidos que herdam o fix).
+
+### `inputs/toggle-group` — concluído
+
+Super component com 4 variantes (outline/solid/ghost base, segmented, chip, filter), absorve `SegmentedControl`, `ChipGroup`, `FilterBar`.
+
+- Gate 1: não tinha `.types.ts` — criado. Achado um `ToggleGroupAllProps` duplicado (definido tanto no novo arquivo de tipos quanto ainda solto no `.tsx`) — removida a duplicata
+- Gate 3: `text-sm` cru (banido, era exatamente `text-body-callout`) e `text-[0.75rem]` (match exato `text-body-caption`) no `CHIP_SIZE_CLS` → corrigidos; `text-[0.6875rem]`/`text-[0.7rem]` (3 ocorrências, tiers `sm` de 3 escalas diferentes) documentados como abaixo do mínimo da escala
+- Gate 3/spacing: `gap-2`/`px-3`/`gap-1` estruturais (não ligados a tier de tamanho) → tokens exatos; `gap-[6px]` → match exato `--spacing-xs`; `gap-[5px]`/`py-[5px]`/`px-[10px]` documentados (sem match exato). As escalas por tamanho (`SIZE_BTN`, `SEG_SIZE_*`, `CHIP_SIZE_CLS`) ficaram como estão — escala própria do componente, mesmo critério do `PADDING_CLS` do Card citado no CLAUDE.md
+- Gate 5 (**gap real de a11y encontrado e corrigido**): a variante `filter` (`FilterToggleGroup`) era a única das 4 sem `role="group"` no wrapper e sem `aria-pressed` nos botões de opção — usuário de leitor de tela não tinha nenhuma indicação de quais filtros estavam ativos. As outras 3 variantes (base/segmented/chip) já tinham os dois corretamente
+- Família de wrappers (`segmented-control/`, `chip-group/`, `filter-bar/`) — checados, thin delegates, sem violação própria
+- Gate 9: `e2e/cn/inputs/toggle-group.spec.ts` novo (5 testes, inclui single exclusivo vs multiple acumulativo) — 10/10 chromium-desktop + mobile-chrome. Fix do `filter` confirmado à parte via smoke-check no `inputs/filter-bar` (aria-pressed correto nas duas instâncias da demo)
+
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
 1. Decidir o destino de `ContextCard` (aposentar em favor de `<Tooltip variant="card">`, ou investir na reescrita pra JS) — levantado durante o Gate 5 acima, não decidido

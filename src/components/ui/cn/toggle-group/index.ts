@@ -15,4 +15,4 @@ export type {
   ChipGroupIntent,
   ChipGroupSize,
   FilterBarOption,
-} from "./ToggleGroup";
+} from "./toggle-group.types";

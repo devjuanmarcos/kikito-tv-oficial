@@ -1,96 +1,40 @@
 "use client";
-import type React from "react";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type ToggleGroupType = "single" | "multiple";
-export type ToggleGroupVariant = "outline" | "solid" | "ghost";
-export type ToggleGroupSize = "sm" | "md" | "lg";
+import type {
+  ToggleGroupProps,
+  ToggleGroupSize,
+  ToggleGroupVariant,
+  ToggleGroupSegmentedProps,
+  ChipGroupSize,
+  ChipGroupIntent,
+  ToggleGroupChipProps,
+  ToggleGroupFilterProps,
+  ToggleGroupAllProps,
+} from "./toggle-group.types";
 
-export interface ToggleGroupItem {
-  value: string;
-  label: React.ReactNode;
-  disabled?: boolean;
-}
-
-export interface ToggleGroupProps {
-  items: ToggleGroupItem[];
-  type?: ToggleGroupType;
-  variant?: ToggleGroupVariant;
-  size?: ToggleGroupSize;
-  value?: string | string[];
-  defaultValue?: string | string[];
-  onChange?: (value: string | string[]) => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-/* ── Absorbed family: shared discriminated props ─────────────────────────── */
-
-export type SegmentedControlSize = "sm" | "md" | "lg";
-
-export interface SegmentedControlOption<T extends string = string> {
-  value: T;
-  label: React.ReactNode;
-  disabled?: boolean;
-}
-
-export interface ToggleGroupSegmentedProps<T extends string = string> {
-  variant: "segmented";
-  options: SegmentedControlOption<T>[];
-  value?: T;
-  defaultValue?: T;
-  onChange?: (value: T) => void;
-  size?: SegmentedControlSize;
-  fullWidth?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export type ChipGroupIntent = "primary" | "secondary" | "success" | "warning" | "danger" | "info" | "neutral";
-export type ChipGroupSize = "sm" | "md" | "lg";
-
-export interface ChipGroupChip {
-  id: string;
-  label: string;
-  icon?: React.ReactNode;
-  disabled?: boolean;
-}
-
-export interface ToggleGroupChipProps {
-  variant: "chip";
-  chips: ChipGroupChip[];
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (value: string[]) => void;
-  multiSelect?: boolean;
-  intent?: ChipGroupIntent;
-  size?: ChipGroupSize;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-export interface FilterBarOption {
-  value: string;
-  label: string;
-  count?: number;
-}
-
-export interface ToggleGroupFilterProps {
-  variant: "filter";
-  options: FilterBarOption[];
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (values: string[]) => void;
-  multiSelect?: boolean;
-  clearable?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+export type {
+  ToggleGroupProps,
+  ToggleGroupItem,
+  ToggleGroupType,
+  ToggleGroupVariant,
+  ToggleGroupSize,
+  ToggleGroupAllProps,
+  ToggleGroupSegmentedProps,
+  ToggleGroupChipProps,
+  ToggleGroupFilterProps,
+  SegmentedControlOption,
+  SegmentedControlSize,
+  ChipGroupChip,
+  ChipGroupIntent,
+  ChipGroupSize,
+  FilterBarOption,
+} from "./toggle-group.types";
 
 const SIZE_BTN: Record<ToggleGroupSize, string> = {
-  sm: "h-6 px-2   text-[0.6875rem]",
+  sm: "h-6 px-2   text-[0.6875rem]", // below scale minimum: tier mais compacto do componente
   md: "h-7 px-2.5 text-body-caption",
   lg: "h-8 px-3   text-body-callout",
 };
@@ -187,7 +131,7 @@ const SEG_SIZE_WRAP: Record<string, string> = {
   lg: "p-1 gap-1 rounded-(--radius-md)",
 };
 const SEG_SIZE_BTN: Record<string, string> = {
-  sm: "h-6  px-2.5 text-[0.6875rem] rounded-[calc(var(--radius-sm)-2px)]",
+  sm: "h-6  px-2.5 text-[0.6875rem] rounded-[calc(var(--radius-sm)-2px)]", // below scale minimum: tier compacto
   md: "h-7  px-3   text-body-caption rounded-[calc(var(--radius-md)-3px)]",
   lg: "h-8  px-4   text-body-callout rounded-[calc(var(--radius-md)-4px)]",
 };
@@ -251,9 +195,9 @@ function SegmentedToggleGroup<T extends string = string>({
 
 /* ── Chip group (absorbed from ChipGroup) ────────────────────────────────── */
 const CHIP_SIZE_CLS: Record<ChipGroupSize, string> = {
-  sm: "h-7  px-2.5 text-[0.7rem] gap-1   rounded-md",
-  md: "h-8  px-3   text-[0.75rem] gap-1.5 rounded-lg",
-  lg: "h-10 px-4   text-sm gap-2  rounded-lg",
+  sm: "h-7  px-2.5 text-[0.7rem] gap-1   rounded-md", // below scale minimum: tier compacto
+  md: "h-8  px-3   text-body-caption gap-1.5 rounded-lg",
+  lg: "h-10 px-4   text-body-callout gap-2  rounded-lg",
 };
 
 const CHIP_INTENT_ACTIVE: Record<ChipGroupIntent, string> = {
@@ -293,7 +237,7 @@ function ChipToggleGroup({
   }
 
   return (
-    <div style={style} role="group" className={cn("flex flex-wrap gap-2", className)}>
+    <div style={style} role="group" className={cn("flex flex-wrap gap-(--spacing-sm)", className)}>
       {chips.map((chip) => {
         const active = selected.includes(chip.id);
         return (
@@ -354,15 +298,17 @@ function FilterToggleGroup({
   }
 
   return (
-    <div className={cn("flex flex-wrap gap-[6px] items-center", className)} style={style}>
+    <div role="group" className={cn("flex flex-wrap gap-(--spacing-xs) items-center", className)} style={style}>
       {options.map((opt) => {
         const isActive = selected.includes(opt.value);
         return (
           <button
             key={opt.value}
             type="button"
+            aria-pressed={isActive}
             className={cn(
-              "inline-flex items-center gap-[5px] py-[5px] px-3 rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none",
+              // gap-[5px]/py-[5px]: sem match exato na escala de spacing
+              "inline-flex items-center gap-[5px] py-[5px] px-(--spacing-md) rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none",
               "hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-primary)_8%,transparent)]",
               isActive &&
                 "border-patina bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina font-semibold"
@@ -386,7 +332,8 @@ function FilterToggleGroup({
       {clearable && selected.length > 0 && (
         <button
           type="button"
-          className="inline-flex items-center gap-1 py-[5px] px-[10px] rounded-pill text-body-caption cursor-pointer border border-dashed border-rule bg-transparent text-muted transition-[color,border-color] hover:text-danger hover:border-danger"
+          // py-[5px]/px-[10px]: sem match exato na escala de spacing
+          className="inline-flex items-center gap-(--spacing-2xs) py-[5px] px-[10px] rounded-pill text-body-caption cursor-pointer border border-dashed border-rule bg-transparent text-muted transition-[color,border-color] hover:text-danger hover:border-danger"
           onClick={clear}
         >
           ✕ Clear
@@ -405,11 +352,6 @@ function FilterToggleGroup({
  *  - "filter": filter bar with counts + clear (options[]).
  * Absorbs the former SegmentedControl, ChipGroup and FilterBar (now backward-compat wrappers).
  */
-export type ToggleGroupAllProps =
-  | ToggleGroupProps
-  | ToggleGroupSegmentedProps
-  | ToggleGroupChipProps
-  | ToggleGroupFilterProps;
 
 export function ToggleGroup(props: ToggleGroupAllProps) {
   switch (props.variant) {
