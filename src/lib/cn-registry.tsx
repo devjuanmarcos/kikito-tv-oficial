@@ -139,6 +139,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         required: true,
         description: "Conteúdo principal do banner",
       },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
