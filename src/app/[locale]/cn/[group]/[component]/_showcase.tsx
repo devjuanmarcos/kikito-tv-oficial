@@ -2869,18 +2869,34 @@ function MasonryDemo() {
   ];
   return (
     <Frame label="Masonry — CSS column-based grid with variable height items">
-      <div className="w-full max-w-lg">
+      <div className="flex w-full max-w-lg flex-col gap-(--spacing-xl)">
         <Masonry columns={3} gap={12}>
           {items.map((item, i) => (
             <div
               key={i}
-              className="rounded-[--radius] flex items-center justify-center text-body-caption font-semibold text-foreground"
+              className="rounded-(--radius-md) flex items-center justify-center text-body-caption font-semibold text-foreground"
               style={{ height: item.h, background: item.bg }}
             >
               {item.label}
             </div>
           ))}
         </Masonry>
+        <div>
+          <p className="text-body-caption text-faint mb-(--spacing-sm)">
+            columns responsivo: {"{ sm: 1, md: 2, lg: 4 }"}
+          </p>
+          <Masonry columns={{ sm: 1, md: 2, lg: 4 }} gap={12}>
+            {items.map((item, i) => (
+              <div
+                key={i}
+                className="rounded-(--radius-md) flex items-center justify-center text-body-caption font-semibold text-foreground"
+                style={{ height: item.h, background: item.bg }}
+              >
+                {item.label}
+              </div>
+            ))}
+          </Masonry>
+        </div>
       </div>
     </Frame>
   );

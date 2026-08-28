@@ -5523,6 +5523,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "16",
         description: "Espaço entre itens em px",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
+      },
     ],
   },
   {
