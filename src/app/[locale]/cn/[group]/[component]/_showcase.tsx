@@ -4353,26 +4353,33 @@ function ChipGroupDemo() {
 }
 
 function TagCloudDemo() {
+  const [clicked, setClicked] = useState<string | null>(null);
   const tags = [
-    { label: "React", weight: 10 },
-    { label: "TypeScript", weight: 8 },
+    { label: "React", weight: 10, intent: "primary" as const },
+    { label: "TypeScript", weight: 8, intent: "secondary" as const },
     { label: "Next.js", weight: 9 },
-    { label: "Tailwind", weight: 7 },
-    { label: "Node.js", weight: 6 },
-    { label: "GraphQL", weight: 5 },
+    { label: "Tailwind", weight: 7, intent: "info" as const },
+    { label: "Node.js", weight: 6, intent: "success" as const },
+    { label: "GraphQL", weight: 5, intent: "danger" as const },
     { label: "Prisma", weight: 4 },
-    { label: "Docker", weight: 5 },
+    { label: "Docker", weight: 5, intent: "warning" as const },
     { label: "AWS", weight: 3 },
     { label: "PostgreSQL", weight: 6 },
   ];
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="Weight-scaled tags">
+        <Frame label="Weight-scaled tags with intents">
           <TagCloud items={tags} minSize={12} maxSize={24} />
         </Frame>
         <Frame label="Rotated (randomized angles)">
           <TagCloud items={tags} minSize={11} maxSize={22} randomRotate />
+        </Frame>
+        <Frame label="Clickable (onClick)">
+          <div className="flex flex-col items-center gap-3">
+            <TagCloud items={tags.slice(0, 5)} minSize={14} maxSize={22} onClick={(t) => setClicked(t.label)} />
+            <p className="text-body-caption text-faint">Clicked: {clicked ?? "none"}</p>
+          </div>
         </Frame>
       </ShowcaseSection>
     </div>

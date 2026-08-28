@@ -1,35 +1,17 @@
 "use client";
-import type React from "react";
 import { useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type TagCloudIntent = "primary" | "secondary" | "success" | "warning" | "danger" | "info" | "neutral";
-
-export interface TagCloudItem {
-  label: string;
-  weight: number;
-  intent?: TagCloudIntent;
-  href?: string;
-}
-
-export interface TagCloudProps {
-  items: TagCloudItem[];
-  minSize?: number;
-  maxSize?: number;
-  randomRotate?: boolean;
-  onClick?: (item: TagCloudItem) => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { TagCloudIntent, TagCloudProps } from "./tag-cloud.types";
 
 const INTENT_CLS: Record<TagCloudIntent, string> = {
-  primary: "text-patina hover:bg-patina/10",
-  secondary: "text-kinpaku hover:bg-kinpaku/10",
-  success: "text-success hover:bg-success/10",
-  warning: "text-warning hover:bg-warning/10",
-  danger: "text-danger hover:bg-danger/10",
-  info: "text-info hover:bg-info/10",
+  primary: "text-patina hover:bg-patina-soft",
+  secondary: "text-kinpaku hover:bg-kinpaku-soft",
+  success: "text-success hover:bg-success-soft",
+  warning: "text-warning hover:bg-warning-soft",
+  danger: "text-danger hover:bg-danger-soft",
+  info: "text-info hover:bg-info-soft",
   neutral: "text-foreground hover:bg-graphite",
 };
 
@@ -49,12 +31,14 @@ export function TagCloud({
   const max = Math.max(...weights);
   const range = max - min || 1;
 
+  // fonte contínua proporcional ao peso — não é escala de tokens (o próprio conceito
+  // de nuvem de tags exige interpolação contínua, não passos discretos)
   function fontSize(w: number) {
     return minSize + ((w - min) / range) * (maxSize - minSize);
   }
 
   return (
-    <div style={style} className={cn("flex flex-wrap gap-2 items-center", className)}>
+    <div style={style} className={cn("flex flex-wrap gap-(--spacing-sm) items-center", className)}>
       {items.map((item, i) => {
         const sz = fontSize(item.weight);
         const rot = randomRotate ? ROTATIONS[i % ROTATIONS.length] : 0;
@@ -63,10 +47,15 @@ export function TagCloud({
           <Tag
             key={item.label}
             {...(item.href ? { href: item.href } : {})}
-            {...(onClick && !item.href ? { type: "button" as const, onClick: () => onClick(item) } : {})}
+            // bug real corrigido: antes, quando item.href E onClick coexistiam, o onClick
+            // era silenciosamente ignorado (Tag virava "a" e a condição do spread excluía
+            // explicitamente qualquer item com href) — agora onClick dispara em qualquer
+            // tag clicável, com ou sem href
+            {...(onClick ? { onClick: () => onClick(item) } : {})}
+            {...(Tag === "button" ? { type: "button" as const } : {})}
             style={{ fontSize: sz, transform: `rotate(${rot}deg)` }}
             className={cn(
-              "px-1.5 py-0.5 rounded-(--radius-xs) transition-[background,transform] duration-[100ms]",
+              "px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) transition-[background,transform] duration-[100ms]",
               "font-medium leading-tight select-none",
               INTENT_CLS[item.intent ?? "neutral"],
               (onClick || item.href) && "cursor-pointer"

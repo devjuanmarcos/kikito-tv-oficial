@@ -7820,12 +7820,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Word cloud with size weight scaling and optional random rotation.",
     filePath: "src/components/ui/cn/tag-cloud/TagCloud.tsx",
     props: [
-      { name: "items", type: "TagCloudItem[]", required: true, description: "Array de { label, weight, href? }" },
-      { name: "minSize", type: "number", default: "0.75", description: "Tamanho mínimo de fonte (rem)" },
-      { name: "maxSize", type: "number", default: "2.5", description: "Tamanho máximo de fonte (rem)" },
+      {
+        name: "items",
+        type: "TagCloudItem[]",
+        required: true,
+        description: "Array de { label, weight, intent?, href? }",
+      },
+      { name: "minSize", type: "number", default: "12", description: "Tamanho mínimo de fonte em px" },
+      { name: "maxSize", type: "number", default: "28", description: "Tamanho máximo de fonte em px" },
       { name: "randomRotate", type: "boolean", default: "false", description: "Rotação aleatória nas tags" },
       { name: "onClick", type: "(item: TagCloudItem) => void", description: "Callback ao clicar em uma tag" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── tag-input
