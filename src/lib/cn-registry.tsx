@@ -838,8 +838,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/animated-list/AnimatedList.tsx",
     props: [
       { name: "children", type: "React.ReactNode[]", required: true, description: "Itens da lista" },
-      { name: "staggerMs", type: "number", default: "60", description: "Delay entre cada item (ms)" },
-      { name: "animationMs", type: "number", default: "300", description: "Duração da animação de cada item (ms)" },
+      { name: "staggerMs", type: "number", default: "80", description: "Delay entre cada item (ms)" },
+      { name: "animationMs", type: "number", default: "400", description: "Duração da animação de cada item (ms)" },
       {
         name: "direction",
         type: "'up' | 'down' | 'left' | 'right' | 'fade'",
@@ -847,6 +847,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Direção da entrada",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro wrapper" },
     ],
   },
   {
