@@ -459,7 +459,7 @@ function CarouselDemo() {
 }
 
 function MarkdownRendererDemo() {
-  const md = `# Heading 1\n\nRegular paragraph with **bold** and *italic* text, plus \`inline code\`.\n\n## Code block\n\n\`\`\`\nconst cls = cn('bg-patina', active && 'text-patina-fg')\n\`\`\`\n\n> Blockquote with context\n\n- List item one\n- List item two\n- List item three`;
+  const md = `# Heading 1\n\nRegular paragraph with **bold** and *italic* text, plus \`inline code\`.\n\n## Code block\n\n\`\`\`\nconst cls = cn('bg-patina', active && 'text-patina-fg')\n\`\`\`\n\n> Blockquote with context\n\n- List item one\n- List item two\n- List item three\n\n## Table\n\n| Token | Value |\n| --- | --- |\n| \`--radius-sm\` | 6px |\n| \`--radius-md\` | 8px |`;
   return (
     <Frame label="Markdown → styled HTML">
       <MarkdownRenderer content={md} className="max-w-lg w-full" />

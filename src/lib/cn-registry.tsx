@@ -2619,6 +2619,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "content", type: "string", required: true, description: "Texto em Markdown" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
