@@ -3151,6 +3151,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "true",
         description: "Exibe legenda das séries",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
+      },
     ],
   },
   {

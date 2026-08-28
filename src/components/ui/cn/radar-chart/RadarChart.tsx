@@ -34,6 +34,14 @@ export function RadarChart({
       .join(" ");
   });
 
+  // Achado real: `max` era recalculado com `Math.max(...series.flatMap(...))`
+  // dentro de dois loops aninhados (pontos do polígono E dos círculos, pra
+  // cada série) — O(eixos × séries) recomputações do mesmo valor por eixo.
+  // Calculado uma vez por eixo aqui e reaproveitado.
+  const maxByAxis = axes.map((ax) => ax.max ?? Math.max(...series.flatMap((s) => s.data), 1));
+  const seriesPoint = (dataPoint: number | undefined, axisIndex: number) =>
+    polarToXY(axisIndex * step, ((dataPoint ?? 0) / maxByAxis[axisIndex]) * maxR, cx, cy);
+
   return (
     <div className={cn("flex flex-col items-center gap-(--spacing-md)", className)} style={style}>
       <svg width={size} height={size} role="img" aria-label={`Radar chart: ${series.map((s) => s.label).join(", ")}`}>
@@ -49,6 +57,9 @@ export function RadarChart({
         })}
 
         {/* Axis labels */}
+        {/* fontSize={10} abaixo: atributo numérico de <text> em SVG, sem classe
+            Tailwind aplicável ao viewBox — mesmo padrão já documentado em
+            AreaChart/BarChart/DonutChart */}
         {axes.map((ax, i) => {
           const p = polarToXY(i * step, maxR + 16, cx, cy);
           const anchor = p.x < cx - 2 ? "end" : p.x > cx + 2 ? "start" : "middle";
@@ -71,10 +82,8 @@ export function RadarChart({
         {series.map((s, si) => {
           const color = s.color ?? COLORS[si % COLORS.length];
           const pts = axes
-            .map((ax, i) => {
-              const max = ax.max ?? Math.max(...series.flatMap((s2) => s2.data), 1);
-              const r = ((s.data[i] ?? 0) / max) * maxR;
-              const p = polarToXY(i * step, r, cx, cy);
+            .map((_, i) => {
+              const p = seriesPoint(s.data[i], i);
               return `${p.x},${p.y}`;
             })
             .join(" ");
@@ -83,10 +92,8 @@ export function RadarChart({
             <g key={s.label}>
               <polygon points={pts} fill={color} fillOpacity={0.15} />
               <polygon points={pts} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
-              {axes.map((ax, i) => {
-                const max = ax.max ?? Math.max(...series.flatMap((s2) => s2.data), 1);
-                const r = ((s.data[i] ?? 0) / max) * maxR;
-                const p = polarToXY(i * step, r, cx, cy);
+              {axes.map((_, i) => {
+                const p = seriesPoint(s.data[i], i);
                 return (
                   <circle key={i} cx={p.x} cy={p.y} r={3} fill={color} stroke="var(--ks-lacquer)" strokeWidth={1.5} />
                 );
