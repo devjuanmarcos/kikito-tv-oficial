@@ -4971,6 +4971,8 @@ function CalendarDemo() {
       color: "var(--ks-warning)",
     },
   ];
+  const [clickedEvent, setClickedEvent] = useState<string | null>(null);
+
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
@@ -4978,6 +4980,12 @@ function CalendarDemo() {
           <div className="flex flex-col items-center gap-3">
             <Calendar value={date} onChange={setDate} events={events} />
             {date && <p className="text-body-caption text-faint">Selected: {date.toLocaleDateString()}</p>}
+          </div>
+        </Frame>
+        <Frame label="Uncontrolled (defaultValue) + onEventClick">
+          <div className="flex flex-col items-center gap-3">
+            <Calendar defaultValue={today} events={events} onEventClick={(e) => setClickedEvent(e.title)} />
+            <p className="text-body-caption text-faint">Clicked event: {clickedEvent ?? "none"}</p>
           </div>
         </Frame>
       </ShowcaseSection>

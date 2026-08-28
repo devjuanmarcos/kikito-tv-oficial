@@ -605,12 +605,18 @@ function InlineCalendar({
           const today_ = isSameDay(date, today);
           const isSelected = selected ? isSameDay(date, selected) : false;
           const dayEvents = events.filter((e) => isSameDay(e.date, date));
+          // sem isso, o dia com evento é só um pontinho colorido decorativo — nem hover
+          // (sem title) nem leitor de tela (sem aria-label) sabiam o que era o evento
+          const dayLabel = date.toLocaleDateString(undefined, { day: "numeric", month: "long" });
+          const eventsLabel = dayEvents.length > 0 ? ` — ${dayEvents.map((e) => e.title).join(", ")}` : "";
 
           return (
             <button
               key={i}
               type="button"
               onClick={() => select(date)}
+              title={dayEvents.length > 0 ? dayEvents.map((e) => e.title).join(", ") : undefined}
+              aria-label={`${dayLabel}${eventsLabel}`}
               className={cn(
                 "relative flex flex-col items-center justify-center w-8 h-8 rounded-lg mx-auto text-body-callout",
                 "transition-[background,color] duration-[80ms]",
@@ -622,6 +628,7 @@ function InlineCalendar({
               {day}
               {dayEvents.length > 0 && (
                 <span
+                  aria-hidden="true"
                   className={cn("absolute bottom-0.5 w-1 h-1 rounded-full", isSelected ? "bg-patina-fg/80" : "")}
                   style={!isSelected ? { background: dayEvents[0].color ?? "var(--ks-primary)" } : undefined}
                 />

@@ -6920,6 +6920,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "events", type: "CalendarEvent[]", description: "Chips de eventos nos dias" },
       { name: "onEventClick", type: "(event: CalendarEvent) => void", description: "Callback ao clicar em evento" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── chat-bubble
