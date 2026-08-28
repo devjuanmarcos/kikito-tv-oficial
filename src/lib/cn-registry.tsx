@@ -7135,6 +7135,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "visible", type: "boolean", default: "true", description: "Controla visibilidade" },
       { name: "onDismiss", type: "() => void", description: "Callback ao fechar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── floating-label-input

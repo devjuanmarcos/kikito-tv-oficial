@@ -1,18 +1,8 @@
 "use client";
-import type React from "react";
-
+import { Button } from "@/components/ui/cn/button";
 import { cn } from "@/lib/utils";
 
-export type FloatingBarPosition = "bottom" | "top";
-
-export interface FloatingBarProps {
-  children: React.ReactNode;
-  position?: FloatingBarPosition;
-  visible?: boolean;
-  onDismiss?: () => void;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { FloatingBarProps } from "./floating-bar.types";
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="w-4 h-4">
@@ -31,28 +21,33 @@ export function FloatingBar({
   return (
     <div
       style={style}
+      role="status"
+      aria-live="polite"
+      aria-hidden={!visible}
       className={cn(
         "fixed z-[850] left-1/2 -translate-x-1/2 transition-[opacity,transform] duration-[200ms] ease-in-out",
-        position === "bottom" ? "bottom-6" : "top-6",
+        position === "bottom" ? "bottom-(--spacing-xl)" : "top-(--spacing-xl)",
         visible
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : position === "bottom"
-            ? "opacity-0 translate-y-4 pointer-events-none"
-            : "opacity-0 -translate-y-4 pointer-events-none",
+            ? "opacity-0 translate-y-(--spacing-lg) pointer-events-none"
+            : "opacity-0 -translate-y-(--spacing-lg) pointer-events-none",
         className
       )}
     >
-      <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-raised border border-rule shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.5)]">
+      <div className="flex items-center gap-(--spacing-md) px-(--spacing-lg) py-(--spacing-md) rounded-xl bg-raised border border-rule shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.5)]">
         {children}
         {onDismiss && (
-          <button
-            type="button"
-            aria-label="Dismiss"
+          <Button
+            variant="ghost"
+            intent="neutral"
+            size="xs"
+            iconOnly
+            iconLeft={<XIcon />}
             onClick={onDismiss}
-            className="ml-1 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite transition-colors duration-[80ms]"
-          >
-            <XIcon />
-          </button>
+            aria-label="Dismiss"
+            className="ml-(--spacing-3xs) flex-shrink-0"
+          />
         )}
       </div>
     </div>

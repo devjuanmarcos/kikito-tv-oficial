@@ -23,13 +23,13 @@
       "path": "components/ui/cn/aspect-ratio/AspectRatio.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/aspect-ratio/AspectRatio.tsx",
-      "content": "\"use client\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { AspectRatioProps } from \"./aspect-ratio.types\";\n\nexport function AspectRatio({ children, ratio = 16 / 9, className, style }: AspectRatioProps) {\n  return (\n    <div style={{ paddingBottom: `${(1 / ratio) * 100}%`, position: \"relative\", ...style }} className={cn(\"w-full\", className)}>\n      <div className=\"absolute inset-0\">{children}</div>\n    </div>\n  );\n}\n"
+      "content": "\"use client\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { AspectRatioProps } from \"./aspect-ratio.types\";\n\n/**\n * `children` é posicionado num wrapper `absolute inset-0` — ele PRECISA ocupar 100% de\n * largura/altura pra realmente exibir a proporção (`h-full w-full`, ou `<img>`/`<video>`\n * com `className=\"h-full w-full object-cover\"`). Sem isso, o filho só ocupa a altura do\n * próprio conteúdo (ex: uma `<div>` com texto fica do tamanho do texto, não da proporção).\n */\nexport function AspectRatio({ children, ratio = 16 / 9, className, style }: AspectRatioProps) {\n  return (\n    <div\n      style={{ paddingBottom: `${(1 / ratio) * 100}%`, position: \"relative\", ...style }}\n      className={cn(\"w-full\", className)}\n    >\n      <div className=\"absolute inset-0\">{children}</div>\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/aspect-ratio/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/aspect-ratio/index.ts",
-      "content": "export { AspectRatio } from './AspectRatio'\nexport type { AspectRatioProps } from './aspect-ratio.types'\n"
+      "content": "export { AspectRatio } from \"./AspectRatio\";\nexport type { AspectRatioProps } from \"./aspect-ratio.types\";\n"
     }
   ]
 }

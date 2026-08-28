@@ -4523,12 +4523,15 @@ function TimelineProgressDemo() {
 
 function FloatingBarDemo() {
   const [vis, setVis] = useState(true);
+  const [topVis, setTopVis] = useState(true);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="Floating action bar (toggle visibility)">
-          <div className="relative w-full h-48 rounded-(--radius-lg) border border-rule bg-base overflow-hidden">
-            <FloatingBar visible={vis} position="bottom">
+        <Frame label="Floating action bar (toggle visibility + dismiss)">
+          {/* [contain:layout]: cria containing-block pra descendente position:fixed — sem isso o
+              FloatingBar escapa da caixa e fica preso no canto real do viewport (mesmo achado do Fab) */}
+          <div className="relative w-full h-48 rounded-(--radius-lg) border border-rule bg-base overflow-hidden [contain:layout]">
+            <FloatingBar visible={vis} position="bottom" onDismiss={() => setVis(false)}>
               <div className="flex items-center gap-3">
                 <span className="text-body-callout text-foreground font-medium">3 items selected</span>
                 <Button size="sm" variant="outline" intent="neutral">
@@ -4542,6 +4545,18 @@ function FloatingBarDemo() {
             <div className="absolute inset-0 flex items-center justify-center">
               <Button size="sm" variant="outline" onClick={() => setVis((v) => !v)}>
                 {vis ? "Hide bar" : "Show bar"}
+              </Button>
+            </div>
+          </div>
+        </Frame>
+        <Frame label="Position: top">
+          <div className="relative w-full h-48 rounded-(--radius-lg) border border-rule bg-base overflow-hidden [contain:layout]">
+            <FloatingBar visible={topVis} position="top" onDismiss={() => setTopVis(false)}>
+              <span className="text-body-callout text-foreground font-medium">Update available</span>
+            </FloatingBar>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Button size="sm" variant="outline" onClick={() => setTopVis((v) => !v)}>
+                {topVis ? "Hide bar" : "Show bar"}
               </Button>
             </div>
           </div>
