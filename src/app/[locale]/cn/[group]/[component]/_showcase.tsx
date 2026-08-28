@@ -2644,6 +2644,8 @@ function MiniMapDemo() {
   return (
     <Frame label="Mini Map — navegação por seções com dots interativos">
       <div className="flex items-start gap-4">
+        {/* position="left": mesma seção ativa, label aparece antes do dot */}
+        <MiniMap sections={sections} activeId={activeId} onNavigate={navigate} position="left" />
         <MiniMap sections={sections} activeId={activeId} onNavigate={navigate} position="right" />
         <div
           ref={containerRef}

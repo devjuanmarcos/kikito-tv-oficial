@@ -4223,6 +4223,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "'right'",
         description: "Lado da tela onde o mini-map aparece",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro nav raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro nav raiz",
+      },
     ],
   },
   {
