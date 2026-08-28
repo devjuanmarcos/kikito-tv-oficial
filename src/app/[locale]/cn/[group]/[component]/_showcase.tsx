@@ -1130,14 +1130,14 @@ function FlipCardDemo() {
           height={130}
           front={
             <div className="h-full bg-patina flex flex-col items-center justify-center gap-2 text-patina-fg rounded-2xl">
-              <span className="text-3xl">☀️</span>
-              <span className="font-semibold text-sm">Front</span>
+              <span className="text-heading-04">☀️</span>
+              <span className="font-semibold text-body-callout">Front</span>
             </div>
           }
           back={
             <div className="h-full bg-raised border border-rule flex flex-col items-center justify-center gap-2 rounded-2xl">
-              <span className="text-3xl">🌙</span>
-              <span className="font-semibold text-sm text-foreground">Back</span>
+              <span className="text-heading-04">🌙</span>
+              <span className="font-semibold text-body-callout text-foreground">Back</span>
             </div>
           }
         />
@@ -1148,14 +1148,14 @@ function FlipCardDemo() {
           height={130}
           front={
             <div className="h-full bg-kinpaku flex flex-col items-center justify-center gap-2 text-kinpaku-fg rounded-2xl">
-              <span className="text-3xl">🃏</span>
-              <span className="font-semibold text-sm">Click me</span>
+              <span className="text-heading-04">🃏</span>
+              <span className="font-semibold text-body-callout">Click me</span>
             </div>
           }
           back={
             <div className="h-full bg-canvas border border-rule flex flex-col items-center justify-center gap-2 rounded-2xl">
-              <span className="text-3xl">✨</span>
-              <span className="font-semibold text-sm text-foreground">Vertical flip</span>
+              <span className="text-heading-04">✨</span>
+              <span className="font-semibold text-body-callout text-foreground">Vertical flip</span>
             </div>
           }
         />

@@ -2674,14 +2674,15 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "front", type: "ReactNode", required: true, description: "Conteúdo da face frontal" },
       { name: "back", type: "ReactNode", required: true, description: "Conteúdo da face traseira" },
-      { name: "width", type: "number | string", description: "Largura do card" },
-      { name: "height", type: "number | string", description: "Altura do card" },
+      { name: "width", type: "number | string", default: "280", description: "Largura do card" },
+      { name: "height", type: "number | string", default: "180", description: "Altura do card" },
       { name: "direction", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Eixo de rotação" },
       { name: "trigger", type: "'hover' | 'click'", default: "'hover'", description: "Evento que dispara o flip" },
       { name: "defaultFlipped", type: "boolean", default: "false", description: "Estado inicial" },
       { name: "flipped", type: "boolean", description: "Controlado externamente" },
       { name: "onFlip", type: "(flipped: boolean) => void", description: "Callback ao virar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {

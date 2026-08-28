@@ -1,38 +1,58 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { FlipCardProps } from './flip-card.types'
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { FlipCardProps } from "./flip-card.types";
 
 export function FlipCard({
   front,
   back,
   width = 280,
   height = 180,
-  direction = 'horizontal',
-  trigger = 'hover',
+  direction = "horizontal",
+  trigger = "hover",
   defaultFlipped = false,
   flipped: controlledFlipped,
   onFlip,
   className,
   style,
 }: FlipCardProps) {
-  const [internalFlipped, setInternalFlipped] = useState(defaultFlipped)
-  const isControlled = controlledFlipped !== undefined
-  const flipped = isControlled ? controlledFlipped : internalFlipped
+  const [internalFlipped, setInternalFlipped] = useState(defaultFlipped);
+  const isControlled = controlledFlipped !== undefined;
+  const flipped = isControlled ? controlledFlipped : internalFlipped;
 
   const toggle = () => {
-    const next = !flipped
-    if (!isControlled) setInternalFlipped(next)
-    onFlip?.(next)
-  }
+    const next = !flipped;
+    if (!isControlled) setInternalFlipped(next);
+    onFlip?.(next);
+  };
 
-  const hoverProps = trigger === 'hover'
-    ? {
-        onMouseEnter: () => { if (!isControlled) setInternalFlipped(true); onFlip?.(true) },
-        onMouseLeave: () => { if (!isControlled) setInternalFlipped(false); onFlip?.(false) },
-      }
-    : {}
+  const hoverProps =
+    trigger === "hover"
+      ? {
+          onMouseEnter: () => {
+            if (!isControlled) setInternalFlipped(true);
+            onFlip?.(true);
+          },
+          onMouseLeave: () => {
+            if (!isControlled) setInternalFlipped(false);
+            onFlip?.(false);
+          },
+        }
+      : {};
+
+  // trigger="hover" deixava quem navega por teclado sem nenhuma forma de ver o verso
+  // do card; e trigger="click" tinha onClick num <div> sem role/tabIndex/onKeyDown,
+  // inalcançável por teclado. Card inteiro agora é focável e vira com Enter/Espaço
+  // independente do trigger configurado.
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggle();
+    }
+  }
 
   return (
     <>
@@ -57,16 +77,33 @@ export function FlipCard({
         .fc-back[data-direction="vertical"]   { transform: rotateX(180deg); }
       `}</style>
       <div
-        className={cn('fc-scene', className)}
-        style={{ width, height, borderRadius: 16, cursor: trigger === 'click' ? 'pointer' : undefined, ...style }}
-        onClick={trigger === 'click' ? toggle : undefined}
+        role="button"
+        tabIndex={0}
+        aria-pressed={flipped}
+        className={cn("fc-scene", className)}
+        style={{
+          width,
+          height,
+          borderRadius: "var(--radius-lg)",
+          cursor: trigger === "click" ? "pointer" : undefined,
+          ...style,
+        }}
+        onClick={trigger === "click" ? toggle : undefined}
+        onKeyDown={handleKeyDown}
         {...hoverProps}
       >
-        <div className="fc-card" style={{ borderRadius: 16 }} data-flipped={flipped} data-direction={direction}>
+        <div
+          className="fc-card"
+          style={{ borderRadius: "var(--radius-lg)" }}
+          data-flipped={flipped}
+          data-direction={direction}
+        >
           <div className="fc-face fc-front">{front}</div>
-          <div className="fc-face fc-back" data-direction={direction}>{back}</div>
+          <div className="fc-face fc-back" data-direction={direction}>
+            {back}
+          </div>
         </div>
       </div>
     </>
-  )
+  );
 }
