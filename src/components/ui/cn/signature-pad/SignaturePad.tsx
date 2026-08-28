@@ -26,19 +26,21 @@ export function SignaturePad({
   const lastPos = useRef<{ x: number; y: number } | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
 
-  // canvas 2D strokeStyle: API do browser nao aceita CSS var, precisa de string literal.
-  // Sem token equivalente.
-  const strokeColor = color ?? "oklch(95% 0.01 0)";
-
-  function getCtx() {
-    const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx) return null;
-    ctx.strokeStyle = strokeColor;
+  const getCtx = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!ctx || !canvas) return null;
+    // canvas 2D strokeStyle exige string literal (var() do CSS não funciona aqui) —
+    // achado real: um literal fixo tipo `oklch(95% 0.01 0)` (quase-branco) fica
+    // invisível no modo claro quando `backgroundColor` é "transparent" (default),
+    // porque a tinta clara cai sobre o fundo claro da própria página por trás.
+    // Lê `--ks-text` computado em tempo real a cada traço, então acompanha o tema.
+    ctx.strokeStyle = color ?? (getComputedStyle(canvas).getPropertyValue("--ks-text") || "currentColor");
     ctx.lineWidth = lineWidth;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     return ctx;
-  }
+  }, [color, lineWidth]);
 
   function clientPos(e: MouseEvent | TouchEvent) {
     const r = canvasRef.current!.getBoundingClientRect();
@@ -70,7 +72,7 @@ export function SignaturePad({
       ctx.stroke();
       lastPos.current = curr;
     },
-    [readOnly]
+    [readOnly, getCtx]
   );
 
   const onEnd = useCallback(() => {

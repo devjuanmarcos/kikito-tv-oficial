@@ -17,7 +17,7 @@
       "path": "components/ui/cn/search-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/search-input/index.ts",
-      "content": "export { SearchInput } from './SearchInput'\nexport type { SearchInputProps, SearchInputSize } from './search-input.types'\n"
+      "content": "export { SearchInput } from \"./SearchInput\";\nexport type { SearchInputProps, SearchInputSize } from \"./search-input.types\";\n"
     },
     {
       "path": "components/ui/cn/search-input/search-input.types.ts",
