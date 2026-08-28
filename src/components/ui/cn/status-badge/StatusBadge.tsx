@@ -1,5 +1,3 @@
-import React from "react";
-
 import { cn } from "@/lib/utils";
 
 import type { StatusBadgeProps } from "./status-badge.types";
@@ -12,12 +10,15 @@ const LABELS: Record<string, string> = {
   idle: "Idle",
 };
 
-const STATUS_COLOR: Record<string, string> = {
-  online: "var(--ks-success)",
-  offline: "var(--ks-text-muted)",
-  busy: "var(--ks-danger)",
-  away: "var(--ks-warning)",
-  idle: "var(--ks-info)",
+// classes estáticas (não CSS var + inline style) — status é um enum fixo de 5 valores,
+// não uma cor dinâmica arbitrária, Tailwind alcança direto. Mesmo padrão já usado no
+// dot de status do Avatar.tsx (STATUS_COLOR ali também são classes bg-* literais)
+const DOT_COLOR: Record<string, string> = {
+  online: "bg-success",
+  offline: "bg-faint",
+  busy: "bg-danger",
+  away: "bg-warning",
+  idle: "bg-info",
 };
 
 const SIZE_DOT: Record<string, string> = {
@@ -40,21 +41,23 @@ export function StatusBadge({
   className,
   style,
 }: StatusBadgeProps) {
-  const color = STATUS_COLOR[status];
   const isOffline = status === "offline";
 
   return (
-    <span className={cn("inline-flex items-center gap-1.5", className)} style={style}>
+    <span className={cn("inline-flex items-center gap-(--spacing-xs)", className)} style={style}>
       <span
-        className={cn("rounded-full shrink-0 relative", SIZE_DOT[size], isOffline && "opacity-40")}
-        style={{ background: color }}
+        // achado real: a cor sozinha comunicava o status (Online/Busy/...) sem nenhuma
+        // alternativa textual quando showLabel=false (default) — mesmo padrão já
+        // resolvido no dot de status do Avatar.tsx (role="img" + aria-label). Quando
+        // showLabel=true, o texto visível ao lado já cobre isso — dot vira decorativo
+        // pra não duplicar o anúncio
+        role={showLabel ? undefined : "img"}
+        aria-label={showLabel ? undefined : LABELS[status]}
+        aria-hidden={showLabel || undefined}
+        className={cn("rounded-full shrink-0 relative", SIZE_DOT[size], DOT_COLOR[status], isOffline && "opacity-40")}
       >
         {pulse && status === "online" && (
-          <span
-            aria-hidden="true"
-            className="absolute -inset-[3px] rounded-full opacity-40 animate-ping"
-            style={{ background: color }}
-          />
+          <span aria-hidden="true" className="absolute -inset-[3px] rounded-full opacity-40 animate-ping bg-success" />
         )}
       </span>
       {showLabel && <span className={cn("font-medium text-muted capitalize", SIZE_LABEL[size])}>{LABELS[status]}</span>}

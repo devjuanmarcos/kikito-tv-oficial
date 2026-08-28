@@ -5966,6 +5966,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "showLabel", type: "boolean", default: "false", description: "Exibir texto do status" },
       { name: "pulse", type: "boolean", default: "false", description: "Animar com pulso para status online" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

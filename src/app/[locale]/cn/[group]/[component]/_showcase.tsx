@@ -3215,6 +3215,11 @@ function StatusBadgeDemo() {
           <StatusBadge status="busy" showLabel size="lg" />
           <StatusBadge status="away" showLabel size="sm" />
         </div>
+        <div className="flex items-center gap-6">
+          {statuses.map((s) => (
+            <StatusBadge key={s} status={s} size="md" />
+          ))}
+        </div>
       </div>
     </Frame>
   );
