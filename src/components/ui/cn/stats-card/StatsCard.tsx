@@ -5,10 +5,8 @@
  * imports of `StatsCard` keep working; new code should use Stat directly.
  */
 import { Stat } from "@/components/ui/cn/stat";
-import type { StatGridProps } from "@/components/ui/cn/stat/stat.types";
 
-export type { StatItem, StatTrend } from "@/components/ui/cn/stat/stat.types";
-export type StatsCardProps = Omit<StatGridProps, "mode">;
+import type { StatsCardProps } from "./stats-card.types";
 
 export function StatsCard(props: StatsCardProps) {
   return <Stat mode="grid" {...props} />;

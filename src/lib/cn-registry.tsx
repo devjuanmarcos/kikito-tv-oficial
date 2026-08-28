@@ -7783,10 +7783,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "stats",
         type: "StatItem[]",
         required: true,
-        description: "Array de { label, value, description?, intent? }",
+        description: "Array de { label, value, change?, trend?, icon? }",
       },
       { name: "cols", type: "2 | 3 | 4", default: "3", description: "Número de colunas" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── tag

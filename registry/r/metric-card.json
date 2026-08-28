@@ -17,7 +17,7 @@
       "path": "components/ui/cn/metric-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/metric-card/index.ts",
-      "content": "export { MetricCard } from './MetricCard'\nexport type { MetricCardProps, MetricIntent, MetricTrend } from './metric-card.types'\n"
+      "content": "export { MetricCard } from \"./MetricCard\";\nexport type { MetricCardProps, MetricIntent, MetricTrend } from \"./metric-card.types\";\n"
     },
     {
       "path": "components/ui/cn/metric-card/metric-card.types.ts",
