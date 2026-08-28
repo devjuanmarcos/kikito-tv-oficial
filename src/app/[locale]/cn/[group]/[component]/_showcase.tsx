@@ -5194,7 +5194,7 @@ function ChatBubbleDemo() {
 }
 
 function TerminalBlockDemo() {
-  const lines: import("@/components/ui/cn/terminal-block/TerminalBlock").TerminalLine[] = [
+  const lines: import("@/components/ui/cn/terminal-block/terminal-block.types").TerminalLine[] = [
     { text: "$ npm install @kikito/cn", type: "command" },
     { text: "> Installing packages…", type: "output" },
     { text: "> Added 42 packages in 2.1s", type: "success" },

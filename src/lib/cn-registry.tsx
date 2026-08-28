@@ -8287,9 +8287,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         required: true,
         description: "Linhas { text, type?: 'command'|'output'|'error'|'success' }",
       },
-      { name: "title", type: "string", default: "'terminal'", description: "Título da janela" },
+      { name: "title", type: "string", default: "'Terminal'", description: "Título da janela" },
       { name: "animate", type: "boolean", default: "false", description: "Animar digitação sequencial" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── text-editor
