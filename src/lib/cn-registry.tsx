@@ -3393,7 +3393,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Video thumbnail card with play overlay, duration badge and category pill.",
     filePath: "src/components/ui/cn/video-card/VideoCard.tsx",
     props: [
-      { name: "src", type: "string", description: "URL do vídeo" },
+      { name: "src", type: "string", description: "URL do vídeo — usada pro preview mudo em hover" },
       { name: "poster", type: "string", description: "URL da thumbnail" },
       { name: "title", type: "string", description: "Título do vídeo" },
       { name: "description", type: "string", description: "Descrição curta" },
@@ -3402,6 +3402,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "views", type: "string | number", description: "Contagem de visualizações" },
       { name: "href", type: "string", description: "URL de destino ao clicar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

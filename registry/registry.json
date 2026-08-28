@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T22:55:58.246Z",
+  "generatedAt": "2026-08-28T22:59:59.845Z",
   "items": [
     {
       "name": "accordion",
@@ -2167,7 +2167,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["badge"]
     },
     {
       "name": "virtual-list",

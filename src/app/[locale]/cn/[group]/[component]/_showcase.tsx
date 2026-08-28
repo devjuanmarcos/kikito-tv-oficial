@@ -2518,6 +2518,19 @@ function VideoCardDemo() {
       views: 5890,
       poster: "https://picsum.photos/seed/vid2/640/360",
     },
+    {
+      title: "Hover to preview",
+      description: "Hover the thumbnail to play a muted preview.",
+      duration: "0:10",
+      category: "Demo",
+      views: "1.2K",
+      poster: "https://picsum.photos/seed/vid3/640/360",
+      src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      href: "#",
+    },
+    {
+      title: "No poster fallback",
+    },
   ];
   return (
     <Frame label="Video Card — thumbnail with play overlay and metadata">
