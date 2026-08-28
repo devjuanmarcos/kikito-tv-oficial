@@ -4798,8 +4798,10 @@ function FeatureListDemo() {
 }
 
 function VerticalNavDemo() {
+  const [activeId, setActiveId] = useState("components");
   const items = [
     { id: "home", label: "Home", href: "#", icon: "🏠" },
+    { id: "inbox", label: "Inbox", href: "#", icon: "📥", badge: 12 },
     {
       id: "design",
       label: "Design",
@@ -4810,14 +4812,14 @@ function VerticalNavDemo() {
       ],
     },
     { id: "docs", label: "Documentation", href: "#", icon: "📖" },
-    { id: "settings", label: "Settings", href: "#", icon: "⚙️" },
+    { id: "settings", label: "Settings", href: "#", icon: "⚙️", disabled: true },
   ];
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="Collapsible tree nav" align="start">
+        <Frame label="Collapsible tree nav (badge, disabled item, onSelect)" align="start">
           <div className="w-56 border border-rule rounded-(--radius-lg) bg-base">
-            <VerticalNav items={items} activeId="components" />
+            <VerticalNav items={items} activeId={activeId} onSelect={setActiveId} />
           </div>
         </Frame>
       </ShowcaseSection>

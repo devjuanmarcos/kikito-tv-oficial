@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T01:08:46.791Z",
+  "generatedAt": "2026-08-28T01:29:53.972Z",
   "items": [
     {
       "name": "accordion",
@@ -2156,7 +2156,7 @@
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["badge"]
     },
     {
       "name": "video-card",

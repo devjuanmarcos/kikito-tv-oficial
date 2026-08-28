@@ -7931,10 +7931,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Vertical sidebar navigation with icon support and active item highlighting.",
     filePath: "src/components/ui/cn/vertical-nav/VerticalNav.tsx",
     props: [
-      { name: "items", type: "NavItem[]", required: true, description: "Itens { id, label, icon?, badge? }" },
+      {
+        name: "items",
+        type: "NavItem[]",
+        required: true,
+        description: "Itens { id, label, icon?, badge?, href?, disabled?, children? }",
+      },
       { name: "activeId", type: "string", description: "ID do item ativo" },
       { name: "onSelect", type: "(id: string) => void", description: "Callback ao selecionar item" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── window-frame
