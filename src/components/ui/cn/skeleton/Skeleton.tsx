@@ -1,17 +1,6 @@
-﻿import type React from "react";
-
 import { cn } from "@/lib/utils";
 
-export type SkeletonShape = "default" | "circle" | "rounded" | "pill";
-
-export interface SkeletonProps {
-  width?: string | number;
-  height?: string | number;
-  shape?: SkeletonShape;
-  animate?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { SkeletonProps, SkeletonShape } from "./skeleton.types";
 
 const SHAPE_CLS: Record<SkeletonShape, string> = {
   default: "rounded-none",

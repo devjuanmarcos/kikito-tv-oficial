@@ -17,13 +17,19 @@
       "path": "components/ui/cn/skeleton/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/skeleton/index.ts",
-      "content": "export { Skeleton } from './Skeleton'\nexport type { SkeletonProps, SkeletonShape } from './Skeleton'\n"
+      "content": "export { Skeleton } from './Skeleton'\nexport type { SkeletonProps, SkeletonShape } from './skeleton.types'\n"
     },
     {
       "path": "components/ui/cn/skeleton/Skeleton.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/skeleton/Skeleton.tsx",
-      "content": "﻿import type React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type SkeletonShape = \"default\" | \"circle\" | \"rounded\" | \"pill\";\n\nexport interface SkeletonProps {\n  width?: string | number;\n  height?: string | number;\n  shape?: SkeletonShape;\n  animate?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n\nconst SHAPE_CLS: Record<SkeletonShape, string> = {\n  default: \"rounded-none\",\n  rounded: \"rounded-(--radius-sm)\",\n  circle: \"rounded-full\",\n  pill: \"rounded-full\",\n};\n\nfunction toPx(v: string | number | undefined, fallback: string): string {\n  if (v === undefined) return fallback;\n  return typeof v === \"number\" ? `${v}px` : v;\n}\n\nexport function Skeleton({ width, height, shape = \"default\", animate = true, className, style }: SkeletonProps) {\n  return (\n    <span\n      className={cn(\"block bg-graphite\", animate && \"animate-pulse\", SHAPE_CLS[shape], className)}\n      style={{\n        width: toPx(width, \"100%\"),\n        height: toPx(height, \"1rem\"),\n        ...style,\n      }}\n      aria-hidden=\"true\"\n    />\n  );\n}\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\n\nconst SHAPE_CLS: Record<SkeletonShape, string> = {\n  default: \"rounded-none\",\n  rounded: \"rounded-(--radius-sm)\",\n  circle: \"rounded-full\",\n  pill: \"rounded-full\",\n};\n\nfunction toPx(v: string | number | undefined, fallback: string): string {\n  if (v === undefined) return fallback;\n  return typeof v === \"number\" ? `${v}px` : v;\n}\n\nexport function Skeleton({ width, height, shape = \"default\", animate = true, className, style }: SkeletonProps) {\n  return (\n    <span\n      className={cn(\"block bg-graphite\", animate && \"animate-pulse\", SHAPE_CLS[shape], className)}\n      style={{\n        width: toPx(width, \"100%\"),\n        height: toPx(height, \"1rem\"),\n        ...style,\n      }}\n      aria-hidden=\"true\"\n    />\n  );\n}\n"
+    },
+    {
+      "path": "components/ui/cn/skeleton/skeleton.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/skeleton/skeleton.types.ts",
+      "content": "import type React from \"react\";\n\nexport type SkeletonShape = \"default\" | \"circle\" | \"rounded\" | \"pill\";\n\nexport interface SkeletonProps {\n  width?: string | number;\n  height?: string | number;\n  shape?: SkeletonShape;\n  animate?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     }
   ]
 }

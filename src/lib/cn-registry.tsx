@@ -6324,6 +6324,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "true",
         description: "Ativa animação de pulse",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
+      },
     ],
   },
   {
