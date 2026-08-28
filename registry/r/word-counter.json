@@ -23,7 +23,7 @@
       "path": "components/ui/cn/word-counter/word-counter.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/word-counter/word-counter.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface WordCounterProps {\r\n  value?: string;\r\n  defaultValue?: string;\r\n  onChange?: (value: string) => void;\r\n  maxWords?: number;\r\n  maxChars?: number;\r\n  rows?: number;\r\n  placeholder?: string;\r\n  label?: string;\r\n  showSentences?: boolean;\r\n  showReadTime?: boolean;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface WordCounterProps {\n  value?: string;\n  defaultValue?: string;\n  onChange?: (value: string) => void;\n  maxWords?: number;\n  maxChars?: number;\n  rows?: number;\n  placeholder?: string;\n  label?: string;\n  showSentences?: boolean;\n  showReadTime?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/word-counter/WordCounter.tsx",

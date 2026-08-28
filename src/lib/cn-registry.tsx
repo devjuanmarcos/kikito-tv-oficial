@@ -7920,7 +7920,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "showStrength", type: "boolean", default: "false", description: "Exibir medidor de força" },
       { name: "hint", type: "string", description: "Texto de ajuda" },
       { name: "errorMessage", type: "string", description: "Mensagem de erro" },
+      { name: "id", type: "string", description: "id do input (gerado automaticamente se ausente)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── password-strength

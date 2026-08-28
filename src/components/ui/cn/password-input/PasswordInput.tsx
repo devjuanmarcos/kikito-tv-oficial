@@ -1,29 +1,12 @@
-﻿"use client";
-import type React from "react";
+"use client";
 import { useState, useId } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type PasswordInputSize = "sm" | "md" | "lg";
-
-export interface PasswordInputProps {
-  value?: string;
-  defaultValue?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  placeholder?: string;
-  size?: PasswordInputSize;
-  disabled?: boolean;
-  invalid?: boolean;
-  showStrength?: boolean;
-  hint?: string;
-  errorMessage?: string;
-  id?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { PasswordInputProps, PasswordInputSize } from "./password-input.types";
 
 const SIZE: Record<PasswordInputSize, string> = {
-  sm: "h-7  px-2.5 pr-9  text-[0.8125rem]",
+  sm: "h-7  px-2.5 pr-9  text-body-callout",
   md: "h-9  px-3   pr-10 text-body-callout",
   lg: "h-11 px-3.5 pr-11 text-body-paragraph",
 };
@@ -93,6 +76,8 @@ export function PasswordInput({
 }: PasswordInputProps) {
   const uid = useId();
   const inputId = id ?? uid;
+  const hintId = `${inputId}-hint`;
+  const errorId = `${inputId}-error`;
   const [show, setShow] = useState(false);
   const [internal, setInternal] = useState(defaultValue);
 
@@ -105,8 +90,10 @@ export function PasswordInput({
     onChange?.(e);
   }
 
+  const describedBy = invalid && errorMessage ? errorId : hint ? hintId : undefined;
+
   return (
-    <div style={style} className={cn("flex flex-col gap-1.5", className)}>
+    <div style={style} className={cn("flex flex-col gap-(--spacing-xs)", className)}>
       <div className="relative flex items-center">
         <input
           id={inputId}
@@ -115,6 +102,8 @@ export function PasswordInput({
           onChange={handleChange}
           placeholder={placeholder}
           disabled={disabled}
+          aria-invalid={invalid || undefined}
+          aria-describedby={describedBy}
           className={cn(
             "w-full rounded-(--radius-md) border bg-raised text-foreground placeholder:text-faint",
             "transition-[border-color] duration-[120ms] focus:outline-none focus:border-patina",
@@ -138,11 +127,24 @@ export function PasswordInput({
       </div>
 
       {showStrength && current.length > 0 && (
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-1">
+        <div className="flex flex-col gap-(--spacing-2xs)">
+          {/* role=progressbar + aria-live: sem isso, a força mudava visualmente a cada tecla
+              digitada mas nenhum leitor de tela era avisado (o foco fica no campo de senha,
+              não aqui) — mesmo padrão já usado em PasswordStrength */}
+          <div
+            role="progressbar"
+            aria-label="Password strength"
+            aria-valuemin={0}
+            aria-valuemax={4}
+            aria-valuenow={strength}
+            aria-valuetext={STRENGTH_LABELS[strength]}
+            aria-live="polite"
+            className="flex gap-(--spacing-2xs)"
+          >
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
+                aria-hidden="true"
                 className={cn(
                   "h-1 flex-1 rounded-full transition-colors duration-[200ms]",
                   strength >= i ? STRENGTH_COLORS[strength] : "bg-rule"
@@ -150,12 +152,23 @@ export function PasswordInput({
               />
             ))}
           </div>
-          <p className={cn("text-[0.6875rem]", STRENGTH_TEXT[strength])}>{STRENGTH_LABELS[strength]}</p>
+          {/* below scale minimum: micro-label de suporte sob a barra de força */}
+          <p className={cn("text-[0.6875rem]", STRENGTH_TEXT[strength])} aria-hidden="true">
+            {STRENGTH_LABELS[strength]}
+          </p>
         </div>
       )}
 
-      {invalid && errorMessage && <p className="text-body-caption text-danger">{errorMessage}</p>}
-      {!invalid && hint && <p className="text-body-caption text-faint">{hint}</p>}
+      {invalid && errorMessage && (
+        <p id={errorId} className="text-body-caption text-danger">
+          {errorMessage}
+        </p>
+      )}
+      {!invalid && hint && (
+        <p id={hintId} className="text-body-caption text-faint">
+          {hint}
+        </p>
+      )}
     </div>
   );
 }
