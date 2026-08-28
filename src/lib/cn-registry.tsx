@@ -5887,7 +5887,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "title",
         type: "string",
-        default: "undefined",
+        default: "'System Status'",
         description: "Título da página de status",
       },
       {
@@ -5900,7 +5900,17 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "overallStatus",
         type: "'operational' | 'degraded' | 'outage' | 'maintenance'",
         default: "undefined",
-        description: "Status geral (calculado automaticamente se omitido)",
+        description: "Status geral; se omitido, calcula o pior status entre todos os serviços",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container raiz",
       },
     ],
   },

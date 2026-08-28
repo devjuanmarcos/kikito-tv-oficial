@@ -3163,11 +3163,20 @@ function StatusPageDemo() {
     },
   ];
   return (
-    <Frame label="Status Page — service health grid with grouped sections">
-      <div className="w-full max-w-xl">
-        <StatusPage groups={groups} overallStatus="degraded" lastUpdated={new Date()} />
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Status Page — service health grid with grouped sections">
+        <div className="w-full max-w-xl">
+          <StatusPage groups={groups} overallStatus="degraded" lastUpdated={new Date()} />
+        </div>
+      </Frame>
+      {/* overallStatus omitido: calcula sozinho o pior status entre os serviços
+          (recém-implementado — registry já anunciava isso, mas nunca existia) */}
+      <Frame label="overallStatus omitido — calculado sozinho (pior status = 'degraded')">
+        <div className="w-full max-w-xl">
+          <StatusPage groups={groups} lastUpdated={new Date()} />
+        </div>
+      </Frame>
+    </div>
   );
 }
 
