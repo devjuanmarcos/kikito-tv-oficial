@@ -5240,6 +5240,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "action", type: "React.ReactNode", description: "Botão ou link de ação" },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do componente" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {

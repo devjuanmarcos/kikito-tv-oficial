@@ -2700,18 +2700,31 @@ function EmptyStateDemo() {
     </svg>
   );
   return (
-    <Frame label="Empty State — placeholder with icon, title, description and action">
-      <EmptyState
-        icon={<Icon />}
-        title="No results found"
-        description="Try adjusting your search filters or add new items to see them here."
-        action={
-          <Button intent="primary" size="sm">
-            Add item
-          </Button>
-        }
-      />
-    </Frame>
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="With icon, description and action">
+          <EmptyState
+            icon={<Icon />}
+            title="No results found"
+            description="Try adjusting your search filters or add new items to see them here."
+            action={
+              <Button intent="primary" size="sm">
+                Add item
+              </Button>
+            }
+          />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Sizes">
+        <Frame label="sm · md · lg">
+          <div className="flex flex-col divide-y divide-rule w-full">
+            <EmptyState size="sm" icon={<Icon />} title="Small" description="Compact variant." />
+            <EmptyState size="md" icon={<Icon />} title="Medium (default)" description="Standard variant." />
+            <EmptyState size="lg" icon={<Icon />} title="Large" description="Roomy variant." />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

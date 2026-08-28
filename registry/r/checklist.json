@@ -29,7 +29,7 @@
       "path": "components/ui/cn/checklist/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/checklist/index.ts",
-      "content": "export { Checklist } from './Checklist'\nexport type { ChecklistProps, ChecklistItem, ChecklistIntent } from './checklist.types'\n"
+      "content": "export { Checklist } from \"./Checklist\";\nexport type { ChecklistProps, ChecklistItem, ChecklistIntent } from \"./checklist.types\";\n"
     }
   ]
 }
