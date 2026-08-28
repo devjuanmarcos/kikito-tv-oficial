@@ -7676,11 +7676,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "position", type: "'top-left' | 'top-right'", default: "'top-right'", description: "Posição da faixa" },
       {
         name: "intent",
-        type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'",
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral'",
         default: "'primary'",
         description: "Cor da faixa",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── search-input
