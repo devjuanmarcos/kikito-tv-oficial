@@ -7727,13 +7727,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "sortable-list",
     title: "Sortable List",
     group: "layout",
-    description: "Drag-and-drop reorderable list with handle icons and touch support.",
+    description: "Drag-and-drop reorderable list with a keyboard-accessible handle (arrow keys/Home/End).",
     filePath: "src/components/ui/cn/sortable-list/SortableList.tsx",
     props: [
       { name: "items", type: "SortableItem[]", required: true, description: "Array de { id, content } para ordenar" },
       { name: "onChange", type: "(items: SortableItem[]) => void", description: "Callback após reordenar" },
-      { name: "disabled", type: "boolean", default: "false", description: "Desabilitar arrasto" },
+      { name: "disabled", type: "boolean", default: "false", description: "Desabilitar arrasto e o grip por teclado" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── split-button

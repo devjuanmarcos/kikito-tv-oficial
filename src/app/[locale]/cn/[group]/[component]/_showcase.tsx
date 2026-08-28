@@ -5009,7 +5009,7 @@ function CalendarDemo() {
 }
 
 function SortableListDemo() {
-  const [items, setItems] = useState<import("@/components/ui/cn/sortable-list/SortableList").SortableItem[]>([
+  const [items, setItems] = useState<import("@/components/ui/cn/sortable-list").SortableItem[]>([
     { id: "1", content: <span className="text-body-callout text-foreground">Design tokens</span> },
     { id: "2", content: <span className="text-body-callout text-foreground">Button component</span> },
     { id: "3", content: <span className="text-body-callout text-foreground">Input component</span> },
@@ -5019,9 +5019,20 @@ function SortableListDemo() {
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="Drag to reorder" align="start">
+        <Frame label="Drag to reorder (mouse) ou setas ↑/↓ no grip (teclado)" align="start">
           <div className="w-full max-w-sm">
             <SortableList items={items} onChange={setItems} />
+          </div>
+        </Frame>
+        <Frame label="Disabled" align="start">
+          <div className="w-full max-w-sm">
+            <SortableList
+              items={[
+                { id: "d1", content: <span className="text-body-callout text-foreground">Locked item 1</span> },
+                { id: "d2", content: <span className="text-body-callout text-foreground">Locked item 2</span> },
+              ]}
+              disabled
+            />
           </div>
         </Frame>
       </ShowcaseSection>

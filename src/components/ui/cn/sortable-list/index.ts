@@ -1,2 +1,2 @@
-export { SortableList } from './SortableList'
-export type { SortableListProps, SortableItem } from './SortableList'
+export { SortableList } from "./SortableList";
+export type { SortableListProps, SortableItem } from "./sortable-list.types";

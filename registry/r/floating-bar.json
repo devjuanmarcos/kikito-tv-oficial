@@ -29,7 +29,7 @@
       "path": "components/ui/cn/floating-bar/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/floating-bar/index.ts",
-      "content": "export { FloatingBar } from './FloatingBar'\nexport type { FloatingBarProps, FloatingBarPosition } from './floating-bar.types'\n"
+      "content": "export { FloatingBar } from \"./FloatingBar\";\nexport type { FloatingBarProps, FloatingBarPosition } from \"./floating-bar.types\";\n"
     }
   ]
 }
