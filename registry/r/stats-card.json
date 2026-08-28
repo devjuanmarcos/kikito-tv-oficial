@@ -17,7 +17,7 @@
       "path": "components/ui/cn/stats-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/stats-card/index.ts",
-      "content": "export { StatsCard } from './StatsCard'\nexport type { StatsCardProps, StatItem, StatTrend } from './stats-card.types'\n"
+      "content": "export { StatsCard } from \"./StatsCard\";\nexport type { StatsCardProps, StatItem, StatTrend } from \"./stats-card.types\";\n"
     },
     {
       "path": "components/ui/cn/stats-card/stats-card.types.ts",
