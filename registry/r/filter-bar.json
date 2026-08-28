@@ -23,7 +23,7 @@
       "path": "components/ui/cn/filter-bar/FilterBar.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/filter-bar/FilterBar.tsx",
-      "content": "\"use client\";\r\n/**\r\n * FilterBar — backward-compat wrapper.\r\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"filter\" />`).\r\n * Kept so existing imports of `FilterBar` keep working; new code should use\r\n * ToggleGroup directly.\r\n */\r\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\r\nimport type { ToggleGroupFilterProps } from \"@/components/ui/cn/toggle-group/ToggleGroup\";\r\n\r\nimport type { FilterBarProps } from \"./filter-bar.types\";\r\n\r\nexport function FilterBar(props: FilterBarProps) {\r\n  return <ToggleGroup variant=\"filter\" {...(props as ToggleGroupFilterProps)} />;\r\n}\r\n"
+      "content": "\"use client\";\r\n/**\r\n * FilterBar — backward-compat wrapper.\r\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"filter\" />`).\r\n * Kept so existing imports of `FilterBar` keep working; new code should use\r\n * ToggleGroup directly.\r\n */\r\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\r\nimport type { ToggleGroupFilterProps } from \"@/components/ui/cn/toggle-group/toggle-group.types\";\r\n\r\nimport type { FilterBarProps } from \"./filter-bar.types\";\r\n\r\nexport function FilterBar(props: FilterBarProps) {\r\n  return <ToggleGroup variant=\"filter\" {...(props as ToggleGroupFilterProps)} />;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/filter-bar/index.ts",

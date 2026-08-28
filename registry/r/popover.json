@@ -17,7 +17,7 @@
       "path": "components/ui/cn/popover/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/popover/index.ts",
-      "content": "export { Popover } from './Popover'\nexport type { PopoverProps, PopoverPlacement } from './popover.types'\n"
+      "content": "export { Popover } from \"./Popover\";\nexport type { PopoverProps, PopoverPlacement } from \"./popover.types\";\n"
     },
     {
       "path": "components/ui/cn/popover/Popover.tsx",

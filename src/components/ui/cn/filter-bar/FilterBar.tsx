@@ -6,7 +6,7 @@
  * ToggleGroup directly.
  */
 import { ToggleGroup } from "@/components/ui/cn/toggle-group";
-import type { ToggleGroupFilterProps } from "@/components/ui/cn/toggle-group/ToggleGroup";
+import type { ToggleGroupFilterProps } from "@/components/ui/cn/toggle-group/toggle-group.types";
 
 import type { FilterBarProps } from "./filter-bar.types";
 

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/hover-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/hover-card/index.ts",
-      "content": "export { HoverCard } from './HoverCard'\nexport type { HoverCardProps, HoverCardSide, HoverCardAlign } from './hover-card.types'\n"
+      "content": "export { HoverCard } from \"./HoverCard\";\nexport type { HoverCardProps, HoverCardSide, HoverCardAlign } from \"./hover-card.types\";\n"
     }
   ]
 }

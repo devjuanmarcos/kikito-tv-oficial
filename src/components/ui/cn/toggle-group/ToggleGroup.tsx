@@ -312,9 +312,8 @@ function FilterToggleGroup({
             className={cn(
               // gap-[5px]/py-[5px]: sem match exato na escala de spacing
               "inline-flex items-center gap-[5px] py-[5px] px-(--spacing-md) rounded-pill text-body-callout font-medium cursor-pointer border border-rule bg-transparent text-muted transition-[border-color,background,color] duration-[150ms] select-none",
-              "hover:border-patina hover:text-foreground hover:bg-[color-mix(in_srgb,var(--ks-primary)_8%,transparent)]",
-              isActive &&
-                "border-patina bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina font-semibold"
+              "hover:border-patina hover:text-foreground hover:bg-patina-soft",
+              isActive && "border-patina bg-patina-soft text-patina-soft-fg font-semibold"
             )}
             onClick={() => toggle(opt.value)}
           >
@@ -323,7 +322,9 @@ function FilterToggleGroup({
               <span
                 className={cn(
                   "bg-raised rounded-pill px-[6px] py-[1px] text-body-caption font-bold text-muted min-w-[18px] text-center",
-                  isActive && "bg-[color-mix(in_srgb,var(--ks-primary)_25%,transparent)] text-patina"
+                  // bg-patina (não -soft): o badge fica sobre um pai já com bg-patina-soft quando ativo —
+                  // precisa de mais contraste que o próprio soft pra não se misturar no fundo
+                  isActive && "bg-patina text-patina-fg"
                 )}
               >
                 {opt.count}

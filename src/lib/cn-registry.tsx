@@ -2220,7 +2220,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "multiSelect",
         type: "boolean",
-        default: "false",
+        default: "true",
         description: "Permite múltiplos filtros ativos ao mesmo tempo",
       },
       {
@@ -2228,6 +2228,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "true",
         description: "Exibe botão para limpar todos os filtros",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },
@@ -6805,6 +6815,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "false",
         description: "Expande para 100% da largura",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },
