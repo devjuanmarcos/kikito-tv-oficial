@@ -1,2 +1,2 @@
-export { Callout } from './Callout'
-export type { CalloutProps } from './callout.types'
+export { Callout } from "./Callout";
+export type { CalloutProps, CalloutIntent, CalloutAppearance } from "./callout.types";

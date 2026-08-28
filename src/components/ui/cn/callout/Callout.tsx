@@ -1,4 +1,5 @@
-﻿import { cn } from "@/lib/utils";
+﻿"use client";
+import { cn } from "@/lib/utils";
 
 import type { CalloutProps } from "./callout.types";
 
@@ -104,6 +105,7 @@ const INTENT_VARS: Record<string, string> = {
 };
 
 // bg-[--i]/text-[--i-fg] (bracket cru) confirmado quebrado empiricamente em 2026-08-27 — trocado por sintaxe de parenteses
+// color-mix no border do "soft": sem token border-*-soft na paleta (pares soft são bg/text)
 const APPEARANCE_CLS: Record<string, string> = {
   soft: "bg-(--i-soft) border border-[color-mix(in_oklch,var(--i)_30%,transparent)]",
   outline: "bg-transparent border-[1.5px] border-(--i)",
@@ -127,7 +129,8 @@ export function Callout({
   return (
     <div
       className={cn(
-        "flex gap-3 px-[1.125rem] py-4 rounded-(--radius-md) relative leading-normal",
+        // px-[1.125rem]: sem match exato na escala de spacing
+        "flex gap-(--spacing-md) px-[1.125rem] py-(--spacing-lg) rounded-(--radius-md) relative leading-normal",
         INTENT_VARS[intent],
         APPEARANCE_CLS[appearance],
         className
@@ -147,7 +150,7 @@ export function Callout({
         </span>
       )}
 
-      <div className="flex-1 min-w-0 flex flex-col gap-1">
+      <div className="flex-1 min-w-0 flex flex-col gap-(--spacing-2xs)">
         {title && (
           <p className={cn("font-semibold text-body-callout leading-snug", isSolid ? "text-(--i-fg)" : "text-(--i)")}>
             {title}

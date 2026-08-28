@@ -3353,6 +3353,7 @@ function BannerDemo() {
 }
 
 function CalloutDemo() {
+  const [closed, setClosed] = useState(false);
   return (
     <div className="flex flex-col gap-6 w-full max-w-xl">
       <div className="flex flex-col gap-3">
@@ -3376,6 +3377,31 @@ function CalloutDemo() {
         <Callout intent="danger" title="Action required" appearance="solid">
           Your subscription expires in 3 days. Upgrade to keep access.
         </Callout>
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="text-body-caption font-semibold text-faint uppercase tracking-[0.08em]">Closable · with action</p>
+        {closed ? (
+          <button
+            type="button"
+            className="text-body-callout text-patina underline self-start"
+            onClick={() => setClosed(false)}
+          >
+            Show callout again
+          </button>
+        ) : (
+          <Callout
+            intent="info"
+            title="New feature available"
+            onClose={() => setClosed(true)}
+            action={
+              <Button size="sm" variant="outline">
+                Learn more
+              </Button>
+            }
+          >
+            Try the new dashboard layout in settings.
+          </Callout>
+        )}
       </div>
     </div>
   );
