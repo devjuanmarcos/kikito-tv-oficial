@@ -1764,6 +1764,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "false",
         description: "Desabilita o switch",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
+      },
     ],
   },
   {

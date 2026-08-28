@@ -4,23 +4,7 @@ import { useId, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type SwitchSize = "sm" | "md" | "lg";
-export type SwitchIntent = "primary" | "secondary" | "success" | "destructive" | "warning" | "info";
-export type SwitchLabelPosition = "left" | "right";
-
-export interface SwitchProps {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  onChange?: (checked: boolean) => void;
-  label?: string;
-  description?: string;
-  size?: SwitchSize;
-  intent?: SwitchIntent;
-  labelPosition?: SwitchLabelPosition;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { SwitchIntent, SwitchProps, SwitchSize } from "./switch.types";
 
 const SIZE_TRACK: Record<SwitchSize, string> = {
   sm: "w-7 h-4",
@@ -39,7 +23,7 @@ const SIZE_THUMB_ON: Record<SwitchSize, string> = {
 };
 const INTENT_CLS: Record<SwitchIntent, string> = {
   primary: "bg-patina",
-  secondary: "bg-secondary",
+  secondary: "bg-kinpaku",
   success: "bg-success",
   destructive: "bg-danger",
   warning: "bg-warning",
@@ -60,6 +44,7 @@ export function Switch({
   style,
 }: SwitchProps) {
   const uid = useId();
+  const descId = `${uid}-description`;
   const isControlled = checked !== undefined;
   const [internal, setInternal] = useState(defaultChecked);
   const isOn = isControlled ? checked ?? false : internal;
@@ -72,14 +57,18 @@ export function Switch({
   const labelEl = (label || description) && (
     <span className="flex flex-col gap-[0.1rem]">
       {label && <span className="text-body-callout font-medium text-foreground leading-tight">{label}</span>}
-      {description && <span className="text-body-caption text-faint leading-[1.4]">{description}</span>}
+      {description && (
+        <span id={descId} className="text-body-caption text-faint leading-[1.4]">
+          {description}
+        </span>
+      )}
     </span>
   );
 
   return (
     <label
       className={cn(
-        "inline-flex items-center gap-2.5 cursor-pointer select-none",
+        "inline-flex items-center gap-(--spacing-md) cursor-pointer select-none",
         disabled && "opacity-50 cursor-not-allowed",
         className
       )}
@@ -98,15 +87,20 @@ export function Switch({
         <input
           id={uid}
           type="checkbox"
+          role="switch"
           className="sr-only"
           checked={isControlled ? checked : undefined}
           defaultChecked={!isControlled ? defaultChecked : undefined}
           disabled={disabled}
+          aria-checked={isOn}
+          aria-describedby={description ? descId : undefined}
           onChange={handleChange}
         />
         <span
           className={cn(
-            "absolute rounded-full bg-white shadow-sm transition-transform duration-[180ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            // bg-canvas: thumb precisa ser opaco/neutro em qualquer intent/tema — bg-white
+            // hardcoded quebrava em light mode (mesmo achado já corrigido no Slider)
+            "absolute rounded-full bg-canvas shadow-sm transition-transform duration-[180ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]",
             SIZE_THUMB_OFF[size],
             isOn && SIZE_THUMB_ON[size]
           )}
