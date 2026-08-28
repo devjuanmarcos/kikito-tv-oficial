@@ -1535,7 +1535,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "errorText",
         type: "string",
         default: "undefined",
-        description: "Mensagem de erro",
+        description: "Mensagem de erro (força state='error')",
+      },
+      {
+        name: "successText",
+        type: "string",
+        default: "undefined",
+        description: "Mensagem de sucesso (força state='success')",
+      },
+      {
+        name: "warningText",
+        type: "string",
+        default: "undefined",
+        description: "Mensagem de aviso (força state='warning')",
       },
       {
         name: "showCount",
@@ -1560,6 +1572,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'none' | 'vertical' | 'horizontal' | 'both'",
         default: "'vertical'",
         description: "Controla qual direção pode ser redimensionada",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
       },
     ],
   },
