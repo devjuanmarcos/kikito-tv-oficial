@@ -1033,20 +1033,34 @@ function ImageCropperDemo() {
 
 function ResizableDemo() {
   return (
-    <Frame label="Resizable — drag the divider to resize panels">
-      <div className="w-full h-[320px]">
-        <Resizable direction="horizontal" defaultSize={50} minSize={20} maxSize={80}>
-          <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
-            <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel A</p>
-            <p className="text-body-callout text-foreground">Drag the divider ↔</p>
-          </div>
-          <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
-            <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel B</p>
-            <p className="text-body-callout text-foreground">This panel resizes too</p>
-          </div>
-        </Resizable>
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Resizable — drag the divider to resize panels (horizontal)">
+        <div className="w-full h-[320px]">
+          <Resizable direction="horizontal" defaultSize={50} minSize={20} maxSize={80}>
+            <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
+              <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel A</p>
+              <p className="text-body-callout text-foreground">Drag the divider ↔ (ou foca e usa as setas)</p>
+            </div>
+            <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
+              <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Panel B</p>
+              <p className="text-body-callout text-foreground">This panel resizes too</p>
+            </div>
+          </Resizable>
+        </div>
+      </Frame>
+      <Frame label="Resizable — vertical">
+        <div className="w-full h-[320px]">
+          <Resizable direction="vertical" defaultSize={40} minSize={20} maxSize={80}>
+            <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
+              <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Top</p>
+            </div>
+            <div className="h-full bg-raised rounded-(--radius-sm) p-4 flex flex-col gap-2">
+              <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Bottom</p>
+            </div>
+          </Resizable>
+        </div>
+      </Frame>
+    </div>
   );
 }
 

@@ -4041,6 +4041,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Callback com tamanho atual em % ao arrastar",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container raiz",
+      },
     ],
   },
   {
