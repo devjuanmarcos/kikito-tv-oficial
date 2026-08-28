@@ -17,7 +17,7 @@
       "path": "components/ui/cn/read-more/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/read-more/index.ts",
-      "content": "export { ReadMore } from './ReadMore'\nexport type { ReadMoreProps } from './read-more.types'\n"
+      "content": "export { ReadMore } from \"./ReadMore\";\nexport type { ReadMoreProps } from \"./read-more.types\";\n"
     },
     {
       "path": "components/ui/cn/read-more/read-more.types.ts",

@@ -22,6 +22,7 @@ import { BarChart } from "@/components/ui/cn/bar-chart/BarChart";
 import { BentoGrid } from "@/components/ui/cn/bento-grid/BentoGrid";
 import { Breadcrumb } from "@/components/ui/cn/breadcrumb/Breadcrumb";
 import { Button } from "@/components/ui/cn/button/Button";
+import { ButtonGroup } from "@/components/ui/cn/button-group/ButtonGroup";
 import { Calendar } from "@/components/ui/cn/calendar/Calendar";
 import { Callout } from "@/components/ui/cn/callout/Callout";
 import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/cn/card/Card";
@@ -77,6 +78,7 @@ import { GlowCard } from "@/components/ui/cn/glow-card/GlowCard";
 import { GradientBorder } from "@/components/ui/cn/gradient-border/GradientBorder";
 import { GridPattern } from "@/components/ui/cn/grid-pattern/GridPattern";
 import { HoverCard } from "@/components/ui/cn/hover-card/HoverCard";
+import { IconBox } from "@/components/ui/cn/icon-box/IconBox";
 import { ImageCompare } from "@/components/ui/cn/image-compare/ImageCompare";
 import { ImageCropper } from "@/components/ui/cn/image-cropper/ImageCropper";
 import { ImageViewer } from "@/components/ui/cn/image-viewer/ImageViewer";
@@ -4111,6 +4113,44 @@ function ButtonDemo() {
 
 /* ── New component demos ── */
 
+function ButtonGroupDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Attached (default)">
+        <Frame label="Horizontal">
+          <ButtonGroup aria-label="Text alignment">
+            <Button variant="outline">Left</Button>
+            <Button variant="outline">Center</Button>
+            <Button variant="outline">Right</Button>
+          </ButtonGroup>
+        </Frame>
+        <Frame label="Vertical">
+          <ButtonGroup orientation="vertical" aria-label="View options">
+            <Button variant="outline">Top</Button>
+            <Button variant="outline">Middle</Button>
+            <Button variant="outline">Bottom</Button>
+          </ButtonGroup>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Detached">
+        <Frame label="attached={false}">
+          <ButtonGroup attached={false} aria-label="Quick actions">
+            <Button variant="outline" size="sm">
+              Copy
+            </Button>
+            <Button variant="outline" size="sm">
+              Duplicate
+            </Button>
+            <Button variant="outline" size="sm" intent="danger">
+              Delete
+            </Button>
+          </ButtonGroup>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function RatingInputDemo() {
   const [val, setVal] = useState(0);
   return (
@@ -6014,6 +6054,57 @@ function HoverCardDemo() {
   );
 }
 
+function IconBoxDemo() {
+  const BoltIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Variants">
+        <Frame label="soft · solid · outline">
+          <div className="flex flex-wrap gap-4">
+            <IconBox icon={<BoltIcon />} variant="soft" />
+            <IconBox icon={<BoltIcon />} variant="solid" />
+            <IconBox icon={<BoltIcon />} variant="outline" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Intents">
+        <Frame label="6 intents coloridos + neutral">
+          <div className="flex flex-wrap gap-4">
+            {(["primary", "secondary", "success", "warning", "danger", "info", "neutral"] as const).map((intent) => (
+              <IconBox key={intent} icon={<BoltIcon />} intent={intent} />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="With title and description">
+        <Frame label="sm · md · lg" align="start">
+          <div className="flex flex-wrap gap-6">
+            <IconBox size="sm" icon={<BoltIcon />} intent="success" title="Fast" description="Sub-second loads." />
+            <IconBox
+              size="md"
+              icon={<BoltIcon />}
+              intent="info"
+              title="Reliable"
+              description="99.9% uptime guaranteed."
+            />
+            <IconBox
+              size="lg"
+              icon={<BoltIcon />}
+              intent="danger"
+              title="Secure"
+              description="End-to-end encryption."
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function TabsDemo() {
   const [activeTab, setActiveTab] = useState("overview");
   const items = [
@@ -6601,6 +6692,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "tokens/colors": ColorsTokens,
   "tokens/typography": TypographyTokens,
   "inputs/button": ButtonDemo,
+  "inputs/button-group": ButtonGroupDemo,
   "inputs/badge": BadgeDemo,
   "inputs/input": InputDemo,
   "inputs/label": LabelDemo,
@@ -6737,6 +6829,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "overlays/tooltip": TooltipDemo,
   "overlays/popover": PopoverDemo,
   "display/hover-card": HoverCardDemo,
+  "display/icon-box": IconBoxDemo,
   "display/tabs": TabsDemo,
   "display/accordion": AccordionDemo,
   "display/collapsible": CollapsibleDemo,
