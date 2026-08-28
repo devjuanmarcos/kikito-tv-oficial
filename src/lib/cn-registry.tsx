@@ -5361,6 +5361,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "defaultValue", type: "string", description: "ID do tema padrão (não-controlado)" },
       { name: "onChange", type: "(id: string) => void", description: "Callback ao selecionar um tema" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
