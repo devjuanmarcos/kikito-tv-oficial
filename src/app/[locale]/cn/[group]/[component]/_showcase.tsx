@@ -2289,6 +2289,21 @@ function ToastDemoInner() {
         >
           Solid
         </Button>
+        <Button
+          intent="secondary"
+          size="sm"
+          onClick={() =>
+            toast({
+              intent: "warning",
+              variant: "solid",
+              title: "Solid warning",
+              message: "Icon and action must stay legible here too.",
+              action: { label: "Undo", onClick: () => {} },
+            })
+          }
+        >
+          Solid warning
+        </Button>
       </div>
     </Frame>
   );

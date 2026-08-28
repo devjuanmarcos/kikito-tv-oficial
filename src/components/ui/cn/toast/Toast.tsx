@@ -1,11 +1,11 @@
 ﻿"use client";
 
-import { createContext, useCallback, useContext, useRef, useState, useEffect, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 
-import type { ToastContextValue, ToastItem, ToastOptions, ToastPlacement } from "./toast.types";
+import type { ToastContextValue, ToastItem, ToastOptions, ToastProviderProps } from "./toast.types";
 
 const InfoIcon = () => (
   <svg
@@ -108,7 +108,8 @@ const INTENT_COLORS: Record<string, { bg: string; text: string; bar: string }> =
   success: { bg: "var(--ks-success)", text: "var(--ks-success-fg)", bar: "var(--ks-success)" },
   warning: { bg: "var(--ks-warning)", text: "var(--ks-warning-fg)", bar: "var(--ks-warning)" },
   danger: { bg: "var(--ks-danger)", text: "var(--ks-danger-fg)", bar: "var(--ks-danger)" },
-  neutral: { bg: "var(--ks-graphite)", text: "var(--ks-foreground)", bar: "var(--ks-text-faint)" },
+  // --ks-foreground nunca existiu (var indefinida) — o token real de texto principal é --ks-text
+  neutral: { bg: "var(--ks-graphite)", text: "var(--ks-text)", bar: "var(--ks-text-faint)" },
 };
 
 const REGION_CLS: Record<string, string> = {
@@ -159,17 +160,13 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
       `}</style>
       <div
         className={cn(
-          "flex items-start gap-2.5 px-4 py-3 rounded-(--radius-md) pointer-events-auto w-full relative overflow-hidden",
+          // gap-2.5: sem match exato na escala de spacing
+          "flex items-start gap-2.5 px-(--spacing-lg) py-(--spacing-md) rounded-(--radius-md) pointer-events-auto w-full relative overflow-hidden",
           item.exiting ? "toast-exit" : "toast-enter",
-          isSolid
-            ? "border border-transparent shadow-lg"
-            : 'bg-raised border border-rule shadow-lg pl-5 before:content-[""] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[3px] before:rounded-full'
+          // pl-5: sem match exato na escala de spacing
+          isSolid ? "border border-transparent shadow-lg" : "bg-raised border border-rule shadow-lg pl-5"
         )}
-        style={
-          isSolid
-            ? { background: colors.bg, color: colors.text }
-            : ({ "--tw-before-bg": colors.bar } as React.CSSProperties)
-        }
+        style={isSolid ? { background: colors.bg, color: colors.text } : undefined}
         role="status"
         aria-live="polite"
         aria-atomic="true"
@@ -179,8 +176,8 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
             style={{
               position: "absolute",
               left: 0,
-              top: 8,
-              bottom: 8,
+              top: "var(--spacing-sm)",
+              bottom: "var(--spacing-sm)",
               width: 3,
               borderRadius: 999,
               background: colors.bar,
@@ -189,21 +186,23 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
         )}
 
         {resolvedIcon && (
+          // colors.text (não branco fixo): warning-fg costuma ser escuro pra manter contraste
+          // sobre o fundo amarelo sólido — um branco fixo ficaria ilegível nesse intent
           <span
             className="inline-flex items-center shrink-0 pt-[1px]"
-            style={{ color: isSolid ? "rgba(255,255,255,0.9)" : colors.bar }}
+            style={{ color: isSolid ? colors.text : colors.bar }}
           >
             {resolvedIcon}
           </span>
         )}
 
-        <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+        <div className="flex-1 min-w-0 flex flex-col gap-(--spacing-3xs)">
           {item.title && <p className="text-body-callout font-semibold leading-snug">{item.title}</p>}
           {item.message && <p className="text-body-callout leading-normal opacity-85">{item.message}</p>}
           {item.action && (
             <button
-              className="bg-transparent border-none cursor-pointer text-body-callout font-semibold p-0 mt-1.5 text-left transition-opacity hover:opacity-75"
-              style={{ color: isSolid ? "rgba(255,255,255,0.9)" : colors.bar }}
+              className="bg-transparent border-none cursor-pointer text-body-callout font-semibold p-0 mt-(--spacing-xs) text-left transition-opacity hover:opacity-75"
+              style={{ color: isSolid ? colors.text : colors.bar }}
               onClick={() => {
                 item.action!.onClick();
                 onDismiss(item.id);
@@ -216,7 +215,7 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
 
         {item.dismissible && (
           <button
-            className="inline-flex items-center bg-transparent border-none cursor-pointer p-0.5 rounded-(--radius-xs) opacity-50 shrink-0 self-start transition-opacity hover:opacity-100"
+            className="inline-flex items-center bg-transparent border-none cursor-pointer p-(--spacing-3xs) rounded-(--radius-xs) opacity-50 shrink-0 self-start transition-opacity hover:opacity-100"
             aria-label="Dismiss"
             onClick={() => onDismiss(item.id)}
           >
@@ -226,19 +225,14 @@ function ToastCard({ item, onDismiss }: { item: ToastItem; onDismiss: (id: strin
 
         {!!item.duration && (
           <div
+            aria-hidden="true"
             className="absolute bottom-0 left-0 h-[2px] opacity-50"
-            style={{ width: `${barW}%`, background: isSolid ? "rgba(255,255,255,0.5)" : colors.bar }}
+            style={{ width: `${barW}%`, background: isSolid ? colors.text : colors.bar }}
           />
         )}
       </div>
     </>
   );
-}
-
-export interface ToastProviderProps {
-  children: ReactNode;
-  placement?: ToastPlacement;
-  maxToasts?: number;
 }
 
 export function ToastProvider({ children, placement = "bottom-right", maxToasts = 5 }: ToastProviderProps) {
@@ -308,7 +302,7 @@ export function ToastProvider({ children, placement = "bottom-right", maxToasts 
         createPortal(
           <div
             className={cn(
-              "fixed z-[9999] flex flex-col gap-2 pointer-events-none p-4 w-[360px] max-w-[calc(100vw-2rem)]",
+              "fixed z-[9999] flex flex-col gap-(--spacing-sm) pointer-events-none p-(--spacing-lg) w-[360px] max-w-[calc(100vw-2rem)]",
               REGION_CLS[placement]
             )}
             aria-label="Notifications"
