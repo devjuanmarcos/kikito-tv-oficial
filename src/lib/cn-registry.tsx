@@ -6258,7 +6258,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "spinner",
     title: "Spinner",
     group: "feedback",
-    description: "SVG spinning loader with 5 sizes, 4 intents and accessible label.",
+    description: "CSS border-spin loader with 5 sizes, 4 intents and accessible label.",
     filePath: "src/components/ui/cn/spinner/Spinner.tsx",
     peerDeps: ["@/lib/utils"],
     props: [
@@ -6279,6 +6279,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "string",
         default: "undefined",
         description: "Texto acessível para leitores de tela",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },
