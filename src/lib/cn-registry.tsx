@@ -676,6 +676,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Callback chamado após a cópia",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro botão",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro botão",
+      },
     ],
   },
   {
