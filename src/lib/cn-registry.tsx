@@ -3913,6 +3913,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "9999",
         description: "Z-index da barra",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pra barra",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pra barra",
+      },
     ],
   },
   {
