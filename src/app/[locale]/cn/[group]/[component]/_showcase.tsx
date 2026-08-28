@@ -2135,7 +2135,7 @@ function CountdownTimerDemo() {
           <CountdownTimer seconds={90} showDays={false} onComplete={() => setDone(true)} />
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <p className="text-danger font-bold text-lg">Time&apos;s up!</p>
+            <p className="text-danger font-bold text-body-title">Time&apos;s up!</p>
             <Button onClick={() => setDone(false)} variant="ghost" size="xs">
               Reset
             </Button>

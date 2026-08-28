@@ -4623,7 +4623,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "showDays",
         type: "boolean",
-        default: "false",
+        default: "true",
         description: "Exibe unidade de dias",
       },
       {
@@ -4643,6 +4643,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "() => void",
         default: "undefined",
         description: "Callback quando o contador chega a zero",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro wrapper",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro wrapper",
       },
     ],
   },
