@@ -29,7 +29,7 @@
       "path": "components/ui/cn/button-group/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/button-group/index.ts",
-      "content": "export { ButtonGroup } from './ButtonGroup'\nexport type { ButtonGroupProps } from './button-group.types'\n"
+      "content": "export { ButtonGroup } from \"./ButtonGroup\";\nexport type { ButtonGroupProps } from \"./button-group.types\";\n"
     }
   ]
 }

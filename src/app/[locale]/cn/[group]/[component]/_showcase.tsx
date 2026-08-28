@@ -3471,10 +3471,28 @@ function ChecklistDemo() {
 }
 
 function BreadcrumbDemo() {
+  const HomeIcon = () => (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <path d="M9 22V12h6v10" />
+    </svg>
+  );
   const items = [
     { label: "Home", href: "#" },
     { label: "Library", href: "#" },
     { label: "Components", href: "#" },
+    { label: "Breadcrumb" },
+  ];
+  const itemsWithIcon = [
+    { label: "Home", href: "#", icon: <HomeIcon /> },
+    { label: "Library", href: "#" },
     { label: "Breadcrumb" },
   ];
   return (
@@ -3487,6 +3505,9 @@ function BreadcrumbDemo() {
       </Frame>
       <Frame label="Small + custom separator">
         <Breadcrumb items={items} size="sm" separator={<span className="text-faint">/</span>} />
+      </Frame>
+      <Frame label="With icon">
+        <Breadcrumb items={itemsWithIcon} />
       </Frame>
     </div>
   );

@@ -29,7 +29,7 @@
       "path": "components/ui/cn/icon-box/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/icon-box/index.ts",
-      "content": "export { IconBox } from './IconBox'\nexport type { IconBoxProps, IconBoxIntent, IconBoxVariant, IconBoxSize } from './icon-box.types'\n"
+      "content": "export { IconBox } from \"./IconBox\";\nexport type { IconBoxProps, IconBoxIntent, IconBoxVariant, IconBoxSize } from \"./icon-box.types\";\n"
     }
   ]
 }

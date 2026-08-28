@@ -599,7 +599,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "separator",
         type: "ReactNode",
-        default: "'/'",
+        default: "chevron-right icon",
         description: "Separador entre os itens",
       },
       {
@@ -613,6 +613,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'sm' | 'md' | 'lg'",
         default: "'md'",
         description: "Tamanho do texto e ícones",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro elemento nav raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro elemento nav raiz",
       },
     ],
   },
