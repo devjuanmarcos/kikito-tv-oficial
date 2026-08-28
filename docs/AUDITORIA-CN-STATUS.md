@@ -1028,6 +1028,7 @@ Quinquagésimo quinto standalone.
 - Gate 3: `py-2`/`mb-3`/`mt-4` (match exato) → tokens; `p-5`/`pl-5`/`gap-2.5` documentados (sem match exato)
 - **Achado real no registry, grave**: `variant` documentado como `'default' | 'accent' | 'ghost'` — **nenhum desses três valores existe**, o union real é `'default' | 'bordered' | 'filled' | 'minimal'`; `style` (real) ausente — corrigido + `registry:build`
 - Gate 9: `e2e/cn/display/quote-block.spec.ts` novo (4 testes: crash/console/`<blockquote>` real com autor e avatar por iniciais/3 variantes com autores distintos) — 7/7 úteis chromium-desktop + mobile-chrome, 1 `test.skip` em mobile-chrome (pendência 0b, mesmo padrão já confirmado visualmente várias vezes nesta sessão)
+- **Nota operacional**: primeira tentativa de commit falhou no hook `eslint --fix` do husky — a demo nova introduziu 2 bugs reais de lint, não relacionados ao componente em si: `role="Mathematician"` (prop própria do `QuoteBlock`, não o atributo ARIA) disparou falso positivo de `jsx-a11y/aria-role`, resolvido com `eslint-disable-next-line` comentado explicando o motivo; e aspas/apóstrofo literais dentro de texto JSX (`"We've..."`) violavam `react/no-unescaped-entities`, resolvido com entidades HTML (`&ldquo;`/`&apos;`/`&rdquo;`). Husky reverte a working tree pro estado anterior à tentativa quando o hook falha (comportamento correto, sem perda de dados) — confirmado depois via `git show HEAD:.../QuoteBlock.tsx` que o commit final contém as correções certas
 
 ## Pendências abertas pra próxima sessão, em ordem de prioridade
 
