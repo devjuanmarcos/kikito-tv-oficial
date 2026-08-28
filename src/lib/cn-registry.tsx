@@ -4971,6 +4971,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         required: true,
         description: "Elemento alvo do clique direito",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras (aplicadas no wrapper do trigger)",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras (aplicados no wrapper do trigger)",
+      },
     ],
   },
   {
@@ -7203,17 +7213,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "items",
         type: "FloatingMenuItem[]",
         required: true,
-        description: "Itens do menu { label, icon?, onClick? }",
+        description: "Itens do menu { id, label, icon?, intent?, disabled?, onClick? }",
       },
       { name: "trigger", type: "React.ReactNode", required: true, description: "Elemento que dispara o menu" },
       {
         name: "placement",
-        type: "'top' | 'bottom' | 'left' | 'right'",
+        type: "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'right'",
         default: "'bottom'",
         description: "Posição relativa ao trigger",
       },
       { name: "openOnHover", type: "boolean", default: "false", description: "Abrir ao passar o mouse" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── form-field
@@ -7253,6 +7264,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "openDelay", type: "number", default: "300", description: "Atraso para abrir (ms)" },
       { name: "closeDelay", type: "number", default: "200", description: "Atraso para fechar (ms)" },
       { name: "className", type: "string", description: "Classes CSS extras do popover" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras do popover" },
     ],
   },
   // ── icon-box

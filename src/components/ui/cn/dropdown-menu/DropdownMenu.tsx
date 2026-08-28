@@ -89,7 +89,9 @@ function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.R
       }}
       className={cn(
         "w-full flex items-center gap-(--spacing-sm) px-(--spacing-sm) py-(--spacing-xs) text-body-callout rounded-(--radius-xs) transition-colors duration-[80ms] text-left select-none",
-        entry.danger ? "text-danger hover:bg-danger/10" : "text-foreground hover:bg-graphite",
+        entry.danger
+          ? "text-danger hover:bg-danger-soft hover:text-danger-soft-fg"
+          : "text-foreground hover:bg-graphite",
         entry.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
@@ -284,9 +286,9 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                               className={cn(
                                 // py-[7px]: sem match exato entre --spacing-xs(6px) e --spacing-sm(8px)
                                 "flex items-center gap-(--spacing-sm) py-[7px] px-(--spacing-sm) rounded-(--radius-sm) text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
-                                !item.disabled && !item.danger && "hover:bg-patina-soft hover:text-patina",
+                                !item.disabled && !item.danger && "hover:bg-patina-soft hover:text-patina-soft-fg",
                                 item.danger && "text-danger",
-                                item.danger && !item.disabled && "hover:bg-danger-soft",
+                                item.danger && !item.disabled && "hover:bg-danger-soft hover:text-danger-soft-fg",
                                 item.disabled && "opacity-35 cursor-default"
                               )}
                               role="menuitem"
@@ -319,9 +321,9 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                         className={cn(
                           // py-[7px]: sem match exato entre --spacing-xs(6px) e --spacing-sm(8px)
                           "flex items-center gap-(--spacing-sm) py-[7px] px-(--spacing-sm) rounded-(--radius-sm) text-body-callout text-foreground cursor-pointer transition-[background] duration-[100ms] border-none bg-transparent w-full text-left",
-                          !entry.disabled && !entry.danger && "hover:bg-patina-soft hover:text-patina",
+                          !entry.disabled && !entry.danger && "hover:bg-patina-soft hover:text-patina-soft-fg",
                           entry.danger && "text-danger",
-                          entry.danger && !entry.disabled && "hover:bg-danger-soft",
+                          entry.danger && !entry.disabled && "hover:bg-danger-soft hover:text-danger-soft-fg",
                           entry.disabled && "opacity-35 cursor-default"
                         )}
                         role="menuitem"
@@ -444,9 +446,17 @@ function HoverMenu({
       }
     : {};
 
+  const menuId = useId();
+
   return (
     <div ref={wrapRef} className="relative inline-block" {...hoverProps}>
-      <div onClick={() => !openOnHover && setOpen((v) => !v)} className="cursor-pointer">
+      <div
+        onClick={() => !openOnHover && setOpen((v) => !v)}
+        className="cursor-pointer"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+      >
         {children}
       </div>
 
@@ -455,6 +465,8 @@ function HoverMenu({
         createPortal(
           <div
             ref={menuRef}
+            id={menuId}
+            role="menu"
             style={{ top: pos.top, left: pos.left, minWidth: 180 }}
             className="fixed z-[950] py-(--spacing-xs) rounded-xl border border-rule bg-raised shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.5)]"
             {...(openOnHover
@@ -470,6 +482,7 @@ function HoverMenu({
               <button
                 key={item.value || i}
                 type="button"
+                role="menuitem"
                 disabled={item.disabled}
                 onClick={() => {
                   item.onClick?.();
@@ -478,8 +491,10 @@ function HoverMenu({
                 className={cn(
                   // gap-2.5 (10px): sem match exato entre --spacing-sm(8px) e --spacing-md(12px)
                   "w-full flex items-center gap-2.5 px-(--spacing-md) py-(--spacing-sm) text-body-callout text-left",
-                  "transition-colors duration-[80ms] hover:bg-graphite",
-                  item.danger ? "text-danger hover:text-danger" : "text-foreground",
+                  "transition-colors duration-[80ms]",
+                  item.danger
+                    ? "text-danger hover:bg-danger-soft hover:text-danger-soft-fg"
+                    : "text-foreground hover:bg-graphite",
                   item.disabled && "opacity-40 pointer-events-none"
                 )}
               >

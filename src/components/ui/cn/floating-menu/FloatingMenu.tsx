@@ -1,10 +1,9 @@
 "use client";
 
-import { DropdownMenu, type MenuEntry } from "@/components/ui/cn/dropdown-menu/DropdownMenu";
+import { DropdownMenu } from "@/components/ui/cn/dropdown-menu";
+import type { MenuEntry } from "@/components/ui/cn/dropdown-menu/dropdown-menu.types";
 
 import type { FloatingMenuProps } from "./floating-menu.types";
-
-export type { FloatingMenuProps, FloatingMenuItem, FloatingMenuPlacement } from "./floating-menu.types";
 
 /**
  * FloatingMenu — backward-compat wrapper over the Super `DropdownMenu`

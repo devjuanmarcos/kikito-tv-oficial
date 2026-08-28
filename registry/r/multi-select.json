@@ -23,7 +23,7 @@
       "path": "components/ui/cn/multi-select/multi-select.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/multi-select/multi-select.types.ts",
-      "content": "import type { MultiSelectOption, MultiSelectProps as SelectMultiProps, MultiSelectSize } from \"@/components/ui/cn/select/select.types\";\n\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\nexport type { MultiSelectOption, MultiSelectSize };\n"
+      "content": "import type {\n  MultiSelectOption,\n  MultiSelectProps as SelectMultiProps,\n  MultiSelectSize,\n} from \"@/components/ui/cn/select/select.types\";\n\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\nexport type { MultiSelectOption, MultiSelectSize };\n"
     },
     {
       "path": "components/ui/cn/multi-select/MultiSelect.tsx",

@@ -1,6 +1,7 @@
 "use client";
 
-import { DropdownMenu, type MenuEntry } from "@/components/ui/cn/dropdown-menu/DropdownMenu";
+import { DropdownMenu } from "@/components/ui/cn/dropdown-menu";
+import type { MenuEntry } from "@/components/ui/cn/dropdown-menu/dropdown-menu.types";
 import { cn } from "@/lib/utils";
 
 import type { ContextMenuProps } from "./context-menu.types";
