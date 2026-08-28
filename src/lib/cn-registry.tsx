@@ -7004,8 +7004,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "steps", type: "number", required: true, description: "Número total de passos" },
       { name: "current", type: "number", required: true, description: "Índice do passo atual" },
       { name: "onChange", type: "(index: number) => void", description: "Callback ao clicar em um dot" },
-      { name: "variant", type: "'dot' | 'bar' | 'ring'", default: "'dot'", description: "Estilo do indicador" },
+      { name: "variant", type: "'dot' | 'dash' | 'progress'", default: "'dot'", description: "Estilo do indicador" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── dropdown-menu
