@@ -3,7 +3,7 @@ import type {
   ChipGroupChip,
   ChipGroupIntent,
   ChipGroupSize,
-} from "@/components/ui/cn/toggle-group/ToggleGroup";
+} from "@/components/ui/cn/toggle-group/toggle-group.types";
 
 export type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };
 
