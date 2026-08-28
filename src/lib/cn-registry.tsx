@@ -4025,12 +4025,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "children", type: "ReactNode", required: true, description: "Itens já carregados" },
       { name: "onLoadMore", type: "() => void", required: true, description: "Callback ao atingir o sentinel" },
-      { name: "hasMore", type: "boolean", required: true, description: "Indica se há mais itens para carregar" },
+      { name: "hasMore", type: "boolean", default: "true", description: "Indica se há mais itens para carregar" },
       { name: "isLoading", type: "boolean", default: "false", description: "Estado de carregamento em curso" },
-      { name: "threshold", type: "number", default: "0", description: "Margem de disparo do IntersectionObserver" },
+      { name: "threshold", type: "number", default: "0.1", description: "Margem de disparo do IntersectionObserver" },
       { name: "loader", type: "ReactNode", description: "Componente exibido enquanto carrega" },
       { name: "endMessage", type: "ReactNode", description: "Mensagem exibida quando não há mais itens" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
