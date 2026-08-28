@@ -5449,7 +5449,14 @@ function TextEditorDemo() {
       <ShowcaseSection title="Default">
         <Frame label="Rich text editor with toolbar" align="start">
           <div className="w-full max-w-2xl">
-            <TextEditor value={html} onChange={setHtml} minHeight={160} />
+            <TextEditor value={html} onChange={setHtml} minHeight={160} ariaLabel="Post content" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Disabled">
+        <Frame label="Read-only content" align="start">
+          <div className="w-full max-w-2xl">
+            <TextEditor defaultValue="<h2>Locked</h2><p>This editor is disabled.</p>" disabled />
           </div>
         </Frame>
       </ShowcaseSection>

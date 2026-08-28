@@ -8305,9 +8305,15 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "defaultValue", type: "string", description: "HTML inicial" },
       { name: "onChange", type: "(html: string) => void", description: "Callback ao alterar conteúdo" },
       { name: "placeholder", type: "string", description: "Placeholder quando vazio" },
-      { name: "minHeight", type: "number", default: "200", description: "Altura mínima do editor (px)" },
+      {
+        name: "ariaLabel",
+        type: "string",
+        description: "Nome acessível da região editável (leitor de tela); usa `placeholder` por padrão",
+      },
+      { name: "minHeight", type: "number", default: "140", description: "Altura mínima do editor (px)" },
       { name: "disabled", type: "boolean", default: "false", description: "Somente leitura" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── timeline-progress

@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T22:27:36.030Z",
+  "generatedAt": "2026-08-28T22:43:59.797Z",
   "items": [
     {
       "name": "accordion",
@@ -1980,7 +1980,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["button"]
     },
     {
       "name": "text-effect",
