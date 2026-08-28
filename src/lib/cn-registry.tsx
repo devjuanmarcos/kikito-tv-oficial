@@ -3761,10 +3761,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Nome do nó raiz exibido",
       },
       {
-        name: "collapsed",
-        type: "boolean",
-        default: "false",
-        description: "Inicia com todos os nós colapsados",
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
       },
     ],
   },

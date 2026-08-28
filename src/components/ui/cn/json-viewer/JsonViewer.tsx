@@ -65,9 +65,14 @@ function JsonNode({ name, value, depth, defaultExpandDepth }: NodeProps) {
     return (
       <span className="inline">
         {key}
-        <button onClick={() => setOpen(true)} className="text-faint hover:text-foreground transition-colors">
+        <button
+          onClick={() => setOpen(true)}
+          aria-expanded={false}
+          aria-label="Expand"
+          className="text-faint hover:text-foreground transition-colors"
+        >
           <span className="text-muted">{openB}</span>
-          <span className="text-kinpaku/70 px-1 text-body-caption">
+          <span className="text-muted px-(--spacing-2xs) text-body-caption">
             {entries.length} {isArray ? "items" : "keys"}
           </span>
           <span className="text-muted">{closeB}</span>
@@ -79,10 +84,15 @@ function JsonNode({ name, value, depth, defaultExpandDepth }: NodeProps) {
   return (
     <span className="inline">
       {key}
-      <button onClick={() => setOpen(false)} className="text-muted hover:text-foreground transition-colors">
+      <button
+        onClick={() => setOpen(false)}
+        aria-expanded={true}
+        aria-label="Collapse"
+        className="text-muted hover:text-foreground transition-colors"
+      >
         {openB}
       </button>
-      <span className="block pl-4 border-l border-rule ml-1">
+      <span className="block pl-(--spacing-lg) border-l border-rule ml-(--spacing-2xs)">
         {entries.map(([k, v], i) => (
           <span key={k} className="block">
             <JsonNode
@@ -104,7 +114,7 @@ export function JsonViewer({ data, defaultExpandDepth = 2, name, className, styl
   return (
     <div
       className={cn(
-        "font-mono text-body-callout leading-relaxed bg-canvas rounded-(--radius-md) border border-rule p-4 overflow-auto",
+        "font-mono text-body-callout leading-relaxed bg-canvas rounded-(--radius-md) border border-rule p-(--spacing-lg) overflow-auto",
         className
       )}
       style={style}

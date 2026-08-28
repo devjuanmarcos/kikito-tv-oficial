@@ -1,8 +1,7 @@
 export interface JsonViewerProps {
-  data: unknown
-  defaultExpandDepth?: number
-  name?: string
-  collapsed?: boolean
-  className?: string
-  style?: React.CSSProperties
+  data: unknown;
+  defaultExpandDepth?: number;
+  name?: string;
+  className?: string;
+  style?: React.CSSProperties;
 }
