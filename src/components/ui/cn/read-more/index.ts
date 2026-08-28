@@ -1,2 +1,2 @@
-export { ReadMore } from './ReadMore'
-export type { ReadMoreProps } from './ReadMore'
+export { ReadMore } from "./ReadMore";
+export type { ReadMoreProps } from "./read-more.types";

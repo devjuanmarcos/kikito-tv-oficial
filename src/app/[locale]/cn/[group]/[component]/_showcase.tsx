@@ -132,6 +132,7 @@ import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
 import { Rating } from "@/components/ui/cn/rating/Rating";
 import { RatingInput } from "@/components/ui/cn/rating-input/RatingInput";
+import { ReadMore } from "@/components/ui/cn/read-more/ReadMore";
 import { ReceiptCard } from "@/components/ui/cn/receipt-card/ReceiptCard";
 import { Resizable } from "@/components/ui/cn/resizable/Resizable";
 import { Ribbon } from "@/components/ui/cn/ribbon/Ribbon";
@@ -4843,6 +4844,27 @@ function NoticeBarDemo() {
   );
 }
 
+function ReadMoreDemo() {
+  const longText =
+    "Kikito CN is a semantic design system built on top of Tailwind CSS v4, using CSS custom properties for theming and a token bridge that keeps the dashboard and the published component library visually independent while sharing the same typography scale. Every color, radius and spacing value resolves through a canonical token instead of a raw utility class.";
+  return (
+    <div className="flex flex-col gap-6 w-full max-w-md">
+      <Frame label="Default (maxLength=150)" align="start">
+        <p className="text-body-callout text-foreground">
+          <ReadMore>{longText}</ReadMore>
+        </p>
+      </Frame>
+      <Frame label="Custom labels and shorter maxLength" align="start">
+        <p className="text-body-callout text-foreground">
+          <ReadMore maxLength={60} expandLabel="Expand" collapseLabel="Collapse">
+            {longText}
+          </ReadMore>
+        </p>
+      </Frame>
+    </div>
+  );
+}
+
 function ReceiptCardDemo() {
   const items = [
     { label: "Coffee (×2)", value: 7.0 },
@@ -6759,6 +6781,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/pricing-card": PricingCardDemo,
   "display/progress-steps": ProgressStepsDemo,
   "inputs/rating-input": RatingInputDemo,
+  "display/read-more": ReadMoreDemo,
   "display/receipt-card": ReceiptCardDemo,
   "display/ribbon": RibbonDemo,
   "inputs/signature-pad": SignaturePadDemo,

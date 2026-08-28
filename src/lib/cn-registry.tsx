@@ -7818,9 +7818,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "children", type: "string", required: true, description: "Texto completo" },
       { name: "maxLength", type: "number", default: "150", description: "Caracteres visíveis antes do truncamento" },
-      { name: "expandLabel", type: "string", default: "'Ler mais'", description: "Label para expandir" },
-      { name: "collapseLabel", type: "string", default: "'Ler menos'", description: "Label para colapsar" },
+      { name: "expandLabel", type: "string", default: "'Read more'", description: "Label para expandir" },
+      { name: "collapseLabel", type: "string", default: "'Show less'", description: "Label para colapsar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── receipt-card

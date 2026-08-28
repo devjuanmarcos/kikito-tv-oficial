@@ -17,13 +17,19 @@
       "path": "components/ui/cn/read-more/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/read-more/index.ts",
-      "content": "export { ReadMore } from './ReadMore'\nexport type { ReadMoreProps } from './ReadMore'\n"
+      "content": "export { ReadMore } from './ReadMore'\nexport type { ReadMoreProps } from './read-more.types'\n"
+    },
+    {
+      "path": "components/ui/cn/read-more/read-more.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/read-more/read-more.types.ts",
+      "content": "import type React from \"react\";\n\nexport interface ReadMoreProps {\n  children: string;\n  maxLength?: number;\n  expandLabel?: string;\n  collapseLabel?: string;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/read-more/ReadMore.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/read-more/ReadMore.tsx",
-      "content": "'use client'\nimport type React from 'react'\nimport { useState } from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface ReadMoreProps {\n  children:       string\n  maxLength?:     number\n  expandLabel?:   string\n  collapseLabel?: string\n  className?:     string\n  style?:         React.CSSProperties\n}\n\nexport function ReadMore({\n  children,\n  maxLength      = 150,\n  expandLabel    = 'Read more',\n  collapseLabel  = 'Show less',\n  className,\n  style,\n}: ReadMoreProps) {\n  const [expanded, setExpanded] = useState(false)\n  const needsTruncation = children.length > maxLength\n\n  if (!needsTruncation) {\n    return <span style={style} className={className}>{children}</span>\n  }\n\n  return (\n    <span style={style} className={cn('inline', className)}>\n      {expanded ? children : `${children.slice(0, maxLength).trimEnd()}… `}\n      <button\n        type=\"button\"\n        onClick={() => setExpanded(v => !v)}\n        className=\"text-patina font-medium hover:underline transition-[text-decoration] underline-offset-2 text-inherit\"\n      >\n        {expanded ? collapseLabel : expandLabel}\n      </button>\n    </span>\n  )\n}\n"
+      "content": "\"use client\";\nimport { useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { ReadMoreProps } from \"./read-more.types\";\n\nexport function ReadMore({\n  children,\n  maxLength = 150,\n  expandLabel = \"Read more\",\n  collapseLabel = \"Show less\",\n  className,\n  style,\n}: ReadMoreProps) {\n  const [expanded, setExpanded] = useState(false);\n  const needsTruncation = children.length > maxLength;\n\n  if (!needsTruncation) {\n    return (\n      <span style={style} className={className}>\n        {children}\n      </span>\n    );\n  }\n\n  return (\n    <span style={style} className={cn(\"inline\", className)}>\n      {expanded ? children : `${children.slice(0, maxLength).trimEnd()}… `}\n      <button\n        type=\"button\"\n        onClick={() => setExpanded((v) => !v)}\n        aria-expanded={expanded}\n        className=\"text-patina font-medium hover:underline transition-[text-decoration] underline-offset-2 text-inherit\"\n      >\n        {expanded ? collapseLabel : expandLabel}\n      </button>\n    </span>\n  );\n}\n"
     }
   ]
 }
