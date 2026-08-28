@@ -1170,14 +1170,14 @@ function GlowCardDemo() {
       <div className="flex flex-wrap gap-4 justify-center">
         <GlowCard glowColor="var(--ks-primary)" radius={12} padding={24}>
           <div className="flex flex-col gap-2 text-foreground w-48">
-            <span className="text-2xl">🚀</span>
+            <span className="text-heading-05">🚀</span>
             <p className="font-semibold text-body-callout">Patina Glow</p>
             <p className="text-body-caption text-muted">Hover to see the effect</p>
           </div>
         </GlowCard>
         <GlowCard glowColor="var(--ks-kinpaku)" glowOpacity={0.2} radius={12} padding={24}>
           <div className="flex flex-col gap-2 text-foreground w-48">
-            <span className="text-2xl">⚡</span>
+            <span className="text-heading-05">⚡</span>
             <p className="font-semibold text-body-callout">Kinpaku Glow</p>
             <p className="text-body-caption text-muted">Hover to see the effect</p>
           </div>
@@ -2082,19 +2082,20 @@ function TiltCardDemo() {
       <div className="flex flex-wrap gap-6 justify-center">
         <TiltCard maxTilt={12} glare>
           <div className="w-48 h-36 rounded-2xl bg-patina flex flex-col items-center justify-center gap-2">
-            <span className="text-3xl">🚀</span>
+            <span className="text-heading-04">🚀</span>
             <p className="font-semibold text-patina-fg text-body-callout">Hover me</p>
           </div>
         </TiltCard>
         <TiltCard maxTilt={18} scale={1.06} glare>
           <div className="w-48 h-36 rounded-2xl bg-gradient-to-br from-kinpaku to-violet flex flex-col items-center justify-center gap-2">
-            <span className="text-3xl">✨</span>
+            <span className="text-heading-04">✨</span>
+            {/* text-white: gradiente de 2 tokens (kinpaku→violet), sem par -fg único que garanta contraste */}
             <p className="font-semibold text-white text-body-callout">Gradient</p>
           </div>
         </TiltCard>
         <TiltCard maxTilt={8} glare={false}>
           <div className="w-48 h-36 rounded-2xl border border-rule bg-raised flex flex-col items-center justify-center gap-2">
-            <span className="text-3xl">🎯</span>
+            <span className="text-heading-04">🎯</span>
             <p className="font-semibold text-foreground text-body-callout">No glare</p>
           </div>
         </TiltCard>
@@ -2404,6 +2405,8 @@ function NumberPadDemo() {
 function SpotlightDemo() {
   return (
     <Frame label="Spotlight — mouse-tracked radial glow overlay">
+      {/* bg-[#0a0a0f]/text-white: backdrop propositalmente escuro pra exibir o efeito de
+          glow radial, independente do tema claro/escuro do site (no token equivalent) */}
       <Spotlight color="rgba(120,80,255,0.3)" size={320} className="w-full rounded-(--radius-lg) bg-[#0a0a0f] p-12">
         <div className="flex flex-col items-center gap-3 text-center">
           <p className="text-heading-05 font-bold text-white">Spotlight Effect</p>

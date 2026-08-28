@@ -2694,11 +2694,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "children", type: "ReactNode", required: true, description: "Conteúdo interno do card" },
       { name: "glowColor", type: "string", default: "'var(--ks-primary)'", description: "Cor do glow radial" },
-      { name: "glowSize", type: "number", default: "300", description: "Tamanho do glow em px" },
-      { name: "glowOpacity", type: "number", default: "0.15", description: "Opacidade do glow (0-1)" },
-      { name: "radius", type: "number", default: "12", description: "Border-radius do card" },
-      { name: "padding", type: "number | string", default: "24", description: "Padding interno" },
+      { name: "glowSize", type: "number", default: "400", description: "Tamanho do glow em px" },
+      { name: "glowOpacity", type: "number", default: "0.14", description: "Opacidade do glow (0-1)" },
+      { name: "radius", type: "number", default: "16", description: "Border-radius do card" },
+      { name: "padding", type: "number | string", default: "20", description: "Padding interno" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
@@ -2763,12 +2764,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/gradient-border/GradientBorder.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo interno" },
-      { name: "colors", type: "string[]", description: "Array de cores do gradiente" },
+      {
+        name: "colors",
+        type: "string[]",
+        default: "[violet, patina, kinpaku, rose]",
+        description: "Array de cores do gradiente",
+      },
       { name: "borderWidth", type: "number", default: "2", description: "Espessura da borda (px)" },
       { name: "borderRadius", type: "number", default: "12", description: "Border-radius (px)" },
       { name: "speed", type: "number", default: "3", description: "Velocidade da animação (s)" },
       { name: "variant", type: "'spin' | 'pulse' | 'static'", default: "'spin'", description: "Tipo de animação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
@@ -2783,6 +2790,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "opacity", type: "number", default: "0.1", description: "Opacidade do fundo (0-1)" },
       { name: "border", type: "boolean", default: "true", description: "Exibir borda sutil" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
@@ -3216,10 +3224,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo do card" },
       { name: "maxTilt", type: "number", default: "15", description: "Ângulo máximo de inclinação (graus)" },
-      { name: "scale", type: "number", default: "1.05", description: "Escala ao fazer hover" },
-      { name: "perspective", type: "number", default: "1000", description: "Profundidade de perspectiva (px)" },
-      { name: "glare", type: "boolean", default: "false", description: "Ativar efeito de reflexo" },
+      { name: "scale", type: "number", default: "1.04", description: "Escala ao fazer hover" },
+      { name: "perspective", type: "number", default: "800", description: "Profundidade de perspectiva (px)" },
+      { name: "glare", type: "boolean", default: "true", description: "Ativar efeito de reflexo" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
@@ -3400,9 +3409,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/spotlight/Spotlight.tsx",
     props: [
       { name: "children", type: "React.ReactNode", description: "Conteúdo dentro da área do spotlight" },
-      { name: "color", type: "string", description: "Cor do spotlight" },
-      { name: "size", type: "number", default: "400", description: "Diâmetro do spotlight (px)" },
+      { name: "color", type: "string", default: "'var(--ks-violet-soft)'", description: "Cor do spotlight" },
+      { name: "size", type: "number", default: "300", description: "Diâmetro do spotlight (px)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
