@@ -17,7 +17,7 @@
       "path": "components/ui/cn/tag-cloud/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/tag-cloud/index.ts",
-      "content": "export { TagCloud } from './TagCloud'\nexport type { TagCloudProps, TagCloudItem, TagCloudIntent } from './tag-cloud.types'\n"
+      "content": "export { TagCloud } from \"./TagCloud\";\nexport type { TagCloudProps, TagCloudItem, TagCloudIntent } from \"./tag-cloud.types\";\n"
     },
     {
       "path": "components/ui/cn/tag-cloud/tag-cloud.types.ts",
