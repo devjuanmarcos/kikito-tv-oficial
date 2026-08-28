@@ -3732,6 +3732,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Callback quando um card é movido entre colunas",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
+      },
     ],
   },
   {

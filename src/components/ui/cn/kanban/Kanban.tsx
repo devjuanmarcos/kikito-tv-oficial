@@ -17,28 +17,37 @@ const INTENT_COLORS: Record<string, string> = {
 function KanbanCardItem({
   card,
   dragging,
+  columnLabel,
   onDragStart,
   onDragEnd,
+  onKeyDown,
 }: {
   card: KanbanCard;
   dragging: boolean;
+  columnLabel: string;
   onDragStart: () => void;
   onDragEnd: () => void;
+  onKeyDown: (e: React.KeyboardEvent) => void;
 }) {
   return (
     <div
       draggable
+      tabIndex={0}
+      role="button"
+      aria-label={`${card.title} — em ${columnLabel}. Setas esquerda/direita movem entre colunas.`}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
+      onKeyDown={onKeyDown}
       className={cn(
-        "rounded-(--radius-sm) border border-rule bg-lacquer p-3 cursor-grab active:cursor-grabbing select-none",
-        "transition-all duration-150",
+        "rounded-(--radius-sm) border border-rule bg-base p-(--spacing-md) cursor-grab active:cursor-grabbing select-none",
+        "transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
         dragging && "opacity-40 scale-95"
       )}
     >
       {card.label && (
         <div
-          className="inline-block text-[0.625rem] font-bold px-1.5 py-0.5 rounded-full mb-2"
+          // below scale minimum: micro-label decorativo (chip de categoria)
+          className="inline-block text-[0.625rem] font-bold px-(--spacing-xs) py-(--spacing-3xs) rounded-full mb-(--spacing-sm)"
           style={{
             background: card.labelColor
               ? card.labelColor + "22"
@@ -50,10 +59,13 @@ function KanbanCardItem({
         </div>
       )}
       <div className="text-body-callout font-medium text-foreground">{card.title}</div>
-      {card.description && <div className="text-body-caption text-muted mt-1 leading-relaxed">{card.description}</div>}
+      {card.description && (
+        <div className="text-body-caption text-muted mt-(--spacing-2xs) leading-relaxed">{card.description}</div>
+      )}
       {card.assignee && (
-        <div className="mt-2 flex justify-end">
+        <div className="mt-(--spacing-sm) flex justify-end">
           <div
+            // below scale minimum: iniciais do avatar, não é conteúdo primário
             className="w-6 h-6 rounded-full bg-patina text-patina-fg text-[0.625rem] font-bold flex items-center justify-center"
             title={card.assignee}
           >
@@ -75,6 +87,20 @@ export function Kanban({ columns: initial, onChange, className, style }: KanbanP
     onChange?.(next);
   };
 
+  // Reaproveitado pelo drop de mouse e pela navegação por teclado (ver moveCardByKeyboard)
+  const moveCard = (fromColId: string, cardId: string | number, toColId: string) => {
+    if (fromColId === toColId) return;
+    const next = columns.map((col) => {
+      if (col.id === fromColId) return { ...col, cards: col.cards.filter((c) => c.id !== cardId) };
+      if (col.id === toColId) {
+        const card = columns.find((c) => c.id === fromColId)?.cards.find((c) => c.id === cardId);
+        return card ? { ...col, cards: [...col.cards, card] } : col;
+      }
+      return col;
+    });
+    update(next);
+  };
+
   const onDragOver = (e: React.DragEvent, colId: string) => {
     e.preventDefault();
     setOverCol(colId);
@@ -82,44 +108,45 @@ export function Kanban({ columns: initial, onChange, className, style }: KanbanP
 
   const onDrop = (e: React.DragEvent, targetColId: string) => {
     e.preventDefault();
-    if (!dragging || dragging.colId === targetColId) {
-      setOverCol(null);
-      setDragging(null);
-      return;
-    }
-    const next = columns.map((col) => {
-      if (col.id === dragging.colId) return { ...col, cards: col.cards.filter((c) => c.id !== dragging.cardId) };
-      if (col.id === targetColId) {
-        const card = columns.find((c) => c.id === dragging.colId)?.cards.find((c) => c.id === dragging.cardId);
-        return card ? { ...col, cards: [...col.cards, card] } : col;
-      }
-      return col;
-    });
-    update(next);
+    if (dragging) moveCard(dragging.colId, dragging.cardId, targetColId);
     setOverCol(null);
     setDragging(null);
   };
 
+  // Mover um card entre colunas era só drag-and-drop de mouse/touch — sem nenhuma
+  // alternativa de teclado. Cada card agora é focável e ArrowLeft/ArrowRight movem
+  // pra coluna anterior/seguinte (mesma ordem visual esquerda→direita).
+  const moveCardByKeyboard = (e: React.KeyboardEvent, colId: string, cardId: string | number) => {
+    const colIndex = columns.findIndex((c) => c.id === colId);
+    if (e.key === "ArrowRight" && colIndex < columns.length - 1) {
+      e.preventDefault();
+      moveCard(colId, cardId, columns[colIndex + 1].id);
+    } else if (e.key === "ArrowLeft" && colIndex > 0) {
+      e.preventDefault();
+      moveCard(colId, cardId, columns[colIndex - 1].id);
+    }
+  };
+
   return (
-    <div className={cn("flex gap-4 overflow-x-auto pb-2", className)} style={style}>
+    <div className={cn("flex gap-(--spacing-lg) overflow-x-auto pb-(--spacing-sm)", className)} style={style}>
       {columns.map((col) => {
         const dotColor = INTENT_COLORS[col.intent ?? "neutral"];
         return (
           <div
             key={col.id}
             className={cn(
-              "flex flex-col gap-2 min-w-[220px] max-w-[240px] rounded-(--radius-md) border p-3 transition-colors duration-150",
-              overCol === col.id ? "border-patina bg-patina/5" : "border-rule bg-canvas"
+              "flex flex-col gap-(--spacing-sm) min-w-[220px] max-w-[240px] rounded-(--radius-md) border p-(--spacing-md) transition-colors duration-150",
+              overCol === col.id ? "border-patina bg-patina-soft" : "border-rule bg-canvas"
             )}
             onDragOver={(e) => onDragOver(e, col.id)}
             onDrop={(e) => onDrop(e, col.id)}
           >
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between mb-(--spacing-2xs)">
+              <div className="flex items-center gap-(--spacing-sm)">
                 <div className="w-2 h-2 rounded-full" style={{ background: dotColor }} />
                 <span className="text-body-callout font-semibold text-foreground">{col.title}</span>
               </div>
-              <span className="text-body-caption font-bold text-faint bg-graphite px-1.5 py-0.5 rounded-full">
+              <span className="text-body-caption font-bold text-faint bg-graphite px-(--spacing-xs) py-(--spacing-3xs) rounded-full">
                 {col.cards.length}
               </span>
             </div>
@@ -128,11 +155,13 @@ export function Kanban({ columns: initial, onChange, className, style }: KanbanP
                 key={card.id}
                 card={card}
                 dragging={dragging?.cardId === card.id}
+                columnLabel={col.title}
                 onDragStart={() => setDragging({ colId: col.id, cardId: card.id })}
                 onDragEnd={() => {
                   setDragging(null);
                   setOverCol(null);
                 }}
+                onKeyDown={(e) => moveCardByKeyboard(e, col.id, card.id)}
               />
             ))}
           </div>

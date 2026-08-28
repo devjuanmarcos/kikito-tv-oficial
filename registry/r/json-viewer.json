@@ -23,7 +23,7 @@
       "path": "components/ui/cn/json-viewer/json-viewer.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/json-viewer/json-viewer.types.ts",
-      "content": "export interface JsonViewerProps {\r\n  data: unknown\r\n  defaultExpandDepth?: number\r\n  name?: string\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+      "content": "export interface JsonViewerProps {\n  data: unknown;\n  defaultExpandDepth?: number;\n  name?: string;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/json-viewer/JsonViewer.tsx",
