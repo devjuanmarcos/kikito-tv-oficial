@@ -1,31 +1,11 @@
 "use client";
-import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 
+import { Badge } from "@/components/ui/cn/badge";
 import { cn } from "@/lib/utils";
 
-export type NotificationIntent = "info" | "success" | "warning" | "danger" | "neutral";
-
-export interface Notification {
-  id: string;
-  title: string;
-  body?: string;
-  time?: string;
-  read?: boolean;
-  intent?: NotificationIntent;
-  avatar?: string;
-}
-
-export interface NotificationBellProps {
-  notifications?: Notification[];
-  onRead?: (id: string) => void;
-  onReadAll?: () => void;
-  onDismiss?: (id: string) => void;
-  maxVisible?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { NotificationBellProps, NotificationIntent } from "./notification-bell.types";
 
 const INTENT_DOT: Record<NotificationIntent, string> = {
   info: "bg-info",
@@ -82,6 +62,13 @@ export function NotificationBell({
     if (left < 8) left = 8;
     if (left + pw > vW - 8) left = vW - pw - 8;
     if (top + ph > vH - 8) top = r.top - ph - 8;
+    // Achado real: em viewport curto (sem espaço nem abaixo nem acima do gatilho),
+    // o fallback "vira pra cima" podia produzir `top` negativo — o painel
+    // renderizava com o topo cortado pra fora da tela, sem como rolar até lá
+    // (position: fixed não acompanha scroll da página). Clamp final garante que
+    // o painel sempre começa dentro da viewport; a lista interna já tem
+    // overflow-y-auto pro conteúdo que ainda não couber.
+    if (top < 8) top = 8;
     setPos({ top, left });
   }, []);
 
@@ -108,7 +95,7 @@ export function NotificationBell({
       <button
         ref={btnRef}
         type="button"
-        aria-label={`Notifications${unread > 0 ? `, ${unread} unread` : ""}`}
+        aria-label={unread > 0 ? `Notifications, ${unread} unread` : "Notifications"}
         aria-haspopup="true"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -122,9 +109,16 @@ export function NotificationBell({
       >
         <BellIcon />
         {unread > 0 && (
-          <span className="absolute top-1 right-1 min-w-[1rem] h-4 px-1 rounded-full bg-danger text-danger-fg text-[0.6rem] font-bold flex items-center justify-center leading-none">
+          // Badge CN já existe (reaproveitado, mesmo padrão de contador que
+          // VerticalNav já usa) em vez de reinventar um <span> customizado
+          <Badge
+            intent="danger"
+            variant="solid"
+            size="sm"
+            className="absolute top-1 right-1 min-w-[1rem] h-4 px-1 justify-center"
+          >
             {unread > 99 ? "99+" : unread}
-          </span>
+          </Badge>
         )}
       </button>
 
@@ -166,42 +160,51 @@ export function NotificationBell({
                     <li
                       key={n.id}
                       className={cn(
-                        "group flex gap-3 px-4 py-3 cursor-pointer hover:bg-graphite transition-colors duration-[80ms]",
+                        "group flex gap-3",
+                        // bg-graphite/40: wash sutil de fundo pra "não lido", não há -soft
+                        // equivalente pra graphite (só intents têm -soft) — mesma exceção
+                        // já documentada em LogViewer pro wash de linha
                         !n.read && "bg-graphite/40"
                       )}
-                      onClick={() => onRead?.(n.id)}
                     >
-                      {/* dot / avatar */}
-                      <div className="flex-shrink-0 pt-0.5">
-                        {n.avatar ? (
-                          <img src={n.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
-                        ) : (
-                          <span
-                            className={cn("mt-1.5 block w-2 h-2 rounded-full", INTENT_DOT[n.intent ?? "neutral"])}
-                          />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p
-                          className={cn(
-                            "text-body-callout truncate",
-                            n.read ? "text-faint" : "text-foreground font-medium"
+                      {/* onClick direto no <li> era mouse-only, e o <li> não é focável —
+                          em vez de dar role="button" ao <li> inteiro (criaria um widget
+                          aninhado com o botão Dismiss abaixo), a área "marcar como lido"
+                          vira um <button> real, irmão do Dismiss, não ancestral dele */}
+                      <button
+                        type="button"
+                        onClick={() => onRead?.(n.id)}
+                        className="flex flex-1 min-w-0 gap-3 px-4 py-3 text-left cursor-pointer hover:bg-graphite transition-colors duration-[80ms]"
+                      >
+                        {/* dot / avatar — título já identifica a notificação como texto */}
+                        <div className="flex-shrink-0 pt-0.5" aria-hidden="true">
+                          {n.avatar ? (
+                            <img src={n.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+                          ) : (
+                            <span
+                              className={cn("mt-1.5 block w-2 h-2 rounded-full", INTENT_DOT[n.intent ?? "neutral"])}
+                            />
                           )}
-                        >
-                          {n.title}
-                        </p>
-                        {n.body && <p className="text-body-caption text-faint line-clamp-2 mt-0.5">{n.body}</p>}
-                        {n.time && <p className="text-body-caption text-faint/60 mt-1">{n.time}</p>}
-                      </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className={cn(
+                              "text-body-callout truncate",
+                              n.read ? "text-faint" : "text-foreground font-medium"
+                            )}
+                          >
+                            {n.title}
+                          </p>
+                          {n.body && <p className="text-body-caption text-faint line-clamp-2 mt-0.5">{n.body}</p>}
+                          {n.time && <p className="text-body-caption text-faint mt-1">{n.time}</p>}
+                        </div>
+                      </button>
                       {onDismiss && (
                         <button
                           type="button"
                           aria-label="Dismiss"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDismiss(n.id);
-                          }}
-                          className="flex-shrink-0 opacity-0 group-hover:opacity-100 flex items-center justify-center w-6 h-6 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite-2 transition-[opacity,background] duration-[80ms]"
+                          onClick={() => onDismiss(n.id)}
+                          className="flex-shrink-0 self-center mr-4 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina flex items-center justify-center w-6 h-6 rounded-(--radius-xs) text-faint hover:text-foreground hover:bg-graphite-2 transition-[opacity,background] duration-[80ms]"
                         >
                           <XSmIcon />
                         </button>

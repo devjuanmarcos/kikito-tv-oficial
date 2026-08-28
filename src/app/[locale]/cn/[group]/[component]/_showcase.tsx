@@ -4468,16 +4468,21 @@ function FloatingLabelInputDemo() {
 }
 
 function NotificationBellDemo() {
-  const items = [
+  const [items, setItems] = useState([
     { id: "1", title: "New comment", body: "Alice replied to your post.", intent: "info" as const, read: false },
     { id: "2", title: "Build failed", body: "CI pipeline failed on main.", intent: "danger" as const, read: false },
     { id: "3", title: "PR approved", body: "Your PR was approved.", intent: "success" as const, read: true },
-  ];
+  ]);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
         <Frame label="Bell with unread badge + panel">
-          <NotificationBell notifications={items} />
+          <NotificationBell
+            notifications={items}
+            onRead={(id) => setItems((prev) => prev.map((i) => (i.id === id ? { ...i, read: true } : i)))}
+            onReadAll={() => setItems((prev) => prev.map((i) => ({ ...i, read: true })))}
+            onDismiss={(id) => setItems((prev) => prev.filter((i) => i.id !== id))}
+          />
         </Frame>
         <Frame label="No unread notifications">
           <NotificationBell notifications={items.map((i) => ({ ...i, read: true }))} />

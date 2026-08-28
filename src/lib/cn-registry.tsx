@@ -7743,8 +7743,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onRead", type: "(id: string) => void", description: "Callback ao marcar como lida" },
       { name: "onReadAll", type: "() => void", description: "Callback ao marcar todas como lidas" },
       { name: "onDismiss", type: "(id: string) => void", description: "Callback ao descartar" },
-      { name: "maxVisible", type: "number", default: "5", description: "Máximo de notificações visíveis" },
+      { name: "maxVisible", type: "number", default: "20", description: "Máximo de notificações visíveis" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro botão do sino" },
     ],
   },
   // ── number-input

@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T18:21:34.652Z",
+  "generatedAt": "2026-08-28T18:31:00.411Z",
   "items": [
     {
       "name": "accordion",
@@ -1210,7 +1210,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["badge"]
     },
     {
       "name": "number-input",
