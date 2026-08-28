@@ -6500,14 +6500,25 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "spacing",
         type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
-        default: "'md'",
-        description: "Margem vertical (horizontal) ao redor do separador",
+        default: "undefined",
+        description: "Margem vertical (horizontal) ao redor do separador — sem margem se omitido",
       },
       {
         name: "decorative",
         type: "boolean",
-        default: "false",
-        description: "Marca como decorativo (aria-hidden) para acessibilidade",
+        default: "true",
+        description:
+          "Quando true, usa role='none' (fora da árvore de acessibilidade); quando false, usa role='separator'",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },
