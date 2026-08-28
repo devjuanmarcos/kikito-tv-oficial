@@ -4701,7 +4701,7 @@ function ReceiptCardDemo() {
   const items = [
     { label: "Coffee (×2)", value: 7.0 },
     { label: "Croissant", value: 3.5 },
-    { label: "Orange juice", value: 4.25 },
+    { label: "Orange juice (member price)", value: 4.25, highlight: true },
   ];
   const subtotal = items.reduce((s, i) => s + Number(i.value), 0);
   return (
@@ -4712,10 +4712,20 @@ function ReceiptCardDemo() {
             from="The Coffee House"
             date={new Date()}
             items={items}
-            tax={0.08}
-            currency="USD"
-            total={subtotal * 1.08}
+            discount={1.5}
+            tax={0.68}
+            currency="$"
+            total={subtotal - 1.5 + 0.68}
+            status="paid"
           />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Status">
+        <Frame label="Pending · Cancelled">
+          <div className="flex flex-wrap gap-6">
+            <ReceiptCard title="Invoice #1042" total={120} status="pending" />
+            <ReceiptCard title="Invoice #1039" total={45} status="cancelled" />
+          </div>
         </Frame>
       </ShowcaseSection>
     </div>

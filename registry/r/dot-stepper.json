@@ -29,7 +29,7 @@
       "path": "components/ui/cn/dot-stepper/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/dot-stepper/index.ts",
-      "content": "export { DotStepper } from './DotStepper'\nexport type { DotStepperProps, DotStepperVariant } from './dot-stepper.types'\n"
+      "content": "export { DotStepper } from \"./DotStepper\";\nexport type { DotStepperProps, DotStepperVariant } from \"./dot-stepper.types\";\n"
     }
   ]
 }
