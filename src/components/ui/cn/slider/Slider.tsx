@@ -151,6 +151,8 @@ function RangeSliderImpl({
   formatValue = String,
   label,
   showValues = true,
+  size = "md",
+  intent = "primary",
   disabled = false,
   className,
   style,
@@ -218,8 +220,24 @@ function RangeSliderImpl({
   // focus-visible:shadow-[...var(--x)/50]: sintaxe de opacidade inválida dentro de var() —
   // CSS descarta o box-shadow inteiro (confirmado via getComputedStyle: foco não mudava nada
   // visualmente). Trocado por color-mix() pra opacidade real de verdade.
-  const THUMB =
-    "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-patina border-2 border-raised shadow-[0_0_0_2px_var(--ks-primary)] cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_oklch,var(--ks-primary)_50%,transparent)]";
+  //
+  // Achado real: `size`/`intent` são props reais de SliderCommon (herdadas por
+  // SliderRangeProps), mas o THUMB/track/fill abaixo ignoravam as duas por
+  // completo (sempre w-4 h-4 + bg-patina/--ks-primary, não importa o que o
+  // consumidor passasse) — mesma categoria de "prop declarada, nunca lida"
+  // já vista em vários componentes. `--ks-${intent}` é seguro porque bate 1:1
+  // com os 5 valores de SliderIntent (primary/info/success/warning/danger),
+  // todos confirmados como variáveis CSS reais.
+  const THUMB = cn(
+    "absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full border-2 border-raised cursor-grab active:cursor-grabbing transition-shadow duration-[80ms] focus:outline-none",
+    "shadow-[0_0_0_2px_var(--thumb-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_oklch,var(--thumb-ring)_50%,transparent)]",
+    SIZE_THUMB[size],
+    INTENT_CLS[intent]
+  );
+  // Custom property em vez de var(--ks-${intent}) cru dentro da classe: permite
+  // que a MESMA classe estática sirva os 5 intents, com o valor real resolvido
+  // por elemento via style inline (Tailwind arbitrary value não interpola JS).
+  const thumbStyle = { "--thumb-ring": `var(--ks-${intent})` } as React.CSSProperties;
 
   return (
     <div
@@ -239,7 +257,7 @@ function RangeSliderImpl({
 
       <div
         ref={trackRef}
-        className="relative h-1.5 rounded-full bg-graphite-2 cursor-pointer"
+        className={cn("relative rounded-full bg-graphite-2 cursor-pointer", SIZE_TRACK[size])}
         onClick={(e) => {
           if (disabled || dragging.current) return;
           const { left, width } = trackRef.current!.getBoundingClientRect();
@@ -256,7 +274,7 @@ function RangeSliderImpl({
       >
         {/* fill */}
         <div
-          className="absolute top-0 h-full bg-patina rounded-full"
+          className={cn("absolute top-0 h-full rounded-full", INTENT_CLS[intent])}
           style={{ left: `${pct(lo)}%`, width: `${pct(hi) - pct(lo)}%` }}
         />
 
@@ -271,7 +289,7 @@ function RangeSliderImpl({
           aria-valuenow={lo}
           aria-label="Minimum value"
           className={THUMB}
-          style={{ left: `${pct(lo)}%` }}
+          style={{ left: `${pct(lo)}%`, ...thumbStyle }}
           onMouseDown={startDrag("lo")}
           onTouchStart={startDrag("lo")}
           onKeyDown={(e) => {
@@ -300,7 +318,7 @@ function RangeSliderImpl({
           aria-valuenow={hi}
           aria-label="Maximum value"
           className={THUMB}
-          style={{ left: `${pct(hi)}%` }}
+          style={{ left: `${pct(hi)}%`, ...thumbStyle }}
           onMouseDown={startDrag("hi")}
           onTouchStart={startDrag("hi")}
           onKeyDown={(e) => {

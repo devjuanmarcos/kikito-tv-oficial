@@ -6595,6 +6595,14 @@ function RangeSliderDemo() {
             <RangeSlider label="Disabled" defaultValue={[30, 70]} disabled />
           </div>
         </Frame>
+        {/* size/intent eram props reais (herdadas de SliderCommon) nunca lidas pelo
+            modo range — nenhuma demo passava nenhum dos dois, por isso passou
+            despercebido até agora. Instância nova exercitando ambos. */}
+        <Frame label="size='lg' + intent='danger'" align="start">
+          <div className="w-full max-w-md">
+            <RangeSlider label="Danger, large" defaultValue={[40, 60]} size="lg" intent="danger" showValues />
+          </div>
+        </Frame>
       </ShowcaseSection>
     </div>
   );

@@ -6809,7 +6809,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "defaultValue",
         type: "number",
-        default: "50",
+        default: "0",
         description: "Valor inicial (uncontrolled)",
       },
       {
@@ -6871,6 +6871,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "false",
         description: "Desabilita o slider",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container raiz",
       },
     ],
   },
