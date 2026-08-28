@@ -52,6 +52,7 @@ export function KeyboardShortcuts({ groups, isOpen, onClose, title = "Keyboard S
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const panelRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const titleId = useId();
 
   useEffect(() => {
@@ -67,8 +68,7 @@ export function KeyboardShortcuts({ groups, isOpen, onClose, title = "Keyboard S
     // foco inicial no campo de busca (não no primeiro focusable genérico, que seria o
     // botão de fechar) — é o controle mais útil pra um dialog de busca/paleta, e sem
     // nenhum foco automático o teclado continuava na página de trás (bug de a11y real).
-    // Query por seletor em vez de ref: <Input> CN não usa forwardRef.
-    panelRef.current?.querySelector<HTMLInputElement>('input[type="search"]')?.focus();
+    searchRef.current?.focus();
     return () => {
       document.body.style.overflow = prev;
     };
@@ -116,6 +116,7 @@ export function KeyboardShortcuts({ groups, isOpen, onClose, title = "Keyboard S
         {/* Search */}
         <div className="px-5 py-(--spacing-md) border-b border-rule">
           <Input
+            ref={searchRef}
             type="search"
             size="md"
             placeholder="Search shortcuts…"

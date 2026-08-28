@@ -60,6 +60,18 @@ const SIZE_PADDING_RIGHT_2: Record<InputSize, string> = {
   lg: "pr-18",
 };
 
+/** Combina um ref encaminhado (forwardRef) com um ref interno do próprio componente
+ * — necessário no CurrencyInputImpl, que já usa um ref interno pra `.select()` no focus. */
+function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>): React.RefCallback<T> {
+  return (node) => {
+    for (const ref of refs) {
+      if (!ref) continue;
+      if (typeof ref === "function") ref(node);
+      else (ref as React.MutableRefObject<T | null>).current = node;
+    }
+  };
+}
+
 const FLUSHED_CLS = "bg-transparent border-0 border-b border-rule rounded-none focus:border-patina px-0";
 
 /* Focus ring shared across Input / Select / Textarea for a consistent form look */
@@ -144,37 +156,40 @@ function XCircleIcon() {
 /* ──────────────────────────────────────────────────────────────────────────
  * TextInputImpl — the default text Input (former Input body, verbatim).
  * ─────────────────────────────────────────────────────────────────────── */
-function TextInputImpl({
-  size = "md",
-  variant = "outline",
-  status = "default",
-  state,
-  label,
-  hint,
-  helperText,
-  error,
-  errorText,
-  successText,
-  warningText,
-  iconLeft,
-  iconRight,
-  prefix,
-  suffix,
-  fullWidth = false,
-  clearable = false,
-  onClear,
-  revealable = false,
-  id: idProp,
-  className,
-  disabled,
-  type,
-  value,
-  onChange,
-  floatingLabel: _floatingLabel,
-  "aria-describedby": describedByProp,
-  "aria-invalid": invalidProp,
-  ...props
-}: InputBaseProps) {
+const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(function TextInputImpl(
+  {
+    size = "md",
+    variant = "outline",
+    status = "default",
+    state,
+    label,
+    hint,
+    helperText,
+    error,
+    errorText,
+    successText,
+    warningText,
+    iconLeft,
+    iconRight,
+    prefix,
+    suffix,
+    fullWidth = false,
+    clearable = false,
+    onClear,
+    revealable = false,
+    id: idProp,
+    className,
+    disabled,
+    type,
+    value,
+    onChange,
+    floatingLabel: _floatingLabel,
+    "aria-describedby": describedByProp,
+    "aria-invalid": invalidProp,
+    ...props
+  },
+  ref
+) {
   const uid = useId();
   const id = idProp ?? uid;
   const [revealed, setRevealed] = useState(false);
@@ -249,6 +264,7 @@ function TextInputImpl({
           )}
           <input
             {...props}
+            ref={ref}
             id={id}
             type={inputType}
             disabled={disabled}
@@ -283,6 +299,7 @@ function TextInputImpl({
 
         <input
           {...props}
+          ref={ref}
           id={id}
           type={inputType}
           disabled={disabled}
@@ -338,7 +355,7 @@ function TextInputImpl({
       {hintEl}
     </div>
   );
-}
+});
 
 /* ──────────────────────────────────────────────────────────────────────────
  * FloatingLabelImpl — floatingLabel variant (former FloatingLabelInput).
@@ -398,37 +415,40 @@ function toFloatingVariant(v: InputVariant | undefined): FloatingLabelVariant {
   return "outline";
 }
 
-function FloatingLabelImpl({
-  size = "md",
-  variant,
-  state,
-  status = "default",
-  label,
-  id: idProp,
-  value,
-  defaultValue,
-  onChange,
-  type = "text",
-  disabled = false,
-  error,
-  errorText,
-  hint,
-  helperText,
-  className,
-  style,
-  fullWidth: _fullWidth,
-  floatingLabel: _floatingLabel,
-  iconLeft: _iconLeft,
-  iconRight: _iconRight,
-  prefix: _prefix,
-  suffix: _suffix,
-  clearable: _clearable,
-  onClear: _onClear,
-  revealable: _revealable,
-  successText: _successText,
-  warningText: _warningText,
-  ...inputProps
-}: InputBaseProps) {
+const FloatingLabelImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(function FloatingLabelImpl(
+  {
+    size = "md",
+    variant,
+    state,
+    status = "default",
+    label,
+    id: idProp,
+    value,
+    defaultValue,
+    onChange,
+    type = "text",
+    disabled = false,
+    error,
+    errorText,
+    hint,
+    helperText,
+    className,
+    style,
+    fullWidth: _fullWidth,
+    floatingLabel: _floatingLabel,
+    iconLeft: _iconLeft,
+    iconRight: _iconRight,
+    prefix: _prefix,
+    suffix: _suffix,
+    clearable: _clearable,
+    onClear: _onClear,
+    revealable: _revealable,
+    successText: _successText,
+    warningText: _warningText,
+    ...inputProps
+  },
+  ref
+) {
   const uid = useId();
   const inputId = idProp ?? uid;
 
@@ -469,6 +489,7 @@ function FloatingLabelImpl({
       >
         <input
           {...inputProps}
+          ref={ref}
           id={inputId}
           type={type}
           value={isControlled ? (value as string) : internalVal}
@@ -519,7 +540,7 @@ function FloatingLabelImpl({
       ) : null}
     </div>
   );
-}
+});
 
 /* ──────────────────────────────────────────────────────────────────────────
  * NumberInputImpl — type="number" (former NumberInput, verbatim logic).
@@ -557,31 +578,34 @@ function round(v: number, precision: number) {
   return Math.round(v * f) / f;
 }
 
-function NumberInputImpl({
-  value,
-  defaultValue = 0,
-  onChange,
-  min,
-  max,
-  step = 1,
-  precision = 0,
-  allowDecimal = false,
-  format,
-  parse,
-  size = "md",
-  variant = "default",
-  label,
-  helperText,
-  error = false,
-  errorMessage,
-  disabled = false,
-  readOnly = false,
-  prefix,
-  suffix,
-  id,
-  className,
-  style,
-}: Omit<NumberModeProps, "type">) {
+const NumberInputImpl = React.forwardRef<HTMLInputElement, Omit<NumberModeProps, "type">>(function NumberInputImpl(
+  {
+    value,
+    defaultValue = 0,
+    onChange,
+    min,
+    max,
+    step = 1,
+    precision = 0,
+    allowDecimal = false,
+    format,
+    parse,
+    size = "md",
+    variant = "default",
+    label,
+    helperText,
+    error = false,
+    errorMessage,
+    disabled = false,
+    readOnly = false,
+    prefix,
+    suffix,
+    id,
+    className,
+    style,
+  },
+  ref
+) {
   const uid = useId();
   const inputId = id ?? uid;
 
@@ -652,6 +676,7 @@ function NumberInputImpl({
       >
         {prefix && <span className="flex items-center px-(--spacing-sm) text-faint shrink-0">{prefix}</span>}
         <input
+          ref={ref}
           id={inputId}
           type="text"
           inputMode={allowDecimal ? "decimal" : "numeric"}
@@ -701,7 +726,7 @@ function NumberInputImpl({
       {!error && helperText && <p className="text-body-caption text-faint">{helperText}</p>}
     </div>
   );
-}
+});
 
 /* ──────────────────────────────────────────────────────────────────────────
  * CurrencyInputImpl — type="currency" (former CurrencyInput, verbatim logic).
@@ -717,96 +742,104 @@ function getSymbol(currency: string, locale: string) {
   }
 }
 
-function CurrencyInputImpl({
-  value,
-  onChange,
-  currency = "USD",
-  locale = "en-US",
-  min,
-  max,
-  step = 0.01,
-  placeholder = "0.00",
-  disabled = false,
-  label,
-  className,
-  style,
-}: Omit<CurrencyModeProps, "type">) {
-  const uid = useId();
-  const inputId = uid;
-  const [editing, setEditing] = useState(false);
-  const [raw, setRaw] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+const CurrencyInputImpl = React.forwardRef<HTMLInputElement, Omit<CurrencyModeProps, "type">>(
+  function CurrencyInputImpl(
+    {
+      value,
+      onChange,
+      currency = "USD",
+      locale = "en-US",
+      min,
+      max,
+      step = 0.01,
+      placeholder = "0.00",
+      disabled = false,
+      label,
+      className,
+      style,
+    },
+    ref
+  ) {
+    const uid = useId();
+    const inputId = uid;
+    const [editing, setEditing] = useState(false);
+    const [raw, setRaw] = useState("");
+    // ref interno (usado no .select() do onFocus) mesclado com o ref encaminhado pelo consumidor
+    const inputRef = useRef<HTMLInputElement>(null);
+    const mergedRef = mergeRefs(ref, inputRef);
 
-  const symbol = getSymbol(currency, locale);
+    const symbol = getSymbol(currency, locale);
 
-  const formatted =
-    value !== undefined && value !== null ? value.toLocaleString(locale, { style: "currency", currency }) : "";
+    const formatted =
+      value !== undefined && value !== null ? value.toLocaleString(locale, { style: "currency", currency }) : "";
 
-  function onFocus() {
-    setRaw(value !== undefined && value !== null ? String(value) : "");
-    setEditing(true);
-    requestAnimationFrame(() => inputRef.current?.select());
-  }
-
-  function commit() {
-    const parsed = parseFloat(raw.replace(/[^0-9.\-]/g, ""));
-    if (!isNaN(parsed)) {
-      let clamped = parsed;
-      if (min !== undefined) clamped = Math.max(min, clamped);
-      if (max !== undefined) clamped = Math.min(max, clamped);
-      onChange?.(clamped);
+    function onFocus() {
+      setRaw(value !== undefined && value !== null ? String(value) : "");
+      setEditing(true);
+      requestAnimationFrame(() => inputRef.current?.select());
     }
-    setEditing(false);
-  }
 
-  return (
-    <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
-      {label && (
-        <label htmlFor={inputId} className="text-body-callout font-medium text-muted">
-          {label}
-        </label>
-      )}
-      <div
-        className={cn(
-          "flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) rounded-(--radius-sm) border border-rule bg-canvas transition-colors",
-          !disabled && "focus-within:border-patina/60",
-          disabled && "opacity-60 cursor-not-allowed"
+    function commit() {
+      const parsed = parseFloat(raw.replace(/[^0-9.\-]/g, ""));
+      if (!isNaN(parsed)) {
+        let clamped = parsed;
+        if (min !== undefined) clamped = Math.max(min, clamped);
+        if (max !== undefined) clamped = Math.min(max, clamped);
+        onChange?.(clamped);
+      }
+      setEditing(false);
+    }
+
+    return (
+      <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
+        {label && (
+          <label htmlFor={inputId} className="text-body-callout font-medium text-muted">
+            {label}
+          </label>
         )}
-      >
-        <span className="text-faint text-body-callout shrink-0">{symbol}</span>
-        {editing ? (
-          <input
-            ref={inputRef}
-            id={inputId}
-            type="number"
-            step={step}
-            min={min}
-            max={max}
-            value={raw}
-            onChange={(e) => setRaw(e.target.value)}
-            onBlur={commit}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") commit();
-            }}
-            disabled={disabled}
-            className="flex-1 bg-transparent outline-none text-foreground text-body-callout [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-          />
-        ) : (
-          <input
-            id={inputId}
-            type="text"
-            readOnly={!editing}
-            value={formatted}
-            onFocus={onFocus}
-            placeholder={placeholder}
-            disabled={disabled}
-            className="flex-1 bg-transparent outline-none text-foreground text-body-callout cursor-text placeholder:text-faint"
-          />
-        )}
+        <div
+          className={cn(
+            "flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) rounded-(--radius-sm) border border-rule bg-canvas transition-colors",
+            !disabled && "focus-within:border-patina/60",
+            disabled && "opacity-60 cursor-not-allowed"
+          )}
+        >
+          <span className="text-faint text-body-callout shrink-0">{symbol}</span>
+          {editing ? (
+            <input
+              ref={mergedRef}
+              id={inputId}
+              type="number"
+              step={step}
+              min={min}
+              max={max}
+              value={raw}
+              onChange={(e) => setRaw(e.target.value)}
+              onBlur={commit}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") commit();
+              }}
+              disabled={disabled}
+              className="flex-1 bg-transparent outline-none text-foreground text-body-callout [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          ) : (
+            <input
+              ref={mergedRef}
+              id={inputId}
+              type="text"
+              readOnly={!editing}
+              value={formatted}
+              onFocus={onFocus}
+              placeholder={placeholder}
+              disabled={disabled}
+              className="flex-1 bg-transparent outline-none text-foreground text-body-callout cursor-text placeholder:text-faint"
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
 
 /* ──────────────────────────────────────────────────────────────────────────
  * PhoneInputImpl — type="phone" (former PhoneInput, verbatim logic).
@@ -832,17 +865,20 @@ const PHONE_SIZE_CLS: Record<string, string> = {
   lg: "text-body-paragraph h-12",
 };
 
-function PhoneInputImpl({
-  value,
-  defaultValue = "",
-  onChange,
-  placeholder = "(00) 00000-0000",
-  size = "md",
-  disabled = false,
-  defaultCountry = "BR",
-  className,
-  style,
-}: Omit<PhoneModeProps, "type">) {
+const PhoneInputImpl = React.forwardRef<HTMLInputElement, Omit<PhoneModeProps, "type">>(function PhoneInputImpl(
+  {
+    value,
+    defaultValue = "",
+    onChange,
+    placeholder = "(00) 00000-0000",
+    size = "md",
+    disabled = false,
+    defaultCountry = "BR",
+    className,
+    style,
+  },
+  ref
+) {
   const [internal, setInternal] = useState(defaultValue);
   const [country, setCountry] = useState(PHONE_COUNTRIES.find((c) => c.code === defaultCountry) ?? PHONE_COUNTRIES[0]);
   const phone = value !== undefined ? value : internal;
@@ -887,6 +923,7 @@ function PhoneInputImpl({
       </div>
 
       <input
+        ref={ref}
         type="tel"
         aria-label="Phone number"
         value={phone}
@@ -897,7 +934,7 @@ function PhoneInputImpl({
       />
     </div>
   );
-}
+});
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Input — Super component.
@@ -905,24 +942,28 @@ function PhoneInputImpl({
  * `floatingLabel` flag. All other types fall through to the text Input.
  * Absorbs NumberInput / CurrencyInput / PhoneInput / FloatingLabelInput
  * (each now a backward-compat wrapper).
+ *
+ * forwardRef: o `ref` chega sempre no `<input>` real renderizado, seja qual for o modo
+ * (default/number/currency/phone/floatingLabel) — antes desta correção o componente não
+ * usava forwardRef e qualquer `ref` passado por um consumidor era ignorado silenciosamente.
  * ─────────────────────────────────────────────────────────────────────── */
-export function Input(props: InputProps) {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
   if (props.type === "number") {
     const { type: _t, ...rest } = props as NumberModeProps;
-    return <NumberInputImpl {...rest} />;
+    return <NumberInputImpl ref={ref} {...rest} />;
   }
   if (props.type === "currency") {
     const { type: _t, ...rest } = props as CurrencyModeProps;
-    return <CurrencyInputImpl {...rest} />;
+    return <CurrencyInputImpl ref={ref} {...rest} />;
   }
   if (props.type === "phone") {
     const { type: _t, ...rest } = props as PhoneModeProps;
-    return <PhoneInputImpl {...rest} />;
+    return <PhoneInputImpl ref={ref} {...rest} />;
   }
   if ((props as InputDefaultProps).floatingLabel) {
-    return <FloatingLabelImpl {...(props as InputBaseProps)} />;
+    return <FloatingLabelImpl ref={ref} {...(props as InputBaseProps)} />;
   }
-  return <TextInputImpl {...(props as InputBaseProps)} />;
-}
+  return <TextInputImpl ref={ref} {...(props as InputBaseProps)} />;
+});
 
 Input.displayName = "Input";
