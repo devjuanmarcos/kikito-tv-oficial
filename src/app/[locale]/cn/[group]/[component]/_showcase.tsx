@@ -581,10 +581,23 @@ function DraggableDemo() {
     { id: "3", content: <span className="text-body-callout text-foreground">Third item</span> },
     { id: "4", content: <span className="text-body-callout text-foreground">Fourth item</span> },
   ];
+  const horizontalItems = [
+    { id: "a", content: <span className="text-body-callout text-foreground">A</span> },
+    { id: "b", content: <span className="text-body-callout text-foreground">B</span> },
+    { id: "c", content: <span className="text-body-callout text-foreground">C</span> },
+  ];
   return (
-    <Frame label="Drag to reorder">
-      <Draggable items={initial} className="w-72" />
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Drag to reorder (or focus + arrow keys)">
+        <Draggable items={initial} className="w-72" />
+      </Frame>
+      <Frame label="With handle">
+        <Draggable items={initial} handle className="w-72" />
+      </Frame>
+      <Frame label="Horizontal">
+        <Draggable items={horizontalItems} direction="horizontal" />
+      </Frame>
+    </div>
   );
 }
 

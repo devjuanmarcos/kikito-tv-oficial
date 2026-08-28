@@ -3908,6 +3908,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "false",
         description: "Exibe alça de arraste em vez de arrastar pelo item inteiro",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro wrapper",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro wrapper",
+      },
     ],
   },
   {
