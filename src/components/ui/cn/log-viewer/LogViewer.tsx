@@ -8,12 +8,15 @@ import type { LogEntry, LogViewerProps } from "./log-viewer.types";
 
 const LEVEL_STYLES: Record<string, string> = {
   debug: "bg-graphite text-faint",
-  info: "bg-info/15 text-info",
-  warn: "bg-warning/15 text-warning",
-  error: "bg-danger/15 text-danger",
-  success: "bg-success/15 text-success",
+  info: "bg-info-soft text-info-soft-fg",
+  warn: "bg-warning-soft text-warning-soft-fg",
+  error: "bg-danger-soft text-danger-soft-fg",
+  success: "bg-success-soft text-success-soft-fg",
 };
 
+// bg-X/5: wash bem sutil na linha inteira (não é par bg/texto de contraste — o texto
+// da mensagem continua text-foreground independente do nível), sem token -soft
+// equivalente pra essa intensidade
 const ROW_STYLES: Record<string, string> = {
   debug: "",
   info: "",
@@ -61,9 +64,12 @@ export function LogViewer({
       style={{ maxHeight, ...style }}
     >
       {searchable && (
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-rule bg-raised">
-          <span className="text-faint">🔍</span>
+        <div className="flex items-center gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-sm) border-b border-rule bg-raised">
+          <span aria-hidden="true" className="text-faint">
+            🔍
+          </span>
           <input
+            aria-label="Filter logs"
             className="flex-1 bg-transparent outline-none text-foreground placeholder:text-faint"
             placeholder="Filter logs…"
             value={query}
@@ -76,6 +82,7 @@ export function LogViewer({
       )}
 
       <div
+        role="log"
         className="overflow-y-auto divide-y divide-rule/50"
         style={{
           maxHeight: searchable
@@ -84,14 +91,21 @@ export function LogViewer({
         }}
       >
         {filtered.length === 0 ? (
-          <div className="px-4 py-6 text-center text-faint">{emptyMessage}</div>
+          <div className="px-(--spacing-lg) py-(--spacing-2xl) text-center text-faint">{emptyMessage}</div>
         ) : (
           filtered.map((entry: LogEntry, i: number) => (
-            <div key={entry.id ?? i} className={cn("flex items-start gap-2 px-3 py-1.5", ROW_STYLES[entry.level])}>
+            <div
+              key={entry.id ?? i}
+              className={cn(
+                "flex items-start gap-(--spacing-sm) px-(--spacing-md) py-(--spacing-xs)",
+                ROW_STYLES[entry.level]
+              )}
+            >
               {showLevelBadge && (
                 <span
+                  // below scale minimum: micro-label decorativo (badge de nível)
                   className={cn(
-                    "shrink-0 text-[0.5625rem] font-bold px-1.5 py-0.5 rounded-(--radius-xs) uppercase tracking-wide",
+                    "shrink-0 text-[0.5625rem] font-bold px-(--spacing-xs) py-(--spacing-3xs) rounded-(--radius-xs) uppercase tracking-wide",
                     LEVEL_STYLES[entry.level]
                   )}
                 >
@@ -99,6 +113,7 @@ export function LogViewer({
                 </span>
               )}
               {showTimestamps && entry.timestamp && (
+                // mt-px: ajuste fino de alinhamento óptico com o badge, não é spacing genérico
                 <span className="shrink-0 text-faint text-body-caption tabular-nums mt-px">
                   {formatTs(entry.timestamp)}
                 </span>

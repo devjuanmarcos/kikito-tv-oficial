@@ -4884,7 +4884,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "maxHeight",
         type: "number | string",
-        default: "400",
+        default: "360",
         description: "Altura máxima do contêiner",
       },
       {
@@ -4910,6 +4910,22 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "true",
         description: "Rola automaticamente para o último log",
+      },
+      {
+        name: "emptyMessage",
+        type: "string",
+        default: "'No log entries.'",
+        description: "Mensagem exibida quando não há logs",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
       },
     ],
   },
