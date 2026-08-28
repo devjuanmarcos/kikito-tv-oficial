@@ -1,2 +1,2 @@
-export { OnboardingTour } from './OnboardingTour'
-export type { OnboardingTourProps, TourStep, TourPlacement } from './OnboardingTour'
+export { OnboardingTour } from "./OnboardingTour";
+export type { OnboardingTourProps, TourStep, TourPlacement } from "./onboarding-tour.types";
