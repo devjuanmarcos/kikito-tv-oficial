@@ -5332,14 +5332,32 @@ function MediaPlayerDemo() {
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
-        <Frame label="Simulated audio player">
+        <Frame label="Simulated audio player (sem src — progresso simulado por timer)">
           <div className="w-full max-w-md">
             <MediaPlayer type="audio" title="Ambient Track 01" artist="Kikito Studio" />
           </div>
         </Frame>
-        <Frame label="Video player">
+        {/* Com src real: exercita o <audio>/<video> de verdade, não só o timer
+            simulado acima — mesmo padrão de asset externo já usado em
+            ImageCropper (picsum.photos) e Avatar (pravatar.cc) */}
+        <Frame label="Audio player (src real)">
           <div className="w-full max-w-md">
-            <MediaPlayer type="video" title="Intro to CN" />
+            <MediaPlayer
+              type="audio"
+              title="SoundHelix Song 1"
+              artist="SoundHelix"
+              src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            />
+          </div>
+        </Frame>
+        <Frame label="Video player (src real)">
+          <div className="w-full max-w-md">
+            <MediaPlayer
+              type="video"
+              title="Big Buck Bunny"
+              artist="Blender Foundation"
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            />
           </div>
         </Frame>
       </ShowcaseSection>

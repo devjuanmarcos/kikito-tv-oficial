@@ -7623,6 +7623,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "src", type: "string", description: "URL da mídia" },
       { name: "type", type: "'audio' | 'video'", default: "'audio'", description: "Tipo de mídia" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── metric-card
