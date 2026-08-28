@@ -1308,7 +1308,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "hint",
         type: "string",
         default: "undefined",
-        description: "Texto de apoio inline após o label",
+        description: "Texto de apoio exibido abaixo do label",
       },
       {
         name: "disabled",
@@ -1321,6 +1321,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "string",
         default: "undefined",
         description: "Associa o label a um input pelo id",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
       },
     ],
   },
