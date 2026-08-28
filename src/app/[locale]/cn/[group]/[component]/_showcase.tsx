@@ -4841,11 +4841,11 @@ function ChatBubbleDemo() {
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Bubbles">
-        <Frame label="Sent · received" align="start">
+        <Frame label="Sent · received (with avatar)" align="start">
           <div className="flex flex-col gap-3 w-full max-w-sm">
-            <ChatBubble message="Hey! How's the project going?" side="left" senderName="Alice" />
+            <ChatBubble message="Hey! How's the project going?" side="left" senderName="Alice" avatarFallback="AL" />
             <ChatBubble message="Great! Almost done with the new components 🎉" side="right" status="read" />
-            <ChatBubble message="Can't wait to see them!" side="left" senderName="Alice" />
+            <ChatBubble message="Can't wait to see them!" side="left" senderName="Alice" avatarFallback="AL" />
           </div>
         </Frame>
       </ShowcaseSection>

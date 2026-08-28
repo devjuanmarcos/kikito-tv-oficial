@@ -6942,9 +6942,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "senderName", type: "string", description: "Nome do remetente" },
       { name: "avatar", type: "string", description: "URL do avatar" },
       { name: "avatarFallback", type: "string", description: "Iniciais para o fallback" },
-      { name: "status", type: "'sent' | 'delivered' | 'read'", description: "Status de entrega" },
+      { name: "status", type: "'sent' | 'delivered' | 'read' | 'error'", description: "Status de entrega" },
       { name: "isTyping", type: "boolean", default: "false", description: "Exibir indicador de digitação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── chip-group
