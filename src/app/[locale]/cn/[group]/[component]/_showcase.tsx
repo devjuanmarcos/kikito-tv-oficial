@@ -3457,21 +3457,44 @@ function VirtualListDemo() {
     desc: `Description for row ${i + 1}`,
   }));
   return (
-    <Frame label="Virtual List — windowed renderer for 1000+ rows">
-      <div className="w-full max-w-xs border border-rule rounded-[--radius] overflow-hidden">
-        <VirtualList
-          items={items}
-          itemHeight={56}
-          height={280}
-          renderItem={(item) => (
-            <div className="flex flex-col justify-center px-4 py-2 border-b border-rule h-full">
-              <span className="text-body-callout font-semibold text-foreground">{item.label}</span>
-              <span className="text-body-caption text-faint">{item.desc}</span>
-            </div>
-          )}
-        />
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-4 w-full max-w-xs">
+      <ShowcaseSection title="1000 rows, itemHeight 56">
+        <Frame label="Virtual List — windowed renderer for 1000+ rows" align="start">
+          <div className="w-full border border-rule rounded-(--radius-lg) overflow-hidden">
+            <VirtualList
+              items={items}
+              itemHeight={56}
+              height={280}
+              ariaLabel="Row list"
+              renderItem={(item) => (
+                <div className="flex flex-col justify-center px-4 py-2 border-b border-rule h-full">
+                  <span className="text-body-callout font-semibold text-foreground">{item.label}</span>
+                  <span className="text-body-caption text-faint">{item.desc}</span>
+                </div>
+              )}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Compact rows, itemHeight 32">
+        <Frame label="Denser row height, no overscan" align="start">
+          <div className="w-full border border-rule rounded-(--radius-lg) overflow-hidden">
+            <VirtualList
+              items={items}
+              itemHeight={32}
+              height={160}
+              overscan={0}
+              ariaLabel="Compact row list"
+              renderItem={(item) => (
+                <div className="flex items-center px-3 border-b border-rule h-full text-body-caption text-foreground">
+                  {item.label}
+                </div>
+              )}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

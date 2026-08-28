@@ -23,7 +23,7 @@
       "path": "components/ui/cn/video-card/video-card.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/video-card/video-card.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface VideoCardProps {\r\n  /** URL do vídeo — usado pro preview em hover (mudo, silencioso). Requer `poster` pra fallback estático. */\r\n  src?: string;\r\n  poster?: string;\r\n  title?: string;\r\n  description?: string;\r\n  duration?: string;\r\n  category?: string;\r\n  views?: string | number;\r\n  href?: string;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface VideoCardProps {\n  /** URL do vídeo — usado pro preview em hover (mudo, silencioso). Requer `poster` pra fallback estático. */\n  src?: string;\n  poster?: string;\n  title?: string;\n  description?: string;\n  duration?: string;\n  category?: string;\n  views?: string | number;\n  href?: string;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/video-card/VideoCard.tsx",

@@ -6132,6 +6132,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "3",
         description: "Itens extras renderizados acima/abaixo da janela visível",
       },
+      { name: "ariaLabel", type: "string", description: "Nome acessível do viewport de scroll (leitor de tela)" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro viewport" },
     ],
   },
   {
