@@ -1,7 +1,6 @@
-export { TimelineProgress } from "./TimelineProgress";
 export type {
   TimelineProgressProps,
   TimelineProgressStep,
   TimelineStepStatus,
   TimelineOrientation,
-} from "./timeline-progress.types";
+} from "../timeline/timeline.types";

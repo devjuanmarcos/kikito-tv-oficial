@@ -7895,7 +7895,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "steps",
         type: "TimelineProgressStep[]",
         required: true,
-        description: "Passos { label, description?, status, date? }",
+        description: "Passos { id, label, description?, status: 'completed'|'current'|'upcoming'|'error', icon? }",
       },
       {
         name: "orientation",
@@ -7904,6 +7904,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Orientação da timeline",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── tree-view

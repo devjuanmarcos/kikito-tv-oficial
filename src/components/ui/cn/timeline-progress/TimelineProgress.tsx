@@ -1,13 +1,7 @@
 "use client";
 import { Timeline } from "../timeline/Timeline";
-import type {
-  TimelineProgressProps,
-  TimelineProgressStep,
-  TimelineStepStatus,
-  TimelineOrientation,
-} from "../timeline/timeline.types";
 
-export type { TimelineProgressProps, TimelineProgressStep, TimelineStepStatus, TimelineOrientation };
+import type { TimelineProgressProps } from "./timeline-progress.types";
 
 /**
  * TimelineProgress — backward-compat wrapper over the Super `Timeline`.
