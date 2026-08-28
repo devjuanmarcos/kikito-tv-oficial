@@ -5538,6 +5538,7 @@ function SwitchDemo() {
 }
 
 function AlertDemo() {
+  const [dismissed, setDismissed] = useState(false);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Intents">
@@ -5566,24 +5567,38 @@ function AlertDemo() {
             <Alert intent="info" variant="left-accent" title="Left Accent">
               Left border accent strip.
             </Alert>
+            <Alert intent="warning" variant="solid" title="Solid warning">
+              Text and icon must stay legible on the light warning background.
+            </Alert>
           </div>
         </Frame>
       </ShowcaseSection>
       <ShowcaseSection title="Features">
         <Frame label="Dismissible · with action" align="start">
           <div className="flex flex-col gap-3 w-full max-w-lg">
-            <Alert
-              intent="warning"
-              title="Action required"
-              dismissible
-              actions={
-                <Button size="sm" variant="outline" intent="warning">
-                  Resolve
-                </Button>
-              }
-            >
-              Your account will be suspended in 3 days.
-            </Alert>
+            {dismissed ? (
+              <button
+                type="button"
+                className="text-body-callout text-patina underline self-start"
+                onClick={() => setDismissed(false)}
+              >
+                Show alert again
+              </button>
+            ) : (
+              <Alert
+                intent="warning"
+                title="Action required"
+                dismissible
+                onDismiss={() => setDismissed(true)}
+                actions={
+                  <Button size="sm" variant="outline" intent="warning">
+                    Resolve
+                  </Button>
+                }
+              >
+                Your account will be suspended in 3 days.
+              </Alert>
+            )}
           </div>
         </Frame>
       </ShowcaseSection>

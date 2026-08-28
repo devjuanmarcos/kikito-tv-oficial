@@ -1,26 +1,7 @@
-﻿"use client";
-import type React from "react";
-
+"use client";
 import { cn } from "@/lib/utils";
 
-export type AlertIntent = "info" | "success" | "warning" | "danger" | "neutral";
-export type AlertVariant = "soft" | "outline" | "solid" | "left-accent";
-export type AlertSize = "sm" | "md" | "lg";
-
-export interface AlertProps {
-  intent?: AlertIntent;
-  variant?: AlertVariant;
-  title?: string;
-  children?: React.ReactNode;
-  icon?: React.ReactNode;
-  showIcon?: boolean;
-  dismissible?: boolean;
-  onDismiss?: () => void;
-  actions?: React.ReactNode;
-  size?: AlertSize;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { AlertIntent, AlertProps, AlertSize } from "./alert.types";
 
 /* ── default icons ── */
 const InfoIcon = () => (
@@ -113,43 +94,45 @@ const DEFAULT_ICON: Record<AlertIntent, React.ReactNode> = {
   neutral: <NeutralIcon />,
 };
 
-/* ── color maps ── */
+/* ── color maps ──
+ * bg-*-soft / text-*-soft-fg: par canônico pré-validado AA (ver CLAUDE.md) — usado em vez de
+ * recriar manualmente com bg-[color-mix(...)] como estava antes. O ícone usa a versão -soft-fg
+ * (não a cor cheia) porque agora fica sobre o próprio fundo -soft, não mais um fundo neutro.
+ */
 const SOFT_CLS: Record<AlertIntent, string> = {
-  info: "bg-[color-mix(in_oklch,var(--ks-info)_10%,transparent)] text-foreground [--alert-ic:var(--ks-info)]",
-  success: "bg-[color-mix(in_oklch,var(--ks-success)_10%,transparent)] text-foreground [--alert-ic:var(--ks-success)]",
-  warning: "bg-[color-mix(in_oklch,var(--ks-warning)_12%,transparent)] text-foreground [--alert-ic:var(--ks-warning)]",
-  danger: "bg-[color-mix(in_oklch,var(--ks-danger)_10%,transparent)] text-foreground [--alert-ic:var(--ks-danger)]",
-  neutral: "bg-graphite text-foreground [--alert-ic:var(--ks-text-faint)]",
+  info: "bg-info-soft text-foreground [--alert-ic:var(--ks-info-soft-fg)]",
+  success: "bg-success-soft text-foreground [--alert-ic:var(--ks-success-soft-fg)]",
+  warning: "bg-warning-soft text-foreground [--alert-ic:var(--ks-warning-soft-fg)]",
+  danger: "bg-danger-soft text-foreground [--alert-ic:var(--ks-danger-soft-fg)]",
+  neutral: "bg-neutral-soft text-foreground [--alert-ic:var(--ks-neutral-btn-soft-fg)]",
 };
 const OUTLINE_CLS: Record<AlertIntent, string> = {
-  info: "border border-[color-mix(in_oklch,var(--ks-info)_40%,transparent)] text-foreground [--alert-ic:var(--ks-info)]",
-  success:
-    "border border-[color-mix(in_oklch,var(--ks-success)_40%,transparent)] text-foreground [--alert-ic:var(--ks-success)]",
-  warning:
-    "border border-[color-mix(in_oklch,var(--ks-warning)_40%,transparent)] text-foreground [--alert-ic:var(--ks-warning)]",
-  danger:
-    "border border-[color-mix(in_oklch,var(--ks-danger)_40%,transparent)] text-foreground [--alert-ic:var(--ks-danger)]",
+  // opacidade no border: sem token border-*-soft na paleta (pares soft são bg/text) — mesma
+  // exceção documentada já usada no Spinner
+  info: "border border-info/40 text-foreground [--alert-ic:var(--ks-info)]",
+  success: "border border-success/40 text-foreground [--alert-ic:var(--ks-success)]",
+  warning: "border border-warning/40 text-foreground [--alert-ic:var(--ks-warning)]",
+  danger: "border border-danger/40 text-foreground [--alert-ic:var(--ks-danger)]",
   neutral: "border border-rule text-foreground [--alert-ic:var(--ks-text-faint)]",
 };
 const SOLID_CLS: Record<AlertIntent, string> = {
-  info: "bg-info text-white [--alert-ic:white]",
-  success: "bg-success text-white [--alert-ic:white]",
-  warning: "bg-warning text-black [--alert-ic:black]",
-  danger: "bg-danger text-white [--alert-ic:white]",
-  neutral: "bg-graphite-2 text-foreground [--alert-ic:var(--ks-text-faint)]",
+  info: "bg-info text-info-fg [--alert-ic:var(--ks-info-fg)]",
+  success: "bg-success text-success-fg [--alert-ic:var(--ks-success-fg)]",
+  warning: "bg-warning text-warning-fg [--alert-ic:var(--ks-warning-fg)]",
+  danger: "bg-danger text-danger-fg [--alert-ic:var(--ks-danger-fg)]",
+  neutral: "bg-neutral text-neutral-fg [--alert-ic:var(--ks-neutral-btn-fg)]",
 };
 const ACCENT_CLS: Record<AlertIntent, string> = {
-  info: "bg-[color-mix(in_oklch,var(--ks-info)_8%,transparent)] border-l-4 border-l-info text-foreground [--alert-ic:var(--ks-info)]",
-  success:
-    "bg-[color-mix(in_oklch,var(--ks-success)_8%,transparent)] border-l-4 border-l-success text-foreground [--alert-ic:var(--ks-success)]",
-  warning:
-    "bg-[color-mix(in_oklch,var(--ks-warning)_10%,transparent)] border-l-4 border-l-warning text-foreground [--alert-ic:var(--ks-warning)]",
-  danger:
-    "bg-[color-mix(in_oklch,var(--ks-danger)_8%,transparent)] border-l-4 border-l-danger text-foreground [--alert-ic:var(--ks-danger)]",
-  neutral: "bg-graphite border-l-4 border-l-rule text-foreground [--alert-ic:var(--ks-text-faint)]",
+  info: "bg-info-soft border-l-4 border-l-info text-foreground [--alert-ic:var(--ks-info-soft-fg)]",
+  success: "bg-success-soft border-l-4 border-l-success text-foreground [--alert-ic:var(--ks-success-soft-fg)]",
+  warning: "bg-warning-soft border-l-4 border-l-warning text-foreground [--alert-ic:var(--ks-warning-soft-fg)]",
+  danger: "bg-danger-soft border-l-4 border-l-danger text-foreground [--alert-ic:var(--ks-danger-soft-fg)]",
+  neutral: "bg-neutral-soft border-l-4 border-l-rule text-foreground [--alert-ic:var(--ks-neutral-btn-soft-fg)]",
 };
 
 const SIZE_CLS: Record<AlertSize, { root: string; icon: string; title: string; body: string }> = {
+  // escala própria do componente (padding + tamanho de ícone + font-size calibrados juntos
+  // por tier) — não migrar pro token de spacing genérico, ver CLAUDE.md
   sm: {
     root: "gap-2 px-3 py-2 rounded-(--radius-sm)",
     icon: "w-4 h-4",
@@ -206,13 +189,13 @@ export function Alert({
       <div className="flex-1 min-w-0">
         {title && <p className={cn("font-semibold leading-[1.3]", sz.title, children && "mb-[0.25em]")}>{title}</p>}
         {children && <div className={cn("leading-[1.5]", sz.body, "opacity-85")}>{children}</div>}
-        {actions && <div className="flex flex-wrap gap-2 mt-3">{actions}</div>}
+        {actions && <div className="flex flex-wrap gap-(--spacing-sm) mt-(--spacing-md)">{actions}</div>}
       </div>
       {(dismissible || onDismiss) && (
         <button
           type="button"
           onClick={onDismiss}
-          className="shrink-0 p-0.5 -mt-0.5 -mr-0.5 rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer text-current [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]"
+          className="shrink-0 p-(--spacing-3xs) -mt-(--spacing-3xs) -mr-(--spacing-3xs) rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity bg-transparent border-none cursor-pointer text-current [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]"
           aria-label="Dismiss"
         >
           <XIcon />

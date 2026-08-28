@@ -17,7 +17,7 @@
       "path": "components/ui/cn/skeleton/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/skeleton/index.ts",
-      "content": "export { Skeleton } from './Skeleton'\nexport type { SkeletonProps, SkeletonShape } from './skeleton.types'\n"
+      "content": "export { Skeleton } from \"./Skeleton\";\nexport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\n"
     },
     {
       "path": "components/ui/cn/skeleton/Skeleton.tsx",
