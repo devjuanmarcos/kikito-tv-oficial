@@ -17,13 +17,19 @@
       "path": "components/ui/cn/combobox/Combobox.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/combobox/Combobox.tsx",
-      "content": "\"use client\";\r\n/**\r\n * Combobox — backward-compat wrapper.\r\n * Absorbed by the Select Super component (`<Select mode=\"combobox\" />`). Kept so\r\n * existing imports of `Combobox` keep working; new code should use Select.\r\n */\r\nimport { Select } from \"@/components/ui/cn/select\";\r\nimport type { ComboboxProps as SelectComboboxProps, ComboboxOption } from \"@/components/ui/cn/select/Select\";\r\n\r\nexport type ComboboxProps = Omit<SelectComboboxProps, \"mode\">;\r\nexport type { ComboboxOption };\r\n\r\nexport function Combobox(props: ComboboxProps) {\r\n  return <Select mode=\"combobox\" {...props} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * Combobox — backward-compat wrapper.\n * Absorbed by the Select Super component (`<Select mode=\"combobox\" />`). Kept so\n * existing imports of `Combobox` keep working; new code should use Select.\n */\nimport { Select } from \"@/components/ui/cn/select\";\n\nimport type { ComboboxProps } from \"./combobox.types\";\n\nexport function Combobox(props: ComboboxProps) {\n  return <Select mode=\"combobox\" {...props} />;\n}\n"
+    },
+    {
+      "path": "components/ui/cn/combobox/combobox.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/combobox/combobox.types.ts",
+      "content": "import type { ComboboxOption, ComboboxProps as SelectComboboxProps } from \"@/components/ui/cn/select/select.types\";\n\nexport type ComboboxProps = Omit<SelectComboboxProps, \"mode\">;\nexport type { ComboboxOption };\n"
     },
     {
       "path": "components/ui/cn/combobox/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/combobox/index.ts",
-      "content": "﻿export { Combobox } from './Combobox'\r\nexport type { ComboboxProps, ComboboxOption } from './Combobox'\r\n"
+      "content": "export { Combobox } from './Combobox'\nexport type { ComboboxProps, ComboboxOption } from './combobox.types'\n"
     }
   ]
 }

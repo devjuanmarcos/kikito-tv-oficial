@@ -17,7 +17,7 @@
       "path": "components/ui/cn/rating-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/rating-input/index.ts",
-      "content": "export { RatingInput } from './RatingInput'\nexport type { RatingInputProps, RatingInputSize } from './rating-input.types'\n"
+      "content": "export { RatingInput } from \"./RatingInput\";\nexport type { RatingInputProps, RatingInputSize } from \"./rating-input.types\";\n"
     },
     {
       "path": "components/ui/cn/rating-input/rating-input.types.ts",

@@ -1916,6 +1916,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Limite máximo de seleções",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
     ],
   },
   {
