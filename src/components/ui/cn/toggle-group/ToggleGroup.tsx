@@ -215,7 +215,10 @@ function ChipToggleGroup({
   value,
   defaultValue = [],
   onChange,
-  multiSelect = true,
+  // default false: single-select é o comportamento esperado quando a prop é omitida
+  // (bug real encontrado na validação do ChipGroup — estava true, fazendo qualquer uso
+  // sem multiSelect explícito acumular seleção em vez de trocar)
+  multiSelect = false,
   intent = "primary",
   size = "md",
   className,

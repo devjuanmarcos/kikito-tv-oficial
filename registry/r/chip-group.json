@@ -14,16 +14,22 @@
   "docs": "https://cn.kikito.tv/components/chip-group",
   "files": [
     {
+      "path": "components/ui/cn/chip-group/chip-group.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/chip-group/chip-group.types.ts",
+      "content": "import type { ToggleGroupChipProps, ChipGroupChip, ChipGroupIntent, ChipGroupSize } from \"@/components/ui/cn/toggle-group/ToggleGroup\";\n\nexport type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };\n\nexport type ChipGroupProps = Omit<ToggleGroupChipProps, \"variant\">;\n"
+    },
+    {
       "path": "components/ui/cn/chip-group/ChipGroup.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/chip-group/ChipGroup.tsx",
-      "content": "\"use client\";\r\n/**\r\n * ChipGroup — backward-compat wrapper.\r\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"chip\" />`).\r\n * Kept so existing imports of `ChipGroup` keep working; new code should use\r\n * ToggleGroup directly.\r\n */\r\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\r\nimport type {\r\n  ToggleGroupChipProps,\r\n  ChipGroupChip,\r\n  ChipGroupIntent,\r\n  ChipGroupSize,\r\n} from \"@/components/ui/cn/toggle-group/ToggleGroup\";\r\n\r\nexport type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };\r\n\r\nexport type ChipGroupProps = Omit<ToggleGroupChipProps, \"variant\">;\r\n\r\nexport function ChipGroup(props: ChipGroupProps) {\r\n  return <ToggleGroup variant=\"chip\" {...props} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * ChipGroup — backward-compat wrapper.\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"chip\" />`).\n * Kept so existing imports of `ChipGroup` keep working; new code should use\n * ToggleGroup directly.\n */\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\n\nimport type { ChipGroupProps } from \"./chip-group.types\";\n\nexport function ChipGroup(props: ChipGroupProps) {\n  return <ToggleGroup variant=\"chip\" {...props} />;\n}\n"
     },
     {
       "path": "components/ui/cn/chip-group/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/chip-group/index.ts",
-      "content": "export { ChipGroup } from './ChipGroup'\nexport type { ChipGroupProps, ChipGroupChip, ChipGroupIntent, ChipGroupSize } from './ChipGroup'\n"
+      "content": "export { ChipGroup } from './ChipGroup'\nexport type { ChipGroupProps, ChipGroupChip, ChipGroupIntent, ChipGroupSize } from './chip-group.types'\n"
     }
   ]
 }

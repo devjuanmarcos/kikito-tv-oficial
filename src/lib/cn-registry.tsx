@@ -6949,19 +6949,25 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Selectable chip filter set with single or multi-select and intent variants.",
     filePath: "src/components/ui/cn/chip-group/ChipGroup.tsx",
     props: [
-      { name: "chips", type: "ChipGroupChip[]", required: true, description: "Array de { id, label, icon? }" },
+      {
+        name: "chips",
+        type: "ChipGroupChip[]",
+        required: true,
+        description: "Array de { id, label, icon?, disabled? }",
+      },
       { name: "value", type: "string[]", description: "Chips selecionados (controlado)" },
       { name: "defaultValue", type: "string[]", description: "Seleção inicial (não-controlado)" },
       { name: "onChange", type: "(value: string[]) => void", description: "Callback ao selecionar" },
       { name: "multiSelect", type: "boolean", default: "false", description: "Permitir múltipla seleção" },
       {
         name: "intent",
-        type: "'primary' | 'neutral' | 'success' | 'danger'",
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'",
         default: "'primary'",
         description: "Cor do estado selecionado",
       },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho dos chips" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── collapsible
