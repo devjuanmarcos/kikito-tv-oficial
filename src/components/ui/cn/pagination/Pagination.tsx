@@ -107,7 +107,7 @@ export function Pagination({
     >
       {rangeLabel && (
         <>
-          <span className="text-[length:--pg-fs] text-faint whitespace-nowrap px-[0.375rem] shrink-0">
+          <span className="text-(length:--pg-fs) text-faint whitespace-nowrap px-(--spacing-xs) shrink-0">
             {rangeLabel}
           </span>
           <span className="flex-1" />
@@ -140,6 +140,7 @@ export function Pagination({
         p === "…left" || p === "…right" ? (
           <span
             key={p}
+            aria-hidden="true"
             className="inline-flex items-center justify-center h-(--pg-h) min-w-(--pg-min) text-(length:--pg-fs) text-faint tracking-[0.05em] shrink-0 pointer-events-none"
           >
             …

@@ -5364,7 +5364,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "page",
         type: "number",
         required: true,
-        description: "Página atual (1-indexed)",
+        description: "Página atual (0-indexed)",
       },
       {
         name: "totalPages",
@@ -5387,7 +5387,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "showEdges",
         type: "boolean",
-        default: "false",
+        default: "true",
         description: "Exibe botões de primeira/última página",
       },
       {
@@ -5407,6 +5407,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "number",
         default: "undefined",
         description: "Itens por página (usado para exibir 'Showing X of Y')",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro elemento nav raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro elemento nav raiz",
       },
     ],
   },
