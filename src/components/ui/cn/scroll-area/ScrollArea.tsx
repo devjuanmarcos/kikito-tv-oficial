@@ -1,41 +1,51 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
-import type { ScrollAreaProps } from './scroll-area.types'
+import type React from "react";
+
+import { cn } from "@/lib/utils";
+
+import type { ScrollAreaProps } from "./scroll-area.types";
 
 const ORIENTATION_CLS: Record<string, string> = {
-  vertical:   'overflow-x-hidden overflow-y-auto',
-  horizontal: 'overflow-x-auto overflow-y-hidden',
-  both:       'overflow-auto',
-}
+  vertical: "overflow-x-hidden overflow-y-auto",
+  horizontal: "overflow-x-auto overflow-y-hidden",
+  both: "overflow-auto",
+};
 
 export function ScrollArea({
   children,
-  orientation = 'vertical',
+  orientation = "vertical",
   maxHeight,
   maxWidth,
   className,
   style,
 }: ScrollAreaProps) {
-  const maxStyle: React.CSSProperties = {}
-  if (maxHeight) maxStyle.maxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight
-  if (maxWidth)  maxStyle.maxWidth  = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth
+  const maxStyle: React.CSSProperties = {};
+  if (maxHeight) maxStyle.maxHeight = typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  if (maxWidth) maxStyle.maxWidth = typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
   return (
-    <div className={cn('relative overflow-hidden', className)} style={style}>
+    <div className={cn("relative overflow-hidden", className)} style={style}>
+      {/* Sem tabIndex, um viewport com overflow não é alcançável via teclado
+          (só scroll de mouse/touch/roda) — padrão recomendado pela WAI-ARIA
+          Authoring Practices pra "scrollable region" sem outro descendente
+          focável. jsx-a11y não tem exceção nativa pra esse padrão porque
+          normalmente pede um `role` interativo, que não se aplica aqui
+          (região de scroll genérica, não um widget). */}
       <div
+        tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
         className={cn(
-          'w-full h-full [scrollbar-width:thin] [scrollbar-color:var(--ks-rule)_transparent]',
-          '[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar]:h-[6px]',
-          '[&::-webkit-scrollbar-track]:bg-transparent',
-          '[&::-webkit-scrollbar-thumb]:bg-rule [&::-webkit-scrollbar-thumb]:rounded-full',
-          '[&::-webkit-scrollbar-thumb:hover]:bg-[color-mix(in_srgb,var(--ks-text-muted)_50%,transparent)]',
-          '[&::-webkit-scrollbar-corner]:bg-transparent',
-          ORIENTATION_CLS[orientation] ?? ORIENTATION_CLS.vertical,
+          "w-full h-full [scrollbar-width:thin] [scrollbar-color:var(--ks-rule)_transparent]",
+          "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-patina",
+          "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar]:h-[6px]",
+          "[&::-webkit-scrollbar-track]:bg-transparent",
+          "[&::-webkit-scrollbar-thumb]:bg-rule [&::-webkit-scrollbar-thumb]:rounded-full",
+          "[&::-webkit-scrollbar-thumb:hover]:bg-[color-mix(in_srgb,var(--ks-text-muted)_50%,transparent)]",
+          "[&::-webkit-scrollbar-corner]:bg-transparent",
+          ORIENTATION_CLS[orientation] ?? ORIENTATION_CLS.vertical
         )}
         style={maxStyle}
       >
         {children}
       </div>
     </div>
-  )
+  );
 }
