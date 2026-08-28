@@ -5236,7 +5236,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "quick-actions",
     title: "Quick Actions",
     group: "overlays",
-    description: "Floating action menu that expands to radial or linear buttons on trigger click.",
+    // era "radial or linear" — não existe layout radial implementado, só expansão
+    // linear (flex) nas 4 direções de `placement`
+    description: "Floating action menu that expands to linear buttons on trigger click.",
     filePath: "src/components/ui/cn/quick-actions/QuickActions.tsx",
     peerDeps: ["@/lib/utils"],
     props: [
@@ -5249,7 +5251,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "triggerIcon",
         type: "ReactNode",
-        default: "undefined",
+        default: "'+'",
         description: "Ícone do botão que expande as ações",
       },
       {
@@ -5257,6 +5259,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'top' | 'bottom' | 'left' | 'right'",
         default: "'top'",
         description: "Direção de expansão das ações",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container raiz",
       },
     ],
   },
