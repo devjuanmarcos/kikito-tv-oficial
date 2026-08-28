@@ -2756,6 +2756,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Linhas de features com disponibilidade por plano",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

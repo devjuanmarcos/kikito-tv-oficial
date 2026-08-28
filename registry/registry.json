@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T18:52:05.924Z",
+  "generatedAt": "2026-08-28T18:59:43.318Z",
   "items": [
     {
       "name": "accordion",
@@ -1353,7 +1353,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["button"]
+      "registryDependencies": ["badge", "button"]
     },
     {
       "name": "pricing-card",
