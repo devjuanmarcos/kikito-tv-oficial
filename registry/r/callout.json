@@ -29,7 +29,7 @@
       "path": "components/ui/cn/callout/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/callout/index.ts",
-      "content": "export { Callout } from './Callout'\nexport type { CalloutProps, CalloutIntent, CalloutAppearance } from './callout.types'\n"
+      "content": "export { Callout } from \"./Callout\";\nexport type { CalloutProps, CalloutIntent, CalloutAppearance } from \"./callout.types\";\n"
     }
   ]
 }

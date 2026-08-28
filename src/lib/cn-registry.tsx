@@ -555,7 +555,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "showProgress",
         type: "boolean",
-        default: "false",
+        default: "true",
         description: "Exibe barra de progresso no topo",
       },
       {
@@ -569,6 +569,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "true",
         description: "Aplica tachado nos itens marcados",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },

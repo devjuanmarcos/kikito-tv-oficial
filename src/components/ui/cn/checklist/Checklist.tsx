@@ -35,16 +35,23 @@ export function Checklist({
   const pct = items.length > 0 ? (done / items.length) * 100 : 0;
 
   return (
-    <div className={cn("flex flex-col gap-3", INTENT_CLS[intent], className)} style={style}>
+    <div className={cn("flex flex-col gap-(--spacing-md)", INTENT_CLS[intent], className)} style={style}>
       {showProgress && (
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-(--spacing-xs)">
           <div className="flex justify-between text-body-caption opacity-50">
             <span>
               {done} de {items.length} concluídos
             </span>
             <span>{Math.round(pct)}%</span>
           </div>
-          <div className="h-[6px] bg-sunken rounded-pill overflow-hidden">
+          <div
+            role="progressbar"
+            aria-label="Progresso da checklist"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(pct)}
+            className="h-[6px] bg-sunken rounded-pill overflow-hidden"
+          >
             <div
               className="h-full rounded-pill bg-(--c) transition-[width] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
               style={{ width: `${pct}%` }}
@@ -53,11 +60,12 @@ export function Checklist({
         </div>
       )}
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-(--spacing-2xs)">
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-start gap-[0.625rem] px-[0.625rem] py-2 rounded-(--radius-base) cursor-pointer transition-[background] duration-[100ms] hover:bg-sunken"
+            // px-[0.625rem]/gap-[0.625rem]: sem match exato na escala de spacing
+            className="flex items-start gap-[0.625rem] px-[0.625rem] py-(--spacing-sm) rounded-(--radius-base) cursor-pointer transition-[background] duration-[100ms] hover:bg-sunken"
             role="checkbox"
             aria-checked={item.checked}
             tabIndex={0}
