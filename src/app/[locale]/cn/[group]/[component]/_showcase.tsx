@@ -1363,15 +1363,26 @@ function ScrollProgressDemo() {
 
 function ImageCompareDemo() {
   return (
-    <Frame label="Image Compare — drag to reveal before/after">
-      <ImageCompare
-        before="https://picsum.photos/seed/before/800/400"
-        after="https://picsum.photos/seed/after/800/400"
-        height={260}
-        beforeLabel="Original"
-        afterLabel="Processed"
-      />
-    </Frame>
+    <div className="flex flex-col gap-6 w-full">
+      <Frame label="Image Compare — drag or focus + arrow keys">
+        <ImageCompare
+          before="https://picsum.photos/seed/before/800/400"
+          after="https://picsum.photos/seed/after/800/400"
+          height={260}
+          beforeLabel="Original"
+          afterLabel="Processed"
+        />
+      </Frame>
+      <Frame label="Vertical">
+        <ImageCompare
+          before="https://picsum.photos/seed/vbefore/500/500"
+          after="https://picsum.photos/seed/vafter/500/500"
+          direction="vertical"
+          height={260}
+          width={260}
+        />
+      </Frame>
+    </div>
   );
 }
 

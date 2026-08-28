@@ -38,26 +38,45 @@ export function ImageCompare({
     [direction]
   );
 
-  const onMouseDown = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      dragging.current = true;
-      const move = (ev: MouseEvent | TouchEvent) => {
-        if (dragging.current) getPos(ev);
-      };
-      const up = () => {
-        dragging.current = false;
-        window.removeEventListener("mousemove", move);
-        window.removeEventListener("mouseup", up);
-        window.removeEventListener("touchmove", move);
-        window.removeEventListener("touchend", up);
-      };
-      window.addEventListener("mousemove", move);
-      window.addEventListener("mouseup", up);
-      window.addEventListener("touchmove", move);
-      window.addEventListener("touchend", up);
-    },
-    [getPos]
-  );
+  const onMouseDown = useCallback(() => {
+    dragging.current = true;
+    const move = (ev: MouseEvent | TouchEvent) => {
+      if (dragging.current) getPos(ev);
+    };
+    const up = () => {
+      dragging.current = false;
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseup", up);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
+    };
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    window.addEventListener("touchmove", move);
+    window.addEventListener("touchend", up);
+  }, [getPos]);
+
+  // Alça só era arrastável via mouse/touch — sem alternativa nenhuma de teclado.
+  // Handle agora é focável e é um role="slider" de verdade (widget certo pra essa
+  // interação), movido com Arrow keys.
+  const step = 5;
+  function handleKeyDown(e: React.KeyboardEvent) {
+    const forwardKey = direction === "horizontal" ? "ArrowRight" : "ArrowDown";
+    const backKey = direction === "horizontal" ? "ArrowLeft" : "ArrowUp";
+    if (e.key === forwardKey) {
+      e.preventDefault();
+      setPosition((p) => Math.min(100, p + step));
+    } else if (e.key === backKey) {
+      e.preventDefault();
+      setPosition((p) => Math.max(0, p - step));
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setPosition(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setPosition(100);
+    }
+  }
 
   const clipBefore = direction === "horizontal" ? `inset(0 ${100 - position}% 0 0)` : `inset(0 0 ${100 - position}% 0)`;
 
@@ -72,6 +91,9 @@ export function ImageCompare({
       : { top: "50%", left: "50%", transform: "translate(-50%,-50%)" };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- superfície de
+    // drag por mouse/touch em qualquer ponto da imagem; o controle acessível real é a
+    // alça abaixo (role="slider", focável, com Arrow keys)
     <div
       ref={rootRef}
       className={cn("relative overflow-hidden select-none rounded-(--radius-md)", className)}
@@ -96,9 +118,20 @@ export function ImageCompare({
       />
 
       {/* Handle */}
-      <div className="absolute bg-raised/80 backdrop-blur-sm" style={{ ...handleStyle, position: "absolute" }}>
+      <div
+        role="slider"
+        tabIndex={0}
+        aria-label="Comparison position"
+        aria-orientation={direction}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(position)}
+        onKeyDown={handleKeyDown}
+        className="absolute bg-raised/80 backdrop-blur-sm"
+        style={{ ...handleStyle, position: "absolute" }}
+      >
         <div
-          className="absolute w-8 h-8 rounded-full bg-raised shadow-lg flex items-center justify-center text-body-caption font-bold text-foreground"
+          className="absolute w-8 h-8 rounded-full bg-raised shadow-[0_8px_24px_color-mix(in_srgb,black_20%,transparent)] flex items-center justify-center text-body-caption font-bold text-foreground"
           style={knobStyle}
         >
           {direction === "horizontal" ? "⇔" : "⇕"}
@@ -106,10 +139,10 @@ export function ImageCompare({
       </div>
 
       {/* Labels */}
-      <span className="absolute top-2 left-2 bg-canvas/70 text-foreground text-body-caption font-medium px-2 py-0.5 rounded-(--radius-sm) pointer-events-none">
+      <span className="absolute top-(--spacing-sm) left-(--spacing-sm) bg-canvas/70 text-foreground text-body-caption font-medium px-(--spacing-sm) py-(--spacing-3xs) rounded-(--radius-sm) pointer-events-none">
         {beforeLabel}
       </span>
-      <span className="absolute top-2 right-2 bg-canvas/70 text-foreground text-body-caption font-medium px-2 py-0.5 rounded-(--radius-sm) pointer-events-none">
+      <span className="absolute top-(--spacing-sm) right-(--spacing-sm) bg-canvas/70 text-foreground text-body-caption font-medium px-(--spacing-sm) py-(--spacing-3xs) rounded-(--radius-sm) pointer-events-none">
         {afterLabel}
       </span>
     </div>

@@ -2734,9 +2734,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Orientação do divisor",
       },
       { name: "initialPosition", type: "number", default: "50", description: "Posição inicial do divisor (%)" },
-      { name: "width", type: "number | string", description: "Largura do componente" },
-      { name: "height", type: "number | string", description: "Altura do componente" },
+      { name: "width", type: "number | string", default: "'100%'", description: "Largura do componente" },
+      { name: "height", type: "number | string", default: "300", description: "Altura do componente" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
