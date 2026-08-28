@@ -17,7 +17,7 @@
       "path": "components/ui/cn/chip-group/chip-group.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/chip-group/chip-group.types.ts",
-      "content": "import type {\n  ToggleGroupChipProps,\n  ChipGroupChip,\n  ChipGroupIntent,\n  ChipGroupSize,\n} from \"@/components/ui/cn/toggle-group/ToggleGroup\";\n\nexport type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };\n\nexport type ChipGroupProps = Omit<ToggleGroupChipProps, \"variant\">;\n"
+      "content": "import type {\n  ToggleGroupChipProps,\n  ChipGroupChip,\n  ChipGroupIntent,\n  ChipGroupSize,\n} from \"@/components/ui/cn/toggle-group/toggle-group.types\";\n\nexport type { ChipGroupChip, ChipGroupIntent, ChipGroupSize };\n\nexport type ChipGroupProps = Omit<ToggleGroupChipProps, \"variant\">;\n"
     },
     {
       "path": "components/ui/cn/chip-group/ChipGroup.tsx",

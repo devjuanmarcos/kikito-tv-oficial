@@ -17,7 +17,7 @@
       "path": "components/ui/cn/segmented-control/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/segmented-control/index.ts",
-      "content": "export { SegmentedControl } from './SegmentedControl'\nexport type { SegmentedControlProps, SegmentedControlOption, SegmentedControlSize } from './segmented-control.types'\n"
+      "content": "export { SegmentedControl } from \"./SegmentedControl\";\nexport type { SegmentedControlProps, SegmentedControlOption, SegmentedControlSize } from \"./segmented-control.types\";\n"
     },
     {
       "path": "components/ui/cn/segmented-control/segmented-control.types.ts",

@@ -1649,6 +1649,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Estado marcado (controlled)",
       },
       {
+        name: "defaultChecked",
+        type: "boolean",
+        default: "undefined",
+        description: "Estado inicial marcado (uncontrolled)",
+      },
+      {
         name: "onChange",
         type: "(value: string) => void",
         default: "undefined",
@@ -1683,6 +1689,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "string",
         default: "undefined",
         description: "Nome do grupo (atributo HTML)",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },
