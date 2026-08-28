@@ -6885,6 +6885,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo a manter proporção" },
       { name: "ratio", type: "number", default: "16/9", description: "Razão largura/altura (ex: 16/9)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras (mesclado com o padding-bottom calculado)",
+      },
     ],
   },
   // ── button-group

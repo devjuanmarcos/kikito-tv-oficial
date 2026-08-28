@@ -4282,7 +4282,7 @@ function AspectRatioDemo() {
         <Frame label="16:9 (video)">
           <div className="w-72">
             <AspectRatio ratio={16 / 9}>
-              <div className="rounded-(--radius-md) bg-patina-soft border border-patina flex items-center justify-center text-body-callout text-patina font-semibold">
+              <div className="h-full rounded-(--radius-md) bg-patina-soft border border-patina flex items-center justify-center text-body-callout text-patina font-semibold">
                 16 : 9
               </div>
             </AspectRatio>
@@ -4291,7 +4291,7 @@ function AspectRatioDemo() {
         <Frame label="1:1 (square)">
           <div className="w-48">
             <AspectRatio ratio={1}>
-              <div className="rounded-full bg-kinpaku-soft border border-kinpaku flex items-center justify-center text-body-callout text-kinpaku font-semibold">
+              <div className="h-full rounded-full bg-kinpaku-soft border border-kinpaku flex items-center justify-center text-body-callout text-kinpaku font-semibold">
                 1 : 1
               </div>
             </AspectRatio>
@@ -4300,7 +4300,7 @@ function AspectRatioDemo() {
         <Frame label="4:3 (classic)">
           <div className="w-64">
             <AspectRatio ratio={4 / 3}>
-              <div className="rounded-(--radius-md) bg-success-soft border border-success flex items-center justify-center text-body-callout text-success font-semibold">
+              <div className="h-full rounded-(--radius-md) bg-success-soft border border-success flex items-center justify-center text-body-callout text-success font-semibold">
                 4 : 3
               </div>
             </AspectRatio>

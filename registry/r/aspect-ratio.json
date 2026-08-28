@@ -14,16 +14,22 @@
   "docs": "https://cn.kikito.tv/components/aspect-ratio",
   "files": [
     {
+      "path": "components/ui/cn/aspect-ratio/aspect-ratio.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/aspect-ratio/aspect-ratio.types.ts",
+      "content": "import type React from \"react\";\n\nexport interface AspectRatioProps {\n  children: React.ReactNode;\n  ratio?: number;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
+    },
+    {
       "path": "components/ui/cn/aspect-ratio/AspectRatio.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/aspect-ratio/AspectRatio.tsx",
-      "content": "'use client'\nimport type React from 'react'\nimport { cn } from '@/lib/utils'\n\nexport interface AspectRatioProps {\n  children:   React.ReactNode\n  ratio?:     number\n  className?: string\n  style?:     React.CSSProperties\n}\n\nexport function AspectRatio({\n  children,\n  ratio     = 16 / 9,\n  className,\n  style,\n}: AspectRatioProps) {\n  return (\n    <div\n      style={{ paddingBottom: `${(1 / ratio) * 100}%`, position: 'relative', ...style }}\n      className={cn('w-full', className)}\n    >\n      <div className=\"absolute inset-0\">\n        {children}\n      </div>\n    </div>\n  )\n}\n"
+      "content": "\"use client\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { AspectRatioProps } from \"./aspect-ratio.types\";\n\nexport function AspectRatio({ children, ratio = 16 / 9, className, style }: AspectRatioProps) {\n  return (\n    <div style={{ paddingBottom: `${(1 / ratio) * 100}%`, position: \"relative\", ...style }} className={cn(\"w-full\", className)}>\n      <div className=\"absolute inset-0\">{children}</div>\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/aspect-ratio/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/aspect-ratio/index.ts",
-      "content": "export { AspectRatio } from './AspectRatio'\nexport type { AspectRatioProps } from './AspectRatio'\n"
+      "content": "export { AspectRatio } from './AspectRatio'\nexport type { AspectRatioProps } from './aspect-ratio.types'\n"
     }
   ]
 }
