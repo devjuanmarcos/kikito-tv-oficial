@@ -58,7 +58,7 @@ export function WordCounter({
       : 0;
 
   return (
-    <div className={cn("flex flex-col gap-2", className)} style={style}>
+    <div className={cn("flex flex-col gap-(--spacing-sm)", className)} style={style}>
       {label && <Label size="md">{label}</Label>}
 
       <Textarea
@@ -72,7 +72,14 @@ export function WordCounter({
       />
 
       {(maxWords || maxChars) && (
-        <div className="h-[3px] rounded-pill bg-sunken overflow-hidden">
+        <div
+          role="progressbar"
+          aria-label={`${maxWords ? "Words" : "Characters"} used`}
+          aria-valuenow={Math.round(limitPct)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="h-[3px] rounded-pill bg-sunken overflow-hidden"
+        >
           <div
             className={cn(
               "h-full rounded-pill transition-[width,background] duration-[150ms]",
@@ -83,14 +90,14 @@ export function WordCounter({
         </div>
       )}
 
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex gap-(--spacing-lg) flex-wrap">
         {[
           { value: maxWords ? `${words}/${maxWords}` : String(words), label: "words", over: wordsOver },
           { value: maxChars ? `${chars}/${maxChars}` : String(chars), label: "chars", over: charsOver },
           ...(showSentences ? [{ value: String(sentences), label: "sentences", over: false }] : []),
           ...(showReadTime && words > 0 ? [{ value: String(readTime), label: "min read", over: false }] : []),
         ].map((s) => (
-          <div key={s.label} className="flex flex-col items-center gap-[2px] min-w-[60px]">
+          <div key={s.label} className="flex flex-col items-center gap-(--spacing-3xs) min-w-[60px]">
             <span
               className={cn(
                 "text-body-title font-bold tabular-nums text-foreground leading-none",
@@ -99,7 +106,7 @@ export function WordCounter({
             >
               {s.value}
             </span>
-            <span className="text-body-caption opacity-40 uppercase tracking-[0.05em]">{s.label}</span>
+            <span className="text-body-caption text-faint uppercase tracking-wider">{s.label}</span>
           </div>
         ))}
       </div>
