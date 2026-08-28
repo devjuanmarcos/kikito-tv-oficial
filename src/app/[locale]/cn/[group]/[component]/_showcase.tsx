@@ -1775,22 +1775,20 @@ function FunnelChartDemo() {
 }
 
 function StepFormDemo() {
+  const [email, setEmail] = useState("");
   const steps = [
     {
       id: "account",
       title: "Account",
       description: "Set up your account credentials.",
+      // validate real (não só decorativo) — exercita o caminho de erro do StepForm
+      validate: () => (email.trim() ? true : "Email address is required."),
       content: (
-        <div className="flex flex-col gap-3">
-          <input
-            placeholder="Email address"
-            className="px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint"
-          />
+        // Inputs cru reinventavam o Input CN (inclusive com focus:border-patina/60,
+        // opacidade ad-hoc já banida) — trocado pelos componentes reais da lib
+        <div className="flex flex-col gap-(--spacing-md)">
+          <Input placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input type="password" placeholder="Password" />
         </div>
       ),
     },
@@ -1799,16 +1797,9 @@ function StepFormDemo() {
       title: "Profile",
       description: "Tell us a bit about yourself.",
       content: (
-        <div className="flex flex-col gap-3">
-          <input
-            placeholder="Full name"
-            className="px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 placeholder:text-faint"
-          />
-          <textarea
-            rows={3}
-            placeholder="Short bio…"
-            className="px-3 py-2 rounded-(--radius-sm) border border-rule bg-canvas text-foreground text-body-callout outline-none focus:border-patina/60 resize-none placeholder:text-faint"
-          />
+        <div className="flex flex-col gap-(--spacing-md)">
+          <Input placeholder="Full name" />
+          <Textarea rows={3} placeholder="Short bio…" />
         </div>
       ),
     },

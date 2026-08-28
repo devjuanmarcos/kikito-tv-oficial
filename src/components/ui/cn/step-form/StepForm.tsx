@@ -39,12 +39,15 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
     return (
       <div
         className={cn(
-          "rounded-(--radius-lg) border border-rule bg-raised p-10 flex flex-col items-center gap-3",
+          // p-10 (2.5rem): sem match exato na escala de spacing
+          "rounded-(--radius-lg) border border-rule bg-raised p-10 flex flex-col items-center gap-(--spacing-md)",
           className
         )}
         style={style}
       >
-        <span className="text-heading-01">🎉</span>
+        <span aria-hidden="true" className="text-heading-01">
+          🎉
+        </span>
         <p className="font-bold text-foreground text-body-title">All done!</p>
         <p className="text-muted text-body-callout">Your form has been submitted successfully.</p>
       </div>
@@ -56,12 +59,20 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
   return (
     <div className={cn("rounded-(--radius-lg) border border-rule bg-raised overflow-hidden", className)} style={style}>
       {/* Step progress header */}
-      <div className="px-6 py-4 border-b border-rule bg-canvas flex items-center gap-2">
+      <div
+        role="list"
+        aria-label="Progress"
+        className="px-(--spacing-xl) py-(--spacing-lg) border-b border-rule bg-canvas flex items-center gap-(--spacing-sm)"
+      >
         {steps.map((step, i) => {
           const state = i < current ? "done" : i === current ? "active" : "pending";
           return (
             <React.Fragment key={step.id}>
-              <div className="flex items-center gap-1.5">
+              <div
+                role="listitem"
+                aria-current={state === "active" ? "step" : undefined}
+                className="flex items-center gap-(--spacing-xs)"
+              >
                 <div
                   className={cn(
                     "w-7 h-7 rounded-full flex items-center justify-center text-body-caption font-bold transition-all",
@@ -82,9 +93,11 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
                 </span>
               </div>
               {i < steps.length - 1 && (
+                // background em style inline com var() cru era inconsistente com o
+                // resto do arquivo, que já usa bg-success/bg-rule via classe — trocado
                 <div
-                  className="flex-1 h-0.5 min-w-4"
-                  style={{ background: i < current ? "var(--ks-success)" : "var(--ks-rule)" }}
+                  aria-hidden="true"
+                  className={cn("flex-1 h-0.5 min-w-4", i < current ? "bg-success" : "bg-rule")}
                 />
               )}
             </React.Fragment>
@@ -93,15 +106,17 @@ export function StepForm({ steps, onComplete, className, style }: StepFormProps)
       </div>
 
       {/* Content */}
-      <div className="px-6 py-6">
-        <h3 className="font-semibold text-foreground text-body-title mb-1">{stepData.title}</h3>
-        {stepData.description && <p className="text-muted text-body-callout mb-4">{stepData.description}</p>}
+      <div className="px-(--spacing-xl) py-(--spacing-xl)">
+        <h3 className="font-semibold text-foreground text-body-title mb-(--spacing-2xs)">{stepData.title}</h3>
+        {stepData.description && (
+          <p className="text-muted text-body-callout mb-(--spacing-lg)">{stepData.description}</p>
+        )}
         <div>{stepData.content}</div>
-        {error && <p className="mt-3 text-body-callout text-danger">{error}</p>}
+        {error && <p className="mt-(--spacing-md) text-body-callout text-danger">{error}</p>}
       </div>
 
       {/* Footer */}
-      <div className="px-6 py-4 border-t border-rule flex items-center justify-between gap-3">
+      <div className="px-(--spacing-xl) py-(--spacing-lg) border-t border-rule flex items-center justify-between gap-(--spacing-md)">
         <Button onClick={back} disabled={current === 0} intent="neutral" variant="outline" size="sm">
           Back
         </Button>
