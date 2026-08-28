@@ -7771,12 +7771,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/quote-block/QuoteBlock.tsx",
     props: [
       { name: "children", type: "React.ReactNode", required: true, description: "Texto da citação" },
-      { name: "variant", type: "'default' | 'accent' | 'ghost'", default: "'default'", description: "Estilo visual" },
+      {
+        name: "variant",
+        type: "'default' | 'bordered' | 'filled' | 'minimal'",
+        default: "'default'",
+        description: "Estilo visual",
+      },
       { name: "author", type: "string", description: "Nome do autor" },
       { name: "role", type: "string", description: "Cargo ou descrição do autor" },
       { name: "avatar", type: "string", description: "URL do avatar" },
       { name: "avatarFallback", type: "string", description: "Iniciais para o fallback" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── rating-input

@@ -126,6 +126,7 @@ import { Progress } from "@/components/ui/cn/progress/Progress";
 import { ProgressRing } from "@/components/ui/cn/progress-ring/ProgressRing";
 import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
+import { QuoteBlock } from "@/components/ui/cn/quote-block/QuoteBlock";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
@@ -2564,6 +2565,32 @@ function QuickActionsDemo() {
         </div>
       </div>
     </Frame>
+  );
+}
+
+function QuoteBlockDemo() {
+  return (
+    <div className="flex flex-col gap-6 w-full max-w-lg">
+      <Frame label="Default — with author, role and avatar" align="start">
+        {/* eslint-disable-next-line jsx-a11y/aria-role -- `role` aqui é a prop de cargo do
+            QuoteBlock (job title), não o atributo ARIA nativo; falso positivo do lint */}
+        <QuoteBlock author="Ada Lovelace" role="Mathematician" avatarFallback="AL">
+          The Analytical Engine has no pretensions whatever to originate anything. It can do whatever we know how to
+          order it to perform.
+        </QuoteBlock>
+      </Frame>
+      <Frame label="Variants" align="start">
+        <div className="flex flex-col gap-4 w-full">
+          <QuoteBlock variant="bordered" author="Grace Hopper">
+            The most dangerous phrase in the language is, &ldquo;We&apos;ve always done it this way.&rdquo;
+          </QuoteBlock>
+          <QuoteBlock variant="filled" author="Alan Turing">
+            Sometimes it is the people no one imagines anything of who do the things that no one can imagine.
+          </QuoteBlock>
+          <QuoteBlock variant="minimal">Simplicity is the ultimate sophistication.</QuoteBlock>
+        </div>
+      </Frame>
+    </div>
   );
 }
 
@@ -6652,6 +6679,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "inputs/newsletter-form": NewsletterFormDemo,
   "overlays/command-bar": CommandBarDemo,
   "overlays/quick-actions": QuickActionsDemo,
+  "display/quote-block": QuoteBlockDemo,
   "display/particle-field": ParticleFieldDemo,
   "display/theme-selector": ThemeSelectorDemo,
   "display/credit-card": CreditCardDemo,
