@@ -1323,11 +1323,20 @@ function ConfirmButtonDemo() {
 
 function StopwatchDemo() {
   return (
-    <Frame label="Stopwatch — start, pause, lap and reset">
-      <div className="flex justify-center">
-        <Stopwatch showLaps maxLaps={5} />
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Stopwatch — start, pause, lap and reset">
+        <div className="flex justify-center">
+          <Stopwatch showLaps maxLaps={5} />
+        </div>
+      </Frame>
+      {/* Reset volta pro initialTime configurado, não pra 0 absoluto — achado
+          real recém-corrigido, sem essa instância nenhuma demo exercitava isso */}
+      <Frame label="initialTime={30000} — Reset volta pra 30s, não pra 0">
+        <div className="flex justify-center">
+          <Stopwatch initialTime={30000} showLaps={false} />
+        </div>
+      </Frame>
+    </div>
   );
 }
 

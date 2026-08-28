@@ -49,10 +49,13 @@ export function Stopwatch({ initialTime = 0, onLap, showLaps = true, maxLaps = 2
     setRunning(false);
   };
 
+  // Achado real: reset() sempre voltava pra 0 absoluto, ignorando `initialTime`
+  // — se o consumidor configura um tempo inicial (ex: contagem com "cabeça de
+  // largada"), resetar deveria voltar pra esse valor configurado, não zerar.
   const reset = () => {
     pause();
-    baseRef.current = 0;
-    setElapsed(0);
+    baseRef.current = initialTime;
+    setElapsed(initialTime);
     setLaps([]);
   };
 
@@ -75,14 +78,14 @@ export function Stopwatch({ initialTime = 0, onLap, showLaps = true, maxLaps = 2
   const { hh, mm, ss, ms } = fmt(elapsed);
 
   return (
-    <div className={cn("flex flex-col items-center gap-4", className)} style={style}>
+    <div className={cn("flex flex-col items-center gap-(--spacing-lg)", className)} style={style}>
       <div className="font-mono text-heading-01 font-bold tabular-nums tracking-tight text-foreground">
         {hh}
         {mm}:{ss}
         <span className="text-heading-04 text-muted">.{ms}</span>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-(--spacing-sm)">
         {!running ? (
           <Button intent="primary" variant="solid" size="md" onClick={start}>
             Start
@@ -97,20 +100,31 @@ export function Stopwatch({ initialTime = 0, onLap, showLaps = true, maxLaps = 2
             Lap
           </Button>
         )}
-        <Button intent="neutral" variant="ghost" size="md" onClick={reset} disabled={elapsed === 0 && !running}>
+        <Button
+          intent="neutral"
+          variant="ghost"
+          size="md"
+          onClick={reset}
+          disabled={elapsed === initialTime && !running}
+        >
           Reset
         </Button>
       </div>
 
       {showLaps && laps.length > 0 && (
-        <div className="w-full max-h-48 overflow-y-auto rounded-(--radius-sm) border border-rule divide-y divide-rule">
+        <div
+          role="list"
+          aria-label="Laps"
+          className="w-full max-h-48 overflow-y-auto rounded-(--radius-sm) border border-rule divide-y divide-rule"
+        >
           {laps.map((l) => {
             const t = fmt(l.time);
             const d = fmt(l.delta);
             return (
               <div
                 key={l.index}
-                className="flex items-center justify-between px-4 py-2 text-body-callout hover:bg-raised transition-colors"
+                role="listitem"
+                className="flex items-center justify-between px-(--spacing-lg) py-(--spacing-sm) text-body-callout hover:bg-raised transition-colors"
               >
                 <span className="text-faint font-medium w-14">Lap {l.index}</span>
                 <span className="font-mono text-patina">

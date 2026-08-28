@@ -4863,8 +4863,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "maxLaps",
         type: "number",
-        default: "undefined",
+        default: "20",
         description: "Número máximo de laps",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container raiz",
       },
     ],
   },
