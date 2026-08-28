@@ -105,6 +105,7 @@ import { MultiSelect } from "@/components/ui/cn/multi-select/MultiSelect";
 import { NavigationMenu as CnNavigationMenu } from "@/components/ui/cn/navigation-menu/NavigationMenu";
 import { NewsletterForm } from "@/components/ui/cn/newsletter-form/NewsletterForm";
 import { NoteCard } from "@/components/ui/cn/note-card/NoteCard";
+import { NoticeBar } from "@/components/ui/cn/notice-bar/NoticeBar";
 import { NotificationBell } from "@/components/ui/cn/notification-bell/NotificationBell";
 import { NumberInput } from "@/components/ui/cn/number-input/NumberInput";
 import { NumberPad } from "@/components/ui/cn/number-pad/NumberPad";
@@ -4738,6 +4739,44 @@ function NoteCardDemo() {
   );
 }
 
+function NoticeBarDemo() {
+  const [dismissed, setDismissed] = useState(false);
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Intents">
+        <Frame label="All 5 intents" align="start">
+          <div className="flex flex-col gap-2 w-full max-w-lg">
+            {(["info", "success", "warning", "danger", "neutral"] as const).map((intent) => (
+              <NoticeBar key={intent} intent={intent}>
+                This is a {intent} notice bar.
+              </NoticeBar>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Features">
+        <Frame label="Dismissible · with action" align="start">
+          <div className="flex flex-col gap-2 w-full max-w-lg">
+            {dismissed ? (
+              <button
+                type="button"
+                className="text-body-callout text-patina underline self-start"
+                onClick={() => setDismissed(false)}
+              >
+                Show notice again
+              </button>
+            ) : (
+              <NoticeBar intent="info" dismissible action={{ label: "Learn more", onClick: () => setDismissed(true) }}>
+                A new version is available.
+              </NoticeBar>
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function ReceiptCardDemo() {
   const items = [
     { label: "Coffee (×2)", value: 7.0 },
@@ -6646,6 +6685,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/metric-card": MetricCardDemo,
   "layout/navigation-menu": NavigationMenuDemo,
   "display/note-card": NoteCardDemo,
+  "feedback/notice-bar": NoticeBarDemo,
   "feedback/notification-bell": NotificationBellDemo,
   "feedback/onboarding-tour": OnboardingTourDemo,
   "display/password-strength": PasswordStrengthDemo,

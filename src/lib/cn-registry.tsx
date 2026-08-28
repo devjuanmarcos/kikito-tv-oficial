@@ -7581,10 +7581,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "'info'",
         description: "Cor do intent",
       },
-      { name: "dismissible", type: "boolean", default: "true", description: "Mostrar botão de fechar" },
+      { name: "dismissible", type: "boolean", default: "false", description: "Mostrar botão de fechar" },
       { name: "icon", type: "React.ReactNode", description: "Ícone opcional" },
       { name: "action", type: "{ label: string; onClick: () => void }", description: "Botão de ação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── notification-bell

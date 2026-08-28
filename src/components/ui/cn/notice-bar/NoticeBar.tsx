@@ -1,25 +1,9 @@
-﻿"use client";
-import type React from "react";
+"use client";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type NoticeBarIntent = "info" | "success" | "warning" | "danger" | "neutral";
-
-export interface NoticeBarAction {
-  label: string;
-  onClick: () => void;
-}
-
-export interface NoticeBarProps {
-  children: React.ReactNode;
-  intent?: NoticeBarIntent;
-  dismissible?: boolean;
-  icon?: React.ReactNode;
-  action?: NoticeBarAction;
-  className?: string;
-  style?: React.CSSProperties;
-}
+import type { NoticeBarIntent, NoticeBarProps } from "./notice-bar.types";
 
 const DEFAULT_ICON: Record<NoticeBarIntent, string> = {
   info: "ℹ",
@@ -29,12 +13,15 @@ const DEFAULT_ICON: Record<NoticeBarIntent, string> = {
   neutral: "·",
 };
 
+// bg-*-soft / text-*-soft-fg: par canônico pré-validado AA (ver CLAUDE.md), no lugar da
+// opacidade ad-hoc que estava aqui antes (bg-info/10 border-info/30 text-info). Border segue
+// com opacidade — não existe border-*-soft na paleta (pares soft são bg/text).
 const INTENT_CLS: Record<NoticeBarIntent, string> = {
-  info: "bg-info/10    border-info/30    text-info",
-  success: "bg-success/10 border-success/30 text-success",
-  warning: "bg-warning/10 border-warning/30 text-warning",
-  danger: "bg-danger/10  border-danger/30  text-danger",
-  neutral: "bg-graphite   border-rule       text-foreground",
+  info: "bg-info-soft border-info/30 text-info-soft-fg",
+  success: "bg-success-soft border-success/30 text-success-soft-fg",
+  warning: "bg-warning-soft border-warning/30 text-warning-soft-fg",
+  danger: "bg-danger-soft border-danger/30 text-danger-soft-fg",
+  neutral: "bg-graphite border-rule text-foreground",
 };
 
 const XIcon = () => (
@@ -63,7 +50,7 @@ export function NoticeBar({
   if (dismissed) return null;
 
   const iconEl = icon ?? (
-    <span className="text-[0.875rem] font-bold leading-none select-none" aria-hidden="true">
+    <span className="text-body-callout font-bold leading-none select-none" aria-hidden="true">
       {DEFAULT_ICON[intent]}
     </span>
   );
@@ -73,7 +60,8 @@ export function NoticeBar({
       role="status"
       style={style}
       className={cn(
-        "flex items-center gap-2.5 px-4 py-2.5 rounded-(--radius-md) border text-body-callout",
+        // gap-2.5/py-2.5: sem match exato na escala de spacing
+        "flex items-center gap-2.5 px-(--spacing-lg) py-2.5 rounded-(--radius-md) border text-body-callout",
         INTENT_CLS[intent],
         className
       )}
@@ -84,7 +72,7 @@ export function NoticeBar({
         <button
           type="button"
           onClick={action.onClick}
-          className="shrink-0 text-body-caption font-semibold underline-offset-2 hover:underline transition-[text-decoration] ml-2"
+          className="shrink-0 text-body-caption font-semibold underline-offset-2 hover:underline transition-[text-decoration] ml-(--spacing-sm)"
         >
           {action.label}
         </button>
@@ -94,7 +82,7 @@ export function NoticeBar({
           type="button"
           aria-label="Dismiss"
           onClick={() => setDismissed(true)}
-          className="shrink-0 p-0.5 rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity ml-1"
+          className="shrink-0 p-(--spacing-3xs) rounded-(--radius-xs) opacity-60 hover:opacity-100 transition-opacity ml-(--spacing-2xs)"
         >
           <XIcon />
         </button>
