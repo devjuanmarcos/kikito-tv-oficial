@@ -2532,6 +2532,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "'Enviar respostas'",
         description: "Texto do botão de envio",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro form raiz",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro form raiz",
+      },
     ],
   },
   {

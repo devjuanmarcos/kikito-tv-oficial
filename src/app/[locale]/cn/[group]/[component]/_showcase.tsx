@@ -797,9 +797,16 @@ function RichSelectDemo() {
 
 function SurveyFormDemo() {
   const questions = [
-    { id: "name", label: "Your name", type: "text" as const, placeholder: "Enter your name" },
+    { id: "name", label: "Your name", type: "text" as const, placeholder: "Enter your name", required: true },
     { id: "bio", label: "Short bio", type: "textarea" as const, placeholder: "Tell us about yourself…" },
-    { id: "role", label: "Your role", type: "radio" as const, options: ["Developer", "Designer", "Product", "Other"] },
+    {
+      id: "role",
+      label: "Your role",
+      type: "radio" as const,
+      options: ["Developer", "Designer", "Product", "Other"],
+      // required real: agora bloqueia o submit de verdade (achado recém-corrigido)
+      required: true,
+    },
     {
       id: "tools",
       label: "Tools you use",
