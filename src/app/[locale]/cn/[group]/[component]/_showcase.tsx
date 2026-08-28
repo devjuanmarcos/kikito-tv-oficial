@@ -2031,12 +2031,25 @@ function SwipeCardDemo() {
 }
 
 function PinBoardDemo() {
+  // notes/onChange: modo controlado (consumidor guarda o array e recebe cada
+  // mudança via onChange) — recém-implementado, precisa de demo pra exercitar
+  const [notes, setNotes] = useState([
+    { id: "a", content: "Controlado via `notes`", color: "#bfdbfe", x: 24, y: 24, rotate: -2 },
+    { id: "b", content: "onChange atualiza o pai", color: "#fef08a", x: 180, y: 70, rotate: 1 },
+  ]);
   return (
-    <Frame label="Pin Board — drag sticky notes freely">
-      <div className="w-full">
-        <PinBoard height={340} width="100%" />
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Pin Board — drag sticky notes freely (não controlado)">
+        <div className="w-full">
+          <PinBoard height={340} width="100%" />
+        </div>
+      </Frame>
+      <Frame label={`Pin Board — controlado (${notes.length} notas)`}>
+        <div className="w-full">
+          <PinBoard height={260} width="100%" notes={notes} onChange={setNotes} />
+        </div>
+      </Frame>
+    </div>
   );
 }
 

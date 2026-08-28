@@ -2855,6 +2855,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "width", type: "number | string", default: "'100%'", description: "Largura do board" },
       { name: "height", type: "number | string", default: "400", description: "Altura do board" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro board" },
     ],
   },
   {

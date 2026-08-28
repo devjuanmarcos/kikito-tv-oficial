@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-28T18:31:00.411Z",
+  "generatedAt": "2026-08-28T18:52:05.924Z",
   "items": [
     {
       "name": "accordion",
@@ -1243,7 +1243,7 @@
       "group": "overlay",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["button"]
     },
     {
       "name": "otp-input",
