@@ -1,15 +1,12 @@
-import type React from 'react'
+import type React from "react";
 
-export type FeedbackType = 'nps' | 'stars' | 'emoji'
+export type FeedbackType = "nps" | "stars" | "emoji";
 
 export interface FeedbackWidgetProps {
-  type?: FeedbackType
-  title?: string
-  placeholder?: string
-  onSubmit?: (score: number, comment: string) => void
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?: (open: boolean) => void
-  className?: string
-  style?: React.CSSProperties
+  type?: FeedbackType;
+  title?: string;
+  placeholder?: string;
+  onSubmit?: (score: number, comment: string) => void;
+  className?: string;
+  style?: React.CSSProperties;
 }

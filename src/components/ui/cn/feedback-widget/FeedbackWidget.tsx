@@ -38,8 +38,9 @@ export function FeedbackWidget({
   if (submitted) {
     return (
       <div
+        role="status"
         className={cn(
-          "rounded-(--radius-lg) border border-rule bg-raised p-8 flex flex-col items-center gap-2",
+          "rounded-(--radius-lg) border border-rule bg-raised p-(--spacing-2xl) flex flex-col items-center gap-(--spacing-2xs)",
           className
         )}
         style={style}
@@ -53,18 +54,24 @@ export function FeedbackWidget({
 
   return (
     <div
-      className={cn("rounded-(--radius-lg) border border-rule bg-raised p-5 flex flex-col gap-4", className)}
+      // p-5 (1.25rem): sem match exato na escala de spacing
+      className={cn(
+        "rounded-(--radius-lg) border border-rule bg-raised p-5 flex flex-col gap-(--spacing-lg)",
+        className
+      )}
       style={style}
     >
       <p className="font-semibold text-foreground text-body-paragraph">{title}</p>
 
       {type === "nps" && (
         <>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-(--spacing-2xs)">
             {Array.from({ length: 11 }, (_, i) => (
               <button
                 key={i}
                 onClick={() => setScore(i)}
+                aria-pressed={score === i}
+                aria-label={`Score ${i}`}
                 className={cn(
                   "w-8 h-8 rounded-(--radius-sm) border text-body-callout font-medium transition-colors",
                   score === i
@@ -84,13 +91,15 @@ export function FeedbackWidget({
       )}
 
       {type === "stars" && (
-        <div className="flex gap-1">
+        <div className="flex gap-(--spacing-2xs)">
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
               onClick={() => setScore(n)}
               onMouseEnter={() => setHovered(n)}
               onMouseLeave={() => setHovered(null)}
+              aria-pressed={score !== null && n <= score}
+              aria-label={`${n} star${n > 1 ? "s" : ""}`}
               className={cn(
                 "text-heading-04 transition-transform hover:scale-110",
                 n <= (hovered ?? score ?? 0) ? "text-kinpaku" : "text-faint"
@@ -103,15 +112,17 @@ export function FeedbackWidget({
       )}
 
       {type === "emoji" && (
-        <div className="flex gap-2">
+        <div className="flex gap-(--spacing-sm)">
           {EMOJIS.map((e, i) => (
             <button
               key={i}
               onClick={() => setScore(i)}
+              aria-pressed={score === i}
+              aria-label={e.label}
               title={e.label}
               className={cn(
-                "text-heading-05 p-2 rounded-(--radius-sm) border transition-all hover:scale-110",
-                score === i ? "border-patina bg-patina/10" : "border-transparent hover:border-rule"
+                "text-heading-05 p-(--spacing-sm) rounded-(--radius-sm) border transition-all hover:scale-110",
+                score === i ? "border-patina bg-patina-soft" : "border-transparent hover:border-rule"
               )}
             >
               {e.icon}
