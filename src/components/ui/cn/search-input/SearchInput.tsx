@@ -1,27 +1,15 @@
 ﻿"use client";
-import type React from "react";
 import { useState, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type SearchInputSize = "sm" | "md" | "lg";
+import type { SearchInputProps, SearchInputSize } from "./search-input.types";
 
-export interface SearchInputProps {
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  onSearch?: (value: string) => void;
-  placeholder?: string;
-  size?: SearchInputSize;
-  shortcut?: string;
-  loading?: boolean;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
+// sm usa text-body-callout igual ao md — mesmo padrão do Input CN (a escala de
+// tipografia não encolhe entre sm/md, só a altura/padding mudam). Era
+// text-[0.8125rem] cru (banido, nem batia com nenhum token da escala).
 const SIZE_WRAP: Record<SearchInputSize, string> = {
-  sm: "h-7  text-[0.8125rem]",
+  sm: "h-7  text-body-callout",
   md: "h-9  text-body-callout",
   lg: "h-11 text-body-paragraph",
 };
@@ -129,6 +117,10 @@ export function SearchInput({
       <input
         ref={inputRef}
         type="search"
+        // aria-label de fallback: placeholder sozinho funciona como nome
+        // acessível só até o usuário digitar (some do DOM visualmente e de
+        // alguns cálculos de accessible-name) — garante o nome mesmo com texto
+        aria-label={placeholder}
         value={isControlled ? value : internal}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -142,6 +134,10 @@ export function SearchInput({
       />
 
       {shortcut && !hasQuery && (
+        // text-[0.6875rem] abaixo do mínimo da escala (0.75rem): micro-label
+        // decorativo de atalho, não conteúdo primário — o atalho de teclado em
+        // si (se houver) é responsabilidade da aplicação consumidora, isto é
+        // só o hint visual (documentado assim no registry)
         <span className="absolute right-2.5 pointer-events-none text-faint text-[0.6875rem] font-mono select-none">
           {shortcut}
         </span>
