@@ -1,7 +1,11 @@
-﻿'use client'
-import React, { useState } from 'react'
-import { cn } from '@/lib/utils'
-import type { UserCardProps } from './user-card.types'
+"use client";
+import { useState } from "react";
+
+import { Badge } from "@/components/ui/cn/badge/Badge";
+import { Button } from "@/components/ui/cn/button/Button";
+import { cn } from "@/lib/utils";
+
+import type { UserCardProps } from "./user-card.types";
 
 export function UserCard({
   name,
@@ -9,7 +13,7 @@ export function UserCard({
   bio,
   avatar,
   avatarFallback,
-  stats          = [],
+  stats = [],
   badge,
   followed: controlledFollowed,
   onFollow,
@@ -17,62 +21,79 @@ export function UserCard({
   className,
   style,
 }: UserCardProps) {
-  const [internalFollowed, setInternalFollowed] = useState(false)
-  const isControlled = controlledFollowed !== undefined
-  const followed     = isControlled ? controlledFollowed : internalFollowed
+  const [internalFollowed, setInternalFollowed] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
+  const isControlled = controlledFollowed !== undefined;
+  const followed = isControlled ? controlledFollowed : internalFollowed;
 
   function handleFollow() {
-    if (!isControlled) setInternalFollowed(f => !f)
-    onFollow?.(!followed)
+    if (!isControlled) setInternalFollowed((f) => !f);
+    onFollow?.(!followed);
   }
 
-  const initials = (avatarFallback ?? name).slice(0, 2).toUpperCase()
+  const initials = (avatarFallback ?? name).slice(0, 2).toUpperCase();
+  const showImg = avatar && !avatarError;
 
   return (
-    <div className={cn('bg-raised border border-rule rounded-[16px] overflow-hidden w-[280px]', className)} style={style}>
+    // rounded-lg (14px): mais próximo de 16px original, sem match exato na escala (entre lg e xl)
+    <div className={cn("bg-raised border border-rule rounded-lg overflow-hidden w-[280px]", className)} style={style}>
       <div
         className="h-20"
-        style={{ background: coverColor ?? 'linear-gradient(135deg,var(--ks-primary),var(--ks-kinpaku))' }}
+        // gradiente de capa precisa das duas cores de marca simultâneas — sem token composto
+        // equivalente (bg-patina/bg-kinpaku são sólidas, não um par de gradiente pronto)
+        style={{ background: coverColor ?? "linear-gradient(135deg,var(--ks-primary),var(--ks-kinpaku))" }}
       />
+      {/* px-5/pb-5 (20px): sem match exato na escala de spacing (entre lg e xl) */}
       <div className="px-5 pb-5">
-        <div className="flex items-end justify-between -mt-7 mb-3">
-          <div className="w-14 h-14 rounded-full border-[3px] border-raised bg-patina flex items-center justify-center text-body-title font-bold text-patina-fg overflow-hidden shrink-0 [&>img]:w-full [&>img]:h-full [&>img]:object-cover">
-            {avatar ? <img src={avatar} alt={name} /> : initials}
+        <div className="flex items-end justify-between -mt-7 mb-(--spacing-md)">
+          <div className="w-14 h-14 rounded-full border-[3px] border-raised bg-patina flex items-center justify-center text-body-title font-bold text-patina-fg overflow-hidden shrink-0">
+            {showImg ? (
+              <img
+                src={avatar}
+                alt={name}
+                className="w-full h-full object-cover"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              initials
+            )}
           </div>
           {onFollow !== undefined && (
-            <button
+            <Button
               type="button"
-              className={cn(
-                'py-[7px] px-4 rounded-full text-body-caption font-bold cursor-pointer transition-[background,border-color] duration-[150ms] border-[1.5px] border-patina font-[inherit]',
-                followed ? 'bg-patina text-patina-fg' : 'bg-transparent text-patina',
-              )}
+              variant={followed ? "solid" : "outline"}
+              intent="primary"
+              size="sm"
+              rounded="full"
               onClick={handleFollow}
             >
-              {followed ? 'Following' : 'Follow'}
-            </button>
+              {followed ? "Following" : "Follow"}
+            </Button>
           )}
         </div>
 
         <div className="text-body-paragraph font-bold text-foreground">{name}</div>
-        {username && <div className="text-body-caption opacity-40 mt-[2px]">@{username}</div>}
+        {username && <div className="text-body-caption text-faint mt-(--spacing-3xs)">@{username}</div>}
         {badge && (
-          <div className="inline-block text-[0.625rem] font-bold py-[2px] px-2 rounded-[4px] bg-[color-mix(in_srgb,var(--ks-primary)_15%,transparent)] text-patina mt-1">
+          <Badge intent="primary" variant="soft" size="sm" className="mt-(--spacing-2xs)">
             {badge}
-          </div>
+          </Badge>
         )}
-        {bio && <div className="text-body-caption opacity-55 mt-2 leading-[1.6]">{bio}</div>}
+        {bio && <div className="text-body-caption text-muted mt-(--spacing-sm) leading-relaxed">{bio}</div>}
 
         {stats.length > 0 && (
+          // gap-5/mt-[14px]/pt-[14px] (20px/14px): sem match exato na escala de spacing
           <div className="flex gap-5 mt-[14px] pt-[14px] border-t border-rule">
-            {stats.map(s => (
-              <div key={s.label} className="flex flex-col items-center gap-[2px]">
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col items-center gap-(--spacing-3xs)">
                 <span className="text-body-paragraph font-bold tabular-nums">{s.value}</span>
-                <span className="text-[0.625rem] opacity-40 uppercase tracking-[0.05em]">{s.label}</span>
+                {/* below scale minimum: micro-label de suporte sob o valor do stat */}
+                <span className="text-[0.625rem] text-faint uppercase tracking-wider">{s.label}</span>
               </div>
             ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

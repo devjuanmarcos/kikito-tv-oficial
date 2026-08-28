@@ -23,7 +23,7 @@
       "path": "components/ui/cn/theme-selector/theme-selector.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/theme-selector/theme-selector.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface ThemeOption {\r\n  id: string\r\n  label: string\r\n  colors: string[]\r\n}\r\n\r\nexport interface ThemeSelectorProps {\r\n  themes: ThemeOption[]\r\n  value?: string\r\n  defaultValue?: string\r\n  onChange?: (id: string) => void\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface ThemeOption {\n  id: string;\n  label: string;\n  colors: string[];\n}\n\nexport interface ThemeSelectorProps {\n  themes: ThemeOption[];\n  value?: string;\n  defaultValue?: string;\n  onChange?: (id: string) => void;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/theme-selector/ThemeSelector.tsx",
