@@ -5229,10 +5229,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "3D flip card displaying number, holder name, expiry and CVV faces.",
     filePath: "src/components/ui/cn/credit-card/CreditCard.tsx",
     props: [
-      { name: "number", type: "string", description: "Número do cartão (mascarado)" },
-      { name: "name", type: "string", description: "Nome do titular" },
-      { name: "expiry", type: "string", description: "Data de validade (MM/YY)" },
-      { name: "cvv", type: "string", description: "Código de segurança" },
+      { name: "number", type: "string", default: "''", description: "Número do cartão (mascarado)" },
+      { name: "name", type: "string", default: "'CARD HOLDER'", description: "Nome do titular" },
+      { name: "expiry", type: "string", default: "'MM/YY'", description: "Data de validade (MM/YY)" },
+      { name: "cvv", type: "string", default: "'•••'", description: "Código de segurança" },
       {
         name: "brand",
         type: "'visa' | 'mastercard' | 'amex' | 'generic'",
@@ -5242,6 +5242,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "variant", type: "'dark' | 'light' | 'gradient'", default: "'dark'", description: "Estilo visual" },
       { name: "showBack", type: "boolean", default: "false", description: "Exibir o verso do cartão (CVV)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro wrapper" },
     ],
   },
   {

@@ -2693,6 +2693,10 @@ function CreditCardDemo() {
         <Button onClick={() => setShowBack((v) => !v)} variant="outline" intent="neutral" size="sm">
           {showBack ? "Show Front" : "Show Back"}
         </Button>
+        <div className="flex flex-wrap justify-center gap-4">
+          <CreditCard number="5500005555555559" name="Mastercard" expiry="09/27" brand="mastercard" variant="light" />
+          <CreditCard number="371449635398431" name="Amex" expiry="03/29" brand="amex" variant="gradient" />
+        </div>
       </div>
     </Frame>
   );
