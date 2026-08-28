@@ -5306,6 +5306,13 @@ function WindowFrameDemo() {
             </WindowFrame>
           </div>
         </Frame>
+        <Frame label="Com barra de URL (macOS)">
+          <div className="w-full max-w-md">
+            <WindowFrame variant="macos" url="https://kikito.dev">
+              <div className="p-4 text-body-callout text-muted bg-canvas">Browser preview mockup</div>
+            </WindowFrame>
+          </div>
+        </Frame>
       </ShowcaseSection>
     </div>
   );

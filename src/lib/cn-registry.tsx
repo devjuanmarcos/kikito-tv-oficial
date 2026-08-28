@@ -8399,13 +8399,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo da janela" },
       {
         name: "variant",
-        type: "'macos' | 'browser' | 'terminal'",
+        type: "'macos' | 'windows' | 'minimal'",
         default: "'macos'",
         description: "Estilo da moldura",
       },
       { name: "title", type: "string", description: "Título na barra da janela" },
-      { name: "url", type: "string", description: "URL exibida (para variant browser)" },
+      { name: "url", type: "string", description: "URL exibida (barra de endereço, macos/windows)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
