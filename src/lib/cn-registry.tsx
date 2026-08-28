@@ -7530,6 +7530,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "value", type: "string", required: true, description: "Senha a avaliar" },
       { name: "showRules", type: "boolean", default: "true", description: "Exibir checklist de regras" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── ping

@@ -17,7 +17,7 @@
       "path": "components/ui/cn/timeline-progress/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/timeline-progress/index.ts",
-      "content": "export { TimelineProgress } from './TimelineProgress'\nexport type { TimelineProgressProps, TimelineProgressStep, TimelineStepStatus, TimelineOrientation } from './timeline-progress.types'\n"
+      "content": "export { TimelineProgress } from \"./TimelineProgress\";\nexport type {\n  TimelineProgressProps,\n  TimelineProgressStep,\n  TimelineStepStatus,\n  TimelineOrientation,\n} from \"./timeline-progress.types\";\n"
     },
     {
       "path": "components/ui/cn/timeline-progress/timeline-progress.types.ts",
