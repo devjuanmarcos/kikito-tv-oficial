@@ -5,9 +5,8 @@
  * existing imports of `RichSelect` keep working; new code should use Select.
  */
 import { Select } from "@/components/ui/cn/select";
-import type { RichSelectProps as SelectRichProps } from "@/components/ui/cn/select/Select";
 
-export type RichSelectProps = Omit<SelectRichProps, "mode">;
+import type { RichSelectProps } from "./rich-select.types";
 
 export function RichSelect(props: RichSelectProps) {
   return <Select mode="rich" {...props} />;

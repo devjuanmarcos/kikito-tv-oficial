@@ -456,7 +456,7 @@ function MultiSelectImpl({
           return opt ? (
             <span
               key={v}
-              className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded-(--radius-xs) bg-patina/15 text-patina text-body-caption font-medium"
+              className="flex items-center gap-1 pl-2 pr-1 py-[2px] rounded-(--radius-xs) bg-patina-soft text-patina-soft-fg text-body-caption font-medium"
             >
               {opt.label}
               <button
@@ -745,7 +745,7 @@ function RichSelectImpl({
                       </span>
                       {opt.badge && (
                         // below scale minimum: inline micro-badge, matches Badge's sm-size scale
-                        <span className="px-[7px] py-[1px] rounded-pill bg-patina-soft text-patina text-[0.625rem] font-bold flex-shrink-0">
+                        <span className="px-[7px] py-[1px] rounded-pill bg-patina-soft text-patina-soft-fg text-[0.625rem] font-bold flex-shrink-0">
                           {opt.badge}
                         </span>
                       )}
@@ -949,7 +949,7 @@ function ComboboxImpl({
           return (
             <span
               key={val}
-              className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina rounded-(--radius-xs) text-body-callout font-medium max-w-[200px]"
+              className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina-soft-fg rounded-(--radius-xs) text-body-callout font-medium max-w-[200px]"
             >
               <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{opt.label}</span>
               <button
@@ -1024,7 +1024,7 @@ function ComboboxImpl({
                     className={cn(
                       "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-(--radius-sm) text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
                       activeIdx === idx && "bg-graphite",
-                      selected.includes(opt.value) && "bg-patina-soft text-patina",
+                      selected.includes(opt.value) && "bg-patina-soft text-patina-soft-fg",
                       opt.disabled && "opacity-40 cursor-not-allowed"
                     )}
                     onMouseEnter={() => setActiveIdx(idx)}
@@ -1033,7 +1033,7 @@ function ComboboxImpl({
                   >
                     {opt.label}
                     {selected.includes(opt.value) && (
-                      <span className="ml-auto text-patina">
+                      <span className="ml-auto text-patina-soft-fg">
                         <ComboboxCheckIcon />
                       </span>
                     )}

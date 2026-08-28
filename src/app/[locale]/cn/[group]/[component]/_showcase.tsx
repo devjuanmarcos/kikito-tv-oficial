@@ -731,12 +731,19 @@ function MultiSelectDemo() {
     { value: "trpc", label: "tRPC" },
   ];
   return (
-    <Frame label="Multi Select — select multiple values">
-      <div className="w-full max-w-md mx-auto flex flex-col gap-4">
-        <MultiSelect options={options} value={values} onChange={setValues} placeholder="Select technologies…" />
-        <p className="text-body-caption text-faint">Selected: {values.join(", ") || "none"}</p>
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Multi Select — select multiple values">
+        <div className="w-full max-w-md mx-auto flex flex-col gap-4">
+          <MultiSelect options={options} value={values} onChange={setValues} placeholder="Select technologies…" />
+          <p className="text-body-caption text-faint">Selected: {values.join(", ") || "none"}</p>
+        </div>
+      </Frame>
+      <Frame label="maxSelected — limita a 2 escolhas">
+        <div className="w-full max-w-md mx-auto">
+          <MultiSelect options={options} defaultValue={["react"]} maxSelected={2} placeholder="Até 2 tecnologias…" />
+        </div>
+      </Frame>
+    </div>
   );
 }
 
@@ -748,13 +755,25 @@ function RichSelectDemo() {
     { value: "violet", label: "Violet", description: "Purple tertiary", icon: "🟣" },
     { value: "rose", label: "Rose", description: "Warm pink quaternary", icon: "🔴" },
   ];
+  const badgedOptions = [
+    { value: "free", label: "Free", description: "Sem custo", badge: "0" },
+    { value: "pro", label: "Pro", description: "Recursos avançados", badge: "Popular" },
+    { value: "enterprise", label: "Enterprise", description: "Indisponível no seu plano", disabled: true },
+  ];
   return (
-    <Frame label="Rich Select — single value with icon and description">
-      <div className="w-full max-w-sm mx-auto flex flex-col gap-4">
-        <RichSelect options={options} value={value} onChange={setValue} placeholder="Choose a color token…" />
-        <p className="text-body-caption text-faint">Selected: {value}</p>
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-6">
+      <Frame label="Rich Select — single value with icon and description">
+        <div className="w-full max-w-sm mx-auto flex flex-col gap-4">
+          <RichSelect options={options} value={value} onChange={setValue} placeholder="Choose a color token…" />
+          <p className="text-body-caption text-faint">Selected: {value}</p>
+        </div>
+      </Frame>
+      <Frame label="Com badge e opção desabilitada">
+        <div className="w-full max-w-sm mx-auto">
+          <RichSelect options={badgedOptions} placeholder="Escolha um plano…" searchable />
+        </div>
+      </Frame>
+    </div>
   );
 }
 

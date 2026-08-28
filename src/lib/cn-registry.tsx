@@ -2299,6 +2299,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "true",
         description: "Exibe botão para limpar toda a seleção",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
+      },
     ],
   },
   {
@@ -2362,6 +2372,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'sm' | 'md' | 'lg'",
         default: "'md'",
         description: "Tamanho do campo",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes CSS extras",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Estilos inline extras",
       },
     ],
   },

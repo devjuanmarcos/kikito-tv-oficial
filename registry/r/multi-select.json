@@ -17,19 +17,19 @@
       "path": "components/ui/cn/multi-select/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/multi-select/index.ts",
-      "content": "export { MultiSelect } from \"./MultiSelect\";\r\nexport type { MultiSelectProps } from \"./MultiSelect\";\r\nexport type { MultiSelectOption, MultiSelectSize } from \"./multi-select.types\";\r\n"
+      "content": "export { MultiSelect } from \"./MultiSelect\";\nexport type { MultiSelectProps, MultiSelectOption, MultiSelectSize } from \"./multi-select.types\";\n"
     },
     {
       "path": "components/ui/cn/multi-select/multi-select.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/multi-select/multi-select.types.ts",
-      "content": "import type React from 'react'\r\n\r\nexport type MultiSelectSize = 'sm' | 'md' | 'lg'\r\n\r\nexport interface MultiSelectOption {\r\n  value: string\r\n  label: string\r\n  disabled?: boolean\r\n}\r\n\r\nexport interface MultiSelectProps {\r\n  options: MultiSelectOption[]\r\n  value?: string[]\r\n  defaultValue?: string[]\r\n  onChange?: (value: string[]) => void\r\n  placeholder?: string\r\n  size?: MultiSelectSize\r\n  disabled?: boolean\r\n  maxSelected?: number\r\n  searchable?: boolean\r\n  clearable?: boolean\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+      "content": "import type { MultiSelectOption, MultiSelectProps as SelectMultiProps, MultiSelectSize } from \"@/components/ui/cn/select/select.types\";\n\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\nexport type { MultiSelectOption, MultiSelectSize };\n"
     },
     {
       "path": "components/ui/cn/multi-select/MultiSelect.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/multi-select/MultiSelect.tsx",
-      "content": "\"use client\";\r\n/**\r\n * MultiSelect — backward-compat wrapper.\r\n * Absorbed by the Select Super component (`<Select mode=\"multi\" />`). Kept so\r\n * existing imports of `MultiSelect` keep working; new code should use Select.\r\n */\r\nimport { Select } from \"@/components/ui/cn/select\";\r\nimport type { MultiSelectProps as SelectMultiProps } from \"@/components/ui/cn/select/Select\";\r\n\r\nexport type MultiSelectProps = Omit<SelectMultiProps, \"mode\">;\r\n\r\nexport function MultiSelect(props: MultiSelectProps) {\r\n  return <Select mode=\"multi\" {...props} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * MultiSelect — backward-compat wrapper.\n * Absorbed by the Select Super component (`<Select mode=\"multi\" />`). Kept so\n * existing imports of `MultiSelect` keep working; new code should use Select.\n */\nimport { Select } from \"@/components/ui/cn/select\";\n\nimport type { MultiSelectProps } from \"./multi-select.types\";\n\nexport function MultiSelect(props: MultiSelectProps) {\n  return <Select mode=\"multi\" {...props} />;\n}\n"
     }
   ]
 }

@@ -17,19 +17,19 @@
       "path": "components/ui/cn/rich-select/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/rich-select/index.ts",
-      "content": "export { RichSelect } from \"./RichSelect\";\r\nexport type { RichSelectProps } from \"./RichSelect\";\r\nexport type { RichSelectOption } from \"./rich-select.types\";\r\n"
+      "content": "export { RichSelect } from \"./RichSelect\";\nexport type { RichSelectProps, RichSelectOption } from \"./rich-select.types\";\n"
     },
     {
       "path": "components/ui/cn/rich-select/rich-select.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/rich-select/rich-select.types.ts",
-      "content": "import type React from 'react'\r\n\r\nexport interface RichSelectOption {\r\n  value: string\r\n  label: string\r\n  description?: string\r\n  icon?: React.ReactNode\r\n  badge?: string\r\n  disabled?: boolean\r\n  group?: string\r\n}\r\n\r\nexport interface RichSelectProps {\r\n  options: RichSelectOption[]\r\n  value?: string\r\n  defaultValue?: string\r\n  onChange?: (value: string) => void\r\n  placeholder?: string\r\n  label?: string\r\n  disabled?: boolean\r\n  searchable?: boolean\r\n  size?: 'sm' | 'md' | 'lg'\r\n  className?: string\r\n  style?: React.CSSProperties\r\n}\r\n"
+      "content": "import type { RichSelectOption, RichSelectProps as SelectRichProps } from \"@/components/ui/cn/select/select.types\";\n\nexport type RichSelectProps = Omit<SelectRichProps, \"mode\">;\nexport type { RichSelectOption };\n"
     },
     {
       "path": "components/ui/cn/rich-select/RichSelect.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/rich-select/RichSelect.tsx",
-      "content": "\"use client\";\r\n/**\r\n * RichSelect — backward-compat wrapper.\r\n * Absorbed by the Select Super component (`<Select mode=\"rich\" />`). Kept so\r\n * existing imports of `RichSelect` keep working; new code should use Select.\r\n */\r\nimport { Select } from \"@/components/ui/cn/select\";\r\nimport type { RichSelectProps as SelectRichProps } from \"@/components/ui/cn/select/Select\";\r\n\r\nexport type RichSelectProps = Omit<SelectRichProps, \"mode\">;\r\n\r\nexport function RichSelect(props: RichSelectProps) {\r\n  return <Select mode=\"rich\" {...props} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * RichSelect — backward-compat wrapper.\n * Absorbed by the Select Super component (`<Select mode=\"rich\" />`). Kept so\n * existing imports of `RichSelect` keep working; new code should use Select.\n */\nimport { Select } from \"@/components/ui/cn/select\";\n\nimport type { RichSelectProps } from \"./rich-select.types\";\n\nexport function RichSelect(props: RichSelectProps) {\n  return <Select mode=\"rich\" {...props} />;\n}\n"
     }
   ]
 }

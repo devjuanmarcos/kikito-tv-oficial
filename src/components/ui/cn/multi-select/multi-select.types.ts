@@ -1,24 +1,8 @@
-import type React from 'react'
+import type {
+  MultiSelectOption,
+  MultiSelectProps as SelectMultiProps,
+  MultiSelectSize,
+} from "@/components/ui/cn/select/select.types";
 
-export type MultiSelectSize = 'sm' | 'md' | 'lg'
-
-export interface MultiSelectOption {
-  value: string
-  label: string
-  disabled?: boolean
-}
-
-export interface MultiSelectProps {
-  options: MultiSelectOption[]
-  value?: string[]
-  defaultValue?: string[]
-  onChange?: (value: string[]) => void
-  placeholder?: string
-  size?: MultiSelectSize
-  disabled?: boolean
-  maxSelected?: number
-  searchable?: boolean
-  clearable?: boolean
-  className?: string
-  style?: React.CSSProperties
-}
+export type MultiSelectProps = Omit<SelectMultiProps, "mode">;
+export type { MultiSelectOption, MultiSelectSize };

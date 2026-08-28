@@ -29,7 +29,7 @@
       "path": "components/ui/cn/combobox/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/combobox/index.ts",
-      "content": "export { Combobox } from './Combobox'\nexport type { ComboboxProps, ComboboxOption } from './combobox.types'\n"
+      "content": "export { Combobox } from \"./Combobox\";\nexport type { ComboboxProps, ComboboxOption } from \"./combobox.types\";\n"
     }
   ]
 }
