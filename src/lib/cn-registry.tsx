@@ -2851,6 +2851,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       { name: "threshold", type: "number", default: "100", description: "Distância mínima para disparar swipe (px)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
