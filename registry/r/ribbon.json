@@ -17,7 +17,7 @@
       "path": "components/ui/cn/ribbon/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/ribbon/index.ts",
-      "content": "export { Ribbon } from './Ribbon'\nexport type { RibbonProps, RibbonIntent, RibbonPosition } from './ribbon.types'\n"
+      "content": "export { Ribbon } from \"./Ribbon\";\nexport type { RibbonProps, RibbonIntent, RibbonPosition } from \"./ribbon.types\";\n"
     },
     {
       "path": "components/ui/cn/ribbon/Ribbon.tsx",

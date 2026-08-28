@@ -7406,7 +7406,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo da nota" },
       {
         name: "color",
-        type: "'yellow' | 'green' | 'blue' | 'pink' | 'purple'",
+        type: "'yellow' | 'blue' | 'green' | 'pink' | 'purple' | 'orange'",
         default: "'yellow'",
         description: "Cor da nota",
       },
@@ -7414,6 +7414,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "author", type: "string", description: "Autor da nota" },
       { name: "date", type: "string", description: "Data formatada" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── notice-bar

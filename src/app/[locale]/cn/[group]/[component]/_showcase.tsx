@@ -4686,9 +4686,9 @@ function NoteCardDemo() {
               <p className="font-semibold">Note B</p>
               <p className="text-sm">Different angle.</p>
             </NoteCard>
-            <NoteCard color="blue" rotate={-1}>
+            <NoteCard color="blue" rotate={-1} author="Alex" date="Aug 27">
               <p className="font-semibold">Note C</p>
-              <p className="text-sm">Random rotation.</p>
+              <p className="text-sm">With author and date footer.</p>
             </NoteCard>
           </div>
         </Frame>
