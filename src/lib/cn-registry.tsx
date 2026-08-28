@@ -3958,6 +3958,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Callback com área recortada: { x, y, width, height }",
       },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes extras pro container",
+      },
+      {
+        name: "style",
+        type: "CSSProperties",
+        description: "Estilos inline pro container",
+      },
     ],
   },
   {
