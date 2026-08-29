@@ -6138,6 +6138,14 @@ console.log(greet("Mundo"));`;
           </div>
         </Frame>
       </ShowcaseSection>
+
+      <ShowcaseSection title="Sem header (sem filename/language) — botão de copiar flutuante">
+        <Frame label="Copy button revela no hover ou no foco por teclado (Tab)">
+          <div className="w-full max-w-2xl">
+            <CodeBlock code={tsCode} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }
