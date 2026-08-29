@@ -62,13 +62,17 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | `shadcn-dashboard-library/variants/context-menu/context-menu-01.tsx` | `AnimatePresence`, `whileHover`             | Abertura do menu + hover de item  |
 | `shadcn-dashboard-library/variants/context-menu/context-menu-02.tsx` | `AnimatePresence`, `whileHover`, `whileTap` | Variante com press também animado |
 
-## `file-upload`
+## `file-upload` — ✅ animação de entrada/saída da lista de arquivos portada (adaptada, não `layoutId`)
 
-| Origem                                                             | Feature                  | Nota                                                                                                                         |
-| ------------------------------------------------------------------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| `shadcn-dashboard-library/adapted/file-upload/file-upload-01.tsx`  | `layoutId`, `whileHover` | **Já adaptado a tokens shadcn** (`adapted/`) — menor trabalho de tradução de cor, ainda precisa ir pro vocabulário Kikito CN |
-| `shadcn-dashboard-library/variants/file-upload/file-upload-01.tsx` | `layoutId`, `whileHover` | Versão não-adaptada do mesmo arquivo — usar a de `adapted/` como referência de tradução                                      |
-| `animated-components/file-uploadmotion.tsx`                        | `layoutId`, `whileHover` | Terceira implementação do mesmo conceito — comparar as 3 antes de escolher qual portar                                       |
+| Origem                                                             | Feature                  | Nota                                                                                                                                                                                               |
+| ------------------------------------------------------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shadcn-dashboard-library/adapted/file-upload/file-upload-01.tsx`  | `layoutId`, `whileHover` | Não portado como está — depende de `react-dropzone` (dep nova, fora de escopo) e de um efeito "peek/hover" bespoke que não combina com o dropzone simples da Kikito CN. Ver o que foi feito abaixo |
+| `shadcn-dashboard-library/variants/file-upload/file-upload-01.tsx` | `layoutId`, `whileHover` | Idem — mesma implementação, mesmo motivo                                                                                                                                                           |
+| `animated-components/file-uploadmotion.tsx`                        | `layoutId`, `whileHover` | Idem — terceira cópia do mesmo conceito                                                                                                                                                            |
+
+**O que foi feito (adaptado, não portado literal)**: as 3 origens compartilham `react-dropzone` + um efeito de "peek" no hover do dropzone via `layoutId`/`whileHover`, específico da estrutura deles (card único que se desloca). A Kikito CN já tem seu próprio drag-and-drop sem lib externa e uma lista de arquivos simples — em vez de portar o efeito de peek (exigiria trocar a estrutura toda + nova dependência), a animação real e reusável dali era **linha de arquivo entrando/saindo da lista** (padrão `FileItem`/`motion.p` da origem), aplicado via `AnimatePresence` + preset `slideInUp` de `@/lib/motion`.
+
+**Achado real corrigido de passagem**: a lista usava `key={i}` (índice) — ao remover um arquivo do meio da lista, o `AnimatePresence` animava a linha ERRADA (React reaproveita o nó do índice deslocado em vez de detectar que o item específico saiu, bug clássico de lista com key por índice + animação de saída). Corrigido pra key por conteúdo (`nome-tamanho-data`). `e2e/cn/inputs/file-upload.spec.ts` +1 teste (remove arquivo do meio de 3, não o último — é o caso que expõe o bug) — 12/12 chromium-desktop + mobile-chrome, incluindo os 4 já existentes (zero regressão).
 
 ## `otp-input`
 
@@ -147,6 +151,6 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 1. ✅ **Tabs** (`layoutId`) — feito, ver seção `tabs` acima.
 2. ✅ **Pagination** (`layoutId`) — feito, ver seção `pagination` acima.
-3. **File-upload** (`layoutId`+`whileHover`, já tem versão `adapted/`) — 3 implementações pra comparar, escolher a melhor.
+3. ✅ **File-upload** — feito (adaptado, não `layoutId` literal), ver seção `file-upload` acima.
 4. **Avatar** (`whileHover`/`whileTap`) — baixo risco, isolado.
 5. Resto por ordem de aparição, ou pela ordem que fizer sentido no roadmap do produto.

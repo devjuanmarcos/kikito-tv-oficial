@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T18:09:30.228Z",
+  "generatedAt": "2026-08-29T18:21:47.830Z",
   "items": [
     {
       "name": "accordion",
@@ -725,7 +725,7 @@
       "description": "Drag-and-drop file upload with preview and validation.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": ["button"]
     },
     {

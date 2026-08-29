@@ -1,8 +1,10 @@
 ﻿"use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef, useCallback } from "react";
 
 import { Button } from "@/components/ui/cn/button";
+import { slideInUp, transitionEnter } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { FileUploadProps } from "./file-upload.types";
@@ -112,29 +114,38 @@ export function FileUpload({
 
   const fileList = files.length > 0 && (
     <div className="flex flex-col gap-(--spacing-sm) mt-(--spacing-md)">
-      {files.map((f, i) => (
-        <div
-          key={i}
-          // gap-[10px]/py-[10px]: sem match exato na escala de spacing
-          className="flex items-center gap-[10px] py-[10px] px-(--spacing-md) rounded-(--radius-base) border border-rule bg-raised"
-        >
-          <span className="text-patina flex-shrink-0">
-            <FileIcon />
-          </span>
-          <span className="flex-1 text-body-callout font-medium overflow-hidden text-ellipsis whitespace-nowrap">
-            {f.name}
-          </span>
-          <span className="text-body-caption text-muted flex-shrink-0">{formatBytes(f.size)}</span>
-          <button
-            type="button"
-            aria-label={`Remove ${f.name}`}
-            className="w-[18px] h-[18px] flex items-center justify-center border-none bg-transparent cursor-pointer text-muted rounded-(--radius-xs) p-0 flex-shrink-0 hover:text-danger"
-            onClick={() => removeFile(i)}
+      {/* absorvido de docs/component-import/animation-backport/PLAN.md (file-upload-01.tsx):
+          linha de arquivo entra/sai da lista animada em vez de aparecer/sumir instantâneo.
+          key por conteúdo (não índice) — achado real: key={i} fazia o AnimatePresence
+          animar a linha ERRADA ao remover um arquivo do meio da lista (React reaproveita o
+          nó do índice deslocado em vez de detectar que o item específico saiu) */}
+      <AnimatePresence initial={false}>
+        {files.map((f, i) => (
+          <motion.div
+            key={`${f.name}-${f.size}-${f.lastModified}`}
+            {...slideInUp}
+            transition={transitionEnter}
+            // gap-[10px]/py-[10px]: sem match exato na escala de spacing
+            className="flex items-center gap-[10px] py-[10px] px-(--spacing-md) rounded-(--radius-base) border border-rule bg-raised"
           >
-            <XIcon />
-          </button>
-        </div>
-      ))}
+            <span className="text-patina flex-shrink-0">
+              <FileIcon />
+            </span>
+            <span className="flex-1 text-body-callout font-medium overflow-hidden text-ellipsis whitespace-nowrap">
+              {f.name}
+            </span>
+            <span className="text-body-caption text-muted flex-shrink-0">{formatBytes(f.size)}</span>
+            <button
+              type="button"
+              aria-label={`Remove ${f.name}`}
+              className="w-[18px] h-[18px] flex items-center justify-center border-none bg-transparent cursor-pointer text-muted rounded-(--radius-xs) p-0 flex-shrink-0 hover:text-danger"
+              onClick={() => removeFile(i)}
+            >
+              <XIcon />
+            </button>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 

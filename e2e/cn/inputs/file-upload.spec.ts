@@ -54,4 +54,30 @@ test.describe("FileUpload (CN)", () => {
     await expect(btn).toBeVisible();
     await expect(btn).toHaveClass(/focus-visible:outline-patina/);
   });
+
+  // absorvido de docs/component-import/animation-backport/PLAN.md (file-upload-01.tsx): linha
+  // de arquivo entra/sai da lista animada via AnimatePresence. Achado real corrigido: key={i}
+  // (índice) fazia o AnimatePresence animar a linha ERRADA ao remover um arquivo do meio da
+  // lista — React reaproveita o nó do índice deslocado em vez de detectar o item que saiu.
+  // Corrigido pra key por conteúdo (nome+tamanho+data). Este teste confirma removendo o
+  // arquivo do MEIO de 3, não o último — é o caso que expõe o bug de key por índice.
+  test("achado real corrigido: remover arquivo do meio de vários mantém os nomes certos (key por conteúdo, não índice)", async ({
+    page,
+  }) => {
+    const fileInput = page.locator('input[type="file"]').first();
+    await fileInput.setInputFiles([
+      { name: "first.png", mimeType: "image/png", buffer: Buffer.from("a") },
+      { name: "middle.png", mimeType: "image/png", buffer: Buffer.from("b") },
+      { name: "last.png", mimeType: "image/png", buffer: Buffer.from("c") },
+    ]);
+    await expect(page.getByText("first.png")).toBeVisible();
+    await expect(page.getByText("middle.png")).toBeVisible();
+    await expect(page.getByText("last.png")).toBeVisible();
+
+    await page.getByRole("button", { name: "Remove middle.png" }).click();
+
+    await expect(page.getByText("middle.png")).not.toBeAttached();
+    await expect(page.getByText("first.png")).toBeVisible();
+    await expect(page.getByText("last.png")).toBeVisible();
+  });
 });

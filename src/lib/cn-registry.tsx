@@ -2225,9 +2225,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "file-upload",
     title: "File Upload",
     group: "inputs",
-    description: "Drag-and-drop or button file upload with preview, size limit, multi-file and accept types.",
+    description:
+      "Drag-and-drop or button file upload with animated preview list, size limit, multi-file and accept types.",
     filePath: "src/components/ui/cn/file-upload/FileUpload.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "accept",
