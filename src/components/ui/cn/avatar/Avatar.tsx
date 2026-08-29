@@ -1,6 +1,8 @@
 ﻿"use client";
+import { motion } from "motion/react";
 import { useState, Children } from "react";
 
+import { springSnappy } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { AvatarSize, AvatarVariant, AvatarStatus, AvatarProps, AvatarGroupProps } from "./avatar.types";
@@ -80,6 +82,9 @@ export function Avatar({
   size = "md",
   variant = "circle",
   status = "none",
+  onClick,
+  selected,
+  label,
   className,
   style,
 }: AvatarProps) {
@@ -88,11 +93,8 @@ export function Avatar({
 
   const [bgColor, textColor] = name ? nameToColor(name) : ["var(--ks-graphite-2)", "var(--ks-text-faint)"];
 
-  return (
-    <span
-      className={cn("relative inline-flex shrink-0", SIZE_DIM[size], VARIANT_CLS[variant], className)}
-      style={style}
-    >
+  const content = (
+    <>
       {showImg ? (
         <img
           src={src}
@@ -144,6 +146,46 @@ export function Avatar({
           aria-label={status}
         />
       )}
+    </>
+  );
+
+  // absorvido de docs/component-import/animation-backport/PLAN.md (avatar-07.tsx): avatar
+  // clicável ganha micro-interação de hover/tap — sem `onClick` continua <span> puramente
+  // decorativo, igual antes (adicionar hover/tap num elemento não-interativo seria uma
+  // afordância falsa). springSnappy (350/25) reusado do preset já existente em @/lib/motion —
+  // mesma categoria de uso (elemento pequeno, feedback rápido), não vale criar um 3º preset
+  // só pra bater exato com o 400/25 da origem, visualmente indistinguível.
+  if (onClick) {
+    return (
+      <motion.button
+        type="button"
+        aria-label={label ?? name ?? alt}
+        aria-pressed={selected}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={springSnappy}
+        onClick={onClick}
+        className={cn(
+          "relative inline-flex shrink-0 bg-transparent border-none p-0 cursor-pointer",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
+          selected && "ring-2 ring-patina ring-offset-1 ring-offset-base",
+          VARIANT_CLS[variant],
+          SIZE_DIM[size],
+          className
+        )}
+        style={style}
+      >
+        {content}
+      </motion.button>
+    );
+  }
+
+  return (
+    <span
+      className={cn("relative inline-flex shrink-0", SIZE_DIM[size], VARIANT_CLS[variant], className)}
+      style={style}
+    >
+      {content}
     </span>
   );
 }

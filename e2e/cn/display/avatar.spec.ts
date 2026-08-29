@@ -55,3 +55,32 @@ test.describe("Avatar/AvatarGroup (CN) — a11y", () => {
     ).toBeVisible();
   });
 });
+
+// absorvido de docs/component-import/animation-backport/PLAN.md (avatar-07.tsx): avatar
+// clicável ganha micro-interação de hover/tap (motion) — sem onClick continua <span>
+// decorativo, igual antes (nunca afordância falsa num elemento não-interativo)
+test.describe("Avatar (CN) — clicável/selecionável", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto(ROUTES.avatar);
+    await page.waitForLoadState("networkidle");
+  });
+
+  test("avatar com onClick vira <button> real, com aria-pressed refletindo `selected`", async ({ page }) => {
+    const danaBtn = page.getByRole("button", { name: "Selecionar Dana Costa" });
+    await expect(danaBtn).toBeVisible();
+    // Dana começa selecionada por padrão na demo
+    await expect(danaBtn).toHaveAttribute("aria-pressed", "true");
+
+    const kimBtn = page.getByRole("button", { name: "Selecionar Kim Alves" });
+    await expect(kimBtn).toHaveAttribute("aria-pressed", "false");
+    await kimBtn.click();
+    await expect(kimBtn).toHaveAttribute("aria-pressed", "true");
+    await expect(danaBtn).toHaveAttribute("aria-pressed", "false");
+  });
+
+  test("avatar sem onClick continua <span> decorativo (sem role=button)", async ({ page }) => {
+    // os avatares da seção "Sizes" (sem onClick) não devem virar botão
+    const sizesFrame = page.getByText("xs · sm · md · lg · xl · 2xl").locator("..");
+    await expect(sizesFrame.getByRole("button")).toHaveCount(0);
+  });
+});

@@ -41,11 +41,13 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | `shadcn-dashboard-library/variants/autocomplete/autocomplete-05.tsx` | (sem flag) | —                                                                                                                                         |
 | `shadcn-dashboard-library/variants/autocomplete/autocomplete-06.tsx` | (sem flag) | —                                                                                                                                         |
 
-## `avatar`
+## `avatar` — ✅ modo clicável/selecionável com `whileHover`/`whileTap` portado
 
-| Origem                                                   | Feature                  | Nota                                                                      |
-| -------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------- |
-| `shadcn-dashboard-library/variants/avatar/avatar-07.tsx` | `whileHover`, `whileTap` | Micro-interação de hover/press — candidato de baixo risco, visual isolado |
+| Origem                                                   | Feature                  | Nota                                    |
+| -------------------------------------------------------- | ------------------------ | --------------------------------------- |
+| `shadcn-dashboard-library/variants/avatar/avatar-07.tsx` | `whileHover`, `whileTap` | ✅ Portado — ver o que foi feito abaixo |
+
+**O que foi feito**: a origem é um `SelectableAvatar` inteiro (avatar+label+badge+seleção, sempre clicável). O `Avatar` da Kikito CN é **puramente decorativo** (`<span>`, sem `onClick`) — colar `whileHover`/`whileTap` incondicionalmente seria uma afordância falsa num elemento não-interativo. Em vez disso, `onClick`/`selected`/`label` viraram props opcionais novas: sem `onClick`, o `Avatar` continua exatamente como antes (`<span>`, zero mudança de comportamento pros usos existentes); com `onClick`, vira `motion.button` com `whileHover={{scale:1.05}}`/`whileTap={{scale:0.95}}` + anel de destaque quando `selected`. Spring reusa `springSnappy` (350/25) de `@/lib/motion` — a origem usa 400/25, visualmente indistinguível, não vale criar um 3º preset só pra bater exato. `e2e/cn/display/avatar.spec.ts` +2 testes (onClick vira `<button>` real com `aria-pressed` correto; sem `onClick` continua sem `role=button`) — 16/16 chromium-desktop + mobile-chrome (rodado com `--workers=1` pra evitar flakiness de contenção de workers em rota fria, já visto antes nesta sessão — não é bug real), incluindo os 5 já existentes (zero regressão).
 
 ## `badge` / `tag` / `status-badge`
 
@@ -152,5 +154,5 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 1. ✅ **Tabs** (`layoutId`) — feito, ver seção `tabs` acima.
 2. ✅ **Pagination** (`layoutId`) — feito, ver seção `pagination` acima.
 3. ✅ **File-upload** — feito (adaptado, não `layoutId` literal), ver seção `file-upload` acima.
-4. **Avatar** (`whileHover`/`whileTap`) — baixo risco, isolado.
+4. ✅ **Avatar** (`whileHover`/`whileTap`) — feito, ver seção `avatar` acima.
 5. Resto por ordem de aparição, ou pela ordem que fizer sentido no roadmap do produto.

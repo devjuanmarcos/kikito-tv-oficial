@@ -487,9 +487,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Avatar",
     group: "display",
     description:
-      "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes and a lightweight children-composition group mode.",
+      "User avatar with image, initials, icon, status dot, 6 sizes, 3 shapes, optional clickable/selectable mode with hover/tap animation, and a lightweight children-composition group mode.",
     filePath: "src/components/ui/cn/avatar/Avatar.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     // NÃO absorve avatar-group de fato — são duas implementações paralelas com APIs diferentes
     // (esta é children-composition; avatar-group é data-driven via prop `avatars`). Ver nota no Avatar.tsx.
     keywords: ["avatar group", "stacked", "empilhado", "overflow", "+N"],
@@ -536,6 +536,24 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "'none'",
         description: "Indicador de presença",
       },
+      {
+        name: "onClick",
+        type: "() => void",
+        description:
+          "Torna o avatar clicável (vira <button>, ganha micro-interação de hover/tap). Sem isso, continua <span> decorativo",
+      },
+      {
+        name: "selected",
+        type: "boolean",
+        description: "Estado selecionado (anel de destaque) — só tem efeito quando `onClick` está presente",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Nome acessível do botão quando clicável. Recomendado sempre informar junto de `onClick`",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {

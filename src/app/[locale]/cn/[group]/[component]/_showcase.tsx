@@ -6296,8 +6296,35 @@ console.log(greet("Mundo"));`;
 }
 
 function AvatarDemo() {
+  const [selected, setSelected] = useState<string | null>("dana");
+  const people = [
+    { id: "dana", name: "Dana Costa" },
+    { id: "kim", name: "Kim Alves" },
+    { id: "leo", name: "Leo Prado" },
+  ];
   return (
     <div className="flex flex-col">
+      {/* absorvido de docs/component-import/animation-backport/PLAN.md (avatar-07.tsx):
+          onClick + selected ganham micro-interação de hover/tap (motion) — sem onClick,
+          o avatar continua puramente decorativo (<span>), igual antes */}
+      <ShowcaseSection title="Selectable (hover/tap animation)">
+        <Frame label="Clique pra selecionar — anel de destaque + micro-interação de escala">
+          <div className="flex gap-6">
+            {people.map((p) => (
+              <div key={p.id} className="flex flex-col items-center gap-1.5">
+                <Avatar
+                  name={p.name}
+                  size="lg"
+                  onClick={() => setSelected(p.id)}
+                  selected={selected === p.id}
+                  label={`Selecionar ${p.name}`}
+                />
+                <span className="text-body-caption text-muted">{p.name.split(" ")[0]}</span>
+              </div>
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
       <ShowcaseSection title="Sizes">
         <Frame label="xs · sm · md · lg · xl · 2xl">
           <div className="flex items-end gap-4">

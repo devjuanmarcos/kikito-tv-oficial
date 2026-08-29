@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T18:21:47.830Z",
+  "generatedAt": "2026-08-29T18:33:15.976Z",
   "items": [
     {
       "name": "accordion",
@@ -134,7 +134,7 @@
       "description": "User avatar with image, initials and status.",
       "group": "display",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": []
     },
     {
