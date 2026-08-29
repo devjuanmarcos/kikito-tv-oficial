@@ -1880,7 +1880,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "inputs",
     description: "Text input with dropdown suggestions, keyboard navigation, sizes and async support.",
     filePath: "src/components/ui/cn/autocomplete/Autocomplete.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "options",

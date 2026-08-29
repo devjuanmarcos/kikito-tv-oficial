@@ -31,21 +31,29 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 **Por que não (ainda)**: a origem faz sentido pra uma tabela de demo com 4-5 linhas fixas (`delay: index * 0.25` — quase 1.5s pra tabela toda entrar). O `Table`/`DataTable` da Kikito CN (`src/components/ui/cn/table/Table.tsx`, 1300+ linhas) é um data-grid completo com sort/filtro/paginação — aplicar stagger de entrada por padrão faria a animação **re-disparar a cada reordenação/filtro** (péssima UX) e não escalaria pra tabelas de 20-50 linhas sem um cap. Precisa de uma decisão de produto (opt-in via prop? só no mount inicial? cap de linhas?) antes de virar código — não é um port mecânico como os outros itens desta lista.
 
-## `input` / `floating-label-input`
+## `input` / `floating-label-input` — ❌ não portado, fora do escopo da API atual
 
 | Origem                                                 | Feature           | Nota                                                                                              |
 | ------------------------------------------------------ | ----------------- | ------------------------------------------------------------------------------------------------- |
 | `animated-components/animatedinput-placeholder.tsx`    | `AnimatePresence` | Placeholder/label animado — provável candidato ao `floating-label-input` (já existe na Kikito CN) |
 | `shadcn-dashboard-library/variants/input/input-19.tsx` | (sem flag)        | Checar o que anima — provável foco/validação                                                      |
 
-## `autocomplete`
+**Por que não**: a nota do 1º arquivo era imprecisa — não é o floating-label (label sobe no foco/valor, já implementado via CSS no `Input floatingLabel`). É um **placeholder rotativo** (troca de string a cada 3s com `AnimatePresence`) dentro de um widget de busca com efeito de "vanish" em canvas (partículas se dissolvendo ao submeter) — bespoke, sem paralelo no `Input` da Kikito CN, que não aceita array de placeholders. O 2º arquivo (`input-19.tsx`) é outra coisa ainda: um círculo de progresso SVG com checkmark animado pra indicador de validação de senha/username — um widget novo e independente, não uma animação do `Input` em si. Nenhum dos dois é "port de animação pra componente existente"; ambos exigiriam desenhar API nova ou um componente novo (fora do escopo deste backport — ver `new-components/PLAN.md` se algum dia fizer sentido).
 
-| Origem                                                               | Feature    | Nota                                                                                                                                      |
-| -------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `shadcn-dashboard-library/variants/autocomplete/autocomplete-03.tsx` | (sem flag) | 4 variantes seguidas sem feature marcante no grep — provável transição simples de abrir/fechar o painel; ler antes de escolher qual porta |
-| `shadcn-dashboard-library/variants/autocomplete/autocomplete-04.tsx` | (sem flag) | —                                                                                                                                         |
-| `shadcn-dashboard-library/variants/autocomplete/autocomplete-05.tsx` | (sem flag) | —                                                                                                                                         |
-| `shadcn-dashboard-library/variants/autocomplete/autocomplete-06.tsx` | (sem flag) | —                                                                                                                                         |
+## `autocomplete` — ✅ abertura/fechamento do painel portado (item-stagger descartado)
+
+| Origem                                                               | Feature                | Nota                                                                                                                           |
+| -------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `shadcn-dashboard-library/variants/autocomplete/autocomplete-03.tsx` | (sem flag)             | Efeito de "vanish" character-by-character no botão limpar — bespoke, não portado (mesma categoria do canvas do `input`, acima) |
+| `shadcn-dashboard-library/variants/autocomplete/autocomplete-04.tsx` | `motion.div`, `SPRING` | ✅ Painel — ver abaixo. Item-stagger (`delay: idx*0.04`) não portado, ver nota                                                 |
+| `shadcn-dashboard-library/variants/autocomplete/autocomplete-05.tsx` | `motion.div`, `SPRING` | Idem — mesma decisão                                                                                                           |
+| `shadcn-dashboard-library/variants/autocomplete/autocomplete-06.tsx` | `motion.div`, `SPRING` | Idem — mesma decisão                                                                                                           |
+
+**O que foi feito**: o painel de sugestões do `Autocomplete` da Kikito CN tinha o mesmo bug já corrigido no `ClickMenu` (`context-menu`, acima) — `{open && <div>...}` direto, sem `AnimatePresence`, sem animação nenhuma de entrada/saída. Migrado com `AnimatePresence` + `scaleInVertical`/`springSnappy`, o **mesmo par já usado pelo painel do `Select`** (mesmo formato de widget: listbox ancorada abaixo de um campo, "desenrola" de cima pra baixo) — reuso direto de um preset existente, não um novo.
+
+**Não portado, decisão deliberada**: o stagger por item (`delay: idx * 0.04`, uma pra cada opção da lista) das origens 04/05/06. Mesmo raciocínio já registrado em `table` acima — a lista filtrada do `Autocomplete` muda a **cada tecla digitada**, então um stagger de entrada re-dispararia a cada caractere (o array de itens filtrados é recriado no re-render), virando um efeito de "piscar" enquanto o usuário digita em vez de uma entrada suave. Onde a origem usa (uma lista que só muda ao abrir/fechar o painel, não a cada tecla) o efeito faz sentido; aqui não.
+
+`e2e/cn/inputs/autocomplete.spec.ts` já cobria abrir/filtrar/navegar/selecionar — 12/12 chromium-desktop + mobile-chrome, zero regressão.
 
 ## `avatar` — ✅ modo clicável/selecionável com `whileHover`/`whileTap` portado
 

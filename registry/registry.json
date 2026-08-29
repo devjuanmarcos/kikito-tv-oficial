@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T18:33:15.976Z",
+  "generatedAt": "2026-08-29T19:39:45.058Z",
   "items": [
     {
       "name": "accordion",
@@ -123,7 +123,7 @@
       "description": "Input with real-time filtered suggestions dropdown.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": []
     },
     {
