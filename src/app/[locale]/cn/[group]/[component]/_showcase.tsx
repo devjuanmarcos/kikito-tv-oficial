@@ -461,9 +461,18 @@ function CarouselDemo() {
     },
   ];
   return (
-    <Frame label="Horizontal with dots">
-      <Carousel items={items} className="w-80" />
-    </Frame>
+    <div className="flex flex-col gap-6 w-full">
+      <ShowcaseSection title="Horizontal with dots">
+        <Frame label="Horizontal with dots">
+          <Carousel items={items} className="w-80" />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Vertical — needs an explicit height on the carousel itself">
+        <Frame label="Vertical with dots">
+          <Carousel items={items} orientation="vertical" className="w-80 h-56" />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

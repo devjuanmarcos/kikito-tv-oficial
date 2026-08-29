@@ -2593,9 +2593,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "orientation",
         type: "'horizontal' | 'vertical'",
         default: "'horizontal'",
-        description: "Orientação do carrossel",
+        description:
+          "Orientação do carrossel — vertical exige altura explícita no próprio componente via className/style",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
