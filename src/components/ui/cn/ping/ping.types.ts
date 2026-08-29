@@ -7,6 +7,8 @@ export interface PingProps {
   intent?: PingIntent;
   size?: PingSize;
   animate?: boolean;
+  /** Nome acessível do ponto de status (leitor de tela). Sem isso, o ponto é puramente decorativo. */
+  label?: string;
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;

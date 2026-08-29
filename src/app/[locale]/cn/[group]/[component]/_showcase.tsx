@@ -3482,6 +3482,9 @@ function PingDemo() {
           <Ping intent="danger" size="sm">
             <div className="w-10 h-10 rounded-(--radius-md) bg-raised border border-rule" />
           </Ping>
+          <Ping intent="success" label="Online" size="lg">
+            <div className="w-10 h-10 rounded-(--radius-md) bg-raised border border-rule" />
+          </Ping>
         </div>
       </div>
     </Frame>

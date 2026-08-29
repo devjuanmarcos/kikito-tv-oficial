@@ -7998,8 +7998,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho do ponto" },
       { name: "animate", type: "boolean", default: "true", description: "Ativar animação de pulso" },
+      { name: "label", type: "string", description: "Nome acessível do ponto de status (leitor de tela)" },
       { name: "children", type: "React.ReactNode", description: "Conteúdo (o dot aparece como overlay)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── pricing-card
