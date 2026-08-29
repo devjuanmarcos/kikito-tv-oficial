@@ -182,8 +182,11 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
     disabled,
     type,
     value,
+    defaultValue,
     onChange,
     floatingLabel: _floatingLabel,
+    showCount = false,
+    maxLength,
     "aria-describedby": describedByProp,
     "aria-invalid": invalidProp,
     ...props
@@ -193,6 +196,13 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
   const uid = useId();
   const id = idProp ?? uid;
   const [revealed, setRevealed] = useState(false);
+
+  // uncontrolled (sem `value`): o contador precisa acompanhar o DOM real a cada digitação,
+  // mesmo padrão já usado no Textarea.showCount — sem isso ficaria travado no defaultValue inicial
+  const [uncontrolledLength, setUncontrolledLength] = useState(
+    typeof defaultValue === "string" ? defaultValue.length : 0
+  );
+  const charCount = typeof value === "string" ? value.length : uncontrolledLength;
 
   const resolvedError = error ?? errorText;
   const resolvedHint = hint ?? helperText;
@@ -242,6 +252,30 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
     </p>
   );
 
+  const countEl = showCount && (
+    <span
+      className={cn(
+        "text-body-caption ml-auto tabular-nums shrink-0",
+        maxLength && charCount >= maxLength * 0.9 ? "text-warning" : "text-faint"
+      )}
+    >
+      {charCount}
+      {maxLength ? ` / ${maxLength}` : ""}
+    </span>
+  );
+
+  const footerEl = (hintEl || countEl) && (
+    <div className="flex items-center justify-between gap-(--spacing-sm)">
+      {hintEl}
+      {countEl}
+    </div>
+  );
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setUncontrolledLength(e.target.value.length);
+    onChange?.(e);
+  }
+
   /* ── Prefix / suffix: in-flow group so the addon never overlaps the placeholder ── */
   if (hasAddon) {
     return (
@@ -269,7 +303,9 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
             type={inputType}
             disabled={disabled}
             value={value}
-            onChange={onChange}
+            defaultValue={defaultValue}
+            maxLength={maxLength}
+            onChange={handleChange}
             aria-describedby={describedBy}
             aria-invalid={invalid}
             className={cn(
@@ -285,7 +321,7 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
             </span>
           )}
         </div>
-        {hintEl}
+        {footerEl}
       </div>
     );
   }
@@ -304,7 +340,9 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
           type={inputType}
           disabled={disabled}
           value={value}
-          onChange={onChange}
+          defaultValue={defaultValue}
+          maxLength={maxLength}
+          onChange={handleChange}
           aria-describedby={describedBy}
           aria-invalid={invalid}
           className={cn(
@@ -352,7 +390,7 @@ const TextInputImpl = React.forwardRef<HTMLInputElement, InputBaseProps>(functio
         )}
       </div>
 
-      {hintEl}
+      {footerEl}
     </div>
   );
 });

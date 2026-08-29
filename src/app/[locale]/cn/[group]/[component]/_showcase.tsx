@@ -4137,7 +4137,7 @@ function InputDemo() {
       </ShowcaseSection>
 
       <ShowcaseSection title="Character Count">
-        <Frame label="Max 50 chars" align="start">
+        <Frame label="showCount (paridade com Textarea.showCount)" align="start">
           <div className="w-full max-w-sm">
             <Input
               label="Bio"
@@ -4145,7 +4145,7 @@ function InputDemo() {
               onChange={(e) => setVal(e.target.value)}
               maxLength={50}
               placeholder="Max 50 chars"
-              hint={`${val.length} / 50`}
+              showCount
             />
           </div>
         </Frame>

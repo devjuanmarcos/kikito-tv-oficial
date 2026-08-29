@@ -27,6 +27,13 @@ test.describe("Input (CN)", () => {
     }
   });
 
+  test("showCount mostra contador e atualiza ao digitar", async ({ page }) => {
+    const frame = page.locator('text="showCount (paridade com Textarea.showCount)"').locator("..");
+    await expect(frame.getByText("0 / 50", { exact: true })).toBeVisible();
+    await frame.getByLabel("Bio").fill("Hello");
+    await expect(frame.getByText("5 / 50", { exact: true })).toBeVisible();
+  });
+
   test("sem erros de console", async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (msg) => {

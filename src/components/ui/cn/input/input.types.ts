@@ -37,6 +37,8 @@ export interface InputBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
   revealable?: boolean;
   /** Renders a floating label that animates above the field on focus/value. */
   floatingLabel?: boolean;
+  /** Shows a live `N` / `N / maxLength` character counter below the field (parity with `Textarea`). */
+  showCount?: boolean;
 }
 
 /**
