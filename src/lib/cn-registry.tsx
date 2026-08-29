@@ -8038,11 +8038,17 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Linear step progress bar with step labels and size variants.",
     filePath: "src/components/ui/cn/progress-steps/ProgressSteps.tsx",
     props: [
-      { name: "steps", type: "ProgressStep[]", required: true, description: "Array de { label, description? }" },
+      {
+        name: "steps",
+        type: "ProgressStep[]",
+        required: true,
+        description: "Array de { label, description?, status? }",
+      },
       { name: "current", type: "number", required: true, description: "Índice do passo atual (0-based)" },
       { name: "orientation", type: "'horizontal' | 'vertical'", default: "'horizontal'", description: "Orientação" },
       { name: "size", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Tamanho dos indicadores" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── quote-block

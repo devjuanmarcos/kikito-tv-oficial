@@ -39,7 +39,8 @@ export function ProgressSteps({
   }
 
   return (
-    <div style={style} className={cn("flex", isVertical ? "flex-col gap-0" : "items-start", className)}>
+    // role="list"/"listitem": mesmo padrão já usado no StepForm pra sequência de etapas
+    <div role="list" style={style} className={cn("flex", isVertical ? "flex-col gap-0" : "items-start", className)}>
       {steps.map((step, i) => {
         const status = resolveStatus(i, step.status);
         const isLast = i === steps.length - 1;
@@ -47,6 +48,7 @@ export function ProgressSteps({
         return (
           <div
             key={i}
+            role="listitem"
             aria-current={status === "current" ? "step" : undefined}
             className={cn("flex", isVertical ? "flex-row gap-(--spacing-md)" : "flex-col items-center flex-1")}
           >
