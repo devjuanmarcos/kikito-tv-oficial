@@ -2321,8 +2321,17 @@ function ScrollSpyDemo() {
         <div className="w-44 shrink-0">
           <ScrollSpy items={items} />
         </div>
-        <div className="flex-1 text-body-callout text-muted">
-          <p>Scroll the page to see the active item update. Attach item IDs to heading elements in your content.</p>
+        {/* ScrollSpy rastreia o scroll da PÁGINA (window), não um painel isolado — os ids
+            ficam no fluxo real da página (a página de showcase inteira já é rolável) pra
+            servirem de alvo real de getElementById/scrollIntoView, sem simular um scroll
+            container que o componente não foi desenhado pra suportar */}
+        <div className="flex-1 text-body-callout text-muted flex flex-col gap-3">
+          <p>Scroll the page to see the active item update.</p>
+          {items.map((item) => (
+            <p key={item.id} id={item.id} className="text-body-caption text-faint">
+              #{item.id}
+            </p>
+          ))}
         </div>
       </div>
     </Frame>
