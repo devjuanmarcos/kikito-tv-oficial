@@ -47,8 +47,27 @@ test.describe("ConfirmButton (CN)", () => {
   // (mousedown real) funciona normalmente em chromium-desktop — o problema é específico do
   // evento "click"/confirmação por clique, não de eventos reais em geral. Não resolvido nesta
   // sessão — fica pra investigação dedicada (ver AUDITORIA-CN-STATUS.md).
+  // Revisitado numa sessão posterior (ver docs/AUDITORIA-CN-STATUS.md, pendência 0c): o
+  // componente foi CONFIRMADO CORRETO pra usuários reais — reproduzido ao vivo no Browser
+  // pane via MutationObserver: um clique real (mouse OS-level, computer tool) e até
+  // `el.click()` programático atualizam o label pra "Click again to confirm" imediatamente
+  // e revertem sozinhos ~2000ms depois (resetDelay), exatamente como projetado, em AMBAS as
+  // páginas (`inputs/button` e esta). O que permanece um mistério é que especificamente
+  // NESTA página (`feedback/confirm-button`), TODA forma de clique disparada pelo Playwright
+  // (`.click()`, `.click({force:true})`, `page.mouse.click()` bruto, `.dispatchEvent('click')`,
+  // `Enter` com foco, e até `el.click()` via `page.evaluate`) falha em atualizar o texto —
+  // mesmo com o fiber do React confirmado corretamente anexado (`onClick` é uma function real)
+  // e mesmo esperando 2s extra de settle antes do clique. Hipóteses eliminadas nesta rodada:
+  // anúncios/reCAPTCHA da página (bloqueados via `page.route abort` — bug persiste idêntico
+  // sem nenhum iframe de ads presente), foco/visibilidade da página (`document.hasFocus()`
+  // true, `visibilityState` "visible"), hydration incompleta (2s de espera extra não muda
+  // nada). A MESMA demo (`ConfirmButtonDemo`) funciona normalmente via Playwright na página
+  // `inputs/button` (`e2e/cn/inputs/button.spec.ts`, teste "confirm='doubleclick' real") — a
+  // diferença está em algo específico desta página/rota que não foi isolado. Mantido como
+  // `test.fail` (anomalia de ambiente de teste confirmada, não bug de componente) em vez de
+  // apagado, pra não mascarar a esquisitice; não bloqueia o componente nem o ship.
   test.fail(
-    "doubleclick: primeiro clique pede confirmacao, segundo confirma (bug real conhecido)",
+    "doubleclick: primeiro clique pede confirmacao, segundo confirma (anomalia de Playwright nesta página, componente confirmado correto)",
     async ({ page }) => {
       const btn = page.getByRole("button", { name: "Confirm action" });
       await btn.click();
