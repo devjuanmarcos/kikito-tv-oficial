@@ -1,2 +1,2 @@
-export { NavigationMenu } from './NavigationMenu'
-export type { NavigationMenuProps, NavigationMenuItem, NavigationMenuOrientation } from './NavigationMenu'
+export { NavigationMenu } from "./NavigationMenu";
+export type { NavigationMenuProps, NavigationMenuItem, NavigationMenuOrientation } from "./navigation-menu.types";

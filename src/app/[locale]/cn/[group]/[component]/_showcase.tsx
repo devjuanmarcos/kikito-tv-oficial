@@ -5566,24 +5566,31 @@ function MediaPlayerDemo() {
 
 function NavigationMenuDemo() {
   const items = [
-    { id: "home", label: "Home", href: "#" },
+    { label: "Home", href: "#home" },
     {
-      id: "products",
       label: "Products",
       children: [
-        { id: "cn", label: "Kikito CN", href: "#", description: "Component library" },
-        { id: "tv", label: "Kikito TV", href: "#", description: "Streaming platform" },
+        { label: "Kikito CN", href: "#cn" },
+        { label: "Kikito TV", href: "#tv" },
       ],
     },
-    { id: "docs", label: "Docs", href: "#" },
-    { id: "pricing", label: "Pricing", href: "#" },
+    { label: "Docs", href: "#docs" },
+    { label: "Inbox", href: "#inbox", badge: 3 },
+    { label: "Coming soon", href: "#soon", disabled: true },
   ];
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-6">
       <ShowcaseSection title="Horizontal (top-nav)">
-        <Frame label="With dropdown submenu">
+        <Frame label="With dropdown submenu, badge and disabled item">
           <div className="w-full border border-rule rounded-(--radius-lg) bg-base px-4 py-2">
-            <CnNavigationMenu items={items} />
+            <CnNavigationMenu items={items} activeHref="#docs" onNavigate={(href) => console.log("navigate", href)} />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Vertical (sidebar)">
+        <Frame label="Vertical orientation" align="start">
+          <div className="w-56 border border-rule rounded-(--radius-lg) bg-base p-2">
+            <CnNavigationMenu items={items} orientation="vertical" activeHref="#docs" />
           </div>
         </Frame>
       </ShowcaseSection>

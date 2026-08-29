@@ -7828,7 +7828,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "items",
         type: "NavigationMenuItem[]",
         required: true,
-        description: "Itens de navegação { id, label, href, icon?, children? }",
+        description: "Itens de navegação { label, href?, icon?, badge?, disabled?, children? }",
       },
       { name: "activeHref", type: "string", description: "URL do item ativo" },
       {
@@ -7839,6 +7839,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       { name: "onNavigate", type: "(href: string) => void", description: "Callback de navegação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── note-card
