@@ -2988,20 +2988,37 @@ function StepperDemo() {
     { label: "Plan", description: "Choose a tier" },
     { label: "Confirm", description: "Review & submit" },
   ];
+  const verticalSteps = [
+    { label: "Order placed", description: "We received your order" },
+    { label: "Payment", description: "Optional invoice details", optional: true },
+    { label: "Shipping issue", status: "error" as const, description: "Address could not be verified" },
+    { label: "Delivered", description: "Package arrives" },
+  ];
   return (
-    <Frame label="Stepper — horizontal step indicator with navigation">
-      <div className="flex flex-col gap-6 w-full max-w-lg">
-        <Stepper steps={steps} activeStep={ctrl.step} clickable />
-        <div className="flex justify-between">
-          <Button onClick={ctrl.prev} disabled={ctrl.isFirst} variant="outline" intent="neutral" size="sm">
-            Back
-          </Button>
-          <Button onClick={ctrl.next} disabled={ctrl.isLast} intent="primary" size="sm">
-            {ctrl.isLast ? "Finish" : "Next"}
-          </Button>
-        </div>
-      </div>
-    </Frame>
+    <div className="flex flex-col gap-8 w-full max-w-lg">
+      <ShowcaseSection title="Horizontal, clickable">
+        <Frame label="Horizontal step indicator with navigation">
+          <div className="flex flex-col gap-6 w-full">
+            <Stepper steps={steps} activeStep={ctrl.step} onStepChange={ctrl.goTo} clickable />
+            <div className="flex justify-between">
+              <Button onClick={ctrl.prev} disabled={ctrl.isFirst} variant="outline" intent="neutral" size="sm">
+                Back
+              </Button>
+              <Button onClick={ctrl.next} disabled={ctrl.isLast} intent="primary" size="sm">
+                {ctrl.isLast ? "Finish" : "Next"}
+              </Button>
+            </div>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Vertical, with optional and error steps">
+        <Frame label="Vertical orientation" align="start">
+          <div className="w-full">
+            <Stepper steps={verticalSteps} activeStep={1} orientation="vertical" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

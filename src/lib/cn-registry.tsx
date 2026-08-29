@@ -5541,7 +5541,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "steps",
         type: "StepDef[]",
         required: true,
-        description: "Array de { label, description, content, status }",
+        description: "Array de { label, description?, content?, optional?, status? }",
       },
       { name: "activeStep", type: "number", description: "Índice do passo atual (controlado)" },
       { name: "defaultStep", type: "number", default: "0", description: "Passo inicial (não-controlado)" },
@@ -5554,6 +5554,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       { name: "clickable", type: "boolean", default: "false", description: "Permite navegar clicando nos passos" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "children", type: "React.ReactNode", description: "Conteúdo extra abaixo do stepper" },
     ],
   },
   {

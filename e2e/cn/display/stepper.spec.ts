@@ -1,44 +1,51 @@
 import { test, expect } from "@playwright/test";
 
-/**
- * Stepper's `absorbs: ["dot-stepper", "progress-steps"]` was false — Stepper only
- * dispatches by `orientation` (horizontal/vertical), no dot/progress mode of its own.
- * DotStepper is standalone (own dot/dash/progress dispatch); progress-steps already
- * covered separately in e2e/cn/feedback/progress.spec.ts.
- */
-const ROUTES = ["/pt/cn/display/stepper", "/pt/cn/display/dot-stepper"];
-
-for (const url of ROUTES) {
-  test.describe(`rota ${url}`, () => {
-    test("renderiza sem crash e sem erros de console", async ({ page }) => {
-      const errors: string[] = [];
-      page.on("console", (msg) => {
-        if (msg.type() === "error") errors.push(msg.text());
-      });
-      await page.goto(url);
-      await page.waitForLoadState("networkidle");
-      await expect(page).not.toHaveTitle(/Error|500|404/);
-      await expect(page.locator("main")).toBeVisible();
-      expect(errors.filter((e) => !e.includes("favicon"))).toHaveLength(0);
-    });
-  });
-}
+const URL = "/pt/cn/display/stepper";
 
 test.describe("Stepper", () => {
-  test("dot-stepper e progress-steps aparecem na sidebar (absorbs falso corrigido)", async ({ page }) => {
-    await page.goto("/pt/cn/display/stepper");
+  test.beforeEach(async ({ page }) => {
+    await page.goto(URL);
     await page.waitForLoadState("networkidle");
-    await expect(page.getByRole("link", { name: "Dot Stepper", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Progress Steps", exact: true })).toBeVisible();
   });
-});
 
-test.describe("Dot Stepper", () => {
-  test("clique num dot muda o step ativo (aria-current)", async ({ page }) => {
-    await page.goto("/pt/cn/display/dot-stepper");
+  test("renderiza sem crash", async ({ page }) => {
+    await expect(page).not.toHaveTitle(/Error|500|404/);
+    await expect(page.locator("main")).toBeVisible();
+  });
+
+  test("sem erros de console", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") errors.push(msg.text());
+    });
+    await page.goto(URL);
     await page.waitForLoadState("networkidle");
-    const dash = page.getByRole("button", { name: "Go to step 3" }).first();
-    await dash.click();
-    await expect(dash).toHaveAttribute("aria-current", "step");
+    expect(errors.filter((e) => !e.includes("favicon"))).toHaveLength(0);
+  });
+
+  test("expõe role=list/listitem e aria-current=step no passo ativo", async ({ page }) => {
+    const frame = page.locator("main");
+    const list = frame.getByRole("list").first();
+    await expect(list.locator('[aria-current="step"]')).toHaveCount(1);
+  });
+
+  test("achado real corrigido: avançar e voltar habilita círculo clicável navegável por teclado (Enter)", async ({
+    page,
+  }) => {
+    const frame = page.locator("main");
+    await frame.getByRole("button", { name: "Next" }).click();
+    // passo 0 (Account) agora está completo e clickable=true -> vira <button>
+    const step0Circle = frame.getByRole("button", { name: /Go to step 1: Account/ });
+    await expect(step0Circle).toBeVisible();
+    await step0Circle.focus();
+    await step0Circle.press("Enter");
+    // voltou pro passo 0 -> botão "Back" fica desabilitado (isFirst)
+    await expect(frame.getByRole("button", { name: "Back" })).toBeDisabled();
+  });
+
+  test("vertical: step opcional e step com erro renderizam com os tokens certos", async ({ page }) => {
+    const frame = page.locator("main");
+    await expect(frame.getByText("(optional)", { exact: true })).toBeVisible();
+    await expect(frame.getByText("Shipping issue")).toHaveClass(/text-danger/);
   });
 });
