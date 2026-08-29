@@ -1,5 +1,7 @@
 # Plano de Unificação de Componentes — Super Componentes
 
+> ⚠️ **Nota de atualização (2026-08-29)**: a auditoria sistemática de `docs/AUDITORIA-CN-STATUS.md` conferiu, componente a componente, **todas** as entradas `absorbs:` deste plano contra o código real — e achou 8 casos onde o registry dizia "absorvido" mas o componente "absorvido" era na verdade uma implementação paralela real, nunca de fato unificada. Ver **§10** no fim deste documento pra lista completa das correções. As tabelas abaixo (§2, §5, §9) ficam como registro histórico da decisão original, com nota inline (~~riscado~~) nos pontos que a auditoria corrigiu.
+
 > Objetivo: reduzir a quantidade de entradas na sidebar do catálogo `/cn` **sem reduzir capacidade de entrega**. Componentes da mesma família viram um único "Super componente" mais robusto (mais props, mais variantes). Variantes ainda não prontas entram no Super marcadas como **"em desenvolvimento"** e ficam visíveis na tela de documentação.
 
 Estado atual: **195 componentes** registrados em `src/lib/cn-registry.tsx`.
@@ -91,17 +93,17 @@ Legenda status: ✅ pronto p/ absorver · 🟡 absorver com variante marcada `de
 
 ### Display
 
-| Super          | Absorve                                                            | Discriminador                                                             | Variantes em dev                         | Mantém separado                  |
-| -------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------- |
-| **Card**       | card, glass-card, glow-card, tilt-card, spotlight, gradient-border | `effect: 'none'\|'glass'\|'glow'\|'tilt'\|'spotlight'\|'gradient-border'` | 🟡 `effect="gradient-border"` (animação) | flip-card (estrutura front/back) |
-| **Stat**       | stat, metric-card, stats-card                                      | `mode: 'single'\|'metric'\|'grid'` (`+ sparkline`, `+ cols`)              | 🟡 `mode="metric"` sparkline inline      | —                                |
-| **Badge**      | badge, tag, status-badge, ping                                     | `mode: 'badge'\|'tag'\|'status'\|'ping'`                                  | —                                        | ribbon (overlay de canto)        |
-| **Kbd**        | kbd, shortcut-key                                                  | `keys?: string[]` (1 tecla vs sequência)                                  | —                                        | —                                |
-| **Accordion**  | accordion, accordion-group, multi-accordion, collapsible           | `multiple?: boolean` (collapsible = 1 item)                               | —                                        | —                                |
-| **Timeline**   | timeline, scroll-timeline, timeline-progress, activity-feed        | `variant: 'default'\|'scroll'\|'progress'\|'activity'`                    | 🟡 `variant="scroll"` (layout alternado) | —                                |
-| **TextEffect** | typewriter, morphing-text, text-gradient, animated-number          | `effect: 'typewriter'\|'morph'\|'gradient'\|'number'`                     | 🟡 `effect="morph"` (transição blur)     | —                                |
-| **Avatar**     | avatar, avatar-group                                               | `group?: boolean` + `items[]`                                             | —                                        | —                                |
-| **Background** | grid-pattern, particle-field                                       | `type: 'grid'\|'particles'` (SVG vs canvas interno)                       | 🟡 `type="particles"` (perf canvas)      | —                                |
+| Super          | Absorve                                                                                                                                                            | Discriminador                                                             | Variantes em dev                         | Mantém separado                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------ |
+| **Card**       | card, glass-card, glow-card, tilt-card, spotlight, gradient-border                                                                                                 | `effect: 'none'\|'glass'\|'glow'\|'tilt'\|'spotlight'\|'gradient-border'` | 🟡 `effect="gradient-border"` (animação) | flip-card (estrutura front/back)           |
+| **Stat**       | stat, metric-card, stats-card                                                                                                                                      | `mode: 'single'\|'metric'\|'grid'` (`+ sparkline`, `+ cols`)              | 🟡 `mode="metric"` sparkline inline      | —                                          |
+| **Badge**      | badge, tag, status-badge, ping                                                                                                                                     | `mode: 'badge'\|'tag'\|'status'\|'ping'`                                  | —                                        | ribbon (overlay de canto)                  |
+| **Kbd**        | kbd, shortcut-key                                                                                                                                                  | `keys?: string[]` (1 tecla vs sequência)                                  | —                                        | —                                          |
+| **Accordion**  | accordion, accordion-group, multi-accordion, collapsible                                                                                                           | `multiple?: boolean` (collapsible = 1 item)                               | —                                        | —                                          |
+| **Timeline**   | timeline, scroll-timeline, timeline-progress, activity-feed                                                                                                        | `variant: 'default'\|'scroll'\|'progress'\|'activity'`                    | 🟡 `variant="scroll"` (layout alternado) | —                                          |
+| **TextEffect** | typewriter, morphing-text, text-gradient, animated-number                                                                                                          | `effect: 'typewriter'\|'morph'\|'gradient'\|'number'`                     | 🟡 `effect="morph"` (transição blur)     | —                                          |
+| **Avatar**     | avatar, avatar-group                                                                                                                                               | `group?: boolean` + `items[]`                                             | —                                        | —                                          |
+| **Background** | ~~grid-pattern, particle-field~~ **grid-pattern apenas** (auditoria provou absorção falsa — particle-field é canvas real e independente, nunca unificado; ver §10) | `type: 'grid'`                                                            | —                                        | particle-field (canvas real, rota própria) |
 
 ### Feedback
 
@@ -119,9 +121,9 @@ Legenda status: ✅ pronto p/ absorver · 🟡 absorver com variante marcada `de
 
 ### Layout
 
-| Super         | Absorve                       | Discriminador           | Variantes em dev | Mantém separado                     |
-| ------------- | ----------------------------- | ----------------------- | ---------------- | ----------------------------------- |
-| **ScrollNav** | scroll-spy, table-of-contents | `variant: 'spy'\|'toc'` | —                | mini-map (preview visual da página) |
+| Super         | Absorve                                                                                                                                                                  | Discriminador    | Variantes em dev | Mantém separado                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ---------------- | ---------------------------------------------------------------------------- |
+| **ScrollNav** | ~~scroll-spy, table-of-contents~~ **scroll-spy apenas** (auditoria provou absorção falsa — table-of-contents é componente real e independente, nunca unificado; ver §10) | `variant: 'spy'` | —                | mini-map (preview visual da página) · table-of-contents (real, rota própria) |
 
 ### Overlays
 
@@ -221,13 +223,13 @@ Card (efeitos), Stat, Timeline, TextEffect, Progress, Table, Chart, Background, 
 
 ## 5. Mantidos separados (resumo + motivo)
 
-- **Canvas/render próprio:** signature-pad, particle-field (absorvido como variante dev de Background, mas render canvas isolado), mini-map.
+- **Canvas/render próprio:** signature-pad, ~~particle-field (absorvido como variante dev de Background, mas render canvas isolado)~~ **particle-field (componente real e independente — a absorção era falsa, ver §10)**, mini-map.
 - **Estrutura multi-elemento/dual-face:** otp-input, number-pad, flip-card.
 - **Templates de conteúdo (domínio fechado):** user-card, pricing-card, receipt-card, credit-card, video-card, note-card, chat-bubble.
-- **Wrappers estruturais (não selecionáveis):** input-group, button-group, split-button, fab, copy-button.
+- **Wrappers estruturais (não selecionáveis):** input-group, button-group, split-button, **fab** (absorve quick-actions de verdade desde a auditoria — ver §10), copy-button.
 - **Perf/wrapper:** virtual-list.
 - **Layout dedicado:** comparison-table, event-calendar.
-- **Comportamento único:** inline-edit, tag-input, autocomplete, color-picker, spinner, quick-actions, step-form, ribbon.
+- **Comportamento único:** inline-edit, tag-input, autocomplete, color-picker, spinner, ~~quick-actions~~ (absorvido por `fab`, ver §10), step-form, ribbon.
 
 ---
 
@@ -296,11 +298,11 @@ Input (number/currency/phone/floating-label), Select (multi/rich/combobox), Togg
 
 **Item 3 — demo-switching**: as telas de Chart e Text Effect leem `?type`/`?effect` (deep-link do CnVariantBar) e trocam o preview ao vivo.
 
-**Promoções**: 58 variantes `dev` → `stable`. Permanecem `dev` (mantidos catalog-absorb por divergência real): `grid-pattern?type=particles` (canvas vs SVG) e `scroll-spy?variant=toc`.
+**Promoções**: 58 variantes `dev` → `stable`. ~~Permanecem `dev` (mantidos catalog-absorb por divergência real): `grid-pattern?type=particles` (canvas vs SVG) e `scroll-spy?variant=toc`.~~ **Correção da auditoria**: essas duas nunca foram absorções de verdade — `particle-field` e `table-of-contents` são componentes reais e independentes, cada um com rota própria na sidebar. Ver §10.
 
-**Mantidos como componente à parte / catalog-absorb** (decisão por regressão/UX): context-card, time-picker, confirm-button (capacidade existe no Super, wrapper preservado), particle-field, table-of-contents, flip-card, virtual-list, comparison-table, event-calendar, otp-input, number-pad, signature-pad, tag-input, inline-edit, autocomplete, color-picker, spinner, quick-actions, step-form, ribbon, button-group, split-button, fab, copy-button.
+**Mantidos como componente à parte / catalog-absorb** (decisão por regressão/UX): ~~context-card~~ (era absorção **falsa** — `absorbs` dizia que sim mas `ContextCard.tsx` não delegava; corrigido na auditoria pra wrapper genuíno sobre `Tooltip variant="card"`), time-picker, confirm-button (capacidade existe no Super, wrapper preservado — confirmado, era `ConfirmButton.tsx` duplicado até a auditoria corrigir pra delegar de verdade), ~~particle-field, table-of-contents~~ (ambos reais e independentes, nunca absorvidos — ver acima), flip-card, virtual-list, comparison-table, event-calendar, otp-input, number-pad, signature-pad, tag-input, inline-edit, autocomplete, color-picker, spinner, ~~quick-actions~~ (absorvido de verdade por `fab` na auditoria), step-form, ribbon, button-group, split-button, fab, copy-button.
 
-**Resultado final: sidebar 197 total → 127 visíveis (70 absorvidos).** tsc limpo, `next build` verde.
+**Resultado final (na época): sidebar 197 total → 127 visíveis (70 absorvidos).** ~~tsc limpo, `next build` verde.~~ **Estado atual (pós-auditoria, 2026-08-29): 197 total → 139 visíveis (58 absorvidos)** — a contagem caiu porque 7 absorções falsas foram revertidas (componentes voltaram a aparecer na sidebar: activity-feed continua absorvido de verdade por Timeline, mas avatar-group/accordion-group+multi-accordion+collapsible/grid-pattern→~~particle-field~~/scroll-spy→~~table-of-contents~~/stepper→dot-stepper+progress-steps/badge→tag+status-badge+ping/input→~~password-input+search-input~~ voltaram a ser visíveis por serem reais e independentes), parcialmente compensado por 1 absorção nova genuína (fab ← quick-actions). Ver `docs/AUDITORIA-CN-STATUS.md`, pendência 0, pra metodologia completa de verificação.
 
 ### Item 4 — variant bar resolve irmãos absorvidos (`?v=<nome>`)
 
@@ -314,3 +316,27 @@ O resíduo de demo-switching foi resolvido com um modelo único e zero-regressã
 tsc limpo nos arquivos tocados, `next build` verde.
 
 **Documento aprovado.** Próximo passo: implementar na ordem das Fases 0→4 (§4).
+
+---
+
+## 10. Correções pós-auditoria (2026-08-29)
+
+A auditoria sistemática 9-gate de `docs/AUDITORIA-CN-STATUS.md` conferiu **todas** as ~20 entradas `absorbs:` deste plano contra o código real (abrindo o arquivo do Super e checando se existe de fato um dispatcher/`switch` que produz a MESMA funcionalidade do irmão, e não uma implementação solta). Resultado: a maioria das absorções estava correta, mas **8 casos estavam errados** — o registry dizia `absorbs: [...]` sem o Super de fato delegar/rotear pro irmão. Essas 8 (mais uma nona corrigida nesta sessão) foram tratadas assim:
+
+| Super                                                | Irmão(s) que o registry dizia absorvidos      | O que a auditoria achou                                                                                                | Resolução                                                                                                                                                                        |
+| ---------------------------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Avatar                                               | avatar-group                                  | Implementação paralela real, sem delegação                                                                             | `absorbs` removido — avatar-group voltou a aparecer na sidebar como componente próprio                                                                                           |
+| Accordion                                            | accordion-group, multi-accordion, collapsible | Implementações paralelas reais                                                                                         | `absorbs` removido dos 3 — todos voltaram a aparecer na sidebar                                                                                                                  |
+| Grid Pattern                                         | particle-field                                | particle-field é canvas real e independente, nunca foi unificado                                                       | `absorbs` removido — particle-field visível na sidebar (corrige §2 "Background" e §5 acima)                                                                                      |
+| Scroll Spy                                           | table-of-contents                             | table-of-contents é componente real e independente, nunca foi unificado                                                | `absorbs` removido — table-of-contents visível na sidebar (corrige §2 "ScrollNav" acima)                                                                                         |
+| Stepper                                              | dot-stepper, progress-steps                   | Implementações paralelas reais                                                                                         | `absorbs` removido dos 2 — ambos voltaram a aparecer na sidebar                                                                                                                  |
+| Badge                                                | tag, status-badge, ping                       | Implementações paralelas reais                                                                                         | `absorbs` removido dos 3 — todos voltaram a aparecer na sidebar                                                                                                                  |
+| Tooltip                                              | context-card (parcial)                        | `ContextCard.tsx` era standalone via CSS puro (`:hover`/`:focus-within`), zero delegação real pro Tooltip              | Corrigido pra valer: `ContextCard.tsx` reescrito como wrapper genuíno sobre `<Tooltip variant="card">` — `absorbs` agora é verdadeiro                                            |
+| Input                                                | password-input, search-input (parcial)        | Implementações paralelas reais (funcionalidade não-redundante)                                                         | `absorbs` removido dos 2 — ambos visíveis na sidebar                                                                                                                             |
+| Fab _(nova, não fazia parte da lista original de 8)_ | quick-actions                                 | Mesmo conceito (FAB circular + speed-dial) implementado 2x de forma independente, sem nenhum `absorbs` ligando os dois | Fab ganhou `position="inline"`/`placement`/`intent` por ação (as 3 features exclusivas do QuickActions) — `QuickActions.tsx` virou wrapper genuíno, `absorbs` agora é verdadeiro |
+
+Achado correlato: **`confirm-button`** (família Button) tinha `absorbs` tecnicamente correto no registry, mas `ConfirmButton.tsx` era uma reimplementação standalone duplicada, não um wrapper de verdade — corrigido pra delegar pro `Button` de fato.
+
+**Contagem real hoje**: 197 componentes no registry, 58 nomes absorvidos → **139 visíveis na sidebar** (não 127 como o §9 registrou na época — aquele número já contava as absorções falsas acima como reduções válidas).
+
+**Fonte de verdade daqui pra frente**: `docs/AUDITORIA-CN-STATUS.md`, seção "pendência 0", documenta o critério exato usado pra validar `absorbs` e a lista completa de absorções confirmadas verdadeiras (`Table`, `Progress`, `Timeline`, `Chart`, `Modal`, `Command`, `DropdownMenu`, `ToggleGroup`, `Stat`, `DatePicker`, `Kbd`, `Tooltip`, `Card`, `Button`, `Input`, `Select`, `Rating`, `Slider`, `TextEffect`, `Fab`). Se um novo Super for adicionado no futuro com `absorbs`, aplicar o mesmo critério antes de confiar no campo — não assumir que `absorbs: [...]` no registry implica delegação real sem abrir o arquivo do Super e conferir.
