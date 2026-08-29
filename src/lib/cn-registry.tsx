@@ -3738,7 +3738,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "rows",
         type: "ComparisonRow[]",
         required: true,
-        description: "Linhas: { feature, group?, values: Record<key, boolean|string|ReactNode> }",
+        description: "Linhas: { feature, group?, values: Record<key, boolean|string|ReactNode>, tooltip? }",
       },
       {
         name: "stickyHeader",
@@ -3746,6 +3746,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "false",
         description: "Fixa o cabeçalho ao rolar",
       },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T02:11:22.091Z",
+  "generatedAt": "2026-08-29T02:27:37.859Z",
   "items": [
     {
       "name": "accordion",
@@ -473,7 +473,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["badge", "tooltip"]
     },
     {
       "name": "confetti-button",

@@ -1247,7 +1247,12 @@ function ComparisonTableDemo() {
   const rows = [
     { group: "Features", feature: "Projects", values: { free: "3", pro: "Unlimited", team: "Unlimited" } },
     { group: "Features", feature: "Team members", values: { free: "1", pro: "5", team: "Unlimited" } },
-    { group: "Features", feature: "Storage", values: { free: "1 GB", pro: "50 GB", team: "500 GB" } },
+    {
+      group: "Features",
+      feature: "Storage",
+      values: { free: "1 GB", pro: "50 GB", team: "500 GB" },
+      tooltip: "Storage counts uploaded files and generated assets combined.",
+    },
     { group: "Collaboration", feature: "Sharing", values: { free: false, pro: true, team: true } },
     { group: "Collaboration", feature: "Comments", values: { free: false, pro: true, team: true } },
     { group: "Collaboration", feature: "Roles & permissions", values: { free: false, pro: false, team: true } },
