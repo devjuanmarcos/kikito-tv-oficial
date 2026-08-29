@@ -4,13 +4,15 @@ Pré-requisito: `../motion-infrastructure/PLAN.md` resolvido primeiro (dependên
 
 Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "Feature" vem de grep automático (`AnimatePresence`, `whileHover`, `whileTap`, `layoutId`, `staggerChildren`, `useSpring`) — confirmar lendo o arquivo antes de portar, o grep só aponta onde olhar primeiro. Caminhos relativos a `shadcndashboard/src/components/`.
 
-## `accordion`
+## `accordion` — ❌ não portado, sem fit real
 
 | Origem                                                         | Feature                                 | Nota                                                                                                             |
 | -------------------------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `shadcn-dashboard-library/variants/accordion/accordion-07.tsx` | (sem flag — checar transição de altura) | Provável `height: auto` animado no expand, alternativa ao `grid-template-rows` CSS que o `AccordionGroup` já usa |
 
-## `animated-list`
+**Por que não**: a nota acima era um chute — a origem NÃO anima altura (o `Accordion` deles é Radix puro, resolve via CSS grid nativo do shadcn, igual ao `max-height` CSS que a Kikito CN já usa). O `motion` real ali é: bolha numerada morphing (escala/opacidade), título com color+x-shift, ícone `+`→`×` rotacionando — tudo amarrado a um layout de **trigger numerado por etapa** (`number: "01"`) que o `Accordion` da Kikito CN não tem (API genérica label+icon). Portar exigiria redesenhar a API do trigger pra uma forma de conteúdo que só essa demo usa — sem pedido explícito, não vale forçar.
+
+## `animated-list` — ❌ não portado, formas diferentes de widget
 
 | Origem                                                                 | Feature           | Nota                                                                                                              |
 | ---------------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -19,11 +21,15 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | `shadcn-dashboard-library/variants/animated-list/animated-list-03.tsx` | `AnimatePresence` | Variante 3                                                                                                        |
 | `animated-components/list-animation.tsx`                               | (sem flag)        | Candidato a stagger simples — já existe `AnimatedList` na Kikito CN, comparar se agrega algo novo antes de portar |
 
-## `table` / `data-grid` / `data-list`
+**Por que não**: a origem é um _feed de notificação rolante_ — revela item por item sozinho ao longo do tempo (`setTimeout`), sem remoção. A `AnimatedList` da Kikito CN é _stagger estático no mount_ (sem add/remove ao vivo). Formas de widget diferentes, não uma versão desatualizada da mesma coisa. O gap de acessibilidade que `motion`+`MotionConfig` resolveria (reduced-motion) já é coberto pro caso da Kikito CN por um reset CSS global separado (ver `CLAUDE.md` §Animação, item 2) — migrar pra `motion` só por consistência, sem ganho real de capacidade, não compensa o risco de regressão num componente já em uso.
+
+## `table` / `data-grid` / `data-list` — ⏸️ decisão de design pendente, não mexido
 
 | Origem                                   | Feature           | Nota                                                                                                               |
 | ---------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `animated-components/animated-table.tsx` | `staggerChildren` | Linhas da tabela entrando em sequência — decidir se vai pra `Table` base ou fica restrito a um exemplo de showcase |
+
+**Por que não (ainda)**: a origem faz sentido pra uma tabela de demo com 4-5 linhas fixas (`delay: index * 0.25` — quase 1.5s pra tabela toda entrar). O `Table`/`DataTable` da Kikito CN (`src/components/ui/cn/table/Table.tsx`, 1300+ linhas) é um data-grid completo com sort/filtro/paginação — aplicar stagger de entrada por padrão faria a animação **re-disparar a cada reordenação/filtro** (péssima UX) e não escalaria pra tabelas de 20-50 linhas sem um cap. Precisa de uma decisão de produto (opt-in via prop? só no mount inicial? cap de linhas?) antes de virar código — não é um port mecânico como os outros itens desta lista.
 
 ## `input` / `floating-label-input`
 
@@ -57,12 +63,20 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | `shadcn-dashboard-library/variants/badge/badge-08.tsx` | (sem flag) | —                                                                      |
 | `shadcn-dashboard-library/variants/badge/badge-09.tsx` | (sem flag) | —                                                                      |
 
-## `context-menu`
+## `context-menu` — ✅ abertura do painel já coberta; achado real corrigido de passagem no `ClickMenu`
 
-| Origem                                                               | Feature                                     | Nota                              |
-| -------------------------------------------------------------------- | ------------------------------------------- | --------------------------------- |
-| `shadcn-dashboard-library/variants/context-menu/context-menu-01.tsx` | `AnimatePresence`, `whileHover`             | Abertura do menu + hover de item  |
-| `shadcn-dashboard-library/variants/context-menu/context-menu-02.tsx` | `AnimatePresence`, `whileHover`, `whileTap` | Variante com press também animado |
+| Origem                                                               | Feature                                     | Nota                                                                     |
+| -------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------ |
+| `shadcn-dashboard-library/variants/context-menu/context-menu-01.tsx` | `AnimatePresence`, `whileHover`             | ✅ Painel — ver abaixo. `whileHover` (x:4 no item) não portado, ver nota |
+| `shadcn-dashboard-library/variants/context-menu/context-menu-02.tsx` | `AnimatePresence`, `whileHover`, `whileTap` | Idem — mesma decisão                                                     |
+
+**O que foi feito**: o `ContextMenuImpl` (trigger `right-click`) dentro de `DropdownMenu.tsx` já tinha `AnimatePresence` + `motion.div` com `scaleIn`/`transitionStandard` de uma migração anterior desta sessão (Modal/Select/DropdownMenu) — a animação de abertura/fechamento do painel pedida por esta origem já estava feita, nada a portar aqui.
+
+**Achado real corrigido de passagem**: o `ClickMenu` (trigger `click`, o dropdown padrão — usado por bem mais componentes que o context-menu) ainda estava em CSS puro (`transition-[opacity,transform] duration-[140ms]`, número mágico fora dos tokens) e **sem nenhuma animação de saída** — o portal era montado/desmontado direto no `open &&`, então fechar o menu era instantâneo, sem fade. Migrado pro mesmo padrão do `ContextMenuImpl`: `AnimatePresence` sempre envolvendo o `createPortal`, `motion.div` com `initial`/`animate`/`exit` + `transitionStandard`, preservando a lógica de medição de posição existente (`ready` state via `requestAnimationFrame` — sem isso o menu apareceria por um frame na posição errada antes de reposicionar). Verificado manualmente no browser: abrir/fechar por clique fora e clicar num item — painel entra e sai com fade+scale, posicionamento correto, sem regressão nas outras 2 variantes (`ContextMenuImpl`, `HoverMenu`) que não foram tocadas.
+
+**Não portado, decisão deliberada**: `whileHover` (x:4 no item ao passar o mouse) das origens — os itens de menu da Kikito CN (`renderMenuItem` e os dois outros triggers) usam consistentemente hover por cor de fundo (`hover:bg-graphite`/`hover:bg-patina-soft`), nunca deslocamento horizontal. Portar o x-shift só na variante `ClickMenu` criaria uma inconsistência entre triggers do mesmo componente pra um ganho estético pequeno — não vale.
+
+`e2e/cn/overlays/dropdown-menu.spec.ts` já cobria abrir/fechar/click-outside/Escape/click-item do `ClickMenu` — 10/10 chromium-desktop + mobile-chrome, zero regressão (firefox-desktop falhou por binário do Playwright não instalado nesta máquina, não relacionado à mudança).
 
 ## `file-upload` — ✅ animação de entrada/saída da lista de arquivos portada (adaptada, não `layoutId`)
 

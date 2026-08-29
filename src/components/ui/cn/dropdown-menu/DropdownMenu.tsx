@@ -170,25 +170,30 @@ function ClickMenu({ items, placement = "bottom-start", children }: Omit<Dropdow
   return (
     <>
       {triggerEl}
-      {open &&
-        createPortal(
-          <div
-            ref={menuRef}
-            id={menuId}
-            role="menu"
-            className={cn(
-              "fixed z-[1200] min-w-[160px] max-w-[280px] p-(--spacing-2xs)",
-              "bg-raised border border-rule rounded-(--radius-md)",
-              "shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]",
-              "transition-[opacity,transform] duration-[140ms]",
-              ready ? "opacity-100 scale-100" : "opacity-0 scale-[0.97]"
-            )}
-            style={{ top: pos.top, left: pos.left }}
-          >
-            {items.map((entry, i) => renderMenuItem(entry, i, () => setOpen(false)))}
-          </div>,
-          document.body
-        )}
+      {createPortal(
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              ref={menuRef}
+              id={menuId}
+              role="menu"
+              className={cn(
+                "fixed z-[1200] min-w-[160px] max-w-[280px] p-(--spacing-2xs)",
+                "bg-raised border border-rule rounded-(--radius-md)",
+                "shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35),0_0_0_1px_oklch(0%_0_0/0.06)]"
+              )}
+              style={{ top: pos.top, left: pos.left }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: ready ? 1 : 0, scale: ready ? 1 : 0.97 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={transitionStandard}
+            >
+              {items.map((entry, i) => renderMenuItem(entry, i, () => setOpen(false)))}
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }
