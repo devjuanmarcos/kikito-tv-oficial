@@ -20,6 +20,9 @@ function buildPattern(type: string, size: number, color: string): string {
 export function GridPattern({
   type = "dots",
   size = 24,
+  // currentColor: cor é embutida numa data-URI de SVG gerada em runtime — não dá pra usar
+  // classe Tailwind aí. Herdar de currentColor deixa o consumidor controlar via text-* no
+  // pai, sem precisar de valor cru hardcoded
   color = "currentColor",
   opacity = 0.15,
   className,

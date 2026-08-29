@@ -3452,7 +3452,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       { name: "type", type: "'dots' | 'lines' | 'cross' | 'grid'", default: "'dots'", description: "Estilo do padrão" },
       { name: "size", type: "number", default: "24", description: "Espaçamento do padrão (px)" },
-      { name: "color", type: "string", description: "Cor das linhas/pontos" },
+      { name: "color", type: "string", default: "'currentColor'", description: "Cor das linhas/pontos" },
       { name: "opacity", type: "number", default: "0.15", description: "Opacidade do padrão" },
       { name: "children", type: "React.ReactNode", description: "Conteúdo sobreposto ao padrão" },
       { name: "className", type: "string", description: "Classes CSS extras" },
