@@ -21,7 +21,7 @@ export function ButtonGroup({
       className={cn(
         "inline-flex",
         isH ? "flex-row" : "flex-col",
-        attached ? "items-stretch" : isH ? "flex-row gap-(--spacing-sm)" : "flex-col gap-(--spacing-sm)",
+        attached ? "items-stretch" : "gap-(--spacing-sm)",
         attached && [
           "[&>*:not(:first-child):not(:last-child)]:rounded-none",
           isH
