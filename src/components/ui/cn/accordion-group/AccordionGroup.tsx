@@ -97,7 +97,7 @@ export function AccordionGroup({
                 isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
               )}
             >
-              <div className="px-(--spacing-lg) pb-(--spacing-lg) text-body-paragraph text-faint">{item.content}</div>
+              <div className="px-(--spacing-lg) pb-(--spacing-lg) text-body-paragraph text-muted">{item.content}</div>
             </div>
           </div>
         );

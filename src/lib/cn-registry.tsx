@@ -7285,17 +7285,17 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "items",
         type: "AccordionGroupItem[]",
         required: true,
-        description: "Painéis { id, title, content, disabled, intent }",
+        description: "Painéis { id, trigger, content, disabled? }",
       },
       {
         name: "type",
-        type: "'single' | 'multiple'",
+        type: "'single' | 'multi'",
         default: "'single'",
         description: "Quantos painéis podem abrir simultaneamente",
       },
       {
         name: "variant",
-        type: "'default' | 'separated' | 'ghost'",
+        type: "'default' | 'card' | 'flush'",
         default: "'default'",
         description: "Estilo visual",
       },
@@ -7303,6 +7303,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "value", type: "string | string[]", description: "IDs abertos (controlado)" },
       { name: "onChange", type: "(value: string | string[]) => void", description: "Callback ao abrir/fechar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── aspect-ratio
