@@ -1988,12 +1988,17 @@ Depois de resolver essas 4, seguir a ordem geral do `docs/UNIFICACAO-COMPONENTES
 6. Fonte de verdade das regras de token (cor/tipografia/radius/spacing): **CLAUDE.md na raiz do projeto** — já atualizado, único lugar que precisa ficar em sincronia com o skill `/validate-component`.
    7b. `?? ` misturado com `||` sem parênteses (`a ?? b || c`) é erro de sintaxe real (regra do ECMAScript), mas nem `tsc --noEmit` nem `eslint` acusaram nesta sessão — só o compilador de verdade do dev server (SWC/webpack) rejeitou, derrubando a rota inteira com 500 (achado no `SignaturePad`, Playwright que revelou via `page.goto` travando/erro 500, não lint/typecheck). Sempre que introduzir `??` misturado com `||`/`&&` na mesma expressão, parenteses explícitos são obrigatórios — e `tsc`/`eslint` não são suficientes como única rede de segurança pra isso, só rodar a página de verdade confirma.
 7. `eslint-disable-next-line` num atributo JSX que fica em linha própria (padrão do Prettier pra tags com múltiplos atributos) não sobrevive a uma reformatação futura — o Prettier pode reindentar e a diretiva passa a apontar pra linha errada. Pra atributo único (ex: `tabIndex={0}`), usar `// eslint-disable-line <regra>` **na mesma linha do atributo** — sobrevive a `prettier --write` porque o comentário fica preso à linha, não à posição.
+8. **Achado novo, sessão que fechou as pendências 0b/0c/1/4b**: o Browser pane (navegação manual) e o Playwright (`npx playwright test`) são dois processos de browser **completamente separados**, e depois de muitas navegações manuais acumuladas numa sessão longa, o Browser pane pode entrar num estado onde QUALQUER rota trava com `TypeError: Cannot read properties of undefined (reading 'call')` (erro genérico de módulo webpack) — mesmo depois de `rm -rf .next` + restart limpo do servidor + aba nova. Confirmado que isso é 100% artefato do Browser pane/dev-mode do Next (compilação on-demand + navegação entre rotas compiladas em momentos diferentes pode corromper o runtime webpack do cliente) e **não reflete bug real de componente**: rodar a MESMA rota via `npx playwright test` (contexto de browser isolado e fresco a cada teste) sempre passou limpo quando o Browser pane travava. **Regra**: se o Browser pane travar com esse erro específico depois de várias navegações numa sessão longa, não insistir tentando `rm -rf .next`/restart/aba nova repetidamente — validar via Playwright direto (mais rápido e confiável) e seguir em frente.
 
 ---
 
-## Como retomar numa sessão nova/contexto limpo
+## Status desta auditoria
+
+Cobertura de componentes: **✅ ESGOTADA** — duas varreduras independentes de lacunas (extração de todo `group/name` mencionado no doc vs todas as pastas em `src/components/ui/cn/`, filtrando absorções confirmadas verdadeiras) não encontraram nenhum componente sem os 9 gates. Todas as pendências numeradas (0, 0b, 0c, 1, 2, 3, 4, 4b) estão fechadas. Os itens que restam na seção "Regras operacionais" acima são lições permanentes de processo, não tarefas pendentes.
+
+Se uma sessão futura quiser continuar o trabalho:
 
 1. Ler este arquivo inteiro + `CLAUDE.md`.
-2. Rodar `git log --oneline -5` e `git status` pra confirmar que nada mudou desde `dfc7c49`.
-3. Continuar `display/tabs` a partir de "Gate 3 tipografia" (ver seção acima), ou invocar `/validate-component display/tabs` de novo (o skill vai re-verificar do zero, o que é seguro mesmo com os 2 fixes já aplicados).
-4. Não assumir os itens "suspeito, não testado" da seção de achados pendentes — testar cada um antes de tocar.
+2. Rodar `git log --oneline -10` e `git status` pra confirmar o estado atual.
+3. Rodar uma nova varredura de cobertura (grep de headings "— concluído" vs pastas de `src/components/ui/cn/`) só pra confirmar que nenhum componente novo foi adicionado ao pacote sem auditoria — o método está documentado na pendência 0 acima.
+4. Sem gap de cobertura novo, considerar a auditoria sistemática concluída; qualquer trabalho futuro provavelmente é manutenção pontual (bug reportado, componente novo adicionado à lib) em vez de uma varredura completa nova.
