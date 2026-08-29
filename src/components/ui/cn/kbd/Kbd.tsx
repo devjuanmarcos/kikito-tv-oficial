@@ -42,7 +42,13 @@ const SIZE: Record<KbdSize, string> = {
 const VARIANT: Record<KbdVariant, string> = {
   default: "bg-graphite border border-rule text-foreground shadow-[0_1px_0_0_var(--ks-rule)]",
   ghost: "bg-transparent border border-rule text-faint",
-  solid: "bg-foreground text-base border border-foreground",
+  // text-[color:var(--color-base)] (não `text-base`): achado real — `text-base` nesta base
+  // é AMBÍGUO, o Tailwind gera tanto a cor (`--color-base` do tema) quanto o font-size nativo
+  // (1rem) sob o mesmo nome. `tailwind-merge` (dentro do `cn()`) só reconhece a face
+  // font-size (não sabe da customização de cor) e por isso descartava o `text-[Nrem]` de
+  // `SIZE[size]` como "conflito" — todo Kbd `variant="solid"` renderizava sempre a 16px,
+  // ignorando a prop `size`. Forma explícita `color:` evita a ambiguidade nas duas pontas.
+  solid: "bg-foreground text-[color:var(--color-base)] border border-foreground",
 };
 
 export function Kbd({ size = "md", variant = "default", className, children, ...props }: KbdProps) {

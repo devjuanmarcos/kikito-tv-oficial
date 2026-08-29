@@ -38,7 +38,7 @@ function StarIcon({ filled, half }: { filled: boolean; half: boolean }) {
 
 // gap/textSz: escala própria do componente por size, sem match exato na escala de spacing (sm/md)
 const SIZE_CLS: Record<string, { gap: string; sz: string; textSz: string }> = {
-  sm: { gap: "gap-[2px]", sz: "w-4 h-4", textSz: "text-base" },
+  sm: { gap: "gap-[2px]", sz: "w-4 h-4", textSz: "text-body-paragraph" },
   md: { gap: "gap-[3px]", sz: "w-[22px] h-[22px]", textSz: "text-body-title" },
   lg: { gap: "gap-1", sz: "w-[30px] h-[30px]", textSz: "text-heading-05" },
 };

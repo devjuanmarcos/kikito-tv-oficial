@@ -190,8 +190,8 @@ export function CnSidebar() {
           background: color-mix(in oklch, var(--ks-primary) 14%, transparent); color: var(--ks-primary);
         }
         .cns-chip--dev {
-          background: color-mix(in oklch, var(--ks-warning, #b8860b) 18%, transparent);
-          color: var(--ks-warning, #b8860b);
+          background: color-mix(in oklch, var(--ks-warning) 18%, transparent);
+          color: var(--ks-warning);
         }
         .cns-empty { padding: 0.75rem 1rem; font-size: 0.8125rem; color: var(--ks-text-faint); }
 
