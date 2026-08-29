@@ -8424,6 +8424,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onSelect", type: "(id: string, node: TreeNode) => void", description: "Callback ao selecionar nó" },
       { name: "onExpand", type: "(expanded: string[]) => void", description: "Callback ao expandir/colapsar" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── vertical-nav
