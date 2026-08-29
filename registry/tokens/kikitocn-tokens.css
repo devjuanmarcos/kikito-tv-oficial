@@ -543,3 +543,31 @@
     transform: translateY(0) scale(1);
   }
 }
+
+/* ── prefers-reduced-motion (pendência 4 da auditoria Kikito CN) ──────────
+   Nenhum @keyframes acima (nem os do plugin tailwindcss-animate consumido
+   via `animate-in`/`fade-in`/`slide-in-from-*`, nem os `animate-[...]`
+   arbitrários usados em componentes como Progress) respeitava a preferência
+   de movimento reduzido do usuário — confirmado real no AnimatedList durante
+   a auditoria, suspeito em todo o resto por usarem a mesma folha de tokens.
+   Em vez de caçar cada classe/keyframe individualmente (frágil: qualquer
+   `animate-[...]` arbitrário novo escaparia da lista), reset global de
+   duração — abordagem padrão recomendada (ex.: html5-boilerplate) que
+   neutraliza QUALQUER animação/transição CSS, atual ou futura, sem exigir
+   que cada componente novo lembre de checar a media query manualmente.
+   Este arquivo é importado em `globals.css` pro app inteiro (não só cn/),
+   o que é o comportamento correto aqui: a preferência de acessibilidade do
+   usuário deve valer pro dashboard também, não é uma questão de vocabulário
+   de tokens (que continua separado normalmente). `!important` é necessário
+   pra vencer qualquer `duration-*`/`animate-*` mais específico já aplicado
+   inline via classe Tailwind. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
