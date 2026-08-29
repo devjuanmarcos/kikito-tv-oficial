@@ -1,5 +1,7 @@
 "use client";
 
+import type { MenuItem } from "@/components/ui/cn/dropdown-menu/dropdown-menu.types";
+import { DropdownMenu } from "@/components/ui/cn/dropdown-menu/DropdownMenu";
 import { cn } from "@/lib/utils";
 
 import type { BreadcrumbProps, BreadcrumbItem } from "./breadcrumb.types";
@@ -17,14 +19,33 @@ const DefaultSeparator = () => (
   </svg>
 );
 
-function buildVisible(items: BreadcrumbItem[], maxItems?: number): (BreadcrumbItem | "…")[] {
+interface EllipsisSlot {
+  collapsed: BreadcrumbItem[];
+}
+
+function buildVisible(items: BreadcrumbItem[], maxItems?: number): (BreadcrumbItem | EllipsisSlot)[] {
   if (!maxItems || items.length <= maxItems) return items;
   const keep = Math.max(maxItems - 1, 2);
   const tailCount = Math.floor((keep - 1) / 2);
   const headCount = keep - 1 - tailCount;
   const head = items.slice(0, headCount);
+  const collapsed = items.slice(headCount, items.length - tailCount - 1);
   const tail = items.slice(items.length - tailCount - 1);
-  return [...head, "…", ...tail];
+  return [...head, { collapsed }, ...tail];
+}
+
+function isEllipsisSlot(item: BreadcrumbItem | EllipsisSlot): item is EllipsisSlot {
+  return Object.prototype.hasOwnProperty.call(item, "collapsed");
+}
+
+function toMenuItem(item: BreadcrumbItem, idx: number): MenuItem {
+  return {
+    type: "item",
+    value: `${item.label}-${idx}`,
+    label: item.label,
+    icon: item.icon,
+    onClick: item.onClick ?? (item.href ? () => window.location.assign(item.href!) : undefined),
+  };
 }
 
 const SIZE_CLS: Record<string, string> = {
@@ -46,7 +67,6 @@ export function Breadcrumb({ items, separator, maxItems, size = "md", className,
       <ol className="flex flex-wrap items-center gap-0 list-none m-0 p-0">
         {visible.map((item, idx) => {
           const isLast = idx === visible.length - 1;
-          const isEllipsis = item === "…";
 
           return (
             <li key={idx} className="flex items-center">
@@ -59,13 +79,19 @@ export function Breadcrumb({ items, separator, maxItems, size = "md", className,
                 </span>
               )}
 
-              {isEllipsis ? (
-                <span
-                  className="inline-flex items-center py-(--spacing-xs) text-faint tracking-[0.05em]"
-                  aria-hidden="true"
+              {isEllipsisSlot(item) ? (
+                <DropdownMenu
+                  items={item.collapsed.map((collapsedItem, i) => toMenuItem(collapsedItem, i))}
+                  placement="bottom-start"
                 >
-                  …
-                </span>
+                  <button
+                    type="button"
+                    className="inline-flex items-center py-(--spacing-xs) px-(--spacing-2xs) text-faint tracking-[0.05em] rounded-sm hover:text-foreground hover:bg-graphite transition-colors duration-[140ms]"
+                    aria-label={`Mostrar ${item.collapsed.length} itens ocultos`}
+                  >
+                    …
+                  </button>
+                </DropdownMenu>
               ) : isLast ? (
                 // gap-[0.3125rem] (5px): below spacing scale minimum, sem match exato
                 <span

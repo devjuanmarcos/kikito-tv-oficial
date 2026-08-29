@@ -35,6 +35,16 @@ test.describe("Breadcrumb", () => {
     await expect(frame.getByText("…", { exact: true })).toBeVisible();
   });
 
+  test("elipse é clicável e abre dropdown com os itens ocultos", async ({ page }) => {
+    const frame = page.locator('text="Collapsed (maxItems=3)"').locator("..");
+    const ellipsisBtn = frame.getByRole("button", { name: /Mostrar \d+ itens ocultos/ });
+    await expect(ellipsisBtn).toBeVisible();
+    await ellipsisBtn.click();
+    // itens colapsados por buildVisible() no meio de ["Home","Library","Components","Breadcrumb"] com maxItems=3
+    await expect(page.getByRole("button", { name: "Library" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Components" })).toBeVisible();
+  });
+
   test("item com href é um link clicável", async ({ page }) => {
     const frame = page.locator('text="Default (md)"').locator("..");
     await expect(frame.getByRole("link", { name: "Home" })).toBeVisible();

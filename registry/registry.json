@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T22:38:22.550Z",
+  "generatedAt": "2026-08-29T23:50:41.121Z",
   "items": [
     {
       "name": "utils",
@@ -223,7 +223,7 @@
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["utils"]
+      "registryDependencies": ["dropdown-menu", "utils"]
     },
     {
       "name": "button",

@@ -4,8 +4,8 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 
 ## Batch A — CSS/prop simples, sem motion novo
 
-- [ ] `bar-chart` — orientação horizontal
-- [ ] `breadcrumb` — ellipsis clicável → dropdown
+- [x] `bar-chart` — orientação horizontal (commit `e20196a`)
+- [x] `breadcrumb` — ellipsis clicável → dropdown
 - [ ] `carousel` — indicador "1/N"
 - [ ] `input` — contador de caracteres
 - [ ] `scroll-area` — fade nas bordas
