@@ -141,6 +141,32 @@
   --spacing-xl: 1.5rem; /* step 6 */
   --spacing-2xl: 2rem; /* step 8 */
   --spacing-3xl: 3rem; /* step 12 */
+
+  /* ── Motion (duração/easing) ──
+     Ancorado em uso real, não inventado — auditoria de frequência de
+     `duration-[Nms]`/`duration-N` em src/components/ui/cn/** (2026-08-29,
+     ver docs/component-import/motion-infrastructure/PLAN.md): 150ms (37
+     ocorrências), 200ms (27) e 80ms (21) são os valores dominantes reais,
+     batem exato com fast/standard/instant abaixo. slow/slower cobrem a
+     cauda mais rara (300ms×5, 500ms×1) — mesma metodologia já usada pra
+     ancorar spacing nos steps do Tailwind. */
+  --ks-motion-instant: 80ms;
+  --ks-motion-fast: 150ms;
+  --ks-motion-standard: 200ms;
+  --ks-motion-slow: 300ms;
+  --ks-motion-slower: 500ms;
+
+  /* --ks-motion-ease-standard reusa a curva de --ease-out-quint (já definida
+     acima, mas sem consumidor real até agora) — fonte única do valor, dois
+     nomes pro mesmo bezier durante a transição pro vocabulário --ks-motion-*. */
+  --ks-motion-ease-standard: var(--ease-out-quint);
+  --ks-motion-ease-decelerate: cubic-bezier(0, 0, 0.2, 1); /* entrada — desacelera até parar */
+  --ks-motion-ease-accelerate: cubic-bezier(0.4, 0, 1, 1); /* saída — acelera até sumir */
+
+  /* Distância padrão de deslocamento em transições de entrada/saída (slide-in/slide-up) */
+  --ks-motion-distance-sm: 8px;
+  --ks-motion-distance-md: 16px;
+  --ks-motion-distance-lg: 24px;
 }
 
 /* Violet + rose — light values (no template equivalent) */

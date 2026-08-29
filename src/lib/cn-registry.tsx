@@ -1393,7 +1393,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "inputs",
     description: "Custom dropdown with option groups, search, clearable, state variants and multi/rich/combobox modes.",
     filePath: "src/components/ui/cn/select/Select.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     absorbs: ["multi-select", "rich-select", "combobox"],
     keywords: [
       "multiselect",
@@ -6635,7 +6635,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "overlays",
     description: "Accessible dialog portal with focus trap, 5 sizes and modal/alert/drawer/side-panel variants.",
     filePath: "src/components/ui/cn/modal/Modal.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     absorbs: ["alert-dialog", "drawer", "side-panel"],
     keywords: ["dialog", "alert dialog", "alert-dialog", "drawer", "side panel", "side-panel", "sheet"],
     variants: [
@@ -7458,6 +7458,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "overlays",
     description: "Triggered menu (click/right-click/hover) with grouped items, icons, shortcuts and separators.",
     filePath: "src/components/ui/cn/dropdown-menu/DropdownMenu.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     absorbs: ["context-menu", "floating-menu"],
     keywords: ["context menu", "context-menu", "right click", "floating menu", "floating-menu", "menu"],
     variants: [

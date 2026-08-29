@@ -109,6 +109,41 @@ Cada token bate exato com um step numérico já usado — migrar uma classe (`ga
 3. Se estrutural e não bate exato (raro, dado que a escala cobre os steps 0.5–12) → documentar comentário explicando o valor.
 4. Nunca introduzir spacing novo fora da escala numérica do Tailwind ou dos tokens semânticos sem comentário explicando o porquê.
 
+## Animação — Kikito CN (`src/components/ui/cn/**`)
+
+6ª categoria de token, mesma lógica de Cores/Tipografia/Radius/Spacing acima. Fonte: `src/styles/kikitocn-tokens.css` (bloco `--ks-motion-*`, fora do `@theme inline`, mesmo padrão de spacing) + `src/lib/motion/` (camada TS que espelha os valores pra consumo direto nas props do pacote `motion`).
+
+### Tokens CSS
+
+| Token                           | Valor                            | Uso                                                                                             |
+| ------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `--ks-motion-instant`           | 80ms                             | Micro-interação mais rápida (ex.: rotação de ícone)                                             |
+| `--ks-motion-fast`              | 150ms                            | Padrão de transições pequenas — valor mais frequente já em produção antes deste sistema existir |
+| `--ks-motion-standard`          | 200ms                            | Padrão de painéis/menus (dropdown, select)                                                      |
+| `--ks-motion-slow`              | 300ms                            | Transições maiores, mais deliberadas                                                            |
+| `--ks-motion-slower`            | 500ms                            | Teto — raro, só pra movimento genuinamente grande                                               |
+| `--ks-motion-ease-standard`     | `cubic-bezier(0.22, 1, 0.36, 1)` | Curva padrão (mesma de `--ease-out-quint`, já existente)                                        |
+| `--ks-motion-ease-decelerate`   | `cubic-bezier(0, 0, 0.2, 1)`     | Entrada — desacelera até parar                                                                  |
+| `--ks-motion-ease-accelerate`   | `cubic-bezier(0.4, 0, 1, 1)`     | Saída — acelera até sumir                                                                       |
+| `--ks-motion-distance-sm/md/lg` | 8px / 16px / 24px                | Deslocamento em variantes de entrada/saída (slide-in/slide-up)                                  |
+
+### Presets TS (`src/lib/motion`, import único via `@/lib/motion`)
+
+| Export                                                                                     | O que é                                                                                                                    |
+| ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `MOTION_DURATION` / `MOTION_EASE` / `MOTION_DISTANCE` / `MOTION_SPRING`                    | Espelham os tokens CSS acima em número (segundos/px), pra props do `motion`                                                |
+| `fadeIn`, `scaleIn`, `scaleInDown`, `scaleInVertical`, `slideInUp`                         | `Variants` nomeadas — vocabulário próprio de entrada/saída, nunca inventar `initial`/`animate`/`exit` solto num componente |
+| `transitionInstant/Fast/Standard/Slow`, `transitionEnter/Exit`                             | `Transition` (tween) nomeadas                                                                                              |
+| `springGentle` (150/25, colhido do `Modal`) / `springSnappy` (350/25, colhido do `Select`) | `Transition` (spring) nomeadas                                                                                             |
+| `staggerContainer(staggerDelay?, delayChildren?)`                                          | Orquestra entrada sequencial de filhos                                                                                     |
+
+### Regras
+
+1. Componente novo que anima via `motion` **nunca** usa número mágico solto (`transition={{ duration: 0.2 }}`) — sempre um preset de `@/lib/motion`. Se o padrão de origem não existir ainda, adicionar ao preset primeiro (ver `docs/component-import/motion-infrastructure/PLAN.md`).
+2. `reducedMotion="user"` aplicado globalmente via `<MotionConfig>` em `src/providers/ThemeProvider.tsx` — cobre toda animação `motion` automaticamente. **Não cobre CSS** (`@keyframes`/`transition-*` do Tailwind) — esse caso já tem reset global próprio em `kikitocn-tokens.css` (ver seção de bug latente / auditoria).
+3. Componente que importa `motion` declara `peerDeps: ["@/lib/motion", "motion"]` no registry (`cn-registry.tsx`).
+4. **Pendência conhecida**: `npx kikitocn add <componente>` hoje não empacota `src/lib/motion/**` (mesmo problema, aliás, nunca resolvido pra `@/lib/utils`) — só afeta instalação via CLI publicado, não uso direto dentro deste repo. Ver `docs/component-import/motion-infrastructure/PLAN.md` §3.5.
+
 ## Bordas (próximo passo — ainda não iniciado)
 
 Regra equivalente pra largura/estilo de borda será definida quando o trabalho de spacing estiver rodando. Por enquanto seguir o que já existe: `border`, `border-rule` pra cor, sem hardcode.

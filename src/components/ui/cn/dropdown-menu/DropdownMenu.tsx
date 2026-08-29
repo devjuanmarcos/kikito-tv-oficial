@@ -4,6 +4,7 @@ import type React from "react";
 import { useState, useRef, useEffect, useCallback, useId, cloneElement, Children } from "react";
 import { createPortal } from "react-dom";
 
+import { scaleIn, transitionStandard } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { MenuPlacement, MenuItem, MenuEntry, DropdownMenuProps } from "./dropdown-menu.types";
@@ -255,10 +256,8 @@ function ContextMenuImpl({ items, children }: Omit<DropdownMenuProps, "trigger">
                     left: pos.x,
                   }}
                   role="menu"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  {...scaleIn}
+                  transition={transitionStandard}
                 >
                   {items.map((entry, gi) => {
                     if (entry.type === "separator") {

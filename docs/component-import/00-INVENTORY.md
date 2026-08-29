@@ -4,7 +4,9 @@ Origem: `D:\DEVJUANMARCOS\PROJETOS\TEMPLATES\shadcndashboard`
 Destino: **Kikito CN** (`src/components/ui/cn/**`, tokens semânticos — decisão tomada, ver CLAUDE.md pra vocabulário).
 Escopo desta varredura (decisão tomada): **biblioteca de componentes apenas** — `src/components/ui/` (59 primitivos shadcn crus), `src/components/shadcn-dashboard-library/` (harvest curado: 49 categorias de variantes + 30 já "adaptadas" a tokens, com `registry.ts`/`tokens.ts` próprios), `src/components/animated-components/` (4 arquivos). **Fora do escopo**: `dashboards/`, `apps/`, `tables/`, `form/`, `website-ui/`, `user-profile/` — são composições de página inteira, não biblioteca atômica.
 
-Lib de animação alvo (decisão tomada): **`motion`** (v12, pacote atual — `framer-motion` v12 também instalado lá mas trata-se do mesmo time/API, provavelmente legado de compat). Kikito não tem nenhum dos dois instalado ainda.
+Lib de animação alvo (decisão tomada): **`motion`** (v12, pacote atual — `framer-motion` v12 também instalado lá mas trata-se do mesmo time/API, provavelmente legado de compat).
+
+**Correção**: ao começar a implementar (ver `motion-infrastructure/PLAN.md`), achado que a afirmação original aqui — "Kikito não tem nenhum dos dois instalado ainda" — estava **errada**. `motion@^12.23.12` e `framer-motion@^11.2.13` já estão no `package.json` daqui, e **3 componentes Kikito CN já usam `motion/react`**: `Modal`, `DropdownMenu`, `Select` (todos com `AnimatePresence`, duração/spring ad-hoc diferente em cada um). Isso muda a base do plano de infra: em vez de inventar tokens do zero, eles são ancorados nos valores reais já em produção — ver correção completa em `motion-infrastructure/PLAN.md`.
 
 ## Números da varredura
 

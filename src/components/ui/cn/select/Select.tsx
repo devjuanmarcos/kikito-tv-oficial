@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type React from "react";
 import { useState, useRef, useEffect, useId, useMemo, type KeyboardEvent } from "react";
 
+import { scaleInVertical, springSnappy } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type {
@@ -273,10 +274,8 @@ function SingleSelectImpl({
         {open && (
           <motion.div
             className="absolute top-[calc(100%+4px)] left-0 right-0 z-[300] bg-lacquer border border-rule rounded-(--radius-sm) shadow-[0_8px_24px_-8px_oklch(0%_0_0/0.45)] overflow-hidden"
-            initial={{ opacity: 0, scaleY: 0.9 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0.9 }}
-            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            {...scaleInVertical}
+            transition={springSnappy}
             style={{ transformOrigin: "top" }}
           >
             {searchable && (
@@ -995,10 +994,8 @@ function ComboboxImpl({
         {open && (
           <motion.div
             className="absolute top-[calc(100%+4px)] left-0 right-0 z-[200] bg-lacquer border border-rule rounded-(--radius-base) shadow-[0_4px_24px_-4px_oklch(0%_0_0/0.4),0_2px_8px_-2px_oklch(0%_0_0/0.25)] overflow-hidden"
-            initial={{ opacity: 0, scaleY: 0.9 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0.9 }}
-            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            {...scaleInVertical}
+            transition={springSnappy}
             style={{ transformOrigin: "top" }}
           >
             <div

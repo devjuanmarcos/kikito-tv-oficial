@@ -4,13 +4,11 @@ Isto precisa ser resolvido **antes** do primeiro item de `../animation-backport/
 
 **Decisão do usuário (reforçada)**: isto não é só um helper solto pra destravar o backport — é pra virar um **token de primeira classe do design system Kikito CN**, no mesmo nível de Cores/Tipografia/Radius/Spacing que já existem em `CLAUDE.md`. O objetivo é que animação vire algo **nosso** (vocabulário próprio, não "colado" do shadcn), reusável de forma organizada em qualquer componente futuro — não só nos 43 arquivos do backport.
 
-## 1. Dependência
+## 1. Dependência — **correção: já está instalada**
 
-Instalar `motion` (não `framer-motion` — decisão tomada, ver `../00-INVENTORY.md`). Componentes que usarem `motion` declaram no `peerDeps` do registry (`cn-registry.tsx`), mesmo padrão já usado pra `@/lib/utils`.
+`motion@^12.23.12` e `framer-motion@^11.2.13` já estão no `package.json` daqui (achado ao começar a implementar — a afirmação original neste plano de que nenhum dos dois existia estava errada). Nada a instalar. **3 componentes Kikito CN já usam `motion/react`**: `Modal.tsx`, `DropdownMenu.tsx`, `Select.tsx` — todos com `AnimatePresence` + duração/spring ad-hoc diferente em cada arquivo (é exatamente o problema que este plano resolve). `grep -rl "from ['\"]motion` em `src/` mostra 37 usos de `motion/react` no projeto todo (dashboard + CN) contra 5 de `framer-motion` — confirma `motion/react` como caminho de import dominante, igual já decidido.
 
-```bash
-npm install motion
-```
+Componentes que usarem `motion` declaram `peerDeps: ["motion"]` no registry (`cn-registry.tsx`), mesmo padrão já usado pra `@/lib/utils`.
 
 ## 2. Sistema de Animação Kikito CN — 6ª categoria de token
 
@@ -18,15 +16,25 @@ Hoje `CLAUDE.md` documenta 5 categorias de token: Cores, Tipografia, Radius, Spa
 
 ### 2.1 Camada 1 — CSS vars no token bridge (`src/styles/kikitocn-tokens.css`)
 
-Primitivos crus, mesma convenção `--ks-*` já usada por radius/spacing:
+**Valores ancorados em uso real, não inventados** (mesma metodologia já usada pra migrar spacing — "auditoria de frequência real", ver CLAUDE.md). Frequência de `duration-[Nms]`/`duration-N` em `src/components/ui/cn/**` (bracket + classe nativa do Tailwind somados):
+
+| Valor | Ocorrências | Tier escolhido                                                                 |
+| ----: | ----------: | ------------------------------------------------------------------------------ |
+| 150ms |          37 | `--ks-motion-fast`                                                             |
+| 100ms |          34 | (entre instant e fast — não vira tier próprio, é o "quase-instant" mais comum) |
+| 120ms |          32 | (idem — muito próximo de 100/150, não justifica tier extra)                    |
+| 200ms |          27 | `--ks-motion-standard`                                                         |
+|  80ms |          21 | `--ks-motion-instant`                                                          |
+| 300ms |           5 | `--ks-motion-slow`                                                             |
+| 500ms |           1 | `--ks-motion-slower` (raro, mas é o teto real já usado)                        |
 
 ```css
-/* Duração */
---ks-motion-instant: 100ms;
+/* Duração — 3 dos 5 tiers batem EXATO com os valores mais frequentes já em produção (150/200/80) */
+--ks-motion-instant: 80ms;
 --ks-motion-fast: 150ms;
---ks-motion-standard: 300ms;
---ks-motion-slow: 500ms;
---ks-motion-slower: 700ms;
+--ks-motion-standard: 200ms;
+--ks-motion-slow: 300ms;
+--ks-motion-slower: 500ms;
 
 /* Easing — cubic-bezier já usado em vários componentes CN (Stepper/AccordionGroup/NavigationMenu),
    promovido a token único em vez de literal repetido arquivo a arquivo */
@@ -39,6 +47,13 @@ Primitivos crus, mesma convenção `--ks-*` já usada por radius/spacing:
 --ks-motion-distance-md: 16px;
 --ks-motion-distance-lg: 24px;
 ```
+
+**Springs (`motion` puro, não CSS)** — `Modal.tsx` e `Select.tsx` já têm dois presets de spring reais e diferentes em produção; viram nomeados em vez de número mágico repetido:
+
+| Componente real                         | `stiffness` | `damping` | Nome do preset                                      |
+| --------------------------------------- | ----------: | --------: | --------------------------------------------------- |
+| `Modal.tsx` (painel)                    |         150 |        25 | `springGentle` — pra elementos maiores/mais pesados |
+| `Select.tsx` (dropdown, ×2 ocorrências) |         350 |        25 | `springSnappy` — pra elementos menores/mais rápidos |
 
 ### 2.2 Camada 2 — Presets TS (`src/lib/motion/` — novo subsistema, não um arquivo solto)
 
@@ -57,11 +72,11 @@ src/lib/motion/
 
 ```ts
 export const MOTION_DURATION = {
-  instant: 0.1,
+  instant: 0.08,
   fast: 0.15,
-  standard: 0.3,
-  slow: 0.5,
-  slower: 0.7,
+  standard: 0.2,
+  slow: 0.3,
+  slower: 0.5,
 } as const;
 
 export const MOTION_EASE = {
@@ -71,6 +86,13 @@ export const MOTION_EASE = {
 } as const;
 
 export const MOTION_DISTANCE = { sm: 8, md: 16, lg: 24 } as const;
+
+// harvested de Modal.tsx/Select.tsx, que já usavam esses dois springs ad-hoc antes deste
+// sistema existir — nomeados aqui em vez de número mágico repetido em cada componente novo
+export const MOTION_SPRING = {
+  gentle: { stiffness: 150, damping: 25 }, // Modal — elementos maiores/mais pesados
+  snappy: { stiffness: 350, damping: 25 }, // Select — elementos menores/mais rápidos
+} as const;
 ```
 
 **`variants.ts`** — o vocabulário de animação **próprio** do Kikito CN. Em vez de cada componente portado inventar seu `initial`/`animate`/`exit`, ele importa um preset nomeado — é isto que vira "nosso" de verdade, não um detalhe de implementação escondido em cada componente:
@@ -106,12 +128,13 @@ export const slideInFromRight: Variants = {
 **`transitions.ts`** — pareia duração/easing em objetos `Transition` prontos, pros dois estilos de animação que o `motion` suporta (tween determinístico vs spring físico — o `tooltip-03.tsx` do backport usa `useSpring`, por exemplo):
 
 ```ts
-import { MOTION_DURATION, MOTION_EASE } from "./tokens";
+import { MOTION_DURATION, MOTION_EASE, MOTION_SPRING } from "./tokens";
 import type { Transition } from "motion/react";
 
 export const transitionStandard: Transition = { duration: MOTION_DURATION.standard, ease: MOTION_EASE.standard };
 export const transitionFast: Transition = { duration: MOTION_DURATION.fast, ease: MOTION_EASE.standard };
-export const springStandard: Transition = { type: "spring", stiffness: 300, damping: 30 };
+export const springGentle: Transition = { type: "spring", ...MOTION_SPRING.gentle };
+export const springSnappy: Transition = { type: "spring", ...MOTION_SPRING.snappy };
 ```
 
 **`orchestration.ts`** — é aqui que mora a parte de "orquestração" que o usuário pediu: um helper pra sequenciar entrada de filhos (o padrão `staggerChildren` que aparece em `animated-table.tsx`/`animated-list-*` do backport), reusável em qualquer lista futura sem reescrever a lógica de stagger cada vez:
@@ -130,6 +153,10 @@ export function staggerContainer(staggerDelay = 0.05, delayChildren = 0): Varian
 
 Quando a camada 1+2 acima for implementada e usada em pelo menos um componente real do backport (não antes — `CLAUDE.md` documenta o que existe, não o planejado), adicionar uma seção **"Animação"** em `CLAUDE.md` no mesmo formato de Radius/Spacing: tabela de tokens CSS + tabela dos presets de `variants.ts`/`transitions.ts` + regra de "nunca duração/easing/distância cru fora da escala, documentar exceção com comentário quando genuinamente fora" — mesmo padrão de exceção documentada já usado nas outras 5 categorias.
 
+## 2.4 Primeiro consumidor real: `Modal`/`DropdownMenu`/`Select` — ✅ FEITO
+
+Migrados pra consumir os presets novos (`springGentle`/`transitionStandard`/`scaleInDown`/`scaleIn`/`scaleInVertical`/`fadeIn` em vez do número solto que cada um tinha antes). Comportamento visual idêntico, só a fonte do número mudou — mesma filosofia "componente a componente, não em massa" já estabelecida pra spacing em CLAUDE.md. `peerDeps` dos 3 corrigido pra incluir `@/lib/motion`/`motion` (achado de passagem: nenhum dos 3 tinha isso documentado antes, apesar de já usar `motion` em produção — `dropdown-menu` nem tinha `peerDeps` nenhum). Verificado: `npm run build` limpo, `tsc --noEmit` limpo, `eslint` 0 erros, Playwright (`modal`/`dropdown-menu`/`context-menu`/`floating-menu`/`select`/`multi-select`/`rich-select`/`combobox` specs) verde nos dois projetos. Seção "Animação" já adicionada em `CLAUDE.md` (item 2.3) — consumidor real existe, não é mais hipotético.
+
 ## 3. `prefers-reduced-motion` — achado importante, não é automático
 
 A auditoria da Kikito CN (ver `docs/AUDITORIA-CN-STATUS.md`, pendência 4) já resolveu reduced-motion **globalmente para CSS** — um reset em `kikitocn-tokens.css` zera `animation-duration`/`transition-duration` de qualquer `@keyframes`/`transition` Tailwind.
@@ -142,6 +169,12 @@ A auditoria da Kikito CN (ver `docs/AUDITORIA-CN-STATUS.md`, pendência 4) já r
 2. **`<MotionConfig reducedMotion="user">` global** — um único wrapper (candidato: `ThemeProvider` em `src/app/[locale]/layout.tsx`, já envolve a árvore inteira) faz o `motion` inteiro respeitar a preferência do SO automaticamente, sem cada componente precisar lembrar. **Recomendado** — mesma filosofia do reset CSS global já escolhido pra pendência 4 (rede de segurança automática, não depende de disciplina componente a componente).
 
 **Verificar ao implementar**: `reducedMotion="user"` do `motion` reduz automaticamente animações de `layout`/`layoutId` (o padrão usado em `tabs-01.tsx`/`pagination-01.tsx` do backport) pra uma troca instantânea, sem física de mola nem deslizamento — conferir na doc oficial do pacote se isso é 100% automático ou se `layoutId` precisa de tratamento manual adicional, já que é o preset mais usado nos itens de maior prioridade do backport.
+
+## 3.5. Achado real ao implementar: `@/lib/motion` não é empacotado pelo `npx kikitocn add`
+
+`npm run registry:build` detecta `motion` como `dependencies` automaticamente (confirmado — `modal.json`/`select.json`/`dropdown-menu.json` já saem com `"dependencies": ["motion"]`). **Mas os arquivos de `src/lib/motion/**`não entram no`files[]`do componente** —`scripts/build-registry.mjs`/`registry-meta.mjs`não têm nenhum conceito de "lib compartilhada" (mesmo problema, aliás, já existente e nunca resolvido pra`@/lib/utils`— nenhum componente publicado leva`utils.ts`junto). Efeito prático: alguém rodando`npx kikitocn add modal`hoje recebe um`Modal.tsx`que importa`@/lib/motion`, mas esse caminho não existe no projeto de destino — instalação quebrada.
+
+**Não resolvido nesta sessão** — é uma mudança de schema no pipeline de registry publicado (arriscado mexer sem entender a fundo `registry-meta.mjs`), não um ajuste pontual de componente. Fica registrado aqui como pendência de infra separada: ou (a) `src/lib/motion/` vira um item de registry próprio (`type: "registry:lib"`, padrão real do schema shadcn) que `modal`/`select`/`dropdown-menu` declaram via `registryDependencies`, ou (b) documentar como pré-requisito manual de instalação (mesmo tratamento, por enquanto, que `@/lib/utils` já recebe). Dentro deste repo (`import` direto de `@/components/ui/cn/...`) nada disso importa — só afeta quem instala via CLI.
 
 ## 4. Convenção de import
 

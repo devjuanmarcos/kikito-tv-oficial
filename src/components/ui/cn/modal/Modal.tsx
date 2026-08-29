@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 
 import { Button } from "@/components/ui/cn/button";
 import type { ButtonIntent } from "@/components/ui/cn/button";
+import { fadeIn, scaleInDown, springGentle, transitionFast } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type {
@@ -251,10 +252,8 @@ function ModalAlert({
           key="alert-dialog-overlay"
           // bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light)
           className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.16 }}
+          {...fadeIn}
+          transition={transitionFast}
           onClick={(e) => {
             if (e.target === e.currentTarget) handleCancel();
           }}
@@ -271,10 +270,8 @@ function ModalAlert({
             aria-modal="true"
             aria-labelledby="ad-title"
             aria-describedby={description ? "ad-desc" : undefined}
-            initial={{ opacity: 0, scale: 0.92, y: -16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: -16 }}
-            transition={{ type: "spring", stiffness: 150, damping: 25 }}
+            {...scaleInDown}
+            transition={springGentle}
           >
             <div
               className={cn(
