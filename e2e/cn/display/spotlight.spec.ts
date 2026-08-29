@@ -23,8 +23,21 @@ test.describe("Spotlight", () => {
     expect(errors.filter((e) => !e.includes("favicon"))).toHaveLength(0);
   });
 
-  test("conteúdo do spotlight renderiza", async ({ page }) => {
-    await expect(page.getByText("Spotlight Effect", { exact: true })).toBeVisible();
-    await expect(page.getByText("Move your cursor over this area")).toBeVisible();
+  test("wrapper correto do Card effect=spotlight: mover o mouse revela o glow (opacity 1)", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(
+      isMobile,
+      "efeito é mouse-tracked por natureza — mobile-chrome emula touch, sem conceito de hover/cursor"
+    );
+    const frame = page.locator("main");
+    await expect(frame.getByText("Spotlight Effect", { exact: true })).toBeVisible();
+    const container = frame.getByText("Move your cursor over this area").locator("../../..");
+    const box = await container.boundingBox();
+    expect(box).not.toBeNull();
+    await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+    const glow = container.locator("> div").first();
+    await expect(glow).toHaveCSS("opacity", "1");
   });
 });
