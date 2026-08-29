@@ -2914,10 +2914,21 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Altura em px",
       },
       {
+        name: "color",
+        type: "string",
+        description: "Cor customizada (sobrescreve `intent`) — aceita qualquer valor CSS válido",
+      },
+      {
         name: "intent",
         type: "'primary' | 'success' | 'warning' | 'danger' | 'neutral'",
         default: "'primary'",
         description: "Cor do gráfico via token de intent",
+      },
+      {
+        name: "strokeWidth",
+        type: "number",
+        default: "1.5",
+        description: "Espessura da linha (tipos line/area)",
       },
       {
         name: "filled",
@@ -2925,6 +2936,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "false",
         description: "Preenche a área abaixo da linha",
       },
+      {
+        name: "ariaLabel",
+        type: "string",
+        description: "Nome acessível do gráfico; sem isso, um resumo é gerado a partir de `data`",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro svg" },
     ],
   },
   {
