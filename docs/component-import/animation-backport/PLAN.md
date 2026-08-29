@@ -108,11 +108,13 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 **Tentativa adaptada (revertida)**: em vez do char-pop, tentei só o "pulso" decorativo (anel que expande e desaparece a cada dígito digitado) via `AnimatePresence` + `motion.span` posicionado atrás do input real, sem tocar em caret/foco/paste. Implementação isolada, `eslint`/`tsc` limpos, `registry:build` ok — mas ao testar no browser apareceu um **hydration mismatch real e reproduzível** (`Recoverable Error` do Next: árvore do cliente não bate com a do servidor, apontando pra dentro do `<span className="contents">` que envolve cada célula). HTML servido via `fetch` direto batia com o código-fonte esperado, então a causa raiz não ficou clara rapidamente (não confirmei se é algo específico do `motion`/`AnimatePresence` dentro de um `.map()` com wrapper `contents`, ou uma interação mais sutil). Dado que é um campo de autenticação, não vale arriscar uma regressão de hidratação por um efeito puramente decorativo — revertido (`git checkout HEAD --`) sem deixar rastro no componente. Fica pendente de investigação futura se algum dia valer a pena.
 
-## `label`
+## `label` — ❌ não portado, mesmo território do `input` acima
 
 | Origem                                                 | Feature    | Nota               |
 | ------------------------------------------------------ | ---------- | ------------------ |
 | `shadcn-dashboard-library/variants/label/label-06.tsx` | (sem flag) | Checar o que anima |
+
+**Por que não**: é mais um floating-label (label sobe no foco/valor) — já implementado via CSS no `Input floatingLabel` (`FloatingLabelImpl`, 3 variantes outline/filled/underline). A única coisa nova na origem é uma barra inferior animada que cresce do centro (`scaleX` via `motion`) em vez do `focus-within:border-patina` instantâneo que a Kikito CN usa. Detalhe pequeno demais pra justificar mexer numa implementação compartilhada por 3 variantes e já funcionando — principalmente pouco depois do susto de hidratação no `otp-input` (ver acima), que reforça cautela extra em qualquer edição estrutural de campo de formulário nesta rodada.
 
 ## `pagination` — ✅ `layoutId` (versão `adapted/pagination-01`) portado
 
@@ -125,14 +127,16 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 **O que foi feito**: mesmo padrão já estabelecido no `Tabs` (`layoutId` + `useId()` por instância) — a página ativa em `Pagination.tsx` tinha `bg-patina!`/`text-patina-fg!` estáticos, virou `motion.span` com `layoutId` atrás do número (`-z-10`, igual ao `PillTab`). `hover:brightness-[1.08]` (só no ativo) virou `hover:brightness-110` no botão inteiro em vez de só no fundo — efeito mais uniforme, já que o fundo agora é um elemento separado. Demo do showcase tem 2 instâncias de `<Pagination>` compartilhando o mesmo `page` (estado) mas com `layoutId` independente (`useId`) — testado que não colidem mesmo mostrando a mesma página ativa simultaneamente. `e2e/cn/data/pagination.spec.ts` +2 testes, e um achado de teste corrigido de passagem: `getByRole("button", {name:"Page 1"})` sem `exact` colidia com "Page 10/11/12" (substring) — corrigido nos 2 testes novos e no já existente que mascarava isso com `.first()` — 14/14 chromium-desktop + mobile-chrome.
 
-## `progress` / `progress-ring` / `gauge`
+## `progress` / `progress-ring` / `gauge` — ❌ não portado, é chrome de demo
 
 | Origem                                                       | Feature           | Nota                                                |
 | ------------------------------------------------------------ | ----------------- | --------------------------------------------------- |
 | `shadcn-dashboard-library/adapted/progress/progress-04.tsx`  | `AnimatePresence` | **Já adaptado** — provável transição de valor/label |
 | `shadcn-dashboard-library/variants/progress/progress-04.tsx` | `AnimatePresence` | Versão não-adaptada                                 |
 
-## `skeleton`
+**Por que não**: a origem é uma simulação inteira de "loading fake" — progresso auto-incrementando com jitter aleatório, mensagens de status rotativas, shimmer CSS e glow embaixo da barra. O único `motion`/`AnimatePresence` real ali é a troca de mensagem de status (chrome do demo, não da `Progress` em si); o shimmer/glow da própria barra é CSS puro com cores hardcoded (`bg-blue-500`, `white/40` — viola token de cor) e exigiria um novo modo `indeterminate` na `Progress` da Kikito CN (feature nova, não port de animação). A `Progress` atual já tem `transition-[width]` suave (300ms) pra mudança de valor — o caso comum já está coberto.
+
+## `skeleton` — ❌ não portado, são templates prontos, não a primitiva
 
 | Origem                                                       | Feature    | Nota                                                                                                                                                           |
 | ------------------------------------------------------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -140,18 +144,24 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | `shadcn-dashboard-library/variants/skeleton/skeleton-04.tsx` | (sem flag) | —                                                                                                                                                              |
 | `shadcn-dashboard-library/variants/skeleton/skeleton-05.tsx` | (sem flag) | —                                                                                                                                                              |
 
-## `toast` (origem chama `sonner`)
+**Por que não**: a nota do grep era imprecisa — nenhuma das 3 origens muda o shimmer/pulse da primitiva `Skeleton`. São **templates de loading prontos** (skeleton de card de perfil, de tabela, de lista) que compõem vários `<Skeleton>` numa entrada `fade-up` escalonada. A `Skeleton` da Kikito CN já tem `animate-pulse` funcional. Nada aqui é animação da primitiva — é composição de layout, categoria diferente (mais perto de `new-components` que de `animation-backport`, e mesmo assim de baixo valor: qualquer projeto pode montar isso com o `Skeleton` que já existe).
+
+## `toast` (origem chama `sonner`) — ❌ não portado, é conteúdo de demo
 
 | Origem                                                   | Feature           | Nota                 |
 | -------------------------------------------------------- | ----------------- | -------------------- |
 | `shadcn-dashboard-library/variants/sonner/sonner-06.tsx` | `AnimatePresence` | Enter/exit do toast  |
 | `shadcn-dashboard-library/variants/sonner/sonner-07.tsx` | `AnimatePresence` | Variante alternativa |
 
-## `spinner`
+**Por que não**: mesma categoria do `skeleton` acima — as origens são conteúdo customizado de toast via `toast.custom()` (card de "status de pagamento" com ripple pulsante e cores hardcoded teal/amber/red), não uma animação de entrada/saída do container `Toast` em si. O `Toast` da Kikito CN já tem `@keyframes toast-in`/`toast-out` funcionais.
+
+## `spinner` — ❌ não portado, é uma variante nova, não animação da existente
 
 | Origem                                                     | Feature    | Nota                                                                                    |
 | ---------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
 | `shadcn-dashboard-library/variants/spinner/spinner-07.tsx` | (sem flag) | Checar o que anima — provável rotação/pulso via `motion` em vez de `@keyframes spin-ks` |
+
+**Por que não**: é um estilo de spinner totalmente diferente ("orbital" — núcleo pulsante central + satélite orbitando), não uma versão animada do spinner-anel que a Kikito CN já tem. O `Spinner` atual não tem sistema de `variant` pra pendurar um estilo alternativo — adicionar um seria uma variante nova (escopo de `new-components`, não de backport de animação de algo que já existe).
 
 ## `tabs` — ✅ `layoutId` (tabs-01) portado
 
@@ -167,11 +177,26 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 `e2e/cn/display/tabs.spec.ts` +2 testes (indicador aparece só na aba ativa da variante `pill`, sem vazar pra outra instância; 4 instâncias simultâneas de `line` — 1 barra cada, sem colisão de `layoutId`) — 16/16 chromium-desktop + mobile-chrome, incluindo os 5 testes já existentes (zero regressão).
 
-## `tooltip`
+## `tooltip` — ❌ não portado, padrão de UI diferente
 
 | Origem                                                     | Feature     | Nota                                                                                                                                                                                                         |
 | ---------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `shadcn-dashboard-library/variants/tooltip/tooltip-03.tsx` | `useSpring` | Posição do tooltip com física de mola em vez de `transition-[opacity,transform]` CSS que o `Tooltip` atual usa — mudança de abordagem (JS contínuo vs CSS discreto), avaliar custo/benefício antes de portar |
+
+**Por que não**: a origem é o padrão "avatar stack com tooltip que segue e inclina com o mouse" (`useMotionValue`+`useSpring`+`useTransform` contínuos, tilt proporcional à posição X do cursor) — feito especificamente pra uma fileira de avatares sobrepostos, não pra um tooltip genérico anexado a qualquer trigger (que é o que o `Tooltip` da Kikito CN precisa ser: funciona em botões, ícones, texto). Também usa cor hardcoded (`bg-blue-500`). O `Tooltip` atual já tem `transition-[opacity,transform]` CSS funcional (140ms, já bem próximo do token `--ks-motion-fast`=150ms). Trocar CSS discreto por física contínua de mola só faz sentido no padrão de UI específico da origem — fora de escopo pro tooltip genérico.
+
+---
+
+## Fechamento da varredura (2026-08-29)
+
+Todos os 43 arquivos de origem do topo deste documento foram avaliados. Resumo:
+
+- **Portado**: `tabs`, `pagination`, `file-upload` (adaptado), `avatar`, `context-menu`/`dropdown-menu` (ClickMenu ganhou exit animation de achado), `autocomplete` (painel).
+- **Tentado e revertido**: `otp-input` (hydration mismatch real, ver seção acima — não vale o risco num campo de autenticação por um efeito decorativo).
+- **Não portado, sem fit real ou fora de escopo**: `accordion`, `animated-list`, `input`/`floating-label-input`, `label`, `badge`/`tag`/`status-badge`, `progress`, `skeleton`, `toast`, `spinner`, `tooltip` — cada um documentado acima com o motivo específico (a maioria cai em 2 categorias: **conteúdo/chrome de demo bespoke** com cores hardcoded, não animação de uma primitiva real; ou **variante nova** que exigiria API/feature nova, não port de animação de algo que já existe).
+- **Pendente de decisão de produto, não mexido**: `table`/`data-grid`/`data-list` (stagger de entrada re-dispararia a cada sort/filtro — precisa decisão de design antes de virar código).
+
+Não sobra nenhum item deste documento sem uma decisão registrada. Próximo trabalho de animação na Kikito CN não vem mais deste levantamento — vem de `docs/component-import/new-components/PLAN.md` (itens genuinamente novos) ou de necessidade de produto (ex.: `indeterminate` na `Progress`, decisão de stagger na `Table`).
 
 ---
 
