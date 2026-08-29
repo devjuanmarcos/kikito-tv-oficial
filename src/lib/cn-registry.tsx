@@ -2628,6 +2628,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "images", type: "ImageViewerImage[]", required: true, description: "Array de { src, alt, caption }" },
       { name: "defaultIndex", type: "number", default: "0", description: "Índice inicial exibido" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro grid de thumbnails" },
     ],
   },
   {
