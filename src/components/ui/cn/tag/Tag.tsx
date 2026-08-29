@@ -15,28 +15,30 @@ const SIZE: Record<TagSize, string> = {
 type IntentAppKey = `${TagIntent}/${TagAppearance}`;
 
 const INTENT_APP: Record<IntentAppKey, string> = {
-  "primary/soft": "bg-patina/10 text-patina border-transparent",
+  "primary/soft": "bg-patina-soft text-patina-soft-fg border-transparent",
   "primary/solid": "bg-patina text-patina-fg border-transparent",
   "primary/outline": "bg-transparent text-patina border-patina",
 
-  "info/soft": "bg-info/10 text-info border-transparent",
+  "info/soft": "bg-info-soft text-info-soft-fg border-transparent",
   "info/solid": "bg-info text-info-fg border-transparent",
   "info/outline": "bg-transparent text-info border-info",
 
-  "success/soft": "bg-success/10 text-success border-transparent",
+  "success/soft": "bg-success-soft text-success-soft-fg border-transparent",
   "success/solid": "bg-success text-success-fg border-transparent",
   "success/outline": "bg-transparent text-success border-success",
 
-  "warning/soft": "bg-warning/10 text-warning border-transparent",
+  "warning/soft": "bg-warning-soft text-warning-soft-fg border-transparent",
   "warning/solid": "bg-warning text-warning-fg border-transparent",
   "warning/outline": "bg-transparent text-warning border-warning",
 
-  "danger/soft": "bg-danger/10 text-danger border-transparent",
+  "danger/soft": "bg-danger-soft text-danger-soft-fg border-transparent",
   "danger/solid": "bg-danger text-danger-fg border-transparent",
   "danger/outline": "bg-transparent text-danger border-danger",
 
+  // neutral: mesma convenção do Badge já validado (graphite/foreground pro soft,
+  // bg-neutral/text-neutral-fg pro solid — não usa o par neutral-soft/-fg genérico)
   "neutral/soft": "bg-graphite text-foreground border-transparent",
-  "neutral/solid": "bg-foreground text-base border-transparent",
+  "neutral/solid": "bg-neutral text-neutral-fg border-transparent",
   "neutral/outline": "bg-transparent text-foreground border-rule",
 };
 
@@ -55,19 +57,36 @@ export function Tag({
   const key = `${intent}/${appearance}` as IntentAppKey;
   const cls = INTENT_APP[key] ?? INTENT_APP["neutral/soft"];
   const isClick = !!onClick;
+  const hasRemove = !!(removable || onRemove);
+  const removeLabel = typeof children === "string" ? `Remove ${children}` : "Remove";
 
-  const Root = isClick ? "button" : "span";
-
+  // achado real: Root era <button> quando isClick, e o botão de remover é sempre um
+  // <button> aninhado -> <button> dentro de <button> é HTML inválido (o browser fecha o
+  // outer cedo, quebrando clique/foco) sempre que removable+onClick coexistem. Root vira
+  // <span role="button" tabIndex> em vez de <button> nativo pra suportar os dois casos
+  // sem aninhar interativo dentro de interativo; teclado fica igual via onKeyDown (Enter/Espaço)
   return (
-    <Root
-      type={isClick ? "button" : undefined}
+    <span
+      role={isClick ? "button" : undefined}
+      tabIndex={isClick ? 0 : undefined}
       onClick={isClick ? onClick : undefined}
+      onKeyDown={
+        isClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick?.();
+              }
+            }
+          : undefined
+      }
       style={style}
       className={cn(
         "inline-flex items-center font-medium border select-none whitespace-nowrap",
         SIZE[size],
         cls,
-        isClick && "cursor-pointer hover:brightness-110 transition-[filter] duration-[100ms]",
+        isClick &&
+          "cursor-pointer hover:brightness-110 transition-[filter] duration-[100ms] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-patina",
         className
       )}
     >
@@ -77,10 +96,10 @@ export function Tag({
         </span>
       )}
       {children}
-      {(removable || onRemove) && (
+      {hasRemove && (
         <button
           type="button"
-          aria-label="Remove"
+          aria-label={removeLabel}
           onClick={(e) => {
             e.stopPropagation();
             onRemove?.();
@@ -92,6 +111,6 @@ export function Tag({
           </svg>
         </button>
       )}
-    </Root>
+    </span>
   );
 }

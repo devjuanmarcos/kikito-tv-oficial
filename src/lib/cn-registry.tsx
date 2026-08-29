@@ -8279,7 +8279,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "children", type: "React.ReactNode", required: true, description: "Texto ou conteúdo da tag" },
       {
         name: "intent",
-        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'",
+        type: "'primary' | 'info' | 'success' | 'warning' | 'danger' | 'neutral'",
         default: "'neutral'",
         description: "Cor do intent",
       },
@@ -8290,6 +8290,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onRemove", type: "() => void", description: "Callback ao remover" },
       { name: "onClick", type: "() => void", description: "Torna a tag clicável" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   // ── tag-cloud

@@ -3353,6 +3353,8 @@ function StatusBadgeDemo() {
 }
 
 function TagDemo() {
+  const [removed, setRemoved] = useState(false);
+  const [clicks, setClicks] = useState(0);
   return (
     <Frame label="Tag — intent colors, appearance variants, removable">
       <div className="flex flex-col gap-4">
@@ -3376,11 +3378,27 @@ function TagDemo() {
           </Tag>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <Tag intent="info" removable onRemove={() => {}}>
-            Removable
+          <Tag size="sm">Small</Tag>
+          <Tag size="md">Medium</Tag>
+          <Tag size="lg">Large</Tag>
+          <Tag intent="primary" icon={<span>★</span>}>
+            With icon
           </Tag>
-          <Tag intent="success" onClick={() => {}}>
-            Clickable
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          {!removed && (
+            <Tag intent="info" removable onRemove={() => setRemoved(true)}>
+              Removable
+            </Tag>
+          )}
+          {removed && <span className="text-body-callout text-faint">removida</span>}
+          <Tag intent="success" onClick={() => setClicks((c) => c + 1)}>
+            Clickable ({clicks})
+          </Tag>
+          {/* achado real: onClick + removable ao mesmo tempo gerava <button> aninhado em
+              <button> (HTML inválido) — este caso exercita o fix (Root virou span+role=button) */}
+          <Tag intent="warning" onClick={() => setClicks((c) => c + 1)} removable onRemove={() => {}}>
+            Clickable + removable
           </Tag>
         </div>
       </div>
