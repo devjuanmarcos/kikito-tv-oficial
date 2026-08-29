@@ -4322,7 +4322,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "time-picker",
     title: "Time Picker",
     group: "inputs",
-    description: "Time picker with 12/24h format, minute step and keyboard input.",
+    description: "Dropdown time picker with 12/24h format and configurable minute step.",
     filePath: "src/components/ui/cn/time-picker/TimePicker.tsx",
     peerDeps: ["@/lib/utils"],
     props: [
@@ -4347,19 +4347,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         name: "format",
         type: "'12' | '24'",
-        default: "'12'",
+        default: "'24'",
         description: "Formato de 12 ou 24 horas",
       },
       {
         name: "minuteStep",
         type: "number",
-        default: "1",
+        default: "5",
         description: "Incremento dos minutos (ex: 5, 15, 30)",
       },
       {
         name: "placeholder",
         type: "string",
-        default: "undefined",
+        default: "'Select time'",
         description: "Texto placeholder",
       },
       {
@@ -4368,6 +4368,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "false",
         description: "Desabilita o campo",
       },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {

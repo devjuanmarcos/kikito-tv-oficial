@@ -31,6 +31,12 @@ export function TimePicker({
   style,
 }: TimePickerProps) {
   const [internal, setInternal] = useState<TimeValue>(defaultValue ?? { hours: 0, minutes: 0, period: "AM" });
+  // achado real: isEmpty comparava hours===0 && minutes===0, então selecionar meia-noite
+  // (00:00) de propósito ficava indistinguível de "nada selecionado ainda" e o placeholder
+  // continuava exibido pra sempre nesse caso, mesmo depois do clique do usuário registrar
+  // corretamente (onChange disparava certo, só o texto exibido mentia). `touched` rastreia
+  // interação real, independente de qual valor foi escolhido
+  const [touched, setTouched] = useState(false);
   const [open, setOpen] = useState(false);
   const isControlled = controlled !== undefined;
   const val = isControlled ? controlled! : internal;
@@ -46,6 +52,7 @@ export function TimePicker({
   const update = (next: Partial<TimeValue>) => {
     const merged = { ...val, ...next };
     if (!isControlled) setInternal(merged);
+    setTouched(true);
     onChange?.(merged);
   };
 
@@ -53,12 +60,21 @@ export function TimePicker({
     const handler = (e: MouseEvent) => {
       if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
     };
+    // achado real: popover fechava clicando fora, mas não tinha Escape nenhum — mesmo
+    // padrão já corrigido no NavigationMenu (todo outro widget flutuante da lib fecha com Escape)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   const displayH = format === "12" ? val.hours % 12 || 12 : val.hours;
-  const isEmpty = !defaultValue && val.hours === 0 && val.minutes === 0;
+  const isEmpty = isControlled ? false : !defaultValue && !touched;
 
   return (
     <div ref={rootRef} className={cn("relative inline-block", className)} style={style}>

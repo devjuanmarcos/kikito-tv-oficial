@@ -1475,6 +1475,17 @@ function TimePickerDemo() {
           <p className="text-body-caption font-semibold text-muted">12-hour format</p>
           <TimePicker value={val12} onChange={setVal12} format="12" />
         </div>
+        <div className="flex flex-col gap-2">
+          {/* achado real: uncontrolled + escolher meia-noite (00:00) explicitamente não
+              distinguia de "nada selecionado" -> placeholder ficava preso; esta instância
+              exercita o fix (touched) */}
+          <p className="text-body-caption font-semibold text-muted">Uncontrolled, minuteStep=15</p>
+          <TimePicker minuteStep={15} placeholder="Choose a time" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <p className="text-body-caption font-semibold text-muted">Disabled</p>
+          <TimePicker disabled placeholder="Unavailable" />
+        </div>
       </div>
     </Frame>
   );
