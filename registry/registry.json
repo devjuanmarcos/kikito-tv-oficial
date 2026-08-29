@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T22:20:36.056Z",
+  "generatedAt": "2026-08-29T22:38:22.550Z",
   "items": [
     {
       "name": "utils",
@@ -319,6 +319,7 @@
         "line-chart",
         "pie-chart",
         "radar-chart",
+        "radial-bar-chart",
         "sparkline"
       ]
     },
@@ -1498,6 +1499,17 @@
       "status": "live",
       "dependencies": [],
       "registryDependencies": []
+    },
+    {
+      "name": "radial-bar-chart",
+      "version": "1.1.0",
+      "title": "Radial Bar Chart",
+      "type": "registry:component",
+      "description": "Radial Bar Chart component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": ["recharts"],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "radio",

@@ -3256,6 +3256,43 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
     ],
   },
+  // ── radial-bar-chart
+  {
+    name: "radial-bar-chart",
+    title: "Radial Bar Chart",
+    group: "charts",
+    description: "Multi-series radial bar chart (concentric arcs) — the one Chart type built on recharts.",
+    filePath: "src/components/ui/cn/radial-bar-chart/RadialBarChart.tsx",
+    peerDeps: ["@/lib/utils", "recharts"],
+    props: [
+      {
+        name: "segments",
+        type: "RadialBarSegment[]",
+        required: true,
+        description: "Séries: { label, value, color? }",
+      },
+      {
+        name: "size",
+        type: "number",
+        default: "240",
+        description: "Dimensão do gráfico em px",
+      },
+      {
+        name: "showLegend",
+        type: "boolean",
+        default: "true",
+        description: "Exibe legenda das séries",
+      },
+      {
+        name: "showTooltip",
+        type: "boolean",
+        default: "true",
+        description: "Exibe tooltip ao passar o mouse",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
+    ],
+  },
   {
     name: "funnel-chart",
     title: "Funnel Chart",
@@ -8582,7 +8619,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Chart",
     group: "charts",
     description:
-      "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/pie/radar/funnel/sparkline.",
+      "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/pie/radar/radial-bar/funnel/sparkline.",
     filePath: "src/components/ui/cn/chart/Chart.tsx",
     absorbs: [
       "line-chart",
@@ -8591,10 +8628,24 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       "donut-chart",
       "pie-chart",
       "radar-chart",
+      "radial-bar-chart",
       "funnel-chart",
       "sparkline",
     ],
-    keywords: ["grafico", "line", "area", "bar", "donut", "pie", "radar", "funnel", "sparkline", "chart"],
+    keywords: [
+      "grafico",
+      "line",
+      "area",
+      "bar",
+      "donut",
+      "pie",
+      "radar",
+      "radial",
+      "radial bar",
+      "funnel",
+      "sparkline",
+      "chart",
+    ],
     variants: [
       { prop: "type", value: "line", label: "Line", status: "stable", aliases: ["line chart", "line-chart", "linha"] },
       { prop: "type", value: "area", label: "Area", status: "stable", aliases: ["area chart", "area-chart"] },
@@ -8622,6 +8673,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       {
         prop: "type",
+        value: "radial-bar",
+        label: "Radial Bar",
+        status: "stable",
+        aliases: ["radial chart", "radial-chart", "radial bar chart", "radial-bar-chart"],
+      },
+      {
+        prop: "type",
         value: "funnel",
         label: "Funnel",
         status: "stable",
@@ -8632,7 +8690,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       {
         name: "type",
-        type: "'line' | 'area' | 'bar' | 'donut' | 'pie' | 'radar' | 'funnel' | 'sparkline'",
+        type: "'line' | 'area' | 'bar' | 'donut' | 'pie' | 'radar' | 'radial-bar' | 'funnel' | 'sparkline'",
         default: "'line'",
         description: "Tipo do gráfico; despacha para o renderer correspondente. As demais props variam conforme o tipo",
       },

@@ -5,9 +5,10 @@ import type { FunnelChartProps } from "@/components/ui/cn/funnel-chart";
 import type { LineChartProps } from "@/components/ui/cn/line-chart";
 import type { PieChartProps } from "@/components/ui/cn/pie-chart";
 import type { RadarChartProps } from "@/components/ui/cn/radar-chart";
+import type { RadialBarChartProps } from "@/components/ui/cn/radial-bar-chart";
 import type { SparklineProps, SparklineType } from "@/components/ui/cn/sparkline";
 
-export type ChartType = "line" | "area" | "bar" | "donut" | "pie" | "radar" | "funnel" | "sparkline";
+export type ChartType = "line" | "area" | "bar" | "donut" | "pie" | "radar" | "radial-bar" | "funnel" | "sparkline";
 
 /* Sparkline already owns a `type` prop, so its variant is exposed as `sparklineType`. */
 type SparklineMember = { type: "sparkline"; sparklineType?: SparklineType } & Omit<SparklineProps, "type">;
@@ -19,5 +20,6 @@ export type ChartProps =
   | ({ type: "donut" } & DonutChartProps)
   | ({ type: "pie" } & PieChartProps)
   | ({ type: "radar" } & RadarChartProps)
+  | ({ type: "radial-bar" } & RadialBarChartProps)
   | ({ type: "funnel" } & FunnelChartProps)
   | SparklineMember;

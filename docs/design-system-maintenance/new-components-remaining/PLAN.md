@@ -33,7 +33,13 @@ Novo componente-irmão `src/components/ui/cn/pie-chart/PieChart.tsx`, mesmo padr
 
 ---
 
-## `radial-chart` — decisão de arquitetura antes de implementar
+## `radial-chart` — ✅ implementado (2026-08-29)
+
+Decisão do usuário: **Opção A (recharts)**, não a recomendação B deste documento. Implementado como `src/components/ui/cn/radial-bar-chart/RadialBarChart.tsx`, registrado como `type: "radial-bar"` no `Chart` (absorvido, mesmo padrão de `donut-chart`/`pie-chart` — escondido da sidebar standalone). `recharts` já estava instalado no `package.json` (2.15.0), só nunca tinha um consumidor real até agora — primeira dependência recharts de verdade na Kikito CN, como o contra listado abaixo já previa.
+
+Achado real ao implementar: `recharts` não expõe `role="img"`/`aria-label` no SVG por padrão (diferente dos outros 7 tipos de `Chart`, hand-rolled, que já tinham essa convenção) — adicionado manualmente no `<div>` wrapper (`role="img"` na div, não no `<svg>` interno do recharts, que não dá pra anotar diretamente) pra manter paridade de acessibilidade.
+
+A análise original abaixo (que recomendava Opção B) fica registrada por transparência:
 
 ### O gap é real (confirmado no levantamento)
 

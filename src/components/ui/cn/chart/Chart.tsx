@@ -13,6 +13,7 @@ import { FunnelChart } from "@/components/ui/cn/funnel-chart";
 import { LineChart } from "@/components/ui/cn/line-chart";
 import { PieChart } from "@/components/ui/cn/pie-chart";
 import { RadarChart } from "@/components/ui/cn/radar-chart";
+import { RadialBarChart } from "@/components/ui/cn/radial-bar-chart";
 import { Sparkline } from "@/components/ui/cn/sparkline";
 
 import type { ChartProps } from "./chart.types";
@@ -38,6 +39,10 @@ export function Chart(props: ChartProps) {
     case "radar": {
       const { type: _t, ...rest } = props;
       return <RadarChart {...rest} />;
+    }
+    case "radial-bar": {
+      const { type: _t, ...rest } = props;
+      return <RadialBarChart {...rest} />;
     }
     case "funnel": {
       const { type: _t, ...rest } = props;

@@ -13,6 +13,7 @@ const ROUTES = {
   "donut-chart": "/pt/cn/charts/donut-chart",
   "pie-chart": "/pt/cn/charts/pie-chart",
   "radar-chart": "/pt/cn/charts/radar-chart",
+  "radial-bar-chart": "/pt/cn/charts/radial-bar-chart",
   "funnel-chart": "/pt/cn/charts/funnel-chart",
 };
 

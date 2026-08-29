@@ -142,6 +142,7 @@ import { ProgressSteps } from "@/components/ui/cn/progress-steps/ProgressSteps";
 import { QuickActions } from "@/components/ui/cn/quick-actions/QuickActions";
 import { QuoteBlock } from "@/components/ui/cn/quote-block/QuoteBlock";
 import { RadarChart } from "@/components/ui/cn/radar-chart/RadarChart";
+import { RadialBarChart } from "@/components/ui/cn/radial-bar-chart/RadialBarChart";
 import { Radio, RadioGroup } from "@/components/ui/cn/radio/Radio";
 import { RangeSlider } from "@/components/ui/cn/range-slider/RangeSlider";
 import { Rating } from "@/components/ui/cn/rating/Rating";
@@ -1905,6 +1906,23 @@ function RadarChartDemo() {
     <Frame label="Radar Chart — multi-series spider chart">
       <div className="flex justify-center">
         <RadarChart axes={axes} series={series} size={280} levels={4} showLegend />
+      </div>
+    </Frame>
+  );
+}
+
+function RadialBarChartDemo() {
+  const segments = [
+    { label: "Chrome", value: 275 },
+    { label: "Safari", value: 200 },
+    { label: "Firefox", value: 187 },
+    { label: "Edge", value: 173 },
+    { label: "Other", value: 90 },
+  ];
+  return (
+    <Frame label="Radial Bar Chart — multi-series concentric arcs (recharts)">
+      <div className="flex justify-center">
+        <RadialBarChart segments={segments} size={260} showLegend showTooltip />
       </div>
     </Frame>
   );
@@ -7393,6 +7411,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "overlays/floating-menu": FloatingMenuDemo,
   "overlays/spotlight-search": SpotlightSearchDemo,
   "charts/radar-chart": RadarChartDemo,
+  "charts/radial-bar-chart": RadialBarChartDemo,
   "charts/funnel-chart": FunnelChartDemo,
   "inputs/step-form": StepFormDemo,
   "inputs/currency-input": CurrencyInputDemo,
