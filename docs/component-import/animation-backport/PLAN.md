@@ -98,11 +98,15 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 **Achado real corrigido de passagem**: a lista usava `key={i}` (índice) — ao remover um arquivo do meio da lista, o `AnimatePresence` animava a linha ERRADA (React reaproveita o nó do índice deslocado em vez de detectar que o item específico saiu, bug clássico de lista com key por índice + animação de saída). Corrigido pra key por conteúdo (`nome-tamanho-data`). `e2e/cn/inputs/file-upload.spec.ts` +1 teste (remove arquivo do meio de 3, não o último — é o caso que expõe o bug) — 12/12 chromium-desktop + mobile-chrome, incluindo os 4 já existentes (zero regressão).
 
-## `otp-input`
+## `otp-input` — ⚠️ tentado e revertido, hidratação quebrou
 
 | Origem                                                         | Feature                       | Nota                                                             |
 | -------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------- |
 | `shadcn-dashboard-library/variants/input-otp/input-otp-09.tsx` | `AnimatePresence`, `layoutId` | Célula ativa provavelmente com indicador deslizante (`layoutId`) |
+
+**Por que não é port literal**: a origem usa a lib `input-otp` (um único `<input>` real escondido + slots visuais renderizados via `OTPInputContext`, com fake-caret) — arquitetura completamente diferente do `OtpInput` da Kikito CN, que usa **inputs nativos reais por célula** (caret real do SO, seleção real, sem fake-caret necessário). Portar o char-pop-in + fake-caret exigiria trocar a arquitetura toda ou sobrepor um overlay opaco sobre cada input (perdendo o caret nativo) — risco alto pra um campo crítico de autenticação, sem pedido explícito.
+
+**Tentativa adaptada (revertida)**: em vez do char-pop, tentei só o "pulso" decorativo (anel que expande e desaparece a cada dígito digitado) via `AnimatePresence` + `motion.span` posicionado atrás do input real, sem tocar em caret/foco/paste. Implementação isolada, `eslint`/`tsc` limpos, `registry:build` ok — mas ao testar no browser apareceu um **hydration mismatch real e reproduzível** (`Recoverable Error` do Next: árvore do cliente não bate com a do servidor, apontando pra dentro do `<span className="contents">` que envolve cada célula). HTML servido via `fetch` direto batia com o código-fonte esperado, então a causa raiz não ficou clara rapidamente (não confirmei se é algo específico do `motion`/`AnimatePresence` dentro de um `.map()` com wrapper `contents`, ou uma interação mais sutil). Dado que é um campo de autenticação, não vale arriscar uma regressão de hidratação por um efeito puramente decorativo — revertido (`git checkout HEAD --`) sem deixar rastro no componente. Fica pendente de investigação futura se algum dia valer a pena.
 
 ## `label`
 
