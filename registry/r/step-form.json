@@ -7,7 +7,7 @@
   "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button"],
+  "registryDependencies": ["button", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

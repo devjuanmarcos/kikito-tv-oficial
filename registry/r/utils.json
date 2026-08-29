@@ -1,0 +1,23 @@
+{
+  "name": "utils",
+  "version": "1.1.0",
+  "title": "Utils",
+  "type": "registry:lib",
+  "description": "Shared cn() class-merging helper (clsx + tailwind-merge).",
+  "group": "internal",
+  "status": "live",
+  "dependencies": ["clsx", "tailwind-merge"],
+  "registryDependencies": [],
+  "tailwind": {
+    "requires": []
+  },
+  "docs": "https://cn.kikito.tv/internal/utils",
+  "files": [
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\nexport function absoluteUrl(path: string) {\n  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;\n}\n"
+    }
+  ]
+}

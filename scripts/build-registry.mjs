@@ -37,6 +37,21 @@ function readComponentFiles(dir) {
 }
 
 /**
+ * Maps a shared internal lib import to its registry item name, or null.
+ * Achado real (2026-08-29, ver docs/design-system-maintenance/00-FINDINGS.md):
+ * "@/lib/utils"/"@/lib/motion" não batiam em nenhum dos outros baldes de
+ * parseImports (não são pacote npm, não são @/components/ui/cn/*, não são
+ * ../* relativo) e eram descartados em silêncio — nenhum registry:file era
+ * gerado pra eles, então `npx kikitocn add` entregava um componente com um
+ * import quebrado em 149/9 casos.
+ */
+function sharedLibDep(mod) {
+  if (mod === "@/lib/utils") return "utils";
+  if (mod === "@/lib/motion" || mod.startsWith("@/lib/motion/")) return "motion";
+  return null;
+}
+
+/**
  * Parse import statements from file content.
  * Returns { npmDeps: string[], registryDeps: string[] }
  */
@@ -56,6 +71,10 @@ function parseImports(content, componentName) {
         npmDeps.add(dep);
       }
     }
+
+    // Shared internal lib: "@/lib/utils" or "@/lib/motion" (see sharedLibDep below)
+    const sharedLib = sharedLibDep(mod);
+    if (sharedLib) registryDeps.add(sharedLib);
 
     // Internal CN dep: "@/components/ui/cn/<name>" or relative "../<name>"
     const cnAbsolute = mod.match(/^@\/components\/ui\/cn\/([^/'"]+)/);
@@ -132,6 +151,53 @@ function buildComponent(name) {
   };
 }
 
+/**
+ * Build a shared-lib registry entry (utils.ts, motion/**) — these live outside
+ * CN_DIR (src/lib/**, not src/components/ui/cn/**) so buildComponent() never
+ * sees them. Ver docs/design-system-maintenance/registry-shared-libs/PLAN.md.
+ */
+function buildLib(name, { title, description, sourceDir, sourceFile }) {
+  const files = [];
+
+  if (sourceFile) {
+    const content = fs.readFileSync(sourceFile, "utf-8");
+    const fileName = path.basename(sourceFile);
+    files.push({
+      path: `lib/${fileName}`,
+      type: "registry:lib",
+      target: `lib/${fileName}`,
+      content,
+    });
+  }
+
+  if (sourceDir) {
+    for (const fileName of fs.readdirSync(sourceDir).filter((f) => f.endsWith(".ts"))) {
+      const content = fs.readFileSync(path.join(sourceDir, fileName), "utf-8");
+      files.push({
+        path: `lib/${name}/${fileName}`,
+        type: "registry:lib",
+        target: `lib/${name}/${fileName}`,
+        content,
+      });
+    }
+  }
+
+  return {
+    name,
+    version: VERSION,
+    title,
+    type: "registry:lib",
+    description,
+    group: "internal",
+    status: "live",
+    dependencies: name === "utils" ? ["clsx", "tailwind-merge"] : [],
+    registryDependencies: [],
+    tailwind: { requires: [] },
+    docs: `https://cn.kikito.tv/internal/${name}`,
+    files,
+  };
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
@@ -143,6 +209,37 @@ function main() {
   const index = [];
   let built = 0;
   let skipped = 0;
+
+  // Shared libs (utils.ts, motion/**) — outside CN_DIR, built separately.
+  const LIB_DIR = path.join(ROOT, "src", "lib");
+  const libs = [
+    buildLib("utils", {
+      title: "Utils",
+      description: "Shared cn() class-merging helper (clsx + tailwind-merge).",
+      sourceFile: path.join(LIB_DIR, "utils.ts"),
+    }),
+    buildLib("motion", {
+      title: "Motion tokens",
+      description: "Kikito CN animation token presets (durations, easings, variants, springs).",
+      sourceDir: path.join(LIB_DIR, "motion"),
+    }),
+  ];
+  for (const lib of libs) {
+    fs.writeFileSync(path.join(OUT_DIR, "r", `${lib.name}.json`), JSON.stringify(lib, null, 2), "utf-8");
+    index.push({
+      name: lib.name,
+      version: lib.version,
+      title: lib.title,
+      type: lib.type,
+      description: lib.description,
+      group: lib.group,
+      status: lib.status,
+      dependencies: lib.dependencies,
+      registryDependencies: lib.registryDependencies,
+    });
+    console.log(`  built ${lib.name} (lib, ${lib.files.length} files)`);
+    built++;
+  }
 
   for (const name of entries) {
     // skip non-dirs and special files

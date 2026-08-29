@@ -7,7 +7,7 @@
   "group": "inputs",
   "status": "live",
   "dependencies": ["motion"],
-  "registryDependencies": ["button"],
+  "registryDependencies": ["button", "motion", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

@@ -7,7 +7,7 @@
   "group": "overlay",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["dropdown-menu"],
+  "registryDependencies": ["dropdown-menu", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

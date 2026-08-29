@@ -11,15 +11,28 @@ import type { ComponentEntry } from "./registry.js";
 /** Write all files from a component to the project */
 export function writeComponentFiles(component: ComponentEntry, config: KikitoCNConfig, cwd: string): string[] {
   const written: string[] = [];
+  // Shared-lib files (utils.ts, motion/**) declare target "lib/..." — these go under
+  // the same root as config.utils (e.g. "src/lib"), NOT componentsDir. Achado real ao
+  // testar end-to-end: sem este caso, "lib/utils.ts" caía em
+  // "<componentsDir>/lib/utils.ts" (ex. src/components/ui/lib/utils.ts), que não bate
+  // com o alias "@/lib/utils" que os componentes importam. Ver
+  // docs/design-system-maintenance/registry-shared-libs/PLAN.md.
+  const libRoot = path.dirname(config.utils);
 
   for (const file of component.files) {
     if (!file.content) continue;
 
-    // Map registry path → project path
-    // registry path: "components/ui/cn/button/Button.tsx"
-    // target in config: "src/components/ui" → "src/components/ui/cn/button/Button.tsx"
-    const relativePart = file.target.replace(/^components\/ui\//, "");
-    const destPath = path.join(cwd, config.componentsDir, relativePart);
+    let destPath: string;
+    if (file.target.startsWith("lib/")) {
+      const relativePart = file.target.replace(/^lib\//, "");
+      destPath = path.join(cwd, libRoot, relativePart);
+    } else {
+      // Map registry path → project path
+      // registry path: "components/ui/cn/button/Button.tsx"
+      // target in config: "src/components/ui" → "src/components/ui/cn/button/Button.tsx"
+      const relativePart = file.target.replace(/^components\/ui\//, "");
+      destPath = path.join(cwd, config.componentsDir, relativePart);
+    }
 
     fs.ensureDirSync(path.dirname(destPath));
     fs.writeFileSync(destPath, file.content, "utf-8");

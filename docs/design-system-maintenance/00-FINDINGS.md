@@ -4,7 +4,9 @@ Investigação completa antes de qualquer plano, per pedido explícito. Cobre do
 
 ---
 
-## Item 7 — `npx kikitocn add` não empacota `@/lib/utils`/`@/lib/motion`
+## Item 7 — `npx kikitocn add` não empacota `@/lib/utils`/`@/lib/motion` — ✅ RESOLVIDO (2026-08-29)
+
+_Implementado e testado end-to-end no mesmo dia deste levantamento — ver [`registry-shared-libs/PLAN.md`](./registry-shared-libs/PLAN.md) pro que foi feito de fato, incluindo um achado extra (`writer.ts` também precisou de ajuste) que a análise estática abaixo não previu._
 
 ### Escala real do problema (maior do que a nota original sugeria)
 

@@ -7,7 +7,7 @@
   "group": "display",
   "status": "live",
   "dependencies": ["motion"],
-  "registryDependencies": ["dropdown-menu"],
+  "registryDependencies": ["dropdown-menu", "motion", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

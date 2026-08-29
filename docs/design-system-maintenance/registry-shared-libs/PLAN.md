@@ -1,6 +1,8 @@
 # Plano — empacotar `@/lib/utils` e `@/lib/motion` no registry publicado
 
-Ver [`../00-FINDINGS.md`](../00-FINDINGS.md) pro levantamento completo (causa raiz, escala do problema — 149/9 componentes afetados, código exato responsável). Este documento é só o plano de correção.
+**✅ Implementado e testado end-to-end em 2026-08-29** (mesmo dia do levantamento). Ver [`../00-FINDINGS.md`](../00-FINDINGS.md) pro levantamento completo (causa raiz, escala do problema — 149/9 componentes afetados, código exato responsável).
+
+**Correção sobre a previsão original**: a seção "Não muda" abaixo previa que `packages/cli/src/utils/writer.ts` não precisaria de nenhuma alteração — **isso estava errado**, achado só ao rodar o teste end-to-end real (passo 4). `writeComponentFiles()` mapeava todo `file.target` assumindo que começava com `"components/ui/"`; os novos arquivos `"lib/..."` caíam em `<componentsDir>/lib/...` (ex. `src/components/ui/lib/utils.ts`) em vez de `src/lib/...`. Corrigido com um caso especial pra `target` começando com `"lib/"`, usando `path.dirname(config.utils)` como raiz. Fica registrado aqui como lição: **testar end-to-end de verdade importa mesmo quando a análise estática parece completa** — o teste do passo 4 pegou isso, uma leitura de código sozinha não teria.
 
 ## Objetivo
 
@@ -151,9 +153,9 @@ Não incluído nesta rodada de correção porque é ortogonal ao problema de `ut
 
 ## Critério de aceite
 
-- [ ] `registry/r/utils.json` e `registry/r/motion.json` existem, `type: "registry:lib"`.
-- [ ] Os 149 componentes que importam `@/lib/utils` têm `"utils"` em `registryDependencies`.
-- [ ] Os 9 componentes que importam `@/lib/motion` têm `"utils"` e `"motion"` em `registryDependencies`.
-- [ ] Teste end-to-end local (passo 4) confirma que `npx kikitocn add modal` (ou equivalente local) entrega um projeto que resolve todos os imports sem edição manual.
-- [ ] `CLAUDE.md` §Animação, item 4 ("Pendência conhecida") atualizado pra remover a pendência (ou marcar resolvida) depois que isso for implementado.
-- [ ] `docs/component-import/motion-infrastructure/PLAN.md` §3.5 idem.
+- [x] `registry/r/utils.json` e `registry/r/motion.json` existem, `type: "registry:lib"`.
+- [x] Os componentes que importam `@/lib/utils` têm `"utils"` em `registryDependencies` (confirmado: `button.json` → `["utils"]`).
+- [x] Os componentes que importam `@/lib/motion` têm `"utils"` e `"motion"` em `registryDependencies` (confirmado: `modal.json` → `["button", "motion", "utils"]`).
+- [x] Teste end-to-end local (passo 4) confirma que `npx kikitocn add modal` (via script direto chamando `resolveComponents`+`writeComponentFiles`, contornando o prompt interativo que não roda num shell sem TTY) entrega um projeto que resolve todos os imports sem edição manual — `Modal.tsx` instalado com `@/lib/motion`/`@/lib/utils` apontando pra `src/lib/motion/**`/`src/lib/utils.ts`, ambos escritos corretamente. Achado real nesse passo: precisou de um fix extra em `writer.ts` (ver nota no topo deste documento).
+- [x] `CLAUDE.md` §Animação, item 4 atualizado — pendência removida, marcado resolvido.
+- [x] `docs/component-import/motion-infrastructure/PLAN.md` §3.5 atualizado — marcado ✅ RESOLVIDO.

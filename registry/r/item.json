@@ -7,7 +7,7 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["separator"],
+  "registryDependencies": ["separator", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

@@ -7,7 +7,7 @@
   "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button", "textarea"],
+  "registryDependencies": ["button", "textarea", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

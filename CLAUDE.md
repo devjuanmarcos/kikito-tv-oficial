@@ -142,7 +142,7 @@ Cada token bate exato com um step numérico já usado — migrar uma classe (`ga
 1. Componente novo que anima via `motion` **nunca** usa número mágico solto (`transition={{ duration: 0.2 }}`) — sempre um preset de `@/lib/motion`. Se o padrão de origem não existir ainda, adicionar ao preset primeiro (ver `docs/component-import/motion-infrastructure/PLAN.md`).
 2. `reducedMotion="user"` aplicado globalmente via `<MotionConfig>` em `src/providers/ThemeProvider.tsx` — cobre toda animação `motion` automaticamente. **Não cobre CSS** (`@keyframes`/`transition-*` do Tailwind) — esse caso já tem reset global próprio em `kikitocn-tokens.css` (ver seção de bug latente / auditoria).
 3. Componente que importa `motion` declara `peerDeps: ["@/lib/motion", "motion"]` no registry (`cn-registry.tsx`).
-4. **Pendência conhecida**: `npx kikitocn add <componente>` hoje não empacota `src/lib/motion/**` (mesmo problema, aliás, nunca resolvido pra `@/lib/utils`) — só afeta instalação via CLI publicado, não uso direto dentro deste repo. Ver `docs/component-import/motion-infrastructure/PLAN.md` §3.5.
+4. `npx kikitocn add <componente>` empacota `src/lib/motion/**` e `src/lib/utils.ts` automaticamente (`registry:lib` — resolvido 2026-08-29, ver `docs/design-system-maintenance/registry-shared-libs/PLAN.md`). Não precisa mais declarar isso manualmente em lugar nenhum — `scripts/build-registry.mjs` detecta o import e adiciona sozinho.
 
 ## Bordas (largura) — Kikito CN (`src/components/ui/cn/**`)
 

@@ -7,7 +7,7 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button", "checkbox", "input", "radio", "rating", "textarea"],
+  "registryDependencies": ["button", "checkbox", "input", "radio", "rating", "textarea", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

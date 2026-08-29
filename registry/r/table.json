@@ -7,7 +7,7 @@
   "group": "data",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button", "checkbox", "pagination", "select"],
+  "registryDependencies": ["button", "checkbox", "pagination", "select", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },

@@ -7,7 +7,7 @@
   "group": "navigation",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["badge"],
+  "registryDependencies": ["badge", "utils"],
   "tailwind": {
     "requires": ["kikitocn-tokens"]
   },
