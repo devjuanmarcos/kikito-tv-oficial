@@ -485,6 +485,11 @@ function CarouselDemo() {
           <Carousel items={items} orientation="vertical" className="w-80 h-56" />
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Counter indicator">
+        <Frame label='indicator="counter" (minimal gallery style)'>
+          <Carousel items={items} indicator="counter" className="w-80" />
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }

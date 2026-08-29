@@ -13,6 +13,8 @@ export interface CarouselProps {
   autoPlayInterval?: number;
   loop?: boolean;
   showDots?: boolean;
+  /** Visual do indicador de posição quando `showDots` está ativo. @default "dots" */
+  indicator?: "dots" | "counter";
   showArrows?: boolean;
   /** Vertical requires an explicit height on the carousel itself (`className`/`style`) —
    *  a block element never auto-fills its parent's height, only its width. */

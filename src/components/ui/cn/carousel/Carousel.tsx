@@ -65,6 +65,7 @@ export function Carousel({
   autoPlayInterval = 3000,
   loop = true,
   showDots = true,
+  indicator = "dots",
   showArrows = true,
   orientation = "horizontal",
   className,
@@ -163,27 +164,43 @@ export function Carousel({
         </div>
       )}
 
-      {showDots && n > 1 && (
-        <div
-          className={cn(
-            "flex justify-center gap-(--spacing-xs)",
-            isVertical ? "absolute right-(--spacing-sm) top-1/2 -translate-y-1/2 flex-col" : "pt-(--spacing-md)"
-          )}
-        >
-          {items.map((_, i) => (
-            <button
-              key={i}
-              className={cn(
-                "h-[6px] rounded-full border-none bg-rule cursor-pointer p-0 transition-[background,width] duration-200",
-                i === current ? "bg-patina w-[18px] rounded-pill" : "w-[6px]"
-              )}
-              onClick={() => go(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              aria-current={i === current ? "true" : undefined}
-            />
-          ))}
-        </div>
-      )}
+      {showDots &&
+        n > 1 &&
+        (indicator === "counter" ? (
+          <div
+            className={cn(
+              "flex justify-center",
+              isVertical ? "absolute right-(--spacing-sm) top-1/2 -translate-y-1/2" : "pt-(--spacing-md)"
+            )}
+          >
+            <span
+              className="text-body-caption text-faint bg-float border border-rule rounded-pill px-(--spacing-sm) py-(--spacing-3xs) tabular-nums"
+              aria-live="polite"
+            >
+              {current + 1} / {n}
+            </span>
+          </div>
+        ) : (
+          <div
+            className={cn(
+              "flex justify-center gap-(--spacing-xs)",
+              isVertical ? "absolute right-(--spacing-sm) top-1/2 -translate-y-1/2 flex-col" : "pt-(--spacing-md)"
+            )}
+          >
+            {items.map((_, i) => (
+              <button
+                key={i}
+                className={cn(
+                  "h-[6px] rounded-full border-none bg-rule cursor-pointer p-0 transition-[background,width] duration-200",
+                  i === current ? "bg-patina w-[18px] rounded-pill" : "w-[6px]"
+                )}
+                onClick={() => go(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                aria-current={i === current ? "true" : undefined}
+              />
+            ))}
+          </div>
+        ))}
     </div>
   );
 }

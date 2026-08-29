@@ -51,4 +51,13 @@ test.describe("Carousel", () => {
     expect(box!.height).toBeLessThan(260);
     await expect(verticalRegion.locator('[aria-label="Slide 2 of 4"]')).toHaveAttribute("aria-hidden", "true");
   });
+
+  test('indicator="counter" mostra "N / total" e atualiza ao avançar', async ({ page, isMobile }) => {
+    test.skip(isMobile, "pendência 0b: sidebar intercepta pointer-events no clique em mobile-chrome");
+    const frame = page.locator("main");
+    const counterRegion = frame.getByRole("region", { name: "Carousel" }).nth(2);
+    await expect(counterRegion.getByText("1 / 4", { exact: true })).toBeVisible();
+    await counterRegion.getByRole("button", { name: "Next" }).click();
+    await expect(counterRegion.getByText("2 / 4", { exact: true })).toBeVisible();
+  });
 });
