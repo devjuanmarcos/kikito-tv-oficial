@@ -6394,9 +6394,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "tabs",
     title: "Tabs",
     group: "display",
-    description: "Tab navigation with 4 variants (line/pill/card/enclosed), icons, badges and TabPanel.",
+    description:
+      "Tab navigation with 4 variants (line/pill/card/enclosed), animated sliding indicator, icons, badges and TabPanel.",
     filePath: "src/components/ui/cn/tabs/Tabs.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "items",

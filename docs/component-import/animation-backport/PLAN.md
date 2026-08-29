@@ -119,17 +119,19 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | ---------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------- |
 | `shadcn-dashboard-library/variants/spinner/spinner-07.tsx` | (sem flag) | Checar o que anima — provável rotação/pulso via `motion` em vez de `@keyframes spin-ks` |
 
-## `tabs`
+## `tabs` — ✅ `layoutId` (tabs-01) portado
 
-| Origem                                               | Feature                       | Nota                                                                                                      |
-| ---------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `shadcn-dashboard-library/variants/tabs/tabs-01.tsx` | `layoutId`                    | Indicador deslizante entre abas — **candidato de alto valor**, padrão clássico e muito pedido visualmente |
-| `shadcn-dashboard-library/variants/tabs/tabs-02.tsx` | `AnimatePresence`             | Transição de conteúdo ao trocar de aba                                                                    |
-| `shadcn-dashboard-library/variants/tabs/tabs-05.tsx` | `AnimatePresence`, `layoutId` | Combina os dois padrões acima                                                                             |
-| `shadcn-dashboard-library/variants/tabs/tabs-06.tsx` | `layoutId`                    | Outra variante do indicador deslizante                                                                    |
-| `shadcn-dashboard-library/variants/tabs/tabs-07.tsx` | `AnimatePresence`, `layoutId` | Combinação, variante 2                                                                                    |
+| Origem                                               | Feature                       | Nota                                                                                                   |
+| ---------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `shadcn-dashboard-library/variants/tabs/tabs-01.tsx` | `layoutId`                    | ✅ Portado — indicador deslizante nas variantes `line`/`pill` do `Tabs.tsx`, ver detalhe abaixo        |
+| `shadcn-dashboard-library/variants/tabs/tabs-02.tsx` | `AnimatePresence`             | Não portado — transição de conteúdo ao trocar de aba, fica pra próxima rodada                          |
+| `shadcn-dashboard-library/variants/tabs/tabs-05.tsx` | `AnimatePresence`, `layoutId` | Não portado — combina os dois padrões acima                                                            |
+| `shadcn-dashboard-library/variants/tabs/tabs-06.tsx` | `layoutId`                    | Não portado — outra variante do indicador deslizante, comparar com a já portada antes de mexer de novo |
+| `shadcn-dashboard-library/variants/tabs/tabs-07.tsx` | `AnimatePresence`, `layoutId` | Não portado — combinação, variante 2                                                                   |
 
-**Nota**: a Kikito CN já corrigiu o `focus-visible` do `Tabs` nesta auditoria (ver `AUDITORIA-CN-STATUS.md`) — ao portar o indicador `layoutId`, confirmar que o anel de foco continua visível por cima da animação (`z-index`/ordem de camadas).
+**O que foi feito**: `LineTab`/`PillTab` em `Tabs.tsx` ganharam um `motion.span` com `layoutId` — a origem tinha só uma versão "pill circular" sem foco em acessibilidade; adaptado pras 2 variantes que fazem sentido pra indicador deslizante (`line`: barra embaixo; `pill`: fundo atrás do texto), variantes `card`/`enclosed` não mexidas (visual não pede indicador deslizante). `layoutId` gerado via `useId()` do próprio componente — **achado real, não estava no arquivo de origem** (que só tinha 1 instância na página de demo deles): sem isso, múltiplas `<Tabs>` na mesma página (a própria página de showcase da Kikito CN tem 9) tentariam sincronizar a animação umas com as outras. `focus-visible` conferido: o anel de foco fica no `<button>` externo, fora do `z-index` do indicador — não tem conflito de camada.
+
+`e2e/cn/display/tabs.spec.ts` +2 testes (indicador aparece só na aba ativa da variante `pill`, sem vazar pra outra instância; 4 instâncias simultâneas de `line` — 1 barra cada, sem colisão de `layoutId`) — 16/16 chromium-desktop + mobile-chrome, incluindo os 5 testes já existentes (zero regressão).
 
 ## `tooltip`
 
@@ -141,7 +143,7 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 
 ## Prioridade sugerida (não obrigatória — reordenar como preferir)
 
-1. **Tabs** (`layoutId`) — maior impacto visual, padrão bem conhecido, componente já validado na auditoria.
+1. ✅ **Tabs** (`layoutId`) — feito, ver seção `tabs` acima.
 2. **Pagination** (`layoutId`, já tem versão `adapted/`) — menor esforço de tradução de token.
 3. **File-upload** (`layoutId`+`whileHover`, já tem versão `adapted/`) — 3 implementações pra comparar, escolher a melhor.
 4. **Avatar** (`whileHover`/`whileTap`) — baixo risco, isolado.

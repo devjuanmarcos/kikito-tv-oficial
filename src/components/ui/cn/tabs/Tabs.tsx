@@ -1,6 +1,8 @@
 ﻿"use client";
-import { useRef, useState } from "react";
+import { motion } from "motion/react";
+import { useId, useRef, useState } from "react";
 
+import { transitionEnter } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { TabsProps, TabPanelProps, TabItem } from "./tabs.types";
@@ -18,16 +20,19 @@ const ALIGN_CLS: Record<string, string> = {
   stretch: "flex",
 };
 
-/* line variant */
-function LineTab({ item, active, size }: { item: TabItem; active: boolean; size: string; onClick: () => void }) {
+/* line variant — absorvido de docs/component-import/animation-backport/PLAN.md (tabs-01.tsx):
+   sublinhado desliza entre abas via motion `layoutId` em vez de trocar de posição instantâneo.
+   `layoutId` precisa ser único por instância de Tabs (useId no componente pai) — sem isso, duas
+   <Tabs> na mesma página tentariam sincronizar a animação uma com a outra. */
+function LineTab({ item, active, size, layoutId }: { item: TabItem; active: boolean; size: string; layoutId: string }) {
   const sz = SIZE_CLS[size];
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 shrink-0 font-medium transition-[color,border] duration-[120ms] border-b-2 -mb-px",
+        "relative inline-flex items-center gap-1.5 shrink-0 font-medium transition-colors duration-[120ms] -mb-px",
         sz.tab,
         sz.font,
-        active ? "text-patina border-patina" : "text-muted border-transparent hover:text-foreground hover:border-rule",
+        active ? "text-patina" : "text-muted hover:text-foreground",
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
@@ -35,23 +40,39 @@ function LineTab({ item, active, size }: { item: TabItem; active: boolean; size:
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
       {item.badge && <span>{item.badge}</span>}
+      {active ? (
+        <motion.span
+          layoutId={layoutId}
+          transition={transitionEnter}
+          className="absolute inset-x-0 -bottom-px h-0.5 bg-patina"
+        />
+      ) : (
+        <span className="absolute inset-x-0 -bottom-px h-0.5 bg-transparent" aria-hidden="true" />
+      )}
     </span>
   );
 }
 
-/* pill variant */
-function PillTab({ item, active, size }: { item: TabItem; active: boolean; size: string }) {
+/* pill variant — mesmo padrão layoutId, fundo desliza entre abas em vez de trocar instantâneo */
+function PillTab({ item, active, size, layoutId }: { item: TabItem; active: boolean; size: string; layoutId: string }) {
   const sz = SIZE_CLS[size];
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 shrink-0 font-medium rounded-(--radius-sm) transition-[background,color] duration-[120ms]",
+        "relative inline-flex items-center gap-1.5 shrink-0 font-medium rounded-(--radius-sm) transition-colors duration-[120ms]",
         sz.tab,
         sz.font,
-        active ? "bg-patina text-patina-fg" : "text-muted hover:bg-graphite hover:text-foreground",
+        active ? "text-patina-fg" : "text-muted hover:bg-graphite hover:text-foreground",
         item.disabled && "opacity-40 cursor-not-allowed"
       )}
     >
+      {active && (
+        <motion.span
+          layoutId={layoutId}
+          transition={transitionEnter}
+          className="absolute inset-0 bg-patina rounded-(--radius-sm) -z-10"
+        />
+      )}
       {/* text-[1em] herda o tamanho do texto pai (já vem de token via SIZE_CLS), não é valor fixo fora da escala */}
       {item.icon && <span className="text-[1em] [&>svg]:w-[1em] [&>svg]:h-[1em]">{item.icon}</span>}
       {item.label}
@@ -130,6 +151,10 @@ export function Tabs({
   const [internal, setInternal] = useState(defaultValue ?? items[0]?.value ?? "");
   const active = isControlled ? value ?? "" : internal;
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  // layoutId único por instância — sem isso, duas <Tabs> na mesma página tentariam
+  // sincronizar a animação do indicador deslizante uma com a outra
+  const groupId = useId();
+  const indicatorId = `${groupId}-indicator`;
 
   function select(v: string) {
     if (!isControlled) setInternal(v);
@@ -196,9 +221,11 @@ export function Tabs({
             )}
           >
             {variant === "line" && (
-              <LineTab item={item} active={active === item.value} size={size} onClick={() => select(item.value)} />
+              <LineTab item={item} active={active === item.value} size={size} layoutId={indicatorId} />
             )}
-            {variant === "pill" && <PillTab item={item} active={active === item.value} size={size} />}
+            {variant === "pill" && (
+              <PillTab item={item} active={active === item.value} size={size} layoutId={indicatorId} />
+            )}
             {variant === "card" && <CardTab item={item} active={active === item.value} size={size} />}
             {variant === "enclosed" && (
               <EnclosedTab item={item} active={active === item.value} size={size} stretch={isStretch} />
