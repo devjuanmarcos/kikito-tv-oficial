@@ -1,5 +1,3 @@
-﻿import React from "react";
-
 import { cn } from "@/lib/utils";
 
 import type { BentoGridProps } from "./bento-grid.types";
@@ -8,6 +6,7 @@ const COL_SPAN: Record<number, string> = {
   1: "col-span-1",
   2: "col-span-2",
   3: "col-span-3",
+  4: "col-span-4",
 };
 
 const ROW_SPAN: Record<number, string> = {

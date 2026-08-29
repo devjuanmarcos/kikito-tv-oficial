@@ -3875,7 +3875,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "items",
         type: "BentoItem[]",
         required: true,
-        description: "Itens: { id, colSpan?, rowSpan?, className?, children? }",
+        description: "Itens: { id, colSpan?: 1|2|3|4, rowSpan?: 1|2, className?, children? }",
       },
       {
         name: "cols",
@@ -3889,6 +3889,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "16",
         description: "Espaço entre os itens em px",
       },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

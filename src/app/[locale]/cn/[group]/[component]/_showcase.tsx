@@ -1742,10 +1742,49 @@ function BentoGridDemo() {
       ),
     },
   ];
+  const wideItems = [
+    {
+      id: 1,
+      colSpan: 4 as const,
+      children: (
+        <div className="h-full flex items-center gap-3 p-4 bg-info/8">
+          <span className="text-2xl">📐</span>
+          <p className="font-medium text-foreground text-body-callout">cols=4, colSpan=4 — full-width row</p>
+        </div>
+      ),
+    },
+    {
+      id: 2,
+      colSpan: 2 as const,
+      children: (
+        <div className="h-full flex items-center gap-3 p-4 bg-patina/8">
+          <p className="font-medium text-foreground text-body-callout">colSpan 2</p>
+        </div>
+      ),
+    },
+    {
+      id: 3,
+      colSpan: 2 as const,
+      children: (
+        <div className="h-full flex items-center gap-3 p-4 bg-kinpaku/8">
+          <p className="font-medium text-foreground text-body-callout">colSpan 2</p>
+        </div>
+      ),
+    },
+  ];
   return (
-    <Frame label="Bento Grid — flexible CSS grid with col/row spans">
-      <BentoGrid items={items} cols={3} gap={12} />
-    </Frame>
+    <div className="flex flex-col gap-6 w-full">
+      <ShowcaseSection title="3 columns">
+        <Frame label="Bento Grid — flexible CSS grid with col/row spans">
+          <BentoGrid items={items} cols={3} gap={12} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="4 columns, colSpan={4} for a full-width row">
+        <Frame label="Bento Grid — cols=4">
+          <BentoGrid items={wideItems} cols={4} gap={12} />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 
