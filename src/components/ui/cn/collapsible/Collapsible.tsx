@@ -70,7 +70,7 @@ export function Collapsible({
         )}
         aria-hidden={!open}
       >
-        <div className="px-(--spacing-lg) py-(--spacing-md) text-body-callout text-foreground/80 leading-[1.6] border-t border-rule bg-raised">
+        <div className="px-(--spacing-lg) py-(--spacing-md) text-body-callout text-muted leading-relaxed border-t border-rule bg-raised">
           {children}
         </div>
       </div>

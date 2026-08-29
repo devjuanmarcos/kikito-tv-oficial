@@ -7427,6 +7427,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onOpenChange", type: "(open: boolean) => void", description: "Callback ao abrir/fechar" },
       { name: "disabled", type: "boolean", default: "false", description: "Desabilitar interação" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   // ── dot-stepper
