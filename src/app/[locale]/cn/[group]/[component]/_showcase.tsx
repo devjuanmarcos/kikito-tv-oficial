@@ -508,6 +508,13 @@ function MultiAccordionDemo() {
     { id: "1", title: "Primary intent", content: 'This item uses intent="primary".', intent: "primary" as const },
     { id: "2", title: "Success intent", content: 'This item uses intent="success".', intent: "success" as const },
     { id: "3", title: "Danger intent", content: 'This item uses intent="danger".', intent: "danger" as const },
+    { id: "4", title: "Tertiary intent", content: 'This item uses intent="tertiary".', intent: "tertiary" as const },
+    {
+      id: "5",
+      title: "Quaternary intent",
+      content: 'This item uses intent="quaternary".',
+      intent: "quaternary" as const,
+    },
   ];
   return (
     <div className="w-full max-w-lg flex flex-col gap-6">
@@ -516,6 +523,12 @@ function MultiAccordionDemo() {
       </Frame>
       <Frame label="Per-item intents">
         <MultiAccordion items={intentItems} className="w-full" />
+      </Frame>
+      <Frame label="Variant: bordered">
+        <MultiAccordion items={items} variant="bordered" className="w-full" />
+      </Frame>
+      <Frame label="Variant: flush">
+        <MultiAccordion items={items} variant="flush" className="w-full" />
       </Frame>
     </div>
   );

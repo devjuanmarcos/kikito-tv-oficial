@@ -2654,7 +2654,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "items",
         type: "MultiAccordionItem[]",
         required: true,
-        description: "Array de painéis { id, title, content }",
+        description: "Array de painéis { id, title, content, disabled?, intent? }",
       },
       {
         name: "type",
@@ -2667,6 +2667,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onChange", type: "(value: string[]) => void", description: "Callback ao abrir/fechar" },
       { name: "variant", type: "'default' | 'bordered' | 'flush'", default: "'default'", description: "Estilo visual" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
