@@ -2734,10 +2734,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/marquee-text/MarqueeText.tsx",
     props: [
       { name: "text", type: "string", required: true, description: "Texto a ser exibido em loop" },
-      { name: "speed", type: "number", default: "40", description: "Velocidade de rolagem (px/s)" },
+      { name: "speed", type: "number", default: "30", description: "Velocidade de rolagem (maior = mais rápido)" },
       { name: "size", type: "'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: "Tamanho do texto" },
-      { name: "repeat", type: "number", default: "3", description: "Repetições do texto na faixa" },
+      { name: "repeat", type: "number", default: "8", description: "Repetições do texto na faixa" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
