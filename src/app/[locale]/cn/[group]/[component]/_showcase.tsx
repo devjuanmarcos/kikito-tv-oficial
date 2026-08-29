@@ -1543,16 +1543,33 @@ const user = "Kikito"
 greet(user)`;
 
   return (
-    <Frame label="Code Diff — unified diff with LCS algorithm">
-      <CodeDiff
-        before={before}
-        after={after}
-        filename="greet.ts"
-        language="TypeScript"
-        showLineNumbers
-        maxHeight={320}
-      />
-    </Frame>
+    <div className="flex flex-col gap-6 w-full">
+      <ShowcaseSection title="Unified">
+        <Frame label="Code Diff — unified diff with LCS algorithm">
+          <CodeDiff
+            before={before}
+            after={after}
+            filename="greet.ts"
+            language="TypeScript"
+            showLineNumbers
+            maxHeight={320}
+          />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Split view">
+        <Frame label="Code Diff — split view">
+          <CodeDiff
+            before={before}
+            after={after}
+            filename="greet.ts"
+            language="TypeScript"
+            showLineNumbers
+            splitView
+            maxHeight={320}
+          />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

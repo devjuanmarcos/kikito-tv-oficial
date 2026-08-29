@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo } from "react";
 
@@ -39,15 +39,38 @@ function computeDiff(before: string, after: string): DiffLine[] {
   return result;
 }
 
-const LINE_BG: Record<string, string> = {
-  added: "bg-success/10",
-  removed: "bg-danger/10",
+interface SplitRow {
+  left: DiffLine | null;
+  right: DiffLine | null;
+}
+
+// achado real: splitView renderizava before/after lado a lado a partir do texto cru,
+// sem NENHUM highlight de diferença — o próprio propósito do componente ("diff viewer")
+// não existia nesse modo, era só duas colunas de texto neutro. Reaproveita o mesmo
+// resultado do computeDiff (LCS) já usado no modo unificado, alinhado em pares de coluna
+// (linha ausente de um lado vira célula vazia), técnica padrão de diff split (GitHub etc)
+function toSplitRows(diff: DiffLine[]): SplitRow[] {
+  return diff.map((line) => {
+    if (line.type === "unchanged") return { left: line, right: line };
+    if (line.type === "removed") return { left: line, right: null };
+    return { left: null, right: line };
+  });
+}
+
+const LINE_BG: Record<DiffLine["type"], string> = {
+  added: "bg-success-soft",
+  removed: "bg-danger-soft",
   unchanged: "",
 };
-const LINE_SIGN: Record<string, string> = {
+const LINE_SIGN: Record<DiffLine["type"], string> = {
   added: "text-success",
   removed: "text-danger",
   unchanged: "text-faint",
+};
+const LINE_SR_LABEL: Record<DiffLine["type"], string> = {
+  added: "Added: ",
+  removed: "Removed: ",
+  unchanged: "",
 };
 
 export function CodeDiff({
@@ -62,8 +85,7 @@ export function CodeDiff({
   style,
 }: CodeDiffProps) {
   const diff = useMemo(() => computeDiff(before, after), [before, after]);
-  const beforeLines = before.split("\n");
-  const afterLines = after.split("\n");
+  const splitRows = useMemo(() => toSplitRows(diff), [diff]);
 
   return (
     <div
@@ -74,7 +96,7 @@ export function CodeDiff({
       style={style}
     >
       {(filename || language) && (
-        <div className="flex items-center gap-2 px-4 py-2 border-b border-rule bg-raised">
+        <div className="flex items-center gap-(--spacing-sm) px-(--spacing-lg) py-(--spacing-sm) border-b border-rule bg-raised">
           {filename && <span className="text-foreground font-medium">{filename}</span>}
           {language && <span className="text-faint text-body-caption ml-auto">{language}</span>}
         </div>
@@ -83,50 +105,71 @@ export function CodeDiff({
       <div style={{ maxHeight, overflow: "auto" }}>
         {splitView ? (
           <div className="grid grid-cols-2 divide-x divide-rule">
-            {(["before", "after"] as const).map((side) => {
-              const lines = side === "before" ? beforeLines : afterLines;
-              return (
-                <div key={side}>
-                  <div className="px-4 py-1 bg-raised border-b border-rule text-faint text-body-caption font-semibold uppercase tracking-wide">
-                    {side === "before" ? "− Before" : "+ After"}
-                  </div>
-                  <table className="w-full border-collapse">
-                    <tbody>
-                      {lines.map((content, idx) => (
-                        <tr key={idx} className="hover:bg-raised/50">
+            {(["left", "right"] as const).map((side) => (
+              <div key={side}>
+                <div className="px-(--spacing-lg) py-(--spacing-2xs) bg-raised border-b border-rule text-faint text-body-caption font-semibold uppercase tracking-wide">
+                  {side === "left" ? "− Before" : "+ After"}
+                </div>
+                {/* role="presentation": grade de alinhamento (número + conteúdo), não dado
+                    tabular de navegação — sem isso, leitor de tela anuncia "tabela com N linhas"
+                    pra um diff de código */}
+                <table className="w-full border-collapse" role="presentation">
+                  <tbody>
+                    {splitRows.map((row, idx) => {
+                      const cell = row[side];
+                      return (
+                        <tr key={idx} className={cell ? LINE_BG[cell.type] : undefined}>
                           {showLineNumbers && (
-                            <td className="select-none w-10 text-right pr-3 py-0.5 text-faint text-body-caption border-r border-rule/50">
-                              {idx + 1}
+                            <td
+                              aria-hidden="true"
+                              className="select-none w-10 text-right pr-(--spacing-md) py-(--spacing-3xs) text-faint text-body-caption border-r border-rule/50"
+                            >
+                              {cell ? (side === "left" ? cell.oldNum : cell.newNum) : ""}
                             </td>
                           )}
-                          <td className="py-0.5 pl-3 whitespace-pre text-foreground">{content}</td>
+                          <td className="py-(--spacing-3xs) pl-(--spacing-md) whitespace-pre text-foreground">
+                            {cell && <span className="sr-only">{LINE_SR_LABEL[cell.type]}</span>}
+                            {cell?.content ?? " "}
+                          </td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              );
-            })}
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ))}
           </div>
         ) : (
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse" role="presentation">
             <tbody>
               {diff.map((line, idx) => (
                 <tr key={idx} className={LINE_BG[line.type]}>
                   {showLineNumbers && (
                     <>
-                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
+                      <td
+                        aria-hidden="true"
+                        className="select-none w-8 text-right pr-(--spacing-sm) py-(--spacing-3xs) text-faint text-body-caption border-r border-rule/50"
+                      >
                         {line.type !== "added" ? line.oldNum ?? "" : ""}
                       </td>
-                      <td className="select-none w-8 text-right pr-2 py-0.5 text-faint text-body-caption border-r border-rule/50">
+                      <td
+                        aria-hidden="true"
+                        className="select-none w-8 text-right pr-(--spacing-sm) py-(--spacing-3xs) text-faint text-body-caption border-r border-rule/50"
+                      >
                         {line.type !== "removed" ? line.newNum ?? "" : ""}
                       </td>
                     </>
                   )}
-                  <td className={cn("select-none w-5 text-center py-0.5 font-bold", LINE_SIGN[line.type])}>
+                  <td
+                    aria-hidden="true"
+                    className={cn("select-none w-5 text-center py-(--spacing-3xs) font-bold", LINE_SIGN[line.type])}
+                  >
                     {line.type === "added" ? "+" : line.type === "removed" ? "-" : " "}
                   </td>
-                  <td className="py-0.5 pl-2 whitespace-pre text-foreground">{line.content}</td>
+                  <td className="py-(--spacing-3xs) pl-(--spacing-sm) whitespace-pre text-foreground">
+                    <span className="sr-only">{LINE_SR_LABEL[line.type]}</span>
+                    {line.content}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -3822,7 +3822,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "code-diff",
     title: "Code Diff",
     group: "data",
-    description: "Side-by-side or unified code diff viewer with line numbers and syntax highlight.",
+    description: "Side-by-side or unified code diff viewer with line numbers and added/removed highlighting.",
     filePath: "src/components/ui/cn/code-diff/CodeDiff.tsx",
     peerDeps: ["@/lib/utils"],
     props: [
@@ -3868,6 +3868,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Altura máxima com scroll vertical",
       },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
