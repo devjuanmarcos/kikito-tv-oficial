@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T19:39:45.058Z",
+  "generatedAt": "2026-08-29T20:06:04.262Z",
   "items": [
     {
       "name": "accordion",
@@ -958,6 +958,17 @@
       "status": "live",
       "dependencies": [],
       "registryDependencies": []
+    },
+    {
+      "name": "item",
+      "version": "1.1.0",
+      "title": "Item",
+      "type": "registry:component",
+      "description": "Item component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": ["separator"]
     },
     {
       "name": "json-viewer",

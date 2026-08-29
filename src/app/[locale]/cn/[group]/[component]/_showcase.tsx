@@ -86,6 +86,16 @@ import { InfiniteScroll } from "@/components/ui/cn/infinite-scroll/InfiniteScrol
 import { InlineEdit } from "@/components/ui/cn/inline-edit/InlineEdit";
 import { Input } from "@/components/ui/cn/input/Input";
 import { InputGroup } from "@/components/ui/cn/input-group/InputGroup";
+import {
+  Item,
+  ItemGroup,
+  ItemSeparator,
+  ItemMedia,
+  ItemContent,
+  ItemTitle,
+  ItemDescription,
+  ItemActions,
+} from "@/components/ui/cn/item";
 import { JsonViewer } from "@/components/ui/cn/json-viewer/JsonViewer";
 import { Kanban } from "@/components/ui/cn/kanban/Kanban";
 import { Kbd, KbdSequence } from "@/components/ui/cn/kbd";
@@ -6537,6 +6547,126 @@ function IconBoxDemo() {
   );
 }
 
+function ItemDemo() {
+  const BellIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full">
+      <path
+        d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Notification list (media + actions)">
+        <Frame label="default · outline · muted">
+          <ItemGroup className="max-w-md">
+            <Item variant="outline">
+              <ItemMedia variant="icon">
+                <BellIcon />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Novo comentário</ItemTitle>
+                <ItemDescription>Dana Costa comentou no seu post.</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Badge intent="info" size="sm">
+                  Novo
+                </Badge>
+              </ItemActions>
+            </Item>
+            <Item variant="muted">
+              <ItemMedia variant="image">
+                <img src="https://i.pravatar.cc/80?img=12" alt="" />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Kim Alves seguiu você</ItemTitle>
+                <ItemDescription>Agora vocês estão conectados.</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Button size="sm" variant="outline">
+                  Seguir de volta
+                </Button>
+              </ItemActions>
+            </Item>
+            <Item>
+              <ItemMedia variant="icon">
+                <BellIcon />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Backup concluído</ItemTitle>
+                <ItemDescription>Todos os arquivos foram sincronizados com sucesso.</ItemDescription>
+              </ItemContent>
+            </Item>
+          </ItemGroup>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Densidade (size)">
+        <Frame label="default · sm · xs" align="start">
+          <div className="flex flex-col gap-6 w-full max-w-md">
+            <Item variant="outline" size="default">
+              <ItemMedia variant="icon">
+                <BellIcon />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Tamanho default</ItemTitle>
+                <ItemDescription>Padding e gap padrão.</ItemDescription>
+              </ItemContent>
+            </Item>
+            <Item variant="outline" size="sm">
+              <ItemMedia variant="icon">
+                <BellIcon />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Tamanho sm</ItemTitle>
+                <ItemDescription>Mesma densidade do default.</ItemDescription>
+              </ItemContent>
+            </Item>
+            <Item variant="outline" size="xs">
+              <ItemMedia variant="icon">
+                <BellIcon />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Tamanho xs</ItemTitle>
+                <ItemDescription>Mais compacto — descrição encolhe pra caption.</ItemDescription>
+              </ItemContent>
+            </Item>
+          </div>
+        </Frame>
+      </ShowcaseSection>
+
+      <ShowcaseSection title="Grupo com separador">
+        <Frame label="ItemGroup + ItemSeparator" align="start">
+          <ItemGroup className="max-w-md">
+            <Item>
+              <ItemMedia variant="image">
+                <img src="https://i.pravatar.cc/80?img=32" alt="" />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Leo Prado</ItemTitle>
+                <ItemDescription>leo@kikito.com</ItemDescription>
+              </ItemContent>
+            </Item>
+            <ItemSeparator />
+            <Item>
+              <ItemMedia variant="image">
+                <img src="https://i.pravatar.cc/80?img=45" alt="" />
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>Dana Costa</ItemTitle>
+                <ItemDescription>dana@kikito.com</ItemDescription>
+              </ItemContent>
+            </Item>
+          </ItemGroup>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function TabsDemo() {
   const [activeTab, setActiveTab] = useState("overview");
   const items = [
@@ -7270,6 +7400,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "overlays/popover": PopoverDemo,
   "display/hover-card": HoverCardDemo,
   "display/icon-box": IconBoxDemo,
+  "display/item": ItemDemo,
   "display/tabs": TabsDemo,
   "display/accordion": AccordionDemo,
   "display/collapsible": CollapsibleDemo,

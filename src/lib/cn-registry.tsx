@@ -7771,6 +7771,28 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
   },
+  // ── item
+  {
+    name: "item",
+    title: "Item",
+    group: "display",
+    description:
+      "Generic list-row primitive (Item/ItemGroup/ItemMedia/ItemContent/...) for notification, settings and search-result rows.",
+    filePath: "src/components/ui/cn/item/Item.tsx",
+    peerDeps: ["@/lib/utils"],
+    keywords: ["item group", "list row", "list-row", "item media", "item content"],
+    props: [
+      {
+        name: "variant",
+        type: "'default' | 'outline' | 'muted'",
+        default: "'default'",
+        description: "Estilo do fundo/borda",
+      },
+      { name: "size", type: "'default' | 'sm' | 'xs'", default: "'default'", description: "Densidade (padding/gap)" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
+    ],
+  },
   // ── kbd
   {
     name: "kbd",
