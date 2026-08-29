@@ -695,8 +695,7 @@ function RichSelectImpl({
                 setSearch(e.target.value);
                 setHighlighted(0);
               }}
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
+              autoFocus // eslint-disable-line jsx-a11y/no-autofocus
             />
           )}
           <div className="overflow-y-auto flex-1 py-(--spacing-2xs)">

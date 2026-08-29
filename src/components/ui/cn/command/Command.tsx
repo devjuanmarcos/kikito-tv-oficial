@@ -357,8 +357,7 @@ function CommandBarImpl({ actions, placeholder = "Search commands…", className
             setCursor(0);
           }}
           onKeyDown={onKeyDown}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus
+          autoFocus // eslint-disable-line jsx-a11y/no-autofocus
         />
       </div>
 

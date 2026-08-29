@@ -458,8 +458,7 @@ function SelectFilter({
         <div className="absolute top-[calc(100%+4px)] left-0 z-[800] bg-raised border border-rule rounded-(--radius-md) shadow-[0_4px_16px_oklch(0%_0_0_/_0.2)] min-w-[180px] overflow-hidden">
           <div className="p-(--spacing-sm) border-b border-rule">
             <input
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
+              autoFocus // eslint-disable-line jsx-a11y/no-autofocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={`Search ${title}…`}

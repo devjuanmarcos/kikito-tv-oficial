@@ -121,8 +121,7 @@ export function MarkdownRenderer({ content, className, style }: MarkdownRenderer
         className
       )}
       style={style}
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: html }} // eslint-disable-line react/no-danger
     />
   );
 }
