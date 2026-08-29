@@ -1132,11 +1132,18 @@ function BarChartDemo() {
     { label: "Jun", value: 84 },
   ];
   return (
-    <Frame label="Bar Chart — animated SVG bars with per-bar colors">
-      <div className="w-full flex justify-center py-4">
-        <BarChart data={data} height={220} animate />
-      </div>
-    </Frame>
+    <div className="w-full">
+      <Frame label="Bar Chart — animated SVG bars with per-bar colors">
+        <div className="w-full flex justify-center py-4">
+          <BarChart data={data} height={220} animate />
+        </div>
+      </Frame>
+      <Frame label='Bar Chart — orientation="horizontal" (long category labels)'>
+        <div className="w-full flex justify-center py-4">
+          <BarChart data={data} orientation="horizontal" width={320} animate />
+        </div>
+      </Frame>
+    </div>
   );
 }
 
