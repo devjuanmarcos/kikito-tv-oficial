@@ -44,4 +44,14 @@ test.describe("QuoteBlock", () => {
     await expect(frame.getByText("Alan Turing")).toBeVisible();
     await expect(frame.getByText("Simplicity is the ultimate sophistication.")).toBeVisible();
   });
+
+  // achado real (2026-08-29, ver CLAUDE.md §Bordas): `border-(--var)` sem o hint `length:`
+  // é silenciosamente ignorado pelo Tailwind v4 — a classe aparece no HTML, zero efeito
+  // visual, sem nenhum erro. Guarda de regressão pro token de largura de borda.
+  test("token de largura de borda resolve de verdade (não fica em 0px)", async ({ page }) => {
+    const defaultFigure = page.locator("figure").first();
+    const borderedFigure = page.locator("figure").nth(1);
+    await expect(defaultFigure).toHaveCSS("border-width", "1px");
+    await expect(borderedFigure).toHaveCSS("border-left-width", "3px");
+  });
 });

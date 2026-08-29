@@ -144,9 +144,42 @@ Cada token bate exato com um step numérico já usado — migrar uma classe (`ga
 3. Componente que importa `motion` declara `peerDeps: ["@/lib/motion", "motion"]` no registry (`cn-registry.tsx`).
 4. **Pendência conhecida**: `npx kikitocn add <componente>` hoje não empacota `src/lib/motion/**` (mesmo problema, aliás, nunca resolvido pra `@/lib/utils`) — só afeta instalação via CLI publicado, não uso direto dentro deste repo. Ver `docs/component-import/motion-infrastructure/PLAN.md` §3.5.
 
-## Bordas (próximo passo — ainda não iniciado)
+## Bordas (largura) — Kikito CN (`src/components/ui/cn/**`)
 
-Regra equivalente pra largura/estilo de borda será definida quando o trabalho de spacing estiver rodando. Por enquanto seguir o que já existe: `border`, `border-rule` pra cor, sem hardcode.
+6ª categoria de token, mesma lógica de Cores/Tipografia/Radius/Spacing/Animação acima. Fonte: `src/styles/kikitocn-tokens.css` (bloco `:root, .dark`, fora do `@theme inline`, mesmo padrão de spacing/motion — não é um namespace themeável nativo do Tailwind v4 como `--radius-*`, então não recebe alias de classe própria).
+
+### Tokens
+
+Ancorados em auditoria de frequência real (2026-08-29), mesma metodologia já usada pra Spacing/Motion — nunca inventar um valor sem confirmar uso real primeiro.
+
+| Token                     | Valor | Uso real (frequência)                                                                          |
+| ------------------------- | ----- | ---------------------------------------------------------------------------------------------- |
+| `--border-width-hairline` | 1px   | Padrão dominante (~1150 ocorrências) — contorno normal de card/input/divider                   |
+| `--border-width-thin`     | 1.5px | 12x — Avatar, Button, Callout, ColorPicker, Radio, Spinner, Timeline                           |
+| `--border-width-base`     | 2px   | 27x — ênfase (foco, seleção, badge)                                                            |
+| `--border-width-thick`    | 3px   | 12x, majoritariamente faixa de destaque lateral — QuoteBlock, MultiAccordion, MarkdownRenderer |
+| `--border-width-heavy`    | 4px   | 5x — faixa de destaque maior                                                                   |
+
+**Exceção sem token**: 2.5px (2 ocorrências — Spinner/AvatarGroup/UserCard) é rara demais pra token próprio. Documentar com comentário `/* below scale minimum */`-style explicando o valor quando aparecer, igual à regra já usada pra spacing fora da escala.
+
+Cor de borda continua em `border-rule` (token de Cores, já existente) — nunca hardcode. Estilo (`dashed`/`dotted`/`solid`) já é 100% coberto pelas classes nativas do Tailwind (`border-dashed` etc.) — palavras-chave discretas, sem escala numérica pra tokenizar, nenhum gap aqui.
+
+### Sintaxe de consumo — achado real, ler antes de usar
+
+Ao contrário de `rounded-(--radius-sm)` e `gap-(--spacing-sm)` (que funcionam com a forma "nua"), a forma nua `border-(--var)` / `border-l-(--var)` **é silenciosamente ignorada pelo Tailwind v4** — a classe aparece no HTML normalmente, zero erro de build, zero warning, mas **zero efeito visual** (`border`/`border-l` são ambíguos entre `border-width` e `border-color`, e sem um hint de tipo o compilador simplesmente descarta a classe). Confirmado ao migrar `QuoteBlock` nesta sessão: computed `border-width` ficava em `0px` com a sintaxe nua.
+
+**Sempre usar o hint de tipo `length:`:**
+
+```
+border-(length:--border-width-thick)
+border-l-(length:--border-width-thick)
+```
+
+Nunca `border-(--border-width-thick)` sem o `length:` — parece funcionar (nenhum erro), mas não aplica nada.
+
+### Status
+
+Decisão tomada (2026-08-29), primeiro consumidor real feito em `QuoteBlock.tsx` (variantes `default`/`bordered`), confirmado visualmente via Playwright (`border-width: 1px` / `border-left-width: 3px` computados corretamente). Migração é **componente a componente**, mesmo fluxo já estabelecido pra Spacing — não migrar em massa. Ao validar ou editar um componente CN, se encontrar `border-[Npx]` arbitrário ou `border-2`/`border-4`/etc. batendo exato com um token acima, trocar pela sintaxe `length:` acima; se não bater exato (raro, a escala já cobre 1/1.5/2/3/4px), documentar comentário explicando o valor.
 
 ## Bug latente achado por auditoria: `rounded` sem sufixo
 

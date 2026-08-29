@@ -6,8 +6,8 @@ import type { QuoteBlockProps, QuoteBlockVariant } from "./quote-block.types";
 
 const VARIANT_WRAP: Record<QuoteBlockVariant, string> = {
   // p-5/pl-5: sem match exato na escala de spacing
-  default: "border border-rule rounded-(--radius-md) p-5",
-  bordered: "border-l-[3px] border-patina pl-5 py-(--spacing-sm)",
+  default: "border-(length:--border-width-hairline) border-rule rounded-(--radius-md) p-5",
+  bordered: "border-l-(length:--border-width-thick) border-patina pl-5 py-(--spacing-sm)",
   filled: "bg-graphite rounded-(--radius-md) p-5",
   minimal: "py-(--spacing-sm)",
 };

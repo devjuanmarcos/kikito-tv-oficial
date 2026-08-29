@@ -167,6 +167,34 @@
   --ks-motion-distance-sm: 8px;
   --ks-motion-distance-md: 16px;
   --ks-motion-distance-lg: 24px;
+
+  /* ── Bordas (largura) ──
+     Ancorado em uso real, mesma metodologia de spacing/motion — auditoria
+     de frequência em src/components/ui/cn/** (2026-08-29): 1px domina
+     (~1150 ocorrências via `border`/`border-t`/`border-b`/`border-l`/
+     `border-r`), mas 1.5px (12x — Avatar, Button, Callout, ColorPicker,
+     Radio, Spinner, Timeline), 2px (27x) e 3px (12x, majoritariamente
+     `border-l-[3px]` de faixa de destaque — QuoteBlock, MultiAccordion,
+     MarkdownRenderer) já são padrões reais espalhados por múltiplos
+     componentes, não ruído. 4px (5x, `border-l-4`) é a faixa de destaque
+     maior. 2.5px (2x, Spinner/AvatarGroup/UserCard) é exceção rara demais
+     pra token próprio — documentar com comentário quando aparecer, igual
+     à regra já usada pra spacing fora da escala.
+
+     Sintaxe de consumo — ACHADO REAL (2026-08-29): ao contrário de
+     `rounded-(--radius-sm)`/`gap-(--spacing-sm)`, a forma "nua"
+     `border-(--var)`/`border-l-(--var)` é SILENCIOSAMENTE IGNORADA pelo
+     Tailwind v4 (a classe aparece no HTML, zero erro, zero efeito visual —
+     `border`/`border-l` são ambíguos entre width e color, e sem hint o
+     compilador descarta). Confirmado ao migrar QuoteBlock: só funcionou
+     depois de adicionar o hint de tipo — `border-(length:--border-width-x)`
+     / `border-l-(length:--border-width-x)`. Sempre usar a forma com
+     `length:` pra largura de borda, nunca a forma nua. */
+  --border-width-hairline: 1px;
+  --border-width-thin: 1.5px;
+  --border-width-base: 2px;
+  --border-width-thick: 3px;
+  --border-width-heavy: 4px;
 }
 
 /* Violet + rose — light values (no template equivalent) */
