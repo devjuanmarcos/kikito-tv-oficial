@@ -897,11 +897,16 @@ function EventCalendarDemo() {
     },
     { id: "5", title: "All hands", date: new Date(y, m, 20).toISOString().split("T")[0], intent: "info" as const },
     { id: "6", title: "Incident", date: new Date(y, m, 25).toISOString().split("T")[0], intent: "danger" as const },
+    { id: "7", title: "1:1s", date: new Date(y, m, 9).toISOString().split("T")[0], intent: "neutral" as const },
   ];
   return (
     <Frame label="Event Calendar — monthly grid with color-coded events">
       <div className="w-full max-w-2xl mx-auto">
-        <EventCalendar events={events} />
+        <EventCalendar
+          events={events}
+          onDayClick={(date) => console.log("day clicked", date)}
+          onEventClick={(ev) => console.log("event clicked", ev)}
+        />
       </div>
     </Frame>
   );

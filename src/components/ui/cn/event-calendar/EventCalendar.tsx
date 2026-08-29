@@ -26,6 +26,10 @@ function toDateStr(y: number, m: number, d: number): string {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
+// achado real: `neutral` está no tipo do intent mas não tinha entrada aqui — caía no
+// fallback `?? intentMap.primary`, fazendo eventos "neutral" renderizarem coloridos como
+// primary em vez de neutros. `tertiary`/`quaternary` já tinham cor pronta mas o tipo não
+// aceitava esses valores (corrigido em event-calendar.types.ts)
 const intentMap: Record<string, string> = {
   primary: "bg-patina-soft text-patina",
   secondary: "bg-kinpaku-soft text-kinpaku",
@@ -35,6 +39,7 @@ const intentMap: Record<string, string> = {
   danger: "bg-danger-soft text-danger",
   tertiary: "bg-violet-soft text-violet",
   quaternary: "bg-rose-soft text-rose",
+  neutral: "bg-neutral-soft text-neutral",
 };
 
 export function EventCalendar({
@@ -106,7 +111,9 @@ export function EventCalendar({
         >
           <span aria-hidden="true">‹</span>
         </button>
-        <span className="text-body-paragraph font-bold text-foreground">
+        {/* aria-live: navegar entre meses não move o foco (fica no botão ‹/›) — sem isso,
+            leitor de tela nunca era avisado que o mês mudou */}
+        <span className="text-body-paragraph font-bold text-foreground" aria-live="polite">
           {MONTHS[month]} {year}
         </span>
         <button

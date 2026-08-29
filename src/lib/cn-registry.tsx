@@ -2616,6 +2616,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "onEventClick", type: "(event: CalendarEvent) => void", description: "Callback ao clicar em evento" },
       { name: "onDayClick", type: "(date: string) => void", description: "Callback ao clicar em dia" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
