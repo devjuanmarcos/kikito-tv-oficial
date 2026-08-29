@@ -135,7 +135,7 @@ export function MediaPlayer({
     <div
       style={style}
       className={cn(
-        "flex items-center gap-4 p-4 rounded-2xl border border-rule bg-raised",
+        "flex items-center gap-(--spacing-lg) p-(--spacing-lg) rounded-2xl border border-rule bg-raised",
         "w-full max-w-md",
         className
       )}
@@ -165,7 +165,7 @@ export function MediaPlayer({
       {/* Main */}
       <div className="flex-1 min-w-0">
         {/* Track info */}
-        <div className="mb-2">
+        <div className="mb-(--spacing-sm)">
           <p className="text-body-callout font-semibold text-foreground truncate">{title}</p>
           <p className="text-body-caption text-faint truncate">{artist}</p>
         </div>
@@ -173,7 +173,7 @@ export function MediaPlayer({
         {/* Progress — clique/arraste era mouse-only, sem alternativa de teclado.
             Vira role="slider" focável com Arrow/Home/End chamando o mesmo
             `seekTo` do clique */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-(--spacing-sm) mb-(--spacing-sm)">
           {/* text-[0.6rem] abaixo do mínimo da escala (0.75rem): micro-label
               numérico de tempo decorrido, não conteúdo primário */}
           <span className="text-[0.6rem] text-faint tabular-nums w-6">{fmt(progress)}</span>
@@ -203,7 +203,7 @@ export function MediaPlayer({
 
         {/* Controls */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-(--spacing-sm)">
             {/* setProgress(0) direto nunca atualizava mediaRef.currentTime quando
                 havia `src` real — usava seekTo (mesma correção do Next) */}
             <button
@@ -233,7 +233,7 @@ export function MediaPlayer({
           </div>
 
           {/* Volume */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-(--spacing-xs)">
             <VolumeIcon />
             <input
               type="range"

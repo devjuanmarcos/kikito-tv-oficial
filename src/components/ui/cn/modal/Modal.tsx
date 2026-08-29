@@ -144,7 +144,7 @@ function ModalDialog({
           onClick={closeOnOverlay ? onClose : undefined}
           aria-hidden="true"
         />
-        <div className="fixed inset-0 z-[1201] flex items-center justify-center p-4 pointer-events-none">
+        <div className="fixed inset-0 z-[1201] flex items-center justify-center p-(--spacing-lg) pointer-events-none">
           <div
             ref={panelRef}
             role="dialog"
@@ -160,10 +160,12 @@ function ModalDialog({
             )}
           >
             {(title || description || !hideClose) && (
-              <div className="flex items-start gap-3 px-6 pt-5 pb-4 border-b border-rule shrink-0">
+              <div className="flex items-start gap-(--spacing-md) px-(--spacing-xl) pt-5 pb-(--spacing-lg) border-b border-rule shrink-0">
                 <div className="flex-1 min-w-0">
                   {title && <p className="text-body-paragraph font-bold text-foreground">{title}</p>}
-                  {description && <p className="text-body-callout text-faint mt-1 leading-normal">{description}</p>}
+                  {description && (
+                    <p className="text-body-callout text-faint mt-(--spacing-2xs) leading-normal">{description}</p>
+                  )}
                 </div>
                 {!hideClose && (
                   <Button
@@ -251,7 +253,7 @@ function ModalAlert({
         <motion.div
           key="alert-dialog-overlay"
           // bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light)
-          className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-4"
+          className="fixed inset-0 bg-black/55 flex items-center justify-center z-[9999] p-(--spacing-lg)"
           {...fadeIn}
           transition={transitionFast}
           onClick={(e) => {
@@ -262,7 +264,7 @@ function ModalAlert({
             key="alert-dialog-panel"
             ref={panelRef}
             className={cn(
-              "bg-raised border border-rule rounded-(--radius-md) p-6 w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)]",
+              "bg-raised border border-rule rounded-(--radius-md) p-(--spacing-xl) w-full max-w-[440px] shadow-[0_20px_60px_color-mix(in_srgb,black_35%,transparent)]",
               className
             )}
             style={style}
@@ -275,21 +277,21 @@ function ModalAlert({
           >
             <div
               className={cn(
-                "w-10 h-10 rounded-md flex items-center justify-center mb-4 [&>svg]:w-5 [&>svg]:h-5",
+                "w-10 h-10 rounded-md flex items-center justify-center mb-(--spacing-lg) [&>svg]:w-5 [&>svg]:h-5",
                 ALERT_ICON_CLS[intent]
               )}
             >
               {intent === "primary" ? <AlertPrimaryIcon /> : <AlertDangerIcon />}
             </div>
-            <p className="text-body-paragraph font-bold mb-2 text-foreground" id="ad-title">
+            <p className="text-body-paragraph font-bold mb-(--spacing-sm) text-foreground" id="ad-title">
               {title}
             </p>
             {description && (
-              <p className="text-body-callout leading-relaxed text-muted mb-6" id="ad-desc">
+              <p className="text-body-callout leading-relaxed text-muted mb-(--spacing-xl)" id="ad-desc">
                 {description}
               </p>
             )}
-            <div className="flex gap-2 justify-end">
+            <div className="flex gap-(--spacing-sm) justify-end">
               <Button intent="neutral" variant="outline" size="sm" onClick={handleCancel} disabled={loading}>
                 {cancelLabel}
               </Button>
@@ -409,10 +411,12 @@ function ModalDrawer({
           )}
         >
           {(title || !hideClose) && (
-            <div className="flex items-start gap-3 px-6 py-5 border-b border-rule shrink-0">
+            <div className="flex items-start gap-(--spacing-md) px-(--spacing-xl) py-5 border-b border-rule shrink-0">
               <div className="flex-1 min-w-0">
                 {title && <p className="text-body-paragraph font-bold text-foreground">{title}</p>}
-                {description && <p className="text-body-callout text-faint mt-1 leading-normal">{description}</p>}
+                {description && (
+                  <p className="text-body-callout text-faint mt-(--spacing-2xs) leading-normal">{description}</p>
+                )}
               </div>
               {!hideClose && (
                 <Button
@@ -429,12 +433,12 @@ function ModalDrawer({
               )}
             </div>
           )}
-          <div className="flex-1 overflow-y-auto p-6">{children}</div>
+          <div className="flex-1 overflow-y-auto p-(--spacing-xl)">{children}</div>
           {footer && (
             <div
               className={cn(
                 // gap-[0.625rem] (10px) fica entre --spacing-sm (8px) e --spacing-md (12px), sem match exato
-                "flex items-center gap-[0.625rem] px-6 py-4 border-t border-rule shrink-0",
+                "flex items-center gap-[0.625rem] px-(--spacing-xl) py-(--spacing-lg) border-t border-rule shrink-0",
                 DRAWER_FOOTER_ALIGN[footerAlign]
               )}
             >
@@ -531,7 +535,7 @@ export function Modal(props: ModalProps) {
 }
 
 export function ModalBody({ children, className }: ModalBodyProps) {
-  return <div className={cn("flex-1 overflow-y-auto px-6 py-5", className)}>{children}</div>;
+  return <div className={cn("flex-1 overflow-y-auto px-(--spacing-xl) py-5", className)}>{children}</div>;
 }
 
 export function ModalFooter({ children, align = "right", className }: ModalFooterProps) {
@@ -539,7 +543,7 @@ export function ModalFooter({ children, align = "right", className }: ModalFoote
     <div
       className={cn(
         // gap-[0.625rem] (10px) fica entre --spacing-sm (8px) e --spacing-md (12px), sem match exato
-        "flex items-center gap-[0.625rem] px-6 py-4 border-t border-rule shrink-0",
+        "flex items-center gap-[0.625rem] px-(--spacing-xl) py-(--spacing-lg) border-t border-rule shrink-0",
         FOOTER_ALIGN[align],
         className
       )}

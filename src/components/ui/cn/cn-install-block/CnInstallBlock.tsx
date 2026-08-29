@@ -46,7 +46,7 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
 
   return (
     <div data-testid="cn-install-block">
-      <div className="mb-2">
+      <div className="mb-(--spacing-sm)">
         <span className="text-body-caption font-semibold text-foreground">Instalação via CLI</span>
       </div>
 
@@ -54,8 +54,8 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
           terminal/CLI, deliberadamente independente do tema claro/escuro do site — sem
           token equivalente, já que o objetivo é imitar um terminal real. */}
       <div className="rounded-(--radius-md) border border-rule bg-[#0d1117] overflow-hidden">
-        <div className="flex items-center justify-between gap-3 px-4 py-3">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center justify-between gap-(--spacing-md) px-(--spacing-lg) py-(--spacing-md)">
+          <div className="flex items-center gap-(--spacing-sm) min-w-0">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -76,7 +76,7 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
             type="button"
             onClick={copy}
             aria-label={copied ? "Copiado!" : "Copiar comando"}
-            className="flex items-center gap-1.5 text-[#8b949e] hover:text-[#e6edf3] transition-colors text-body-caption shrink-0"
+            className="flex items-center gap-(--spacing-xs) text-[#8b949e] hover:text-[#e6edf3] transition-colors text-body-caption shrink-0"
           >
             {copied ? <CheckIcon /> : <CopyIcon />}
             <span>{copied ? "Copiado" : "Copiar"}</span>
@@ -84,15 +84,17 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
         </div>
 
         {hasDeps && (
-          <div className="px-4 py-2.5 border-t border-[#30363d] bg-[#161b22] flex flex-wrap gap-x-6 gap-y-2">
+          // py-2.5 (0.625rem): sem match exato entre --spacing-sm (0.5rem) e --spacing-md
+          // (0.75rem) — fica arbitrário mesmo, ver CLAUDE.md §Spacing.
+          <div className="px-(--spacing-lg) py-2.5 border-t border-[#30363d] bg-[#161b22] flex flex-wrap gap-x-(--spacing-xl) gap-y-(--spacing-sm)">
             {peerDeps && peerDeps.length > 0 && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-(--spacing-sm)">
                 <span className="text-body-caption text-[#8b949e]">Interno:</span>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-(--spacing-xs)">
                   {peerDeps.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-[#79c0ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#79c0ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-(--spacing-xs) py-(--spacing-3xs)"
                     >
                       {d}
                     </code>
@@ -101,13 +103,13 @@ export function CnInstallBlock({ name, peerDeps, dependencies }: CnInstallBlockP
               </div>
             )}
             {dependencies && dependencies.length > 0 && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-(--spacing-sm)">
                 <span className="text-body-caption text-[#8b949e]">npm:</span>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-(--spacing-xs)">
                   {dependencies.map((d) => (
                     <code
                       key={d}
-                      className="text-body-caption font-mono text-[#d2a8ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-1.5 py-0.5"
+                      className="text-body-caption font-mono text-[#d2a8ff] bg-[#0d1117] border border-[#30363d] rounded-(--radius-xs) px-(--spacing-xs) py-(--spacing-3xs)"
                     >
                       {d}
                     </code>

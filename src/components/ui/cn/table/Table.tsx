@@ -859,7 +859,7 @@ function TableVariant<TRow extends object>({
           <thead className={cn("bg-graphite border-b border-rule", stickyHeader && "sticky top-0 z-[2]")}>
             <tr>
               {selectable && (
-                <th className={cn(thCls, "w-10 pr-1")}>
+                <th className={cn(thCls, "w-10 pr-(--spacing-2xs)")}>
                   <Checkbox
                     checked={allSelected}
                     indeterminate={someSelected}
@@ -930,7 +930,7 @@ function TableVariant<TRow extends object>({
             {loading ? (
               skeletonRows.map((_, ri) => (
                 <tr key={ri} className="border-b border-rule animate-pulse">
-                  {selectable && <td className={cn(tdCls, "w-10 pr-1")} />}
+                  {selectable && <td className={cn(tdCls, "w-10 pr-(--spacing-2xs)")} />}
                   {visibleCols.map((col) => (
                     <td key={col.key} className={tdCls}>
                       <div
@@ -981,7 +981,7 @@ function TableVariant<TRow extends object>({
                     }
                   >
                     {selectable && (
-                      <td className={cn(tdCls, "w-10 pr-1")} onClick={(e) => e.stopPropagation()}>
+                      <td className={cn(tdCls, "w-10 pr-(--spacing-2xs)")} onClick={(e) => e.stopPropagation()}>
                         <Checkbox
                           checked={isSelected}
                           onChange={() => toggleRow(id)}
