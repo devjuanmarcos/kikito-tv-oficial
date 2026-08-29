@@ -410,9 +410,18 @@ function CardStackDemo() {
     },
   ];
   return (
-    <Frame label="Auto-play (3s)">
-      <CardStack cards={cards} autoPlay interval={3000} />
-    </Frame>
+    <div className="flex flex-col gap-6 w-full">
+      <ShowcaseSection title="Auto-play (3s)">
+        <Frame label="Auto-play (3s)">
+          <CardStack cards={cards} autoPlay interval={3000} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Manual — click or press Enter/Space">
+        <Frame label="Click or keyboard to advance">
+          <CardStack cards={cards} />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

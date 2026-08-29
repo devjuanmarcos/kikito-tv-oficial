@@ -2570,9 +2570,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "cards", type: "CardStackItem[]", required: true, description: "Array de { id, content } para empilhar" },
       { name: "offset", type: "number", default: "10", description: "Deslocamento vertical entre os cards (px)" },
       { name: "scaleFactor", type: "number", default: "0.06", description: "Redução de escala por camada" },
-      { name: "autoPlay", type: "boolean", default: "true", description: "Rotacionar automaticamente" },
-      { name: "interval", type: "number", default: "5000", description: "Intervalo de rotação (ms)" },
+      { name: "autoPlay", type: "boolean", default: "false", description: "Rotacionar automaticamente" },
+      { name: "interval", type: "number", default: "3000", description: "Intervalo de rotação (ms)" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
