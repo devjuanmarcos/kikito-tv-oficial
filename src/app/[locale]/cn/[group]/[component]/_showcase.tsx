@@ -108,6 +108,7 @@ import { MarkdownRenderer } from "@/components/ui/cn/markdown-renderer/MarkdownR
 import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
 import { Masonry } from "@/components/ui/cn/masonry/Masonry";
 import { MediaPlayer } from "@/components/ui/cn/media-player/MediaPlayer";
+import { Menubar } from "@/components/ui/cn/menubar";
 import { MetricCard } from "@/components/ui/cn/metric-card/MetricCard";
 import { MiniMap } from "@/components/ui/cn/mini-map/MiniMap";
 import { Modal, ModalBody, ModalFooter } from "@/components/ui/cn/modal/Modal";
@@ -5672,6 +5673,49 @@ function MediaPlayerDemo() {
   );
 }
 
+function MenubarDemo() {
+  const fileMenu = [
+    { type: "item" as const, value: "new", label: "New File", shortcut: "⌘N", onClick: () => {} },
+    { type: "item" as const, value: "open", label: "Open...", shortcut: "⌘O", onClick: () => {} },
+    { type: "separator" as const },
+    { type: "item" as const, value: "save", label: "Save", shortcut: "⌘S", onClick: () => {} },
+    { type: "item" as const, value: "save-as", label: "Save As...", shortcut: "⇧⌘S", onClick: () => {} },
+    { type: "separator" as const },
+    { type: "item" as const, value: "close", label: "Close", danger: true, onClick: () => {} },
+  ];
+  const editMenu = [
+    { type: "item" as const, value: "undo", label: "Undo", shortcut: "⌘Z", onClick: () => {} },
+    { type: "item" as const, value: "redo", label: "Redo", shortcut: "⇧⌘Z", onClick: () => {} },
+    { type: "separator" as const },
+    { type: "item" as const, value: "cut", label: "Cut", shortcut: "⌘X", onClick: () => {} },
+    { type: "item" as const, value: "copy", label: "Copy", shortcut: "⌘C", onClick: () => {} },
+    { type: "item" as const, value: "paste", label: "Paste", shortcut: "⌘V", onClick: () => {} },
+  ];
+  const viewMenu = [
+    { type: "item" as const, value: "zoom-in", label: "Zoom In", shortcut: "⌘+", onClick: () => {} },
+    { type: "item" as const, value: "zoom-out", label: "Zoom Out", shortcut: "⌘-", onClick: () => {} },
+    { type: "separator" as const },
+    { type: "item" as const, value: "fullscreen", label: "Enter Full Screen", disabled: true, onClick: () => {} },
+  ];
+
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Barra de menu (File/Edit/View)">
+        <Frame label="Clique num menu, depois passe o mouse pelos outros">
+          <Menubar
+            menus={[
+              { label: "File", items: fileMenu },
+              { label: "Edit", items: editMenu },
+              { label: "View", items: viewMenu },
+              { label: "Help", items: [], disabled: true },
+            ]}
+          />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function NavigationMenuDemo() {
   const items = [
     { label: "Home", href: "#home" },
@@ -7437,6 +7481,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "display/media-player": MediaPlayerDemo,
   "display/metric-card": MetricCardDemo,
   "layout/navigation-menu": NavigationMenuDemo,
+  "layout/menubar": MenubarDemo,
   "display/note-card": NoteCardDemo,
   "feedback/notice-bar": NoticeBarDemo,
   "feedback/notification-bell": NotificationBellDemo,

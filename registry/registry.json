@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T20:06:04.262Z",
+  "generatedAt": "2026-08-29T20:25:28.205Z",
   "items": [
     {
       "name": "accordion",
@@ -1101,6 +1101,17 @@
       "status": "live",
       "dependencies": [],
       "registryDependencies": []
+    },
+    {
+      "name": "menubar",
+      "version": "1.1.0",
+      "title": "Menubar",
+      "type": "registry:component",
+      "description": "Menubar component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": ["motion"],
+      "registryDependencies": ["dropdown-menu"]
     },
     {
       "name": "metric-card",

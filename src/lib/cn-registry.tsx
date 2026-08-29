@@ -7877,6 +7877,26 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
+  // ── menubar
+  {
+    name: "menubar",
+    title: "Menubar",
+    group: "layout",
+    description: "Desktop-style horizontal app menu bar (File/Edit/View) with click-and-hover-to-switch menus.",
+    filePath: "src/components/ui/cn/menubar/Menubar.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
+    keywords: ["app menu", "menu bar", "menu-bar", "file edit view", "desktop menu"],
+    props: [
+      {
+        name: "menus",
+        type: "{ label: string; items: MenuEntry[]; disabled?: boolean }[]",
+        required: true,
+        description: "Menus da barra (mesmo tipo MenuEntry do DropdownMenu)",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
+    ],
+  },
   // ── navigation-menu
   {
     name: "navigation-menu",
