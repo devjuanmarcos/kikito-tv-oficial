@@ -3238,9 +3238,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "playing", type: "boolean", default: "false", description: "Ativa a animação das barras" },
       { name: "bars", type: "number", default: "20", description: "Número de barras" },
       { name: "color", type: "string", default: "'var(--ks-primary)'", description: "Cor das barras" },
-      { name: "height", type: "number", default: "48", description: "Altura da visualização (px)" },
-      { name: "variant", type: "'bars' | 'wave' | 'pulse'", default: "'bars'", description: "Estilo da animação" },
+      { name: "height", type: "number", default: "40", description: "Altura da visualização (px)" },
+      { name: "variant", type: "'bars' | 'wave' | 'pulse'", default: "'bars'", description: "Estilo visual" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {

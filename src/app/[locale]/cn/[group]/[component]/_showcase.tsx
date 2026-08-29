@@ -2111,7 +2111,11 @@ function AudioWaveformDemo() {
         <div className="flex gap-6 items-center">
           <AudioWaveform playing={playing} bars={20} color="var(--ks-primary)" height={48} />
           <AudioWaveform playing={playing} bars={12} color="var(--ks-kinpaku)" height={36} />
-          <AudioWaveform playing={playing} bars={16} color="var(--ks-violet)" height={42} />
+          <AudioWaveform playing={playing} bars={30} color="var(--ks-violet)" height={42} />
+        </div>
+        <div className="flex gap-6 items-center">
+          <AudioWaveform playing={playing} variant="wave" bars={24} color="var(--ks-success)" height={40} />
+          <AudioWaveform playing={playing} variant="pulse" color="var(--ks-danger)" height={40} />
         </div>
         <Button onClick={() => setPlaying((p) => !p)} intent="primary" size="sm">
           {playing ? "⏸ Pause" : "▶ Play"}
