@@ -5,7 +5,7 @@ export interface ContextCardProps {
   children: React.ReactNode;
   placement?: "top" | "bottom" | "left" | "right";
   width?: number;
-  /** @deprecated não implementado — a revelação é 100% via CSS (:hover/:focus-within), sem debounce por JS. Mantido só por compat de tipos. */
+  /** Delay (ms) antes de abrir/fechar o popup — repassado pro `openDelay`/`closeDelay` do Tooltip subjacente. */
   delay?: number;
   className?: string;
   style?: React.CSSProperties;

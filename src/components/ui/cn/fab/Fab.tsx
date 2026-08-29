@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import type { FabProps, FabIntent, FabPosition, FabSize } from "./fab.types";
+import type { FabProps, FabIntent, FabPosition, FabSize, FabPlacement } from "./fab.types";
 
 /* Sem token de shadow/elevação no design system ainda (pendência #2 do audit doc) —
    literal oklch ad-hoc, mesmo padrão já usado em Select/Autocomplete/Command/DropdownMenu. */
@@ -22,8 +22,20 @@ const INTENT_CLS: Record<FabIntent, string> = {
   primary: "bg-patina text-patina-fg hover:brightness-110",
   secondary: "bg-kinpaku text-kinpaku-fg hover:brightness-110",
   success: "bg-success text-success-fg hover:brightness-110",
+  warning: "bg-warning text-warning-fg hover:brightness-110",
   danger: "bg-danger text-danger-fg hover:brightness-110",
   neutral: "bg-raised text-foreground hover:bg-graphite border border-rule",
+};
+
+// absorvido do QuickActions: cor por ação individual (default fica com o visual raised/
+// border original do Fab, só entra numa cor de intent quando pedido explicitamente)
+const ACTION_INTENT_CLS: Record<FabIntent, string> = {
+  primary: "bg-patina text-patina-fg hover:bg-patina-hover",
+  secondary: "bg-kinpaku text-kinpaku-fg hover:brightness-110",
+  success: "bg-success text-success-fg hover:bg-success-hover",
+  warning: "bg-warning text-warning-fg hover:bg-warning-hover",
+  danger: "bg-danger text-danger-fg hover:bg-danger-hover",
+  neutral: "bg-raised border border-rule text-foreground hover:bg-graphite",
 };
 
 const POSITION_CLS: Record<FabPosition, string> = {
@@ -31,6 +43,16 @@ const POSITION_CLS: Record<FabPosition, string> = {
   "bottom-left": "fixed bottom-(--spacing-xl) left-(--spacing-xl)",
   "top-right": "fixed top-(--spacing-xl) right-(--spacing-xl)",
   "top-left": "fixed top-(--spacing-xl) left-(--spacing-xl)",
+  inline: "relative",
+};
+
+// mapeia placement -> direção flex de expansão (absorvido do QuickActions, que suportava
+// os 4 lados; o Fab original só inferia cima/baixo a partir do canto fixo)
+const PLACEMENT_DIR: Record<FabPlacement, string> = {
+  top: "flex-col-reverse",
+  bottom: "flex-col",
+  left: "flex-row-reverse",
+  right: "flex-row",
 };
 
 const CloseIcon = () => (
@@ -49,6 +71,7 @@ export function Fab({
   icon,
   actions = [],
   position = "bottom-right",
+  placement,
   intent = "primary",
   size = "md",
   tooltip,
@@ -68,8 +91,10 @@ export function Fab({
     return () => document.removeEventListener("keydown", handler);
   }, [hasActions, open]);
 
+  // `placement` explícito (absorvido do QuickActions, 4 direções) vence; sem ele, infere
+  // cima/baixo a partir do canto fixo (comportamento original do Fab)
   const isBottom = position === "bottom-right" || position === "bottom-left";
-  const actionsDir = isBottom ? "flex-col-reverse" : "flex-col";
+  const actionsDir = placement ? PLACEMENT_DIR[placement] : isBottom ? "flex-col-reverse" : "flex-col";
 
   const mainLabel = tooltip ?? (hasActions ? (open ? "Fechar" : "Abrir menu") : "Ação");
 
@@ -83,7 +108,9 @@ export function Fab({
         <div className={cn("flex", actionsDir, "gap-(--spacing-sm)")} role="group" aria-label="Ações rápidas">
           {actions.map((action, i) => (
             <div key={i} className="flex items-center gap-(--spacing-sm) group">
-              <span className="text-body-caption text-foreground bg-raised border border-rule rounded-(--radius-sm) px-(--spacing-sm) py-(--spacing-3xs) whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none select-none">
+              {/* group-focus-within (absorvido do QuickActions): sem isso o rótulo só aparecia
+                  no hover do mouse, deixando quem navega por teclado sem o nome da ação visível */}
+              <span className="text-body-caption text-foreground bg-raised border border-rule rounded-(--radius-sm) px-(--spacing-sm) py-(--spacing-3xs) whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none select-none">
                 {action.label}
               </span>
               <button
@@ -95,9 +122,9 @@ export function Fab({
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex items-center justify-center rounded-full bg-raised border border-rule text-foreground",
-                  "hover:bg-graphite transition-[background,box-shadow] duration-[100ms]",
+                  "flex items-center justify-center rounded-full transition-[background,box-shadow] duration-[100ms]",
                   "shadow-[0_4px_16px_-4px_oklch(0%_0_0/0.3)]",
+                  ACTION_INTENT_CLS[action.intent ?? "neutral"],
                   SIZE_ACTION[size],
                   action.disabled && "opacity-40 pointer-events-none"
                 )}

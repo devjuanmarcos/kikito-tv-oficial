@@ -50,8 +50,14 @@ const ArrowIcon = (
   </svg>
 );
 
+const MenuIcon = (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+    <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round" />
+  </svg>
+);
+
 /* ── CnHeader ─────────────────────────────────────────────────────────── */
-export function CnHeader() {
+export function CnHeader({ onMenuClick }: { onMenuClick?: () => void } = {}) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -140,6 +146,18 @@ export function CnHeader() {
 
         .cnh-nav { display: none; align-items: center; gap: 0.125rem; margin-left: 0.5rem; }
         @media (min-width: 860px) { .cnh-nav { display: flex; } }
+
+        .cnh-menu-btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 2rem; height: 2rem; flex-shrink: 0; margin-right: -0.125rem;
+          background: none; border: none; border-radius: var(--ks-radius-sm);
+          color: var(--ks-text-faint); cursor: pointer;
+          transition: color 120ms ease, background 120ms ease;
+        }
+        .cnh-menu-btn:hover { color: var(--ks-text); background: color-mix(in oklch, var(--ks-lacquer-raised) 70%, transparent); }
+        /* mesmo breakpoint do .cnh-nav — sidebar vira drawer exatamente quando a nav principal
+           some, pendência 0b da auditoria (sidebar não colapsava, squeeze a ~0px útil em mobile) */
+        @media (min-width: 860px) { .cnh-menu-btn { display: none; } }
         .cnh-nav-link {
           position: relative; padding: 0.375rem 0.6875rem; border-radius: var(--ks-radius-sm);
           font-size: 0.8125rem; font-weight: 500; color: var(--ks-text-faint);
@@ -168,6 +186,13 @@ export function CnHeader() {
       `}</style>
 
       <header className="cnh">
+        {/* Menu (mobile) — abre a sidebar como drawer abaixo do breakpoint onde a nav principal some */}
+        {onMenuClick && (
+          <button type="button" className="cnh-menu-btn" onClick={onMenuClick} aria-label="Abrir navegação">
+            {MenuIcon}
+          </button>
+        )}
+
         {/* Brand */}
         <Link href="/cn" className="cnh-brand" aria-label="Kikito CN — início">
           <Image src="/img/kikito-face.png" alt="" className="cnh-brand-logo" width={24} height={24} aria-hidden />

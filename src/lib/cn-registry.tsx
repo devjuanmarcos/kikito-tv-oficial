@@ -6185,15 +6185,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "tooltip",
     title: "Tooltip",
     group: "overlays",
-    description: "Hover/click/focus floating content: tooltip, rich tooltip, popover and hover card.",
+    description: "Hover/click/focus floating content: tooltip, rich tooltip, popover, hover card and context card.",
     filePath: "src/components/ui/cn/tooltip/Tooltip.tsx",
     peerDeps: ["@/lib/utils"],
-    // NÃO absorve context-card de fato — ContextCard.tsx é standalone (revelação via CSS puro
-    // :hover/:focus-within, zero delegação pro Tooltip). rich-tooltip/popover/hover-card SÃO
-    // wrappers genuínos (confirmados thin delegates). O `absorbs` antigo incluía context-card
-    // por engano, escondendo-o da sidebar via getVisibleComponents() mesmo já validado e com
-    // rota própria funcionando. Ver ContextCard.tsx.
-    absorbs: ["rich-tooltip", "popover", "hover-card"],
+    // context-card foi aposentado nesta auditoria: ContextCard.tsx era standalone (revelação
+    // via CSS puro :hover/:focus-within, zero delegação pro Tooltip), agora é um wrapper
+    // genuíno como rich-tooltip/popover/hover-card (ver ContextCard.tsx) — absorbs volta a
+    // ser verdadeiro pros 4.
+    absorbs: ["rich-tooltip", "popover", "hover-card", "context-card"],
     keywords: ["rich tooltip", "rich-tooltip", "popover", "hover card", "hover-card", "floating"],
     variants: [
       {
@@ -7508,20 +7507,35 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "fab",
     title: "FAB",
     group: "inputs",
-    description: "Floating Action Button with optional speed-dial sub-actions and position presets.",
+    description: "Floating Action Button with optional speed-dial sub-actions, fixed corner or inline positioning.",
     filePath: "src/components/ui/cn/fab/Fab.tsx",
+    // quick-actions absorvido nesta auditoria: implementava o mesmo conceito (botão circular +
+    // speed-dial) de forma totalmente independente, sem nenhum absorbs ligando os dois — Fab
+    // ganhou position="inline"/placement de 4 direções/intent por ação (as 3 features
+    // exclusivas do QuickActions) pra poder absorver de verdade. Ver QuickActions.tsx.
+    absorbs: ["quick-actions"],
     props: [
       { name: "icon", type: "React.ReactNode", required: true, description: "Ícone principal" },
-      { name: "actions", type: "FabAction[]", description: "Sub-ações do speed-dial { icon, label, onClick }" },
+      {
+        name: "actions",
+        type: "FabAction[]",
+        description: "Sub-ações do speed-dial { icon, label, onClick, disabled?, intent? }",
+      },
       {
         name: "position",
-        type: "'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'",
+        type: "'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' | 'inline'",
         default: "'bottom-right'",
-        description: "Posição fixa na tela",
+        description: "Posição fixa num canto da tela, ou 'inline' pra renderizar no fluxo normal do documento",
+      },
+      {
+        name: "placement",
+        type: "'top' | 'bottom' | 'left' | 'right'",
+        description:
+          "Direção de expansão das ações. Se omitido, é inferida de `position` (fixed); útil sobretudo com position='inline'",
       },
       {
         name: "intent",
-        type: "'primary' | 'secondary' | 'success' | 'danger' | 'neutral'",
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'neutral'",
         default: "'primary'",
         description: "Cor do botão",
       },

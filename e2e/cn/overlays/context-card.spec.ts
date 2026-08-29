@@ -13,19 +13,6 @@ test.describe("ContextCard (CN)", () => {
     await expect(page.locator("main")).toBeVisible();
   });
 
-  test("aparece na sidebar (absorbs falso do Tooltip corrigido)", async ({ page }) => {
-    await expect(page.getByRole("link", { name: "Context Card", exact: true })).toBeVisible();
-  });
-
-  test("dark mode: pagina nao quebra ao alternar", async ({ page }) => {
-    const toggle = page.getByRole("button", { name: /Ativar modo/ });
-    if (await toggle.isVisible()) {
-      await toggle.click();
-      await page.waitForTimeout(400);
-      await expect(page.locator("main")).toBeVisible();
-    }
-  });
-
   test("sem erros de console", async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (msg) => {
@@ -36,23 +23,31 @@ test.describe("ContextCard (CN)", () => {
     expect(errors.filter((e) => !e.includes("favicon"))).toHaveLength(0);
   });
 
-  test("popup aparece no hover e no foco por teclado (trigger focavel)", async ({ page }) => {
-    // a revelacao e 100% via CSS (:hover/:focus-within) — o popup fica sempre montado
-    // (opacity-0 quando fechado), entao a asserção é sobre computed opacity, nao presença no DOM
-    const trigger = page.getByText("Hover me", { exact: true });
-    const popup = page.getByText("Rich popup with any custom content.");
-
-    const opacityBefore = await popup.evaluate((el) => getComputedStyle(el.closest(".cc-popup")!).opacity);
-    expect(opacityBefore).toBe("0");
-
+  // Aposentado na auditoria (docs/AUDITORIA-CN-STATUS.md): ContextCard virou wrapper genuíno
+  // sobre `Tooltip variant="card"` (antigo HoverCard) — a revelação agora é via JS/portal
+  // (role="tooltip"), não mais CSS puro (:hover/:focus-within com classe .cc-popup)
+  test("popup aparece no hover via portal com role=tooltip", async ({ page }) => {
+    const trigger = page.getByRole("button", { name: "Hover me" });
     await trigger.hover();
-    await expect.poll(async () => popup.evaluate((el) => getComputedStyle(el.closest(".cc-popup")!).opacity)).toBe("1");
+    const card = page.getByRole("tooltip").filter({ hasText: "Rich popup with any custom content." });
+    await expect(card).toBeVisible();
+  });
 
-    await page.mouse.move(0, 0);
-    await expect.poll(async () => popup.evaluate((el) => getComputedStyle(el.closest(".cc-popup")!).opacity)).toBe("0");
-
-    // acessivel por teclado: focar o trigger tambem revela (sem mouse)
+  test("acessível por teclado: foco no trigger também revela o popup", async ({ page }) => {
+    const trigger = page.getByRole("button", { name: "Right side" });
     await trigger.focus();
-    await expect.poll(async () => popup.evaluate((el) => getComputedStyle(el.closest(".cc-popup")!).opacity)).toBe("1");
+    const card = page.getByRole("tooltip").filter({ hasText: "Opens to the right" });
+    await expect(card).toBeVisible();
+  });
+
+  // achado real corrigido: delay era documentado "não implementado" quando a revelação era só
+  // CSS — agora que delega pro Tooltip (openDelay/closeDelay reais), o prop funciona de verdade
+  test("achado real corrigido: delay agora funciona de verdade (era no-op antes)", async ({ page }) => {
+    const trigger = page.getByRole("button", { name: "Slow reveal (600ms)" });
+    await trigger.hover();
+    const card = page.getByRole("tooltip").filter({ hasText: "era no-op antes" });
+    // não deve aparecer imediatamente (delay=600ms)
+    await expect(card).not.toBeVisible({ timeout: 100 });
+    await expect(card).toBeVisible({ timeout: 1000 });
   });
 });

@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T13:20:22.036Z",
+  "generatedAt": "2026-08-29T15:23:29.629Z",
   "items": [
     {
       "name": "accordion",
@@ -506,7 +506,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "context-menu",
@@ -1419,7 +1419,7 @@
       "group": "navigation",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["fab"]
     },
     {
       "name": "quote-block",

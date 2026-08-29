@@ -63,11 +63,32 @@ test.describe("Fab (CN)", () => {
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
   });
 
-  test("intents: 4 fabs com aria-label distintos por intent", async ({ page }) => {
+  test("intents: 5 fabs com aria-label distintos por intent", async ({ page }) => {
     await expect(page.getByRole("button", { name: "Adicionar (primary)" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Adicionar (secondary)" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Adicionar (success)" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Adicionar (warning)" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Adicionar (danger)" })).toBeVisible();
+  });
+
+  // achado: QuickActions (overlays/quick-actions) implementava o mesmo conceito sem nenhum
+  // absorbs ligando os dois — Fab ganhou position="inline"/placement de 4 direções/intent
+  // por ação especificamente pra poder absorver de verdade (ver docs/AUDITORIA-CN-STATUS.md)
+  test("absorvido do QuickActions: position=inline + placement nas 4 direções, cor por ação", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile-chrome", "sidebar do showcase intercepta clique (pendência 0b)");
+    for (const p of ["top", "bottom", "left", "right"]) {
+      const trigger = page.getByRole("button", { name: `Abrir (${p})` });
+      await trigger.click();
+      const confirmBtn = page.getByRole("button", { name: "Confirmar" });
+      await expect(confirmBtn).toBeVisible();
+      await expect(confirmBtn).toHaveClass(/bg-success/);
+      await expect(page.getByRole("button", { name: "Avisar" })).toHaveClass(/bg-warning/);
+      await expect(page.getByRole("button", { name: "Cancelar" })).toHaveClass(/bg-danger/);
+      await page.keyboard.press("Escape");
+      await expect(confirmBtn).toHaveCount(0);
+    }
   });
 
   test("sizes: 3 tamanhos com largura crescente", async ({ page }) => {

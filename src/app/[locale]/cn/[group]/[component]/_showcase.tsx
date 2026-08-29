@@ -3203,12 +3203,12 @@ function AlertDialogDemo() {
 
 function ContextCardDemo() {
   return (
-    <Frame label="Context Card — CSS-only hover popup with placement">
+    <Frame label="Context Card — hover popup with placement (wrapper sobre Tooltip variant=card)">
       <div className="flex items-center gap-12">
         <ContextCard
           placement="top"
           trigger={
-            // <button> em vez de <span>: precisa ser focavel nativamente pra :focus-within
+            // <button> em vez de <span>: precisa ser focavel nativamente pra :focus/:hover
             // revelar o popup no teclado (ver JSDoc do componente) — tabIndex num elemento
             // nao-interativo seria um erro de a11y (jsx-a11y/no-noninteractive-tabindex)
             <button
@@ -3237,6 +3237,25 @@ function ContextCardDemo() {
         >
           <div className="p-4">
             <p className="text-body-callout text-muted">Opens to the right of the trigger element.</p>
+          </div>
+        </ContextCard>
+        {/* achado: delay era documentado como "não implementado" quando a revelação era só
+            CSS — agora que ContextCard delega pro Tooltip (openDelay/closeDelay reais), o
+            prop passou a funcionar de verdade */}
+        <ContextCard
+          placement="bottom"
+          delay={600}
+          trigger={
+            <button
+              type="button"
+              className="bg-transparent border-none p-0 text-body-callout font-semibold text-violet underline decoration-dashed cursor-help"
+            >
+              Slow reveal (600ms)
+            </button>
+          }
+        >
+          <div className="p-4">
+            <p className="text-body-callout text-muted">delay=600 agora funciona de verdade (era no-op antes).</p>
           </div>
         </ContextCard>
       </div>
@@ -4555,7 +4574,7 @@ function FabDemo() {
       <ShowcaseSection title="Intents">
         <Frame label="Intent colors">
           <div className="flex gap-6">
-            {(["primary", "secondary", "success", "danger"] as const).map((i) => (
+            {(["primary", "secondary", "success", "warning", "danger"] as const).map((i) => (
               <Fab
                 key={i}
                 icon={
@@ -4563,11 +4582,9 @@ function FabDemo() {
                     <path d="M12 5v14M5 12h14" />
                   </svg>
                 }
-                position="bottom-right"
+                position="inline"
                 intent={i}
                 tooltip={`Adicionar (${i})`}
-                className="static!"
-                style={{ position: "static", margin: 0 }}
               />
             ))}
           </div>
@@ -4582,10 +4599,33 @@ function FabDemo() {
                     <path d="M12 5v14M5 12h14" />
                   </svg>
                 }
+                position="inline"
                 size={s}
                 tooltip={`Tamanho ${s}`}
-                className="static!"
-                style={{ position: "static", margin: 0 }}
+              />
+            ))}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      {/* achado: QuickActions (overlays/quick-actions) implementava o mesmo conceito
+          (botão circular + speed-dial) sem nenhum absorbs ligando os dois. Fab ganhou
+          position="inline" + placement de 4 direções + intent por ação especificamente
+          pra poder absorver de verdade — QuickActions agora é um wrapper fino sobre isto */}
+      <ShowcaseSection title="Inline (absorvido do QuickActions)">
+        <Frame label="placement — 4 direções, cor por ação">
+          <div className="flex items-center justify-center gap-16 py-8">
+            {(["top", "bottom", "left", "right"] as const).map((p) => (
+              <Fab
+                key={p}
+                icon="+"
+                position="inline"
+                placement={p}
+                tooltip={`Abrir (${p})`}
+                actions={[
+                  { icon: "✓", label: "Confirmar", intent: "success", onClick: () => {} },
+                  { icon: "!", label: "Avisar", intent: "warning", onClick: () => {} },
+                  { icon: "✕", label: "Cancelar", intent: "danger", onClick: () => {} },
+                ]}
               />
             ))}
           </div>
