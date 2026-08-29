@@ -5432,10 +5432,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     filePath: "src/components/ui/cn/avatar-group/AvatarGroup.tsx",
     props: [
       { name: "avatars", type: "AvatarGroupItem[]", required: true, description: "Array de { src, name, alt }" },
-      { name: "max", type: "number", default: "5", description: "Máximo de avatares visíveis" },
+      { name: "max", type: "number", default: "4", description: "Máximo de avatares visíveis" },
       { name: "size", type: "'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: "Tamanho dos avatares" },
       { name: "overlap", type: "'sm' | 'md' | 'lg'", default: "'md'", description: "Sobreposição entre avatares" },
       { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro container" },
     ],
   },
   {
