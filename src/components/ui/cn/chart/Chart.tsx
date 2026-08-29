@@ -11,6 +11,7 @@ import { BarChart } from "@/components/ui/cn/bar-chart";
 import { DonutChart } from "@/components/ui/cn/donut-chart";
 import { FunnelChart } from "@/components/ui/cn/funnel-chart";
 import { LineChart } from "@/components/ui/cn/line-chart";
+import { PieChart } from "@/components/ui/cn/pie-chart";
 import { RadarChart } from "@/components/ui/cn/radar-chart";
 import { Sparkline } from "@/components/ui/cn/sparkline";
 
@@ -29,6 +30,10 @@ export function Chart(props: ChartProps) {
     case "donut": {
       const { type: _t, ...rest } = props;
       return <DonutChart {...rest} />;
+    }
+    case "pie": {
+      const { type: _t, ...rest } = props;
+      return <PieChart {...rest} />;
     }
     case "radar": {
       const { type: _t, ...rest } = props;

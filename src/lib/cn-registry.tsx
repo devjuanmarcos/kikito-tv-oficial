@@ -3075,7 +3075,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "donut-chart",
     title: "Donut Chart",
     group: "charts",
-    description: "SVG donut/pie chart with segments, legend and optional center label/value.",
+    description: "SVG donut chart (hollow ring) with segments, legend and optional center label/value.",
     filePath: "src/components/ui/cn/donut-chart/DonutChart.tsx",
     peerDeps: ["@/lib/utils"],
     props: [
@@ -3115,6 +3115,37 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "undefined",
         description: "Valor principal exibido no centro",
       },
+    ],
+  },
+  // ── pie-chart
+  {
+    name: "pie-chart",
+    title: "Pie Chart",
+    group: "charts",
+    description: "SVG pie chart (filled slices, no hole) with segments and legend.",
+    filePath: "src/components/ui/cn/pie-chart/PieChart.tsx",
+    peerDeps: ["@/lib/utils"],
+    props: [
+      {
+        name: "segments",
+        type: "PieSegment[]",
+        required: true,
+        description: "Fatias: { label, value, color? }",
+      },
+      {
+        name: "size",
+        type: "number",
+        default: "160",
+        description: "Diâmetro do círculo em px",
+      },
+      {
+        name: "showLegend",
+        type: "boolean",
+        default: "true",
+        description: "Exibe legenda das fatias",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "React.CSSProperties", description: "Estilos inline extras" },
     ],
   },
   {
@@ -8550,9 +8581,19 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "chart",
     title: "Chart",
     group: "charts",
-    description: "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/radar/funnel/sparkline.",
+    description:
+      "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/pie/radar/funnel/sparkline.",
     filePath: "src/components/ui/cn/chart/Chart.tsx",
-    absorbs: ["line-chart", "area-chart", "bar-chart", "donut-chart", "radar-chart", "funnel-chart", "sparkline"],
+    absorbs: [
+      "line-chart",
+      "area-chart",
+      "bar-chart",
+      "donut-chart",
+      "pie-chart",
+      "radar-chart",
+      "funnel-chart",
+      "sparkline",
+    ],
     keywords: ["grafico", "line", "area", "bar", "donut", "pie", "radar", "funnel", "sparkline", "chart"],
     variants: [
       { prop: "type", value: "line", label: "Line", status: "stable", aliases: ["line chart", "line-chart", "linha"] },
@@ -8561,9 +8602,16 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       {
         prop: "type",
         value: "donut",
-        label: "Donut / Pie",
+        label: "Donut",
         status: "stable",
-        aliases: ["donut chart", "donut-chart", "pie", "pizza"],
+        aliases: ["donut chart", "donut-chart"],
+      },
+      {
+        prop: "type",
+        value: "pie",
+        label: "Pie",
+        status: "stable",
+        aliases: ["pie chart", "pie-chart", "pizza"],
       },
       {
         prop: "type",
@@ -8584,7 +8632,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       {
         name: "type",
-        type: "'line' | 'area' | 'bar' | 'donut' | 'radar' | 'funnel' | 'sparkline'",
+        type: "'line' | 'area' | 'bar' | 'donut' | 'pie' | 'radar' | 'funnel' | 'sparkline'",
         default: "'line'",
         description: "Tipo do gráfico; despacha para o renderer correspondente. As demais props variam conforme o tipo",
       },

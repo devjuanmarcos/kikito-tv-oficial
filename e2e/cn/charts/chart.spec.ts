@@ -11,6 +11,7 @@ const ROUTES = {
   "bar-chart": "/pt/cn/charts/bar-chart",
   "area-chart": "/pt/cn/charts/area-chart",
   "donut-chart": "/pt/cn/charts/donut-chart",
+  "pie-chart": "/pt/cn/charts/pie-chart",
   "radar-chart": "/pt/cn/charts/radar-chart",
   "funnel-chart": "/pt/cn/charts/funnel-chart",
 };
@@ -47,6 +48,7 @@ test.describe("Chart family (CN) — a11y", () => {
       ROUTES["bar-chart"],
       ROUTES["area-chart"],
       ROUTES["donut-chart"],
+      ROUTES["pie-chart"],
       ROUTES["radar-chart"],
     ]) {
       await page.goto(url);

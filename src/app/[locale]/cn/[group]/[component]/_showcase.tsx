@@ -129,6 +129,7 @@ import { ParticleField } from "@/components/ui/cn/particle-field/ParticleField";
 import { PasswordInput } from "@/components/ui/cn/password-input/PasswordInput";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
+import { PieChart } from "@/components/ui/cn/pie-chart/PieChart";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Ping } from "@/components/ui/cn/ping/Ping";
 import { Popover } from "@/components/ui/cn/popover/Popover";
@@ -1163,6 +1164,23 @@ function DonutChartDemo() {
     <Frame label="Donut Chart — segments with legend and center value">
       <div className="flex justify-center">
         <DonutChart segments={segments} size={180} centerValue="100" centerLabel="responses" showLegend />
+      </div>
+    </Frame>
+  );
+}
+
+function PieChartDemo() {
+  const segments = [
+    { label: "React", value: 40 },
+    { label: "Vue", value: 25 },
+    { label: "Angular", value: 20 },
+    { label: "Svelte", value: 10 },
+    { label: "Other", value: 5 },
+  ];
+  return (
+    <Frame label="Pie Chart — filled slices with legend">
+      <div className="flex justify-center">
+        <PieChart segments={segments} size={180} showLegend />
       </div>
     </Frame>
   );
@@ -7347,6 +7365,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "charts/bar-chart": BarChartDemo,
   "charts/line-chart": LineChartDemo,
   "charts/donut-chart": DonutChartDemo,
+  "charts/pie-chart": PieChartDemo,
   "charts/area-chart": AreaChartDemo,
   "data/data-grid": DataGridDemo,
   "data/data-list": DataListDemo,

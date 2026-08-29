@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-29T21:50:33.532Z",
+  "generatedAt": "2026-08-29T22:20:36.056Z",
   "items": [
     {
       "name": "utils",
@@ -317,6 +317,7 @@
         "donut-chart",
         "funnel-chart",
         "line-chart",
+        "pie-chart",
         "radar-chart",
         "sparkline"
       ]
@@ -1354,6 +1355,17 @@
       "status": "live",
       "dependencies": [],
       "registryDependencies": ["input"]
+    },
+    {
+      "name": "pie-chart",
+      "version": "1.1.0",
+      "title": "Pie Chart",
+      "type": "registry:component",
+      "description": "Pie Chart component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "pin-board",

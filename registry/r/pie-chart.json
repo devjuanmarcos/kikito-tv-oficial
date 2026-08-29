@@ -1,0 +1,35 @@
+{
+  "name": "pie-chart",
+  "version": "1.1.0",
+  "title": "Pie Chart",
+  "type": "registry:component",
+  "description": "Pie Chart component.",
+  "group": "display",
+  "status": "live",
+  "dependencies": [],
+  "registryDependencies": ["utils"],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/pie-chart",
+  "files": [
+    {
+      "path": "components/ui/cn/pie-chart/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pie-chart/index.ts",
+      "content": "export { PieChart } from \"./PieChart\";\nexport type { PieChartProps, PieSegment } from \"./pie-chart.types\";\n"
+    },
+    {
+      "path": "components/ui/cn/pie-chart/pie-chart.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/pie-chart/pie-chart.types.ts",
+      "content": "import type React from \"react\";\n\nexport interface PieSegment {\n  label: string;\n  value: number;\n  color?: string;\n}\n\nexport interface PieChartProps {\n  segments: PieSegment[];\n  size?: number;\n  showLegend?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
+    },
+    {
+      "path": "components/ui/cn/pie-chart/PieChart.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/pie-chart/PieChart.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { PieChartProps } from \"./pie-chart.types\";\n\n/**\n * PieChart — absorvido de shadcn-dashboard-library/variants/pie-chart, mas\n * reescrito do zero (ver docs/design-system-maintenance/new-components-remaining/PLAN.md):\n * a origem usa recharts (`Pie`/`PieChart`), e nenhum outro tipo de `Chart` da\n * Kikito CN usa recharts hoje — mesma técnica hand-rolled em SVG do\n * `DonutChart` (que só desenha um anel via stroke, não serve pra fatia\n * preenchida). Fatias aqui são `<path>` com comando de arco (`A`), não\n * `<circle>` com stroke-dasharray.\n */\nconst DEFAULT_COLORS = [\n  \"var(--ks-primary)\",\n  \"var(--ks-kinpaku)\",\n  \"var(--ks-success)\",\n  \"var(--ks-warning)\",\n  \"var(--ks-danger)\",\n  \"var(--ks-info)\",\n];\n\n// Precisão fixa pra evitar mismatch de hidratação: Math.cos/Math.sin podem\n// produzir os últimos dígitos decimais diferentes entre o Node do SSR e o V8\n// do browser (mesmo algoritmo, arredondamento de ponto flutuante diferente\n// na casa dos ~10 dígitos) — achado real, confirmado via Playwright (o `d`\n// do <path> batia até a 10ª casa e divergia na 11ª). Arredondar corta essa\n// divergência antes dela aparecer no atributo.\nfunction round(n: number): number {\n  return Math.round(n * 1000) / 1000;\n}\n\n/** Ponto na borda do círculo pra um ângulo em graus, 0° = topo, sentido horário. */\nfunction polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {\n  const rad = ((angleDeg - 90) * Math.PI) / 180;\n  return { x: round(cx + r * Math.cos(rad)), y: round(cy + r * Math.sin(rad)) };\n}\n\n/** Path de uma fatia (setor) do centro até a borda, arco entre startAngle e endAngle. */\nfunction describeSlice(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string {\n  const start = polarToCartesian(cx, cy, r, startAngle);\n  const end = polarToCartesian(cx, cy, r, endAngle);\n  const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;\n  return `M ${cx} ${cy} L ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${end.x} ${end.y} Z`;\n}\n\nexport function PieChart({ segments, size = 160, showLegend = true, className, style }: PieChartProps) {\n  const total = segments.reduce((sum, s) => sum + s.value, 0);\n  const cx = size / 2;\n  const cy = size / 2;\n  const r = size / 2;\n  const chartSummary = segments.map((s) => `${s.label} ${s.value}`).join(\", \");\n\n  // Fatia única (100%) não dá pra desenhar como arco (start === end, degenerado)\n  // — cai pra um círculo cheio comum.\n  const singleFullSlice = segments.length === 1 && total > 0;\n\n  let angle = 0;\n\n  return (\n    <div className={cn(\"flex flex-col items-center gap-(--spacing-lg)\", className)} style={style}>\n      <svg width={size} height={size} role=\"img\" aria-label={`Pie chart: ${chartSummary}`}>\n        {total === 0 && <circle cx={cx} cy={cy} r={r} fill=\"var(--ks-graphite)\" />}\n\n        {total > 0 && singleFullSlice && (\n          <circle cx={cx} cy={cy} r={r} fill={segments[0]?.color ?? DEFAULT_COLORS[0]} />\n        )}\n\n        {total > 0 &&\n          !singleFullSlice &&\n          segments.map((seg, i) => {\n            const pct = seg.value / total;\n            const startAngle = angle;\n            const endAngle = angle + pct * 360;\n            angle = endAngle;\n            const color = seg.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];\n            if (pct <= 0) return null;\n            return (\n              <path\n                key={seg.label}\n                d={describeSlice(cx, cy, r, startAngle, endAngle)}\n                fill={color}\n                stroke=\"var(--ks-raised)\"\n                strokeWidth={1}\n              />\n            );\n          })}\n      </svg>\n\n      {showLegend && (\n        <div className=\"flex flex-col gap-(--spacing-xs) w-full\">\n          {segments.map((seg, i) => {\n            const pct = total > 0 ? Math.round((seg.value / total) * 100) : 0;\n            const color = seg.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];\n            return (\n              <div key={seg.label} className=\"flex items-center gap-(--spacing-sm)\">\n                <div className=\"w-2.5 h-2.5 rounded-full shrink-0\" style={{ background: color }} />\n                <span className=\"text-body-caption text-muted flex-1\">{seg.label}</span>\n                <span className=\"text-body-caption font-semibold text-foreground\">{pct}%</span>\n              </div>\n            );\n          })}\n        </div>\n      )}\n    </div>\n  );\n}\n"
+    }
+  ]
+}
