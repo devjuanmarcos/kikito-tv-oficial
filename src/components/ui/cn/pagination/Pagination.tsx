@@ -1,6 +1,8 @@
 ﻿"use client";
-import React from "react";
+import { motion } from "motion/react";
+import React, { useId } from "react";
 
+import { transitionEnter } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { PaginationProps } from "./pagination.types";
@@ -91,6 +93,10 @@ export function Pagination({
   style,
 }: PaginationProps) {
   const pages = buildPages(page, totalPages, siblings);
+  // layoutId único por instância — sem isso, duas <Pagination> na mesma página tentariam
+  // sincronizar a animação do indicador deslizante uma com a outra (mesmo achado do Tabs)
+  const groupId = useId();
+  const indicatorId = `${groupId}-indicator`;
 
   const rangeLabel = (() => {
     if (totalItems === undefined || !pageSize) return null;
@@ -151,12 +157,22 @@ export function Pagination({
             type="button"
             className={cn(
               BTN_BASE,
-              p === page && "bg-patina! text-patina-fg! border-transparent! hover:bg-patina! hover:brightness-[1.08]"
+              // absorvido de docs/component-import/animation-backport/PLAN.md (pagination-01,
+              // versão adapted/): fundo agora vem do motion.span abaixo, não mais bg estático —
+              // hover:brightness aplica no botão inteiro (texto+pill), efeito mais uniforme
+              p === page && "relative text-patina-fg! border-transparent! hover:brightness-110"
             )}
             onClick={() => onChange(p as number)}
             aria-label={`Page ${(p as number) + 1}`}
             aria-current={p === page ? "page" : undefined}
           >
+            {p === page && (
+              <motion.span
+                layoutId={indicatorId}
+                transition={transitionEnter}
+                className="absolute inset-0 rounded-(--radius-sm) bg-patina -z-10"
+              />
+            )}
             {(p as number) + 1}
           </button>
         )

@@ -5563,9 +5563,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "pagination",
     title: "Pagination",
     group: "data",
-    description: "Page navigator with sibling pages, edge buttons, size variants and item count display.",
+    description:
+      "Page navigator with sibling pages, edge buttons, size variants, item count display and animated sliding indicator.",
     filePath: "src/components/ui/cn/pagination/Pagination.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "page",

@@ -82,14 +82,16 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 | ------------------------------------------------------ | ---------- | ------------------ |
 | `shadcn-dashboard-library/variants/label/label-06.tsx` | (sem flag) | Checar o que anima |
 
-## `pagination`
+## `pagination` — ✅ `layoutId` (versão `adapted/pagination-01`) portado
 
-| Origem                                                           | Feature           | Nota                                                   |
-| ---------------------------------------------------------------- | ----------------- | ------------------------------------------------------ |
-| `shadcn-dashboard-library/adapted/pagination/pagination-01.tsx`  | `layoutId`        | **Já adaptado** — indicador de página ativa deslizante |
-| `shadcn-dashboard-library/variants/pagination/pagination-01.tsx` | `layoutId`        | Versão não-adaptada do mesmo                           |
-| `shadcn-dashboard-library/variants/pagination/pagination-02.tsx` | `layoutId`        | Variante alternativa do indicador deslizante           |
-| `shadcn-dashboard-library/variants/pagination/pagination-03.tsx` | `AnimatePresence` | Variante com enter/exit em vez de indicador deslizante |
+| Origem                                                           | Feature           | Nota                                                       |
+| ---------------------------------------------------------------- | ----------------- | ---------------------------------------------------------- |
+| `shadcn-dashboard-library/adapted/pagination/pagination-01.tsx`  | `layoutId`        | ✅ Portado — indicador de página ativa deslizante          |
+| `shadcn-dashboard-library/variants/pagination/pagination-01.tsx` | `layoutId`        | Não portado — versão não-adaptada do mesmo, já coberta     |
+| `shadcn-dashboard-library/variants/pagination/pagination-02.tsx` | `layoutId`        | Não portado — variante alternativa do indicador deslizante |
+| `shadcn-dashboard-library/variants/pagination/pagination-03.tsx` | `AnimatePresence` | Não portado — variante com enter/exit em vez de deslizante |
+
+**O que foi feito**: mesmo padrão já estabelecido no `Tabs` (`layoutId` + `useId()` por instância) — a página ativa em `Pagination.tsx` tinha `bg-patina!`/`text-patina-fg!` estáticos, virou `motion.span` com `layoutId` atrás do número (`-z-10`, igual ao `PillTab`). `hover:brightness-[1.08]` (só no ativo) virou `hover:brightness-110` no botão inteiro em vez de só no fundo — efeito mais uniforme, já que o fundo agora é um elemento separado. Demo do showcase tem 2 instâncias de `<Pagination>` compartilhando o mesmo `page` (estado) mas com `layoutId` independente (`useId`) — testado que não colidem mesmo mostrando a mesma página ativa simultaneamente. `e2e/cn/data/pagination.spec.ts` +2 testes, e um achado de teste corrigido de passagem: `getByRole("button", {name:"Page 1"})` sem `exact` colidia com "Page 10/11/12" (substring) — corrigido nos 2 testes novos e no já existente que mascarava isso com `.first()` — 14/14 chromium-desktop + mobile-chrome.
 
 ## `progress` / `progress-ring` / `gauge`
 
@@ -144,7 +146,7 @@ Cada linha é um arquivo de origem real que importa `motion`/`framer-motion`. "F
 ## Prioridade sugerida (não obrigatória — reordenar como preferir)
 
 1. ✅ **Tabs** (`layoutId`) — feito, ver seção `tabs` acima.
-2. **Pagination** (`layoutId`, já tem versão `adapted/`) — menor esforço de tradução de token.
+2. ✅ **Pagination** (`layoutId`) — feito, ver seção `pagination` acima.
 3. **File-upload** (`layoutId`+`whileHover`, já tem versão `adapted/`) — 3 implementações pra comparar, escolher a melhor.
 4. **Avatar** (`whileHover`/`whileTap`) — baixo risco, isolado.
 5. Resto por ordem de aparição, ou pela ordem que fizer sentido no roadmap do produto.
