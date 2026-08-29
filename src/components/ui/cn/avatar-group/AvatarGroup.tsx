@@ -48,6 +48,8 @@ const OVERLAP_CLS: Record<string, string> = {
 };
 
 // w-[--ag-sz] etc (bracket cru) confirmado quebrado empiricamente em 2026-08-27 — trocado por sintaxe de parenteses
+// border-[2.5px]: fora da escala de --border-width-* (só cobre 1/1.5/2/3/4px) — exceção
+// rara demais pra token próprio, ver CLAUDE.md §Bordas.
 const avatarCls =
   "w-(--ag-sz) h-(--ag-sz) rounded-full border-[2.5px] border-raised overflow-hidden bg-graphite text-muted text-(length:--ag-fs) font-bold flex items-center justify-center shrink-0 relative z-[1] ml-(--ag-gap) transition-[transform] duration-[150ms] hover:-translate-y-[3px] hover:scale-[1.06] hover:z-10 first:ml-0 [&>img]:w-full [&>img]:h-full [&>img]:object-cover [&>img]:block";
 

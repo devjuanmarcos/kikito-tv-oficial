@@ -108,7 +108,7 @@ const INTENT_VARS: Record<string, string> = {
 // color-mix no border do "soft": sem token border-*-soft na paleta (pares soft são bg/text)
 const APPEARANCE_CLS: Record<string, string> = {
   soft: "bg-(--i-soft) border border-[color-mix(in_oklch,var(--i)_30%,transparent)]",
-  outline: "bg-transparent border-[1.5px] border-(--i)",
+  outline: "bg-transparent border-(length:--border-width-thin) border-(--i)",
   solid: "bg-(--i) border border-(--i-deep) text-(--i-fg)",
 };
 

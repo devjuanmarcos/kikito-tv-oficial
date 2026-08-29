@@ -62,11 +62,12 @@ const DEFAULT_ICONS: Record<TimelineStatus, React.ReactNode> = {
 };
 
 const NODE_STATUS_CLS: Record<TimelineStatus, string> = {
-  complete: "bg-success-soft text-success border-[1.5px] border-success",
-  active: "bg-patina-soft text-patina border-2 border-patina shadow-[0_0_0_4px_var(--ks-primary-soft)]",
-  pending: "bg-graphite text-faint border-[1.5px] border-dashed border-rule",
-  error: "bg-danger-soft text-danger border-[1.5px] border-danger",
-  warning: "bg-warning-soft text-warning border-[1.5px] border-warning",
+  complete: "bg-success-soft text-success border-(length:--border-width-thin) border-success",
+  active:
+    "bg-patina-soft text-patina border-(length:--border-width-base) border-patina shadow-[0_0_0_4px_var(--ks-primary-soft)]",
+  pending: "bg-graphite text-faint border-(length:--border-width-thin) border-dashed border-rule",
+  error: "bg-danger-soft text-danger border-(length:--border-width-thin) border-danger",
+  warning: "bg-warning-soft text-warning border-(length:--border-width-thin) border-warning",
 };
 
 const LINE_STATUS_CLS: Record<TimelineStatus, string> = {
@@ -225,7 +226,7 @@ function ScrollTimelineImpl({ events, orientation = "alternating", className, st
           >
             <div
               className={cn(
-                "w-9 h-9 rounded-full bg-raised border-2 border-rule flex items-center justify-center flex-shrink-0 z-[1] text-body-paragraph text-muted transition-[border-color] duration-200",
+                "w-9 h-9 rounded-full bg-raised border-(length:--border-width-base) border-rule flex items-center justify-center flex-shrink-0 z-[1] text-body-paragraph text-muted transition-[border-color] duration-200",
                 dotCls
               )}
             >
@@ -292,7 +293,7 @@ function TimelineProgressImpl({ steps, orientation = "horizontal", className, st
             <div className={cn(isVertical ? "flex flex-col items-center" : "flex items-center w-full")}>
               <div
                 className={cn(
-                  "flex items-center justify-center w-8 h-8 rounded-full border-2 flex-shrink-0 transition-all duration-[200ms] font-semibold text-body-caption",
+                  "flex items-center justify-center w-8 h-8 rounded-full border-(length:--border-width-base) flex-shrink-0 transition-all duration-[200ms] font-semibold text-body-caption",
                   PROGRESS_STATUS_CIRCLE[step.status]
                 )}
               >

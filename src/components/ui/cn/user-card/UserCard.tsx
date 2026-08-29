@@ -46,7 +46,7 @@ export function UserCard({
       {/* px-5/pb-5 (20px): sem match exato na escala de spacing (entre lg e xl) */}
       <div className="px-5 pb-5">
         <div className="flex items-end justify-between -mt-7 mb-(--spacing-md)">
-          <div className="w-14 h-14 rounded-full border-[3px] border-raised bg-patina flex items-center justify-center text-body-title font-bold text-patina-fg overflow-hidden shrink-0">
+          <div className="w-14 h-14 rounded-full border-(length:--border-width-thick) border-raised bg-patina flex items-center justify-center text-body-title font-bold text-patina-fg overflow-hidden shrink-0">
             {showImg ? (
               <img
                 src={avatar}

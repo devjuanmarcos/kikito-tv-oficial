@@ -110,7 +110,7 @@ export function MarkdownRenderer({ content, className, style }: MarkdownRenderer
         "[&_pre]:bg-sunken [&_pre]:border [&_pre]:border-rule [&_pre]:rounded-(--radius-md) [&_pre]:p-(--spacing-lg) [&_pre]:overflow-x-auto [&_pre]:my-(--spacing-lg)",
         "[&_pre_code]:bg-transparent [&_pre_code]:border-none [&_pre_code]:p-0 [&_pre_code]:text-foreground [&_pre_code]:text-body-caption",
         // rounded-r-[--radius-sm] (bracket cru, direcional) confirmado quebrado — usa sintaxe de parenteses
-        "[&_blockquote]:border-l-[3px] [&_blockquote]:border-l-patina [&_blockquote]:my-(--spacing-lg) [&_blockquote]:py-(--spacing-sm) [&_blockquote]:px-(--spacing-lg) [&_blockquote]:text-muted [&_blockquote]:bg-raised [&_blockquote]:rounded-r-(--radius-sm)",
+        "[&_blockquote]:border-l-(length:--border-width-thick) [&_blockquote]:border-l-patina [&_blockquote]:my-(--spacing-lg) [&_blockquote]:py-(--spacing-sm) [&_blockquote]:px-(--spacing-lg) [&_blockquote]:text-muted [&_blockquote]:bg-raised [&_blockquote]:rounded-r-(--radius-sm)",
         "[&_ul]:my-(--spacing-md) [&_ul]:pl-[1.6em] [&_ol]:my-(--spacing-md) [&_ol]:pl-[1.6em]",
         "[&_li]:my-[0.3em] [&_li::marker]:text-faint",
         "[&_hr]:border-none [&_hr]:border-t [&_hr]:border-rule [&_hr]:my-(--spacing-xl)",

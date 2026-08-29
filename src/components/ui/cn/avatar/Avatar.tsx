@@ -21,10 +21,10 @@ const SIZE_DIM: Record<AvatarSize, string> = {
 const STATUS_DOT_SIZE: Record<AvatarSize, string> = {
   xs: "w-1.5 h-1.5 border",
   sm: "w-2 h-2 border",
-  md: "w-2.5 h-2.5 border-[1.5px]",
-  lg: "w-3 h-3 border-2",
-  xl: "w-3.5 h-3.5 border-2",
-  "2xl": "w-4 h-4 border-2",
+  md: "w-2.5 h-2.5 border-(length:--border-width-thin)",
+  lg: "w-3 h-3 border-(length:--border-width-base)",
+  xl: "w-3.5 h-3.5 border-(length:--border-width-base)",
+  "2xl": "w-4 h-4 border-(length:--border-width-base)",
 };
 const STATUS_COLOR: Record<Exclude<AvatarStatus, "none">, string> = {
   online: "bg-success",

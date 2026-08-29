@@ -2,12 +2,14 @@ import { cn } from "@/lib/utils";
 
 import type { SpinnerIntent, SpinnerProps, SpinnerSize } from "./spinner.types";
 
+// border-[2.5px] (lg): fora da escala de --border-width-* (só cobre 1/1.5/2/3/4px) —
+// exceção rara demais pra token próprio, ver CLAUDE.md §Bordas.
 const SIZE_CLS: Record<SpinnerSize, string> = {
-  xs: "w-3 h-3 border-[1.5px]",
-  sm: "w-4 h-4 border-2",
-  md: "w-5 h-5 border-2",
+  xs: "w-3 h-3 border-(length:--border-width-thin)",
+  sm: "w-4 h-4 border-(length:--border-width-base)",
+  md: "w-5 h-5 border-(length:--border-width-base)",
   lg: "w-7 h-7 border-[2.5px]",
-  xl: "w-10 h-10 border-[3px]",
+  xl: "w-10 h-10 border-(length:--border-width-thick)",
 };
 
 // opacidade no border: sem token dedicado pra "trilho" (trough) de um anel giratório —

@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils";
 import type { MultiAccordionProps } from "./multi-accordion.types";
 
 const INTENT_OPEN_BORDER: Record<string, string> = {
-  primary: "border-l-[3px] border-l-patina",
-  secondary: "border-l-[3px] border-l-kinpaku",
-  tertiary: "border-l-[3px] border-l-violet",
-  quaternary: "border-l-[3px] border-l-rose",
-  success: "border-l-[3px] border-l-success",
-  warning: "border-l-[3px] border-l-warning",
-  danger: "border-l-[3px] border-l-danger",
-  info: "border-l-[3px] border-l-info",
+  primary: "border-l-(length:--border-width-thick) border-l-patina",
+  secondary: "border-l-(length:--border-width-thick) border-l-kinpaku",
+  tertiary: "border-l-(length:--border-width-thick) border-l-violet",
+  quaternary: "border-l-(length:--border-width-thick) border-l-rose",
+  success: "border-l-(length:--border-width-thick) border-l-success",
+  warning: "border-l-(length:--border-width-thick) border-l-warning",
+  danger: "border-l-(length:--border-width-thick) border-l-danger",
+  info: "border-l-(length:--border-width-thick) border-l-info",
 };
 
 export function MultiAccordion({

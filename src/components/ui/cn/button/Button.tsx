@@ -116,7 +116,7 @@ function SpinnerIcon({ cls }: { cls: string }) {
   return (
     <span
       className={cn(
-        "border-[1.5px] border-current border-t-transparent rounded-full shrink-0 animate-spin-btn motion-reduce:animate-none",
+        "border-(length:--border-width-thin) border-current border-t-transparent rounded-full shrink-0 animate-spin-btn motion-reduce:animate-none",
         cls
       )}
       aria-hidden="true"

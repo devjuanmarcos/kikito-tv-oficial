@@ -8,13 +8,13 @@ import type { RadioGroupProps, RadioProps, RadioSize } from "./radio.types";
 const SIZE_DOT: Record<RadioSize, { outer: string; inner: string; label: string; helper: string }> = {
   sm: { outer: "w-3.5 h-3.5 border", inner: "w-[5px] h-[5px]", label: "text-body-caption", helper: "text-[0.6875rem]" },
   md: {
-    outer: "w-4 h-4 border-[1.5px]",
+    outer: "w-4 h-4 border-(length:--border-width-thin)",
     inner: "w-[6px] h-[6px]",
     label: "text-body-callout",
     helper: "text-body-caption",
   },
   lg: {
-    outer: "w-[1.125rem] h-[1.125rem] border-2",
+    outer: "w-[1.125rem] h-[1.125rem] border-(length:--border-width-base)",
     inner: "w-2 h-2",
     label: "text-body-paragraph",
     helper: "text-body-callout",
