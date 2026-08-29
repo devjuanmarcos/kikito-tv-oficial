@@ -59,40 +59,21 @@ Radial bar chart multi-série — várias categorias como arcos concêntricos de
 
 ---
 
-## `shine-border` — implementar como 6º efeito do `Card`
+## `shine-border` — ❌ descartado (2026-08-29): já existe
 
-### Escopo
+**Correção sobre a análise original abaixo**: ao chegar a vez de implementar, `Card.tsx` já tinha exatamente isso. `effect="gradient-border"` com `gradientVariant="spin"` (que é o **default**, nem precisa ser passado explicitamente) já renderiza um `conic-gradient(from var(--_angle, 0deg), ...)` animado via `@property --_angle` + `@keyframes gb-spin` girando 0→360deg infinito, com cores default já na paleta da marca (`--ks-violet`/`--ks-primary`/`--ks-kinpaku`/`--ks-rose`, sobrescrevível via prop `colors`). Confirmado visualmente no showcase (`/cn/display/gradient-border`, variante "Spin — Conic gradient", já demoada). **Nenhuma implementação necessária — recomendação virou descartar, não fazer.**
 
-Adicionar `"shine"` a `CardEffect` (`card.types.ts`, hoje `glass|glow|tilt|spotlight|gradient-border`).
+A análise abaixo é o levantamento original, que concluiu (errado) que nenhum efeito existente rotacionava — mantida por transparência, não apagada:
 
-Implementação, **CSS puro** (mesma convenção dos keyframes `-ks` já existentes em `kikitocn-tokens.css`, ver `@keyframes spin-ks` como precedente direto — inclusive já existe um keyframe de rotação genérico que talvez sirva de base):
+### Escopo (análise original, não mais válida)
 
-```css
-@keyframes shine-border-ks {
-  to {
-    transform: rotate(360deg);
-  }
-}
-```
-
-Camada de gradiente cônico rotativo atrás do card, usando cores do tema (não as cores hardcoded `from-blue-500 via-red-500 to-teal-400` da origem) — candidatos: `conic-gradient(from 0deg, var(--ks-patina), var(--ks-kinpaku), var(--ks-violet), var(--ks-patina))` (um giro pelas cores de marca já existentes) ou uma versão mono usando só `--ks-patina` em variação de opacidade (mais sutil, mais fácil de ficar bem em ambos os temas). **Decisão de design a tomar na implementação** — não é óbvio qual fica melhor sem prototipar.
-
-Respeita `prefers-reduced-motion` automaticamente — é `animation-duration`/`transition-duration`, cobertas pelo reset global já existente em `kikitocn-tokens.css` (ver comentário "pendência 4 da auditoria" no próprio arquivo).
-
-### Checklist de implementação (quando for feito)
-
-- [ ] `card.types.ts`: `CardEffect` ganha `"shine"`
-- [ ] `Card.tsx`: novo bloco de render pro efeito `shine` (camada de gradiente cônico + `overflow: hidden` no wrapper, mesmo padrão dos outros 5 efeitos)
-- [ ] `@keyframes` novo em `kikitocn-tokens.css` (ou reusar `spin-ks` se a rotação pura servir sem precisar do gradiente cônico embutido no próprio keyframe)
-- [ ] Demo no showcase (adicionar ao `CardDemo` existente, ao lado dos outros 5 efeitos)
-- [ ] `e2e/cn/*/card.spec.ts`: +1 teste confirmando o efeito renderiza (mesmo padrão dos outros)
-- [ ] `npm run registry:build`
+Adicionar `"shine"` a `CardEffect` (`card.types.ts`, hoje `glass|glow|tilt|spotlight|gradient-border`) — **redundante, `gradient-border`/`spin` já cobre isso**, ver correção acima.
 
 ---
 
 ## Ordem sugerida (não obrigatória)
 
-1. `input-mask` — é só mover uma linha de doc, zero custo, fazer primeiro.
-2. `shine-border` — menor escopo real (1 efeito a mais num componente que já existe), CSS puro, sem decisão de arquitetura pendente.
+1. ✅ `input-mask` — descartado, movido pra "descartados explicitamente" no `new-components/PLAN.md`.
+2. ✅ `shine-border` — descartado, já existe (`gradient-border`/`spin`), achado ao chegar a vez de implementar.
 3. `pie-chart` — escopo conhecido, sem decisão em aberto, mas exige escrever um componente novo do zero.
 4. `radial-chart` — maior escopo E tem uma decisão de produto pendente (recharts vs. SVG) que vale alinhar com o usuário antes de começar a escrever código.

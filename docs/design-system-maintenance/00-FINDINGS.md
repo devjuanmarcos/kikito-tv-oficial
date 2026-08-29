@@ -68,7 +68,11 @@ A origem (`variants/radial-chart/radial-chart-0{1..N}.tsx`) é um **radial bar c
 
 **Decisão de arquitetura que fica pro usuário**: aceitar `recharts` como dependência nova (só pros tipos `pie`/`radial-bar`, mas via `registryDependencies`/`dependencies` do `Chart.tsx` inteiro, que despacha todos os tipos de um arquivo só — instalar QUALQUER tipo de `Chart` traria `recharts` no bundle a menos que os tipos virem import dinâmico por tipo) **vs.** manter a consistência de 100% SVG hand-rolled pros novos tipos também (mais trabalho, zero dependência nova, sem inconsistência architectural). Ver recomendação no PLAN.md do item.
 
-### `shine-border` — achado extra: usa CSS puro, escapou da varredura de `animation-backport`
+### `shine-border` — ❌ CORREÇÃO (2026-08-29): já existe, é redundante
+
+**Erro meu no levantamento original abaixo**: eu não tinha de fato lido a implementação de `gradient-border` antes de concluir que "nenhum efeito rotaciona" — só olhei o nome. Ao voltar pra implementar, `Card.tsx` (`effect="gradient-border"`, `gradientVariant="spin"` — que é o **valor default**) já é exatamente isso: `conic-gradient(from var(--_angle, 0deg), ...)` + `@property --_angle` + `@keyframes gb-spin` rotacionando 0→360deg infinitamente, cores default já na paleta da marca (`--ks-violet`/`--ks-primary`/`--ks-kinpaku`/`--ks-rose`). Confirmado visualmente no showcase (`/cn/display/gradient-border`, variante "Spin — Conic gradient", já demoada e funcionando). **`shine-border` não é candidato — é 100% redundante com o que já existe.** Movido pra "descartados explicitamente".
+
+O parágrafo abaixo é o levantamento original (errado nessa conclusão específica), mantido por transparência em vez de apagado:
 
 Origem é um wrapper `<div>` com uma camada de gradiente cônico rotativo (`animate-spin` do Tailwind + `bg-conic` + `blur-sm`) atrás do conteúdo — **CSS puro, sem `motion`/`framer-motion`**. A varredura original de `animation-backport/PLAN.md` grepava especificamente por imports de `motion`/`framer-motion`, então este arquivo nunca apareceu naquela lista — **achado de passagem, não um erro da varredura anterior, só um limite do critério de busca usado (import de `motion`, não "qualquer coisa animada")**.
 
@@ -78,11 +82,11 @@ Visualmente é **genuinamente distinto** dos 5 efeitos que `Card` já tem (`glas
 
 ## Resumo executivo
 
-| Item           | Era...                                                 | Virou...                                                                                                             |
-| -------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| `input-mask`   | "avaliar como componente novo"                         | **Descartar** — não é componente, são 3 formatters de ~10 linhas                                                     |
-| `pie-chart`    | "prop novo `type=pie` no Chart, provavelmente trivial" | **Componente novo de verdade** (SVG próprio), mesmo esforço de qualquer outro tipo de Chart                          |
-| `radial-chart` | "verificar sobreposição, pode já estar coberto"        | **Gap real, não coberto** — candidato real a novo `ChartType`, decisão de recharts-vs-SVG-próprio em aberto          |
-| `shine-border` | "baixa prioridade"                                     | **Candidato real** a 6º efeito do Card, achado extra: é CSS-only (nunca apareceu na varredura de animation-backport) |
+| Item           | Era...                                                 | Virou...                                                                                                               |
+| -------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `input-mask`   | "avaliar como componente novo"                         | **Descartar** — não é componente, são 3 formatters de ~10 linhas                                                       |
+| `pie-chart`    | "prop novo `type=pie` no Chart, provavelmente trivial" | **Componente novo de verdade** (SVG próprio), mesmo esforço de qualquer outro tipo de Chart                            |
+| `radial-chart` | "verificar sobreposição, pode já estar coberto"        | **Gap real, não coberto** — candidato real a novo `ChartType`, decisão de recharts-vs-SVG-próprio em aberto            |
+| `shine-border` | "baixa prioridade"                                     | **Descartar** — `effect="gradient-border"` (variant `spin`, já o default) já é exatamente isso, confirmado no showcase |
 
 Plano detalhado de cada um: [`new-components-remaining/PLAN.md`](./new-components-remaining/PLAN.md).
