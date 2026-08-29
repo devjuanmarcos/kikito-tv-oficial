@@ -22,7 +22,7 @@ Só **43 arquivos em todo o escopo** de fato importam `motion`/`framer-motion` (
 
 ## Pastas deste plano
 
-1. **[`motion-infrastructure/PLAN.md`](motion-infrastructure/PLAN.md)** — trabalho de base que precisa vir ANTES de portar qualquer animação: dependência `motion`, tokens de easing/duração no token bridge, e a pegadinha do `prefers-reduced-motion` com animação orientada a JS (o reset CSS global que a auditoria da Kikito CN já fez não cobre isso).
+1. **[`motion-infrastructure/PLAN.md`](motion-infrastructure/PLAN.md)** — trabalho de base que precisa vir ANTES de portar qualquer animação. Deixou de ser só um helper solto: vira a **6ª categoria de token do design system** (junto de Cores/Tipografia/Radius/Spacing), com sistema próprio em `src/lib/motion/` (tokens + variants + transitions + orquestração de stagger) — o objetivo, a pedido do usuário, é que animação vire vocabulário **nosso**, reusável de forma organizada em qualquer componente futuro, não só nos 43 do backport. Inclui a pegadinha do `prefers-reduced-motion` com animação orientada a JS (o reset CSS global que a auditoria já fez não cobre `motion`).
 2. **[`animation-backport/PLAN.md`](animation-backport/PLAN.md)** — os 43 arquivos que usam `motion`, cada um mapeado pro componente Kikito CN existente que vai receber a técnica.
 3. **[`new-components/PLAN.md`](new-components/PLAN.md)** — a cauda pequena de nomes sem primo óbvio na Kikito CN hoje, pra decidir se viram componente novo de verdade.
 
