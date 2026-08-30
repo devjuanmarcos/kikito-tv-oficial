@@ -283,7 +283,7 @@ function AutocompleteDemo() {
 function ColorPickerDemo() {
   const [color, setColor] = useState("#22c55e");
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <Frame label="Swatches + hex input">
         <ColorPicker />
       </Frame>
@@ -435,7 +435,7 @@ function CardStackDemo() {
     },
   ];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col w-full">
       <ShowcaseSection title="Auto-play (3s)">
         <Frame label="Auto-play (3s)">
           <CardStack cards={cards} autoPlay interval={3000} />
@@ -486,7 +486,7 @@ function CarouselDemo() {
     },
   ];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col w-full">
       <ShowcaseSection title="Horizontal with dots">
         <Frame label="Horizontal with dots">
           <Carousel items={items} className="w-80" />
@@ -1169,7 +1169,7 @@ function BarChartDemo() {
     { label: "Jun", value: 84 },
   ];
   return (
-    <div className="w-full">
+    <div className="flex flex-col gap-6 w-full">
       <Frame label="Bar Chart — animated SVG bars with per-bar colors">
         <div className="w-full flex justify-center py-4">
           <BarChart data={data} height={220} animate />
@@ -1651,7 +1651,7 @@ const user = "Kikito"
 greet(user)`;
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col w-full">
       <ShowcaseSection title="Unified">
         <Frame label="Code Diff — unified diff with LCS algorithm">
           <CodeDiff
@@ -1683,7 +1683,7 @@ greet(user)`;
 
 function CollapsibleDemo() {
   return (
-    <div className="w-96 flex flex-col gap-4">
+    <div className="w-96 flex flex-col gap-6">
       <Frame label="Single collapsible panel" align="start">
         <Collapsible title="What is Kikito CN?" defaultOpen className="w-full">
           A design-system component library published via <code>npx kikitocn add</code>.
@@ -1916,7 +1916,7 @@ function BentoGridDemo() {
     },
   ];
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col w-full">
       <ShowcaseSection title="3 columns">
         <Frame label="Bento Grid — flexible CSS grid with col/row spans">
           <BentoGrid items={items} cols={3} gap={12} />
@@ -3125,7 +3125,7 @@ function StepperDemo() {
     { label: "Delivered", description: "Package arrives" },
   ];
   return (
-    <div className="flex flex-col gap-8 w-full max-w-lg">
+    <div className="flex flex-col w-full max-w-lg">
       <ShowcaseSection title="Horizontal, clickable">
         <Frame label="Horizontal step indicator with navigation">
           <div className="flex flex-col gap-6 w-full">
@@ -3558,7 +3558,7 @@ function TagDemo() {
 function TagInputDemo() {
   const [tags, setTags] = useState(["design", "react"]);
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <Frame label="Type + Enter/comma to add, Backspace to remove last">
         <div className="w-80">
           <TagInput value={tags} onChange={setTags} placeholder="Add tag…" />
@@ -3578,7 +3578,7 @@ function InlineEditDemo() {
   const [title, setTitle] = useState("Project Alpha");
   const [note, setNote] = useState("Click to add a longer description here…");
   return (
-    <div className="flex flex-col gap-4 items-start">
+    <div className="flex flex-col gap-6 items-start">
       <Frame label="Single line — click to edit, Enter confirms, Esc cancels">
         <InlineEdit value={title} onConfirm={setTitle} />
       </Frame>
@@ -3631,7 +3631,7 @@ function InputGroupDemo() {
     </svg>
   );
   return (
-    <div className="flex flex-col gap-4 w-80">
+    <div className="flex flex-col gap-6 w-80">
       <Frame label="Text prefix + suffix">
         <InputGroup prefix="https://" suffix=".com">
           <input type="text" defaultValue="kikito" aria-label="Domain" />
@@ -3789,7 +3789,7 @@ function VirtualListDemo() {
     desc: `Description for row ${i + 1}`,
   }));
   return (
-    <div className="flex flex-col gap-4 w-full max-w-xs">
+    <div className="flex flex-col w-full max-w-xs">
       <ShowcaseSection title="1000 rows, itemHeight 56">
         <Frame label="Virtual List — windowed renderer for 1000+ rows" align="start">
           <div className="w-full border border-rule rounded-(--radius-lg) overflow-hidden">
@@ -5956,7 +5956,7 @@ function NavigationMenuDemo() {
     { label: "Coming soon", href: "#soon", disabled: true },
   ];
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <ShowcaseSection title="Horizontal (top-nav)">
         <Frame label="With dropdown submenu, badge and disabled item">
           <div className="w-full border border-rule rounded-(--radius-lg) bg-base px-4 py-2">
