@@ -1185,7 +1185,7 @@ function BarChartDemo() {
   ];
   return (
     <div className="flex flex-col gap-6 w-full">
-      <Frame label="Bar Chart — animated SVG bars with per-bar colors">
+      <Frame label="Bar Chart — animated bars with per-bar colors">
         <div className="w-full flex justify-center py-4">
           <BarChart data={data} height={220} animate />
         </div>
@@ -2017,7 +2017,7 @@ function RadialBarChartDemo() {
     { label: "Other", value: 90 },
   ];
   return (
-    <Frame label="Radial Bar Chart — multi-series concentric arcs (recharts)">
+    <Frame label="Radial Bar Chart — multi-series concentric arcs">
       <div className="flex justify-center">
         <RadialBarChart segments={segments} size={260} showLegend showTooltip />
       </div>
