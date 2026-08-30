@@ -63,4 +63,34 @@ test.describe("Button (CN)", () => {
     await btn.hover();
     await expect.poll(async () => btn.evaluate((el) => getComputedStyle(el).translate)).not.toBe(before);
   });
+
+  test("effect='reveal' expande iconRight de width 0 no hover", async ({ page, isMobile }) => {
+    test.skip(isMobile, "mobile-chrome não reporta hover:hover — mesmo motivo do teste de lift acima");
+    const btn = page.getByRole("button", { name: "Learn more", exact: true });
+    await btn.scrollIntoViewIfNeeded();
+    const icon = btn.locator("span[aria-hidden='true']").last();
+    const before = await icon.evaluate((el) => getComputedStyle(el).width);
+    expect(before).toBe("0px");
+    await btn.hover();
+    await expect.poll(async () => icon.evaluate((el) => getComputedStyle(el).width)).not.toBe("0px");
+  });
+
+  test("effect='radial-fill' seta --rf-x/--rf-y no mousemove", async ({ page }) => {
+    const btn = page.getByRole("button", { name: "Hover anywhere", exact: true });
+    await btn.scrollIntoViewIfNeeded();
+    const box = await btn.boundingBox();
+    await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+    const x = await btn.evaluate((el) => (el as HTMLElement).style.getPropertyValue("--rf-x"));
+    expect(x).not.toBe("");
+  });
+
+  test("effect='shine' sweep de luz muda translate no hover", async ({ page, isMobile }) => {
+    test.skip(isMobile, "mobile-chrome não reporta hover:hover — mesmo motivo do teste de lift acima");
+    const btn = page.getByRole("button", { name: "Shine on hover", exact: true });
+    await btn.scrollIntoViewIfNeeded();
+    const overlay = btn.locator("span[aria-hidden='true']").first();
+    const before = await overlay.evaluate((el) => getComputedStyle(el).translate);
+    await btn.hover();
+    await expect.poll(async () => overlay.evaluate((el) => getComputedStyle(el).translate)).not.toBe(before);
+  });
 });

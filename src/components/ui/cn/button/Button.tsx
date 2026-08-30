@@ -31,6 +31,17 @@ const ICON_SIZE: Record<ButtonSize, string> = {
   xl: "w-5   h-5",
 };
 
+// effect="reveal": largura-alvo do iconRight no hover, espelhando a largura de ICON_SIZE por
+// tamanho — precisa ser classe LITERAL (não `group-hover:${var}` construída em runtime), Tailwind
+// só gera a variante group-hover: de uma classe que aparece assim, escrita por extenso, no source.
+const REVEAL_HOVER_WIDTH: Record<ButtonSize, string> = {
+  xs: "group-hover:w-3",
+  sm: "group-hover:w-3.5",
+  md: "group-hover:w-4",
+  lg: "group-hover:w-4",
+  xl: "group-hover:w-5",
+};
+
 const SIZE_RADIUS: Record<ButtonSize, string> = {
   xs: "rounded-(--radius-sm)",
   sm: "rounded-(--radius-sm)",
@@ -281,6 +292,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
       // status states block interaction WITHOUT dimming — animation stays fully visible
       isBusy && "pointer-events-none active:scale-100",
       effect === "lift" && "hover:-translate-y-1",
+      (effect === "reveal" || effect === "shine") && "group",
       iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
       radiusCls,
       intentCls,
@@ -289,6 +301,28 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
       className
     ),
   };
+
+  // effect="reveal": iconRight nasce colapsado (w-0, opacity-0, deslocado) e expande no
+  // hover do <Root> (classe `group` acima) — reusa iconSizeCls fixo (ex. w-4) como alvo da
+  // largura, então a transição de width anima de verdade (0 → valor fixo, não 0 → auto).
+  // sem REVEAL_HOVER_WIDTH[size] a largura nunca voltava (achado real: testado e confirmado,
+  // ícone ficava com opacity-100 mas w-0 pra sempre, invisível de verdade mesmo "aparecendo").
+  const revealIconCls =
+    effect === "reveal" &&
+    cn(
+      "w-0 opacity-0 -translate-x-1 overflow-hidden transition-[width,opacity,transform] duration-200",
+      "group-hover:opacity-100 group-hover:translate-x-0",
+      REVEAL_HOVER_WIDTH[size]
+    );
+
+  // effect="shine": banda de luz varrendo o botão no hover — currentColor herda a cor do
+  // texto de cada intent/variant (já resolvida via token), sem precisar hardcodar cor nova.
+  const shineOverlay = effect === "shine" && (
+    <span
+      aria-hidden="true"
+      className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none [background:linear-gradient(115deg,transparent_35%,color-mix(in_oklch,currentColor_35%,transparent)_50%,transparent_65%)]"
+    />
+  );
 
   const idleContent = (
     <>
@@ -299,7 +333,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
       )}
       {!iconOnly && children && <span className="truncate">{children}</span>}
       {iconRight && (
-        <span aria-hidden="true" className={cn("shrink-0", iconSizeCls)}>
+        <span aria-hidden="true" className={cn("shrink-0", iconSizeCls, revealIconCls)}>
           {iconRight}
         </span>
       )}
@@ -309,6 +343,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
   if (!reserve) {
     return (
       <Root ref={ref} {...rootProps}>
+        {shineOverlay}
         {idleContent}
       </Root>
     );
@@ -316,6 +351,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
 
   return (
     <Root ref={ref} {...rootProps}>
+      {shineOverlay}
       <StateLayer active={isIdle}>{idleContent}</StateLayer>
 
       <StateLayer active={isLoading}>
@@ -474,6 +510,47 @@ const ConfettiImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function C
 });
 ConfettiImpl.displayName = "Button.Confetti";
 
+/* ── Absorbed: radial-fill (effect="radial-fill") ──────────────────────────
+   Origem: button-16/17.tsx do shadcndashboard — preenchimento expande a partir
+   do PONTO DO CURSOR (não do centro fixo), por isso precisa de onMouseMove pra
+   rastrear a posição real (diferente de "lift"/"shine"/"reveal", que são CSS
+   puro). Cor via currentColor (herda do token de intent já resolvido), nunca
+   hardcoded. */
+const RadialFillImpl = React.forwardRef<HTMLButtonElement, ButtonProps>(function RadialFillImpl(
+  { className, style, children, onClick, ...rest },
+  ref
+) {
+  const innerRef = useRef<HTMLButtonElement>(null);
+  React.useImperativeHandle(ref, () => innerRef.current as HTMLButtonElement);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    const el = innerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--rf-x", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--rf-y", `${e.clientY - rect.top}px`);
+  }, []);
+
+  return (
+    <BaseButton
+      ref={innerRef}
+      onClick={onClick}
+      onMouseMove={onMouseMove}
+      className={cn(
+        "before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none",
+        "before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100",
+        "before:[background:radial-gradient(circle_at_var(--rf-x,50%)_var(--rf-y,50%),color-mix(in_oklch,currentColor_25%,transparent)_0%,transparent_65%)]",
+        className
+      )}
+      style={style}
+      {...rest}
+    >
+      {children}
+    </BaseButton>
+  );
+});
+RadialFillImpl.displayName = "Button.RadialFill";
+
 /* ── Absorbed: ConfirmButton (confirm="doubleclick" | "hold") ──────────────
    Verbatim interaction from confirm-button/ConfirmButton.tsx, re-skinned onto
    BaseButton so the confirm gesture inherits the full Button visual system.
@@ -587,9 +664,11 @@ ConfirmImpl.displayName = "Button.Confirm";
 /**
  * Button — Super component.
  * Renders the base button by default. `effect` selects an absorbed physics/visual
- * behavior (magnetic | confetti) and `confirm` requires a confirmation gesture
- * (doubleclick | hold) before firing onClick. With neither, the original base
- * render path is used unchanged.
+ * behavior (magnetic | confetti | lift | reveal | radial-fill | shine) and `confirm`
+ * requires a confirmation gesture (doubleclick | hold) before firing onClick. With
+ * neither, the original base render path is used unchanged. Only `magnetic`,
+ * `confetti` and `radial-fill` need their own wrapper Impl (JS-driven); `lift`,
+ * `reveal` and `shine` are CSS-only, applied directly inside BaseButton.
  *
  * Absorbs the former MagneticButton, ConfettiButton and ConfirmButton
  * (now backward-compat wrappers).
@@ -598,6 +677,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
   if (props.confirm) return <ConfirmImpl ref={ref} {...props} />;
   if (props.effect === "magnetic") return <MagneticImpl ref={ref} {...props} />;
   if (props.effect === "confetti") return <ConfettiImpl ref={ref} {...props} />;
+  if (props.effect === "radial-fill") return <RadialFillImpl ref={ref} {...props} />;
   return <BaseButton ref={ref} {...props} />;
 });
 Button.displayName = "Button";

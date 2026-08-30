@@ -892,7 +892,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Button",
     group: "inputs",
     description:
-      "Primitive button with 6 variants, 5 sizes, 7 intents, async loading, icon slots and magnetic/confetti/confirm/lift modes.",
+      "Primitive button with 6 variants, 5 sizes, 7 intents, async loading, icon slots and magnetic/confetti/confirm/lift/reveal/radial-fill/shine modes.",
     filePath: "src/components/ui/cn/button/Button.tsx",
     peerDeps: ["@/lib/utils"],
     absorbs: ["magnetic-button", "confetti-button", "confirm-button"],
@@ -906,6 +906,11 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       "hold to confirm",
       "lift",
       "hover lift",
+      "reveal",
+      "radial fill",
+      "radial-fill",
+      "shine",
+      "wow effect",
     ],
     variants: [
       {
@@ -933,6 +938,30 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         aliases: ["hover lift", "lift"],
       },
       {
+        prop: "effect",
+        value: "reveal",
+        label: "Reveal",
+        status: "stable",
+        note: "iconRight nasce colapsado e expande no hover — origem: button-01/19.tsx do shadcndashboard.",
+        aliases: ["reveal icon", "reveal"],
+      },
+      {
+        prop: "effect",
+        value: "radial-fill",
+        label: "Radial fill",
+        status: "stable",
+        note: "Glow expande a partir da posição real do cursor (onMouseMove) — origem: button-16/17.tsx.",
+        aliases: ["radial fill", "radial-fill", "cursor glow"],
+      },
+      {
+        prop: "effect",
+        value: "shine",
+        label: "Shine",
+        status: "stable",
+        note: "Banda de luz varre o botão no hover, mesma técnica de TextShine (currentColor) — origem: button-02/03.tsx.",
+        aliases: ["shine sweep", "shine"],
+      },
+      {
         prop: "confirm",
         value: "true",
         label: "Confirm",
@@ -944,10 +973,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       {
         name: "effect",
-        type: "'none' | 'magnetic' | 'confetti' | 'lift'",
+        type: "'none' | 'magnetic' | 'confetti' | 'lift' | 'reveal' | 'radial-fill' | 'shine'",
         default: "'none'",
         description:
-          "Efeito físico/visual absorvido: 'magnetic' atrai o botão em direção ao cursor; 'confetti' dispara uma explosão de confete no clique; 'lift' sobe no hover (CSS puro)",
+          "Efeito físico/visual absorvido: 'magnetic' atrai o botão em direção ao cursor; 'confetti' dispara uma explosão de confete no clique; 'lift' sobe no hover (CSS puro); 'reveal' revela iconRight no hover; 'radial-fill' expande um glow a partir do cursor; 'shine' varre uma banda de luz no hover",
       },
       {
         name: "confirm",

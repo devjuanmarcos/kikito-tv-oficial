@@ -4326,6 +4326,11 @@ function ButtonDemo() {
       <path d="m21 21-4.35-4.35" />
     </svg>
   );
+  const ArrowRightIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
 
   return (
     <div className="flex flex-col">
@@ -4566,6 +4571,25 @@ function ButtonDemo() {
             <Button effect="lift" variant="outline" intent="secondary">
               Lift outline
             </Button>
+          </div>
+        </Frame>
+        <Frame label='effect="reveal" — iconRight slides in on hover'>
+          <div className="flex flex-wrap gap-3">
+            <Button effect="reveal" iconRight={<ArrowRightIcon />}>
+              Learn more
+            </Button>
+          </div>
+        </Frame>
+        <Frame label='effect="radial-fill" — glow expands from the cursor position'>
+          <div className="flex flex-wrap gap-3">
+            <Button effect="radial-fill" variant="outline">
+              Hover anywhere
+            </Button>
+          </div>
+        </Frame>
+        <Frame label='effect="shine" — light sweep on hover'>
+          <div className="flex flex-wrap gap-3">
+            <Button effect="shine">Shine on hover</Button>
           </div>
         </Frame>
       </ShowcaseSection>
