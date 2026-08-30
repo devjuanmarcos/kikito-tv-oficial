@@ -13,8 +13,8 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 
 ## Batch B — reuso de preset de motion já existente
 
-- [ ] `text-effect` — shine sweep
-- [ ] `text-effect` — wave shimmer
+- [x] `text-effect` — shine sweep
+- [x] `text-effect` — wave shimmer
 - [ ] `button` — hover lift
 - [ ] `slider` — preview no hover
 - [ ] `tabs` — transição de conteúdo do painel
