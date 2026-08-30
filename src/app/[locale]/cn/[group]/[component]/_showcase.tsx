@@ -195,6 +195,8 @@ import { TextEditor } from "@/components/ui/cn/text-editor/TextEditor";
 import type { TextEffectType } from "@/components/ui/cn/text-effect/text-effect.types";
 import { TextEffect } from "@/components/ui/cn/text-effect/TextEffect";
 import { TextGradient } from "@/components/ui/cn/text-gradient/TextGradient";
+import { TextShine } from "@/components/ui/cn/text-shine/TextShine";
+import { TextWave } from "@/components/ui/cn/text-wave/TextWave";
 import { Textarea } from "@/components/ui/cn/textarea/Textarea";
 import { ThemeSelector } from "@/components/ui/cn/theme-selector/ThemeSelector";
 import { TiltCard } from "@/components/ui/cn/tilt-card/TiltCard";
@@ -2610,6 +2612,34 @@ function TextGradientDemo() {
         >
           Animated gradient flow
         </TextGradient>
+      </div>
+    </Frame>
+  );
+}
+
+function TextShineDemo() {
+  return (
+    <Frame label="Text Shine — brightness sweep loops across the text">
+      <div className="flex flex-col items-center gap-4">
+        <TextShine as="h2" className="text-heading-02 font-extrabold">
+          Kikito Design
+        </TextShine>
+        <TextShine as="p" duration={2.5} className="text-body-title font-semibold">
+          Faster sweep (2.5s)
+        </TextShine>
+      </div>
+    </Frame>
+  );
+}
+
+function TextWaveDemo() {
+  return (
+    <Frame label="Text Wave — per-character opacity shimmer, staggered">
+      <div className="flex flex-col items-center gap-4">
+        <TextWave className="text-heading-03 font-extrabold text-foreground">Kikito Design</TextWave>
+        <TextWave duration={0.8} staggerDelay={0.03} className="text-body-title font-semibold text-foreground">
+          Faster wave
+        </TextWave>
       </div>
     </Frame>
   );
@@ -7485,6 +7515,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "layout/scroll-reveal": ScrollRevealDemo,
   "layout/mini-map": MiniMapDemo,
   "display/text-gradient": TextGradientDemo,
+  "display/text-shine": TextShineDemo,
+  "display/text-wave": TextWaveDemo,
   "display/video-card": VideoCardDemo,
   "display/grid-pattern": GridPatternDemo,
   "display/spotlight": SpotlightDemo,

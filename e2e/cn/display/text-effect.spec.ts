@@ -2,8 +2,9 @@ import { test, expect } from "@playwright/test";
 
 /**
  * TextEffect — Super component (router, not an absorption): dispatches by
- * `effect` to Typewriter/MorphingText/TextGradient/AnimatedNumber, which
- * remain independently importable/usable, each with its own real demo.
+ * `effect` to Typewriter/MorphingText/TextGradient/AnimatedNumber/TextShine/
+ * TextWave, which remain independently importable/usable, each with its own
+ * real demo.
  */
 const ROUTES = {
   "text-effect": "/pt/cn/display/text-effect",
@@ -11,6 +12,8 @@ const ROUTES = {
   "morphing-text": "/pt/cn/display/morphing-text",
   "text-gradient": "/pt/cn/display/text-gradient",
   "animated-number": "/pt/cn/display/animated-number",
+  "text-shine": "/pt/cn/display/text-shine",
+  "text-wave": "/pt/cn/display/text-wave",
 };
 
 for (const [name, url] of Object.entries(ROUTES)) {
@@ -44,5 +47,16 @@ test.describe("TextGradient (CN) — a11y", () => {
     await page.waitForLoadState("networkidle");
     await expect(page.locator("main")).toBeVisible();
     await page.emulateMedia({ forcedColors: null });
+  });
+});
+
+test.describe("TextWave (CN) — a11y", () => {
+  test("texto completo acessível via aria-label, spans por caractere têm aria-hidden", async ({ page }) => {
+    await page.goto(ROUTES["text-wave"]);
+    await page.waitForLoadState("networkidle");
+    const wave = page.getByLabel("Kikito Design", { exact: true });
+    await expect(wave).toBeVisible();
+    const hiddenChars = wave.locator('[aria-hidden="true"]');
+    await expect(hiddenChars).not.toHaveCount(0);
   });
 });

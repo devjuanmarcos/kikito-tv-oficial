@@ -9,6 +9,8 @@
 import { AnimatedNumber } from "@/components/ui/cn/animated-number";
 import { MorphingText } from "@/components/ui/cn/morphing-text";
 import { TextGradient } from "@/components/ui/cn/text-gradient";
+import { TextShine } from "@/components/ui/cn/text-shine";
+import { TextWave } from "@/components/ui/cn/text-wave";
 import { Typewriter } from "@/components/ui/cn/typewriter";
 
 import type { TextEffectProps } from "./text-effect.types";
@@ -26,6 +28,14 @@ export function TextEffect(props: TextEffectProps) {
     case "number": {
       const { effect: _e, ...rest } = props;
       return <AnimatedNumber {...rest} />;
+    }
+    case "shine": {
+      const { effect: _e, ...rest } = props;
+      return <TextShine {...rest} />;
+    }
+    case "wave": {
+      const { effect: _e, ...rest } = props;
+      return <TextWave {...rest} />;
     }
     default: {
       const { effect: _e, ...rest } = props;

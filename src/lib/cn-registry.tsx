@@ -37,6 +37,8 @@ export interface CnComponentMeta {
   dependencies?: string[];
   /** Internal path aliases required (e.g. '@/lib/utils') */
   peerDeps?: string[];
+  /** Other Kikito CN components this one renders internally (e.g. 'button'). */
+  registryDeps?: string[];
   props?: PropDoc[];
   /** TSX usage example shown in the docs */
   usage?: string;
@@ -3502,6 +3504,51 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'p'",
         default: "'span'",
         description: "Elemento HTML a renderizar",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+    ],
+  },
+  {
+    name: "text-shine",
+    title: "Text Shine",
+    group: "display",
+    description: "Inline text with a static brightness sweep looping across it — CSS-only, no library.",
+    filePath: "src/components/ui/cn/text-shine/TextShine.tsx",
+    peerDeps: ["@/lib/utils"],
+    keywords: ["shine", "shiny text", "brilho", "sweep"],
+    props: [
+      { name: "children", type: "React.ReactNode", required: true, description: "Texto com o brilho aplicado" },
+      { name: "duration", type: "number", default: "4", description: "Segundos por ciclo do brilho" },
+      {
+        name: "as",
+        type: "'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'p'",
+        default: "'span'",
+        description: "Elemento HTML a renderizar",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+    ],
+  },
+  {
+    name: "text-wave",
+    title: "Text Wave",
+    group: "display",
+    description: "Per-character opacity wave shimmer, staggered via motion — accessible full text in aria-label.",
+    filePath: "src/components/ui/cn/text-wave/TextWave.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
+    keywords: ["wave", "shimmer", "stagger", "per-character"],
+    props: [
+      { name: "children", type: "string", required: true, description: "Texto (string pura, dividido em caracteres)" },
+      {
+        name: "duration",
+        type: "number",
+        default: "1.2",
+        description: "Segundos por ciclo de pulso de cada caractere",
+      },
+      {
+        name: "staggerDelay",
+        type: "number",
+        default: "0.05",
+        description: "Atraso entre o pulso de um caractere e o do próximo",
       },
       { name: "className", type: "string", description: "Classes CSS extras" },
     ],
@@ -8754,10 +8801,23 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "text-effect",
     title: "Text Effect",
     group: "display",
-    description: "Super texto animado: uma entrada que despacha por `effect` para typewriter/morph/gradient/number.",
+    description:
+      "Super texto animado: uma entrada que despacha por `effect` para typewriter/morph/gradient/number/shine/wave.",
     filePath: "src/components/ui/cn/text-effect/TextEffect.tsx",
-    absorbs: ["typewriter", "morphing-text", "text-gradient", "animated-number"],
-    keywords: ["typewriter", "morphing", "morph", "gradient", "animated number", "contador", "texto animado"],
+    absorbs: ["typewriter", "morphing-text", "text-gradient", "animated-number", "text-shine", "text-wave"],
+    keywords: [
+      "typewriter",
+      "morphing",
+      "morph",
+      "gradient",
+      "animated number",
+      "contador",
+      "texto animado",
+      "shine",
+      "shiny text",
+      "wave",
+      "shimmer",
+    ],
     variants: [
       {
         prop: "effect",
@@ -8787,11 +8847,25 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         status: "stable",
         aliases: ["animated number", "animated-number", "contador"],
       },
+      {
+        prop: "effect",
+        value: "shine",
+        label: "Shine",
+        status: "stable",
+        aliases: ["text shine", "text-shine", "shiny text", "brilho"],
+      },
+      {
+        prop: "effect",
+        value: "wave",
+        label: "Wave",
+        status: "stable",
+        aliases: ["text wave", "text-wave", "shimmer wave"],
+      },
     ],
     props: [
       {
         name: "effect",
-        type: "'typewriter' | 'morph' | 'gradient' | 'number'",
+        type: "'typewriter' | 'morph' | 'gradient' | 'number' | 'shine' | 'wave'",
         default: "'typewriter'",
         description:
           "Tipo de efeito; despacha para o renderer correspondente. As demais props variam conforme o efeito",
@@ -8854,7 +8928,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         name: "duration",
         type: "number",
         default: "800",
-        description: "effect='number': duração da animação em ms",
+        description: "effect='number': duração da animação em ms (também usado por effect='shine'/'wave', em segundos)",
+      },
+      {
+        name: "staggerDelay",
+        type: "number",
+        default: "0.05",
+        description: "effect='wave': atraso entre o pulso de um caractere e o do próximo, em segundos",
       },
     ],
   },

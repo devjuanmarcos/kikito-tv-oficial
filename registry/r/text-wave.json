@@ -1,0 +1,35 @@
+{
+  "name": "text-wave",
+  "version": "1.1.0",
+  "title": "Text Wave",
+  "type": "registry:component",
+  "description": "Text Wave component.",
+  "group": "display",
+  "status": "live",
+  "dependencies": ["motion"],
+  "registryDependencies": ["motion", "utils"],
+  "tailwind": {
+    "requires": ["kikitocn-tokens"]
+  },
+  "docs": "https://cn.kikito.tv/components/text-wave",
+  "files": [
+    {
+      "path": "components/ui/cn/text-wave/index.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-wave/index.ts",
+      "content": "export { TextWave } from \"./TextWave\";\nexport type { TextWaveProps } from \"./text-wave.types\";\n"
+    },
+    {
+      "path": "components/ui/cn/text-wave/text-wave.types.ts",
+      "type": "registry:file",
+      "target": "components/ui/cn/text-wave/text-wave.types.ts",
+      "content": "import type React from \"react\";\n\nexport interface TextWaveProps {\n  /** Texto puro — precisa ser string pra poder dividir em caracteres. */\n  children: string;\n  /** Segundos por ciclo de pulso de cada caractere. @default 1.2 */\n  duration?: number;\n  /** Atraso (em segundos) entre o início do pulso de um caractere e o do próximo. @default 0.05 */\n  staggerDelay?: number;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
+    },
+    {
+      "path": "components/ui/cn/text-wave/TextWave.tsx",
+      "type": "registry:component",
+      "target": "components/ui/cn/text-wave/TextWave.tsx",
+      "content": "\"use client\";\n/**\n * TextWave — wave shimmer por caractere. Sem prop `as` (diferente de TextShine/\n * TextGradient): o container precisa ser um `motion.*` pra orquestrar o stagger,\n * e cobrir qualquer tag arbitrária via `motion[Tag]` dinâmico não vale a\n * complexidade — uso típico é `<motion.span>`/`<span>` dentro de qualquer heading.\n */\nimport { motion } from \"motion/react\";\n\nimport { staggerContainer } from \"@/lib/motion\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { TextWaveProps } from \"./text-wave.types\";\n\nconst NBSP = \" \";\n\nexport function TextWave({ children, duration = 1.2, staggerDelay = 0.05, className, style }: TextWaveProps) {\n  const chars = Array.from(children);\n\n  return (\n    <motion.span\n      className={cn(\"inline-block\", className)}\n      style={style}\n      aria-label={children}\n      variants={staggerContainer(staggerDelay)}\n      initial=\"initial\"\n      animate=\"animate\"\n    >\n      {chars.map((char, i) => (\n        <motion.span\n          key={i}\n          aria-hidden=\"true\"\n          className=\"inline-block\"\n          variants={{\n            initial: { opacity: 0.35 },\n            animate: {\n              opacity: [0.35, 1, 0.35],\n              transition: { duration, repeat: Infinity, ease: \"easeInOut\" },\n            },\n          }}\n        >\n          {/* espaço vira NBSP: dentro de inline-block isolado o navegador pode colapsar\n              um espaço comum — NBSP garante que a lacuna entre palavras não suma */}\n          {char === \" \" ? NBSP : char}\n        </motion.span>\n      ))}\n    </motion.span>\n  );\n}\n"
+    }
+  ]
+}
