@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T00:23:40.175Z",
+  "generatedAt": "2026-08-30T01:45:54.018Z",
   "items": [
     {
       "name": "utils",
@@ -112,7 +112,7 @@
       "description": "Filled area chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts", "next-themes"],
       "registryDependencies": ["utils"]
     },
     {
@@ -200,7 +200,7 @@
       "description": "Vertical and horizontal bar chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts", "next-themes"],
       "registryDependencies": ["utils"]
     },
     {
@@ -639,8 +639,8 @@
       "description": "Donut/pie chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
-      "registryDependencies": []
+      "dependencies": ["echarts", "next-themes"],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "dot-stepper",
@@ -826,7 +826,7 @@
       "description": "Funnel/conversion chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts", "next-themes"],
       "registryDependencies": ["utils"]
     },
     {
@@ -1057,8 +1057,8 @@
       "description": "Line and curve chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
-      "registryDependencies": []
+      "dependencies": ["echarts", "next-themes"],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "log-viewer",
@@ -1365,7 +1365,7 @@
       "description": "Pie Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts", "next-themes"],
       "registryDependencies": ["utils"]
     },
     {
@@ -1497,8 +1497,8 @@
       "description": "Multi-axis radar/spider chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
-      "registryDependencies": []
+      "dependencies": ["echarts", "next-themes"],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "radial-bar-chart",
@@ -1508,7 +1508,7 @@
       "description": "Radial Bar Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": ["recharts"],
+      "dependencies": ["echarts", "next-themes"],
       "registryDependencies": ["utils"]
     },
     {
@@ -2059,7 +2059,14 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["animated-number", "morphing-text", "text-gradient", "typewriter"]
+      "registryDependencies": [
+        "animated-number",
+        "morphing-text",
+        "text-gradient",
+        "text-shine",
+        "text-wave",
+        "typewriter"
+      ]
     },
     {
       "name": "text-gradient",
@@ -2071,6 +2078,28 @@
       "status": "live",
       "dependencies": [],
       "registryDependencies": ["utils"]
+    },
+    {
+      "name": "text-shine",
+      "version": "1.1.0",
+      "title": "Text Shine",
+      "type": "registry:component",
+      "description": "Text Shine component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": ["utils"]
+    },
+    {
+      "name": "text-wave",
+      "version": "1.1.0",
+      "title": "Text Wave",
+      "type": "registry:component",
+      "description": "Text Wave component.",
+      "group": "display",
+      "status": "live",
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "textarea",

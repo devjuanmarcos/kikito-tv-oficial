@@ -892,7 +892,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Button",
     group: "inputs",
     description:
-      "Primitive button with 6 variants, 5 sizes, 7 intents, async loading, icon slots and magnetic/confetti/confirm modes.",
+      "Primitive button with 6 variants, 5 sizes, 7 intents, async loading, icon slots and magnetic/confetti/confirm/lift modes.",
     filePath: "src/components/ui/cn/button/Button.tsx",
     peerDeps: ["@/lib/utils"],
     absorbs: ["magnetic-button", "confetti-button", "confirm-button"],
@@ -904,6 +904,8 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       "confirm button",
       "confirm-button",
       "hold to confirm",
+      "lift",
+      "hover lift",
     ],
     variants: [
       {
@@ -923,6 +925,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         aliases: ["confetti button", "confetti-button"],
       },
       {
+        prop: "effect",
+        value: "lift",
+        label: "Lift",
+        status: "stable",
+        note: "Sobe no hover (CSS puro, sem JS) — origem: button-09/10/11/12.tsx do shadcndashboard.",
+        aliases: ["hover lift", "lift"],
+      },
+      {
         prop: "confirm",
         value: "true",
         label: "Confirm",
@@ -934,10 +944,10 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     props: [
       {
         name: "effect",
-        type: "'none' | 'magnetic' | 'confetti'",
+        type: "'none' | 'magnetic' | 'confetti' | 'lift'",
         default: "'none'",
         description:
-          "Efeito físico/visual absorvido: 'magnetic' atrai o botão em direção ao cursor; 'confetti' dispara uma explosão de confete no clique",
+          "Efeito físico/visual absorvido: 'magnetic' atrai o botão em direção ao cursor; 'confetti' dispara uma explosão de confete no clique; 'lift' sobe no hover (CSS puro)",
       },
       {
         name: "confirm",
@@ -3263,9 +3273,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "radial-bar-chart",
     title: "Radial Bar Chart",
     group: "charts",
-    description: "Multi-series radial bar chart (concentric arcs) — the one Chart type built on recharts.",
+    description: "Multi-series radial bar chart (concentric arcs) powered by the shared ECharts infrastructure.",
     filePath: "src/components/ui/cn/radial-bar-chart/RadialBarChart.tsx",
-    peerDeps: ["@/lib/utils", "recharts"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts", "echarts", "next-themes"],
     props: [
       {
         name: "segments",
@@ -7000,7 +7010,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description: "Single-value or dual-thumb range input with marks, label, value display and intent colors.",
     filePath: "src/components/ui/cn/slider/Slider.tsx",
     absorbs: ["range-slider"],
-    keywords: ["range", "dual", "min max", "dois valores"],
+    keywords: ["range", "dual", "min max", "dois valores", "preview", "hover"],
     variants: [
       {
         prop: "range",
@@ -7009,6 +7019,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         status: "stable",
         note: "Seletor de intervalo com dois thumbs (ex-RangeSlider).",
         aliases: ["range slider", "range-slider", "dual slider", "intervalo", "dois valores"],
+      },
+      {
+        prop: "previewOnHover",
+        value: "true",
+        label: "Preview on hover",
+        status: "stable",
+        note: "Segmento de destino destacado no hover — origem: slider-01/02/03.tsx do shadcndashboard.",
+        aliases: ["preview", "hover preview"],
       },
     ],
     peerDeps: ["@/lib/utils"],
@@ -7079,6 +7097,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "SliderMark[]",
         default: "undefined",
         description: "Marcadores de valor: { value, label? }[]",
+      },
+      {
+        name: "previewOnHover",
+        type: "boolean",
+        default: "false",
+        description:
+          "Destaca o segmento entre o valor atual e a posição do cursor ao passar o mouse na trilha, antes de clicar/arrastar (só no modo single, range=false)",
       },
       {
         name: "size",

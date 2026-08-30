@@ -4558,6 +4558,17 @@ function ButtonDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+
+      <ShowcaseSection title="Effects">
+        <Frame label='effect="lift" — rises on hover (CSS-only)'>
+          <div className="flex flex-wrap gap-3">
+            <Button effect="lift">Lift on hover</Button>
+            <Button effect="lift" variant="outline" intent="secondary">
+              Lift outline
+            </Button>
+          </div>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }
@@ -7163,6 +7174,13 @@ function SliderDemo() {
               ]}
               showValue
             />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Preview on hover">
+        <Frame label="previewOnHover — highlights where the value would land before clicking" align="start">
+          <div className="w-full max-w-md">
+            <Slider label="Temperature" defaultValue={30} intent="warning" previewOnHover showValue />
           </div>
         </Frame>
       </ShowcaseSection>

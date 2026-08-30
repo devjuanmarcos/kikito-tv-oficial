@@ -42,6 +42,24 @@ test.describe("Slider", () => {
       await expect(frame.getByText(label, { exact: true })).toBeVisible();
     }
   });
+
+  test("previewOnHover destaca segmento até o cursor, sem mexer no valor real", async ({ page }) => {
+    const frame = page.locator("text=Preview on hover").locator("..");
+    const track = frame.locator(".bg-graphite-2");
+    const slider = frame.getByRole("slider", { name: "Temperature" });
+    await expect(slider).toHaveValue("30");
+    // achado real: sem isso o boundingBox ficava fora do viewport (seção fica abaixo da
+    // dobra) e page.mouse.move não acertava nada — elementFromPoint confirmava null
+    await track.scrollIntoViewIfNeeded();
+    const box = await track.boundingBox();
+    // hover perto do fim da trilha — preview deve aparecer, valor real não muda
+    await page.mouse.move(box!.x + box!.width * 0.9, box!.y + box!.height / 2);
+    const preview = track.locator(".opacity-30");
+    await expect(preview).toBeVisible();
+    await expect(slider).toHaveValue("30");
+    await page.mouse.move(0, 0);
+    await expect(preview).not.toBeVisible();
+  });
 });
 
 test.describe("Slider (modo range)", () => {

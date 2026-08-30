@@ -8,7 +8,7 @@ export type ButtonRounded = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
 export type ButtonLoadingPosition = "left" | "replace";
 
 /** Visual/physics effects absorbed from sibling components. */
-export type ButtonEffect = "none" | "magnetic" | "confetti";
+export type ButtonEffect = "none" | "magnetic" | "confetti" | "lift";
 /** Confirmation interaction absorbed from ConfirmButton. */
 export type ButtonConfirm = "doubleclick" | "hold";
 
@@ -35,7 +35,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   as?: React.ElementType;
 
   /* ── Absorbed effects (Super dispatch) ── */
-  /** Visual/physics effect. 'magnetic' pulls toward cursor; 'confetti' bursts on click. */
+  /** Visual/physics effect. 'magnetic' pulls toward cursor; 'confetti' bursts on click; 'lift' rises on hover (CSS-only). */
   effect?: ButtonEffect;
   /** Strength of the magnetic pull (effect="magnetic"). */
   magneticStrength?: number;

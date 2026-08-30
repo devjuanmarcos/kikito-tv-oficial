@@ -46,6 +46,7 @@ function SingleSlider({
   size = "md",
   intent = "primary",
   disabled = false,
+  previewOnHover = false,
   className,
   style,
 }: SliderSingleProps) {
@@ -53,8 +54,16 @@ function SingleSlider({
   const isControlled = value !== undefined;
   const [internal, setInternal] = useState(defaultValue);
   const current = isControlled ? value ?? min : internal;
+  const trackWrapRef = useRef<HTMLDivElement>(null);
+  const [hoverPct, setHoverPct] = useState<number | null>(null);
 
   const pct = ((current - min) / (max - min)) * 100;
+
+  function handlePreviewMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (!previewOnHover || !trackWrapRef.current) return;
+    const { left, width } = trackWrapRef.current.getBoundingClientRect();
+    setHoverPct(clamp(((e.clientX - left) / width) * 100, 0, 100));
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const v = Number(e.target.value);
@@ -78,7 +87,12 @@ function SingleSlider({
       )}
 
       {/* pb-5 (20px): sem match exato na escala de spacing */}
-      <div className={cn("relative flex items-center", marks ? "pb-5" : "", disabled && "opacity-50")}>
+      <div
+        ref={trackWrapRef}
+        className={cn("relative flex items-center", marks ? "pb-5" : "", disabled && "opacity-50")}
+        onMouseMove={handlePreviewMove}
+        onMouseLeave={() => setHoverPct(null)}
+      >
         {/* track */}
         <div className={cn("relative w-full rounded-full bg-graphite-2", SIZE_TRACK[size])}>
           {/* fill */}
@@ -89,6 +103,17 @@ function SingleSlider({
             )}
             style={{ width: `${pct}%` }}
           />
+          {/* preview: segmento entre o valor atual e a posição do cursor, antes de soltar/clicar —
+              técnica das origens slider-01/02/03.tsx (volume/reação/temperatura), sem lib nova */}
+          {previewOnHover && !disabled && hoverPct !== null && (
+            <div
+              className={cn("absolute top-0 h-full rounded-full opacity-30 pointer-events-none", INTENT_CLS[intent])}
+              style={{
+                left: `${Math.min(pct, hoverPct)}%`,
+                width: `${Math.abs(hoverPct - pct)}%`,
+              }}
+            />
+          )}
         </div>
 
         {/* native range */}

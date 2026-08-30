@@ -48,4 +48,19 @@ test.describe("Button (CN)", () => {
     // e o auto-reset de fato acontece depois (resetDelay=2000ms), não fica preso em "confirming"
     await expect(page.getByRole("button", { name: "Delete account" })).toBeVisible({ timeout: 2500 });
   });
+
+  test("effect='lift' sobe no hover", async ({ page, isMobile }) => {
+    // achado real: Tailwind v4 usa a propriedade CSS `translate` separada
+    // (não mais `transform: translateY(...)`) pras utilities translate-*/hover:translate-* —
+    // checar `transform` aqui sempre daria "none" nos dois estados, falso negativo
+    test.skip(
+      isMobile,
+      "mobile-chrome não reporta hover:hover (matchMedia confirmado false) — :hover não persiste em touch, mesmo comportamento de um dispositivo real"
+    );
+    const btn = page.getByRole("button", { name: "Lift on hover", exact: true });
+    await btn.scrollIntoViewIfNeeded();
+    const before = await btn.evaluate((el) => getComputedStyle(el).translate);
+    await btn.hover();
+    await expect.poll(async () => btn.evaluate((el) => getComputedStyle(el).translate)).not.toBe(before);
+  });
 });

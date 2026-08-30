@@ -198,8 +198,9 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
     onClick,
     as: Root = "button",
     // Absorbed-effect props are consumed by the Super dispatcher — strip them here
-    // so they never leak onto the DOM element.
-    effect: _effect,
+    // so they never leak onto the DOM element. `effect` é exceção: "lift" é CSS puro
+    // (sem Impl próprio), aplicado direto aqui, então precisa continuar disponível.
+    effect,
     magneticStrength: _magneticStrength,
     magneticRadius: _magneticRadius,
     particleCount: _particleCount,
@@ -279,6 +280,7 @@ const BaseButton = React.forwardRef<HTMLButtonElement, ButtonProps>(function Bas
       "disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100",
       // status states block interaction WITHOUT dimming — animation stays fully visible
       isBusy && "pointer-events-none active:scale-100",
+      effect === "lift" && "hover:-translate-y-1",
       iconOnly ? SIZE_ICON_ONLY[size] : SIZE[size],
       radiusCls,
       intentCls,

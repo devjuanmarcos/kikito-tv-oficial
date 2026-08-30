@@ -29,6 +29,8 @@ export interface SliderSingleProps extends SliderCommon {
   onChange?: (value: number) => void;
   showValue?: boolean;
   marks?: SliderMark[];
+  /** Highlights the segment between the current value and the cursor position while hovering the track, before clicking/dragging. */
+  previewOnHover?: boolean;
 }
 
 export interface SliderRangeProps extends SliderCommon {
