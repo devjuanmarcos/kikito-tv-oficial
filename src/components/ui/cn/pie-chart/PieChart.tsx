@@ -1,5 +1,6 @@
 "use client";
 
+import type { EChartsOption } from "echarts";
 import { PieChart as EChartsPieChart } from "echarts/charts";
 import { TooltipComponent } from "echarts/components";
 import { use as useECharts } from "echarts/core";
@@ -23,7 +24,7 @@ const COLORS = [
   "var(--ks-info)",
 ];
 
-export function buildPieOption(segments: PieSegment[], theme = resolveChartTheme()) {
+export function buildPieOption(segments: PieSegment[], theme = resolveChartTheme()): EChartsOption {
   return {
     animation: true,
     color: theme.palette,

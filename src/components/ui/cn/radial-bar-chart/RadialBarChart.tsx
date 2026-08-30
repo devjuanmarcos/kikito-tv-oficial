@@ -1,5 +1,6 @@
 "use client";
 
+import type { EChartsOption } from "echarts";
 import { BarChart as EChartsBarChart } from "echarts/charts";
 import { PolarComponent, TooltipComponent } from "echarts/components";
 import { use as useECharts } from "echarts/core";
@@ -23,7 +24,7 @@ const COLORS = [
   "var(--ks-info)",
 ];
 
-export function buildRadialBarOption(segments: RadialBarSegment[], theme = resolveChartTheme()) {
+export function buildRadialBarOption(segments: RadialBarSegment[], theme = resolveChartTheme()): EChartsOption {
   return {
     animation: true,
     tooltip: { trigger: "item" },

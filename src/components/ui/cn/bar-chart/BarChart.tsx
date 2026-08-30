@@ -76,7 +76,6 @@ export function buildBarOption(data: BarChartItem[], args: BarOptionArgs): EChar
             axisLine: { show: false },
             axisTick: { show: false },
             axisLabel: { color: theme.faintTextColor },
-            data: data.map((item) => item.label),
           }
         : { type: "value", max, ...axis },
     series: [

@@ -1,5 +1,6 @@
 "use client";
 
+import type { EChartsOption } from "echarts";
 import { PieChart as EChartsPieChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent } from "echarts/components";
 import { use as useECharts } from "echarts/core";
@@ -29,7 +30,7 @@ export function buildDonutOption(
   centerLabel?: string,
   centerValue?: string | number,
   theme = resolveChartTheme()
-) {
+): EChartsOption {
   const inner = Math.max(0, 50 - (strokeWidth / 2 / 160) * 100);
   return {
     animation: true,
