@@ -9206,7 +9206,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description:
       "Super texto animado: uma entrada que despacha por `effect` para typewriter/morph/gradient/number/shine/wave.",
     filePath: "src/components/ui/cn/text-effect/TextEffect.tsx",
-    absorbs: ["typewriter", "morphing-text", "text-gradient", "animated-number", "text-shine", "text-wave"],
+    // NAO usar `absorbs` aqui: mesmo caso de `chart` (ver comentario la) -- TextEffect.tsx
+    // e um dispatcher fino POR CIMA de Typewriter/MorphingText/TextGradient/AnimatedNumber/
+    // TextShine/TextWave (docstring de TextEffect.tsx diz "The individual components remain
+    // importable (backward-compat)"), e nenhum dos 6 delega pra TextEffect -- sao
+    // implementacoes reais e independentes. Marcar como absorbs escondia os 6 inteiros da
+    // sidebar e da listagem de grupo. Achado na varredura completa de organizacao, 2026-08-30.
     keywords: [
       "typewriter",
       "morphing",
