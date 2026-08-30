@@ -1107,12 +1107,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "inputs",
     description: "Inline label with 4 variants, 3 sizes, 7 intents, dot indicator and dismiss.",
     filePath: "src/components/ui/cn/badge/Badge.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     // NÃO absorve tag/status-badge/ping de fato — Badge.tsx não tem nenhum dispatch interno
     // pra esses 3 (nenhuma menção a "tag"/"status"/"ping" no arquivo). Os 3 são standalone,
     // cada um com sua própria escala de intent/size, zero import de Badge. O `absorbs`
     // antigo escondia os 3, reais e funcionais, da sidebar via getVisibleComponents().
-    keywords: ["dot", "dismiss"],
+    keywords: ["dot", "dismiss", "glow", "animated", "status", "pop-in"],
     props: [
       {
         name: "variant",
@@ -1167,6 +1167,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "() => void",
         default: "undefined",
         description: "Callback chamado ao clicar no botão de dismiss",
+      },
+      {
+        name: "animated",
+        type: "boolean",
+        default: "false",
+        description:
+          "Status assíncrono: glow ambiente pulsante + ícone com pop-in (spring) + rótulo revelado letra-por-letra (children precisa ser string pro stagger). Origem: badge-07/08/09.tsx do shadcndashboard.",
       },
     ],
   },

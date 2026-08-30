@@ -4224,6 +4224,16 @@ function InputDemo() {
 
 function BadgeDemo() {
   const [dismissed, setDismissed] = React.useState<string[]>([]);
+  const CheckIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+      <path d="M20 6L9 17l-5-5" />
+    </svg>
+  );
+  const XIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+      <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  );
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Variants">
@@ -4302,6 +4312,18 @@ function BadgeDemo() {
                 Reset
               </Button>
             )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Animated status">
+        <Frame label="animated — glow ambiente + ícone pop-in + rótulo letra-por-letra">
+          <div className="flex flex-wrap gap-2 items-center">
+            <Badge intent="success" animated iconLeft={<CheckIcon />}>
+              Success
+            </Badge>
+            <Badge intent="danger" animated iconLeft={<XIcon />}>
+              Failed
+            </Badge>
           </div>
         </Frame>
       </ShowcaseSection>

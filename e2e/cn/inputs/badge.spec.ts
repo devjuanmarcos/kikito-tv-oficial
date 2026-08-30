@@ -28,6 +28,19 @@ test.describe("Badge (CN)", () => {
     }
   });
 
+  test("animated: rótulo revelado letra-por-letra é acessível via aria-label, spans com aria-hidden", async ({
+    page,
+  }) => {
+    const frame = page.locator('text="animated — glow ambiente + ícone pop-in + rótulo letra-por-letra"').locator("..");
+    const label = frame.getByLabel("Success", { exact: true });
+    await expect(label).toBeVisible();
+    const hiddenChars = label.locator('[aria-hidden="true"]');
+    await expect(hiddenChars).not.toHaveCount(0);
+    // texto ainda legível de verdade — cada char aparece no DOM, só marcado aria-hidden
+    // individualmente (o wrapper com aria-label é que carrega a semântica pro leitor de tela)
+    await expect(label).toContainText("Success");
+  });
+
   test("sem erros de console", async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (msg) => {

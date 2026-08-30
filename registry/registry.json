@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T02:22:57.001Z",
+  "generatedAt": "2026-08-30T02:30:55.656Z",
   "items": [
     {
       "name": "utils",
@@ -178,8 +178,8 @@
       "description": "Status and label badges with variants and intents.",
       "group": "display",
       "status": "live",
-      "dependencies": [],
-      "registryDependencies": ["utils"]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "banner",

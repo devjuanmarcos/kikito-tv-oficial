@@ -1,7 +1,9 @@
 ﻿"use client";
 
+import { motion } from "motion/react";
 import React from "react";
 
+import { scaleIn, slideInUp, springSnappy, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { BadgeProps, BadgeVariant, BadgeSize, BadgeRounded, BadgeIntent } from "./badge.types";
@@ -91,6 +93,7 @@ export function Badge({
   iconLeft,
   iconRight,
   onDismiss,
+  animated = false,
   className,
   children,
   ...props
@@ -100,6 +103,35 @@ export function Badge({
   const radiusCls = rounded ? ROUNDED_MAP[rounded] : "rounded-full";
   const showDot = dot || variant === "dot";
 
+  const iconCls = "shrink-0 w-3 h-3 flex items-center justify-center";
+  // pop-in do ícone via spring (não uma nova Variants — scaleIn + springSnappy já dá o
+  // "bounce" pedido, a física do spring que cria o efeito, não o delta de opacity/scale).
+  // Sempre motion.span (em vez de trocar de tag por `animated`, evita o problema de tipos
+  // de um componente polimórfico "span | motion.span" com props condicionais incompatíveis) —
+  // sem initial/animate, motion.span renderiza igual a um <span> comum, custo desprezível.
+  const iconMotionProps = animated
+    ? { variants: scaleIn, initial: "initial" as const, animate: "animate" as const, transition: springSnappy }
+    : {};
+
+  const label =
+    animated && typeof children === "string" ? (
+      <motion.span
+        aria-label={children}
+        variants={staggerContainer(0.03)}
+        initial="initial"
+        animate="animate"
+        className="inline-flex"
+      >
+        {Array.from(children).map((char, i) => (
+          <motion.span key={i} aria-hidden="true" variants={slideInUp}>
+            {char === " " ? " " : char}
+          </motion.span>
+        ))}
+      </motion.span>
+    ) : (
+      children
+    );
+
   return (
     <span
       {...props}
@@ -108,25 +140,38 @@ export function Badge({
         SIZE[size],
         radiusCls,
         intentCls,
+        // glow ambiente pulsante — currentColor já carrega a cor do intent resolvida
+        // (mesma técnica de radial-fill/shine do Button), sem token de cor novo
+        animated &&
+          "[animation:ks-badge-glow_calc(var(--ks-motion-slower)*2)_ease-in-out_infinite] motion-reduce:![animation:none]",
         className
       )}
     >
+      {animated && (
+        <style>{`
+          @keyframes ks-badge-glow {
+            0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, currentColor 35%, transparent); }
+            50% { box-shadow: 0 0 8px 2px color-mix(in oklch, currentColor 35%, transparent); }
+          }
+        `}</style>
+      )}
+
       {showDot && (
         <span aria-hidden="true" className={cn("shrink-0 rounded-full bg-current opacity-70", DOT_SIZE[size])} />
       )}
 
       {!showDot && iconLeft && (
-        <span aria-hidden="true" className="shrink-0 w-3 h-3 flex items-center justify-center">
+        <motion.span aria-hidden="true" className={iconCls} {...iconMotionProps}>
           {iconLeft}
-        </span>
+        </motion.span>
       )}
 
-      {children}
+      {label}
 
       {!showDot && iconRight && (
-        <span aria-hidden="true" className="shrink-0 w-3 h-3 flex items-center justify-center">
+        <motion.span aria-hidden="true" className={iconCls} {...iconMotionProps}>
           {iconRight}
-        </span>
+        </motion.span>
       )}
 
       {(dismissible || onDismiss) && (
