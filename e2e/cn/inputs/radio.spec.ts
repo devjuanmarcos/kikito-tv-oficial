@@ -46,4 +46,16 @@ test.describe("Radio", () => {
     await page.keyboard.press("ArrowLeft");
     await expect(frame.getByLabel("Dark")).toBeChecked();
   });
+
+  test('variant="card": preço/descrição visíveis, clicar no card inteiro seleciona (não só o dot)', async ({
+    page,
+  }) => {
+    const frame = page.getByText("icon + descrição + preço, card inteiro clicável").locator("..");
+    await expect(frame.getByText("$19", { exact: true })).toBeVisible();
+    await expect(frame.getByText("For side projects", { exact: true })).toBeVisible();
+    // clica no texto do label do card "Free" (bem longe do <input> real, escondido via sr-only) —
+    // se o <label> não envolver o card inteiro, esse clique não selecionaria nada
+    await frame.getByText("Free", { exact: true }).click();
+    await expect(frame.locator('input[value="free"]')).toBeChecked();
+  });
 });

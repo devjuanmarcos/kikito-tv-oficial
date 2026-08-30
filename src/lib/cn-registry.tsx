@@ -1778,10 +1778,46 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "radio",
     title: "Radio",
     group: "inputs",
-    description: "Radio button with RadioGroup helper for single-select option sets.",
+    description: "Radio button with RadioGroup helper, single-select option sets and a card variant.",
     filePath: "src/components/ui/cn/radio/Radio.tsx",
     peerDeps: ["@/lib/utils"],
+    keywords: ["card", "plan", "pricing radio"],
+    variants: [
+      {
+        prop: "variant",
+        value: "card",
+        label: "Card",
+        status: "stable",
+        note: "Ícone+título+descrição+preço, card inteiro clicável — origem: radio-group-03/04/06.tsx do shadcndashboard. Overlap conceitual aceito com pricing-card/price-table (seleção de formulário vs. apresentação de planos).",
+        aliases: ["radio card", "plan selector", "pricing radio"],
+      },
+    ],
     props: [
+      {
+        name: "variant",
+        type: "'default' | 'card'",
+        default: "'default'",
+        description: "'card' renderiza ícone/descrição/preço num card inteiro clicável",
+      },
+      {
+        name: "icon",
+        type: "ReactNode",
+        default: "undefined",
+        description: "variant='card': ícone exibido acima do label",
+      },
+      {
+        name: "description",
+        type: "string",
+        default: "undefined",
+        description:
+          "variant='card': descrição mais longa abaixo do label (helperText ainda funciona como legenda curta)",
+      },
+      {
+        name: "price",
+        type: "string",
+        default: "undefined",
+        description: "variant='card': preço/valor alinhado à direita do label",
+      },
       {
         name: "value",
         type: "string",

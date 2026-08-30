@@ -6236,13 +6236,41 @@ function CheckboxDemo() {
 
 function RadioDemo() {
   const [plan, setPlan] = useState("pro");
+  const [cardPlan, setCardPlan] = useState("pro");
   const options = [
     { value: "free", label: "Free", helperText: "Up to 3 projects" },
     { value: "pro", label: "Pro", helperText: "Unlimited projects + API access" },
     { value: "enterprise", label: "Enterprise", helperText: "Custom SLA and dedicated support" },
   ];
+  const RocketIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+      <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+    </svg>
+  );
   return (
     <div className="flex flex-col">
+      <ShowcaseSection title='variant="card"'>
+        <Frame label="icon + descrição + preço, card inteiro clicável" align="start">
+          <RadioGroup
+            variant="card"
+            orientation="horizontal"
+            value={cardPlan}
+            onChange={setCardPlan}
+            options={[
+              { value: "free", label: "Free", description: "For side projects", price: "$0" },
+              {
+                value: "pro",
+                label: "Pro",
+                description: "For growing teams",
+                price: "$19",
+                icon: <RocketIcon />,
+              },
+              { value: "enterprise", label: "Enterprise", description: "Custom SLA", price: "Talk to us" },
+            ]}
+          />
+        </Frame>
+      </ShowcaseSection>
       <ShowcaseSection title="RadioGroup">
         <Frame label="Vertical (default)" align="start">
           <RadioGroup label="Subscription plan" options={options} value={plan} onChange={setPlan} />
