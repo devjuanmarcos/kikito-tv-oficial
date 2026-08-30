@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T03:50:07.122Z",
+  "generatedAt": "2026-08-30T04:02:44.558Z",
   "items": [
     {
       "name": "utils",
@@ -650,7 +650,7 @@
       "description": "Donut/pie chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts"],
       "registryDependencies": ["echarts", "utils"]
     },
     {
@@ -1376,7 +1376,7 @@
       "description": "Pie Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts"],
       "registryDependencies": ["echarts", "utils"]
     },
     {
@@ -1519,7 +1519,7 @@
       "description": "Radial Bar Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": [],
+      "dependencies": ["echarts"],
       "registryDependencies": ["echarts", "utils"]
     },
     {
