@@ -9325,8 +9325,16 @@ export function getGroup(id: string): CnGroupMeta | undefined {
   return CN_GROUPS.find((g) => g.id === id);
 }
 
+/**
+ * Components shown on a group's listing page (`/cn/[group]`). Filters out names
+ * absorbed by a Super component — same rule as `getVisibleComponents()` (sidebar) —
+ * so the two never diverge. Achado da auditoria de showcase (2026-08-30): antes
+ * disso, a listagem de grupo mostrava cards pra nomes absorvidos (Combobox,
+ * Gauge, SkillBar, ContextMenu...) que a sidebar não linkava em lugar nenhum.
+ */
 export function getComponentsByGroup(group: string): CnComponentMeta[] {
-  return CN_REGISTRY.filter((c) => c.group === group);
+  const absorbed = getAbsorbedNames();
+  return CN_REGISTRY.filter((c) => c.group === group && !absorbed.has(c.name));
 }
 
 export function generateStaticComponentParams() {
