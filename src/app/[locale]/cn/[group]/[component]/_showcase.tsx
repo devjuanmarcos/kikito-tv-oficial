@@ -664,6 +664,7 @@ function DraggableDemo() {
 }
 
 function CommandDemo() {
+  const [commandOpen, setCommandOpen] = useState(false);
   const groups = [
     {
       heading: "Navigation",
@@ -682,8 +683,21 @@ function CommandDemo() {
     },
   ];
   return (
-    <Frame label="Press ⌘K / Ctrl+K to open">
-      <Command groups={groups} placeholder="Type a command…" />
+    <Frame label="Press ⌘K / Ctrl+K to open (ou clique no botão)">
+      <div className="flex flex-col items-center gap-4">
+        {/* Command escuta o keybinding globalmente mas não renderiza nenhum trigger
+            visível sozinho — sem este botão, o showcase mostrava uma caixa vazia
+            pra quem não sabia o atalho. Mesmo padrão do SpotlightSearchDemo abaixo. */}
+        <button
+          onClick={() => setCommandOpen(true)}
+          className="flex items-center gap-3 px-4 py-2 rounded-(--radius-sm) border border-rule bg-raised text-muted hover:text-foreground hover:border-patina text-body-callout transition-colors duration-150 min-w-[220px]"
+        >
+          <span>⌘</span>
+          <span className="flex-1 text-left">Open command palette…</span>
+          <kbd className="text-[0.625rem] font-bold bg-graphite px-[5px] py-[2px] rounded-[3px] text-faint">⌘K</kbd>
+        </button>
+        <Command groups={groups} placeholder="Type a command…" open={commandOpen} onOpenChange={setCommandOpen} />
+      </div>
     </Frame>
   );
 }
