@@ -235,6 +235,7 @@ export const NPM_DEP_MAP = {
   "next-themes": "next-themes",
   "lucide-react": "lucide-react",
   "recharts": "recharts",
+  "echarts": "echarts",
   "embla-carousel-react": "embla-carousel-react",
   "embla-carousel": "embla-carousel",
   "@dnd-kit/core": "@dnd-kit/core",

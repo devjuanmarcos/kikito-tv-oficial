@@ -1,8 +1,12 @@
-﻿import { cn } from "@/lib/utils";
+"use client";
 
-import type { DonutChartProps } from "./donut-chart.types";
+import { EChartsContainer } from "@/lib/echarts";
+import { resolveChartColor, resolveChartTheme } from "@/lib/echarts/chart-theme";
+import { cn } from "@/lib/utils";
 
-const DEFAULT_COLORS = [
+import type { DonutChartProps, DonutSegment } from "./donut-chart.types";
+
+const COLORS = [
   "var(--ks-primary)",
   "var(--ks-kinpaku)",
   "var(--ks-success)",
@@ -10,6 +14,47 @@ const DEFAULT_COLORS = [
   "var(--ks-danger)",
   "var(--ks-info)",
 ];
+
+export function buildDonutOption(
+  segments: DonutSegment[],
+  strokeWidth: number,
+  centerLabel?: string,
+  centerValue?: string | number,
+  theme = resolveChartTheme()
+) {
+  const inner = Math.max(0, 50 - (strokeWidth / 2 / 160) * 100);
+  return {
+    animation: true,
+    color: theme.palette,
+    title: {
+      show: centerLabel !== undefined || centerValue !== undefined,
+      text: centerValue === undefined ? "" : String(centerValue),
+      subtext: centerLabel ?? "",
+      left: "center",
+      top: "center",
+      textStyle: { color: theme.textColor, fontSize: 22, fontWeight: 800 },
+      subtextStyle: { color: theme.faintTextColor, fontSize: 11 },
+    },
+    tooltip: { trigger: "item" },
+    series: [
+      {
+        type: "pie",
+        radius: [`${inner}%`, "100%"],
+        label: { show: false },
+        itemStyle: { borderColor: theme.surfaceColor, borderWidth: 1, borderRadius: 4 },
+        data: segments.map((segment, index) => ({
+          name: segment.label,
+          value: segment.value,
+          itemStyle: {
+            color: segment.color
+              ? resolveChartColor(segment.color, theme.tokenColors)
+              : theme.palette[index % theme.palette.length],
+          },
+        })),
+      },
+    ],
+  };
+}
 
 export function DonutChart({
   segments,
@@ -21,81 +66,31 @@ export function DonutChart({
   className,
   style,
 }: DonutChartProps) {
-  const total = segments.reduce((sum, s) => sum + s.value, 0);
-  const r = (size - strokeWidth) / 2;
-  const cx = size / 2;
-  const cy = size / 2;
-  const circumference = 2 * Math.PI * r;
-  const chartSummary = segments.map((s) => `${s.label} ${s.value}`).join(", ");
-
-  let offset = 0;
-
+  const theme = resolveChartTheme();
+  const total = segments.reduce((sum, segment) => sum + segment.value, 0);
+  const summary = segments.map((segment) => `${segment.label} ${segment.value}`).join(", ");
   return (
     <div className={cn("flex flex-col items-center gap-(--spacing-lg)", className)} style={style}>
-      <svg width={size} height={size} role="img" aria-label={`Donut chart: ${chartSummary}`}>
-        {/* track */}
-        <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--ks-rule)" strokeWidth={strokeWidth} />
-
-        {segments.map((seg, i) => {
-          const pct = total > 0 ? seg.value / total : 0;
-          const dash = pct * circumference;
-          const gap = circumference - dash;
-          const color = seg.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];
-          const el = (
-            <circle
-              key={seg.label}
-              cx={cx}
-              cy={cy}
-              r={r}
-              fill="none"
-              stroke={color}
-              strokeWidth={strokeWidth}
-              strokeDasharray={`${dash} ${gap}`}
-              strokeDashoffset={-(offset * circumference)}
-              transform={`rotate(-90 ${cx} ${cy})`}
-              strokeLinecap="round"
-            />
-          );
-          offset += pct;
-          return el;
-        })}
-
-        {/* fontSize={22}/{11}: atributos numéricos de <text> em SVG, sem classe Tailwind aplicável ao viewBox; sem match exato na escala de tipografia */}
-        {(centerLabel || centerValue !== undefined) && (
-          <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle">
-            {centerValue !== undefined && (
-              <tspan x={cx} dy={centerLabel ? "-0.5em" : 0} fontSize={22} fontWeight={800} fill="currentColor">
-                {centerValue}
-              </tspan>
-            )}
-            {centerLabel && (
-              <tspan
-                x={cx}
-                dy={centerValue !== undefined ? "1.4em" : 0}
-                fontSize={11}
-                opacity={0.4}
-                fill="currentColor"
-              >
-                {centerLabel}
-              </tspan>
-            )}
-          </text>
-        )}
-      </svg>
-
+      <EChartsContainer
+        option={buildDonutOption(segments, strokeWidth, centerLabel, centerValue, theme)}
+        width={size}
+        height={size}
+        ariaLabel={`Donut chart: ${summary}`}
+      />
       {showLegend && (
         <div className="flex flex-col gap-(--spacing-xs) w-full">
-          {segments.map((seg, i) => {
-            const pct = total > 0 ? Math.round((seg.value / total) * 100) : 0;
-            const color = seg.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length];
-            return (
-              <div key={seg.label} className="flex items-center gap-(--spacing-sm)">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: color }} />
-                <span className="text-body-caption text-muted flex-1">{seg.label}</span>
-                <span className="text-body-caption font-semibold text-foreground">{pct}%</span>
-              </div>
-            );
-          })}
+          {segments.map((segment, index) => (
+            <div key={segment.label} className="flex items-center gap-(--spacing-sm)">
+              <div
+                className="w-2.5 h-2.5 rounded-full shrink-0"
+                style={{ background: segment.color ?? COLORS[index % COLORS.length] }}
+              />
+              <span className="text-body-caption text-muted flex-1">{segment.label}</span>
+              <span className="text-body-caption font-semibold text-foreground">
+                {total > 0 ? Math.round((segment.value / total) * 100) : 0}%
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </div>
