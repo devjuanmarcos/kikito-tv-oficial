@@ -49,4 +49,18 @@ test.describe("CodeBlock", () => {
     const table = frame.locator("table").first();
     await expect(table).toHaveAttribute("role", "presentation");
   });
+
+  test("multi-arquivo: trocar de aba troca o código exibido", async ({ page }) => {
+    const frame = page.locator('text="Multi-arquivo"').locator("..");
+    const tab1 = frame.getByRole("tab", { name: "Button.tsx" });
+    const tab2 = frame.getByRole("tab", { name: "utils.ts" });
+    await expect(tab1).toHaveAttribute("aria-selected", "true");
+    await expect(frame.getByText("handleSave").first()).toBeVisible();
+
+    await tab2.click();
+    await expect(tab2).toHaveAttribute("aria-selected", "true");
+    await expect(tab1).toHaveAttribute("aria-selected", "false");
+    await expect(frame.getByText("greet").first()).toBeVisible();
+    await expect(frame.getByText("handleSave")).toHaveCount(0);
+  });
 });

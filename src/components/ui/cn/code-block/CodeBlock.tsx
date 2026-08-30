@@ -29,16 +29,27 @@ export function CodeBlock({
   code,
   language,
   filename,
+  files,
+  defaultFileIndex = 0,
   showLineNumbers = false,
   maxHeight,
   className,
   style,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
-  const lines = code.split("\n");
+  const isMultiFile = !!files && files.length > 0;
+  const [activeIndex, setActiveIndex] = useState(() =>
+    isMultiFile ? Math.min(Math.max(defaultFileIndex, 0), files!.length - 1) : 0
+  );
+  const activeFile = isMultiFile ? files![activeIndex] : undefined;
+
+  const effectiveCode = activeFile ? activeFile.code : code ?? "";
+  const effectiveLanguage = activeFile ? activeFile.language : language;
+  const effectiveFilename = activeFile ? activeFile.filename : filename;
+  const lines = effectiveCode.split("\n");
 
   function copy() {
-    navigator.clipboard.writeText(code).then(() => {
+    navigator.clipboard.writeText(effectiveCode).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -55,20 +66,33 @@ export function CodeBlock({
         className
       )}
     >
-      {(filename || language) && (
-        <div className="flex items-center justify-between px-(--spacing-lg) py-(--spacing-sm) border-b border-rule bg-graphite-2">
-          <div className="flex items-center gap-(--spacing-sm)">
-            {filename && <span className="text-body-caption text-foreground font-medium">{filename}</span>}
-            {language && !filename && (
-              <span className="text-body-caption text-faint uppercase tracking-wide">{language}</span>
-            )}
-            {language && filename && <span className="text-body-caption text-faint">{language}</span>}
+      {isMultiFile ? (
+        <div className="flex items-center justify-between border-b border-rule bg-graphite-2">
+          <div role="tablist" aria-label="Arquivos" className="flex items-center overflow-x-auto">
+            {files!.map((f, i) => (
+              <button
+                key={f.filename}
+                type="button"
+                role="tab"
+                aria-selected={i === activeIndex}
+                onClick={() => setActiveIndex(i)}
+                className={cn(
+                  "shrink-0 px-(--spacing-lg) py-(--spacing-sm) text-body-caption font-medium border-b-2 -mb-px transition-colors duration-[120ms]",
+                  i === activeIndex
+                    ? "text-foreground border-patina"
+                    : "text-faint border-transparent hover:text-foreground"
+                )}
+              >
+                {f.filename}
+              </button>
+            ))}
           </div>
           <Button
             type="button"
             variant="ghost"
             intent="neutral"
             size="xs"
+            className="shrink-0 mr-(--spacing-sm)"
             aria-label={copied ? "Copied!" : "Copy code"}
             aria-live="polite"
             onClick={copy}
@@ -77,10 +101,38 @@ export function CodeBlock({
             <span>{copied ? "Copied!" : "Copy"}</span>
           </Button>
         </div>
+      ) : (
+        (effectiveFilename || effectiveLanguage) && (
+          <div className="flex items-center justify-between px-(--spacing-lg) py-(--spacing-sm) border-b border-rule bg-graphite-2">
+            <div className="flex items-center gap-(--spacing-sm)">
+              {effectiveFilename && (
+                <span className="text-body-caption text-foreground font-medium">{effectiveFilename}</span>
+              )}
+              {effectiveLanguage && !effectiveFilename && (
+                <span className="text-body-caption text-faint uppercase tracking-wide">{effectiveLanguage}</span>
+              )}
+              {effectiveLanguage && effectiveFilename && (
+                <span className="text-body-caption text-faint">{effectiveLanguage}</span>
+              )}
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              intent="neutral"
+              size="xs"
+              aria-label={copied ? "Copied!" : "Copy code"}
+              aria-live="polite"
+              onClick={copy}
+            >
+              {copied ? <CheckIcon /> : <CopyIcon />}
+              <span>{copied ? "Copied!" : "Copy"}</span>
+            </Button>
+          </div>
+        )
       )}
 
       <div className="relative overflow-auto" style={maxHeight ? { maxHeight } : undefined}>
-        {!filename && !language && (
+        {!isMultiFile && !effectiveFilename && !effectiveLanguage && (
           <button
             type="button"
             aria-label={copied ? "Copied!" : "Copy code"}

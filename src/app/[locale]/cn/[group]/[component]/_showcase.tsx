@@ -6603,6 +6603,25 @@ console.log(greet("Mundo"));`;
           </div>
         </Frame>
       </ShowcaseSection>
+
+      <ShowcaseSection title="Multi-arquivo">
+        <Frame label="prop files — abas trocando entre arquivos diferentes">
+          <div className="w-full max-w-2xl">
+            <CodeBlock
+              showLineNumbers
+              files={[
+                { filename: "Button.tsx", language: "tsx", code: exampleCode },
+                { filename: "utils.ts", language: "ts", code: tsCode },
+                {
+                  filename: "styles.css",
+                  language: "css",
+                  code: `.btn {\n  background: var(--ks-patina);\n  border-radius: var(--radius-sm);\n}`,
+                },
+              ]}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }

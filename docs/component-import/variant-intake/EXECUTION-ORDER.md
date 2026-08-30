@@ -32,7 +32,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 - [x] `calendar` — mode="range"/"multiple" no standalone
 - [x] `select` (combobox) — grupos + ícone por opção
 - [x] `dropdown-menu` — prop `header`
-- [ ] `code-block` — abas por arquivo
+- [x] `code-block` — abas por arquivo
 - [ ] `line-chart` — ReferenceLine
 - [ ] `progress` — modo indeterminate
 - [ ] `area-chart`/`line-chart` — interpolação step (compartilhada)
