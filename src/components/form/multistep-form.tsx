@@ -1,16 +1,17 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import type { FieldValues } from "react-hook-form";
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { InputRender } from "@/components/form/input-render";
-import { pickStepSchema } from "@/components/form/multistep-step-schema";
-import type { MultistepFormConfig } from "@/components/form/multistep-form-types";
-import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { useForm } from "react-hook-form";
+import type { DefaultValues, FieldPath, FieldValues } from "react-hook-form";
 import { z } from "zod";
+
+import { InputRender } from "@/components/form/input-render";
+import type { MultistepFormConfig } from "@/components/form/multistep-form-types";
+import { pickStepSchema } from "@/components/form/multistep-step-schema";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
 /** Converte dados do formulário em FormData (incluindo arquivos) */
 function buildFormData<T extends FieldValues>(data: T): FormData {
@@ -60,8 +61,8 @@ export function MultistepForm<T extends FieldValues>({
   const [currentStep, setCurrentStep] = useState(0);
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<T>({
-    defaultValues: defaultValues as T,
+  const form = useForm<T, unknown, T>({
+    defaultValues: defaultValues as DefaultValues<T>,
     mode: "onTouched",
     shouldUnregister: false,
   });
@@ -72,15 +73,13 @@ export function MultistepForm<T extends FieldValues>({
   const isLastStep = currentStep === totalSteps - 1;
 
   const currentInputs =
-    typeof step.inputs === "function"
-      ? step.inputs(form.control, form as ReturnType<typeof useForm<T>>)
-      : step.inputs;
+    typeof step.inputs === "function" ? step.inputs(form.control, form as ReturnType<typeof useForm<T>>) : step.inputs;
 
   /** Para schemas com .refine() (ZodEffects), usa o schema interno na validação por step */
   const schemaForStep =
     schema instanceof z.ZodEffects && "_def" in schema && (schema._def as { schema?: z.ZodType }).schema
       ? (schema._def as { schema: z.ZodObject<z.ZodRawShape> }).schema
-      : (schema as z.ZodObject<z.ZodRawShape>);
+      : (schema as unknown as z.ZodObject<z.ZodRawShape>);
 
   const handleNext = async () => {
     const values = form.getValues();
@@ -93,7 +92,7 @@ export function MultistepForm<T extends FieldValues>({
       const errors = result.error.flatten().fieldErrors;
       for (const [field, messages] of Object.entries(errors)) {
         const msg = Array.isArray(messages) ? messages[0] : messages;
-        if (msg) form.setError(field as keyof T, { type: "manual", message: msg });
+        if (msg) form.setError(field as FieldPath<T>, { type: "manual", message: msg });
       }
       return;
     }
@@ -111,7 +110,7 @@ export function MultistepForm<T extends FieldValues>({
       const errors = result.error.flatten().fieldErrors;
       for (const [field, messages] of Object.entries(errors)) {
         const msg = Array.isArray(messages) ? messages[0] : messages;
-        if (msg) form.setError(field as keyof T, { type: "manual", message: msg });
+        if (msg) form.setError(field as FieldPath<T>, { type: "manual", message: msg });
       }
       return;
     }
@@ -134,8 +133,7 @@ export function MultistepForm<T extends FieldValues>({
           e.preventDefault();
           const submitter = (e.nativeEvent as SubmitEvent).submitter;
           const isExplicitSubmit =
-            submitter?.getAttribute("type") === "submit" &&
-            submitter?.getAttribute("data-multistep-submit") === "true";
+            submitter?.getAttribute("type") === "submit" && submitter?.getAttribute("data-multistep-submit") === "true";
           if (isLastStep && isExplicitSubmit) handleSubmitFinal();
         }}
       >
@@ -144,9 +142,7 @@ export function MultistepForm<T extends FieldValues>({
         {step.title && (
           <div>
             <h3 className="text-lg font-semibold">{step.title}</h3>
-            {step.description && (
-              <p className="text-body-callout text-muted-foreground mt-1">{step.description}</p>
-            )}
+            {step.description && <p className="text-body-callout text-muted-foreground mt-1">{step.description}</p>}
           </div>
         )}
 
@@ -174,7 +170,13 @@ export function MultistepForm<T extends FieldValues>({
                 {submitLabel}
               </Button>
             ) : (
-              <Button type="button" onClick={(e) => { e.preventDefault(); void handleNext(); }}>
+              <Button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  void handleNext();
+                }}
+              >
                 {nextLabel}
               </Button>
             )}

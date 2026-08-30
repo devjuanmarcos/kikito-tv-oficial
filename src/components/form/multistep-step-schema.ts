@@ -12,6 +12,6 @@ export function pickStepSchema<T extends z.ZodRawShape, K extends keyof T>(
   schema: z.ZodObject<T>,
   fields: K[]
 ): z.ZodObject<Pick<T, K>> {
-  const shape = Object.fromEntries(fields.map((f) => [f, true])) as { [P in K]?: true };
+  const shape = Object.fromEntries(fields.map((f) => [f, true])) as Parameters<typeof schema.pick>[0];
   return schema.pick(shape) as z.ZodObject<Pick<T, K>>;
 }
