@@ -6809,6 +6809,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         note: "Painel lateral colapsável — absorvido pelo Super (ex-SidePanel).",
         aliases: ["side panel", "side-panel"],
       },
+      {
+        prop: "entryDirection",
+        value: "top",
+        label: "Entry: direcional",
+        status: "stable",
+        note: "variant='modal': entra deslizando de uma borda (top/bottom/left/right) em vez do scale+fade padrão. Origem: dialog-01..06.tsx do shadcndashboard.",
+        aliases: ["slide in", "direção de entrada", "entry direction"],
+      },
     ],
     props: [
       {
@@ -6817,6 +6825,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "'modal'",
         description:
           "Família de renderização: modal (diálogo central), alert (confirmação), drawer (painel deslizante) ou panel (painel lateral colapsável)",
+      },
+      {
+        name: "entryDirection",
+        type: "'scale' | 'top' | 'bottom' | 'left' | 'right'",
+        default: "'scale'",
+        description:
+          "variant='modal': direção de entrada do painel. 'scale' é o scale+fade-up original; as outras deslizam da borda indicada (CSS puro, var(--ks-motion-distance-lg))",
       },
       {
         name: "intent",

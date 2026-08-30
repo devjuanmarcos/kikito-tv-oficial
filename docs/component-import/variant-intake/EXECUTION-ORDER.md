@@ -15,13 +15,13 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 
 - [x] `text-effect` — shine sweep
 - [x] `text-effect` — wave shimmer
-- [ ] `button` — hover lift
-- [ ] `slider` — preview no hover
-- [ ] `tabs` — transição de conteúdo do painel
+- [x] `button` — hover lift
+- [x] `slider` — preview no hover
+- [x] `tabs` — transição de conteúdo do painel
 
 ## Batch C — precisa preset novo em `@/lib/motion` primeiro, ou é mais estrutural
 
-- [ ] `modal` — entradas direcionais (slide-in-from-{top,bottom,left,right})
+- [x] `modal` — entradas direcionais (CSS puro — ver nota no Modal.tsx sobre não migrar pra motion)
 - [ ] `button` — 3 efeitos wow (reveal ícone, preenchimento radial, shine sweep)
 - [ ] `badge` — status glow + stagger de texto
 - [ ] `spinner` — variant orbital

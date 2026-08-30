@@ -7042,6 +7042,7 @@ function AccordionDemo() {
 function ModalDemo() {
   const [open, setOpen] = useState(false);
   const [sizeOpen, setSizeOpen] = useState<"sm" | "md" | "lg" | "xl" | "full" | null>(null);
+  const [entryOpen, setEntryOpen] = useState<"scale" | "top" | "bottom" | "left" | "right" | null>(null);
   return (
     <div className="flex flex-col">
       <ShowcaseSection title="Default">
@@ -7088,6 +7089,34 @@ function ModalDemo() {
                 </ModalBody>
                 <ModalFooter>
                   <Button variant="outline" onClick={() => setSizeOpen(null)}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            )}
+          </div>
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Entry direction">
+        <Frame label="entryDirection — scale (default) · top · bottom · left · right">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {(["scale", "top", "bottom", "left", "right"] as const).map((d) => (
+              <Button key={d} variant="outline" size="sm" onClick={() => setEntryOpen(d)}>
+                {d}
+              </Button>
+            ))}
+            {entryOpen && (
+              <Modal
+                open={true}
+                onClose={() => setEntryOpen(null)}
+                entryDirection={entryOpen}
+                title={`entryDirection="${entryOpen}"`}
+              >
+                <ModalBody>
+                  <p className="text-body-callout text-muted">Entering from &quot;{entryOpen}&quot;.</p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="outline" onClick={() => setEntryOpen(null)}>
                     Close
                   </Button>
                 </ModalFooter>

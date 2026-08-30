@@ -24,6 +24,7 @@ export type {
   ModalFooterProps,
   ModalSize,
   ModalVariant,
+  ModalEntryDirection,
   AlertDialogIntent,
   DrawerSide,
   DrawerSize,
@@ -109,6 +110,7 @@ function ModalDialog({
   closeOnOverlay = true,
   closeOnEscape = true,
   hideClose = false,
+  entryDirection = "scale",
   className,
 }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -128,13 +130,25 @@ function ModalDialog({
 
   if (typeof document === "undefined") return null;
 
+  // entryDirection: CSS puro (data-attribute + transition), não `motion` — o show/hide
+  // deste variant já era CSS antes (createPortal sempre montado, data-open alterna
+  // opacity/transform), diferente do ModalAlert (que já usa AnimatePresence/scaleInDown).
+  // Migrar o mecanismo de abrir/fechar pra AnimatePresence só pra ganhar direções novas
+  // seria reescrever um caminho crítico já testado — as distâncias usam
+  // var(--ks-motion-distance-lg), mesmo token que @/lib/motion espelha em JS, então o
+  // vocabulário continua compartilhado mesmo sem passar pela API do `motion` aqui.
   return createPortal(
     <>
       <style>{`
         .ks-modal-overlay { transition: opacity 0.18s; }
         .ks-modal-overlay[data-open="false"] { opacity: 0; pointer-events: none; }
         .ks-modal-panel { transition: opacity 0.22s, transform 0.22s cubic-bezier(0.4,0,0.2,1); }
-        .ks-modal-panel[data-open="false"] { opacity: 0; transform: scale(0.96) translateY(8px); pointer-events: none; }
+        .ks-modal-panel[data-open="false"] { opacity: 0; pointer-events: none; }
+        .ks-modal-panel[data-entry="scale"][data-open="false"] { transform: scale(0.96) translateY(8px); }
+        .ks-modal-panel[data-entry="top"][data-open="false"] { transform: translateY(calc(var(--ks-motion-distance-lg) * -1)); }
+        .ks-modal-panel[data-entry="bottom"][data-open="false"] { transform: translateY(var(--ks-motion-distance-lg)); }
+        .ks-modal-panel[data-entry="left"][data-open="false"] { transform: translateX(calc(var(--ks-motion-distance-lg) * -1)); }
+        .ks-modal-panel[data-entry="right"][data-open="false"] { transform: translateX(var(--ks-motion-distance-lg)); }
       `}</style>
       <div>
         {/* bg-black literal: scrim de overlay, deliberadamente independente de tema (igual em dark/light) */}
@@ -152,6 +166,7 @@ function ModalDialog({
             aria-label={title}
             tabIndex={-1}
             data-open={String(open)}
+            data-entry={entryDirection}
             className={cn(
               "pointer-events-auto bg-base border border-rule rounded-(--radius-md) shadow-[0_20px_60px_-16px_oklch(0%_0_0/0.55)] flex flex-col w-full outline-none ks-modal-panel",
               SIZE_CLS[size],

@@ -69,4 +69,20 @@ test.describe("Modal (CN)", () => {
     await dialog.getByRole("button", { name: "Close" }).click();
     await expect(dialog).toHaveAttribute("data-open", "false");
   });
+
+  // achado real absorvido de docs/component-import/variant-intake (dialog-01..06.tsx):
+  // entryDirection troca a direção de entrada, CSS puro (data-entry + transition, mesmo
+  // mecanismo já usado por data-open — não migrado pra motion, ver comentário no Modal.tsx).
+  test('entryDirection="left" abre com data-entry correto', async ({ page }) => {
+    await page.getByRole("button", { name: "left", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: 'entryDirection="left"' });
+    await expect(dialog).toHaveAttribute("data-open", "true");
+    await expect(dialog).toHaveAttribute("data-entry", "left");
+  });
+
+  test("entryDirection default (scale) não seta data-entry diferente do padrão", async ({ page }) => {
+    await page.getByRole("button", { name: "scale", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: 'entryDirection="scale"' });
+    await expect(dialog).toHaveAttribute("data-entry", "scale");
+  });
 });

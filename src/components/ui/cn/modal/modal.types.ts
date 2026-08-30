@@ -8,6 +8,8 @@ export type DrawerSide = "right" | "left" | "bottom" | "top";
 export type DrawerSize = "sm" | "md" | "lg" | "xl";
 
 export type ModalVariant = "modal" | "alert" | "drawer" | "panel";
+/** Entry direction for `variant="modal"` (default). `"scale"` is the original scale+fade-up entry. */
+export type ModalEntryDirection = "scale" | "top" | "bottom" | "left" | "right";
 
 export interface ModalProps {
   open: boolean;
@@ -22,6 +24,8 @@ export interface ModalProps {
   className?: string;
   /** Selects render family. Default `modal`. */
   variant?: ModalVariant;
+  /** variant="modal": which edge the panel enters from. @default "scale" */
+  entryDirection?: ModalEntryDirection;
 
   /* ── alert variant extras ── */
   intent?: AlertDialogIntent;

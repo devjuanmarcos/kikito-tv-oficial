@@ -99,4 +99,19 @@ test.describe("Tabs (CN)", () => {
       await expect(activeTab.locator("span.absolute")).toHaveCount(1);
     }
   });
+
+  // achado real absorvido de docs/component-import/animation-backport/PLAN.md (tabs-02/05/07.tsx):
+  // conteúdo do painel faz fade-in ao trocar de aba (complementar ao indicador deslizante acima).
+  test('TabPanel: conteúdo troca corretamente e o painel novo é role="tabpanel"', async ({ page }) => {
+    const panelsFrame = page.getByText("Controlled with panels", { exact: true }).locator("..");
+    await expect(panelsFrame.getByText("Overview content goes here.")).toBeVisible();
+    await expect(panelsFrame.getByRole("tabpanel")).toHaveCount(1);
+
+    await panelsFrame.getByRole("tab", { name: "Settings" }).click();
+    await expect(panelsFrame.getByText("Settings panel content.")).toBeVisible();
+    // troca de aba: painel antigo desmonta (unmount instantâneo), só o novo existe — sem
+    // duplicar/empilhar os dois simultaneamente (ver comentário de motivação no TabPanel)
+    await expect(panelsFrame.getByRole("tabpanel")).toHaveCount(1);
+    await expect(panelsFrame.getByText("Overview content goes here.")).not.toBeVisible();
+  });
 });

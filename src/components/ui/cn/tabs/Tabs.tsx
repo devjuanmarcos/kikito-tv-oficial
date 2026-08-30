@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import { useId, useRef, useState } from "react";
 
-import { transitionEnter } from "@/lib/motion";
+import { fadeIn, transitionEnter, transitionStandard } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { TabsProps, TabPanelProps, TabItem } from "./tabs.types";
@@ -238,11 +238,31 @@ export function Tabs({
   );
 }
 
+/* Transição de conteúdo ao trocar de aba — absorvido de docs/component-import/
+   animation-backport/PLAN.md (tabs-02/05/07.tsx): fade suave em vez de corte
+   instantâneo, complementar ao indicador deslizante já portado em LineTab/PillTab.
+   Só fade-in de entrada (sem AnimatePresence/exit): cada <TabPanel> hoje é uma
+   instância solta e independente na árvore (múltiplos painéis, cada um decidindo
+   sozinho se está ativo, sem container compartilhado) — animar a saída junto
+   faria o painel que está saindo e o que está entrando coexistirem no layout por
+   ~200ms (nenhum dos dois é posicionado absoluto sobre o outro), duplicando a
+   altura da página nesse intervalo. Fade-in mantém a suavidade pedida sem esse
+   risco; a saída continua instantânea (unmount direto), igual já era antes.
+   `key={value}` força remount a cada troca — sem isso o fade não re-dispararia
+   entre duas abas que reaproveitassem o mesmo componente montado. */
 export function TabPanel({ value, activeTab, children, className }: TabPanelProps) {
   if (value !== activeTab) return null;
   return (
-    <div role="tabpanel" className={className}>
+    <motion.div
+      key={value}
+      role="tabpanel"
+      className={className}
+      variants={fadeIn}
+      initial="initial"
+      animate="animate"
+      transition={transitionStandard}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
