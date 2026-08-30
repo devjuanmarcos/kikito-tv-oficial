@@ -6733,9 +6733,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "spinner",
     title: "Spinner",
     group: "feedback",
-    description: "CSS border-spin loader with 5 sizes, 4 intents and accessible label.",
+    description: "CSS border-spin or orbital loader with 5 sizes, 4 intents and accessible label.",
     filePath: "src/components/ui/cn/spinner/Spinner.tsx",
     peerDeps: ["@/lib/utils"],
+    keywords: ["orbital", "orbit", "pulse"],
+    variants: [
+      {
+        prop: "variant",
+        value: "orbital",
+        label: "Orbital",
+        status: "stable",
+        note: "Núcleo pulsante + satélite orbitando (SVG/CSS puro) — origem: spinner-07.tsx do shadcndashboard.",
+        aliases: ["orbital spinner", "orbit"],
+      },
+    ],
     props: [
       {
         name: "size",
@@ -6748,6 +6759,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "'primary' | 'secondary' | 'neutral' | 'current'",
         default: "'primary'",
         description: "Cor do spinner (current usa a cor atual do texto)",
+      },
+      {
+        name: "variant",
+        type: "'ring' | 'orbital'",
+        default: "'ring'",
+        description:
+          "Estilo visual: 'ring' é o anel giratório original, 'orbital' é núcleo pulsante + satélite orbitando",
       },
       {
         name: "label",

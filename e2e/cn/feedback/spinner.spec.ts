@@ -37,4 +37,17 @@ test.describe("Spinner", () => {
     const neutralColor = await neutralRing.evaluate((el) => getComputedStyle(el).borderTopColor);
     expect(secondaryColor).not.toBe(neutralColor);
   });
+
+  test('variant="orbital" renderiza núcleo + satélite, cor por intent aplicada via bg-current', async ({ page }) => {
+    const frame = page.getByText('variant="orbital" — pulsing core + orbiting satellite').locator("..");
+    const statuses = frame.getByRole("status");
+    await expect(statuses).toHaveCount(3);
+    const primaryWrap = statuses.nth(0).locator("span").first();
+    // 2 spans internos: núcleo pulsante + container que gira (com o satélite dentro)
+    await expect(primaryWrap.locator("> span")).toHaveCount(2);
+    const primaryColor = await primaryWrap.evaluate((el) => getComputedStyle(el).color);
+    const neutralWrap = statuses.nth(2).locator("span").first();
+    const neutralColor = await neutralWrap.evaluate((el) => getComputedStyle(el).color);
+    expect(primaryColor).not.toBe(neutralColor);
+  });
 });

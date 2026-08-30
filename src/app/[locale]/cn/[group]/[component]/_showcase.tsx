@@ -6986,6 +6986,15 @@ function SpinnerDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Variants">
+        <Frame label='variant="orbital" — pulsing core + orbiting satellite'>
+          <div className="flex items-end gap-6">
+            <Spinner variant="orbital" size="lg" intent="primary" />
+            <Spinner variant="orbital" size="lg" intent="secondary" />
+            <Spinner variant="orbital" size="xl" intent="neutral" />
+          </div>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }

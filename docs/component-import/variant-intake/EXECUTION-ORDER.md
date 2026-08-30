@@ -23,8 +23,8 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 
 - [x] `modal` — entradas direcionais (CSS puro — ver nota no Modal.tsx sobre não migrar pra motion)
 - [x] `button` — 3 efeitos wow (reveal ícone, preenchimento radial, shine sweep)
-- [ ] `badge` — status glow + stagger de texto
-- [ ] `spinner` — variant orbital
+- [x] `badge` — status glow + stagger de texto
+- [x] `spinner` — variant orbital (fecha Batch C)
 
 ## Batch D — mudança de modelo de dados / API maior
 
