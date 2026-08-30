@@ -51,7 +51,7 @@ const GROUP_OVERLAP: Record<AvatarSize, string> = {
 /* deterministic color from name string — precisa de mais matizes distintos do que os tokens
    semânticos oferecem (só ~10) pra diferenciar visualmente muitos avatares por iniciais;
    oklch literal é intencional aqui, não um token esquecido (no token equivalent) */
-const BG_PALETTE = [
+const BG_PALETTE: [string, string][] = [
   ["oklch(42% .12 200)", "oklch(88% .06 200)"], // teal
   ["oklch(42% .12 270)", "oklch(88% .06 270)"], // purple
   ["oklch(42% .12 30)", "oklch(88% .06 30)"], // orange
