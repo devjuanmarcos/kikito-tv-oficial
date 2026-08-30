@@ -4886,6 +4886,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Callback quando o período muda",
       },
       {
+        name: "monthlyLabel",
+        type: "string",
+        default: "'Monthly'",
+        description: "Texto do label mensal",
+      },
+      {
+        name: "yearlyLabel",
+        type: "string",
+        default: "'Yearly'",
+        description: "Texto do label anual",
+      },
+      {
         name: "savingsLabel",
         type: "string",
         default: "undefined",

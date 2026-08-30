@@ -9,6 +9,7 @@ import type { PricingToggleProps } from "./pricing-toggle.types";
 
 export function PricingToggle({
   value,
+  defaultValue = "monthly",
   onChange,
   monthlyLabel = "Monthly",
   yearlyLabel = "Yearly",
@@ -16,7 +17,7 @@ export function PricingToggle({
   className,
   style,
 }: PricingToggleProps) {
-  const [internal, setInternal] = useState<"monthly" | "yearly">("monthly");
+  const [internal, setInternal] = useState<"monthly" | "yearly">(defaultValue);
   const current = value ?? internal;
 
   function toggle(next: "monthly" | "yearly") {
