@@ -6365,7 +6365,7 @@ function RadioDemo() {
                 price: "$19",
                 icon: <RocketIcon />,
               },
-              { value: "enterprise", label: "Enterprise", description: "Custom SLA", price: "Talk to us" },
+              { value: "enterprise", label: "Enterprise", description: "Custom SLA", price: "Custom" },
             ]}
           />
         </Frame>

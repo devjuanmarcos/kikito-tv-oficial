@@ -104,7 +104,10 @@ export function Radio({
         )}
         <div className="flex items-start justify-between gap-(--spacing-sm)">
           <span className={cn("font-semibold text-foreground leading-tight", csz.label)}>{label}</span>
-          {price && <span className={cn("font-bold text-patina shrink-0", csz.price)}>{price}</span>}
+          {/* sem shrink-0: preço curto ("$19") nunca precisa encolher; preço longo
+              ("Custom", "Sob consulta") quebra linha em vez de estourar a largura
+              do card — achado real na varredura de showcase, 2026-08-30. */}
+          {price && <span className={cn("font-bold text-patina text-right", csz.price)}>{price}</span>}
         </div>
         {(description || helperText) && (
           <span id={helperId} className={cn("text-muted leading-normal", csz.desc)}>
