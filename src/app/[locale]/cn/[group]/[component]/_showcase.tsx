@@ -5765,6 +5765,36 @@ function CalendarDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Selection modes">
+        <Frame label='mode="range" — clique 2x marca início/fim'>
+          <CalendarRangeDemo />
+        </Frame>
+        <Frame label='mode="multiple" — cada data alterna independente'>
+          <CalendarMultipleDemo />
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
+function CalendarRangeDemo() {
+  const [range, setRange] = useState<{ start: Date | null; end: Date | null }>({ start: null, end: null });
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar mode="range" value={range} onChange={setRange} />
+      <p className="text-body-caption text-faint">
+        {range.start ? range.start.toLocaleDateString() : "—"} → {range.end ? range.end.toLocaleDateString() : "—"}
+      </p>
+    </div>
+  );
+}
+
+function CalendarMultipleDemo() {
+  const [dates, setDates] = useState<Date[]>([]);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar mode="multiple" value={dates} onChange={setDates} />
+      <p className="text-body-caption text-faint">{dates.length} selecionada(s)</p>
     </div>
   );
 }
