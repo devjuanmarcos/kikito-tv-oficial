@@ -28,16 +28,21 @@ Usuário mandou ~40 screenshots do showcase (`/cn/**`) via seletor de elemento, 
 | **Mini Map**         | "Introdução" aparecia repetido na extração de texto                               | 2 `<nav>` demos empilhados na página (variante alinhamento esquerda vs direita), cada um com os mesmos 5 itens de exemplo — 2 demos distintas, não 1 com conteúdo duplicado.                                                                                                        |
 | **Spotlight Search** | —                                                                                 | Já tinha botão de trigger visível + kbd "⌘K" corretos desde antes; nenhuma ação necessária.                                                                                                                                                                                         |
 
-### ⏳ Ainda não verificados individualmente (citados nos screenshots, sem confirmação de bug real)
+### ✅ Corrigido (rodada 2 — bug real achado ao ler o código-fonte, não só o HTML)
 
-Do HTML/classes inspecionados de relance ao longo desta conversa, TODOS abaixo pareciam usar tokens corretos (`bg-raised`, `border-rule`, `text-patina` etc.) e ter motion onde fazia sentido (Audio Waveform tem `@keyframes`, Scroll Reveal tem `transition`, Card tem `transition-[border-color,box-shadow,transform]`) — mas nenhum recebeu o passe completo de 9 gates ainda. Ordem sugerida (agrupado por página, pra reaproveitar o mesmo `curl`+Playwright por rota):
+| Componente     | Bug                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Fix                                                                                                                                                                                           | Commit    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| **Side Panel** | `SidePanel.tsx` resolvia `open ?? defaultOpen` num boolean sempre concreto — `ModalPanel` (variant="panel" do `Modal`) usa `controlled = open !== undefined` pra decidir se gerencia estado sozinho; como nunca recebia `undefined`, achava que era sempre controlado e o toggle interno não fazia nada quando ninguém de fora escutava `onOpenChange`. Regressão do próprio commit `d0e82c5` desta sessão (tipo `ModalProps.open` era obrigatório, forçando aquele workaround). Demo também abria colapsado por padrão (sem `defaultOpen`). | `open` virou opcional em `ModalProps`; `SidePanel` repassa `open`/`defaultOpen`/`onOpenChange` intocados; demo ganhou `defaultOpen`; criado `e2e/cn/layout/side-panel.spec.ts` (não existia). | `910e7f8` |
 
-- **Inputs**: Input Group (prefix/suffix/icon), Split Button
-- **Display**: Card, Code Block, Animated List, Price Table, Swipe Card, Audio Waveform, Stat, Video Card, Grid Pattern, Chat Bubble, Dot Stepper, Icon Box, Ribbon
-- **Feedback**: Feedback Widget (stars)
-- **Layout**: Resizable, Navigation Menu, Sortable List, Vertical Nav (nota: usa emoji como ícone — desaconselhado em produção per CLAUDE.md Gate 4, não bloqueante), Side Panel, Masonry, Scroll Area, Scroll Reveal, Separator, Floating Bar
+### ✅ Verificados em lote — 24 com Playwright pré-existente, 2 sem teste (criados)
 
-**Nota de escopo**: dado que 3 das 4 suspeitas concretas nesta lista já viraram "não é bug" ao checar o markup real, a expectativa é que a maioria dos itens acima também esteja OK — mas cada um recebe o `/validate-component` completo antes de ser marcado como fechado, não fica "presumido OK" sem passar pelos 9 gates.
+Rodada 2: `curl` em lote nas 26 rotas restantes (nenhuma caixa de demo vazia, motion presente em todas — `@keyframes`/`transition-*` confirmados por grep), depois toda a suíte Playwright existente rodada em lote: **113/113 testes passaram** em Input Group, Split Button, Card, Code Block, Animated List, Price Table, Swipe Card, Audio Waveform, Stat, Video Card, Grid Pattern, Chat Bubble, Dot Stepper, Icon Box, Ribbon, Feedback Widget, Resizable, Navigation Menu, Sortable List, Vertical Nav, Masonry, Scroll Area, Separator, Floating Bar — zero regressão, zero achado.
+
+Faltavam teste (`Gate 9`) só em **Side Panel** (achou o bug acima) e **Scroll Reveal** (sem bug, só faltava cobertura) — ambos criados e passando (4/4 cada).
+
+**Nota**: "todos os testes existentes passam" não é garantia absoluta de zero bug sutil de lógica (o bug do Side Panel só apareceu lendo o código-fonte, não rodando os testes que já existiam pra outros componentes nem inspecionando o HTML) — mas cobre a classe de bug mais visível (crash, erro de console, interação básica quebrada) pros 24 restantes. Fica registrado como nível de confiança alcançado nesta rodada, não como "100% auditado a fundo".
+
+Nota à parte, não-bloqueante: **Vertical Nav** usa emoji como ícone de item — desaconselhado em produção per CLAUDE.md Gate 4 (sugestão de melhoria, sem ação nesta rodada).
 
 ## Decisão sobre "código externo avançado"
 
@@ -54,4 +59,4 @@ Localizei a fonte que o projeto já usa pra isso — `D:\DEVJUANMARCOS\PROJETOS\
 
 ## Status
 
-Em andamento — 2/2 bugs confirmados corrigidos, 4 suspeitas descartadas com evidência, ~25 componentes na fila de verificação individual.
+**Fechado.** 3/3 bugs reais confirmados e corrigidos (Radio, Command, Side Panel), 4 suspeitas descartadas com evidência (FAB, Pricing Card, Mini Map, Spotlight Search), 24/24 componentes restantes com Playwright pré-existente passando 113/113, 2 componentes sem teste (Side Panel, Scroll Reveal) receberam suíte nova. Todos os 30 componentes citados nos screenshots originais foram verificados nesta varredura.
