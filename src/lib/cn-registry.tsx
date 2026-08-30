@@ -3151,9 +3151,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "line-chart",
     title: "Line Chart",
     group: "charts",
-    description: "Multi-series line chart with area fill, dots, grid, legend and responsive width.",
+    description: "ECharts multi-series line chart with area fill, dots, grid, legend and responsive width.",
     filePath: "src/components/ui/cn/line-chart/LineChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "series",
@@ -3203,9 +3203,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "donut-chart",
     title: "Donut Chart",
     group: "charts",
-    description: "SVG donut chart (hollow ring) with segments, legend and optional center label/value.",
+    description: "ECharts donut chart (hollow ring) with segments, legend and optional center label/value.",
     filePath: "src/components/ui/cn/donut-chart/DonutChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "segments",
@@ -3250,9 +3250,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "pie-chart",
     title: "Pie Chart",
     group: "charts",
-    description: "SVG pie chart (filled slices, no hole) with segments and legend.",
+    description: "ECharts pie chart (filled slices, no hole) with segments and legend.",
     filePath: "src/components/ui/cn/pie-chart/PieChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "segments",
@@ -3280,9 +3280,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "area-chart",
     title: "Area Chart",
     group: "charts",
-    description: "Multi-series area chart with stacked mode, gradient, tooltip, grid and legend.",
+    description: "ECharts multi-series area chart with stacked mode, gradient, tooltip, grid and legend.",
     filePath: "src/components/ui/cn/area-chart/AreaChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "data",
@@ -3338,9 +3338,9 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "radar-chart",
     title: "Radar Chart",
     group: "charts",
-    description: "SVG radar/spider chart with configurable axes, multiple series, levels and legend.",
+    description: "ECharts radar/spider chart with configurable axes, multiple series, levels and legend.",
     filePath: "src/components/ui/cn/radar-chart/RadarChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "axes",
@@ -3391,7 +3391,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "charts",
     description: "Multi-series radial bar chart (concentric arcs) powered by the shared ECharts infrastructure.",
     filePath: "src/components/ui/cn/radial-bar-chart/RadialBarChart.tsx",
-    peerDeps: ["@/lib/utils", "@/lib/echarts", "echarts", "next-themes"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "segments",
@@ -3427,7 +3427,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "charts",
     description: "Vertical funnel chart with conversion rates, percentages and configurable colors.",
     filePath: "src/components/ui/cn/funnel-chart/FunnelChart.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/echarts"],
     props: [
       {
         name: "stages",

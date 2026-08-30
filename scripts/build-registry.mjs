@@ -48,6 +48,7 @@ function readComponentFiles(dir) {
 function sharedLibDep(mod) {
   if (mod === "@/lib/utils") return "utils";
   if (mod === "@/lib/motion" || mod.startsWith("@/lib/motion/")) return "motion";
+  if (mod === "@/lib/echarts" || mod.startsWith("@/lib/echarts/")) return "echarts";
   return null;
 }
 
@@ -171,7 +172,7 @@ function buildLib(name, { title, description, sourceDir, sourceFile }) {
   }
 
   if (sourceDir) {
-    for (const fileName of fs.readdirSync(sourceDir).filter((f) => f.endsWith(".ts"))) {
+    for (const fileName of fs.readdirSync(sourceDir).filter((f) => f.endsWith(".ts") && !f.endsWith(".test.ts"))) {
       const content = fs.readFileSync(path.join(sourceDir, fileName), "utf-8");
       files.push({
         path: `lib/${name}/${fileName}`,
@@ -190,7 +191,7 @@ function buildLib(name, { title, description, sourceDir, sourceFile }) {
     description,
     group: "internal",
     status: "live",
-    dependencies: name === "utils" ? ["clsx", "tailwind-merge"] : [],
+    dependencies: name === "utils" ? ["clsx", "tailwind-merge"] : name === "echarts" ? ["echarts"] : [],
     registryDependencies: [],
     tailwind: { requires: [] },
     docs: `https://cn.kikito.tv/internal/${name}`,
@@ -222,6 +223,11 @@ function main() {
       title: "Motion tokens",
       description: "Kikito CN animation token presets (durations, easings, variants, springs).",
       sourceDir: path.join(LIB_DIR, "motion"),
+    }),
+    buildLib("echarts", {
+      title: "ECharts infrastructure",
+      description: "Shared ECharts lifecycle, token bridge, responsive rendering and accessibility infrastructure.",
+      sourceDir: path.join(LIB_DIR, "echarts"),
     }),
   ];
   for (const lib of libs) {

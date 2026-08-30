@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T02:47:13.589Z",
+  "generatedAt": "2026-08-30T03:50:07.122Z",
   "items": [
     {
       "name": "utils",
@@ -25,6 +25,17 @@
       "group": "internal",
       "status": "live",
       "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "echarts",
+      "version": "1.1.0",
+      "title": "ECharts infrastructure",
+      "type": "registry:lib",
+      "description": "Shared ECharts lifecycle, token bridge, responsive rendering and accessibility infrastructure.",
+      "group": "internal",
+      "status": "live",
+      "dependencies": ["echarts"],
       "registryDependencies": []
     },
     {
@@ -112,8 +123,8 @@
       "description": "Filled area chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "aspect-ratio",
@@ -200,8 +211,8 @@
       "description": "Vertical and horizontal bar chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "bento-grid",
@@ -256,7 +267,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": ["date-picker"]
+      "registryDependencies": ["utils", "date-picker"]
     },
     {
       "name": "callout",
@@ -639,8 +650,8 @@
       "description": "Donut/pie chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": [],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "dot-stepper",
@@ -826,8 +837,8 @@
       "description": "Funnel/conversion chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "gauge",
@@ -1057,8 +1068,8 @@
       "description": "Line and curve chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "log-viewer",
@@ -1365,8 +1376,8 @@
       "description": "Pie Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": [],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "pin-board",
@@ -1497,8 +1508,8 @@
       "description": "Multi-axis radar/spider chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "radial-bar-chart",
@@ -1508,8 +1519,8 @@
       "description": "Radial Bar Chart component.",
       "group": "display",
       "status": "live",
-      "dependencies": ["echarts", "next-themes"],
-      "registryDependencies": ["utils"]
+      "dependencies": [],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "radio",
