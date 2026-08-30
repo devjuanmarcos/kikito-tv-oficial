@@ -277,7 +277,9 @@ export function CnSidebar() {
           )
         ) : (
           CN_GROUPS.map((group) => {
-            const components = visible.filter((c) => c.group === group.id);
+            const components = visible
+              .filter((c) => c.group === group.id)
+              .sort((a, b) => a.title.localeCompare(b.title));
             if (components.length === 0) return null;
             const hasActive = components.some((c) => pathname.endsWith(`/cn/${c.group}/${c.name}`));
             return (

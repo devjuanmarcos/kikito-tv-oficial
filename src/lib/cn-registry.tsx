@@ -9074,17 +9074,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     description:
       "Super gráfico: uma entrada que despacha por `type` para line/area/bar/donut/pie/radar/radial-bar/funnel/sparkline.",
     filePath: "src/components/ui/cn/chart/Chart.tsx",
-    absorbs: [
-      "line-chart",
-      "area-chart",
-      "bar-chart",
-      "donut-chart",
-      "pie-chart",
-      "radar-chart",
-      "radial-bar-chart",
-      "funnel-chart",
-      "sparkline",
-    ],
+    // NAO usar `absorbs` aqui: ao contrario do padrao normal (Super absorve wrappers
+    // finos que so delegam pra ele — Select/Combobox, DatePicker/Calendar), aqui e o
+    // OPOSTO — LineChart/AreaChart/BarChart/etc SAO as implementacoes reais e completas
+    // (cada uma com seu proprio arquivo, demo, props, testes), e Chart e so um dispatcher
+    // de conveniencia construido POR CIMA delas (ver docstring de Chart.tsx). Marcar como
+    // absorbs escondia os 8 tipos de chart inteiros da sidebar e da listagem de grupo —
+    // achado na auditoria de organizacao da sidebar, 2026-08-30.
     keywords: [
       "grafico",
       "line",

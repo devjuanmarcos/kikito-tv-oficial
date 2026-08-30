@@ -1,8 +1,10 @@
 ﻿import Link from "next/link";
 
-import { CN_GROUPS, CN_REGISTRY } from "@/lib/cn-registry";
+import { CN_GROUPS, getVisibleComponents } from "@/lib/cn-registry";
 
 export default function CnIndexPage() {
+  const visible = getVisibleComponents();
+
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-10">
@@ -19,7 +21,7 @@ export default function CnIndexPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {CN_GROUPS.map((group) => {
-          const components = CN_REGISTRY.filter((c) => c.group === group.id);
+          const components = visible.filter((c) => c.group === group.id).sort((a, b) => a.title.localeCompare(b.title));
           if (components.length === 0) return null;
           return (
             <div
@@ -55,7 +57,7 @@ export default function CnIndexPage() {
       <div className="mt-10 pt-8 border-t border-rule flex items-center gap-3">
         <div className="w-[8px] h-[8px] rounded-full bg-patina animate-ping-dot" />
         <p className="text-body-callout text-muted">
-          {CN_REGISTRY.length} componentes disponíveis — mais sendo migrados continuamente
+          {visible.length} componentes disponíveis — mais sendo migrados continuamente
         </p>
       </div>
     </div>

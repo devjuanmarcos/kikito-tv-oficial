@@ -16,7 +16,7 @@ export default async function CnGroupPage({ params }: Props) {
   const groupMeta = getGroup(group);
   if (!groupMeta) notFound();
 
-  const components = getComponentsByGroup(group);
+  const components = getComponentsByGroup(group).sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <div className="p-8 max-w-3xl">
