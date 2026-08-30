@@ -305,6 +305,13 @@ function ComboboxDemo() {
     { value: "marketing", label: "Marketing" },
     { value: "sales", label: "Sales" },
   ];
+  const grouped = [
+    { value: "figma", label: "Figma", group: "Design", icon: <span aria-hidden="true">🎨</span> },
+    { value: "sketch", label: "Sketch", group: "Design", icon: <span aria-hidden="true">💎</span> },
+    { value: "react", label: "React", group: "Development", icon: <span aria-hidden="true">⚛️</span> },
+    { value: "node", label: "Node.js", group: "Development", icon: <span aria-hidden="true">🟢</span> },
+    { value: "figstack", label: "Figstack", group: "Product", icon: <span aria-hidden="true">📦</span> },
+  ];
   return (
     <div className="w-80 flex flex-col gap-6">
       <Frame label="Multi-select">
@@ -312,6 +319,9 @@ function ComboboxDemo() {
       </Frame>
       <Frame label="Single (maxSelected=1)">
         <Combobox options={opts} placeholder="Select one team…" maxSelected={1} className="w-full" />
+      </Frame>
+      <Frame label="Grupos + ícone por opção">
+        <Combobox options={grouped} placeholder="Select tools…" className="w-full" />
       </Frame>
     </div>
   );

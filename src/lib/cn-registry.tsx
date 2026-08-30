@@ -2054,15 +2054,33 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "combobox",
     title: "Combobox",
     group: "inputs",
-    description: "Multi-select combobox with tag chips, keyboard navigation, max selection and states.",
+    description:
+      "Multi-select combobox with tag chips, keyboard navigation, max selection, states, option groups and per-option icons.",
     filePath: "src/components/ui/cn/combobox/Combobox.tsx",
     peerDeps: ["@/lib/utils"],
+    keywords: ["group", "grupos", "icon", "ícone", "avatar", "bandeira"],
+    variants: [
+      {
+        prop: "options[].group",
+        value: "string",
+        label: "Grupos",
+        status: "stable",
+        note: "Agrupa opções sob cabeçalho — paridade com os modos single/rich do Select. Origem: aprovado em docs/component-import/variant-intake/DECISIONS.md #6.",
+      },
+      {
+        prop: "options[].icon",
+        value: "ReactNode",
+        label: "Ícone por opção",
+        status: "stable",
+        note: "Slot de ícone/avatar/bandeira antes do label, renderizado na tag selecionada e na lista — paridade com single/rich. Origem: DECISIONS.md #6.",
+      },
+    ],
     props: [
       {
         name: "options",
         type: "ComboboxOption[]",
         required: true,
-        description: "Lista de opções: { value, label, disabled? }",
+        description: "Lista de opções: { value, label, disabled?, icon?, group? }",
       },
       {
         name: "value",

@@ -36,6 +36,10 @@ export interface ComboboxOption {
   value: string;
   label: string;
   disabled?: boolean;
+  /** Icon/avatar/flag slot rendered before the label — paridade com single/rich. */
+  icon?: React.ReactNode;
+  /** Agrupa opções sob um cabeçalho — paridade com single/rich (SelectGroup/RichSelectOption.group). */
+  group?: string;
 }
 
 /* ── per-mode prop shapes ──────────────────────────────────────────────── */

@@ -29,7 +29,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 ## Batch D — mudança de modelo de dados / API maior
 
 - [x] `radio` — variant="card"
-- [ ] `calendar` — mode="range"/"multiple" no standalone
+- [x] `calendar` — mode="range"/"multiple" no standalone
 - [ ] `select` (combobox) — grupos + ícone por opção
 - [ ] `dropdown-menu` — prop `header`
 - [ ] `code-block` — abas por arquivo

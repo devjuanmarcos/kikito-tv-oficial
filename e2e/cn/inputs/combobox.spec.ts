@@ -51,4 +51,15 @@ test.describe("Combobox", () => {
     await expect(frame.getByRole("option", { name: "Design" })).toHaveAttribute("aria-selected", "true");
     await expect(frame.getByRole("option", { name: "Development" })).toHaveAttribute("aria-selected", "false");
   });
+
+  test("grupos + ícone por opção: cabeçalhos de grupo aparecem e opção com ícone é selecionável", async ({ page }) => {
+    const frame = page.locator('text="Grupos + ícone por opção"').locator("..");
+    await frame.getByRole("combobox").click();
+    await expect(frame.getByText("Design", { exact: true })).toBeVisible();
+    await expect(frame.getByText("Development", { exact: true })).toBeVisible();
+
+    await frame.getByRole("option", { name: "Figma" }).click();
+    const chip = frame.locator("span", { hasText: "Figma" }).first();
+    await expect(chip).toBeVisible();
+  });
 });

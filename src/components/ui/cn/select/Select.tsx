@@ -838,6 +838,7 @@ function ComboboxImpl({
   const listRef = useRef<HTMLDivElement>(null);
 
   const filtered = options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()));
+  const groups = Array.from(new Set(filtered.map((o) => o.group ?? "")));
 
   function commit(opt: ComboboxOption) {
     if (opt.disabled) return;
@@ -949,6 +950,7 @@ function ComboboxImpl({
               key={val}
               className="inline-flex items-center gap-1 py-[0.125rem] px-[0.375rem] bg-patina-soft text-patina-soft-fg rounded-(--radius-xs) text-body-callout font-medium max-w-[200px]"
             >
+              {opt.icon && <span className="shrink-0 [&>svg]:w-3.5 [&>svg]:h-3.5">{opt.icon}</span>}
               <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[150px]">{opt.label}</span>
               <button
                 type="button"
@@ -1010,31 +1012,50 @@ function ComboboxImpl({
                   No results for &quot;{query}&quot;
                 </div>
               ) : (
-                filtered.map((opt, idx) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    role="option"
-                    data-idx={idx}
-                    aria-selected={selected.includes(opt.value)}
-                    className={cn(
-                      "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-(--radius-sm) text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
-                      activeIdx === idx && "bg-graphite",
-                      selected.includes(opt.value) && "bg-patina-soft text-patina-soft-fg",
-                      opt.disabled && "opacity-40 cursor-not-allowed"
-                    )}
-                    onMouseEnter={() => setActiveIdx(idx)}
-                    onClick={() => commit(opt)}
-                    tabIndex={-1}
-                  >
-                    {opt.label}
-                    {selected.includes(opt.value) && (
-                      <span className="ml-auto text-patina-soft-fg">
-                        <ComboboxCheckIcon />
-                      </span>
-                    )}
-                  </button>
-                ))
+                groups.map((group) => {
+                  const groupOpts = filtered.filter((o) => (o.group ?? "") === group);
+                  if (groupOpts.length === 0) return null;
+                  const gOffset = filtered.indexOf(groupOpts[0]);
+                  return (
+                    <div key={group || "__ungrouped"}>
+                      {group && (
+                        // below scale minimum: uppercase group-header eyebrow, mesmo padrão do RichSelect/SingleSelect
+                        <p className="px-(--spacing-md) pt-(--spacing-sm) pb-(--spacing-3xs) text-[0.625rem] font-bold uppercase tracking-[0.1em] text-faint">
+                          {group}
+                        </p>
+                      )}
+                      {groupOpts.map((opt, i) => {
+                        const idx = gOffset + i;
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            role="option"
+                            data-idx={idx}
+                            aria-selected={selected.includes(opt.value)}
+                            className={cn(
+                              "flex items-center gap-2 w-full py-[0.4375rem] px-[0.625rem] rounded-(--radius-sm) text-body-callout text-foreground bg-transparent border-none cursor-pointer text-left transition-[background] duration-[100ms]",
+                              activeIdx === idx && "bg-graphite",
+                              selected.includes(opt.value) && "bg-patina-soft text-patina-soft-fg",
+                              opt.disabled && "opacity-40 cursor-not-allowed"
+                            )}
+                            onMouseEnter={() => setActiveIdx(idx)}
+                            onClick={() => commit(opt)}
+                            tabIndex={-1}
+                          >
+                            {opt.icon && <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4">{opt.icon}</span>}
+                            {opt.label}
+                            {selected.includes(opt.value) && (
+                              <span className="ml-auto text-patina-soft-fg">
+                                <ComboboxCheckIcon />
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  );
+                })
               )}
             </div>
           </motion.div>
