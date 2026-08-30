@@ -32,7 +32,8 @@ export interface TooltipSimpleProps extends TooltipBase {
   variant?: "simple";
   /** 'hover' (default) and 'focus' share the same hover-tooltip behavior; 'click' dispatches to the Popover render. */
   trigger?: "hover" | "focus" | "click";
-  content: React.ReactNode;
+  /** Required for trigger='hover'/'focus'; optional for trigger='click' (Popover render can rely on title/description/footer alone). */
+  content?: React.ReactNode;
   placement?: TooltipPlacement;
   delay?: number;
   disabled?: boolean;

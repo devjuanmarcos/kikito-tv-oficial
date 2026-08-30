@@ -54,7 +54,8 @@ test.describe("SignaturePad", () => {
     const strokeStyle = await canvas.evaluate((el) => {
       const ctx = (el as HTMLCanvasElement).getContext("2d");
       // dispara o mesmo cálculo que o componente usa ao desenhar
-      return getComputedStyle(el).getPropertyValue("--ks-text") || ctx?.strokeStyle;
+      // strokeStyle e sempre string aqui (o componente nunca usa CanvasGradient/CanvasPattern)
+      return getComputedStyle(el).getPropertyValue("--ks-text") || (ctx?.strokeStyle as string | undefined);
     });
     expect(strokeStyle?.trim().length).toBeGreaterThan(0);
   });
