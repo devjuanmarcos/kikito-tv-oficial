@@ -11,5 +11,5 @@ import type { ToggleGroupFilterProps } from "@/components/ui/cn/toggle-group/tog
 import type { FilterBarProps } from "./filter-bar.types";
 
 export function FilterBar(props: FilterBarProps) {
-  return <ToggleGroup variant="filter" {...(props as ToggleGroupFilterProps)} />;
+  return <ToggleGroup {...(props as ToggleGroupFilterProps)} variant="filter" />;
 }

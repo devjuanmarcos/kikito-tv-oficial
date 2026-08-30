@@ -11,5 +11,5 @@ import type { ToggleGroupSegmentedProps } from "@/components/ui/cn/toggle-group/
 import type { SegmentedControlProps } from "./segmented-control.types";
 
 export function SegmentedControl<T extends string = string>(props: SegmentedControlProps<T>) {
-  return <ToggleGroup variant="segmented" {...(props as ToggleGroupSegmentedProps<string>)} />;
+  return <ToggleGroup {...(props as unknown as ToggleGroupSegmentedProps<string>)} variant="segmented" />;
 }
