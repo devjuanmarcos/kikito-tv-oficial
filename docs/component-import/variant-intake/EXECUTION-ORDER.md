@@ -8,7 +8,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 - [x] `breadcrumb` — ellipsis clicável → dropdown
 - [x] `carousel` — indicador "1/N"
 - [x] `input` — contador de caracteres
-- [ ] `scroll-area` — fade nas bordas
+- [x] `scroll-area` — fade nas bordas
 - [ ] `textarea` — floating label
 
 ## Batch B — reuso de preset de motion já existente

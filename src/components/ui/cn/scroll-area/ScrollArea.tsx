@@ -10,11 +10,19 @@ const ORIENTATION_CLS: Record<string, string> = {
   both: "overflow-auto",
 };
 
+// mask-image estático (não reage à posição de scroll) — mesma técnica das origens
+// (scroll-area-02/03.tsx do shadcndashboard), 8px de fade nas duas pontas do eixo.
+const FADE_EDGES_CLS: Record<string, string> = {
+  vertical: "[mask-image:linear-gradient(to_bottom,transparent,black_8px,black_calc(100%-8px),transparent)]",
+  horizontal: "[mask-image:linear-gradient(to_right,transparent,black_8px,black_calc(100%-8px),transparent)]",
+};
+
 export function ScrollArea({
   children,
   orientation = "vertical",
   maxHeight,
   maxWidth,
+  fadeEdges = false,
   className,
   style,
 }: ScrollAreaProps) {
@@ -40,7 +48,8 @@ export function ScrollArea({
           "[&::-webkit-scrollbar-thumb]:bg-rule [&::-webkit-scrollbar-thumb]:rounded-full",
           "[&::-webkit-scrollbar-thumb:hover]:bg-[color-mix(in_srgb,var(--ks-text-muted)_50%,transparent)]",
           "[&::-webkit-scrollbar-corner]:bg-transparent",
-          ORIENTATION_CLS[orientation] ?? ORIENTATION_CLS.vertical
+          ORIENTATION_CLS[orientation] ?? ORIENTATION_CLS.vertical,
+          fadeEdges && FADE_EDGES_CLS[orientation]
         )}
         style={maxStyle}
       >

@@ -40,4 +40,13 @@ test.describe("ScrollArea", () => {
     await page.keyboard.press("End");
     await expect.poll(async () => viewport.evaluate((el) => el.scrollTop)).not.toBe(before);
   });
+
+  test("fadeEdges aplica mask-image, viewport padrão não", async ({ page }) => {
+    const frame = page.locator("main");
+    const viewports = frame.locator("div[tabindex='0']");
+    const plainMask = await viewports.nth(0).evaluate((el) => getComputedStyle(el).maskImage);
+    const fadedMask = await viewports.nth(2).evaluate((el) => getComputedStyle(el).maskImage);
+    expect(plainMask === "none" || plainMask === "").toBeTruthy();
+    expect(fadedMask).toContain("linear-gradient");
+  });
 });

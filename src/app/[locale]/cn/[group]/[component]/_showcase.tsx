@@ -3662,33 +3662,63 @@ function RatingDemo() {
 
 function ScrollAreaDemo() {
   return (
-    <Frame label="Scroll Area — thin custom scrollbar with webkit/firefox styling">
-      <div className="flex gap-6">
-        <div className="w-48 border border-rule rounded-[--radius]">
-          <ScrollArea maxHeight={200}>
-            {Array.from({ length: 20 }, (_, i) => (
-              <div key={i} className="px-4 py-2 text-body-callout text-muted border-b border-rule last:border-0">
-                Item {i + 1}
-              </div>
-            ))}
-          </ScrollArea>
-        </div>
-        <div className="border border-rule rounded-[--radius]">
-          <ScrollArea orientation="horizontal" maxWidth={240}>
-            <div className="flex gap-3 p-4" style={{ width: 640 }}>
-              {Array.from({ length: 10 }, (_, i) => (
-                <div
-                  key={i}
-                  className="w-16 h-16 rounded-[--radius] bg-graphite shrink-0 flex items-center justify-center text-body-caption font-semibold text-muted"
-                >
-                  {i + 1}
+    <div className="flex flex-col gap-6 w-full">
+      <Frame label="Scroll Area — thin custom scrollbar with webkit/firefox styling">
+        <div className="flex gap-6">
+          <div className="w-48 border border-rule rounded-(--radius-md)">
+            <ScrollArea maxHeight={200}>
+              {Array.from({ length: 20 }, (_, i) => (
+                <div key={i} className="px-4 py-2 text-body-callout text-muted border-b border-rule last:border-0">
+                  Item {i + 1}
                 </div>
               ))}
-            </div>
-          </ScrollArea>
+            </ScrollArea>
+          </div>
+          <div className="border border-rule rounded-(--radius-md)">
+            <ScrollArea orientation="horizontal" maxWidth={240}>
+              <div className="flex gap-3 p-4" style={{ width: 640 }}>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <div
+                    key={i}
+                    className="w-16 h-16 rounded-(--radius-md) bg-graphite shrink-0 flex items-center justify-center text-body-caption font-semibold text-muted"
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
         </div>
-      </div>
-    </Frame>
+      </Frame>
+
+      <Frame label='fadeEdges — mask-image nas bordas (efeito "vanish")'>
+        <div className="flex gap-6">
+          <div className="w-48 border border-rule rounded-(--radius-md)">
+            <ScrollArea maxHeight={160} fadeEdges>
+              {Array.from({ length: 20 }, (_, i) => (
+                <div key={i} className="px-4 py-2 text-body-callout text-muted border-b border-rule last:border-0">
+                  Item {i + 1}
+                </div>
+              ))}
+            </ScrollArea>
+          </div>
+          <div className="border border-rule rounded-(--radius-md)">
+            <ScrollArea orientation="horizontal" maxWidth={240} fadeEdges>
+              <div className="flex gap-3 p-4" style={{ width: 640 }}>
+                {Array.from({ length: 10 }, (_, i) => (
+                  <div
+                    key={i}
+                    className="w-16 h-16 rounded-(--radius-md) bg-graphite shrink-0 flex items-center justify-center text-body-caption font-semibold text-muted"
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+        </div>
+      </Frame>
+    </div>
   );
 }
 
