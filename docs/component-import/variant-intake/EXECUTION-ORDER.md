@@ -22,7 +22,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 ## Batch C — precisa preset novo em `@/lib/motion` primeiro, ou é mais estrutural
 
 - [x] `modal` — entradas direcionais (CSS puro — ver nota no Modal.tsx sobre não migrar pra motion)
-- [ ] `button` — 3 efeitos wow (reveal ícone, preenchimento radial, shine sweep)
+- [x] `button` — 3 efeitos wow (reveal ícone, preenchimento radial, shine sweep)
 - [ ] `badge` — status glow + stagger de texto
 - [ ] `spinner` — variant orbital
 
