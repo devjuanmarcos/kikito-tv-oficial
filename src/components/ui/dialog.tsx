@@ -55,11 +55,7 @@ const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    asChild
-    {...props}
-  >
+  <DialogPrimitive.Overlay ref={ref} asChild {...props}>
     <motion.div
       className={cn("fixed grid place-items-center overflow-auto inset-0 z-50 bg-black/80", className)}
       initial={{ opacity: 0 }}
@@ -75,10 +71,12 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   from?: "top" | "bottom" | "left" | "right";
   transition?: Transition;
+  /** Set to `false` when the caller renders its own <DialogClose> (avoids a duplicate X button). @default true */
+  showCloseButton?: boolean;
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, from = "top", transition, ...props }, ref) => {
+  ({ className, children, from = "top", transition, showCloseButton = true, ...props }, ref) => {
     const isOpen = React.useContext(DialogOpenContext);
     const offset = fromOffset[from];
     const defaultTransition: Transition = { type: "spring", stiffness: 150, damping: 25 };
@@ -108,10 +106,12 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
                 >
                   {children}
                 </motion.div>
-                <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
-                </DialogPrimitive.Close>
+                {showCloseButton && (
+                  <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Close</span>
+                  </DialogPrimitive.Close>
+                )}
               </DialogPrimitive.Content>
             </>
           )}
