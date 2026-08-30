@@ -9,7 +9,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 - [x] `carousel` — indicador "1/N"
 - [x] `input` — contador de caracteres
 - [x] `scroll-area` — fade nas bordas
-- [ ] `textarea` — floating label
+- [x] `textarea` — floating label
 
 ## Batch B — reuso de preset de motion já existente
 

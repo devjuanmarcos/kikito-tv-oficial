@@ -39,6 +39,19 @@ test.describe("Textarea", () => {
     await expect(page.locator(`#${describedBy}`)).toHaveText("Este campo é obrigatório");
   });
 
+  test("floatingLabel: label sobe e encolhe no foco/valor", async ({ page }) => {
+    const frame = page.locator('text="Floating label (paridade com Input.floatingLabel)"').locator("..");
+    const label = frame.getByText("Message", { exact: true });
+    const ta = frame.locator("textarea");
+    await expect(label).not.toHaveClass(/text-patina/);
+    await ta.focus();
+    await expect(label).toHaveClass(/text-patina/);
+    await ta.blur();
+    await expect(label).not.toHaveClass(/text-patina/);
+    await ta.fill("hello");
+    await expect(label).toHaveClass(/text-patina/);
+  });
+
   test("showCount exibe contador e cresce com autoResize", async ({ page }) => {
     const frame = page.locator('text="Auto-resize · char count"').locator("..");
     const ta = frame.locator("textarea");

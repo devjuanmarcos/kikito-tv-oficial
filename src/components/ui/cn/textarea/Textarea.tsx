@@ -50,11 +50,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
     autoResize = false,
     maxRows,
     resize = "vertical",
+    floatingLabel = false,
     className,
     maxLength,
     value,
     defaultValue,
     onChange,
+    onFocus,
+    onBlur,
     ...rest
   },
   ref
@@ -63,6 +66,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
   const feedbackId = `${uid}-feedback`;
   const innerRef = useRef<HTMLTextAreaElement>(null);
   const mergedRef = mergeRefs(ref, innerRef);
+  const [focused, setFocused] = useState(false);
 
   // uncontrolled (sem `value`): o contador precisa acompanhar o DOM real a cada digitação,
   // não só o `defaultValue` do mount — sem isso o contador ficava travado em 0 pra sempre
@@ -70,6 +74,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
     typeof defaultValue === "string" ? defaultValue.length : 0
   );
   const charCount = typeof value === "string" ? value.length : uncontrolledLength;
+  // floatingLabel: mesma lógica de "floated" do Input.floatingLabel (foco OU tem conteúdo) —
+  // charCount já é suficiente aqui, não precisa rastrear a string inteira do Textarea.
+  const floated = floatingLabel && (focused || charCount > 0);
 
   function adjustHeight() {
     const el = innerRef.current;
@@ -100,38 +107,66 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
 
   return (
     <div className={cn("flex flex-col gap-(--spacing-xs)", className)}>
-      {label && (
+      {label && !floatingLabel && (
         <label className="text-body-callout font-semibold text-foreground leading-none" htmlFor={uid}>
           {label}
         </label>
       )}
 
-      <textarea
-        id={uid}
-        ref={mergedRef}
-        value={value}
-        defaultValue={defaultValue}
-        maxLength={maxLength}
-        aria-invalid={effectiveState === "error" || undefined}
-        aria-describedby={feedbackText ? feedbackId : undefined}
-        onChange={(e) => {
-          adjustHeight();
-          setUncontrolledLength(e.target.value.length);
-          onChange?.(e);
-        }}
-        className={cn(
-          "w-full rounded-(--radius-sm) font-inherit text-foreground placeholder:text-faint outline-none transition-[border-color,box-shadow,background] duration-[140ms]",
-          VARIANT_CLS[variant],
-          SIZE_CLS[size],
-          effectiveState === "error" && "border-danger",
-          effectiveState === "success" && "border-success",
-          effectiveState === "warning" && "border-warning",
-          rest.disabled && "opacity-55 cursor-not-allowed",
-          rest.readOnly && "opacity-75"
+      <div className={cn(floatingLabel && "relative")}>
+        <textarea
+          id={uid}
+          ref={mergedRef}
+          value={value}
+          defaultValue={defaultValue}
+          maxLength={maxLength}
+          aria-invalid={effectiveState === "error" || undefined}
+          aria-describedby={feedbackText ? feedbackId : undefined}
+          onChange={(e) => {
+            adjustHeight();
+            setUncontrolledLength(e.target.value.length);
+            onChange?.(e);
+          }}
+          onFocus={(e) => {
+            setFocused(true);
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setFocused(false);
+            onBlur?.(e);
+          }}
+          className={cn(
+            "w-full rounded-(--radius-sm) font-inherit text-foreground placeholder:text-faint outline-none transition-[border-color,box-shadow,background] duration-[140ms]",
+            VARIANT_CLS[variant],
+            SIZE_CLS[size],
+            floatingLabel && "placeholder-transparent",
+            floated && "pt-5",
+            effectiveState === "error" && "border-danger",
+            effectiveState === "success" && "border-success",
+            effectiveState === "warning" && "border-warning",
+            rest.disabled && "opacity-55 cursor-not-allowed",
+            rest.readOnly && "opacity-75"
+          )}
+          style={{ resize: autoResize ? "none" : resize, ...rest.style }}
+          {...rest}
+        />
+
+        {floatingLabel && label && (
+          <label
+            htmlFor={uid}
+            className={cn(
+              "absolute left-3 pointer-events-none text-faint transition-all duration-[120ms] ease-in-out",
+              floated
+                ? // below scale minimum: label flutuado fica menor que text-body-caption pra caber
+                  // dentro do box sem sobrepor o texto digitado — mesmo padrão já usado no Input.floatingLabel
+                  ["top-1.5 text-[0.65rem]", effectiveState === "error" ? "text-danger" : "text-patina"]
+                : "top-3 text-body-callout"
+            )}
+          >
+            {label}
+          </label>
         )}
-        style={{ resize: autoResize ? "none" : resize, ...rest.style }}
-        {...rest}
-      />
+      </div>
 
       <div className="flex items-center justify-between gap-(--spacing-sm)">
         {feedbackText && (

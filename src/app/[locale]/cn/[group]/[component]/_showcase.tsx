@@ -6072,6 +6072,11 @@ function TextareaDemo() {
             />
           </div>
         </Frame>
+        <Frame label="Floating label (paridade com Input.floatingLabel)" align="start">
+          <div className="w-full max-w-sm">
+            <Textarea floatingLabel label="Message" />
+          </div>
+        </Frame>
       </ShowcaseSection>
     </div>
   );

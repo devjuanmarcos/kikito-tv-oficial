@@ -18,5 +18,7 @@ export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
   autoResize?: boolean;
   maxRows?: number;
   resize?: TextareaResize;
+  /** Renders a floating label (parity with `Input.floatingLabel`) instead of a static label above the field. */
+  floatingLabel?: boolean;
   className?: string;
 }
