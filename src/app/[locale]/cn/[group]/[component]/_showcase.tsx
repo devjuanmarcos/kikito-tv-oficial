@@ -175,6 +175,7 @@ import { Spinner } from "@/components/ui/cn/spinner/Spinner";
 import { SplitButton } from "@/components/ui/cn/split-button/SplitButton";
 import { Spotlight } from "@/components/ui/cn/spotlight/Spotlight";
 import { SpotlightSearch } from "@/components/ui/cn/spotlight-search/SpotlightSearch";
+import { SquishPricingCard } from "@/components/ui/cn/squish-pricing-card/SquishPricingCard";
 import { Stat } from "@/components/ui/cn/stat/Stat";
 import { StatsCard } from "@/components/ui/cn/stats-card/StatsCard";
 import { StatusBadge } from "@/components/ui/cn/status-badge/StatusBadge";
@@ -5595,6 +5596,43 @@ function PricingCardDemo() {
   );
 }
 
+function SquishPricingCardDemo() {
+  return (
+    <div className="flex flex-col">
+      <ShowcaseSection title="Tiers">
+        <Frame label="Hover cada card — fundo, preço e botão reagem elástico">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <SquishPricingCard
+              label="Individual"
+              price="299"
+              description="For individuals who want to understand why their landing pages aren't working"
+              cta="Sign up"
+              intent="violet"
+              shape="orbit"
+            />
+            <SquishPricingCard
+              label="Company"
+              price="999"
+              description="For mid-sized companies who are serious about boosting their revenue by 30%"
+              cta="Sign up"
+              intent="rose"
+              shape="domino"
+            />
+            <SquishPricingCard
+              label="Enterprise"
+              price="4,999"
+              description="For large enterprises looking to outsource their conversion rate optimization"
+              cta="Book a call"
+              intent="info"
+              shape="hive"
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
+    </div>
+  );
+}
+
 function FeatureListDemo() {
   const features = [
     { title: "Unlimited projects" },
@@ -7882,6 +7920,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "feedback/onboarding-tour": OnboardingTourDemo,
   "display/password-strength": PasswordStrengthDemo,
   "display/pricing-card": PricingCardDemo,
+  "display/squish-pricing-card": SquishPricingCardDemo,
   "display/progress-steps": ProgressStepsDemo,
   "inputs/rating-input": RatingInputDemo,
   "display/read-more": ReadMoreDemo,

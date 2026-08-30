@@ -24,6 +24,10 @@ export const MOTION_EASE = {
   standard: [0.22, 1, 0.36, 1],
   decelerate: [0, 0, 0.2, 1],
   accelerate: [0.4, 0, 1, 1],
+  // named easing nativo do motion (nao um cubic-bezier) -- overshoot elastico (passa do
+  // alvo e volta), usado pra hovers "squishy"/com bounce. Adicionado pro SquishPricingCard
+  // (2026-08-30), primeiro consumidor real; CLAUDE.md regra 1: nao inventar sem uso real.
+  squish: "backInOut",
 } as const;
 
 /** Pixels — distância de deslocamento em variantes de entrada/saída (slide-in/slide-up). */

@@ -92,6 +92,7 @@ export const COMPONENT_META = {
   "receipt-card":        { title: "Receipt Card",       group: "display",    description: "Receipt-style summary card.",                             status: "live" },
   "ribbon":              { title: "Ribbon",             group: "display",    description: "Corner ribbon badge for cards.",                          status: "live" },
   "skill-bar":           { title: "Skill Bar",          group: "charts",    description: "Animated progress bar for skill levels.",                 status: "live" },
+  "squish-pricing-card": { title: "Squish Pricing Card", group: "display",   description: "Marketing pricing spotlight card with elastic hover shape.", status: "live" },
   "sparkline":           { title: "Sparkline",          group: "charts",     description: "Inline mini chart.",                                      status: "live" },
   "stat":                { title: "Stat",               group: "display",    description: "Single stat with label and value.",                       status: "live" },
   "stats-card":          { title: "Stats Card",         group: "display",    description: "Card with multiple stats.",                               status: "live" },

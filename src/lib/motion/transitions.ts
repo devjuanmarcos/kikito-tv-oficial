@@ -19,3 +19,8 @@ export const transitionExit: Transition = { duration: MOTION_DURATION.fast, ease
 /** Springs — colhidos de Modal.tsx (gentle) e Select.tsx (snappy), ver ./tokens.ts. */
 export const springGentle: Transition = { type: "spring", ...MOTION_SPRING.gentle };
 export const springSnappy: Transition = { type: "spring", ...MOTION_SPRING.snappy };
+
+/** Hover elastico ("squish") — usa `slower` (teto da escala) em vez do 1s da origem
+ * (SquishPricingCard, adaptado de shadcndashboard) pra nao introduzir um degrau novo
+ * de duracao so pra um componente. */
+export const transitionSquish: Transition = { duration: MOTION_DURATION.slower, ease: MOTION_EASE.squish };

@@ -8632,6 +8632,39 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       { name: "style", type: "CSSProperties", description: "Estilos inline pro card" },
     ],
   },
+  // ── squish-pricing-card
+  {
+    name: "squish-pricing-card",
+    title: "Squish Pricing Card",
+    group: "display",
+    description:
+      "Marketing pricing spotlight card with an elastic ('squishy') animated background shape revealed on hover.",
+    filePath: "src/components/ui/cn/squish-pricing-card/SquishPricingCard.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
+    keywords: ["squish", "squishy", "pricing spotlight", "elastic", "bounce", "hover card", "landing pricing"],
+    props: [
+      { name: "label", type: "string", required: true, description: "Nome do tier (ex: 'Individual')" },
+      { name: "price", type: "string", required: true, description: "Valor numérico, sem símbolo de moeda" },
+      { name: "period", type: "string", default: "'Month'", description: "Sufixo após o preço" },
+      { name: "description", type: "string", description: "Texto de apoio abaixo do preço" },
+      { name: "cta", type: "string", required: true, description: "Texto do botão de ação" },
+      { name: "onCtaClick", type: "() => void", description: "Callback ao clicar no CTA" },
+      {
+        name: "intent",
+        type: "'primary' | 'secondary' | 'violet' | 'rose' | 'info'",
+        default: "'primary'",
+        description: "Cor sólida do card",
+      },
+      {
+        name: "shape",
+        type: "'orbit' | 'domino' | 'hive'",
+        default: "'orbit'",
+        description: "Forma animada de fundo revelada no hover",
+      },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline pro card" },
+    ],
+  },
   // ── progress-steps
   {
     name: "progress-steps",

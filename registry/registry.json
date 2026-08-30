@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T19:22:38.754Z",
+  "generatedAt": "2026-08-30T23:02:43.601Z",
   "items": [
     {
       "name": "utils",
@@ -2215,6 +2215,22 @@
       "dependencies": [],
       "registryDependencies": [
         "command"
+      ]
+    },
+    {
+      "name": "squish-pricing-card",
+      "version": "1.1.0",
+      "title": "Squish Pricing Card",
+      "type": "registry:component",
+      "description": "Marketing pricing spotlight card with elastic hover shape.",
+      "group": "display",
+      "status": "live",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "motion",
+        "utils"
       ]
     },
     {

@@ -8,6 +8,7 @@ export {
   transitionExit,
   springGentle,
   springSnappy,
+  transitionSquish,
 } from "./transitions";
 export { fadeIn, scaleIn, scaleInDown, scaleInVertical, slideInUp } from "./variants";
 export { staggerContainer } from "./orchestration";
