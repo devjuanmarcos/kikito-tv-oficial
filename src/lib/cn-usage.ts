@@ -21,6 +21,12 @@ export function ButtonExample() {
       <Button variant="solid" intent="primary" loading>
         Salvando...
       </Button>
+      <Button variant="solid" intent="primary" effect="lift">
+        Hover lift
+      </Button>
+      <Button variant="outline" intent="primary" effect="shine">
+        Shine sweep
+      </Button>
     </div>
   );
 }`,
@@ -34,6 +40,7 @@ export function BadgeExample() {
       <Badge intent="success" variant="soft">Ativo</Badge>
       <Badge intent="danger" variant="outline">Erro</Badge>
       <Badge intent="warning" dot>Em revisão</Badge>
+      <Badge intent="success" animated>Online</Badge>
     </div>
   );
 }`,
@@ -138,6 +145,11 @@ export function TextareaExample() {
       rows={4}
     />
   );
+}
+
+// floatingLabel — label flutua pro topo quando o campo ganha valor/foco
+export function TextareaFloatingLabelExample() {
+  return <Textarea label="Mensagem" floatingLabel rows={4} />;
 }`,
 
   checkbox: `import { Checkbox } from "@/components/ui/cn/checkbox/Checkbox";
@@ -160,6 +172,24 @@ export function RadioExample() {
       <Radio name="plano" value="free" label="Grátis" defaultChecked />
       <Radio name="plano" value="pro" label="Pro — R$ 29/mês" />
       <Radio name="plano" value="team" label="Team — R$ 99/mês" />
+    </div>
+  );
+}
+
+// variant="card" — cartão selecionável com ícone/descrição/preço
+export function RadioCardExample() {
+  return (
+    <div className="grid grid-cols-2 gap-3 max-w-md">
+      <Radio
+        name="plano-card"
+        value="pro"
+        variant="card"
+        label="Pro"
+        description="Pra times pequenos"
+        price="R$ 29/mês"
+        defaultChecked
+      />
+      <Radio name="plano-card" value="team" variant="card" label="Team" description="Recursos avançados" price="R$ 99/mês" />
     </div>
   );
 }`,
@@ -221,43 +251,56 @@ export function BreadcrumbExample() {
       ]}
     />
   );
+}
+
+// muitos itens colapsam num "…" clicável (abre dropdown com os itens ocultos)
+export function BreadcrumbEllipsisExample() {
+  return (
+    <Breadcrumb
+      items={[
+        { label: "Início", href: "/" },
+        { label: "Componentes", href: "/cn" },
+        { label: "Display", href: "/cn/display" },
+        { label: "Overlays", href: "/cn/overlays" },
+        { label: "Inputs", href: "/cn/inputs" },
+        { label: "Breadcrumb" },
+      ]}
+      maxItems={4}
+    />
+  );
 }`,
 
-  "code-block": `import { KkCodeBlock } from "@/components/ui/kk-code-block";
+  // achado da auditoria de showcase (2026-08-30): esta entry mostrava o KkCodeBlock
+  // do dashboard (@/components/ui/kk-code-block) — componente totalmente diferente,
+  // sem relação com o CodeBlock do Kikito CN documentado nesta página. Reescrito
+  // pro componente real, incluindo o modo files (abas) adicionado no variant-intake.
+  "code-block": `import { CodeBlock } from "@/components/ui/cn/code-block/CodeBlock";
 
-// KkCodeBlock é um Server Component — use em .tsx sem "use client"
-export async function CodeBlockExample() {
+export function CodeBlockExample() {
   return (
-    <div className="flex flex-col gap-6">
-      {/* Básico */}
-      <KkCodeBlock
-        code={\`const greeting = "Olá, mundo!";\nconsole.log(greeting);\`}
-        lang="ts"
-      />
-
-      {/* Com filename e numeração de linhas */}
-      <KkCodeBlock
-        code={\`import { Button } from "@/components/ui/cn/button/Button";
+    <CodeBlock
+      language="tsx"
+      filename="Example.tsx"
+      showLineNumbers
+      code={\`import { Button } from "@/components/ui/cn/button/Button";
 
 export function Example() {
   return <Button intent="primary">Clique aqui</Button>;
 }\`}
-        lang="tsx"
-        filename="Example.tsx"
-        showLineNumbers
-      />
+    />
+  );
+}
 
-      {/* Com altura máxima */}
-      <KkCodeBlock
-        code={\`// arquivo longo com scroll
-const a = 1;
-const b = 2;
-const c = a + b;\`}
-        lang="ts"
-        filename="long-file.ts"
-        maxHeight={200}
-      />
-    </div>
+// prop files — abas trocando entre arquivos diferentes
+export function CodeBlockMultiFileExample() {
+  return (
+    <CodeBlock
+      showLineNumbers
+      files={[
+        { filename: "Button.tsx", language: "tsx", code: "export function Button() { /* ... */ }" },
+        { filename: "utils.ts", language: "ts", code: "export const cn = (...classes) => classes.filter(Boolean).join(' ');" },
+      ]}
+    />
   );
 }`,
 
@@ -294,6 +337,7 @@ export function ModalExample() {
         open={open}
         onClose={() => setOpen(false)}
         title="Confirmar ação"
+        entryDirection="bottom"
       >
         <p>Tem certeza que deseja continuar?</p>
       </Modal>
@@ -346,7 +390,7 @@ export function CardStackExample() {
 
 export function CarouselExample() {
   return (
-    <Carousel>
+    <Carousel indicator="counter">
       <div className="p-8 bg-raised rounded-lg">Slide 1</div>
       <div className="p-8 bg-raised rounded-lg">Slide 2</div>
       <div className="p-8 bg-raised rounded-lg">Slide 3</div>
@@ -354,7 +398,10 @@ export function CarouselExample() {
   );
 }`,
 
-  marquee: `import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
+  // chave = meta.name do registro ("marquee-text", não "marquee") — sem isso o
+  // lookup usageMap[meta.name] nunca casava e essa string ficava morta, caindo
+  // sempre no fallback sintetizado (achado da auditoria de showcase, 2026-08-30)
+  "marquee-text": `import { MarqueeText } from "@/components/ui/cn/marquee-text/MarqueeText";
 
 export function MarqueeExample() {
   return (

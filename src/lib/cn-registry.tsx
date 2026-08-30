@@ -53,13 +53,97 @@ export interface CnComponentMeta {
 }
 
 /** Returns the usage example for a component (manual → map → auto-generated fallback) */
+/** Nomes de prop que nunca entram no exemplo sintetizado (estilo/handler/callback). */
+const USAGE_SKIP_PROP_NAMES = new Set(["className", "style", "children"]);
+
+/** Extrai o primeiro literal de uma union de strings (ex.: "'sm' | 'md' | 'lg'" -> "sm"). */
+function firstUnionLiteral(type: string): string | undefined {
+  const match = type.match(/'([^']+)'/);
+  return match?.[1];
+}
+
+/** Valor de placeholder plausível pra uma string comum, baseado no nome da prop. */
+function placeholderForStringProp(name: string): string {
+  const n = name.toLowerCase();
+  if (n === "label") return "Label";
+  if (n === "placeholder") return "Digite aqui…";
+  if (n === "title") return "Título";
+  if (n === "description" || n === "helpertext" || n === "helpText") return "Texto de apoio";
+  if (n === "value" || n === "defaultvalue") return "Exemplo";
+  if (n === "name") return "exemplo";
+  return "Exemplo";
+}
+
+/** JSX attribute string pra uma prop (ex.: ` intent="primary"` ou ` disabled`), ou undefined se não plausível de sintetizar. */
+function usageAttrFor(prop: PropDoc): string | undefined {
+  const { name, type } = prop;
+  if (USAGE_SKIP_PROP_NAMES.has(name)) return undefined;
+  if (type.includes("=>")) return undefined; // callback/handler — não fabricar função no exemplo
+  if (type.endsWith("[]") || type.startsWith("Record<")) return undefined; // arrays/objetos complexos
+
+  if (type === "boolean") return ` ${name}`;
+
+  const literal = firstUnionLiteral(type);
+  if (literal) return ` ${name}="${literal}"`;
+
+  if (type === "number") {
+    const n = prop.default && !Number.isNaN(Number(prop.default)) ? prop.default : "50";
+    return ` ${name}={${n}}`;
+  }
+
+  if (type === "string") {
+    const value =
+      prop.default && prop.default !== "undefined"
+        ? prop.default.replace(/^['"]|['"]$/g, "")
+        : placeholderForStringProp(name);
+    return ` ${name}="${value}"`;
+  }
+
+  // ReactNode/CSSProperties/tipos livres demais pra sintetizar com segurança
+  return undefined;
+}
+
+/**
+ * Gera um exemplo de uso real a partir de `props`: props obrigatórias primeiro,
+ * completadas por até 2 props opcionais "ilustrativas" (union de strings, ex.
+ * variant/intent/size) até um teto de 4 atributos — nunca inventa handlers,
+ * className/style, nem tipos complexos (array/objeto/ReactNode livre).
+ * Prioridade: `meta.usage` manual > `usageMap[meta.name]` (src/lib/cn-usage.ts) >
+ * sintetizado a partir de `props` > fallback totalmente genérico (sem props documentadas).
+ */
 export function generateUsage(meta: CnComponentMeta, usageMap: Record<string, string> = {}): string {
   if (meta.usage) return meta.usage;
   if (usageMap[meta.name]) return usageMap[meta.name];
 
   const componentName = meta.title.replace(/\s+/g, "");
   const importPath = `@/components/ui/cn/${meta.name}/${componentName}`;
-  return `import { ${componentName} } from "${importPath}";\n\nexport function ${componentName}Example() {\n  return (\n    <${componentName} />\n  );\n}`;
+  const childProp = meta.props?.find((p) => p.name === "children");
+
+  const required = (meta.props ?? []).filter((p) => p.required && p.name !== "children");
+  const illustrative = (meta.props ?? [])
+    .filter((p) => !p.required && p.name !== "children" && firstUnionLiteral(p.type))
+    .slice(0, 2);
+
+  const attrs = [...required, ...illustrative]
+    .slice(0, 4)
+    .map(usageAttrFor)
+    .filter((a): a is string => !!a)
+    .join("");
+
+  // children: "ReactElement"/"React.ReactElement" = padrão trigger (Tooltip, Popover,
+  // DropdownMenu...) — precisa de um elemento único clonável, texto solto quebra em
+  // runtime (cloneElement numa string). Arrays ([ReactNode, ReactNode], ReactNode[])
+  // são complexos demais pra sintetizar com segurança — deixa sem children (self-close).
+  const children = childProp?.type.includes("ReactElement")
+    ? `<button type="button">${meta.title}</button>`
+    : childProp && !childProp.type.includes("[")
+      ? meta.title
+      : undefined;
+  const tag = children
+    ? `<${componentName}${attrs}>\n      ${children}\n    </${componentName}>`
+    : `<${componentName}${attrs} />`;
+
+  return `import { ${componentName} } from "${importPath}";\n\nexport function ${componentName}Example() {\n  return (\n    ${tag}\n  );\n}`;
 }
 
 export interface CnGroupMeta {
