@@ -1,11 +1,18 @@
 "use client";
 
 import type { EChartsOption } from "echarts";
+import { RadarChart as EChartsRadarChart } from "echarts/charts";
+import { RadarComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
 
 import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
 import type { RadarAxis, RadarChartProps, RadarSeries } from "./radar-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsRadarChart, RadarComponent]);
 
 const COLORS = ["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-success)", "var(--ks-danger)"];
 
@@ -30,7 +37,6 @@ export function buildRadarOption(
       axisLine: { lineStyle: { color: theme.axisColor } },
       splitLine: { lineStyle: { color: theme.axisColor } },
     },
-    legend: { show: false },
     series: [
       {
         type: "radar",
@@ -75,8 +81,9 @@ export function RadarChart({
           {series.map((item, index) => (
             <div key={item.label} className="flex items-center gap-(--spacing-xs)">
               <div
+                suppressHydrationWarning
                 className="w-2.5 h-2.5 rounded-full"
-                style={{ background: resolveChartColor(item.color ?? COLORS[index % COLORS.length]) }}
+                style={{ background: item.color ?? COLORS[index % COLORS.length] }}
               />
               <span className="text-body-caption text-muted">{item.label}</span>
             </div>
