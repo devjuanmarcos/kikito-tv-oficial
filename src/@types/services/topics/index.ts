@@ -1,4 +1,10 @@
 // Comentário de usuário
+export interface CommentReactions {
+  likes: number;
+  dislikes: number;
+  userReaction: "like" | "dislike" | null;
+}
+
 export interface Comment {
   id: string;
   name: string;
@@ -6,6 +12,8 @@ export interface Comment {
   date: string; // ISO string
   time?: string; // opcional, pode ser extraído de date
   text: string;
+  reactions?: CommentReactions;
+  replies?: Comment[];
 }
 // Tipos base
 export interface Author {
