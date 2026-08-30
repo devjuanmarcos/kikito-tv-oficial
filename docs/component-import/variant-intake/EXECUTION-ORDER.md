@@ -33,8 +33,10 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 - [x] `select` (combobox) — grupos + ícone por opção
 - [x] `dropdown-menu` — prop `header`
 - [x] `code-block` — abas por arquivo
-- [ ] `line-chart` — ReferenceLine
+- [x] `line-chart` — ReferenceLine
 - [x] `progress` — modo indeterminate
-- [ ] `area-chart`/`line-chart` — interpolação step (compartilhada)
+- [x] `area-chart`/`line-chart` — interpolação step (compartilhada)
 
 Progresso registrado marcando `[x]` conforme cada item fecha (commit + verificação).
+
+**Fila fechada em 2026-08-30 — 23/23 itens.** Itens 22/23 (ReferenceLine + step) foram os últimos, liberados após o merge da migração de charts pra Apache ECharts (concluída em sessão paralela) — implementados via `markLine`/`step` nativos do ECharts em vez do plano original em SVG puro (desenhado quando os charts ainda eram recharts).
