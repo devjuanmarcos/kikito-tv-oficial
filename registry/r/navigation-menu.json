@@ -4,17 +4,12 @@
   "title": "Navigation Menu",
   "type": "registry:component",
   "description": "Horizontal nav with dropdowns.",
-  "group": "navigation",
+  "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "badge",
-    "utils"
-  ],
+  "registryDependencies": ["badge", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/navigation-menu",
   "files": [

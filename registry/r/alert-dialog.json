@@ -4,16 +4,12 @@
   "title": "Alert Dialog",
   "type": "registry:component",
   "description": "Confirmation dialog requiring user action.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "modal"
-  ],
+  "registryDependencies": ["modal"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/alert-dialog",
   "files": [

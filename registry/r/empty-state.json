@@ -4,16 +4,12 @@
   "title": "Empty State",
   "type": "registry:component",
   "description": "Empty content placeholder with action.",
-  "group": "feedback",
+  "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/empty-state",
   "files": [

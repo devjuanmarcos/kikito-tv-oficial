@@ -4,16 +4,12 @@
   "title": "Tooltip",
   "type": "registry:component",
   "description": "Simple hover tooltip.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/tooltip",
   "files": [

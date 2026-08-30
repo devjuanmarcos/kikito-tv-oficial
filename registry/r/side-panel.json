@@ -4,16 +4,12 @@
   "title": "Side Panel",
   "type": "registry:component",
   "description": "Resizable side panel layout.",
-  "group": "navigation",
+  "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "modal"
-  ],
+  "registryDependencies": ["modal"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/side-panel",
   "files": [

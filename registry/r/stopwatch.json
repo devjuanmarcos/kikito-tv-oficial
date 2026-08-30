@@ -4,17 +4,12 @@
   "title": "Stopwatch",
   "type": "registry:component",
   "description": "Start/stop/reset stopwatch.",
-  "group": "display",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "button",
-    "utils"
-  ],
+  "registryDependencies": ["button", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/stopwatch",
   "files": [

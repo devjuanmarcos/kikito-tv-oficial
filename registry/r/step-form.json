@@ -4,17 +4,12 @@
   "title": "Step Form",
   "type": "registry:component",
   "description": "Multi-step form with validation per step.",
-  "group": "layout",
+  "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "button",
-    "utils"
-  ],
+  "registryDependencies": ["button", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/step-form",
   "files": [

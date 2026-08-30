@@ -4,17 +4,12 @@
   "title": "Breadcrumb",
   "type": "registry:component",
   "description": "Location breadcrumb with separator.",
-  "group": "navigation",
+  "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "dropdown-menu",
-    "utils"
-  ],
+  "registryDependencies": ["dropdown-menu", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/breadcrumb",
   "files": [

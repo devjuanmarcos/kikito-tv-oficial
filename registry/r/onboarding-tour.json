@@ -4,16 +4,12 @@
   "title": "Onboarding Tour",
   "type": "registry:component",
   "description": "Step-by-step product tour overlay.",
-  "group": "overlay",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": ["button"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/onboarding-tour",
   "files": [

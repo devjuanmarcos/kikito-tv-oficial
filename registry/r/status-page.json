@@ -4,16 +4,12 @@
   "title": "Status Page",
   "type": "registry:component",
   "description": "Service status dashboard.",
-  "group": "display",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/status-page",
   "files": [

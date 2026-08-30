@@ -4,16 +4,12 @@
   "title": "FAB",
   "type": "registry:component",
   "description": "Floating action button with sub-actions.",
-  "group": "navigation",
+  "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/fab",
   "files": [

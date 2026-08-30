@@ -4,19 +4,12 @@
   "title": "Dropdown Menu",
   "type": "registry:component",
   "description": "Trigger-based dropdown with sections and icons.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "motion",
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["motion", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/dropdown-menu",
   "files": [

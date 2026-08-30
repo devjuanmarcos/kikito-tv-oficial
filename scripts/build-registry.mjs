@@ -12,6 +12,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { checkRegistrySync } from "./check-registry-sync.mjs";
 import { COMPONENT_META, SKIP_COMPONENTS, NPM_DEP_MAP } from "./registry-meta.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -202,6 +204,17 @@ function buildLib(name, { title, description, sourceDir, sourceFile }) {
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
+  // Falha alto ANTES de gerar qualquer saida se cn-registry.tsx (site) e
+  // registry-meta.mjs (CLI publicado) tiverem divergido — ver
+  // check-registry-sync.mjs pro historico do porque isso existe.
+  const syncErrors = checkRegistrySync();
+  if (syncErrors.length > 0) {
+    console.error(`✖ ${syncErrors.length} problema(s) de sincronia entre cn-registry.tsx e registry-meta.mjs:\n`);
+    syncErrors.forEach((e) => console.error(" ", e));
+    console.error("\nCorrija registry-meta.mjs (ou cn-registry.tsx, se ele que estiver errado) antes de rodar o build.");
+    process.exit(1);
+  }
+
   // Limpa registry/r/ antes de reconstruir: o script nunca apagava arquivos
   // órfãos — um componente removido de CN_DIR ou movido pra SKIP_COMPONENTS
   // (ex: cn-install-block, cn-props-table, cn-source-block, cn-usage-block)

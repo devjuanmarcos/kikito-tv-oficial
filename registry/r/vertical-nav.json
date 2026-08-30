@@ -4,17 +4,12 @@
   "title": "Vertical Nav",
   "type": "registry:component",
   "description": "Sidebar vertical navigation.",
-  "group": "navigation",
+  "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "badge",
-    "utils"
-  ],
+  "registryDependencies": ["badge", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/vertical-nav",
   "files": [

@@ -6,6 +6,7 @@
   "scripts": {
     "registry:build": "node scripts/build-registry.mjs",
     "registry:watch": "node --watch scripts/build-registry.mjs",
+    "registry:check": "node scripts/check-registry-sync.mjs",
     "cli:build": "pnpm --filter kikitocn build",
     "cli:dev": "pnpm --filter kikitocn dev",
     "dev": "next dev",

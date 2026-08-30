@@ -4,17 +4,12 @@
   "title": "Context Menu",
   "type": "registry:component",
   "description": "Right-click context menu.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "dropdown-menu",
-    "utils"
-  ],
+  "registryDependencies": ["dropdown-menu", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/context-menu",
   "files": [

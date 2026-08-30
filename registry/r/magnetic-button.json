@@ -4,16 +4,12 @@
   "title": "Magnetic Button",
   "type": "registry:component",
   "description": "Button with magnetic cursor attraction effect.",
-  "group": "inputs",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": ["button"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/magnetic-button",
   "files": [

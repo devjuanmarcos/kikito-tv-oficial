@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T17:00:13.874Z",
+  "generatedAt": "2026-08-30T19:21:06.445Z",
   "items": [
     {
       "name": "utils",
@@ -13,10 +13,7 @@
       "description": "Shared cn() class-merging helper (clsx + tailwind-merge).",
       "group": "internal",
       "status": "live",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
       "registryDependencies": []
     },
     {
@@ -38,9 +35,7 @@
       "description": "Shared ECharts lifecycle, token bridge, responsive rendering and accessibility infrastructure.",
       "group": "internal",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
+      "dependencies": ["echarts"],
       "registryDependencies": []
     },
     {
@@ -49,12 +44,10 @@
       "title": "Accordion",
       "type": "registry:component",
       "description": "Collapsible content sections with animated transitions.",
-      "group": "layout",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "accordion-group",
@@ -62,12 +55,10 @@
       "title": "Accordion Group",
       "type": "registry:component",
       "description": "Multiple accordions sharing state management.",
-      "group": "layout",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "activity-feed",
@@ -78,9 +69,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "timeline"
-      ]
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "alert",
@@ -91,9 +80,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "alert-dialog",
@@ -101,12 +88,10 @@
       "title": "Alert Dialog",
       "type": "registry:component",
       "description": "Confirmation dialog requiring user action.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "modal"
-      ]
+      "registryDependencies": ["modal"]
     },
     {
       "name": "animated-list",
@@ -117,9 +102,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "animated-number",
@@ -140,13 +123,8 @@
       "description": "Filled area chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "aspect-ratio",
@@ -157,9 +135,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "audio-waveform",
@@ -170,9 +146,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "autocomplete",
@@ -182,13 +156,8 @@
       "description": "Input with real-time filtered suggestions dropdown.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "avatar",
@@ -198,13 +167,8 @@
       "description": "User avatar with image, initials and status.",
       "group": "display",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "avatar-group",
@@ -215,9 +179,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "badge",
@@ -225,15 +187,10 @@
       "title": "Badge",
       "type": "registry:component",
       "description": "Status and label badges with variants and intents.",
-      "group": "display",
+      "group": "inputs",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "banner",
@@ -241,12 +198,10 @@
       "title": "Banner",
       "type": "registry:component",
       "description": "Full-width site announcement banner.",
-      "group": "overlay",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "bar-chart",
@@ -256,13 +211,8 @@
       "description": "Vertical and horizontal bar chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "bento-grid",
@@ -270,12 +220,10 @@
       "title": "Bento Grid",
       "type": "registry:component",
       "description": "Responsive CSS grid for feature showcases.",
-      "group": "display",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "breadcrumb",
@@ -283,13 +231,10 @@
       "title": "Breadcrumb",
       "type": "registry:component",
       "description": "Location breadcrumb with separator.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "dropdown-menu",
-        "utils"
-      ]
+      "registryDependencies": ["dropdown-menu", "utils"]
     },
     {
       "name": "button",
@@ -300,9 +245,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "button-group",
@@ -313,9 +256,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "calendar",
@@ -326,10 +267,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils",
-        "date-picker"
-      ]
+      "registryDependencies": ["utils", "date-picker"]
     },
     {
       "name": "callout",
@@ -340,9 +278,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "card",
@@ -353,9 +289,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "card-stack",
@@ -366,9 +300,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "carousel",
@@ -379,9 +311,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "chart",
@@ -413,10 +343,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "avatar",
-        "utils"
-      ]
+      "registryDependencies": ["avatar", "utils"]
     },
     {
       "name": "checkbox",
@@ -427,9 +354,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "checklist",
@@ -437,12 +362,10 @@
       "title": "Checklist",
       "type": "registry:component",
       "description": "Interactive task list with checkbox items.",
-      "group": "inputs",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "chip-group",
@@ -453,9 +376,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "toggle-group"
-      ]
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "code-block",
@@ -466,10 +387,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "code-diff",
@@ -477,12 +395,10 @@
       "title": "Code Diff",
       "type": "registry:component",
       "description": "Side-by-side or inline code diff.",
-      "group": "display",
+      "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "collapsible",
@@ -490,12 +406,10 @@
       "title": "Collapsible",
       "type": "registry:component",
       "description": "Animated expand/collapse section.",
-      "group": "layout",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "color-picker",
@@ -506,9 +420,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "combobox",
@@ -519,9 +431,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "select"
-      ]
+      "registryDependencies": ["select"]
     },
     {
       "name": "command",
@@ -529,12 +439,10 @@
       "title": "Command",
       "type": "registry:component",
       "description": "Command palette with fuzzy search.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "command-bar",
@@ -542,12 +450,10 @@
       "title": "Command Bar",
       "type": "registry:component",
       "description": "Keyboard-shortcut command bar.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "command"
-      ]
+      "registryDependencies": ["command"]
     },
     {
       "name": "comparison-table",
@@ -555,14 +461,10 @@
       "title": "Comparison Table",
       "type": "registry:component",
       "description": "Feature comparison matrix.",
-      "group": "display",
+      "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "tooltip",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "tooltip", "utils"]
     },
     {
       "name": "confetti-button",
@@ -570,12 +472,10 @@
       "title": "Confetti Button",
       "type": "registry:component",
       "description": "Button that triggers confetti on click.",
-      "group": "inputs",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button"
-      ]
+      "registryDependencies": ["button"]
     },
     {
       "name": "confirm-button",
@@ -583,12 +483,10 @@
       "title": "Confirm Button",
       "type": "registry:component",
       "description": "Button with inline confirmation step.",
-      "group": "overlay",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button"
-      ]
+      "registryDependencies": ["button"]
     },
     {
       "name": "context-card",
@@ -596,12 +494,10 @@
       "title": "Context Card",
       "type": "registry:component",
       "description": "Rich hover card with user context.",
-      "group": "display",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "tooltip"
-      ]
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "context-menu",
@@ -609,13 +505,10 @@
       "title": "Context Menu",
       "type": "registry:component",
       "description": "Right-click context menu.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "dropdown-menu",
-        "utils"
-      ]
+      "registryDependencies": ["dropdown-menu", "utils"]
     },
     {
       "name": "copy-button",
@@ -623,13 +516,10 @@
       "title": "Copy Button",
       "type": "registry:component",
       "description": "Copy-to-clipboard button with feedback.",
-      "group": "inputs",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "countdown-timer",
@@ -637,12 +527,10 @@
       "title": "Countdown Timer",
       "type": "registry:component",
       "description": "Countdown to a target date/time.",
-      "group": "display",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "credit-card",
@@ -653,9 +541,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "currency-input",
@@ -666,9 +552,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "input"
-      ]
+      "registryDependencies": ["input"]
     },
     {
       "name": "data-grid",
@@ -679,9 +563,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "table"
-      ]
+      "registryDependencies": ["table"]
     },
     {
       "name": "data-list",
@@ -689,12 +571,10 @@
       "title": "Data List",
       "type": "registry:component",
       "description": "Key-value pair list.",
-      "group": "display",
+      "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "table"
-      ]
+      "registryDependencies": ["table"]
     },
     {
       "name": "date-picker",
@@ -705,9 +585,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "date-range-picker",
@@ -718,9 +596,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "date-picker"
-      ]
+      "registryDependencies": ["date-picker"]
     },
     {
       "name": "donut-chart",
@@ -730,13 +606,8 @@
       "description": "Donut/pie chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "dot-stepper",
@@ -744,12 +615,10 @@
       "title": "Dot Stepper",
       "type": "registry:component",
       "description": "Dot-indicator step progress.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "draggable",
@@ -760,9 +629,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "drawer",
@@ -770,12 +637,10 @@
       "title": "Drawer",
       "type": "registry:component",
       "description": "Slide-in side panel drawer.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "modal"
-      ]
+      "registryDependencies": ["modal"]
     },
     {
       "name": "dropdown-menu",
@@ -783,15 +648,10 @@
       "title": "Dropdown Menu",
       "type": "registry:component",
       "description": "Trigger-based dropdown with sections and icons.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "empty-state",
@@ -799,12 +659,10 @@
       "title": "Empty State",
       "type": "registry:component",
       "description": "Empty content placeholder with action.",
-      "group": "feedback",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "event-calendar",
@@ -815,9 +673,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "fab",
@@ -825,12 +681,10 @@
       "title": "FAB",
       "type": "registry:component",
       "description": "Floating action button with sub-actions.",
-      "group": "navigation",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "feature-list",
@@ -841,9 +695,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "feedback-widget",
@@ -854,11 +706,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "textarea",
-        "utils"
-      ]
+      "registryDependencies": ["button", "textarea", "utils"]
     },
     {
       "name": "file-upload",
@@ -868,14 +716,8 @@
       "description": "Drag-and-drop file upload with preview and validation.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "button",
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["button", "motion", "utils"]
     },
     {
       "name": "filter-bar",
@@ -883,12 +725,10 @@
       "title": "Filter Bar",
       "type": "registry:component",
       "description": "Horizontal filter pill bar.",
-      "group": "navigation",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "toggle-group"
-      ]
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "flip-card",
@@ -899,9 +739,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "floating-bar",
@@ -909,13 +747,10 @@
       "title": "Floating Bar",
       "type": "registry:component",
       "description": "Floating toolbar that appears on selection.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "floating-label-input",
@@ -926,9 +761,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "input"
-      ]
+      "registryDependencies": ["input"]
     },
     {
       "name": "floating-menu",
@@ -936,12 +769,10 @@
       "title": "Floating Menu",
       "type": "registry:component",
       "description": "Animated floating radial menu.",
-      "group": "navigation",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "dropdown-menu"
-      ]
+      "registryDependencies": ["dropdown-menu"]
     },
     {
       "name": "form-field",
@@ -949,12 +780,10 @@
       "title": "Form Field",
       "type": "registry:component",
       "description": "Label + input + helper text wrapper.",
-      "group": "layout",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "funnel-chart",
@@ -964,13 +793,8 @@
       "description": "Funnel/conversion chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "gauge",
@@ -981,9 +805,7 @@
       "group": "charts",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "progress"
-      ]
+      "registryDependencies": ["progress"]
     },
     {
       "name": "glass-card",
@@ -994,9 +816,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "card"
-      ]
+      "registryDependencies": ["card"]
     },
     {
       "name": "glow-card",
@@ -1007,9 +827,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "card"
-      ]
+      "registryDependencies": ["card"]
     },
     {
       "name": "gradient-border",
@@ -1020,9 +838,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "card"
-      ]
+      "registryDependencies": ["card"]
     },
     {
       "name": "grid-pattern",
@@ -1033,9 +849,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "hover-card",
@@ -1046,9 +860,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "tooltip"
-      ]
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "icon-box",
@@ -1059,9 +871,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "image-compare",
@@ -1072,9 +882,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "image-cropper",
@@ -1082,12 +890,10 @@
       "title": "Image Cropper",
       "type": "registry:component",
       "description": "Interactive image cropping tool.",
-      "group": "display",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "image-viewer",
@@ -1098,9 +904,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "infinite-scroll",
@@ -1108,12 +912,10 @@
       "title": "Infinite Scroll",
       "type": "registry:component",
       "description": "Load-on-scroll data fetching.",
-      "group": "data",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "inline-edit",
@@ -1124,9 +926,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "input",
@@ -1137,9 +937,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "input-group",
@@ -1150,9 +948,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "item",
@@ -1163,10 +959,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "separator",
-        "utils"
-      ]
+      "registryDependencies": ["separator", "utils"]
     },
     {
       "name": "json-viewer",
@@ -1177,9 +970,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "kanban",
@@ -1187,12 +978,10 @@
       "title": "Kanban",
       "type": "registry:component",
       "description": "Drag-and-drop kanban board.",
-      "group": "display",
+      "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "kbd",
@@ -1203,9 +992,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "keyboard-shortcuts",
@@ -1213,13 +1000,10 @@
       "title": "Keyboard Shortcuts",
       "type": "registry:component",
       "description": "Keyboard shortcut legend dialog.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "input",
-        "utils"
-      ]
+      "registryDependencies": ["input", "utils"]
     },
     {
       "name": "label",
@@ -1227,12 +1011,10 @@
       "title": "Label",
       "type": "registry:component",
       "description": "Form label with required indicator.",
-      "group": "layout",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "line-chart",
@@ -1242,13 +1024,8 @@
       "description": "Line and curve chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "log-viewer",
@@ -1256,12 +1033,10 @@
       "title": "Log Viewer",
       "type": "registry:component",
       "description": "Real-time log stream viewer.",
-      "group": "data",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "magnetic-button",
@@ -1269,12 +1044,10 @@
       "title": "Magnetic Button",
       "type": "registry:component",
       "description": "Button with magnetic cursor attraction effect.",
-      "group": "inputs",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button"
-      ]
+      "registryDependencies": ["button"]
     },
     {
       "name": "markdown-renderer",
@@ -1285,9 +1058,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "marquee-text",
@@ -1298,9 +1069,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "masonry",
@@ -1308,12 +1077,10 @@
       "title": "Masonry",
       "type": "registry:component",
       "description": "Pinterest-style masonry grid.",
-      "group": "display",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "media-player",
@@ -1324,9 +1091,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "menubar",
@@ -1336,14 +1101,8 @@
       "description": "Desktop-style horizontal app menu bar (File/Edit/View) with click-and-hover-to-switch menus.",
       "group": "layout",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "dropdown-menu",
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["dropdown-menu", "motion", "utils"]
     },
     {
       "name": "metric-card",
@@ -1354,9 +1113,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "stat"
-      ]
+      "registryDependencies": ["stat"]
     },
     {
       "name": "mini-map",
@@ -1364,12 +1121,10 @@
       "title": "Mini Map",
       "type": "registry:component",
       "description": "Miniature overview map.",
-      "group": "display",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "modal",
@@ -1377,16 +1132,10 @@
       "title": "Modal",
       "type": "registry:component",
       "description": "Accessible modal dialog with portal.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "button",
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["button", "motion", "utils"]
     },
     {
       "name": "morphing-text",
@@ -1397,9 +1146,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "multi-accordion",
@@ -1407,12 +1154,10 @@
       "title": "Multi Accordion",
       "type": "registry:component",
       "description": "Multiple independently expandable accordions.",
-      "group": "layout",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "multi-select",
@@ -1423,9 +1168,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "select"
-      ]
+      "registryDependencies": ["select"]
     },
     {
       "name": "navigation-menu",
@@ -1433,13 +1176,10 @@
       "title": "Navigation Menu",
       "type": "registry:component",
       "description": "Horizontal nav with dropdowns.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "utils"]
     },
     {
       "name": "newsletter-form",
@@ -1450,10 +1190,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "note-card",
@@ -1464,9 +1201,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "notice-bar",
@@ -1474,12 +1209,10 @@
       "title": "Notice Bar",
       "type": "registry:component",
       "description": "Sticky notice bar with dismiss.",
-      "group": "overlay",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "notification-bell",
@@ -1490,10 +1223,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "utils"]
     },
     {
       "name": "number-input",
@@ -1504,9 +1234,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "input"
-      ]
+      "registryDependencies": ["input"]
     },
     {
       "name": "number-pad",
@@ -1517,9 +1245,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "onboarding-tour",
@@ -1527,12 +1253,10 @@
       "title": "Onboarding Tour",
       "type": "registry:component",
       "description": "Step-by-step product tour overlay.",
-      "group": "overlay",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button"
-      ]
+      "registryDependencies": ["button"]
     },
     {
       "name": "otp-input",
@@ -1543,9 +1267,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "pagination",
@@ -1553,15 +1275,10 @@
       "title": "Pagination",
       "type": "registry:component",
       "description": "Page navigation with page size control.",
-      "group": "navigation",
+      "group": "data",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "particle-field",
@@ -1572,9 +1289,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "password-input",
@@ -1585,9 +1300,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "password-strength",
@@ -1595,12 +1308,10 @@
       "title": "Password Strength",
       "type": "registry:component",
       "description": "Real-time password strength indicator.",
-      "group": "inputs",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "phone-input",
@@ -1611,9 +1322,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "input"
-      ]
+      "registryDependencies": ["input"]
     },
     {
       "name": "pie-chart",
@@ -1623,13 +1332,8 @@
       "description": "ECharts pie chart (filled slices, no hole) with segments and legend.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "pin-board",
@@ -1640,9 +1344,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "ping",
@@ -1650,12 +1352,10 @@
       "title": "Ping",
       "type": "registry:component",
       "description": "Animated ping dot for live indicators.",
-      "group": "feedback",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "popover",
@@ -1663,12 +1363,10 @@
       "title": "Popover",
       "type": "registry:component",
       "description": "Positioned popover with arrow.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "tooltip"
-      ]
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "price-table",
@@ -1679,11 +1377,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "button", "utils"]
     },
     {
       "name": "pricing-card",
@@ -1694,11 +1388,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "button", "utils"]
     },
     {
       "name": "pricing-toggle",
@@ -1706,12 +1396,10 @@
       "title": "Pricing Toggle",
       "type": "registry:component",
       "description": "Monthly/annual pricing toggle.",
-      "group": "display",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "progress",
@@ -1722,9 +1410,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "progress-ring",
@@ -1735,9 +1421,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "progress"
-      ]
+      "registryDependencies": ["progress"]
     },
     {
       "name": "progress-steps",
@@ -1745,12 +1429,10 @@
       "title": "Progress Steps",
       "type": "registry:component",
       "description": "Step-based progress indicator.",
-      "group": "feedback",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "quick-actions",
@@ -1758,12 +1440,10 @@
       "title": "Quick Actions",
       "type": "registry:component",
       "description": "Speed-dial style quick action buttons.",
-      "group": "navigation",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "fab"
-      ]
+      "registryDependencies": ["fab"]
     },
     {
       "name": "quote-block",
@@ -1774,10 +1454,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "avatar",
-        "utils"
-      ]
+      "registryDependencies": ["avatar", "utils"]
     },
     {
       "name": "radar-chart",
@@ -1787,13 +1464,8 @@
       "description": "Multi-axis radar/spider chart.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "radial-bar-chart",
@@ -1803,13 +1475,8 @@
       "description": "Multi-series radial bar chart (concentric arcs) powered by the shared ECharts infrastructure.",
       "group": "charts",
       "status": "live",
-      "dependencies": [
-        "echarts"
-      ],
-      "registryDependencies": [
-        "echarts",
-        "utils"
-      ]
+      "dependencies": ["echarts"],
+      "registryDependencies": ["echarts", "utils"]
     },
     {
       "name": "radio",
@@ -1820,9 +1487,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "range-slider",
@@ -1833,9 +1498,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "slider"
-      ]
+      "registryDependencies": ["slider"]
     },
     {
       "name": "rating",
@@ -1846,9 +1509,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "rating-input",
@@ -1859,9 +1520,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "rating"
-      ]
+      "registryDependencies": ["rating"]
     },
     {
       "name": "read-more",
@@ -1872,9 +1531,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "receipt-card",
@@ -1885,10 +1542,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "utils"]
     },
     {
       "name": "resizable",
@@ -1899,9 +1553,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "ribbon",
@@ -1912,9 +1564,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "rich-select",
@@ -1925,9 +1575,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "select"
-      ]
+      "registryDependencies": ["select"]
     },
     {
       "name": "rich-tooltip",
@@ -1935,12 +1583,10 @@
       "title": "Rich Tooltip",
       "type": "registry:component",
       "description": "Tooltip with rich content and image.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "tooltip"
-      ]
+      "registryDependencies": ["tooltip"]
     },
     {
       "name": "scroll-area",
@@ -1951,9 +1597,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "scroll-progress",
@@ -1961,12 +1605,10 @@
       "title": "Scroll Progress",
       "type": "registry:component",
       "description": "Reading progress bar tied to scroll.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "scroll-reveal",
@@ -1977,9 +1619,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "scroll-spy",
@@ -1987,12 +1627,10 @@
       "title": "Scroll Spy",
       "type": "registry:component",
       "description": "Highlights nav items based on scroll position.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "scroll-timeline",
@@ -2000,12 +1638,10 @@
       "title": "Scroll Timeline",
       "type": "registry:component",
       "description": "CSS scroll-timeline animations.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "timeline"
-      ]
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "search-input",
@@ -2016,9 +1652,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "segmented-control",
@@ -2029,9 +1663,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "toggle-group"
-      ]
+      "registryDependencies": ["toggle-group"]
     },
     {
       "name": "select",
@@ -2041,13 +1673,8 @@
       "description": "Custom select with spring animation, search and groups.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "separator",
@@ -2058,9 +1685,7 @@
       "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "shortcut-key",
@@ -2068,12 +1693,10 @@
       "title": "Shortcut Key",
       "type": "registry:component",
       "description": "Keyboard shortcut display.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "kbd"
-      ]
+      "registryDependencies": ["kbd"]
     },
     {
       "name": "side-panel",
@@ -2081,12 +1704,10 @@
       "title": "Side Panel",
       "type": "registry:component",
       "description": "Resizable side panel layout.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "modal"
-      ]
+      "registryDependencies": ["modal"]
     },
     {
       "name": "signature-pad",
@@ -2097,10 +1718,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "skeleton",
@@ -2111,9 +1729,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "skill-bar",
@@ -2121,12 +1737,10 @@
       "title": "Skill Bar",
       "type": "registry:component",
       "description": "Animated progress bar for skill levels.",
-      "group": "display",
+      "group": "charts",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "progress"
-      ]
+      "registryDependencies": ["progress"]
     },
     {
       "name": "slider",
@@ -2137,9 +1751,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "sortable-list",
@@ -2147,12 +1759,10 @@
       "title": "Sortable List",
       "type": "registry:component",
       "description": "Drag-to-reorder list.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "sparkline",
@@ -2174,9 +1784,7 @@
       "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "split-button",
@@ -2187,9 +1795,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "spotlight",
@@ -2200,9 +1806,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "card"
-      ]
+      "registryDependencies": ["card"]
     },
     {
       "name": "spotlight-search",
@@ -2210,12 +1814,10 @@
       "title": "Spotlight Search",
       "type": "registry:component",
       "description": "Full-screen spotlight-style search palette.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "command"
-      ]
+      "registryDependencies": ["command"]
     },
     {
       "name": "stat",
@@ -2226,9 +1828,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "stats-card",
@@ -2239,9 +1839,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "stat"
-      ]
+      "registryDependencies": ["stat"]
     },
     {
       "name": "status-badge",
@@ -2252,9 +1850,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "status-page",
@@ -2262,12 +1858,10 @@
       "title": "Status Page",
       "type": "registry:component",
       "description": "Service status dashboard.",
-      "group": "display",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "step-form",
@@ -2275,13 +1869,10 @@
       "title": "Step Form",
       "type": "registry:component",
       "description": "Multi-step form with validation per step.",
-      "group": "layout",
+      "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "stepper",
@@ -2289,12 +1880,10 @@
       "title": "Stepper",
       "type": "registry:component",
       "description": "Multi-step wizard navigation.",
-      "group": "navigation",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "stopwatch",
@@ -2302,13 +1891,10 @@
       "title": "Stopwatch",
       "type": "registry:component",
       "description": "Start/stop/reset stopwatch.",
-      "group": "display",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "survey-form",
@@ -2319,15 +1905,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "checkbox",
-        "input",
-        "radio",
-        "rating",
-        "textarea",
-        "utils"
-      ]
+      "registryDependencies": ["button", "checkbox", "input", "radio", "rating", "textarea", "utils"]
     },
     {
       "name": "swipe-card",
@@ -2338,9 +1916,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "switch",
@@ -2351,9 +1927,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "table",
@@ -2364,13 +1938,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "checkbox",
-        "pagination",
-        "select",
-        "utils"
-      ]
+      "registryDependencies": ["button", "checkbox", "pagination", "select", "utils"]
     },
     {
       "name": "table-of-contents",
@@ -2378,12 +1946,10 @@
       "title": "Table of Contents",
       "type": "registry:component",
       "description": "Auto-generated TOC from headings.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tabs",
@@ -2393,13 +1959,8 @@
       "description": "Tab navigation with 4 variants (line/pill/card/enclosed), animated sliding indicator, icons, badges and TabPanel.",
       "group": "display",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "tag",
@@ -2410,9 +1971,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tag-cloud",
@@ -2423,9 +1982,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tag-input",
@@ -2436,9 +1993,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "terminal-block",
@@ -2449,9 +2004,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "text-editor",
@@ -2462,10 +2015,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["button", "utils"]
     },
     {
       "name": "text-effect",
@@ -2494,9 +2044,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "text-shine",
@@ -2507,9 +2055,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "text-wave",
@@ -2519,13 +2065,8 @@
       "description": "Per-character opacity wave shimmer, staggered via motion.",
       "group": "display",
       "status": "live",
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "motion",
-        "utils"
-      ]
+      "dependencies": ["motion"],
+      "registryDependencies": ["motion", "utils"]
     },
     {
       "name": "textarea",
@@ -2536,9 +2077,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "theme-selector",
@@ -2549,9 +2088,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tilt-card",
@@ -2562,9 +2099,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "card"
-      ]
+      "registryDependencies": ["card"]
     },
     {
       "name": "time-picker",
@@ -2575,9 +2110,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "timeline",
@@ -2588,9 +2121,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "timeline-progress",
@@ -2601,9 +2132,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "timeline"
-      ]
+      "registryDependencies": ["timeline"]
     },
     {
       "name": "toast",
@@ -2611,12 +2140,10 @@
       "title": "Toast",
       "type": "registry:component",
       "description": "Toast notification system with context API.",
-      "group": "overlay",
+      "group": "feedback",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "toggle-group",
@@ -2627,9 +2154,7 @@
       "group": "inputs",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tooltip",
@@ -2637,12 +2162,10 @@
       "title": "Tooltip",
       "type": "registry:component",
       "description": "Simple hover tooltip.",
-      "group": "overlay",
+      "group": "overlays",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "tree-table",
@@ -2653,9 +2176,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "table"
-      ]
+      "registryDependencies": ["table"]
     },
     {
       "name": "tree-view",
@@ -2666,9 +2187,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "typewriter",
@@ -2679,9 +2198,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "user-card",
@@ -2692,11 +2209,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "button",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "button", "utils"]
     },
     {
       "name": "vertical-nav",
@@ -2704,13 +2217,10 @@
       "title": "Vertical Nav",
       "type": "registry:component",
       "description": "Sidebar vertical navigation.",
-      "group": "navigation",
+      "group": "layout",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "utils"]
     },
     {
       "name": "video-card",
@@ -2721,10 +2231,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "badge",
-        "utils"
-      ]
+      "registryDependencies": ["badge", "utils"]
     },
     {
       "name": "virtual-list",
@@ -2735,9 +2242,7 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "window-frame",
@@ -2748,9 +2253,7 @@
       "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "utils"
-      ]
+      "registryDependencies": ["utils"]
     },
     {
       "name": "word-counter",
@@ -2758,14 +2261,10 @@
       "title": "Word Counter",
       "type": "registry:component",
       "description": "Textarea with real-time word and character count.",
-      "group": "inputs",
+      "group": "display",
       "status": "live",
       "dependencies": [],
-      "registryDependencies": [
-        "label",
-        "textarea",
-        "utils"
-      ]
+      "registryDependencies": ["label", "textarea", "utils"]
     }
   ]
 }

@@ -4,16 +4,12 @@
   "title": "Context Card",
   "type": "registry:component",
   "description": "Rich hover card with user context.",
-  "group": "display",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "tooltip"
-  ],
+  "registryDependencies": ["tooltip"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/context-card",
   "files": [

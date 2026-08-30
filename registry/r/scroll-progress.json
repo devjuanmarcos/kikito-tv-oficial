@@ -4,16 +4,12 @@
   "title": "Scroll Progress",
   "type": "registry:component",
   "description": "Reading progress bar tied to scroll.",
-  "group": "navigation",
+  "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/scroll-progress",
   "files": [

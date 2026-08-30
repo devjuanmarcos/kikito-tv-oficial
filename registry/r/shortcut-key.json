@@ -4,16 +4,12 @@
   "title": "Shortcut Key",
   "type": "registry:component",
   "description": "Keyboard shortcut display.",
-  "group": "navigation",
+  "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "kbd"
-  ],
+  "registryDependencies": ["kbd"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/shortcut-key",
   "files": [

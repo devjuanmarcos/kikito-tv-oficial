@@ -4,16 +4,12 @@
   "title": "Accordion",
   "type": "registry:component",
   "description": "Collapsible content sections with animated transitions.",
-  "group": "layout",
+  "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/accordion",
   "files": [

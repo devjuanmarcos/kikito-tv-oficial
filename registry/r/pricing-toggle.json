@@ -4,16 +4,12 @@
   "title": "Pricing Toggle",
   "type": "registry:component",
   "description": "Monthly/annual pricing toggle.",
-  "group": "display",
+  "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/pricing-toggle",
   "files": [

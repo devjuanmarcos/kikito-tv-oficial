@@ -4,16 +4,12 @@
   "title": "Rich Tooltip",
   "type": "registry:component",
   "description": "Tooltip with rich content and image.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "tooltip"
-  ],
+  "registryDependencies": ["tooltip"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/rich-tooltip",
   "files": [

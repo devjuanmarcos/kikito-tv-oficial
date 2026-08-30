@@ -4,16 +4,12 @@
   "title": "Log Viewer",
   "type": "registry:component",
   "description": "Real-time log stream viewer.",
-  "group": "data",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/log-viewer",
   "files": [

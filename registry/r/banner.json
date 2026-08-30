@@ -4,16 +4,12 @@
   "title": "Banner",
   "type": "registry:component",
   "description": "Full-width site announcement banner.",
-  "group": "overlay",
+  "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/banner",
   "files": [

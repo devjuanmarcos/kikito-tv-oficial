@@ -4,19 +4,12 @@
   "title": "Pagination",
   "type": "registry:component",
   "description": "Page navigation with page size control.",
-  "group": "navigation",
+  "group": "data",
   "status": "live",
-  "dependencies": [
-    "motion"
-  ],
-  "registryDependencies": [
-    "motion",
-    "utils"
-  ],
+  "dependencies": ["motion"],
+  "registryDependencies": ["motion", "utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/pagination",
   "files": [

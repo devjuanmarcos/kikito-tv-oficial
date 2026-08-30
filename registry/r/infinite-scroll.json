@@ -4,16 +4,12 @@
   "title": "Infinite Scroll",
   "type": "registry:component",
   "description": "Load-on-scroll data fetching.",
-  "group": "data",
+  "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/infinite-scroll",
   "files": [

@@ -4,16 +4,12 @@
   "title": "Drawer",
   "type": "registry:component",
   "description": "Slide-in side panel drawer.",
-  "group": "overlay",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "modal"
-  ],
+  "registryDependencies": ["modal"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/drawer",
   "files": [

@@ -4,16 +4,12 @@
   "title": "Quick Actions",
   "type": "registry:component",
   "description": "Speed-dial style quick action buttons.",
-  "group": "navigation",
+  "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "fab"
-  ],
+  "registryDependencies": ["fab"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/quick-actions",
   "files": [

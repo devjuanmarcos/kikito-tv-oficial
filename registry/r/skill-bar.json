@@ -4,16 +4,12 @@
   "title": "Skill Bar",
   "type": "registry:component",
   "description": "Animated progress bar for skill levels.",
-  "group": "display",
+  "group": "charts",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": [
-    "progress"
-  ],
+  "registryDependencies": ["progress"],
   "tailwind": {
-    "requires": [
-      "kikitocn-tokens"
-    ]
+    "requires": ["kikitocn-tokens"]
   },
   "docs": "https://cn.kikito.tv/components/skill-bar",
   "files": [
