@@ -17,19 +17,19 @@
       "path": "components/ui/cn/stats-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/stats-card/index.ts",
-      "content": "export { StatsCard } from \"./StatsCard\";\nexport type { StatsCardProps, StatItem, StatTrend } from \"./stats-card.types\";\n"
+      "content": "export { StatsCard } from \"./StatsCard\";\r\nexport type { StatsCardProps, StatItem, StatTrend } from \"./stats-card.types\";\r\n"
     },
     {
       "path": "components/ui/cn/stats-card/stats-card.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/stats-card/stats-card.types.ts",
-      "content": "import type { StatGridProps, StatItem, StatTrend } from \"@/components/ui/cn/stat/stat.types\";\n\nexport type { StatItem, StatTrend };\nexport type StatsCardProps = Omit<StatGridProps, \"mode\">;\n"
+      "content": "import type { StatGridProps, StatItem, StatTrend } from \"@/components/ui/cn/stat/stat.types\";\r\n\r\nexport type { StatItem, StatTrend };\r\nexport type StatsCardProps = Omit<StatGridProps, \"mode\">;\r\n"
     },
     {
       "path": "components/ui/cn/stats-card/StatsCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/stats-card/StatsCard.tsx",
-      "content": "\"use client\";\n/**\n * StatsCard — backward-compat wrapper.\n * Absorbed by the Stat Super component (`<Stat mode=\"grid\" />`). Kept so existing\n * imports of `StatsCard` keep working; new code should use Stat directly.\n */\nimport { Stat } from \"@/components/ui/cn/stat\";\n\nimport type { StatsCardProps } from \"./stats-card.types\";\n\nexport function StatsCard(props: StatsCardProps) {\n  return <Stat mode=\"grid\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * StatsCard — backward-compat wrapper.\r\n * Absorbed by the Stat Super component (`<Stat mode=\"grid\" />`). Kept so existing\r\n * imports of `StatsCard` keep working; new code should use Stat directly.\r\n */\r\nimport { Stat } from \"@/components/ui/cn/stat\";\r\n\r\nimport type { StatsCardProps } from \"./stats-card.types\";\r\n\r\nexport function StatsCard(props: StatsCardProps) {\r\n  return <Stat mode=\"grid\" {...props} />;\r\n}\r\n"
     }
   ]
 }

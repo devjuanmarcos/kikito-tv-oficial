@@ -17,13 +17,13 @@
       "path": "components/ui/cn/cn-source-block/CnSourceBlock.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/cn-source-block/CnSourceBlock.tsx",
-      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\n\ninterface CnSourceBlockProps {\n  source: string;\n  filename?: string;\n}\n\nexport async function CnSourceBlock({ source, filename }: CnSourceBlockProps) {\n  return (\n    <div data-testid=\"cn-source-block\">\n      <div className=\"flex items-center justify-between mb-2\">\n        <span className=\"text-body-caption font-semibold text-foreground\">Código-fonte</span>\n        {filename && <span className=\"text-body-caption font-mono text-faint\">{filename}</span>}\n      </div>\n      <KkCodeBlock code={source} lang=\"tsx\" filename={filename} showLineNumbers maxHeight={480} />\n    </div>\n  );\n}\n"
+      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\r\n\r\ninterface CnSourceBlockProps {\r\n  source: string;\r\n  filename?: string;\r\n}\r\n\r\nexport async function CnSourceBlock({ source, filename }: CnSourceBlockProps) {\r\n  return (\r\n    <div data-testid=\"cn-source-block\">\r\n      <div className=\"flex items-center justify-between mb-2\">\r\n        <span className=\"text-body-caption font-semibold text-foreground\">Código-fonte</span>\r\n        {filename && <span className=\"text-body-caption font-mono text-faint\">{filename}</span>}\r\n      </div>\r\n      <KkCodeBlock code={source} lang=\"tsx\" filename={filename} showLineNumbers maxHeight={480} />\r\n    </div>\r\n  );\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/cn-source-block/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/cn-source-block/index.ts",
-      "content": "export { CnSourceBlock } from \"./CnSourceBlock\";\n"
+      "content": "export { CnSourceBlock } from \"./CnSourceBlock\";\r\n"
     }
   ]
 }

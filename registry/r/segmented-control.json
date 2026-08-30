@@ -17,19 +17,19 @@
       "path": "components/ui/cn/segmented-control/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/segmented-control/index.ts",
-      "content": "export { SegmentedControl } from \"./SegmentedControl\";\nexport type { SegmentedControlProps, SegmentedControlOption, SegmentedControlSize } from \"./segmented-control.types\";\n"
+      "content": "export { SegmentedControl } from \"./SegmentedControl\";\r\nexport type { SegmentedControlProps, SegmentedControlOption, SegmentedControlSize } from \"./segmented-control.types\";\r\n"
     },
     {
       "path": "components/ui/cn/segmented-control/segmented-control.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/segmented-control/segmented-control.types.ts",
-      "content": "import type {\n  SegmentedControlOption,\n  SegmentedControlSize,\n  ToggleGroupSegmentedProps,\n} from \"@/components/ui/cn/toggle-group/toggle-group.types\";\n\nexport type { SegmentedControlOption, SegmentedControlSize };\n\nexport type SegmentedControlProps<T extends string = string> = Omit<ToggleGroupSegmentedProps<T>, \"variant\">;\n"
+      "content": "import type {\r\n  SegmentedControlOption,\r\n  SegmentedControlSize,\r\n  ToggleGroupSegmentedProps,\r\n} from \"@/components/ui/cn/toggle-group/toggle-group.types\";\r\n\r\nexport type { SegmentedControlOption, SegmentedControlSize };\r\n\r\nexport type SegmentedControlProps<T extends string = string> = Omit<ToggleGroupSegmentedProps<T>, \"variant\">;\r\n"
     },
     {
       "path": "components/ui/cn/segmented-control/SegmentedControl.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/segmented-control/SegmentedControl.tsx",
-      "content": "\"use client\";\n/**\n * SegmentedControl — backward-compat wrapper.\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"segmented\" />`).\n * Kept so existing imports of `SegmentedControl` keep working; new code should use\n * ToggleGroup directly.\n */\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\nimport type { ToggleGroupSegmentedProps } from \"@/components/ui/cn/toggle-group/toggle-group.types\";\n\nimport type { SegmentedControlProps } from \"./segmented-control.types\";\n\nexport function SegmentedControl<T extends string = string>(props: SegmentedControlProps<T>) {\n  return <ToggleGroup variant=\"segmented\" {...(props as ToggleGroupSegmentedProps<string>)} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * SegmentedControl — backward-compat wrapper.\r\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"segmented\" />`).\r\n * Kept so existing imports of `SegmentedControl` keep working; new code should use\r\n * ToggleGroup directly.\r\n */\r\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\r\nimport type { ToggleGroupSegmentedProps } from \"@/components/ui/cn/toggle-group/toggle-group.types\";\r\n\r\nimport type { SegmentedControlProps } from \"./segmented-control.types\";\r\n\r\nexport function SegmentedControl<T extends string = string>(props: SegmentedControlProps<T>) {\r\n  return <ToggleGroup variant=\"segmented\" {...(props as ToggleGroupSegmentedProps<string>)} />;\r\n}\r\n"
     }
   ]
 }

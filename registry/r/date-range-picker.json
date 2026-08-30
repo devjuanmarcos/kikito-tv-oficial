@@ -17,7 +17,7 @@
       "path": "components/ui/cn/date-range-picker/date-range-picker.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/date-range-picker/date-range-picker.types.ts",
-      "content": "import type React from \"react\";\n\nimport type { DateRange as SuperDateRange } from \"../date-picker/date-picker.types\";\n\n/** Re-exported from the Super DatePicker so the type stays identical. */\nexport type DateRange = SuperDateRange;\n\nexport interface DateRangePickerProps {\n  value?: DateRange;\n  defaultValue?: DateRange;\n  onChange?: (range: DateRange) => void;\n  placeholder?: string;\n  disabled?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
+      "content": "import type React from \"react\";\r\n\r\nimport type { DateRange as SuperDateRange } from \"../date-picker/date-picker.types\";\r\n\r\n/** Re-exported from the Super DatePicker so the type stays identical. */\r\nexport type DateRange = SuperDateRange;\r\n\r\nexport interface DateRangePickerProps {\r\n  value?: DateRange;\r\n  defaultValue?: DateRange;\r\n  onChange?: (range: DateRange) => void;\r\n  placeholder?: string;\r\n  disabled?: boolean;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/date-range-picker/DateRangePicker.tsx",

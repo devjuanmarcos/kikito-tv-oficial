@@ -17,7 +17,7 @@
       "path": "lib/utils.ts",
       "type": "registry:lib",
       "target": "lib/utils.ts",
-      "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\nexport function absoluteUrl(path: string) {\n  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;\n}\n"
+      "content": "import { clsx, type ClassValue } from \"clsx\";\r\nimport { twMerge } from \"tailwind-merge\";\r\n\r\nexport function cn(...inputs: ClassValue[]) {\r\n  return twMerge(clsx(inputs));\r\n}\r\n\r\nexport function absoluteUrl(path: string) {\r\n  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;\r\n}\r\n"
     }
   ]
 }

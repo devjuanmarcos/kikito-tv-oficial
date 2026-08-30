@@ -17,19 +17,19 @@
       "path": "components/ui/cn/metric-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/metric-card/index.ts",
-      "content": "export { MetricCard } from \"./MetricCard\";\nexport type { MetricCardProps, MetricIntent, MetricTrend } from \"./metric-card.types\";\n"
+      "content": "export { MetricCard } from \"./MetricCard\";\r\nexport type { MetricCardProps, MetricIntent, MetricTrend } from \"./metric-card.types\";\r\n"
     },
     {
       "path": "components/ui/cn/metric-card/metric-card.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/metric-card/metric-card.types.ts",
-      "content": "import type { StatMetricProps, MetricIntent, MetricTrend } from \"@/components/ui/cn/stat/stat.types\";\n\nexport type { MetricIntent, MetricTrend };\nexport type MetricCardProps = Omit<StatMetricProps, \"mode\">;\n"
+      "content": "import type { StatMetricProps, MetricIntent, MetricTrend } from \"@/components/ui/cn/stat/stat.types\";\r\n\r\nexport type { MetricIntent, MetricTrend };\r\nexport type MetricCardProps = Omit<StatMetricProps, \"mode\">;\r\n"
     },
     {
       "path": "components/ui/cn/metric-card/MetricCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/metric-card/MetricCard.tsx",
-      "content": "\"use client\";\n/**\n * MetricCard — backward-compat wrapper.\n * Absorbed by the Stat Super component (`<Stat mode=\"metric\" />`). Kept so\n * existing imports of `MetricCard` keep working; new code should use Stat directly.\n */\nimport { Stat } from \"@/components/ui/cn/stat\";\n\nimport type { MetricCardProps } from \"./metric-card.types\";\n\nexport function MetricCard(props: MetricCardProps) {\n  return <Stat mode=\"metric\" {...props} />;\n}\n"
+      "content": "\"use client\";\r\n/**\r\n * MetricCard — backward-compat wrapper.\r\n * Absorbed by the Stat Super component (`<Stat mode=\"metric\" />`). Kept so\r\n * existing imports of `MetricCard` keep working; new code should use Stat directly.\r\n */\r\nimport { Stat } from \"@/components/ui/cn/stat\";\r\n\r\nimport type { MetricCardProps } from \"./metric-card.types\";\r\n\r\nexport function MetricCard(props: MetricCardProps) {\r\n  return <Stat mode=\"metric\" {...props} />;\r\n}\r\n"
     }
   ]
 }

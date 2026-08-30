@@ -17,13 +17,13 @@
       "path": "components/ui/cn/cn-usage-block/CnUsageBlock.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/cn-usage-block/CnUsageBlock.tsx",
-      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\nimport { generateUsage } from \"@/lib/cn-registry\";\nimport type { CnComponentMeta } from \"@/lib/cn-registry\";\nimport { COMPONENT_USAGE } from \"@/lib/cn-usage\";\n\ninterface CnUsageBlockProps {\n  meta: CnComponentMeta;\n}\n\nexport function CnUsageBlock({ meta }: CnUsageBlockProps) {\n  const code = generateUsage(meta, COMPONENT_USAGE);\n\n  return (\n    <div data-testid=\"cn-usage-block\">\n      <div className=\"mb-2\">\n        <span className=\"text-body-caption font-semibold text-foreground\">Exemplo de uso</span>\n      </div>\n      <KkCodeBlock code={code} lang=\"tsx\" filename={`${meta.title}Example.tsx`} showLineNumbers />\n    </div>\n  );\n}\n"
+      "content": "import { KkCodeBlock } from \"@/components/ui/kk-code-block\";\r\nimport { generateUsage } from \"@/lib/cn-registry\";\r\nimport type { CnComponentMeta } from \"@/lib/cn-registry\";\r\nimport { COMPONENT_USAGE } from \"@/lib/cn-usage\";\r\n\r\ninterface CnUsageBlockProps {\r\n  meta: CnComponentMeta;\r\n}\r\n\r\nexport function CnUsageBlock({ meta }: CnUsageBlockProps) {\r\n  const code = generateUsage(meta, COMPONENT_USAGE);\r\n\r\n  return (\r\n    <div data-testid=\"cn-usage-block\">\r\n      <div className=\"mb-2\">\r\n        <span className=\"text-body-caption font-semibold text-foreground\">Exemplo de uso</span>\r\n      </div>\r\n      <KkCodeBlock code={code} lang=\"tsx\" filename={`${meta.title}Example.tsx`} showLineNumbers />\r\n    </div>\r\n  );\r\n}\r\n"
     },
     {
       "path": "components/ui/cn/cn-usage-block/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/cn-usage-block/index.ts",
-      "content": "export { CnUsageBlock } from \"./CnUsageBlock\";\n"
+      "content": "export { CnUsageBlock } from \"./CnUsageBlock\";\r\n"
     }
   ]
 }

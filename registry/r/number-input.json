@@ -17,7 +17,7 @@
       "path": "components/ui/cn/number-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/number-input/index.ts",
-      "content": "export { NumberInput } from './NumberInput'\nexport type { NumberInputProps, NumberInputSize, NumberInputVariant } from './NumberInput'\n"
+      "content": "export { NumberInput } from './NumberInput'\r\nexport type { NumberInputProps, NumberInputSize, NumberInputVariant } from './NumberInput'\r\n"
     },
     {
       "path": "components/ui/cn/number-input/NumberInput.tsx",

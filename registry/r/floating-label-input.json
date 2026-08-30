@@ -23,7 +23,7 @@
       "path": "components/ui/cn/floating-label-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/floating-label-input/index.ts",
-      "content": "export { FloatingLabelInput } from './FloatingLabelInput'\nexport type { FloatingLabelInputProps, FloatingLabelVariant, FloatingLabelSize } from './FloatingLabelInput'\n"
+      "content": "export { FloatingLabelInput } from './FloatingLabelInput'\r\nexport type { FloatingLabelInputProps, FloatingLabelVariant, FloatingLabelSize } from './FloatingLabelInput'\r\n"
     }
   ]
 }
