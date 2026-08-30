@@ -51,8 +51,8 @@ export type RegistryIndex = z.infer<typeof RegistryIndexSchema>;
 
 const cache = new Map<string, unknown>();
 
-async function fetchJson<T>(url: string, schema: z.ZodType<T>): Promise<T> {
-  if (cache.has(url)) return cache.get(url) as T;
+async function fetchJson<S extends z.ZodTypeAny>(url: string, schema: S): Promise<z.infer<S>> {
+  if (cache.has(url)) return cache.get(url) as z.infer<S>;
 
   const res = await fetch(url, {
     headers: { "User-Agent": "kikitocn-cli/1.0" },
@@ -63,7 +63,7 @@ async function fetchJson<T>(url: string, schema: z.ZodType<T>): Promise<T> {
   }
 
   const json = await res.json();
-  const parsed = schema.parse(json);
+  const parsed: z.infer<S> = schema.parse(json);
   cache.set(url, parsed);
   return parsed;
 }
