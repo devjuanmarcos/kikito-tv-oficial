@@ -6,10 +6,18 @@
   "description": "Accessible modal dialog with portal.",
   "group": "overlays",
   "status": "live",
-  "dependencies": ["motion"],
-  "registryDependencies": ["button", "motion", "utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "button",
+    "motion",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/modal",
   "files": [

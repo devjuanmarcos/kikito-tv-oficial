@@ -7,9 +7,15 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["label", "textarea", "utils"],
+  "registryDependencies": [
+    "label",
+    "textarea",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/word-counter",
   "files": [

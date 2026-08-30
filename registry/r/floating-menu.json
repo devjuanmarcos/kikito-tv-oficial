@@ -7,9 +7,13 @@
   "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["dropdown-menu"],
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/floating-menu",
   "files": [

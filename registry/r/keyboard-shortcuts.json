@@ -7,9 +7,14 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["input", "utils"],
+  "registryDependencies": [
+    "input",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/keyboard-shortcuts",
   "files": [

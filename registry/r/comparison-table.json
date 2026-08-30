@@ -7,9 +7,15 @@
   "group": "data",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["badge", "tooltip", "utils"],
+  "registryDependencies": [
+    "badge",
+    "tooltip",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/comparison-table",
   "files": [

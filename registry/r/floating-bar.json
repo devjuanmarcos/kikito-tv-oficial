@@ -7,9 +7,14 @@
   "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button", "utils"],
+  "registryDependencies": [
+    "button",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/floating-bar",
   "files": [

@@ -7,9 +7,13 @@
   "group": "overlays",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["modal"],
+  "registryDependencies": [
+    "modal"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/drawer",
   "files": [

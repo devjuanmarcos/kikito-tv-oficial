@@ -6,10 +6,17 @@
   "description": "Status and label badges with variants and intents.",
   "group": "inputs",
   "status": "live",
-  "dependencies": ["motion"],
-  "registryDependencies": ["motion", "utils"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "motion",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/badge",
   "files": [

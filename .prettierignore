@@ -1,0 +1,6 @@
+# registry/ e 100% gerado por scripts/build-registry.mjs (npm run registry:build).
+# Prettier reformatava esses JSONs no pre-commit (colapsava arrays multi-linha),
+# divergindo do que o proprio script escreve com JSON.stringify(_, null, 2) —
+# cada commit seguinte gerava um diff cosmetico novo so pra desfazer isso.
+# Achado 2026-08-30 na auditoria de sincronia do registry.
+registry/
