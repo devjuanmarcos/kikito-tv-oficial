@@ -1,10 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { motion } from "motion/react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { buttonVariants, type ButtonProps } from "@/components/ui/button";
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
+import { cn } from "@/lib/utils";
 
 type FlipFrom = "top" | "bottom" | "left" | "right";
 
@@ -33,19 +34,7 @@ const getOffsets = (from: FlipFrom) => {
 
 const FlipButton = React.forwardRef<HTMLButtonElement, FlipButtonProps>(
   (
-    {
-      front,
-      back,
-      from = "top",
-      tapScale = 0.95,
-      variant,
-      size,
-      intent,
-      appearance,
-      className,
-      disabled,
-      ...props
-    },
+    { front, back, from = "top", tapScale = 0.95, variant, size, intent, appearance, className, disabled, ...props },
     ref
   ) => {
     const { initial, frontExit } = getOffsets(from);
@@ -54,16 +43,12 @@ const FlipButton = React.forwardRef<HTMLButtonElement, FlipButtonProps>(
     return (
       <motion.button
         ref={ref}
-        className={cn(
-          buttonVariants({ variant, size, intent, appearance }),
-          "relative overflow-hidden",
-          className
-        )}
+        className={cn(buttonVariants({ variant, size, intent, appearance }), "relative overflow-hidden", className)}
         initial="rest"
         whileHover="hover"
         whileTap={{ scale: tapScale }}
         disabled={disabled}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(props as MotionSafeProps<React.ButtonHTMLAttributes<HTMLButtonElement>>)}
       >
         {/* Front face */}
         <motion.span

@@ -1,11 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { buttonVariants, type ButtonProps } from "@/components/ui/button";
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
+import { cn } from "@/lib/utils";
 
 type RippleItem = { id: number; x: number; y: number };
 
@@ -54,21 +55,17 @@ const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProps>(
       : {
           whileHover: { scale: hoverScale },
           whileTap: { scale: tapScale },
-          transition: { type: "spring", stiffness: 400, damping: 17 },
+          transition: { type: "spring" as const, stiffness: 400, damping: 17 },
         };
 
     return (
       <motion.button
         ref={ref}
-        className={cn(
-          buttonVariants({ variant, size, intent, appearance }),
-          "relative overflow-hidden",
-          className
-        )}
+        className={cn(buttonVariants({ variant, size, intent, appearance }), "relative overflow-hidden", className)}
         {...motionProps}
         onClick={handleClick}
         disabled={loading || disabled}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(props as MotionSafeProps<React.ButtonHTMLAttributes<HTMLButtonElement>>)}
       >
         {loading ? (
           <>

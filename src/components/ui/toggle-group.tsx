@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import { type VariantProps } from "class-variance-authority";
 import { motion } from "motion/react";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { toggleVariants } from "@/components/ui/toggle";
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
+import { cn } from "@/lib/utils";
 
 const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({
   size: "default",
@@ -28,7 +29,8 @@ const MotionItem = motion(ToggleGroupPrimitive.Item);
 
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>
+  MotionSafeProps<React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>> &
+    VariantProps<typeof toggleVariants>
 >(({ className, children, variant, size, ...props }, ref) => {
   const context = React.useContext(ToggleGroupContext);
 

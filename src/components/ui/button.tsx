@@ -1,13 +1,23 @@
 "use client";
 
-import { Slot } from "@radix-ui/react-slot";
+import { Slot as SlotPrimitive } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
 import { motion } from "motion/react";
+import Link from "next/link";
 import * as React from "react";
 
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
 import { cn } from "@/lib/utils";
+
+/**
+ * Radix's Slot exports a fixed `HTMLAttributes<HTMLElement>` prop type (no `href`/`disabled`/etc)
+ * since it forwards to whatever child element `asChild` clones onto — this widens it so
+ * anchor/button-specific attributes type-check when spread through it.
+ */
+const Slot = SlotPrimitive as unknown as React.ForwardRefExoticComponent<
+  (React.AnchorHTMLAttributes<HTMLElement> | React.ButtonHTMLAttributes<HTMLElement>) & React.RefAttributes<HTMLElement>
+>;
 
 const intents = [
   "primary",
@@ -205,7 +215,7 @@ const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
           href={href}
           aria-disabled={loading || props["aria-disabled"]}
           tabIndex={loading ? -1 : props.tabIndex}
-          {...props}
+          {...(props as React.AnchorHTMLAttributes<HTMLElement>)}
         >
           {loading ? (
             <>
@@ -227,7 +237,7 @@ const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
       : {
           whileHover: { scale: hoverScale },
           whileTap: { scale: tapScale },
-          transition: { type: "spring", stiffness: 400, damping: 17 },
+          transition: { type: "spring" as const, stiffness: 400, damping: 17 },
         };
 
     return (
@@ -238,7 +248,7 @@ const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
         aria-disabled={loading || props["aria-disabled"]}
         tabIndex={loading ? -1 : props.tabIndex}
         {...motionProps}
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        {...(props as MotionSafeProps<React.AnchorHTMLAttributes<HTMLAnchorElement>>)}
       >
         {loading ? (
           <>
@@ -294,7 +304,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Slot
           className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
           ref={ref}
-          {...props}
+          {...(props as React.ButtonHTMLAttributes<HTMLElement>)}
           disabled={loading || props.disabled}
         >
           {loading ? (
@@ -317,7 +327,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       : {
           whileHover: { scale: hoverScale },
           whileTap: { scale: tapScale },
-          transition: { type: "spring", stiffness: 400, damping: 17 },
+          transition: { type: "spring" as const, stiffness: 400, damping: 17 },
         };
 
     return (
@@ -325,7 +335,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, intent, appearance, size, className }))}
         ref={ref}
         {...motionProps}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(props as MotionSafeProps<React.ButtonHTMLAttributes<HTMLButtonElement>>)}
         disabled={loading || props.disabled}
       >
         {loading ? (
