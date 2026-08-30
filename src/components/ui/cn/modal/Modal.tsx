@@ -126,7 +126,7 @@ function ModalDialog({
     };
   }, [open]);
 
-  useFocusTrap(panelRef, open, onClose, closeOnEscape);
+  useFocusTrap(panelRef, open ?? false, onClose, closeOnEscape);
 
   if (typeof document === "undefined") return null;
 
@@ -258,7 +258,7 @@ function ModalAlert({
 
   // Escape se comporta como Cancel (chama onCancel), nao so onClose — consistente com o
   // clique fora e com o botao Cancel.
-  useFocusTrap(panelRef, open, handleCancel, true);
+  useFocusTrap(panelRef, open ?? false, handleCancel, true);
 
   if (typeof document === "undefined") return null;
 
@@ -391,7 +391,7 @@ function ModalDrawer({
     };
   }, [open]);
 
-  useFocusTrap(drawerRef, open, onClose, closeOnEscape);
+  useFocusTrap(drawerRef, open ?? false, onClose, closeOnEscape);
 
   if (typeof document === "undefined") return null;
 

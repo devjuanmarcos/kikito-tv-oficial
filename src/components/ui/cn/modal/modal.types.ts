@@ -12,7 +12,13 @@ export type ModalVariant = "modal" | "alert" | "drawer" | "panel";
 export type ModalEntryDirection = "scale" | "top" | "bottom" | "left" | "right";
 
 export interface ModalProps {
-  open: boolean;
+  // variant="panel" e o unico que tem estado uncontrolled proprio (ModalPanel usa
+  // useState(defaultOpen) + `controlled = open !== undefined`) -- open opcional deixa
+  // SidePanel (wrapper fino sobre esta variante) omitir a prop de verdade em vez de
+  // forcar um boolean concreto que quebrava o toggle nao-controlado. Os outros variants
+  // (dialog/alert/drawer) tratam `open` ausente igual a false (`if (!open) return`),
+  // sem mudanca de comportamento pra quem ja passa um boolean explicito.
+  open?: boolean;
   onClose: () => void;
   title?: string;
   description?: string;

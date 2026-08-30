@@ -2497,8 +2497,12 @@ function SidePanelDemo() {
   return (
     <Frame label="Side Panel — collapsible split layout">
       <div className="w-full h-64 rounded-(--radius-md) overflow-hidden border border-rule">
+        {/* defaultOpen: sem isso o painel abre COLAPSADO (default real do componente é
+            false) -- quem visita a pagina via demo so via "Main Content" + uma seta
+            obscura, nao o layout dividido que o proprio label do Frame promete. */}
         <SidePanel
           panelWidth={180}
+          defaultOpen
           panel={
             <div className="p-4 flex flex-col gap-2 h-full">
               <p className="text-body-caption font-semibold text-muted uppercase tracking-wide">Navigation</p>
