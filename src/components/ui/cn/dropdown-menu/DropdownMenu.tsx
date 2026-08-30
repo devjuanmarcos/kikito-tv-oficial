@@ -109,7 +109,12 @@ function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.R
 }
 
 /* ── Click trigger (default dropdown) ────────────────────────────────────── */
-function ClickMenu({ items, placement = "bottom-start", header, children }: Omit<DropdownMenuProps, "trigger">) {
+function ClickMenu({
+  items,
+  placement = "bottom-start",
+  header,
+  children,
+}: Omit<DropdownMenuProps, "trigger" | "placement"> & { placement?: MenuPlacement }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [ready, setReady] = useState(false);
@@ -527,5 +532,7 @@ function HoverMenu({
 export function DropdownMenu({ trigger = "click", ...props }: DropdownMenuProps) {
   if (trigger === "contextmenu") return <ContextMenuImpl {...props} />;
   if (trigger === "hover") return <HoverMenu {...props} />;
-  return <ClickMenu {...props} />;
+  // trigger="click" (default) never uses the hover-only "left"/"right" placements —
+  // those only make sense for HoverMenu's flyout submenus.
+  return <ClickMenu {...props} placement={props.placement as MenuPlacement | undefined} />;
 }
