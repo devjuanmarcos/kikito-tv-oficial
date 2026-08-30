@@ -130,6 +130,7 @@ import { PasswordInput } from "@/components/ui/cn/password-input/PasswordInput";
 import { PasswordStrength } from "@/components/ui/cn/password-strength/PasswordStrength";
 import { PhoneInput } from "@/components/ui/cn/phone-input/PhoneInput";
 import { PieChart } from "@/components/ui/cn/pie-chart/PieChart";
+import type { PinNote } from "@/components/ui/cn/pin-board/pin-board.types";
 import { PinBoard } from "@/components/ui/cn/pin-board/PinBoard";
 import { Ping } from "@/components/ui/cn/ping/Ping";
 import { Popover } from "@/components/ui/cn/popover/Popover";
@@ -2291,7 +2292,7 @@ function SwipeCardDemo() {
 function PinBoardDemo() {
   // notes/onChange: modo controlado (consumidor guarda o array e recebe cada
   // mudança via onChange) — recém-implementado, precisa de demo pra exercitar
-  const [notes, setNotes] = useState([
+  const [notes, setNotes] = useState<PinNote[]>([
     { id: "a", content: "Controlado via `notes`", color: "#bfdbfe", x: 24, y: 24, rotate: -2 },
     { id: "b", content: "onChange atualiza o pai", color: "#fef08a", x: 180, y: 70, rotate: 1 },
   ]);
