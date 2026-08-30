@@ -1,6 +1,9 @@
 "use client";
 
 import type { EChartsOption } from "echarts";
+import { BarChart as EChartsBarChart } from "echarts/charts";
+import { GridComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
 import { useEffect, useState } from "react";
 
 import { EChartsContainer } from "@/lib/echarts";
@@ -8,6 +11,10 @@ import { resolveChartColor, resolveChartTheme } from "@/lib/echarts/chart-theme"
 import { cn } from "@/lib/utils";
 
 import type { BarChartItem, BarChartProps } from "./bar-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsBarChart, GridComponent]);
 
 interface BarOptionArgs {
   orientation: "vertical" | "horizontal";

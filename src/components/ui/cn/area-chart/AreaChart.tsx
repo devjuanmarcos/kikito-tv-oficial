@@ -1,11 +1,18 @@
 "use client";
 
 import type { EChartsOption } from "echarts";
+import { LineChart as EChartsLineChart } from "echarts/charts";
+import { GridComponent, TooltipComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
 
 import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
 import type { AreaChartDataPoint, AreaChartProps, AreaChartSeries } from "./area-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsLineChart, GridComponent, TooltipComponent]);
 
 const SERIES_COLORS = [
   "var(--ks-primary)",
@@ -47,7 +54,6 @@ export function buildAreaOption(
       axisLine: { show: false },
     },
     tooltip: { show: options.showTooltip, trigger: "axis" },
-    legend: { show: false },
     series: series.map((item, index) => {
       const color = resolveChartColor(
         item.color ?? SERIES_COLORS[index % SERIES_COLORS.length],
@@ -103,8 +109,9 @@ export function AreaChart({
           {series.map((item, index) => (
             <div key={item.key} className="flex items-center gap-(--spacing-xs)">
               <div
+                suppressHydrationWarning
                 className="w-2.5 h-2.5 rounded-full"
-                style={{ background: resolveChartColor(item.color ?? SERIES_COLORS[index % SERIES_COLORS.length]) }}
+                style={{ background: item.color ?? SERIES_COLORS[index % SERIES_COLORS.length] }}
               />
               <span className="text-body-caption text-muted">{item.label ?? item.key}</span>
             </div>

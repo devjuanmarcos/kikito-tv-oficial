@@ -1,11 +1,18 @@
 "use client";
 
 import type { EChartsOption } from "echarts";
+import { LineChart as EChartsLineChart } from "echarts/charts";
+import { GridComponent, TooltipComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
 
 import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
 import type { LineChartProps, LineChartSeries } from "./line-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsLineChart, GridComponent, TooltipComponent]);
 
 const DEFAULT_COLORS = ["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-success)", "var(--ks-danger)"];
 
@@ -37,7 +44,6 @@ export function buildLineOption(
       axisLine: { show: false },
     },
     tooltip: { trigger: "axis" },
-    legend: { show: false },
     series: series.map((item, index) => {
       const color = resolveChartColor(item.color ?? palette[index % palette.length], options.theme.tokenColors);
       return {
@@ -80,8 +86,9 @@ export function LineChart({
           {series.map((item, index) => (
             <div key={item.label} className="flex items-center gap-(--spacing-xs)">
               <div
+                suppressHydrationWarning
                 className="w-6 h-[2px] rounded-full"
-                style={{ background: resolveChartColor(item.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length]) }}
+                style={{ background: item.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length] }}
               />
               <span className="text-body-caption text-muted">{item.label}</span>
             </div>

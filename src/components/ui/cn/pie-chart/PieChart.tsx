@@ -1,10 +1,18 @@
 "use client";
 
+import { PieChart as EChartsPieChart } from "echarts/charts";
+import { TooltipComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
+
 import { EChartsContainer } from "@/lib/echarts";
 import { resolveChartColor, resolveChartTheme } from "@/lib/echarts/chart-theme";
 import { cn } from "@/lib/utils";
 
 import type { PieChartProps, PieSegment } from "./pie-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsPieChart, TooltipComponent]);
 
 const COLORS = [
   "var(--ks-primary)",

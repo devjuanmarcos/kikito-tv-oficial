@@ -1,11 +1,18 @@
 "use client";
 
 import type { EChartsOption } from "echarts";
+import { FunnelChart as EChartsFunnelChart } from "echarts/charts";
+import { TooltipComponent } from "echarts/components";
+import { use as useECharts } from "echarts/core";
 
 import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
 import type { FunnelChartProps, FunnelStage } from "./funnel-chart.types";
+
+// ECharts registration is global and idempotent; keep the chart module set local.
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useECharts([EChartsFunnelChart, TooltipComponent]);
 
 const STAGE_COLORS = [
   "var(--ks-primary)",
@@ -28,7 +35,6 @@ export function buildFunnelOption(
   return {
     animation: true,
     tooltip: { trigger: "item" },
-    legend: { show: false },
     series: [
       {
         type: "funnel",
