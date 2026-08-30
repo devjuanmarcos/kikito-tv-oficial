@@ -25,7 +25,6 @@ function SidebarGroup({
   icon,
   components,
   pathname,
-  query,
   defaultOpen,
 }: {
   groupId: string;
