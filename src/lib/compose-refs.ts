@@ -4,7 +4,12 @@
 
 import * as React from "react";
 
-type PossibleRef<T> = React.Ref<T> | undefined;
+// LegacyRef<T> (string | Ref<T>) is what `ComponentProps<"div">["ref"]` etc. actually carry
+// in current @types/react, for JSX.IntrinsicElements' historical string-ref support. React
+// itself never passes a string ref to a function component (string refs only ever worked on
+// class components), so the string branch below is unreachable in practice — accepted here
+// only so callers using an intrinsic element's `ref` prop type-check without an extra cast.
+type PossibleRef<T> = React.LegacyRef<T> | undefined;
 
 /**
  * Set a given ref to a given value
@@ -15,8 +20,15 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
     return ref(value);
   }
 
+  if (typeof ref === "string") {
+    return;
+  }
+
   if (ref !== null && ref !== undefined) {
-    ref.current = value;
+    // RefObject<T>.current is typed readonly (meant for React-managed DOM refs) — this
+    // utility's whole purpose is to write into whatever ref shape it's handed, callback
+    // or object, same escape hatch Radix's own upstream compose-refs uses.
+    (ref as React.MutableRefObject<T>).current = value;
   }
 }
 

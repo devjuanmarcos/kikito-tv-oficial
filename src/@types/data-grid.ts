@@ -65,7 +65,7 @@ declare module "@tanstack/react-table" {
   // biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
   interface TableMeta<TData extends RowData> {
     dataGridRef?: React.RefObject<HTMLElement | null>;
-    cellMapRef?: React.RefObject<Map<string, HTMLDivElement>>;
+    cellMapRef?: React.MutableRefObject<Map<string, HTMLDivElement>>;
     focusedCell?: CellPosition | null;
     editingCell?: CellPosition | null;
     selectionState?: SelectionState;
@@ -76,51 +76,24 @@ declare module "@tanstack/react-table" {
     getVisualRowIndex?: (rowId: string) => number | undefined;
     rowHeight?: RowHeightValue;
     onRowHeightChange?: (value: RowHeightValue) => void;
-    onRowSelect?: (
-      rowIndex: number,
-      checked: boolean,
-      shiftKey: boolean,
-    ) => void;
+    onRowSelect?: (rowIndex: number, checked: boolean, shiftKey: boolean) => void;
     onDataUpdate?: (params: CellUpdate | Array<CellUpdate>) => void;
     onRowsDelete?: (rowIndices: number[]) => void | Promise<void>;
     onColumnClick?: (columnId: string) => void;
-    onCellClick?: (
-      rowIndex: number,
-      columnId: string,
-      event?: React.MouseEvent,
-    ) => void;
+    onCellClick?: (rowIndex: number, columnId: string, event?: React.MouseEvent) => void;
     onCellDoubleClick?: (rowIndex: number, columnId: string) => void;
-    onCellMouseDown?: (
-      rowIndex: number,
-      columnId: string,
-      event: React.MouseEvent,
-    ) => void;
+    onCellMouseDown?: (rowIndex: number, columnId: string, event: React.MouseEvent) => void;
     onCellMouseEnter?: (rowIndex: number, columnId: string) => void;
     onCellMouseUp?: () => void;
-    onCellContextMenu?: (
-      rowIndex: number,
-      columnId: string,
-      event: React.MouseEvent,
-    ) => void;
+    onCellContextMenu?: (rowIndex: number, columnId: string, event: React.MouseEvent) => void;
     onCellEditingStart?: (rowIndex: number, columnId: string) => void;
-    onCellEditingStop?: (opts?: {
-      direction?: NavigationDirection;
-      moveToNextRow?: boolean;
-    }) => void;
+    onCellEditingStop?: (opts?: { direction?: NavigationDirection; moveToNextRow?: boolean }) => void;
     onCellsCopy?: () => void;
     onCellsCut?: () => void;
     onCellsPaste?: (expand?: boolean) => void;
     onSelectionClear?: () => void;
-    onFilesUpload?: (params: {
-      files: File[];
-      rowIndex: number;
-      columnId: string;
-    }) => Promise<FileCellData[]>;
-    onFilesDelete?: (params: {
-      fileIds: string[];
-      rowIndex: number;
-      columnId: string;
-    }) => void | Promise<void>;
+    onFilesUpload?: (params: { files: File[]; rowIndex: number; columnId: string }) => Promise<FileCellData[]>;
+    onFilesDelete?: (params: { fileIds: string[]; rowIndex: number; columnId: string }) => void | Promise<void>;
     contextMenu?: ContextMenuState;
     onContextMenuOpenChange?: (open: boolean) => void;
     pasteDialog?: PasteDialogState;
@@ -239,13 +212,7 @@ export type DateFilterOperator =
   | "isEmpty"
   | "isNotEmpty";
 
-export type SelectFilterOperator =
-  | "is"
-  | "isNot"
-  | "isAnyOf"
-  | "isNoneOf"
-  | "isEmpty"
-  | "isNotEmpty";
+export type SelectFilterOperator = "is" | "isNot" | "isAnyOf" | "isNoneOf" | "isEmpty" | "isNotEmpty";
 
 export type BooleanFilterOperator = "isTrue" | "isFalse";
 
