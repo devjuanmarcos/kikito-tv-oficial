@@ -18,6 +18,18 @@ import { useVirtualizer, type Virtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { toast } from "sonner";
 
+import type {
+  CellPosition,
+  CellUpdate,
+  ContextMenuState,
+  Direction,
+  FileCellData,
+  NavigationDirection,
+  PasteDialogState,
+  RowHeightValue,
+  SearchState,
+  SelectionState,
+} from "@/@types/data-grid";
 import { useAsRef } from "@/hooks/use-as-ref";
 import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
 import { useLazyRef } from "@/hooks/use-lazy-ref";
@@ -32,18 +44,6 @@ import {
   parseCellKey,
   scrollCellIntoView,
 } from "@/lib/data-grid";
-import type {
-  CellPosition,
-  CellUpdate,
-  ContextMenuState,
-  Direction,
-  FileCellData,
-  NavigationDirection,
-  PasteDialogState,
-  RowHeightValue,
-  SearchState,
-  SelectionState,
-} from "@/@types/data-grid";
 
 const DEFAULT_ROW_HEIGHT = "short";
 const OVERSCAN = 6;
@@ -125,8 +125,8 @@ function useDataGrid<TData>({
 }: UseDataGridProps<TData>) {
   const dir = useDirection(dirProp);
   const dataGridRef = React.useRef<HTMLDivElement>(null);
-  const tableRef = React.useRef<ReturnType<typeof useReactTable<TData>>>(null);
-  const rowVirtualizerRef = React.useRef<Virtualizer<HTMLDivElement, Element>>(null);
+  const tableRef = React.useRef<ReturnType<typeof useReactTable<TData>> | null>(null);
+  const rowVirtualizerRef = React.useRef<Virtualizer<HTMLDivElement, Element> | null>(null);
   const headerRef = React.useRef<HTMLDivElement>(null);
   const rowMapRef = React.useRef<Map<number, HTMLDivElement>>(new Map());
   const cellMapRef = React.useRef<Map<string, HTMLDivElement>>(new Map());
@@ -2569,18 +2569,18 @@ function useDataGrid<TData>({
 
           if (
             newColumnId !== selectionEdge.columnId &&
-            (direction === "left" || direction === "right" || direction === "home" || direction === "end")
+            (direction === "left" || direction === "right" || direction === "home" || direction === "end") &&
+            container &&
+            targetCell
           ) {
-            if (container && targetCell) {
-              scrollCellIntoView({
-                container,
-                targetCell,
-                tableRef,
-                viewportOffset: VIEWPORT_OFFSET,
-                direction,
-                isRtl,
-              });
-            }
+            scrollCellIntoView({
+              container,
+              targetCell,
+              tableRef,
+              viewportOffset: VIEWPORT_OFFSET,
+              direction,
+              isRtl,
+            });
           }
         } else {
           if (currentState.selectionState.selectedCells.size > 0) {
@@ -2708,24 +2708,28 @@ function useDataGrid<TData>({
     const currentState = store.getState();
     const autoFocus = propsRef.current.autoFocus;
 
-    if (autoFocus && data.length > 0 && columns.length > 0 && !currentState.focusedCell) {
-      if (navigableColumnIds.length > 0) {
-        const rafId = requestAnimationFrame(() => {
-          if (typeof autoFocus === "object") {
-            const { rowIndex, columnId } = autoFocus;
-            if (columnId) {
-              focusCell(rowIndex ?? 0, columnId);
-            }
-            return;
+    if (
+      autoFocus &&
+      data.length > 0 &&
+      columns.length > 0 &&
+      !currentState.focusedCell &&
+      navigableColumnIds.length > 0
+    ) {
+      const rafId = requestAnimationFrame(() => {
+        if (typeof autoFocus === "object") {
+          const { rowIndex, columnId } = autoFocus;
+          if (columnId) {
+            focusCell(rowIndex ?? 0, columnId);
           }
+          return;
+        }
 
-          const firstColumnId = navigableColumnIds[0];
-          if (firstColumnId) {
-            focusCell(0, firstColumnId);
-          }
-        });
-        return () => cancelAnimationFrame(rafId);
-      }
+        const firstColumnId = navigableColumnIds[0];
+        if (firstColumnId) {
+          focusCell(0, firstColumnId);
+        }
+      });
+      return () => cancelAnimationFrame(rafId);
     }
   }, [store, propsRef, data, columns, navigableColumnIds, focusCell]);
 
