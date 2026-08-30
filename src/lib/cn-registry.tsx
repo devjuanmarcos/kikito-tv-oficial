@@ -3235,9 +3235,27 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "line-chart",
     title: "Line Chart",
     group: "charts",
-    description: "ECharts multi-series line chart with area fill, dots, grid, legend and responsive width.",
+    description:
+      "ECharts multi-series line chart with area fill, dots, grid, legend, responsive width, a goal/average reference line and step interpolation.",
     filePath: "src/components/ui/cn/line-chart/LineChart.tsx",
     peerDeps: ["@/lib/utils", "@/lib/echarts"],
+    keywords: ["reference line", "linha de meta", "goal line", "average line", "step", "degrau", "interpolação"],
+    variants: [
+      {
+        prop: "referenceLine",
+        value: "{ value, label? }",
+        label: "Reference line",
+        status: "stable",
+        note: "Linha horizontal de meta/média com rótulo, desenhada via markLine nativo do ECharts. Origem: shadcndashboard, aprovado em docs/component-import/variant-intake/DECISIONS.md #9.",
+      },
+      {
+        prop: "step",
+        value: "'start' | 'middle' | 'end'",
+        label: "Step interpolation",
+        status: "stable",
+        note: "Interpolação em degrau nativa do ECharts (line series `step`) em vez de reta entre pontos — compartilhada com Area Chart. Origem: DECISIONS.md (interpolação step, item compartilhado).",
+      },
+    ],
     props: [
       {
         name: "series",
@@ -3280,6 +3298,18 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "true",
         description: "Exibe legenda das séries",
+      },
+      {
+        name: "referenceLine",
+        type: "{ value: number; label?: string; color?: string }",
+        default: "undefined",
+        description: "Linha horizontal de meta/média com rótulo (markLine nativo do ECharts)",
+      },
+      {
+        name: "step",
+        type: "'start' | 'middle' | 'end'",
+        default: "undefined",
+        description: "Interpolação em degrau em vez de reta entre pontos",
       },
     ],
   },
@@ -3364,9 +3394,20 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     name: "area-chart",
     title: "Area Chart",
     group: "charts",
-    description: "ECharts multi-series area chart with stacked mode, gradient, tooltip, grid and legend.",
+    description:
+      "ECharts multi-series area chart with stacked mode, gradient, tooltip, grid, legend and step interpolation.",
     filePath: "src/components/ui/cn/area-chart/AreaChart.tsx",
     peerDeps: ["@/lib/utils", "@/lib/echarts"],
+    keywords: ["step", "degrau", "interpolação"],
+    variants: [
+      {
+        prop: "step",
+        value: "'start' | 'middle' | 'end'",
+        label: "Step interpolation",
+        status: "stable",
+        note: "Interpolação em degrau nativa do ECharts (line series `step`) em vez de reta entre pontos — compartilhada com Line Chart.",
+      },
+    ],
     props: [
       {
         name: "data",
@@ -3415,6 +3456,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         type: "boolean",
         default: "true",
         description: "Aplica gradiente vertical nas áreas",
+      },
+      {
+        name: "step",
+        type: "'start' | 'middle' | 'end'",
+        default: "undefined",
+        description: "Interpolação em degrau em vez de reta entre pontos",
       },
     ],
   },

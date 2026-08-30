@@ -53,6 +53,36 @@ test.describe("Chart family (CN) — a11y", () => {
   });
 });
 
+test.describe("Line Chart (CN) — reference line + step", () => {
+  test.setTimeout(120_000);
+  test.beforeEach(async ({ page }) => {
+    await page.goto(ROUTES["line-chart"]);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("main")).toBeVisible({ timeout: 120_000 });
+  });
+
+  test("prop referenceLine renderiza o rotulo da linha de meta (markLine do ECharts)", async ({ page }) => {
+    const section = page.locator('text="Reference line"').locator("..");
+    await expect(section.getByText("Meta: 60")).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('prop step="middle" nao quebra o grafico (interpolacao em degrau)', async ({ page }) => {
+    const section = page.locator('text="Step interpolation"').locator("..");
+    await expect(section.locator('[role="img"][aria-label]')).toBeAttached();
+  });
+});
+
+test.describe("Area Chart (CN) — step", () => {
+  test.setTimeout(120_000);
+  test('prop step="start" nao quebra o grafico (interpolacao em degrau)', async ({ page }) => {
+    await page.goto(ROUTES["area-chart"]);
+    await page.waitForLoadState("domcontentloaded");
+    await expect(page.locator("main")).toBeVisible({ timeout: 120_000 });
+    const section = page.locator('text="Step interpolation"').locator("..");
+    await expect(section.locator('[role="img"][aria-label]')).toBeAttached();
+  });
+});
+
 test.describe("Chart family (CN) — dark mode", () => {
   test("página não quebra ao alternar", async ({ page }) => {
     await page.goto(ROUTES.chart);

@@ -26,7 +26,10 @@ const SERIES_COLORS = [
 export function buildAreaOption(
   data: AreaChartDataPoint[],
   series: AreaChartSeries[],
-  options: Pick<AreaChartProps, "showGrid" | "showDots" | "showTooltip" | "stacked" | "gradient" | "height"> & {
+  options: Pick<
+    AreaChartProps,
+    "showGrid" | "showDots" | "showTooltip" | "stacked" | "gradient" | "height" | "step"
+  > & {
     theme: ChartTheme;
   }
 ): EChartsOption {
@@ -70,6 +73,7 @@ export function buildAreaOption(
         lineStyle: { color, width: 2, join: "round", cap: "round" },
         itemStyle: { color, borderColor: options.theme.surfaceColor, borderWidth: 1.5 },
         areaStyle: { color, opacity: options.gradient ? 1 : 0.15 },
+        step: options.step,
       };
     }),
   };
@@ -85,6 +89,7 @@ export function AreaChart({
   showTooltip = true,
   stacked = false,
   gradient = true,
+  step,
   className,
   style,
 }: AreaChartProps) {
@@ -95,6 +100,7 @@ export function AreaChart({
     stacked,
     gradient,
     height,
+    step,
     theme: resolveChartTheme(),
   });
   return (

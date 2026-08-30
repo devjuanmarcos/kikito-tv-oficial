@@ -98,4 +98,48 @@ describe("buildLineOption", () => {
       })
     );
   });
+
+  it("attaches a markLine reference line to the first series and applies step interpolation", () => {
+    const option = buildLineOption(
+      [
+        { label: "A", data: [1, 2], color: "#123456" },
+        { label: "B", data: [3, 4], color: "#654321" },
+      ],
+      undefined,
+      {
+        showArea: false,
+        showDots: false,
+        showGrid: false,
+        referenceLine: { value: 5, label: "Meta: 5" },
+        step: "middle",
+        theme,
+      }
+    );
+
+    const series = getSeries(option);
+    expect(series[0]).toEqual(
+      expect.objectContaining({
+        step: "middle",
+        markLine: expect.objectContaining({
+          silent: true,
+          symbol: "none",
+          data: [{ yAxis: 5 }],
+          label: expect.objectContaining({ show: true, formatter: "Meta: 5" }),
+        }),
+      })
+    );
+    // markLine so vai na primeira serie, pra nao duplicar a linha no grafico
+    expect(series[1].markLine).toBeUndefined();
+    expect(series[1].step).toBe("middle");
+  });
+
+  it("omits the reference line when none is provided", () => {
+    const option = buildLineOption([{ label: "A", data: [1, 2] }], undefined, {
+      showArea: false,
+      showDots: false,
+      showGrid: false,
+      theme,
+    });
+    expect(getSeries(option)[0].markLine).toBeUndefined();
+  });
 });

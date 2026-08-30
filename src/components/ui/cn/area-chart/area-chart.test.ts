@@ -96,4 +96,18 @@ describe("buildAreaOption", () => {
       }),
     ]);
   });
+
+  it("applies step interpolation to every series", () => {
+    const option = buildAreaOption([{ label: "A", one: 3 }], [{ key: "one" }], {
+      showGrid: true,
+      showDots: true,
+      showTooltip: true,
+      stacked: false,
+      gradient: true,
+      height: 240,
+      step: "start",
+      theme,
+    });
+    expect(getSeries(option)[0]).toEqual(expect.objectContaining({ step: "start" }));
+  });
 });

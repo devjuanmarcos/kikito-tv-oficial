@@ -1190,10 +1190,25 @@ function LineChartDemo() {
     { label: "Costs", data: [20, 28, 35, 40, 38, 50, 42], color: "var(--ks-danger)" },
   ];
   const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const stepSeries = [{ label: "Signups", data: [10, 10, 24, 24, 24, 40, 40] }];
   return (
-    <Frame label="Line Chart — multi-series with area fill and legend">
-      <LineChart series={series} labels={labels} height={220} />
-    </Frame>
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Line Chart — multi-series with area fill and legend">
+          <LineChart series={series} labels={labels} height={220} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Reference line">
+        <Frame label="prop referenceLine — linha horizontal de meta/media com rotulo">
+          <LineChart series={series} labels={labels} height={220} referenceLine={{ value: 60, label: "Meta: 60" }} />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Step interpolation">
+        <Frame label='prop step="middle" — degrau nativo do ECharts em vez de reta entre pontos'>
+          <LineChart series={stepSeries} labels={labels} height={220} step="middle" showArea={false} />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 
@@ -1244,10 +1259,33 @@ function AreaChartDemo() {
     { key: "users", label: "Users" },
     { key: "sessions", label: "Sessions" },
   ];
+  const stepData = [
+    { label: "Jan", tier: 10 },
+    { label: "Feb", tier: 10 },
+    { label: "Mar", tier: 25 },
+    { label: "Apr", tier: 25 },
+    { label: "May", tier: 40 },
+    { label: "Jun", tier: 40 },
+  ];
   return (
-    <Frame label="Area Chart — gradient fills with hover tooltip">
-      <AreaChart data={data} series={series} height={240} showTooltip showLegend />
-    </Frame>
+    <div className="flex flex-col">
+      <ShowcaseSection title="Default">
+        <Frame label="Area Chart — gradient fills with hover tooltip">
+          <AreaChart data={data} series={series} height={240} showTooltip showLegend />
+        </Frame>
+      </ShowcaseSection>
+      <ShowcaseSection title="Step interpolation">
+        <Frame label='prop step="start" — degrau nativo do ECharts em vez de reta entre pontos'>
+          <AreaChart
+            data={stepData}
+            series={[{ key: "tier", label: "Tier" }]}
+            height={240}
+            step="start"
+            gradient={false}
+          />
+        </Frame>
+      </ShowcaseSection>
+    </div>
   );
 }
 

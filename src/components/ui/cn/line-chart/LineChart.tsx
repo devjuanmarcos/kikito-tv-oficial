@@ -1,25 +1,27 @@
 "use client";
 
-import type { EChartsOption } from "echarts";
+import type { EChartsOption, MarkLineComponentOption } from "echarts";
 import { LineChart as EChartsLineChart } from "echarts/charts";
-import { GridComponent, TooltipComponent } from "echarts/components";
+import { GridComponent, MarkLineComponent, TooltipComponent } from "echarts/components";
 import { use as useECharts } from "echarts/core";
 
 import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
-import type { LineChartProps, LineChartSeries } from "./line-chart.types";
+import type { LineChartProps, LineChartReferenceLine, LineChartSeries } from "./line-chart.types";
 
 // ECharts registration is global and idempotent; keep the chart module set local.
 // eslint-disable-next-line react-hooks/rules-of-hooks
-useECharts([EChartsLineChart, GridComponent, TooltipComponent]);
+useECharts([EChartsLineChart, GridComponent, TooltipComponent, MarkLineComponent]);
 
 const DEFAULT_COLORS = ["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-success)", "var(--ks-danger)"];
 
 export function buildLineOption(
   series: LineChartSeries[],
   labels: string[] | undefined,
-  options: Pick<LineChartProps, "showArea" | "showDots" | "showGrid"> & { theme: ChartTheme }
+  options: Pick<LineChartProps, "showArea" | "showDots" | "showGrid" | "referenceLine" | "step"> & {
+    theme: ChartTheme;
+  }
 ): EChartsOption {
   const categories = labels ?? series[0]?.data.map((_, index) => String(index)) ?? [];
   const values = series.flatMap((item) => item.data);
@@ -56,8 +58,32 @@ export function buildLineOption(
         lineStyle: { color, width: 2, join: "round" },
         itemStyle: { color },
         areaStyle: options.showArea ? { color, opacity: 0.12 } : undefined,
+        step: options.step,
+        markLine: index === 0 ? buildReferenceMarkLine(options.referenceLine, options.theme) : undefined,
       };
     }),
+  };
+}
+
+/** markLine nativo do ECharts pra desenhar a linha de meta/media com rotulo. */
+function buildReferenceMarkLine(
+  referenceLine: LineChartReferenceLine | undefined,
+  theme: ChartTheme
+): MarkLineComponentOption | undefined {
+  if (!referenceLine) return undefined;
+  const color = referenceLine.color ? resolveChartColor(referenceLine.color, theme.tokenColors) : theme.mutedTextColor;
+  return {
+    silent: true,
+    symbol: "none",
+    lineStyle: { color, type: "dashed", width: 1.5 },
+    label: {
+      show: !!referenceLine.label,
+      formatter: referenceLine.label ?? "",
+      position: "end",
+      color,
+      fontSize: 10,
+    },
+    data: [{ yAxis: referenceLine.value }],
   };
 }
 
@@ -70,10 +96,19 @@ export function LineChart({
   showDots = true,
   showGrid = true,
   showLegend = true,
+  referenceLine,
+  step,
   className,
   style,
 }: LineChartProps) {
-  const option = buildLineOption(series, labels, { showArea, showDots, showGrid, theme: resolveChartTheme() });
+  const option = buildLineOption(series, labels, {
+    showArea,
+    showDots,
+    showGrid,
+    referenceLine,
+    step,
+    theme: resolveChartTheme(),
+  });
   return (
     <div className={cn(className)} style={{ ...style, width }}>
       <EChartsContainer
