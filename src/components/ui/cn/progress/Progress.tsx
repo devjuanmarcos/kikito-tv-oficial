@@ -12,6 +12,7 @@ import type {
   ProgressRingShapeProps,
   ProgressGaugeShapeProps,
   ProgressSkillListProps,
+  ProgressFakeProps,
 } from "./progress.types";
 
 const SIZE_H: Record<ProgressSize, string> = {
@@ -346,14 +347,77 @@ function ProgressSkillList({
   );
 }
 
+/* ── "Loading fake" — auto-incrementa com jitter, nunca fecha sozinho ───── */
+function ProgressFake({
+  messages,
+  duration = 4000,
+  ceiling = 92,
+  intent = "primary",
+  size = "md",
+  showValue = false,
+  className,
+  style,
+}: ProgressFakeProps) {
+  const [pct, setPct] = useState(0);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    function tick() {
+      setPct((p) => {
+        if (p >= ceiling) return p;
+        // jitter: passo proporcional ao que falta (curva desacelerando), com variação
+        // aleatória — nunca uma reta perfeita, mesma sensação de "loading fake" real
+        const remaining = ceiling - p;
+        const step = Math.max(0.5, remaining * 0.08) * (0.5 + Math.random());
+        return Math.min(ceiling, p + step);
+      });
+      timer = setTimeout(tick, duration / 40);
+    }
+    timer = setTimeout(tick, duration / 40);
+    return () => clearTimeout(timer);
+  }, [ceiling, duration]);
+
+  const message =
+    messages && messages.length > 0
+      ? messages[Math.min(messages.length - 1, Math.floor((pct / ceiling) * messages.length))]
+      : undefined;
+
+  return (
+    <div className={cn("flex flex-col gap-(--spacing-2xs)", className)} style={style}>
+      {message && (
+        <div className="flex items-center justify-between gap-(--spacing-sm)">
+          <span className="text-body-callout font-medium text-foreground">{message}</span>
+          {showValue && <span className="text-body-callout text-faint tabular-nums shrink-0">{Math.round(pct)}%</span>}
+        </div>
+      )}
+      <div
+        role="progressbar"
+        aria-valuenow={Math.round(pct)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={message}
+        className={cn("relative w-full rounded-full bg-graphite-2 overflow-hidden", SIZE_H[size])}
+      >
+        <div
+          className={cn("h-full rounded-full transition-[width] duration-[300ms] ease-out", INTENT_FILL[intent])}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
 /**
  * Progress — Super component.
  * `shape` (default 'bar') selects linear bar vs 'ring' (circular) vs 'gauge' (arc).
  * `mode='skill-list'` renders an array of labelled bars.
+ * `mode='fake'` renders a self-driven "loading fake" bar (auto-increment + jitter +
+ * rotating status messages) that never completes on its own.
  * Absorbs the former ProgressRing, Gauge and SkillBar (now backward-compat wrappers).
  */
 export function Progress(props: ProgressProps) {
   if ("mode" in props && props.mode === "skill-list") return <ProgressSkillList {...props} />;
+  if ("mode" in props && props.mode === "fake") return <ProgressFake {...props} />;
   if (props.shape === "ring") return <ProgressRingShape {...props} />;
   if (props.shape === "gauge") return <ProgressGaugeShape {...props} />;
   return <ProgressBar {...(props as ProgressBarProps)} />;

@@ -7068,6 +7068,17 @@ function ProgressDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Loading fake">
+        <Frame label='mode="fake" — auto-incrementa com jitter, nunca fecha sozinho' align="start">
+          <div className="w-full max-w-md">
+            <Progress
+              mode="fake"
+              showValue
+              messages={["Preparando upload…", "Enviando arquivo…", "Processando…", "Quase lá…"]}
+            />
+          </div>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }

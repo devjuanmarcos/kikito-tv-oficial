@@ -34,7 +34,7 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 - [x] `dropdown-menu` — prop `header`
 - [x] `code-block` — abas por arquivo
 - [ ] `line-chart` — ReferenceLine
-- [ ] `progress` — modo indeterminate
+- [x] `progress` — modo indeterminate
 - [ ] `area-chart`/`line-chart` — interpolação step (compartilhada)
 
 Progresso registrado marcando `[x]` conforme cada item fecha (commit + verificação).

@@ -6709,11 +6709,22 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     title: "Progress",
     group: "feedback",
     description:
-      "Progress indicator with 5 intents, 4 sizes, animated fill, label and bar/ring/gauge/skill-list shapes.",
+      "Progress indicator with 5 intents, 4 sizes, animated fill, label, bar/ring/gauge/skill-list shapes and a self-driven loading-fake mode.",
     filePath: "src/components/ui/cn/progress/Progress.tsx",
     peerDeps: ["@/lib/utils"],
     absorbs: ["progress-ring", "gauge", "skill-bar"],
-    keywords: ["progress ring", "progress-ring", "circular", "gauge", "skill bar", "skill-bar", "radial"],
+    keywords: [
+      "progress ring",
+      "progress-ring",
+      "circular",
+      "gauge",
+      "skill bar",
+      "skill-bar",
+      "radial",
+      "fake progress",
+      "loading fake",
+      "simulated",
+    ],
     variants: [
       {
         prop: "shape",
@@ -6739,6 +6750,14 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         note: "Lista de barras de habilidade — absorvido pelo Super (ex-SkillBar).",
         aliases: ["skill bar", "skill-bar", "skills"],
       },
+      {
+        prop: "mode",
+        value: "fake",
+        label: "Loading fake",
+        status: "stable",
+        note: "Progresso auto-incrementando com jitter (nunca fecha sozinho, sobe até `ceiling`) e mensagens de status rotativas. Origem: shadcndashboard, aprovado em docs/component-import/variant-intake/DECISIONS.md #10.",
+        aliases: ["fake progress", "loading fake", "simulated progress"],
+      },
     ],
     props: [
       {
@@ -6749,9 +6768,28 @@ export const CN_REGISTRY: CnComponentMeta[] = [
       },
       {
         name: "mode",
-        type: "'single' | 'skill-list'",
+        type: "'single' | 'skill-list' | 'fake'",
         default: "'single'",
-        description: "'skill-list' renderiza um array de barras rotuladas (absorve SkillBar)",
+        description:
+          "'skill-list' renderiza um array de barras rotuladas (absorve SkillBar); 'fake' roda auto-incremento com jitter",
+      },
+      {
+        name: "messages",
+        type: "string[]",
+        default: "undefined",
+        description: "mode='fake': mensagens de status rotativas, uma por faixa de progresso",
+      },
+      {
+        name: "duration",
+        type: "number",
+        default: "4000",
+        description: "mode='fake': tempo aproximado (ms) até estabilizar perto de `ceiling`",
+      },
+      {
+        name: "ceiling",
+        type: "number",
+        default: "92",
+        description: "mode='fake': teto máximo (0-100) que o auto-incremento atinge sozinho",
       },
       {
         name: "skills",

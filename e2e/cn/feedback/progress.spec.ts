@@ -60,6 +60,24 @@ test.describe("Progress (CN) — a11y", () => {
   });
 });
 
+test.describe("Progress (CN) — mode=fake", () => {
+  test("auto-incrementa sozinho e mostra mensagem de status", async ({ page }) => {
+    await page.goto(ROUTES.bar);
+    await page.waitForLoadState("networkidle");
+    const frame = page.locator('text="Loading fake"').locator("..");
+    const bar = frame.getByRole("progressbar");
+    await expect(bar).toBeAttached();
+
+    const initial = Number(await bar.getAttribute("aria-valuenow"));
+    await expect(frame.getByText(/Preparando upload|Enviando arquivo|Processando|Quase lá/)).toBeVisible();
+
+    // espera o auto-incremento avançar (jitter, mas garantidamente > initial em ~2s)
+    await expect
+      .poll(async () => Number(await bar.getAttribute("aria-valuenow")), { timeout: 5000 })
+      .toBeGreaterThan(initial);
+  });
+});
+
 test.describe("Progress (CN) — dark mode", () => {
   test("pagina nao quebra ao alternar", async ({ page }) => {
     await page.goto(ROUTES.bar);

@@ -75,8 +75,31 @@ export interface ProgressSkillListProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * "Loading fake" — progresso auto-incrementando com jitter, nunca chega a 100%
+ * sozinho (o chamador decide quando a operação real terminou). Mensagens de
+ * status trocam conforme a faixa de progresso avança. Origem: shadcndashboard,
+ * aprovado em docs/component-import/variant-intake/DECISIONS.md #10.
+ */
+export interface ProgressFakeProps {
+  mode: "fake";
+  shape?: "bar";
+  /** Mensagens de status rotativas — uma por faixa igual de progresso. */
+  messages?: string[];
+  /** Tempo aproximado (ms) até estabilizar perto do teto. @default 4000 */
+  duration?: number;
+  /** Teto máximo que o auto-incremento atinge sozinho (0-100). @default 92 */
+  ceiling?: number;
+  intent?: ProgressIntent;
+  size?: ProgressSize;
+  showValue?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
 export type ProgressProps =
   | ProgressBarProps
   | ProgressRingShapeProps
   | ProgressGaugeShapeProps
-  | ProgressSkillListProps;
+  | ProgressSkillListProps
+  | ProgressFakeProps;
