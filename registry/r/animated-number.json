@@ -9,7 +9,9 @@
   "dependencies": [],
   "registryDependencies": [],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/animated-number",
   "files": [

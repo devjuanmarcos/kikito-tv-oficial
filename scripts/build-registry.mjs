@@ -202,7 +202,15 @@ function buildLib(name, { title, description, sourceDir, sourceFile }) {
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 function main() {
-  // Ensure output dirs exist
+  // Limpa registry/r/ antes de reconstruir: o script nunca apagava arquivos
+  // órfãos — um componente removido de CN_DIR ou movido pra SKIP_COMPONENTS
+  // (ex: cn-install-block, cn-props-table, cn-source-block, cn-usage-block)
+  // ficava com seu .json morto em registry/r/ pra sempre, mesmo não constando
+  // mais em registry.json. Achado na auditoria de organização da sidebar,
+  // 2026-08-30.
+  if (fs.existsSync(path.join(OUT_DIR, "r"))) {
+    fs.rmSync(path.join(OUT_DIR, "r"), { recursive: true, force: true });
+  }
   fs.mkdirSync(path.join(OUT_DIR, "r"), { recursive: true });
   fs.mkdirSync(path.join(OUT_DIR, "tokens"), { recursive: true });
 

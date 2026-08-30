@@ -7,9 +7,13 @@
   "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/separator",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/separator/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/separator/index.ts",
-      "content": "export { Separator } from \"./Separator\";\r\nexport type {\r\n  SeparatorProps,\r\n  SeparatorOrientation,\r\n  SeparatorVariant,\r\n  SeparatorSpacing,\r\n  SeparatorLabelAlign,\r\n} from \"./separator.types\";\r\n"
+      "content": "export { Separator } from \"./Separator\";\nexport type {\n  SeparatorProps,\n  SeparatorOrientation,\n  SeparatorVariant,\n  SeparatorSpacing,\n  SeparatorLabelAlign,\n} from \"./separator.types\";\n"
     },
     {
       "path": "components/ui/cn/separator/Separator.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/separator/Separator.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\r\n\r\nimport type { SeparatorProps, SeparatorSpacing, SeparatorVariant } from \"./separator.types\";\r\n\r\nconst SPACING_H: Record<SeparatorSpacing, string> = {\r\n  xs: \"my-(--spacing-2xs)\",\r\n  sm: \"my-(--spacing-sm)\",\r\n  md: \"my-(--spacing-lg)\",\r\n  lg: \"my-(--spacing-xl)\",\r\n  xl: \"my-(--spacing-2xl)\",\r\n};\r\nconst SPACING_V: Record<SeparatorSpacing, string> = {\r\n  xs: \"mx-(--spacing-2xs)\",\r\n  sm: \"mx-(--spacing-sm)\",\r\n  md: \"mx-(--spacing-lg)\",\r\n  lg: \"mx-(--spacing-xl)\",\r\n  xl: \"mx-(--spacing-2xl)\",\r\n};\r\nconst BORDER_STYLE: Record<SeparatorVariant, string> = {\r\n  solid: \"border-rule\",\r\n  dashed: \"border-rule border-dashed\",\r\n  dotted: \"border-rule border-dotted\",\r\n};\r\n\r\nexport function Separator({\r\n  orientation = \"horizontal\",\r\n  variant = \"solid\",\r\n  label,\r\n  labelAlign = \"center\",\r\n  spacing,\r\n  decorative = true,\r\n  className,\r\n  style,\r\n}: SeparatorProps) {\r\n  const role = decorative ? \"none\" : \"separator\";\r\n\r\n  if (orientation === \"vertical\") {\r\n    return (\r\n      <span\r\n        role={role}\r\n        aria-orientation=\"vertical\"\r\n        className={cn(\r\n          \"inline-block self-stretch border-l\",\r\n          BORDER_STYLE[variant],\r\n          spacing && SPACING_V[spacing],\r\n          className\r\n        )}\r\n        style={style}\r\n      />\r\n    );\r\n  }\r\n\r\n  if (label) {\r\n    // alinhamento já é resolvido pelos dois spans flex-1 abaixo (o lado omitido empurra o\r\n    // label pra ponta oposta) — não precisa de justify-content, os itens flex-1 absorvem\r\n    // todo o espaço livre de qualquer forma\r\n    return (\r\n      <div\r\n        role={role}\r\n        className={cn(\"flex items-center gap-(--spacing-md)\", spacing && SPACING_H[spacing], className)}\r\n        style={style}\r\n      >\r\n        {labelAlign !== \"start\" && <span className={cn(\"flex-1 border-t\", BORDER_STYLE[variant])} />}\r\n        <span className=\"text-body-caption text-faint shrink-0 whitespace-nowrap\">{label}</span>\r\n        {labelAlign !== \"end\" && <span className={cn(\"flex-1 border-t\", BORDER_STYLE[variant])} />}\r\n      </div>\r\n    );\r\n  }\r\n\r\n  return (\r\n    <hr\r\n      role={role}\r\n      className={cn(\"border-t border-0\", BORDER_STYLE[variant], spacing && SPACING_H[spacing], className)}\r\n      style={style}\r\n    />\r\n  );\r\n}\r\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { SeparatorProps, SeparatorSpacing, SeparatorVariant } from \"./separator.types\";\n\nconst SPACING_H: Record<SeparatorSpacing, string> = {\n  xs: \"my-(--spacing-2xs)\",\n  sm: \"my-(--spacing-sm)\",\n  md: \"my-(--spacing-lg)\",\n  lg: \"my-(--spacing-xl)\",\n  xl: \"my-(--spacing-2xl)\",\n};\nconst SPACING_V: Record<SeparatorSpacing, string> = {\n  xs: \"mx-(--spacing-2xs)\",\n  sm: \"mx-(--spacing-sm)\",\n  md: \"mx-(--spacing-lg)\",\n  lg: \"mx-(--spacing-xl)\",\n  xl: \"mx-(--spacing-2xl)\",\n};\nconst BORDER_STYLE: Record<SeparatorVariant, string> = {\n  solid: \"border-rule\",\n  dashed: \"border-rule border-dashed\",\n  dotted: \"border-rule border-dotted\",\n};\n\nexport function Separator({\n  orientation = \"horizontal\",\n  variant = \"solid\",\n  label,\n  labelAlign = \"center\",\n  spacing,\n  decorative = true,\n  className,\n  style,\n}: SeparatorProps) {\n  const role = decorative ? \"none\" : \"separator\";\n\n  if (orientation === \"vertical\") {\n    return (\n      <span\n        role={role}\n        aria-orientation=\"vertical\"\n        className={cn(\n          \"inline-block self-stretch border-l\",\n          BORDER_STYLE[variant],\n          spacing && SPACING_V[spacing],\n          className\n        )}\n        style={style}\n      />\n    );\n  }\n\n  if (label) {\n    // alinhamento já é resolvido pelos dois spans flex-1 abaixo (o lado omitido empurra o\n    // label pra ponta oposta) — não precisa de justify-content, os itens flex-1 absorvem\n    // todo o espaço livre de qualquer forma\n    return (\n      <div\n        role={role}\n        className={cn(\"flex items-center gap-(--spacing-md)\", spacing && SPACING_H[spacing], className)}\n        style={style}\n      >\n        {labelAlign !== \"start\" && <span className={cn(\"flex-1 border-t\", BORDER_STYLE[variant])} />}\n        <span className=\"text-body-caption text-faint shrink-0 whitespace-nowrap\">{label}</span>\n        {labelAlign !== \"end\" && <span className={cn(\"flex-1 border-t\", BORDER_STYLE[variant])} />}\n      </div>\n    );\n  }\n\n  return (\n    <hr\n      role={role}\n      className={cn(\"border-t border-0\", BORDER_STYLE[variant], spacing && SPACING_H[spacing], className)}\n      style={style}\n    />\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/separator/separator.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/separator/separator.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport type SeparatorOrientation = \"horizontal\" | \"vertical\";\r\nexport type SeparatorVariant = \"solid\" | \"dashed\" | \"dotted\";\r\nexport type SeparatorSpacing = \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\";\r\nexport type SeparatorLabelAlign = \"start\" | \"center\" | \"end\";\r\n\r\nexport interface SeparatorProps {\r\n  orientation?: SeparatorOrientation;\r\n  variant?: SeparatorVariant;\r\n  label?: React.ReactNode;\r\n  labelAlign?: SeparatorLabelAlign;\r\n  spacing?: SeparatorSpacing;\r\n  decorative?: boolean;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport type SeparatorOrientation = \"horizontal\" | \"vertical\";\nexport type SeparatorVariant = \"solid\" | \"dashed\" | \"dotted\";\nexport type SeparatorSpacing = \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\";\nexport type SeparatorLabelAlign = \"start\" | \"center\" | \"end\";\n\nexport interface SeparatorProps {\n  orientation?: SeparatorOrientation;\n  variant?: SeparatorVariant;\n  label?: React.ReactNode;\n  labelAlign?: SeparatorLabelAlign;\n  spacing?: SeparatorSpacing;\n  decorative?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     }
   ]
 }

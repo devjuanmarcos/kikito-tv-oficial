@@ -7,9 +7,13 @@
   "group": "data",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["table"],
+  "registryDependencies": [
+    "table"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/tree-table",
   "files": [

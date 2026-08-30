@@ -7,9 +7,13 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["input"],
+  "registryDependencies": [
+    "input"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/floating-label-input",
   "files": [
@@ -23,7 +27,7 @@
       "path": "components/ui/cn/floating-label-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/floating-label-input/index.ts",
-      "content": "export { FloatingLabelInput } from './FloatingLabelInput'\r\nexport type { FloatingLabelInputProps, FloatingLabelVariant, FloatingLabelSize } from './FloatingLabelInput'\r\n"
+      "content": "export { FloatingLabelInput } from './FloatingLabelInput'\nexport type { FloatingLabelInputProps, FloatingLabelVariant, FloatingLabelSize } from './FloatingLabelInput'\n"
     }
   ]
 }

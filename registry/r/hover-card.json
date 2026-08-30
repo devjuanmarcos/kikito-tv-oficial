@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["tooltip"],
+  "registryDependencies": [
+    "tooltip"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/hover-card",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/hover-card/hover-card.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/hover-card/hover-card.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nimport type { HoverCardAlign, HoverCardSide } from \"@/components/ui/cn/tooltip/tooltip.types\";\r\n\r\nexport type { HoverCardSide, HoverCardAlign };\r\n\r\nexport interface HoverCardProps {\r\n  content: React.ReactNode;\r\n  side?: HoverCardSide;\r\n  align?: HoverCardAlign;\r\n  openDelay?: number;\r\n  closeDelay?: number;\r\n  children: React.ReactElement;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nimport type { HoverCardAlign, HoverCardSide } from \"@/components/ui/cn/tooltip/tooltip.types\";\n\nexport type { HoverCardSide, HoverCardAlign };\n\nexport interface HoverCardProps {\n  content: React.ReactNode;\n  side?: HoverCardSide;\n  align?: HoverCardAlign;\n  openDelay?: number;\n  closeDelay?: number;\n  children: React.ReactElement;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/hover-card/HoverCard.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/hover-card/HoverCard.tsx",
-      "content": "\"use client\";\r\n/**\r\n * HoverCard — backward-compat wrapper.\r\n * Absorbed by the Tooltip Super component (`<Tooltip variant=\"card\" />`). Kept so\r\n * existing imports of `HoverCard` keep working; new code should use Tooltip directly.\r\n */\r\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\r\n\r\nimport type { HoverCardProps } from \"./hover-card.types\";\r\n\r\nexport function HoverCard({ children, ...props }: HoverCardProps) {\r\n  return (\r\n    <Tooltip variant=\"card\" {...props}>\r\n      {children}\r\n    </Tooltip>\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * HoverCard — backward-compat wrapper.\n * Absorbed by the Tooltip Super component (`<Tooltip variant=\"card\" />`). Kept so\n * existing imports of `HoverCard` keep working; new code should use Tooltip directly.\n */\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\n\nimport type { HoverCardProps } from \"./hover-card.types\";\n\nexport function HoverCard({ children, ...props }: HoverCardProps) {\n  return (\n    <Tooltip variant=\"card\" {...props}>\n      {children}\n    </Tooltip>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/hover-card/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/hover-card/index.ts",
-      "content": "export { HoverCard } from \"./HoverCard\";\r\nexport type { HoverCardProps, HoverCardSide, HoverCardAlign } from \"./hover-card.types\";\r\n"
+      "content": "export { HoverCard } from \"./HoverCard\";\nexport type { HoverCardProps, HoverCardSide, HoverCardAlign } from \"./hover-card.types\";\n"
     }
   ]
 }

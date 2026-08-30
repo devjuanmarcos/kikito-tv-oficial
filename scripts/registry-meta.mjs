@@ -64,6 +64,7 @@ export const COMPONENT_META = {
   "context-card":        { title: "Context Card",       group: "display",    description: "Rich hover card with user context.",                       status: "live" },
   "credit-card":         { title: "Credit Card",        group: "display",    description: "3D flip credit card visual.",                              status: "live" },
   "data-list":           { title: "Data List",          group: "display",    description: "Key-value pair list.",                                     status: "live" },
+  "event-calendar":      { title: "Event Calendar",     group: "display",    description: "Monthly calendar grid with color-coded event chips and day click handler.", status: "live" },
   "feature-list":        { title: "Feature List",       group: "display",    description: "Icon + text feature/benefit list.",                        status: "live" },
   "flip-card":           { title: "Flip Card",          group: "display",    description: "3D flip card with front and back faces.",                  status: "live" },
   "glass-card":          { title: "Glass Card",         group: "display",    description: "Frosted-glass card effect.",                               status: "live" },
@@ -75,6 +76,7 @@ export const COMPONENT_META = {
   "image-compare":       { title: "Image Compare",      group: "display",    description: "Before/after image slider.",                               status: "live" },
   "image-cropper":       { title: "Image Cropper",      group: "display",    description: "Interactive image cropping tool.",                         status: "live" },
   "image-viewer":        { title: "Image Viewer",       group: "display",    description: "Zoomable image viewer with pan support.",                  status: "live" },
+  "item":                { title: "Item",               group: "display",    description: "Generic list-row primitive (Item/ItemGroup/ItemMedia/ItemContent/...) for notification, settings and search-result rows.", status: "live" },
   "kanban":              { title: "Kanban",             group: "display",    description: "Drag-and-drop kanban board.",                              status: "live" },
   "masonry":             { title: "Masonry",            group: "display",    description: "Pinterest-style masonry grid.",                            status: "live" },
   "media-player":        { title: "Media Player",       group: "display",    description: "Custom HTML5 video/audio player.",                         status: "live" },
@@ -90,14 +92,18 @@ export const COMPONENT_META = {
   "receipt-card":        { title: "Receipt Card",       group: "display",    description: "Receipt-style summary card.",                             status: "live" },
   "ribbon":              { title: "Ribbon",             group: "display",    description: "Corner ribbon badge for cards.",                          status: "live" },
   "skill-bar":           { title: "Skill Bar",          group: "display",    description: "Animated progress bar for skill levels.",                 status: "live" },
-  "sparkline":           { title: "Sparkline",          group: "display",    description: "Inline mini chart.",                                      status: "live" },
+  "sparkline":           { title: "Sparkline",          group: "charts",     description: "Inline mini chart.",                                      status: "live" },
   "stat":                { title: "Stat",               group: "display",    description: "Single stat with label and value.",                       status: "live" },
   "stats-card":          { title: "Stats Card",         group: "display",    description: "Card with multiple stats.",                               status: "live" },
   "status-badge":        { title: "Status Badge",       group: "display",    description: "Animated status indicator dot.",                          status: "live" },
   "status-page":         { title: "Status Page",        group: "display",    description: "Service status dashboard.",                               status: "live" },
   "swipe-card":          { title: "Swipe Card",         group: "display",    description: "Tinder-style swipeable card.",                            status: "live" },
+  "tabs":                { title: "Tabs",               group: "display",    description: "Tab navigation with 4 variants (line/pill/card/enclosed), animated sliding indicator, icons, badges and TabPanel.", status: "live" },
   "tag":                 { title: "Tag",                group: "display",    description: "Removable tag with color variants.",                      status: "live" },
   "tag-cloud":           { title: "Tag Cloud",          group: "display",    description: "Weighted tag cloud visualization.",                       status: "live" },
+  "text-effect":         { title: "Text Effect",        group: "display",    description: "Super texto animado: uma entrada que despacha por `effect` para typewriter/morph/gradient/number/shine/wave.", status: "live" },
+  "text-shine":          { title: "Text Shine",         group: "display",    description: "Inline text with a static brightness sweep looping across it.", status: "live" },
+  "text-wave":           { title: "Text Wave",          group: "display",    description: "Per-character opacity wave shimmer, staggered via motion.", status: "live" },
   "tilt-card":           { title: "Tilt Card",          group: "display",    description: "Card with 3D perspective tilt on hover.",                 status: "live" },
   "timeline":            { title: "Timeline",           group: "display",    description: "Vertical timeline of events.",                            status: "live" },
   "timeline-progress":   { title: "Timeline Progress",  group: "display",    description: "Step-based progress timeline.",                           status: "live" },
@@ -157,11 +163,14 @@ export const COMPONENT_META = {
   // ── Charts ──────────────────────────────────────────────────────────
   "area-chart":          { title: "Area Chart",         group: "charts",     description: "Filled area chart.",                                     status: "live" },
   "bar-chart":           { title: "Bar Chart",          group: "charts",     description: "Vertical and horizontal bar chart.",                     status: "live" },
+  "chart":               { title: "Chart",              group: "charts",     description: "Super grafico: uma entrada que despacha por `type` para line/area/bar/donut/pie/radar/radial-bar/funnel/sparkline.", status: "live" },
   "donut-chart":         { title: "Donut Chart",        group: "charts",     description: "Donut/pie chart.",                                       status: "live" },
   "funnel-chart":        { title: "Funnel Chart",       group: "charts",     description: "Funnel/conversion chart.",                              status: "live" },
   "gauge":               { title: "Gauge",              group: "charts",     description: "Arc gauge meter.",                                       status: "live" },
   "line-chart":          { title: "Line Chart",         group: "charts",     description: "Line and curve chart.",                                  status: "live" },
+  "pie-chart":           { title: "Pie Chart",          group: "charts",     description: "ECharts pie chart (filled slices, no hole) with segments and legend.", status: "live" },
   "radar-chart":         { title: "Radar Chart",        group: "charts",     description: "Multi-axis radar/spider chart.",                         status: "live" },
+  "radial-bar-chart":    { title: "Radial Bar Chart",   group: "charts",     description: "Multi-series radial bar chart (concentric arcs) powered by the shared ECharts infrastructure.", status: "live" },
 
   // ── Feedback ────────────────────────────────────────────────────────
   "alert":               { title: "Alert",              group: "feedback",   description: "Inline alert with variants and dismiss.",                status: "live" },
@@ -181,6 +190,7 @@ export const COMPONENT_META = {
   "draggable":           { title: "Draggable",          group: "layout",     description: "Drag-and-drop wrapper.",                                status: "live" },
   "form-field":          { title: "Form Field",         group: "layout",     description: "Label + input + helper text wrapper.",                  status: "live" },
   "label":               { title: "Label",              group: "layout",     description: "Form label with required indicator.",                   status: "live" },
+  "menubar":             { title: "Menubar",            group: "layout",     description: "Desktop-style horizontal app menu bar (File/Edit/View) with click-and-hover-to-switch menus.", status: "live" },
   "multi-accordion":     { title: "Multi Accordion",    group: "layout",     description: "Multiple independently expandable accordions.",          status: "live" },
   "resizable":           { title: "Resizable",          group: "layout",     description: "Resizable panel layout.",                               status: "live" },
   "scroll-area":         { title: "Scroll Area",        group: "layout",     description: "Overflow container with styled scrollbar.",              status: "live" },
@@ -226,6 +236,12 @@ export const SKIP_COMPONENTS = new Set([
   "tokens",
   "aceternity-cards-demo-3",
   "aceternity-features-section",
+  // Helpers internos do próprio site de docs (/cn) — não fazem parte do
+  // registry publicado, não devem cair no fallback group:"display" default.
+  "cn-install-block",
+  "cn-props-table",
+  "cn-source-block",
+  "cn-usage-block",
 ]);
 
 /** Component name → npm package mapping */

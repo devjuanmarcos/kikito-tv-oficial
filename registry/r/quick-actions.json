@@ -7,9 +7,13 @@
   "group": "navigation",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["fab"],
+  "registryDependencies": [
+    "fab"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/quick-actions",
   "files": [
@@ -23,13 +27,13 @@
       "path": "components/ui/cn/quick-actions/quick-actions.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/quick-actions/quick-actions.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface QuickAction {\r\n  id: string;\r\n  icon: React.ReactNode;\r\n  label: string;\r\n  onClick?: () => void;\r\n  intent?: \"primary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";\r\n}\r\n\r\nexport interface QuickActionsProps {\r\n  actions: QuickAction[];\r\n  triggerIcon?: React.ReactNode;\r\n  placement?: \"top\" | \"bottom\" | \"left\" | \"right\";\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface QuickAction {\n  id: string;\n  icon: React.ReactNode;\n  label: string;\n  onClick?: () => void;\n  intent?: \"primary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";\n}\n\nexport interface QuickActionsProps {\n  actions: QuickAction[];\n  triggerIcon?: React.ReactNode;\n  placement?: \"top\" | \"bottom\" | \"left\" | \"right\";\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/quick-actions/QuickActions.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/quick-actions/QuickActions.tsx",
-      "content": "\"use client\";\r\n/**\r\n * QuickActions — backward-compat wrapper.\r\n * Absorbed by the Fab Super component (`<Fab position=\"inline\" />`). Kept so existing\r\n * imports of `QuickActions` keep working; new code should use Fab directly.\r\n *\r\n * Aposentado na auditoria Kikito CN: Fab e QuickActions implementavam o mesmo conceito\r\n * (botão circular + speed-dial de ações) de forma totalmente independente, sem `absorbs`\r\n * ligando os dois — ficavam ambos visíveis na sidebar como se fossem componentes diferentes.\r\n * Fab ganhou `position=\"inline\"` (renderiza no fluxo normal em vez de fixed num canto),\r\n * `placement` de 4 direções e `intent` por ação (as 3 features exclusivas do QuickActions)\r\n * pra poder absorver de verdade. Diferença de comportamento visual aceita conscientemente:\r\n * as ações agora empurram o layout ao abrir (flex, igual ao resto do Fab) em vez de\r\n * sobrepor por cima via `position: absolute` como o QuickActions original fazia.\r\n */\r\nimport { Fab } from \"@/components/ui/cn/fab/Fab\";\r\nimport type { FabAction } from \"@/components/ui/cn/fab/fab.types\";\r\n\r\nimport type { QuickActionsProps } from \"./quick-actions.types\";\r\n\r\nexport function QuickActions({ actions, triggerIcon = \"+\", placement = \"top\", className, style }: QuickActionsProps) {\r\n  const fabActions: FabAction[] = actions.map((a) => ({\r\n    icon: a.icon,\r\n    label: a.label,\r\n    onClick: a.onClick ?? (() => {}),\r\n    intent: a.intent,\r\n  }));\r\n\r\n  return (\r\n    <Fab\r\n      icon={triggerIcon}\r\n      actions={fabActions}\r\n      position=\"inline\"\r\n      placement={placement}\r\n      // preserva o aria-label fixo \"Quick actions\" do componente original — sem isto o\r\n      // fallback do Fab produz \"Abrir menu\"/\"Fechar\", uma mudança de nome acessível pra\r\n      // quem já depende do rótulo antigo\r\n      tooltip=\"Quick actions\"\r\n      className={className}\r\n      style={style}\r\n    />\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * QuickActions — backward-compat wrapper.\n * Absorbed by the Fab Super component (`<Fab position=\"inline\" />`). Kept so existing\n * imports of `QuickActions` keep working; new code should use Fab directly.\n *\n * Aposentado na auditoria Kikito CN: Fab e QuickActions implementavam o mesmo conceito\n * (botão circular + speed-dial de ações) de forma totalmente independente, sem `absorbs`\n * ligando os dois — ficavam ambos visíveis na sidebar como se fossem componentes diferentes.\n * Fab ganhou `position=\"inline\"` (renderiza no fluxo normal em vez de fixed num canto),\n * `placement` de 4 direções e `intent` por ação (as 3 features exclusivas do QuickActions)\n * pra poder absorver de verdade. Diferença de comportamento visual aceita conscientemente:\n * as ações agora empurram o layout ao abrir (flex, igual ao resto do Fab) em vez de\n * sobrepor por cima via `position: absolute` como o QuickActions original fazia.\n */\nimport { Fab } from \"@/components/ui/cn/fab/Fab\";\nimport type { FabAction } from \"@/components/ui/cn/fab/fab.types\";\n\nimport type { QuickActionsProps } from \"./quick-actions.types\";\n\nexport function QuickActions({ actions, triggerIcon = \"+\", placement = \"top\", className, style }: QuickActionsProps) {\n  const fabActions: FabAction[] = actions.map((a) => ({\n    icon: a.icon,\n    label: a.label,\n    onClick: a.onClick ?? (() => {}),\n    intent: a.intent,\n  }));\n\n  return (\n    <Fab\n      icon={triggerIcon}\n      actions={fabActions}\n      position=\"inline\"\n      placement={placement}\n      // preserva o aria-label fixo \"Quick actions\" do componente original — sem isto o\n      // fallback do Fab produz \"Abrir menu\"/\"Fechar\", uma mudança de nome acessível pra\n      // quem já depende do rótulo antigo\n      tooltip=\"Quick actions\"\n      className={className}\n      style={style}\n    />\n  );\n}\n"
     }
   ]
 }

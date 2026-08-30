@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/bento-grid",
   "files": [
@@ -17,13 +21,13 @@
       "path": "components/ui/cn/bento-grid/bento-grid.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/bento-grid/bento-grid.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface BentoItem {\r\n  id: string | number;\r\n  colSpan?: 1 | 2 | 3 | 4;\r\n  rowSpan?: 1 | 2;\r\n  className?: string;\r\n  children?: React.ReactNode;\r\n}\r\n\r\nexport interface BentoGridProps {\r\n  items: BentoItem[];\r\n  cols?: 3 | 4;\r\n  gap?: number;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface BentoItem {\n  id: string | number;\n  colSpan?: 1 | 2 | 3 | 4;\n  rowSpan?: 1 | 2;\n  className?: string;\n  children?: React.ReactNode;\n}\n\nexport interface BentoGridProps {\n  items: BentoItem[];\n  cols?: 3 | 4;\n  gap?: number;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/bento-grid/BentoGrid.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/bento-grid/BentoGrid.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\r\n\r\nimport type { BentoGridProps } from \"./bento-grid.types\";\r\n\r\nconst COL_SPAN: Record<number, string> = {\r\n  1: \"col-span-1\",\r\n  2: \"col-span-2\",\r\n  3: \"col-span-3\",\r\n  4: \"col-span-4\",\r\n};\r\n\r\nconst ROW_SPAN: Record<number, string> = {\r\n  1: \"row-span-1\",\r\n  2: \"row-span-2\",\r\n};\r\n\r\nexport function BentoGrid({ items, cols = 3, gap = 16, className, style }: BentoGridProps) {\r\n  return (\r\n    <div className={cn(\"grid\", cols === 3 ? \"grid-cols-3\" : \"grid-cols-4\", className)} style={{ gap, ...style }}>\r\n      {items.map((item) => (\r\n        <div\r\n          key={item.id}\r\n          className={cn(\r\n            \"rounded-(--radius-lg) border border-rule bg-raised overflow-hidden\",\r\n            COL_SPAN[item.colSpan ?? 1],\r\n            ROW_SPAN[item.rowSpan ?? 1],\r\n            item.className\r\n          )}\r\n        >\r\n          {item.children}\r\n        </div>\r\n      ))}\r\n    </div>\r\n  );\r\n}\r\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { BentoGridProps } from \"./bento-grid.types\";\n\nconst COL_SPAN: Record<number, string> = {\n  1: \"col-span-1\",\n  2: \"col-span-2\",\n  3: \"col-span-3\",\n  4: \"col-span-4\",\n};\n\nconst ROW_SPAN: Record<number, string> = {\n  1: \"row-span-1\",\n  2: \"row-span-2\",\n};\n\nexport function BentoGrid({ items, cols = 3, gap = 16, className, style }: BentoGridProps) {\n  return (\n    <div className={cn(\"grid\", cols === 3 ? \"grid-cols-3\" : \"grid-cols-4\", className)} style={{ gap, ...style }}>\n      {items.map((item) => (\n        <div\n          key={item.id}\n          className={cn(\n            \"rounded-(--radius-lg) border border-rule bg-raised overflow-hidden\",\n            COL_SPAN[item.colSpan ?? 1],\n            ROW_SPAN[item.rowSpan ?? 1],\n            item.className\n          )}\n        >\n          {item.children}\n        </div>\n      ))}\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/bento-grid/index.ts",

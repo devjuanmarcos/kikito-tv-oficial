@@ -7,9 +7,13 @@
   "group": "navigation",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["kbd"],
+  "registryDependencies": [
+    "kbd"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/shortcut-key",
   "files": [

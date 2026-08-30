@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/text-gradient",
   "files": [
@@ -29,7 +33,7 @@
       "path": "components/ui/cn/text-gradient/TextGradient.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/text-gradient/TextGradient.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\r\n\r\nimport type { TextGradientAs, TextGradientProps } from \"./text-gradient.types\";\r\n\r\nexport function TextGradient({\r\n  children,\r\n  from = \"var(--ks-violet)\",\r\n  to = \"var(--ks-rose)\",\r\n  via,\r\n  direction = \"90deg\",\r\n  animate = false,\r\n  as: Tag = \"span\" as TextGradientAs,\r\n  className,\r\n  style,\r\n}: TextGradientProps) {\r\n  const stops = via\r\n    ? `${from}, ${via}, ${to}${animate ? \", \" + from : \"\"}`\r\n    : `${from}, ${to}${animate ? \", \" + from : \"\"}`;\r\n  const gradient = `linear-gradient(${direction}, ${stops})`;\r\n\r\n  return (\r\n    <>\r\n      {/* forced-colors (Windows High Contrast): navegador ignora background/gradiente, então o\r\n          fallback abaixo restaura a cor de texto real — sem ele, color:transparent deixaria o\r\n          texto completamente invisível nesse modo */}\r\n      <style>{`\r\n        @media (forced-colors: active) {\r\n          .ks-text-gradient {\r\n            background: none !important;\r\n            -webkit-text-fill-color: currentColor !important;\r\n            color: CanvasText !important;\r\n          }\r\n        }\r\n      `}</style>\r\n      {animate && (\r\n        <style>{`\r\n          @keyframes gradient-flow {\r\n            0%   { background-position: 0% center; }\r\n            100% { background-position: 200% center; }\r\n          }\r\n        `}</style>\r\n      )}\r\n      <Tag\r\n        className={cn(\"inline ks-text-gradient\", className)}\r\n        style={\r\n          {\r\n            background: gradient,\r\n            backgroundClip: \"text\",\r\n            WebkitBackgroundClip: \"text\",\r\n            WebkitTextFillColor: \"transparent\",\r\n            color: \"transparent\",\r\n            ...(animate && {\r\n              backgroundSize: \"200% auto\",\r\n              animation: \"gradient-flow 3s linear infinite\",\r\n            }),\r\n            ...style,\r\n          } as React.CSSProperties\r\n        }\r\n      >\r\n        {children}\r\n      </Tag>\r\n    </>\r\n  );\r\n}\r\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { TextGradientAs, TextGradientProps } from \"./text-gradient.types\";\n\nexport function TextGradient({\n  children,\n  from = \"var(--ks-violet)\",\n  to = \"var(--ks-rose)\",\n  via,\n  direction = \"90deg\",\n  animate = false,\n  as: Tag = \"span\" as TextGradientAs,\n  className,\n  style,\n}: TextGradientProps) {\n  const stops = via\n    ? `${from}, ${via}, ${to}${animate ? \", \" + from : \"\"}`\n    : `${from}, ${to}${animate ? \", \" + from : \"\"}`;\n  const gradient = `linear-gradient(${direction}, ${stops})`;\n\n  return (\n    <>\n      {/* forced-colors (Windows High Contrast): navegador ignora background/gradiente, então o\n          fallback abaixo restaura a cor de texto real — sem ele, color:transparent deixaria o\n          texto completamente invisível nesse modo */}\n      <style>{`\n        @media (forced-colors: active) {\n          .ks-text-gradient {\n            background: none !important;\n            -webkit-text-fill-color: currentColor !important;\n            color: CanvasText !important;\n          }\n        }\n      `}</style>\n      {animate && (\n        <style>{`\n          @keyframes gradient-flow {\n            0%   { background-position: 0% center; }\n            100% { background-position: 200% center; }\n          }\n        `}</style>\n      )}\n      <Tag\n        className={cn(\"inline ks-text-gradient\", className)}\n        style={\n          {\n            background: gradient,\n            backgroundClip: \"text\",\n            WebkitBackgroundClip: \"text\",\n            WebkitTextFillColor: \"transparent\",\n            color: \"transparent\",\n            ...(animate && {\n              backgroundSize: \"200% auto\",\n              animation: \"gradient-flow 3s linear infinite\",\n            }),\n            ...style,\n          } as React.CSSProperties\n        }\n      >\n        {children}\n      </Tag>\n    </>\n  );\n}\n"
     }
   ]
 }

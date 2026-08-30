@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["card"],
+  "registryDependencies": [
+    "card"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/glass-card",
   "files": [

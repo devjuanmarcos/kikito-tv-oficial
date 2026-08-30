@@ -7,9 +7,13 @@
   "group": "layout",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/label",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/label/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/label/index.ts",
-      "content": "export { Label } from './Label'\r\nexport type { LabelProps, LabelSize } from './label.types'\r\n"
+      "content": "export { Label } from './Label'\nexport type { LabelProps, LabelSize } from './label.types'\n"
     },
     {
       "path": "components/ui/cn/label/Label.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/label/Label.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\r\n\r\nimport type { LabelProps, LabelSize } from \"./label.types\";\r\n\r\nconst SIZE: Record<LabelSize, string> = {\r\n  sm: \"text-body-caption\",\r\n  md: \"text-body-callout\",\r\n  lg: \"text-body-paragraph\",\r\n};\r\n\r\nexport function Label({\r\n  size = \"md\",\r\n  required = false,\r\n  optional = false,\r\n  hint,\r\n  disabled = false,\r\n  className,\r\n  children,\r\n  ...props\r\n}: LabelProps) {\r\n  return (\r\n    <div className=\"flex flex-col gap-(--spacing-3xs)\">\r\n      <label\r\n        {...props}\r\n        className={cn(\r\n          \"inline-flex items-center gap-(--spacing-2xs) font-medium text-foreground cursor-pointer\",\r\n          SIZE[size],\r\n          disabled && \"opacity-50 cursor-not-allowed\",\r\n          className\r\n        )}\r\n      >\r\n        {children}\r\n        {required && (\r\n          <span aria-hidden=\"true\" className=\"text-danger leading-none\">\r\n            *\r\n          </span>\r\n        )}\r\n        {optional && !required && <span className=\"text-muted font-normal text-body-caption\">(optional)</span>}\r\n      </label>\r\n      {hint && <p className=\"text-body-caption text-muted\">{hint}</p>}\r\n    </div>\r\n  );\r\n}\r\n\r\nLabel.displayName = \"Label\";\r\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { LabelProps, LabelSize } from \"./label.types\";\n\nconst SIZE: Record<LabelSize, string> = {\n  sm: \"text-body-caption\",\n  md: \"text-body-callout\",\n  lg: \"text-body-paragraph\",\n};\n\nexport function Label({\n  size = \"md\",\n  required = false,\n  optional = false,\n  hint,\n  disabled = false,\n  className,\n  children,\n  ...props\n}: LabelProps) {\n  return (\n    <div className=\"flex flex-col gap-(--spacing-3xs)\">\n      <label\n        {...props}\n        className={cn(\n          \"inline-flex items-center gap-(--spacing-2xs) font-medium text-foreground cursor-pointer\",\n          SIZE[size],\n          disabled && \"opacity-50 cursor-not-allowed\",\n          className\n        )}\n      >\n        {children}\n        {required && (\n          <span aria-hidden=\"true\" className=\"text-danger leading-none\">\n            *\n          </span>\n        )}\n        {optional && !required && <span className=\"text-muted font-normal text-body-caption\">(optional)</span>}\n      </label>\n      {hint && <p className=\"text-body-caption text-muted\">{hint}</p>}\n    </div>\n  );\n}\n\nLabel.displayName = \"Label\";\n"
     },
     {
       "path": "components/ui/cn/label/label.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/label/label.types.ts",
-      "content": "import type React from 'react'\r\n\r\nexport type LabelSize = 'sm' | 'md' | 'lg'\r\n\r\nexport interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {\r\n  size?: LabelSize\r\n  required?: boolean\r\n  optional?: boolean\r\n  hint?: string\r\n  disabled?: boolean\r\n}\r\n"
+      "content": "import type React from 'react'\n\nexport type LabelSize = 'sm' | 'md' | 'lg'\n\nexport interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {\n  size?: LabelSize\n  required?: boolean\n  optional?: boolean\n  hint?: string\n  disabled?: boolean\n}\n"
     }
   ]
 }

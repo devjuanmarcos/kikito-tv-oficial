@@ -7,9 +7,13 @@
   "group": "overlay",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["tooltip"],
+  "registryDependencies": [
+    "tooltip"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/rich-tooltip",
   "files": [

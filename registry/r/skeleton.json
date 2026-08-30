@@ -7,9 +7,13 @@
   "group": "feedback",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/skeleton",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/skeleton/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/skeleton/index.ts",
-      "content": "export { Skeleton } from \"./Skeleton\";\r\nexport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\r\n"
+      "content": "export { Skeleton } from \"./Skeleton\";\nexport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\n"
     },
     {
       "path": "components/ui/cn/skeleton/Skeleton.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/skeleton/Skeleton.tsx",
-      "content": "import { cn } from \"@/lib/utils\";\r\n\r\nimport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\r\n\r\nconst SHAPE_CLS: Record<SkeletonShape, string> = {\r\n  default: \"rounded-none\",\r\n  rounded: \"rounded-(--radius-sm)\",\r\n  circle: \"rounded-full\",\r\n  pill: \"rounded-full\",\r\n};\r\n\r\nfunction toPx(v: string | number | undefined, fallback: string): string {\r\n  if (v === undefined) return fallback;\r\n  return typeof v === \"number\" ? `${v}px` : v;\r\n}\r\n\r\nexport function Skeleton({ width, height, shape = \"default\", animate = true, className, style }: SkeletonProps) {\r\n  return (\r\n    <span\r\n      className={cn(\"block bg-graphite\", animate && \"animate-pulse\", SHAPE_CLS[shape], className)}\r\n      style={{\r\n        width: toPx(width, \"100%\"),\r\n        height: toPx(height, \"1rem\"),\r\n        ...style,\r\n      }}\r\n      aria-hidden=\"true\"\r\n    />\r\n  );\r\n}\r\n"
+      "content": "import { cn } from \"@/lib/utils\";\n\nimport type { SkeletonProps, SkeletonShape } from \"./skeleton.types\";\n\nconst SHAPE_CLS: Record<SkeletonShape, string> = {\n  default: \"rounded-none\",\n  rounded: \"rounded-(--radius-sm)\",\n  circle: \"rounded-full\",\n  pill: \"rounded-full\",\n};\n\nfunction toPx(v: string | number | undefined, fallback: string): string {\n  if (v === undefined) return fallback;\n  return typeof v === \"number\" ? `${v}px` : v;\n}\n\nexport function Skeleton({ width, height, shape = \"default\", animate = true, className, style }: SkeletonProps) {\n  return (\n    <span\n      className={cn(\"block bg-graphite\", animate && \"animate-pulse\", SHAPE_CLS[shape], className)}\n      style={{\n        width: toPx(width, \"100%\"),\n        height: toPx(height, \"1rem\"),\n        ...style,\n      }}\n      aria-hidden=\"true\"\n    />\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/skeleton/skeleton.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/skeleton/skeleton.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport type SkeletonShape = \"default\" | \"circle\" | \"rounded\" | \"pill\";\r\n\r\nexport interface SkeletonProps {\r\n  width?: string | number;\r\n  height?: string | number;\r\n  shape?: SkeletonShape;\r\n  animate?: boolean;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport type SkeletonShape = \"default\" | \"circle\" | \"rounded\" | \"pill\";\n\nexport interface SkeletonProps {\n  width?: string | number;\n  height?: string | number;\n  shape?: SkeletonShape;\n  animate?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     }
   ]
 }

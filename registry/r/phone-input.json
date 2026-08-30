@@ -7,9 +7,13 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["input"],
+  "registryDependencies": [
+    "input"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/phone-input",
   "files": [

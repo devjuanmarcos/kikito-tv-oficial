@@ -7,9 +7,13 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["input"],
+  "registryDependencies": [
+    "input"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/number-input",
   "files": [
@@ -17,7 +21,7 @@
       "path": "components/ui/cn/number-input/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/number-input/index.ts",
-      "content": "export { NumberInput } from './NumberInput'\r\nexport type { NumberInputProps, NumberInputSize, NumberInputVariant } from './NumberInput'\r\n"
+      "content": "export { NumberInput } from './NumberInput'\nexport type { NumberInputProps, NumberInputSize, NumberInputVariant } from './NumberInput'\n"
     },
     {
       "path": "components/ui/cn/number-input/NumberInput.tsx",

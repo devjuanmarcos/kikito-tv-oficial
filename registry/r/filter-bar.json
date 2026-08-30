@@ -7,9 +7,13 @@
   "group": "navigation",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["toggle-group"],
+  "registryDependencies": [
+    "toggle-group"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/filter-bar",
   "files": [
@@ -23,7 +27,7 @@
       "path": "components/ui/cn/filter-bar/FilterBar.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/filter-bar/FilterBar.tsx",
-      "content": "\"use client\";\r\n/**\r\n * FilterBar — backward-compat wrapper.\r\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"filter\" />`).\r\n * Kept so existing imports of `FilterBar` keep working; new code should use\r\n * ToggleGroup directly.\r\n */\r\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\r\nimport type { ToggleGroupFilterProps } from \"@/components/ui/cn/toggle-group/toggle-group.types\";\r\n\r\nimport type { FilterBarProps } from \"./filter-bar.types\";\r\n\r\nexport function FilterBar(props: FilterBarProps) {\r\n  return <ToggleGroup variant=\"filter\" {...(props as ToggleGroupFilterProps)} />;\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * FilterBar — backward-compat wrapper.\n * Absorbed by the ToggleGroup Super component (`<ToggleGroup variant=\"filter\" />`).\n * Kept so existing imports of `FilterBar` keep working; new code should use\n * ToggleGroup directly.\n */\nimport { ToggleGroup } from \"@/components/ui/cn/toggle-group\";\nimport type { ToggleGroupFilterProps } from \"@/components/ui/cn/toggle-group/toggle-group.types\";\n\nimport type { FilterBarProps } from \"./filter-bar.types\";\n\nexport function FilterBar(props: FilterBarProps) {\n  return <ToggleGroup {...(props as ToggleGroupFilterProps)} variant=\"filter\" />;\n}\n"
     },
     {
       "path": "components/ui/cn/filter-bar/index.ts",

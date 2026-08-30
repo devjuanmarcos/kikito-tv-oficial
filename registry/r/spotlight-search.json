@@ -7,9 +7,13 @@
   "group": "overlay",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["command"],
+  "registryDependencies": [
+    "command"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/spotlight-search",
   "files": [

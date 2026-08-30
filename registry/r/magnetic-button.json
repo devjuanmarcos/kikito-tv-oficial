@@ -7,9 +7,13 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/magnetic-button",
   "files": [

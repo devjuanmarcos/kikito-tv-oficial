@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/ribbon",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/ribbon/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/ribbon/index.ts",
-      "content": "export { Ribbon } from \"./Ribbon\";\r\nexport type { RibbonProps, RibbonIntent, RibbonPosition } from \"./ribbon.types\";\r\n"
+      "content": "export { Ribbon } from \"./Ribbon\";\nexport type { RibbonProps, RibbonIntent, RibbonPosition } from \"./ribbon.types\";\n"
     },
     {
       "path": "components/ui/cn/ribbon/Ribbon.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/ribbon/Ribbon.tsx",
-      "content": "\"use client\";\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { RibbonProps, RibbonIntent } from \"./ribbon.types\";\r\n\r\nconst INTENT_CLS: Record<RibbonIntent, string> = {\r\n  primary: \"bg-patina text-patina-fg\",\r\n  secondary: \"bg-kinpaku text-kinpaku-fg\",\r\n  success: \"bg-success text-success-fg\",\r\n  warning: \"bg-warning text-warning-fg\",\r\n  danger: \"bg-danger text-danger-fg\",\r\n  neutral: \"bg-raised text-foreground border border-rule\",\r\n};\r\n\r\nexport function Ribbon({ children, label, position = \"top-right\", intent = \"primary\", className, style }: RibbonProps) {\r\n  const isRight = position === \"top-right\";\r\n  return (\r\n    <div style={style} className={cn(\"relative overflow-hidden inline-block\", className)}>\r\n      {children}\r\n      <span\r\n        className={cn(\r\n          // below scale minimum: rótulo curto de faixa diagonal (ex: \"Novo\"), decorativo por natureza\r\n          \"absolute top-[14px] text-[0.6rem] font-bold tracking-wider uppercase select-none pointer-events-none\",\r\n          // w-[90px]/py-[3px]/top-[14px]/±22px: constantes geométricas da técnica de faixa\r\n          // diagonal a 45° (largura precisa cobrir a diagonal do canto, offset centraliza o\r\n          // texto na rotação) — não são espaçamento genérico, não têm token da escala aplicável\r\n          \"w-[90px] text-center py-[3px]\",\r\n          isRight ? \"right-[-22px] rotate-45 origin-top-right\" : \"left-[-22px] -rotate-45 origin-top-left\",\r\n          INTENT_CLS[intent]\r\n        )}\r\n      >\r\n        {label}\r\n      </span>\r\n    </div>\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { RibbonProps, RibbonIntent } from \"./ribbon.types\";\n\nconst INTENT_CLS: Record<RibbonIntent, string> = {\n  primary: \"bg-patina text-patina-fg\",\n  secondary: \"bg-kinpaku text-kinpaku-fg\",\n  success: \"bg-success text-success-fg\",\n  warning: \"bg-warning text-warning-fg\",\n  danger: \"bg-danger text-danger-fg\",\n  neutral: \"bg-raised text-foreground border border-rule\",\n};\n\nexport function Ribbon({ children, label, position = \"top-right\", intent = \"primary\", className, style }: RibbonProps) {\n  const isRight = position === \"top-right\";\n  return (\n    <div style={style} className={cn(\"relative overflow-hidden inline-block\", className)}>\n      {children}\n      <span\n        className={cn(\n          // below scale minimum: rótulo curto de faixa diagonal (ex: \"Novo\"), decorativo por natureza\n          \"absolute top-[14px] text-[0.6rem] font-bold tracking-wider uppercase select-none pointer-events-none\",\n          // w-[90px]/py-[3px]/top-[14px]/±22px: constantes geométricas da técnica de faixa\n          // diagonal a 45° (largura precisa cobrir a diagonal do canto, offset centraliza o\n          // texto na rotação) — não são espaçamento genérico, não têm token da escala aplicável\n          \"w-[90px] text-center py-[3px]\",\n          isRight ? \"right-[-22px] rotate-45 origin-top-right\" : \"left-[-22px] -rotate-45 origin-top-left\",\n          INTENT_CLS[intent]\n        )}\n      >\n        {label}\n      </span>\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/ribbon/ribbon.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/ribbon/ribbon.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport type RibbonIntent = \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";\r\nexport type RibbonPosition = \"top-right\" | \"top-left\";\r\n\r\nexport interface RibbonProps {\r\n  children: React.ReactNode;\r\n  label: string;\r\n  position?: RibbonPosition;\r\n  intent?: RibbonIntent;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport type RibbonIntent = \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"danger\" | \"neutral\";\nexport type RibbonPosition = \"top-right\" | \"top-left\";\n\nexport interface RibbonProps {\n  children: React.ReactNode;\n  label: string;\n  position?: RibbonPosition;\n  intent?: RibbonIntent;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     }
   ]
 }

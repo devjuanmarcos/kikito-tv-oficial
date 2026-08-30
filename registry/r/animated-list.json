@@ -7,9 +7,13 @@
   "group": "display",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/animated-list",
   "files": [
@@ -23,7 +27,7 @@
       "path": "components/ui/cn/animated-list/AnimatedList.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/animated-list/AnimatedList.tsx",
-      "content": "import { Children } from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { AnimatedListProps } from \"./animated-list.types\";\r\n\r\n/* Animation name map — uses keyframe names from globals.css */\r\nconst ANIM_MAP: Record<string, string> = {\r\n  up: \"slide-up-ks\",\r\n  down: \"slide-down-ks\",\r\n  left: \"slide-left-ks\",\r\n  right: \"slide-right-ks\",\r\n  fade: \"fade-in-ks\",\r\n};\r\n\r\nexport function AnimatedList({\r\n  children,\r\n  staggerMs = 80,\r\n  animationMs = 400,\r\n  direction = \"up\",\r\n  className,\r\n  style,\r\n}: AnimatedListProps) {\r\n  const items = Children.toArray(children);\r\n\r\n  return (\r\n    <div className={cn(\"flex flex-col\", className)} style={style}>\r\n      {items.map((child, i) => (\r\n        <div\r\n          key={i}\r\n          style={{\r\n            animationName: ANIM_MAP[direction] ?? \"slide-up-ks\",\r\n            animationDuration: `${animationMs}ms`,\r\n            animationDelay: `${i * staggerMs}ms`,\r\n            animationTimingFunction: \"cubic-bezier(0.4,0,0.2,1)\",\r\n            animationFillMode: \"both\",\r\n          }}\r\n        >\r\n          {child}\r\n        </div>\r\n      ))}\r\n    </div>\r\n  );\r\n}\r\n"
+      "content": "import { Children } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { AnimatedListProps } from \"./animated-list.types\";\n\n/* Animation name map — uses keyframe names from globals.css */\nconst ANIM_MAP: Record<string, string> = {\n  up: \"slide-up-ks\",\n  down: \"slide-down-ks\",\n  left: \"slide-left-ks\",\n  right: \"slide-right-ks\",\n  fade: \"fade-in-ks\",\n};\n\nexport function AnimatedList({\n  children,\n  staggerMs = 80,\n  animationMs = 400,\n  direction = \"up\",\n  className,\n  style,\n}: AnimatedListProps) {\n  const items = Children.toArray(children);\n\n  return (\n    <div className={cn(\"flex flex-col\", className)} style={style}>\n      {items.map((child, i) => (\n        <div\n          key={i}\n          style={{\n            animationName: ANIM_MAP[direction] ?? \"slide-up-ks\",\n            animationDuration: `${animationMs}ms`,\n            animationDelay: `${i * staggerMs}ms`,\n            animationTimingFunction: \"cubic-bezier(0.4,0,0.2,1)\",\n            animationFillMode: \"both\",\n          }}\n        >\n          {child}\n        </div>\n      ))}\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/animated-list/index.ts",

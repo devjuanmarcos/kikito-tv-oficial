@@ -3,13 +3,20 @@
   "version": "1.1.0",
   "title": "Pie Chart",
   "type": "registry:component",
-  "description": "Pie Chart component.",
-  "group": "display",
+  "description": "ECharts pie chart (filled slices, no hole) with segments and legend.",
+  "group": "charts",
   "status": "live",
-  "dependencies": ["echarts"],
-  "registryDependencies": ["echarts", "utils"],
+  "dependencies": [
+    "echarts"
+  ],
+  "registryDependencies": [
+    "echarts",
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/pie-chart",
   "files": [
@@ -17,25 +24,25 @@
       "path": "components/ui/cn/pie-chart/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/pie-chart/index.ts",
-      "content": "export { PieChart } from \"./PieChart\";\r\nexport type { PieChartProps, PieSegment } from \"./pie-chart.types\";\r\n"
+      "content": "export { PieChart } from \"./PieChart\";\nexport type { PieChartProps, PieSegment } from \"./pie-chart.types\";\n"
     },
     {
       "path": "components/ui/cn/pie-chart/pie-chart.test.ts",
       "type": "registry:component",
       "target": "components/ui/cn/pie-chart/pie-chart.test.ts",
-      "content": "import { describe, expect, it } from \"vitest\";\r\n\r\nimport { buildPieOption } from \"./PieChart\";\r\n\r\ndescribe(\"buildPieOption\", () => {\r\n  it(\"creates pie data with resolved token colors\", () => {\r\n    const option = buildPieOption(\r\n      [\r\n        { label: \"A\", value: 3, color: \"var(--ks-primary)\" },\r\n        { label: \"B\", value: 1 },\r\n      ],\r\n      {\r\n        primaryColor: \"gold\",\r\n        palette: [\"gold\", \"blue\"],\r\n        tokenColors: { \"--ks-primary\": \"gold\" },\r\n        textColor: \"black\",\r\n        mutedTextColor: \"gray\",\r\n        faintTextColor: \"silver\",\r\n        axisColor: \"gray\",\r\n        surfaceColor: \"white\",\r\n      }\r\n    );\r\n    expect(option.series).toEqual([\r\n      expect.objectContaining({\r\n        type: \"pie\",\r\n        data: [\r\n          expect.objectContaining({ name: \"A\", value: 3, itemStyle: { color: \"gold\" } }),\r\n          expect.objectContaining({ name: \"B\", value: 1, itemStyle: { color: \"blue\" } }),\r\n        ],\r\n      }),\r\n    ]);\r\n  });\r\n});\r\n"
+      "content": "import { describe, expect, it } from \"vitest\";\n\nimport { buildPieOption } from \"./PieChart\";\n\ndescribe(\"buildPieOption\", () => {\n  it(\"creates pie data with resolved token colors\", () => {\n    const option = buildPieOption(\n      [\n        { label: \"A\", value: 3, color: \"var(--ks-primary)\" },\n        { label: \"B\", value: 1 },\n      ],\n      {\n        primaryColor: \"gold\",\n        palette: [\"gold\", \"blue\"],\n        tokenColors: { \"--ks-primary\": \"gold\" },\n        textColor: \"black\",\n        mutedTextColor: \"gray\",\n        faintTextColor: \"silver\",\n        axisColor: \"gray\",\n        surfaceColor: \"white\",\n      }\n    );\n    expect(option.series).toEqual([\n      expect.objectContaining({\n        type: \"pie\",\n        data: [\n          expect.objectContaining({ name: \"A\", value: 3, itemStyle: { color: \"gold\" } }),\n          expect.objectContaining({ name: \"B\", value: 1, itemStyle: { color: \"blue\" } }),\n        ],\n      }),\n    ]);\n  });\n});\n"
     },
     {
       "path": "components/ui/cn/pie-chart/pie-chart.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/pie-chart/pie-chart.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface PieSegment {\r\n  label: string;\r\n  value: number;\r\n  color?: string;\r\n}\r\n\r\nexport interface PieChartProps {\r\n  segments: PieSegment[];\r\n  size?: number;\r\n  showLegend?: boolean;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface PieSegment {\n  label: string;\n  value: number;\n  color?: string;\n}\n\nexport interface PieChartProps {\n  segments: PieSegment[];\n  size?: number;\n  showLegend?: boolean;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/pie-chart/PieChart.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/pie-chart/PieChart.tsx",
-      "content": "\"use client\";\n\nimport type { EChartsOption } from \"echarts\";\nimport { PieChart as EChartsPieChart } from \"echarts/charts\";\nimport { TooltipComponent } from \"echarts/components\";\nimport { use as useECharts } from \"echarts/core\";\n\nimport { EChartsContainer } from \"@/lib/echarts\";\nimport { resolveChartColor, resolveChartTheme } from \"@/lib/echarts/chart-theme\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { PieChartProps, PieSegment } from \"./pie-chart.types\";\n\n// ECharts registration is global and idempotent; keep the chart module set local.\n// eslint-disable-next-line react-hooks/rules-of-hooks\nuseECharts([EChartsPieChart, TooltipComponent]);\n\nconst COLORS = [\n  \"var(--ks-primary)\",\n  \"var(--ks-kinpaku)\",\n  \"var(--ks-success)\",\n  \"var(--ks-warning)\",\n  \"var(--ks-danger)\",\n  \"var(--ks-info)\",\n];\n\nexport function buildPieOption(segments: PieSegment[], theme = resolveChartTheme()): EChartsOption {\n  return {\n    animation: true,\n    color: theme.palette,\n    tooltip: { trigger: \"item\" },\n    series: [\n      {\n        type: \"pie\",\n        radius: \"90%\",\n        label: { show: false },\n        data: segments.map((segment, index) => ({\n          name: segment.label,\n          value: segment.value,\n          itemStyle: {\n            color: segment.color\n              ? resolveChartColor(segment.color, theme.tokenColors)\n              : theme.palette[index % theme.palette.length],\n          },\n        })),\n      },\n    ],\n  };\n}\n\nexport function PieChart({ segments, size = 160, showLegend = true, className, style }: PieChartProps) {\n  const theme = resolveChartTheme();\n  const total = segments.reduce((sum, segment) => sum + segment.value, 0);\n  const summary = segments.map((segment) => `${segment.label} ${segment.value}`).join(\", \");\n  return (\n    <div className={cn(\"flex flex-col items-center gap-(--spacing-lg)\", className)} style={style}>\n      <EChartsContainer\n        option={buildPieOption(segments, theme)}\n        width={size}\n        height={size}\n        ariaLabel={`Pie chart: ${summary}`}\n      />\n      {showLegend && (\n        <div className=\"flex flex-col gap-(--spacing-xs) w-full\">\n          {segments.map((segment, index) => (\n            <div key={segment.label} className=\"flex items-center gap-(--spacing-sm)\">\n              <div\n                className=\"w-2.5 h-2.5 rounded-full shrink-0\"\n                style={{ background: segment.color ?? COLORS[index % COLORS.length] }}\n              />\n              <span className=\"text-body-caption text-muted flex-1\">{segment.label}</span>\n              <span className=\"text-body-caption font-semibold text-foreground\">\n                {total > 0 ? Math.round((segment.value / total) * 100) : 0}%\n              </span>\n            </div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}\n"
+      "content": "\"use client\";\r\n\r\nimport type { EChartsOption } from \"echarts\";\r\nimport { PieChart as EChartsPieChart } from \"echarts/charts\";\r\nimport { TooltipComponent } from \"echarts/components\";\r\nimport { use as useECharts } from \"echarts/core\";\r\n\r\nimport { EChartsContainer } from \"@/lib/echarts\";\r\nimport { resolveChartColor, resolveChartTheme } from \"@/lib/echarts/chart-theme\";\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { PieChartProps, PieSegment } from \"./pie-chart.types\";\r\n\r\n// ECharts registration is global and idempotent; keep the chart module set local.\r\n// eslint-disable-next-line react-hooks/rules-of-hooks\r\nuseECharts([EChartsPieChart, TooltipComponent]);\r\n\r\nconst COLORS = [\r\n  \"var(--ks-primary)\",\r\n  \"var(--ks-kinpaku)\",\r\n  \"var(--ks-success)\",\r\n  \"var(--ks-warning)\",\r\n  \"var(--ks-danger)\",\r\n  \"var(--ks-info)\",\r\n];\r\n\r\nexport function buildPieOption(segments: PieSegment[], theme = resolveChartTheme()): EChartsOption {\r\n  return {\r\n    animation: true,\r\n    color: theme.palette,\r\n    tooltip: { trigger: \"item\" },\r\n    series: [\r\n      {\r\n        type: \"pie\",\r\n        radius: \"90%\",\r\n        label: { show: false },\r\n        data: segments.map((segment, index) => ({\r\n          name: segment.label,\r\n          value: segment.value,\r\n          itemStyle: {\r\n            color: segment.color\r\n              ? resolveChartColor(segment.color, theme.tokenColors)\r\n              : theme.palette[index % theme.palette.length],\r\n          },\r\n        })),\r\n      },\r\n    ],\r\n  };\r\n}\r\n\r\nexport function PieChart({ segments, size = 160, showLegend = true, className, style }: PieChartProps) {\r\n  const theme = resolveChartTheme();\r\n  const total = segments.reduce((sum, segment) => sum + segment.value, 0);\r\n  const summary = segments.map((segment) => `${segment.label} ${segment.value}`).join(\", \");\r\n  return (\r\n    <div className={cn(\"flex flex-col items-center gap-(--spacing-lg)\", className)} style={style}>\r\n      <EChartsContainer\r\n        option={buildPieOption(segments, theme)}\r\n        width={size}\r\n        height={size}\r\n        ariaLabel={`Pie chart: ${summary}`}\r\n      />\r\n      {showLegend && (\r\n        <div className=\"flex flex-col gap-(--spacing-xs) w-full\">\r\n          {segments.map((segment, index) => (\r\n            <div key={segment.label} className=\"flex items-center gap-(--spacing-sm)\">\r\n              <div\r\n                className=\"w-2.5 h-2.5 rounded-full shrink-0\"\r\n                style={{ background: segment.color ?? COLORS[index % COLORS.length] }}\r\n              />\r\n              <span className=\"text-body-caption text-muted flex-1\">{segment.label}</span>\r\n              <span className=\"text-body-caption font-semibold text-foreground\">\r\n                {total > 0 ? Math.round((segment.value / total) * 100) : 0}%\r\n              </span>\r\n            </div>\r\n          ))}\r\n        </div>\r\n      )}\r\n    </div>\r\n  );\r\n}\r\n"
     }
   ]
 }

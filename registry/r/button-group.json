@@ -7,9 +7,13 @@
   "group": "inputs",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/button-group",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/button-group/button-group.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/button-group/button-group.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface ButtonGroupProps {\r\n  children: React.ReactNode;\r\n  orientation?: \"horizontal\" | \"vertical\";\r\n  attached?: boolean;\r\n  \"aria-label\"?: string;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface ButtonGroupProps {\n  children: React.ReactNode;\n  orientation?: \"horizontal\" | \"vertical\";\n  attached?: boolean;\n  \"aria-label\"?: string;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/button-group/ButtonGroup.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/button-group/ButtonGroup.tsx",
-      "content": "\"use client\";\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { ButtonGroupProps } from \"./button-group.types\";\r\n\r\nexport function ButtonGroup({\r\n  children,\r\n  orientation = \"horizontal\",\r\n  attached = true,\r\n  \"aria-label\": ariaLabel,\r\n  className,\r\n  style,\r\n}: ButtonGroupProps) {\r\n  const isH = orientation === \"horizontal\";\r\n\r\n  return (\r\n    <div\r\n      role=\"group\"\r\n      aria-label={ariaLabel}\r\n      style={style}\r\n      className={cn(\r\n        \"inline-flex\",\r\n        isH ? \"flex-row\" : \"flex-col\",\r\n        attached ? \"items-stretch\" : \"gap-(--spacing-sm)\",\r\n        attached && [\r\n          \"[&>*:not(:first-child):not(:last-child)]:rounded-none\",\r\n          isH\r\n            ? \"[&>*:first-child]:rounded-r-none [&>*:last-child]:rounded-l-none [&>*:not(:first-child)]:border-l-0\"\r\n            : \"[&>*:first-child]:rounded-b-none [&>*:last-child]:rounded-t-none [&>*:not(:first-child)]:border-t-0\",\r\n        ],\r\n        className\r\n      )}\r\n    >\r\n      {children}\r\n    </div>\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\nimport { cn } from \"@/lib/utils\";\n\nimport type { ButtonGroupProps } from \"./button-group.types\";\n\nexport function ButtonGroup({\n  children,\n  orientation = \"horizontal\",\n  attached = true,\n  \"aria-label\": ariaLabel,\n  className,\n  style,\n}: ButtonGroupProps) {\n  const isH = orientation === \"horizontal\";\n\n  return (\n    <div\n      role=\"group\"\n      aria-label={ariaLabel}\n      style={style}\n      className={cn(\n        \"inline-flex\",\n        isH ? \"flex-row\" : \"flex-col\",\n        attached ? \"items-stretch\" : \"gap-(--spacing-sm)\",\n        attached && [\n          \"[&>*:not(:first-child):not(:last-child)]:rounded-none\",\n          isH\n            ? \"[&>*:first-child]:rounded-r-none [&>*:last-child]:rounded-l-none [&>*:not(:first-child)]:border-l-0\"\n            : \"[&>*:first-child]:rounded-b-none [&>*:last-child]:rounded-t-none [&>*:not(:first-child)]:border-t-0\",\n        ],\n        className\n      )}\n    >\n      {children}\n    </div>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/button-group/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/button-group/index.ts",
-      "content": "export { ButtonGroup } from \"./ButtonGroup\";\r\nexport type { ButtonGroupProps } from \"./button-group.types\";\r\n"
+      "content": "export { ButtonGroup } from \"./ButtonGroup\";\nexport type { ButtonGroupProps } from \"./button-group.types\";\n"
     }
   ]
 }

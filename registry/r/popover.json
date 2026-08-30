@@ -7,9 +7,13 @@
   "group": "overlay",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["tooltip"],
+  "registryDependencies": [
+    "tooltip"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/popover",
   "files": [
@@ -17,19 +21,19 @@
       "path": "components/ui/cn/popover/index.ts",
       "type": "registry:file",
       "target": "components/ui/cn/popover/index.ts",
-      "content": "export { Popover } from \"./Popover\";\r\nexport type { PopoverProps, PopoverPlacement } from \"./popover.types\";\r\n"
+      "content": "export { Popover } from \"./Popover\";\nexport type { PopoverProps, PopoverPlacement } from \"./popover.types\";\n"
     },
     {
       "path": "components/ui/cn/popover/Popover.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/popover/Popover.tsx",
-      "content": "\"use client\";\r\n/**\r\n * Popover — backward-compat wrapper.\r\n * Absorbed by the Tooltip Super component (`<Tooltip trigger=\"click\" />`). Kept so\r\n * existing imports of `Popover` keep working; new code should use Tooltip directly.\r\n */\r\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\r\n\r\nimport type { PopoverProps } from \"./popover.types\";\r\n\r\nexport function Popover({ children, ...props }: PopoverProps) {\r\n  return (\r\n    <Tooltip trigger=\"click\" {...props}>\r\n      {children}\r\n    </Tooltip>\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\n/**\n * Popover — backward-compat wrapper.\n * Absorbed by the Tooltip Super component (`<Tooltip trigger=\"click\" />`). Kept so\n * existing imports of `Popover` keep working; new code should use Tooltip directly.\n */\nimport { Tooltip } from \"@/components/ui/cn/tooltip\";\n\nimport type { PopoverProps } from \"./popover.types\";\n\nexport function Popover({ children, ...props }: PopoverProps) {\n  return (\n    <Tooltip trigger=\"click\" {...props}>\n      {children}\n    </Tooltip>\n  );\n}\n"
     },
     {
       "path": "components/ui/cn/popover/popover.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/popover/popover.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nimport type { PopoverPlacement } from \"@/components/ui/cn/tooltip/tooltip.types\";\r\n\r\nexport type { PopoverPlacement };\r\n\r\nexport interface PopoverProps {\r\n  content?: React.ReactNode;\r\n  placement?: PopoverPlacement;\r\n  title?: string;\r\n  description?: string;\r\n  footer?: React.ReactNode;\r\n  showClose?: boolean;\r\n  open?: boolean;\r\n  defaultOpen?: boolean;\r\n  onOpenChange?: (open: boolean) => void;\r\n  children: React.ReactElement;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nimport type { PopoverPlacement } from \"@/components/ui/cn/tooltip/tooltip.types\";\n\nexport type { PopoverPlacement };\n\nexport interface PopoverProps {\n  content?: React.ReactNode;\n  placement?: PopoverPlacement;\n  title?: string;\n  description?: string;\n  footer?: React.ReactNode;\n  showClose?: boolean;\n  open?: boolean;\n  defaultOpen?: boolean;\n  onOpenChange?: (open: boolean) => void;\n  children: React.ReactElement;\n}\n"
     }
   ]
 }

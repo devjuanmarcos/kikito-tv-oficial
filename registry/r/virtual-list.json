@@ -7,9 +7,13 @@
   "group": "data",
   "status": "live",
   "dependencies": [],
-  "registryDependencies": ["utils"],
+  "registryDependencies": [
+    "utils"
+  ],
   "tailwind": {
-    "requires": ["kikitocn-tokens"]
+    "requires": [
+      "kikitocn-tokens"
+    ]
   },
   "docs": "https://cn.kikito.tv/components/virtual-list",
   "files": [
@@ -23,13 +27,13 @@
       "path": "components/ui/cn/virtual-list/virtual-list.types.ts",
       "type": "registry:file",
       "target": "components/ui/cn/virtual-list/virtual-list.types.ts",
-      "content": "import type React from \"react\";\r\n\r\nexport interface VirtualListProps<T = unknown> {\r\n  items: T[];\r\n  itemHeight: number;\r\n  height: number;\r\n  renderItem: (item: T, index: number) => React.ReactNode;\r\n  overscan?: number;\r\n  /** Nome acessível do viewport de scroll (leitor de tela). */\r\n  ariaLabel?: string;\r\n  className?: string;\r\n  style?: React.CSSProperties;\r\n}\r\n"
+      "content": "import type React from \"react\";\n\nexport interface VirtualListProps<T = unknown> {\n  items: T[];\n  itemHeight: number;\n  height: number;\n  renderItem: (item: T, index: number) => React.ReactNode;\n  overscan?: number;\n  /** Nome acessível do viewport de scroll (leitor de tela). */\n  ariaLabel?: string;\n  className?: string;\n  style?: React.CSSProperties;\n}\n"
     },
     {
       "path": "components/ui/cn/virtual-list/VirtualList.tsx",
       "type": "registry:component",
       "target": "components/ui/cn/virtual-list/VirtualList.tsx",
-      "content": "\"use client\";\r\nimport type React from \"react\";\r\nimport { useCallback, useState } from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nimport type { VirtualListProps } from \"./virtual-list.types\";\r\n\r\nexport function VirtualList<T = unknown>({\r\n  items,\r\n  itemHeight,\r\n  height,\r\n  renderItem,\r\n  overscan = 3,\r\n  ariaLabel,\r\n  className,\r\n  style,\r\n}: VirtualListProps<T>) {\r\n  const [scrollTop, setScrollTop] = useState(0);\r\n\r\n  const totalHeight = items.length * itemHeight;\r\n  const visibleCount = Math.ceil(height / itemHeight);\r\n  const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);\r\n  const endIndex = Math.min(items.length - 1, startIndex + visibleCount + overscan * 2);\r\n\r\n  const onScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {\r\n    setScrollTop((e.currentTarget as HTMLDivElement).scrollTop);\r\n  }, []);\r\n\r\n  return (\r\n    // Achado real: tabIndex num elemento com role=\"list\" violava jsx-a11y/no-noninteractive-tabindex\r\n    // (uma lista em si não é um widget focável) — mas o viewport de scroll precisa ser alcançável\r\n    // via teclado (sem outro descendente focável dentro dele), mesmo padrão documentado em\r\n    // ScrollArea. Solução: tabIndex fica no viewport (sem role, igual ScrollArea), `role=\"list\"`\r\n    // move pro spacer interno — semanticamente mais correto (a \"lista\" são os itens, não o scroll).\r\n    <div\r\n      className={cn(\r\n        \"overflow-y-auto relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-patina\",\r\n        className\r\n      )}\r\n      style={{ height, ...style }}\r\n      onScroll={onScroll}\r\n      tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex\r\n    >\r\n      <div className=\"relative w-full\" style={{ height: totalHeight }} role=\"list\" aria-label={ariaLabel}>\r\n        {items.slice(startIndex, endIndex + 1).map((item, i) => (\r\n          <div\r\n            key={startIndex + i}\r\n            className=\"absolute w-full left-0 box-border\"\r\n            style={{ top: (startIndex + i) * itemHeight, height: itemHeight }}\r\n            role=\"listitem\"\r\n          >\r\n            {renderItem(item, startIndex + i)}\r\n          </div>\r\n        ))}\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"
+      "content": "\"use client\";\nimport type React from \"react\";\nimport { useCallback, useState } from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nimport type { VirtualListProps } from \"./virtual-list.types\";\n\nexport function VirtualList<T = unknown>({\n  items,\n  itemHeight,\n  height,\n  renderItem,\n  overscan = 3,\n  ariaLabel,\n  className,\n  style,\n}: VirtualListProps<T>) {\n  const [scrollTop, setScrollTop] = useState(0);\n\n  const totalHeight = items.length * itemHeight;\n  const visibleCount = Math.ceil(height / itemHeight);\n  const startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);\n  const endIndex = Math.min(items.length - 1, startIndex + visibleCount + overscan * 2);\n\n  const onScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {\n    setScrollTop((e.currentTarget as HTMLDivElement).scrollTop);\n  }, []);\n\n  return (\n    // Achado real: tabIndex num elemento com role=\"list\" violava jsx-a11y/no-noninteractive-tabindex\n    // (uma lista em si não é um widget focável) — mas o viewport de scroll precisa ser alcançável\n    // via teclado (sem outro descendente focável dentro dele), mesmo padrão documentado em\n    // ScrollArea. Solução: tabIndex fica no viewport (sem role, igual ScrollArea), `role=\"list\"`\n    // move pro spacer interno — semanticamente mais correto (a \"lista\" são os itens, não o scroll).\n    <div\n      className={cn(\n        \"overflow-y-auto relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-patina\",\n        className\n      )}\n      style={{ height, ...style }}\n      onScroll={onScroll}\n      tabIndex={0} // eslint-disable-line jsx-a11y/no-noninteractive-tabindex\n    >\n      <div className=\"relative w-full\" style={{ height: totalHeight }} role=\"list\" aria-label={ariaLabel}>\n        {items.slice(startIndex, endIndex + 1).map((item, i) => (\n          <div\n            key={startIndex + i}\n            className=\"absolute w-full left-0 box-border\"\n            style={{ top: (startIndex + i) * itemHeight, height: itemHeight }}\n            role=\"listitem\"\n          >\n            {renderItem(item, startIndex + i)}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}\n"
     }
   ]
 }
