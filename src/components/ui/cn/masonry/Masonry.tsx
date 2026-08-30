@@ -7,7 +7,7 @@ import type { MasonryProps } from "./masonry.types";
 // `columns` aceita number OU { sm, md, lg } (mobile-first, com fallback em
 // cascata pro tier anterior) — registry e tipo já anunciavam breakpoint por
 // tier, mas o componente só lia `.md` e ignorava `sm`/`lg` silenciosamente.
-function resolveColumns(columns: MasonryProps["columns"]) {
+function resolveColumns(columns: NonNullable<MasonryProps["columns"]>) {
   if (typeof columns === "number") {
     return { sm: columns, md: columns, lg: columns };
   }

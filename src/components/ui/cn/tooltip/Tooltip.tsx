@@ -128,7 +128,7 @@ function SimpleTooltip({ content, placement = "top", delay = 300, disabled = fal
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<Element>(null);
   const tipRef = useRef<HTMLDivElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipId = useId();
 
   function show() {
@@ -453,8 +453,8 @@ function HoverCardImpl({
   const [ready, setReady] = useState(false);
   const triggerRef = useRef<HTMLElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const openTimer = useRef<ReturnType<typeof setTimeout>>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout>>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function scheduleOpen() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
