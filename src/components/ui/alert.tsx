@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "motion/react";
 import * as React from "react";
 
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
 import { cn } from "@/lib/utils";
 
 const alertIntents = [
@@ -136,7 +137,7 @@ const alertVariants = cva(
 
 const Alert = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+  MotionSafeProps<React.HTMLAttributes<HTMLDivElement>> & VariantProps<typeof alertVariants>
 >(({ className, variant, intent, appearance, size, ...props }, ref) => (
   <motion.div
     ref={ref}

@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { motion } from "motion/react";
 import * as React from "react";
 
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
 import { cn } from "@/lib/utils";
 
 const badgeIntents = [
@@ -171,7 +172,7 @@ function Badge({
     ? {
         whileHover: { scale: 1.05 },
         whileTap: { scale: 0.95 },
-        transition: { type: "spring", stiffness: 400, damping: 17 },
+        transition: { type: "spring" as const, stiffness: 400, damping: 17 },
       }
     : {};
 
@@ -179,7 +180,7 @@ function Badge({
     <Comp
       className={cn(badgeVariants({ variant, intent, appearance, size, shiny }), className)}
       {...motionProps}
-      {...(props as React.HTMLAttributes<HTMLDivElement>)}
+      {...(props as MotionSafeProps<React.HTMLAttributes<HTMLDivElement>>)}
     >
       <span className={cn("inline-flex items-center justify-center gap-2", shiny && "relative z-10")}>{children}</span>
 

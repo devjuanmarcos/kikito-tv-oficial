@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { motion, useMotionValue, useSpring, type SpringOptions } from "motion/react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -37,7 +37,7 @@ function BubbleBackground({
   ...props
 }: BubbleBackgroundProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
+  React.useImperativeHandle(ref as React.Ref<HTMLDivElement>, () => containerRef.current as HTMLDivElement);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -98,8 +98,7 @@ function BubbleBackground({
     };
   }, [interactive, mouseX, mouseY]);
 
-  const dissipateMask =
-    "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)";
+  const dissipateMask = "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)";
 
   return (
     <div
@@ -133,70 +132,75 @@ function BubbleBackground({
           <defs>
             <filter id="goo">
               <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur" />
-              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                result="goo"
+              />
               <feBlend in="SourceGraphic" in2="goo" />
             </filter>
           </defs>
         </svg>
 
         <div className="absolute inset-0 z-0" style={{ filter: "url(#goo) blur(40px)" }}>
-        <motion.div
-          className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--first-color),0.8)_0%,rgba(var(--first-color),0)_50%)]"
-          animate={{ y: [-50, 50, -50] }}
-          transition={{ duration: 30, ease: "easeInOut", repeat: Infinity }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-        />
-
-        <motion.div
-          className="absolute inset-0 flex justify-center items-center origin-[calc(50%-400px)]"
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 20,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop",
-          }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-        >
-          <div className="rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--second-color),0.8)_0%,rgba(var(--second-color),0)_50%)]" />
-        </motion.div>
-
-        <motion.div
-          className="absolute inset-0 flex justify-center items-center origin-[calc(50%+400px)]"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-        >
-          <div className="absolute rounded-full size-[80%] bg-[radial-gradient(circle_at_center,rgba(var(--third-color),0.8)_0%,rgba(var(--third-color),0)_50%)] mix-blend-hard-light top-[calc(50%+200px)] left-[calc(50%-500px)]" />
-        </motion.div>
-
-        <motion.div
-          className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fourth-color),0.8)_0%,rgba(var(--fourth-color),0)_50%)] opacity-70"
-          animate={{ x: [-50, 50, -50] }}
-          transition={{ duration: 40, ease: "easeInOut", repeat: Infinity }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-        />
-
-        <motion.div
-          className="absolute inset-0 flex justify-center items-center origin-[calc(50%_-_800px)_calc(50%_+_200px)]"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-          style={{ transform: "translateZ(0)", willChange: "transform" }}
-        >
-          <div className="absolute rounded-full size-[160%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fifth-color),0.8)_0%,rgba(var(--fifth-color),0)_50%)] top-[calc(50%-80%)] left-[calc(50%-80%)]" />
-        </motion.div>
-
-        {interactive && (
           <motion.div
-            className="absolute rounded-full size-full mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--sixth-color),0.8)_0%,rgba(var(--sixth-color),0)_50%)] opacity-70"
-            style={{
-              x: springX,
-              y: springY,
-              transform: "translateZ(0)",
-              willChange: "transform",
-            }}
+            className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--first-color),0.8)_0%,rgba(var(--first-color),0)_50%)]"
+            animate={{ y: [-50, 50, -50] }}
+            transition={{ duration: 30, ease: "easeInOut", repeat: Infinity }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
           />
-        )}
+
+          <motion.div
+            className="absolute inset-0 flex justify-center items-center origin-[calc(50%-400px)]"
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 20,
+              ease: "linear",
+              repeat: Infinity,
+              repeatType: "loop",
+            }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--second-color),0.8)_0%,rgba(var(--second-color),0)_50%)]" />
+          </motion.div>
+
+          <motion.div
+            className="absolute inset-0 flex justify-center items-center origin-[calc(50%+400px)]"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="absolute rounded-full size-[80%] bg-[radial-gradient(circle_at_center,rgba(var(--third-color),0.8)_0%,rgba(var(--third-color),0)_50%)] mix-blend-hard-light top-[calc(50%+200px)] left-[calc(50%-500px)]" />
+          </motion.div>
+
+          <motion.div
+            className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fourth-color),0.8)_0%,rgba(var(--fourth-color),0)_50%)] opacity-70"
+            animate={{ x: [-50, 50, -50] }}
+            transition={{ duration: 40, ease: "easeInOut", repeat: Infinity }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          />
+
+          <motion.div
+            className="absolute inset-0 flex justify-center items-center origin-[calc(50%_-_800px)_calc(50%_+_200px)]"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+            style={{ transform: "translateZ(0)", willChange: "transform" }}
+          >
+            <div className="absolute rounded-full size-[160%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fifth-color),0.8)_0%,rgba(var(--fifth-color),0)_50%)] top-[calc(50%-80%)] left-[calc(50%-80%)]" />
+          </motion.div>
+
+          {interactive && (
+            <motion.div
+              className="absolute rounded-full size-full mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--sixth-color),0.8)_0%,rgba(var(--sixth-color),0)_50%)] opacity-70"
+              style={{
+                x: springX,
+                y: springY,
+                transform: "translateZ(0)",
+                willChange: "transform",
+              }}
+            />
+          )}
         </div>
 
         <div className="absolute inset-0 z-[1] bg-background/50 pointer-events-none" aria-hidden />

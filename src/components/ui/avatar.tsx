@@ -4,11 +4,12 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { motion } from "motion/react";
 import * as React from "react";
 
+import type { MotionSafeProps } from "@/lib/motion-safe-props";
 import { cn } from "@/lib/utils";
 
 const MotionAvatarRoot = motion(AvatarPrimitive.Root);
 
-interface AvatarProps extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
+interface AvatarProps extends MotionSafeProps<React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>> {
   interactive?: boolean;
 }
 
