@@ -1,9 +1,59 @@
-﻿import { cn } from "@/lib/utils";
+"use client";
 
-import type { LineChartProps } from "./line-chart.types";
+import type { EChartsOption } from "echarts";
+
+import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
+import { cn } from "@/lib/utils";
+
+import type { LineChartProps, LineChartSeries } from "./line-chart.types";
 
 const DEFAULT_COLORS = ["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-success)", "var(--ks-danger)"];
-const GRID_LINES = 4;
+
+export function buildLineOption(
+  series: LineChartSeries[],
+  labels: string[] | undefined,
+  options: Pick<LineChartProps, "showArea" | "showDots" | "showGrid"> & { theme: ChartTheme }
+): EChartsOption {
+  const categories = labels ?? series[0]?.data.map((_, index) => String(index)) ?? [];
+  const values = series.flatMap((item) => item.data);
+  const palette = DEFAULT_COLORS.map((color) => resolveChartColor(color, options.theme.tokenColors));
+  return {
+    animation: true,
+    grid: { left: 8, right: 8, top: 12, bottom: labels ? 24 : 12, containLabel: Boolean(labels) },
+    xAxis: {
+      type: "category",
+      data: categories,
+      axisLine: { lineStyle: { color: options.theme.axisColor } },
+      axisTick: { show: false },
+      axisLabel: { show: Boolean(labels), color: options.theme.faintTextColor, fontSize: 10 },
+    },
+    yAxis: {
+      type: "value",
+      min: Math.min(...values, 0),
+      max: Math.max(...values, 1),
+      splitNumber: 4,
+      axisLabel: { color: options.theme.faintTextColor, fontSize: 10 },
+      splitLine: { show: options.showGrid, lineStyle: { color: options.theme.axisColor } },
+      axisLine: { show: false },
+    },
+    tooltip: { trigger: "axis" },
+    legend: { show: false },
+    series: series.map((item, index) => {
+      const color = resolveChartColor(item.color ?? palette[index % palette.length], options.theme.tokenColors);
+      return {
+        name: item.label,
+        type: "line",
+        data: item.data,
+        symbol: options.showDots ? "circle" : "none",
+        symbolSize: options.showDots ? 6 : 0,
+        showSymbol: options.showDots,
+        lineStyle: { color, width: 2, join: "round" },
+        itemStyle: { color },
+        areaStyle: options.showArea ? { color, opacity: 0.12 } : undefined,
+      };
+    }),
+  };
+}
 
 export function LineChart({
   series,
@@ -17,72 +67,23 @@ export function LineChart({
   className,
   style,
 }: LineChartProps) {
-  const allValues = series.flatMap((s) => s.data);
-  const max = Math.max(...allValues, 1);
-  const min = Math.min(...allValues, 0);
-  const range = max - min || 1;
-  const n = series[0]?.data.length ?? 0;
-  const padX = 8;
-  const padY = 12;
-  const chartH = height - padY * 2 - 20;
-
-  const toX = (i: number) => padX + (i / Math.max(n - 1, 1)) * (400 - padX * 2);
-  const toY = (v: number) => padY + chartH - ((v - min) / range) * chartH;
-
+  const option = buildLineOption(series, labels, { showArea, showDots, showGrid, theme: resolveChartTheme() });
   return (
     <div className={cn(className)} style={{ ...style, width }}>
-      <svg
-        width="100%"
+      <EChartsContainer
+        option={option}
         height={height}
-        viewBox={`0 0 400 ${height}`}
-        preserveAspectRatio="none"
-        role="img"
-        aria-label={`Line chart: ${series.map((s) => s.label).join(", ")}`}
-      >
-        {showGrid &&
-          Array.from({ length: GRID_LINES + 1 }, (_, i) => {
-            const y = padY + (i / GRID_LINES) * chartH;
-            return <line key={i} x1={padX} y1={y} x2={400 - padX} y2={y} stroke="var(--ks-rule)" strokeWidth={1} />;
-          })}
-
-        {series.map((s, si) => {
-          const color = s.color ?? DEFAULT_COLORS[si % DEFAULT_COLORS.length];
-          const pts = s.data.map((v, i) => `${toX(i)},${toY(v)}`).join(" ");
-
-          const areaPath =
-            n > 0
-              ? `M ${toX(0)},${toY(min)} ` +
-                s.data.map((v, i) => `L ${toX(i)},${toY(v)}`).join(" ") +
-                ` L ${toX(n - 1)},${toY(min)} Z`
-              : "";
-
-          return (
-            <g key={s.label}>
-              {showArea && <path d={areaPath} fill={color} opacity={0.12} />}
-              <polyline points={pts} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
-              {showDots && s.data.map((v, i) => <circle key={i} cx={toX(i)} cy={toY(v)} r={3} fill={color} />)}
-            </g>
-          );
-        })}
-
-        {/* fontSize={10}: below scale minimum — atributo numérico de <text> em SVG, sem classe Tailwind aplicável ao viewBox */}
-        {labels &&
-          labels.map((lbl, i) => (
-            <text key={i} x={toX(i)} y={height - 4} textAnchor="middle" fontSize={10} fill="var(--ks-text-faint)">
-              {lbl}
-            </text>
-          ))}
-      </svg>
-
+        ariaLabel={`Line chart: ${series.map((item) => item.label).join(", ")}`}
+      />
       {showLegend && series.length > 1 && (
         <div className="flex flex-wrap gap-x-(--spacing-lg) gap-y-(--spacing-2xs) mt-(--spacing-sm) px-(--spacing-2xs)">
-          {series.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-(--spacing-xs)">
+          {series.map((item, index) => (
+            <div key={item.label} className="flex items-center gap-(--spacing-xs)">
               <div
                 className="w-6 h-[2px] rounded-full"
-                style={{ background: s.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length] }}
+                style={{ background: resolveChartColor(item.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length]) }}
               />
-              <span className="text-body-caption text-muted">{s.label}</span>
+              <span className="text-body-caption text-muted">{item.label}</span>
             </div>
           ))}
         </div>

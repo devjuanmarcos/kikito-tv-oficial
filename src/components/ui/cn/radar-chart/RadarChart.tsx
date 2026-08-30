@@ -1,12 +1,55 @@
-﻿import { cn } from "@/lib/utils";
+"use client";
 
-import type { RadarChartProps } from "./radar-chart.types";
+import type { EChartsOption } from "echarts";
+
+import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
+import { cn } from "@/lib/utils";
+
+import type { RadarAxis, RadarChartProps, RadarSeries } from "./radar-chart.types";
 
 const COLORS = ["var(--ks-primary)", "var(--ks-kinpaku)", "var(--ks-success)", "var(--ks-danger)"];
 
-function polarToXY(angle: number, r: number, cx: number, cy: number) {
-  const rad = (angle - 90) * (Math.PI / 180);
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+export function buildRadarOption(
+  axes: RadarAxis[],
+  series: RadarSeries[],
+  levels: number,
+  theme: ChartTheme
+): EChartsOption {
+  const indicator = axes.map((axis, index) => ({
+    name: axis.label,
+    max: axis.max ?? Math.max(...series.map((item) => item.data[index] ?? 0), 1),
+  }));
+  return {
+    animation: true,
+    radar: {
+      indicator,
+      splitNumber: levels,
+      center: ["50%", "50%"] as [string, string],
+      radius: "68%",
+      axisName: { color: theme.faintTextColor, fontSize: 10 },
+      axisLine: { lineStyle: { color: theme.axisColor } },
+      splitLine: { lineStyle: { color: theme.axisColor } },
+    },
+    legend: { show: false },
+    series: [
+      {
+        type: "radar",
+        symbol: "circle",
+        symbolSize: 6,
+        lineStyle: { width: 2, join: "round" },
+        data: series.map((item, index) => {
+          const color = resolveChartColor(item.color ?? COLORS[index % COLORS.length], theme.tokenColors);
+          return {
+            name: item.label,
+            value: axes.map((_, axisIndex) => item.data[axisIndex] ?? 0),
+            lineStyle: { color },
+            areaStyle: { color, opacity: 0.15 },
+            itemStyle: { color, borderColor: theme.surfaceColor, borderWidth: 1.5 },
+          };
+        }),
+      },
+    ],
+  };
 }
 
 export function RadarChart({
@@ -18,97 +61,24 @@ export function RadarChart({
   className,
   style,
 }: RadarChartProps) {
-  const n = axes.length;
-  const cx = size / 2,
-    cy = size / 2;
-  const maxR = size / 2 - 28;
-  const step = 360 / n;
-
-  const levelPolygons = Array.from({ length: levels }, (_, l) => {
-    const r = ((l + 1) / levels) * maxR;
-    return axes
-      .map((_, i) => {
-        const p = polarToXY(i * step, r, cx, cy);
-        return `${p.x},${p.y}`;
-      })
-      .join(" ");
-  });
-
-  // Achado real: `max` era recalculado com `Math.max(...series.flatMap(...))`
-  // dentro de dois loops aninhados (pontos do polígono E dos círculos, pra
-  // cada série) — O(eixos × séries) recomputações do mesmo valor por eixo.
-  // Calculado uma vez por eixo aqui e reaproveitado.
-  const maxByAxis = axes.map((ax) => ax.max ?? Math.max(...series.flatMap((s) => s.data), 1));
-  const seriesPoint = (dataPoint: number | undefined, axisIndex: number) =>
-    polarToXY(axisIndex * step, ((dataPoint ?? 0) / maxByAxis[axisIndex]) * maxR, cx, cy);
-
+  const option = buildRadarOption(axes, series, levels, resolveChartTheme());
   return (
     <div className={cn("flex flex-col items-center gap-(--spacing-md)", className)} style={style}>
-      <svg width={size} height={size} role="img" aria-label={`Radar chart: ${series.map((s) => s.label).join(", ")}`}>
-        {/* Grid polygons */}
-        {levelPolygons.map((pts, i) => (
-          <polygon key={i} points={pts} fill="none" stroke="var(--ks-rule)" strokeWidth={1} />
-        ))}
-
-        {/* Axis lines */}
-        {axes.map((_, i) => {
-          const end = polarToXY(i * step, maxR, cx, cy);
-          return <line key={i} x1={cx} y1={cy} x2={end.x} y2={end.y} stroke="var(--ks-rule)" strokeWidth={1} />;
-        })}
-
-        {/* Axis labels */}
-        {/* fontSize={10} abaixo: atributo numérico de <text> em SVG, sem classe
-            Tailwind aplicável ao viewBox — mesmo padrão já documentado em
-            AreaChart/BarChart/DonutChart */}
-        {axes.map((ax, i) => {
-          const p = polarToXY(i * step, maxR + 16, cx, cy);
-          const anchor = p.x < cx - 2 ? "end" : p.x > cx + 2 ? "start" : "middle";
-          return (
-            <text
-              key={i}
-              x={p.x}
-              y={p.y}
-              textAnchor={anchor}
-              fontSize={10}
-              fill="var(--ks-text-faint)"
-              dominantBaseline="middle"
-            >
-              {ax.label}
-            </text>
-          );
-        })}
-
-        {/* Series polygons */}
-        {series.map((s, si) => {
-          const color = s.color ?? COLORS[si % COLORS.length];
-          const pts = axes
-            .map((_, i) => {
-              const p = seriesPoint(s.data[i], i);
-              return `${p.x},${p.y}`;
-            })
-            .join(" ");
-
-          return (
-            <g key={s.label}>
-              <polygon points={pts} fill={color} fillOpacity={0.15} />
-              <polygon points={pts} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
-              {axes.map((_, i) => {
-                const p = seriesPoint(s.data[i], i);
-                return (
-                  <circle key={i} cx={p.x} cy={p.y} r={3} fill={color} stroke="var(--ks-lacquer)" strokeWidth={1.5} />
-                );
-              })}
-            </g>
-          );
-        })}
-      </svg>
-
+      <EChartsContainer
+        option={option}
+        width={size}
+        height={size}
+        ariaLabel={`Radar chart: ${series.map((item) => item.label).join(", ")}`}
+      />
       {showLegend && series.length > 1 && (
         <div className="flex flex-wrap gap-x-(--spacing-lg) gap-y-(--spacing-2xs) justify-center">
-          {series.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-(--spacing-xs)">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ background: s.color ?? COLORS[i % COLORS.length] }} />
-              <span className="text-body-caption text-muted">{s.label}</span>
+          {series.map((item, index) => (
+            <div key={item.label} className="flex items-center gap-(--spacing-xs)">
+              <div
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ background: resolveChartColor(item.color ?? COLORS[index % COLORS.length]) }}
+              />
+              <span className="text-body-caption text-muted">{item.label}</span>
             </div>
           ))}
         </div>

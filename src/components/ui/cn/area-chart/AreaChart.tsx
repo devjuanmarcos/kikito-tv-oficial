@@ -1,10 +1,11 @@
-﻿"use client";
+"use client";
 
-import { useCallback, useRef, useState } from "react";
+import type { EChartsOption } from "echarts";
 
+import { EChartsContainer, resolveChartColor, resolveChartTheme, type ChartTheme } from "@/lib/echarts";
 import { cn } from "@/lib/utils";
 
-import type { AreaChartProps } from "./area-chart.types";
+import type { AreaChartDataPoint, AreaChartProps, AreaChartSeries } from "./area-chart.types";
 
 const SERIES_COLORS = [
   "var(--ks-primary)",
@@ -15,10 +16,57 @@ const SERIES_COLORS = [
   "var(--ks-danger)",
 ];
 
-interface TooltipState {
-  x: number;
-  y: number;
-  index: number;
+export function buildAreaOption(
+  data: AreaChartDataPoint[],
+  series: AreaChartSeries[],
+  options: Pick<AreaChartProps, "showGrid" | "showDots" | "showTooltip" | "stacked" | "gradient" | "height"> & {
+    theme: ChartTheme;
+  }
+): EChartsOption {
+  const values = series.map((item) => data.map((point) => Number(point[item.key]) || 0));
+  const max = options.stacked
+    ? Math.max(...data.map((_, index) => values.reduce((sum, item) => sum + (item[index] ?? 0), 0)), 1)
+    : Math.max(...values.flat(), 1);
+  return {
+    animation: true,
+    grid: { left: 44, right: 16, top: 16, bottom: 32, containLabel: true },
+    xAxis: {
+      type: "category",
+      data: data.map((point) => String(point.label)),
+      axisLine: { lineStyle: { color: options.theme.axisColor } },
+      axisTick: { show: false },
+      axisLabel: { color: options.theme.faintTextColor, fontSize: 10 },
+    },
+    yAxis: {
+      type: "value",
+      min: 0,
+      max,
+      splitNumber: 4,
+      axisLabel: { color: options.theme.faintTextColor, fontSize: 10 },
+      splitLine: { show: options.showGrid, lineStyle: { color: options.theme.axisColor } },
+      axisLine: { show: false },
+    },
+    tooltip: { show: options.showTooltip, trigger: "axis" },
+    legend: { show: false },
+    series: series.map((item, index) => {
+      const color = resolveChartColor(
+        item.color ?? SERIES_COLORS[index % SERIES_COLORS.length],
+        options.theme.tokenColors
+      );
+      return {
+        name: item.label ?? item.key,
+        type: "line",
+        data: values[index],
+        stack: options.stacked ? "total" : undefined,
+        symbol: options.showDots ? "circle" : "none",
+        symbolSize: options.showDots ? 6 : 0,
+        showSymbol: options.showDots,
+        lineStyle: { color, width: 2, join: "round", cap: "round" },
+        itemStyle: { color, borderColor: options.theme.surfaceColor, borderWidth: 1.5 },
+        areaStyle: { color, opacity: options.gradient ? 1 : 0.15 },
+      };
+    }),
+  };
 }
 
 export function AreaChart({
@@ -34,200 +82,31 @@ export function AreaChart({
   className,
   style,
 }: AreaChartProps) {
-  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  // fontSize={10} abaixo (×2): atributo numérico de <text> em SVG, sem classe Tailwind aplicável ao viewBox
-  const PAD = { top: 16, right: 16, bottom: 32, left: 44 };
-  const W = 560;
-  const H = height;
-  const innerW = W - PAD.left - PAD.right;
-  const innerH = H - PAD.top - PAD.bottom;
-
-  const numericData = data.map((d) => series.map((s) => Number(d[s.key]) || 0));
-
-  const stackedData = stacked
-    ? numericData.map((row) =>
-        row.reduce<number[]>((acc, val, i) => {
-          acc.push((acc[i - 1] ?? 0) + val);
-          return acc;
-        }, [])
-      )
-    : numericData;
-
-  const maxVal = stacked
-    ? Math.max(...stackedData.map((row) => row[row.length - 1] ?? 0), 1)
-    : Math.max(...numericData.flat(), 1);
-
-  const xStep = data.length > 1 ? innerW / (data.length - 1) : innerW;
-  const xOf = (i: number) => PAD.left + i * xStep;
-  const yOf = (v: number) => PAD.top + innerH - (v / maxVal) * innerH;
-
-  const makeAreaPath = (si: number) => {
-    const topPts = data.map((_, i) => {
-      const v = stacked ? stackedData[i]?.[si] ?? 0 : numericData[i]?.[si] ?? 0;
-      return { x: xOf(i), y: yOf(v) };
-    });
-    const bottom = stacked && si > 0 ? data.map((_, i) => yOf(stackedData[i]?.[si - 1] ?? 0)) : data.map(() => yOf(0));
-
-    const top = topPts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
-    const bot = bottom.map((y, i) => `L${xOf(data.length - 1 - i)},${bottom[data.length - 1 - i] ?? 0}`).join(" ");
-    return `${top} ${bot} Z`;
-  };
-
-  const makeLinePath = (si: number) =>
-    data
-      .map((_, i) => {
-        const v = stacked ? stackedData[i]?.[si] ?? 0 : numericData[i]?.[si] ?? 0;
-        return `${i === 0 ? "M" : "L"}${xOf(i)},${yOf(v)}`;
-      })
-      .join(" ");
-
-  const yTicks = 4;
-  const yTickVals = Array.from({ length: yTicks + 1 }, (_, i) => (maxVal * i) / yTicks);
-  const getColor = (i: number) => series[i]?.color ?? SERIES_COLORS[i % SERIES_COLORS.length];
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<SVGSVGElement>) => {
-      if (!showTooltip) return;
-      const rect = svgRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      const svgX = ((e.clientX - rect.left) / rect.width) * W - PAD.left;
-      const idx = Math.max(0, Math.min(data.length - 1, Math.round(svgX / xStep)));
-      setTooltip({ x: e.clientX, y: e.clientY, index: idx });
-    },
-    [showTooltip, data.length, xStep]
-  );
-
+  const option = buildAreaOption(data, series, {
+    showGrid,
+    showDots,
+    showTooltip,
+    stacked,
+    gradient,
+    height,
+    theme: resolveChartTheme(),
+  });
   return (
-    <div className={cn("relative", className)} style={style}>
-      <svg
-        ref={svgRef}
-        width="100%"
-        viewBox={`0 0 ${W} ${H}`}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setTooltip(null)}
-        role="img"
-        aria-label={`Area chart: ${series.map((s) => s.label ?? s.key).join(", ")}`}
-      >
-        <defs>
-          {series.map((s, i) => (
-            <linearGradient key={s.key} id={`ag-${s.key}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={getColor(i)} stopOpacity="0.3" />
-              <stop offset="100%" stopColor={getColor(i)} stopOpacity="0.02" />
-            </linearGradient>
-          ))}
-        </defs>
-
-        {showGrid &&
-          yTickVals.map((v, i) => (
-            <line
-              key={i}
-              x1={PAD.left}
-              x2={PAD.left + innerW}
-              y1={yOf(v)}
-              y2={yOf(v)}
-              stroke="var(--ks-rule)"
-              strokeWidth={1}
-            />
-          ))}
-
-        {yTickVals.map((v, i) => (
-          <text key={i} x={PAD.left - 6} y={yOf(v) + 4} textAnchor="end" fontSize={10} fill="var(--ks-text-faint)">
-            {v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v.toFixed(0)}
-          </text>
-        ))}
-
-        {data.map((d, i) => (
-          <text
-            key={i}
-            x={xOf(i)}
-            y={H - PAD.bottom + 16}
-            textAnchor="middle"
-            fontSize={10}
-            fill="var(--ks-text-faint)"
-          >
-            {String(d.label)}
-          </text>
-        ))}
-
-        {[...series].reverse().map((s, ri) => {
-          const i = series.length - 1 - ri;
-          return (
-            <path
-              key={s.key + "-area"}
-              d={makeAreaPath(i)}
-              fill={gradient ? `url(#ag-${s.key})` : getColor(i)}
-              fillOpacity={gradient ? 1 : 0.15}
-            />
-          );
-        })}
-
-        {series.map((s, i) => (
-          <path
-            key={s.key + "-line"}
-            d={makeLinePath(i)}
-            fill="none"
-            stroke={getColor(i)}
-            strokeWidth={2}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-          />
-        ))}
-
-        {showDots &&
-          series.map((s, si) =>
-            data.map((_, di) => {
-              const v = stacked ? stackedData[di]?.[si] ?? 0 : numericData[di]?.[si] ?? 0;
-              return (
-                <circle
-                  key={`${s.key}-${di}`}
-                  cx={xOf(di)}
-                  cy={yOf(v)}
-                  r={3}
-                  fill={getColor(si)}
-                  stroke="var(--ks-lacquer)"
-                  strokeWidth={1.5}
-                />
-              );
-            })
-          )}
-
-        {tooltip && (
-          <line
-            x1={xOf(tooltip.index)}
-            x2={xOf(tooltip.index)}
-            y1={PAD.top}
-            y2={PAD.top + innerH}
-            stroke="var(--ks-rule)"
-            strokeWidth={1}
-            strokeDasharray="4 3"
-          />
-        )}
-      </svg>
-
+    <div className={cn(className)} style={style}>
+      <EChartsContainer
+        option={option}
+        height={height}
+        ariaLabel={`Area chart: ${series.map((item) => item.label ?? item.key).join(", ")}`}
+      />
       {showLegend && (
         <div className="flex flex-wrap gap-x-(--spacing-lg) gap-y-(--spacing-2xs) px-(--spacing-2xs)">
-          {series.map((s, i) => (
-            <div key={s.key} className="flex items-center gap-(--spacing-xs)">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ background: getColor(i) }} />
-              <span className="text-body-caption text-muted">{s.label ?? s.key}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {tooltip && showTooltip && data[tooltip.index] && (
-        <div
-          className="fixed z-50 pointer-events-none bg-raised border border-rule rounded-(--radius-sm) px-(--spacing-md) py-(--spacing-sm) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.45),0_2px_8px_-2px_oklch(0%_0_0/0.28)] text-body-caption"
-          style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
-        >
-          <div className="font-semibold text-foreground mb-(--spacing-2xs)">{data[tooltip.index].label}</div>
-          {series.map((s, i) => (
-            <div key={s.key} className="flex items-center gap-(--spacing-sm)">
-              <div className="w-2 h-2 rounded-full" style={{ background: getColor(i) }} />
-              <span className="text-muted">{s.label ?? s.key}:</span>
-              <strong className="text-foreground">{data[tooltip.index][s.key]}</strong>
+          {series.map((item, index) => (
+            <div key={item.key} className="flex items-center gap-(--spacing-xs)">
+              <div
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ background: resolveChartColor(item.color ?? SERIES_COLORS[index % SERIES_COLORS.length]) }}
+              />
+              <span className="text-body-caption text-muted">{item.label ?? item.key}</span>
             </div>
           ))}
         </div>
