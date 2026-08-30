@@ -109,7 +109,7 @@ function renderMenuItem(entry: MenuEntry, i: number, close: () => void): React.R
 }
 
 /* ── Click trigger (default dropdown) ────────────────────────────────────── */
-function ClickMenu({ items, placement = "bottom-start", children }: Omit<DropdownMenuProps, "trigger">) {
+function ClickMenu({ items, placement = "bottom-start", header, children }: Omit<DropdownMenuProps, "trigger">) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [ready, setReady] = useState(false);
@@ -188,6 +188,11 @@ function ClickMenu({ items, placement = "bottom-start", children }: Omit<Dropdow
               exit={{ opacity: 0, scale: 0.97 }}
               transition={transitionStandard}
             >
+              {header && (
+                <div className="px-(--spacing-sm) pb-(--spacing-xs) mb-(--spacing-2xs) border-b border-rule">
+                  {header}
+                </div>
+              )}
               {items.map((entry, i) => renderMenuItem(entry, i, () => setOpen(false)))}
             </motion.div>
           )}

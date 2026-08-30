@@ -52,4 +52,15 @@ test.describe("DropdownMenu (CN)", () => {
     await page.getByRole("menu").getByText("Duplicate").click();
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
+
+  test("prop header: conteudo aparece no topo do menu, antes dos itens", async ({ page }) => {
+    const trigger = page.getByRole("button", { name: "Conta" });
+    await trigger.click();
+    const menu = page.getByRole("menu").filter({ hasText: "kikito@example.com" });
+    await expect(menu).toBeVisible();
+    await expect(menu.getByText("Kikito", { exact: true })).toBeVisible();
+    await expect(menu.getByText("kikito@example.com")).toBeVisible();
+    // header renderiza antes dos itens de menu (grupo "Actions")
+    await expect(menu.getByText("Edit")).toBeVisible();
+  });
 });

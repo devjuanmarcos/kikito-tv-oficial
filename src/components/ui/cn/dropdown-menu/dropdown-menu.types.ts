@@ -36,6 +36,12 @@ export interface DropdownMenuProps {
   placement?: MenuPlacement | HoverMenuPlacement;
   children: React.ReactElement;
   /**
+   * Conteúdo livre renderizado no topo do menu, antes de todos os grupos/itens
+   * (ex.: cabeçalho com avatar+nome do usuário). Origem: shadcndashboard,
+   * aprovado em docs/component-import/variant-intake/DECISIONS.md #8.
+   */
+  header?: React.ReactNode;
+  /**
    * How the menu is opened (default `"click"`).
    * - `"click"` — click the trigger (classic dropdown).
    * - `"contextmenu"` — right-click anywhere on the trigger (absorbs ContextMenu).

@@ -7800,6 +7800,13 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         note: "Menu por hover — absorvido pelo Super (ex-FloatingMenu).",
         aliases: ["floating menu", "floating-menu"],
       },
+      {
+        prop: "header",
+        value: "ReactNode",
+        label: "Header",
+        status: "stable",
+        note: 'Conteúdo livre no topo do menu (trigger="click"), antes de todos os grupos/itens — ex.: avatar+nome do usuário. Origem: shadcndashboard, aprovado em docs/component-import/variant-intake/DECISIONS.md #8.',
+      },
     ],
     props: [
       {
@@ -7816,6 +7823,12 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         description: "Só com trigger 'hover': true abre ao passar o mouse; false alterna no clique",
       },
       { name: "items", type: "MenuEntry[]", required: true, description: "Itens do menu (grupos, separadores, ações)" },
+      {
+        name: "header",
+        type: "React.ReactNode",
+        default: "undefined",
+        description: 'Conteúdo livre renderizado no topo do menu (só trigger="click"), antes de todos os itens',
+      },
       {
         name: "placement",
         type: "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end' | 'left' | 'right'",

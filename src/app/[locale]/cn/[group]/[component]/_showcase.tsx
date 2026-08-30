@@ -760,6 +760,26 @@ function DropdownMenuDemo() {
           </div>
         </Frame>
       </ShowcaseSection>
+      <ShowcaseSection title="Header">
+        <Frame label="prop header — conteudo livre antes dos grupos">
+          <DropdownMenu
+            items={items}
+            header={
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-(--radius-pill) bg-patina-soft text-patina-soft-fg flex items-center justify-center text-body-callout font-semibold shrink-0">
+                  KK
+                </div>
+                <div className="min-w-0">
+                  <p className="text-body-callout font-semibold text-foreground truncate">Kikito</p>
+                  <p className="text-body-caption text-faint truncate">kikito@example.com</p>
+                </div>
+              </div>
+            }
+          >
+            <Button variant="outline">Conta</Button>
+          </DropdownMenu>
+        </Frame>
+      </ShowcaseSection>
     </div>
   );
 }

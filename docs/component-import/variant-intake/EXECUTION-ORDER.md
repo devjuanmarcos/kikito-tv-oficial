@@ -30,8 +30,8 @@ Referência: [`SURVEY.md`](SURVEY.md) (11 ✅ mecânicos) + [`DECISIONS.md`](DEC
 
 - [x] `radio` — variant="card"
 - [x] `calendar` — mode="range"/"multiple" no standalone
-- [ ] `select` (combobox) — grupos + ícone por opção
-- [ ] `dropdown-menu` — prop `header`
+- [x] `select` (combobox) — grupos + ícone por opção
+- [x] `dropdown-menu` — prop `header`
 - [ ] `code-block` — abas por arquivo
 - [ ] `line-chart` — ReferenceLine
 - [ ] `progress` — modo indeterminate
