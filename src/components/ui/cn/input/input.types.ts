@@ -47,7 +47,6 @@ export interface InputBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
  */
 export type InputDefaultProps = InputBaseProps & {
   type?: Exclude<React.HTMLInputTypeAttribute, "number"> | "number";
-  floatingLabel?: false;
 };
 
 /* ── number (absorbs NumberInput — stepper ± with min/max/step/precision) ─── */
