@@ -63,11 +63,23 @@ const nextConfig: NextConfig = {
             : []),
         ],
       },
-      // Cache imutável para assets estáticos gerados pelo Next.js
-      {
-        source: "/_next/static/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
+      // Cache imutável para assets estáticos gerados pelo Next.js — SÓ em produção.
+      // Achado real (2026-08-30): em dev, os chunks sob /_next/static/ NÃO têm hash de
+      // conteúdo no nome (ex: app/[locale]/cn/layout.js, nome estável a cada rebuild) —
+      // aplicar "immutable, max-age=1 ano" incondicionalmente fazia qualquer browser que
+      // visitasse o site em dev UMA VEZ cachear aquele chunk pra sempre, ignorando todo
+      // rebuild/restart do servidor dali em diante (só curl/Playwright com perfil novo
+      // escapavam, gerando uma discrepância "funciona no teste mas não no browser" que
+      // levou horas pra rastrear). Em produção o nome tem hash de conteúdo de verdade,
+      // então immutable é seguro e correto lá.
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            {
+              source: "/_next/static/:path*",
+              headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+            },
+          ]
+        : []),
       // Cache para imagens e fontes públicas
       {
         source: "/:path*\\.(jpg|jpeg|png|gif|ico|svg|webp|avif|woff|woff2|ttf|eot)",
