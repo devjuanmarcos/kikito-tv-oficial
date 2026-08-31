@@ -8425,6 +8425,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "layout",
     description: "Horizontal or vertical nav with nested items, icons and active highlighting.",
     filePath: "src/components/ui/cn/navigation-menu/NavigationMenu.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "items",

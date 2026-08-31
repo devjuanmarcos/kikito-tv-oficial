@@ -1,7 +1,9 @@
 "use client";
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef, useEffect } from "react";
 
 import { Badge } from "@/components/ui/cn/badge/Badge";
+import { scaleIn, transitionStandard } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { NavigationMenuItem, NavigationMenuOrientation, NavigationMenuProps } from "./navigation-menu.types";
@@ -127,41 +129,49 @@ function NavItem({
         </button>
       )}
 
-      {hasChildren && open && (
-        <div
-          className={cn(
-            "z-50 py-(--spacing-3xs) rounded-xl border border-rule bg-raised shadow-[0_8px_24px_-8px_oklch(0%_0_0/0.4)]",
-            isHorizontal ? "absolute top-full left-0 mt-(--spacing-3xs) min-w-[160px]" : "ml-(--spacing-lg) mt-0.5"
-          )}
-        >
-          {item.children!.map((child, i) =>
-            child.href ? (
-              <a
-                key={i}
-                href={child.href}
-                aria-disabled={child.disabled || undefined}
-                onClick={(e) => {
-                  if (child.disabled) {
-                    e.preventDefault();
-                    return;
-                  }
-                  handleLinkClick(e, child.href, onNavigate);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "w-full flex items-center justify-between gap-(--spacing-lg) px-(--spacing-lg) py-(--spacing-sm) text-body-callout text-left",
-                  "transition-colors duration-[80ms] hover:bg-graphite",
-                  child.href === activeHref ? "text-patina" : "text-foreground",
-                  child.disabled && "opacity-40 pointer-events-none"
-                )}
-              >
-                <span>{child.label}</span>
-                {child.badge !== undefined && <ItemBadge badge={child.badge} />}
-              </a>
-            ) : null
-          )}
-        </div>
-      )}
+      {/* {open && <div>} cru sem AnimatePresence antes -- mesmo bug ja corrigido no
+          DropdownMenu/SplitButton (ver docs/component-import/animation-backport/PLAN.md),
+          mesmo par scaleIn+transitionStandard (mesma forma de widget: menu ancorado no
+          trigger). Achado na varredura de showcase, 2026-08-30. */}
+      <AnimatePresence>
+        {hasChildren && open && (
+          <motion.div
+            {...scaleIn}
+            transition={transitionStandard}
+            className={cn(
+              "z-50 py-(--spacing-3xs) rounded-xl border border-rule bg-raised shadow-[0_8px_24px_-8px_oklch(0%_0_0/0.4)]",
+              isHorizontal ? "absolute top-full left-0 mt-(--spacing-3xs) min-w-[160px]" : "ml-(--spacing-lg) mt-0.5"
+            )}
+          >
+            {item.children!.map((child, i) =>
+              child.href ? (
+                <a
+                  key={i}
+                  href={child.href}
+                  aria-disabled={child.disabled || undefined}
+                  onClick={(e) => {
+                    if (child.disabled) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleLinkClick(e, child.href, onNavigate);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "w-full flex items-center justify-between gap-(--spacing-lg) px-(--spacing-lg) py-(--spacing-sm) text-body-callout text-left",
+                    "transition-colors duration-[80ms] hover:bg-graphite",
+                    child.href === activeHref ? "text-patina" : "text-foreground",
+                    child.disabled && "opacity-40 pointer-events-none"
+                  )}
+                >
+                  <span>{child.label}</span>
+                  {child.badge !== undefined && <ItemBadge badge={child.badge} />}
+                </a>
+              ) : null
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
