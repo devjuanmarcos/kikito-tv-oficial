@@ -77,8 +77,17 @@ function NavItemRow({
         {hasChildren && <ChevronIcon open={expanded} />}
       </button>
 
-      {hasChildren && expanded && (
-        <ul className="mt-(--spacing-3xs) space-y-(--spacing-3xs)">
+      {/* {expanded && <ul>} cru antes escondia/mostrava sem nenhuma transicao -- mesmo
+          padrao max-height+opacity ja usado pelo Accordion pra conteudo aninhado de
+          tamanho variavel (nao motion: altura "auto" e o mesmo tipo de conteudo variavel
+          que o Accordion ja resolveu assim). Achado na varredura de showcase, 2026-08-30. */}
+      {hasChildren && (
+        <ul
+          className={cn(
+            "overflow-hidden space-y-(--spacing-3xs) transition-[max-height,opacity] duration-[220ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+            expanded ? "max-h-[1000px] opacity-100 mt-(--spacing-3xs)" : "max-h-0 opacity-0"
+          )}
+        >
           {item.children!.map((child) => (
             <NavItemRow key={child.id} item={child} activeId={activeId} onSelect={onSelect} depth={depth + 1} />
           ))}
