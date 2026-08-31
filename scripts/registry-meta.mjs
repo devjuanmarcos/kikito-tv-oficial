@@ -188,6 +188,7 @@ export const COMPONENT_META = {
   // ── Layout ──────────────────────────────────────────────────────────
   "aspect-ratio":        { title: "Aspect Ratio",       group: "layout",     description: "Maintains aspect ratio of child content.",              status: "live" },
   "collapsible":         { title: "Collapsible",        group: "display",     description: "Animated expand/collapse section.",                     status: "live" },
+  "dock":                { title: "Dock",               group: "layout",     description: "macOS-style app dock with cosine proximity magnification.", status: "live" },
   "draggable":           { title: "Draggable",          group: "layout",     description: "Drag-and-drop wrapper.",                                status: "live" },
   "form-field":          { title: "Form Field",         group: "inputs",     description: "Label + input + helper text wrapper.",                  status: "live" },
   "label":               { title: "Label",              group: "inputs",     description: "Form label with required indicator.",                   status: "live" },

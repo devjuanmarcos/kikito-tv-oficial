@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-30T23:02:43.601Z",
+  "generatedAt": "2026-08-31T00:47:41.260Z",
   "items": [
     {
       "name": "utils",
@@ -723,6 +723,23 @@
       ]
     },
     {
+      "name": "dock",
+      "version": "1.1.0",
+      "title": "Dock",
+      "type": "registry:component",
+      "description": "macOS-style app dock with cosine proximity magnification.",
+      "group": "layout",
+      "status": "live",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "tooltip",
+        "motion",
+        "utils"
+      ]
+    },
+    {
       "name": "donut-chart",
       "version": "1.1.0",
       "title": "Donut Chart",
@@ -853,10 +870,13 @@
       "description": "Floating user feedback collector.",
       "group": "feedback",
       "status": "live",
-      "dependencies": [],
+      "dependencies": [
+        "motion"
+      ],
       "registryDependencies": [
         "button",
         "textarea",
+        "motion",
         "utils"
       ]
     },
@@ -1435,9 +1455,12 @@
       "description": "Horizontal nav with dropdowns.",
       "group": "layout",
       "status": "live",
-      "dependencies": [],
+      "dependencies": [
+        "motion"
+      ],
       "registryDependencies": [
         "badge",
+        "motion",
         "utils"
       ]
     },
@@ -2186,8 +2209,11 @@
       "description": "Button with dropdown for secondary actions.",
       "group": "inputs",
       "status": "live",
-      "dependencies": [],
+      "dependencies": [
+        "motion"
+      ],
       "registryDependencies": [
+        "motion",
         "utils"
       ]
     },

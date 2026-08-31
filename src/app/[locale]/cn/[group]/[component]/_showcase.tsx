@@ -54,6 +54,7 @@ import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
 import { DateRangePicker } from "@/components/ui/cn/date-range-picker/DateRangePicker";
+import { Dock } from "@/components/ui/cn/dock/Dock";
 import { DonutChart } from "@/components/ui/cn/donut-chart/DonutChart";
 import { DotStepper } from "@/components/ui/cn/dot-stepper/DotStepper";
 import { Draggable } from "@/components/ui/cn/draggable/Draggable";
@@ -634,6 +635,32 @@ function DataListDemo() {
         <DataList items={items} layout="grid" bordered striped className="w-full max-w-sm" />
       </Frame>
     </div>
+  );
+}
+
+function DockDemo() {
+  const [openApps, setOpenApps] = useState<string[]>(["finder", "safari"]);
+  const apps = [
+    { id: "finder", name: "Finder", icon: <span className="text-[2rem] leading-none">🗂️</span> },
+    { id: "calculator", name: "Calculator", icon: <span className="text-[2rem] leading-none">🧮</span> },
+    { id: "terminal", name: "Terminal", icon: <span className="text-[2rem] leading-none">💻</span> },
+    { id: "mail", name: "Mail", icon: <span className="text-[2rem] leading-none">✉️</span> },
+    { id: "notes", name: "Notes", icon: <span className="text-[2rem] leading-none">📝</span> },
+    { id: "safari", name: "Safari", icon: <span className="text-[2rem] leading-none">🧭</span> },
+    { id: "photos", name: "Photos", icon: <span className="text-[2rem] leading-none">🖼️</span> },
+    { id: "music", name: "Music", icon: <span className="text-[2rem] leading-none">🎵</span> },
+  ];
+
+  function handleAppClick(id: string) {
+    setOpenApps((prev) => (prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]));
+  }
+
+  return (
+    <Frame label="Mova o mouse sobre os ícones — magnificação por proximidade (cosseno, igual ao macOS)" noPad>
+      <div className="flex items-end justify-center p-12">
+        <Dock apps={apps} openApps={openApps} onAppClick={handleAppClick} />
+      </div>
+    </Frame>
   );
 }
 
@@ -7788,6 +7815,7 @@ const DEMOS: Record<string, React.ComponentType> = {
   "data/code-diff": CodeDiffDemo,
   "layout/bento-grid": BentoGridDemo,
   "layout/scroll-progress": ScrollProgressDemo,
+  "layout/dock": DockDemo,
   "layout/draggable": DraggableDemo,
   "layout/image-cropper": ImageCropperDemo,
   "layout/resizable": ResizableDemo,

@@ -4368,6 +4368,27 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     ],
   },
   {
+    name: "dock",
+    title: "Dock",
+    group: "layout",
+    description: "macOS-style app dock with cosine proximity magnification and click bounce.",
+    filePath: "src/components/ui/cn/dock/Dock.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
+    keywords: ["dock", "macos", "taskbar", "app launcher", "magnification", "magnificacao", "barra de apps"],
+    props: [
+      {
+        name: "apps",
+        type: "DockApp[]",
+        required: true,
+        description: "Array de { id, name, icon: ReactNode }",
+      },
+      { name: "openApps", type: "string[]", description: "IDs dos apps abertos (mostra dot indicador)" },
+      { name: "onAppClick", type: "(appId: string) => void", description: "Callback ao clicar num app" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
+    ],
+  },
+  {
     name: "draggable",
     title: "Draggable",
     group: "layout",
