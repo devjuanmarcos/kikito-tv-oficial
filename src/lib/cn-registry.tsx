@@ -5110,7 +5110,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "feedback",
     description: "Inline feedback card with NPS, star and emoji rating modes, optional comment field.",
     filePath: "src/components/ui/cn/feedback-widget/FeedbackWidget.tsx",
-    peerDeps: ["@/lib/utils"],
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       {
         name: "type",
