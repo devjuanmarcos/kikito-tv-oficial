@@ -57,6 +57,21 @@ Localizei a fonte que o projeto já usa pra isso — `D:\DEVJUANMARCOS\PROJETOS\
 5. Commit individual, mensagem detalhada (achado + causa raiz + verificação).
 6. Se motion foi adicionado: usar preset de `@/lib/motion`, nunca número mágico solto (CLAUDE.md §Animação regra 1).
 
+### ✅ Rodada 3 — auditoria de motion de verdade (usuário pediu "siga ajustando todos, não pare")
+
+Passe manual (não só grep/testes) em cada um dos 24 restantes, procurando especificamente pela classe de bug já achada no Radio/Command: conteúdo condicional (`{state && <div>}`) sem `AnimatePresence`/transição nenhuma.
+
+| Componente          | Achado                                                                                     | Fix                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **Split Button**    | Dropdown "more options" trocava instantâneo                                                | `AnimatePresence` + `scaleIn`/`transitionStandard` (mesmo par do DropdownMenu)                                  |
+| **Feedback Widget** | `if (submitted) return <div>` trocava a árvore inteira (form → "Thank you!") sem transição | `AnimatePresence mode="wait"` + `fadeIn`/`transitionStandard` nos 2 estados                                     |
+| **Vertical Nav**    | Submenu de árvore expandia/colapsava sem transição (só o chevron rotacionava)              | Mesmo padrão `max-height`+`opacity` que o Accordion já usa pra conteúdo aninhado (não motion — altura variável) |
+| **Navigation Menu** | Dropdown do item com filhos trocava instantâneo                                            | `AnimatePresence` + `scaleIn`/`transitionStandard`                                                              |
+
+Os 20 restantes (Input Group, Card, Code Block, Animated List, Price Table, Swipe Card, Audio Waveform, Stat, Video Card, Grid Pattern, Chat Bubble, Dot Stepper, Icon Box, Ribbon, Resizable, Sortable List, Masonry, Scroll Area, Separator, Floating Bar) foram lidos por completo e confirmados **sem esse bug e sem necessidade real de motion** — a maioria já usa a técnica certa pro que faz (mouse-tracking direto em Card/glow/tilt/spotlight, drag 1:1 em Swipe Card, `@keyframes` CSS global em Animated List, transição CSS simples em Floating Bar/Dot Stepper) e forçar `motion` neles seria over-engineering, não correção de bug.
+
+**Flake pré-existente encontrado, não corrigido (fora de escopo)**: `video-card.spec.ts` falha de forma intermitente (timeout em `page.goto`/`networkidle`) — teste diferente falha a cada execução, sinal de dependência de rede externa (as imagens de demo vêm de `picsum.photos`), não regressão. `VideoCard.tsx` não foi tocado nesta rodada.
+
 ## Status
 
-**Fechado.** 3/3 bugs reais confirmados e corrigidos (Radio, Command, Side Panel), 4 suspeitas descartadas com evidência (FAB, Pricing Card, Mini Map, Spotlight Search), 24/24 componentes restantes com Playwright pré-existente passando 113/113, 2 componentes sem teste (Side Panel, Scroll Reveal) receberam suíte nova. Todos os 30 componentes citados nos screenshots originais foram verificados nesta varredura.
+**Fechado.** 3/3 bugs reais confirmados e corrigidos na rodada 1-2 (Radio, Command, Side Panel), 4 suspeitas descartadas com evidência (FAB, Pricing Card, Mini Map, Spotlight Search), mais **4 bugs reais de motion** achados e corrigidos na rodada 3 (Split Button, Feedback Widget, Vertical Nav, Navigation Menu) ao ler cada um dos 24 restantes por completo. Todos os ~30 componentes citados nos screenshots originais foram individualmente lidos, verificados e, onde havia bug real, corrigidos.
