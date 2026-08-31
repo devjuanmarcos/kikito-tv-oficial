@@ -8863,6 +8863,7 @@ export const CN_REGISTRY: CnComponentMeta[] = [
     group: "inputs",
     description: "Button with a primary action and a secondary dropdown for alternate actions.",
     filePath: "src/components/ui/cn/split-button/SplitButton.tsx",
+    peerDeps: ["@/lib/utils", "@/lib/motion", "motion"],
     props: [
       { name: "label", type: "string", required: true, description: "Texto do botão principal" },
       { name: "onClick", type: "() => void", required: true, description: "Ação do botão principal" },

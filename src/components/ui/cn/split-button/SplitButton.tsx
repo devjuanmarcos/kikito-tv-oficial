@@ -1,7 +1,9 @@
 ﻿"use client";
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
+import { scaleIn, transitionStandard } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import type { SplitButtonIntent, SplitButtonSize, SplitButtonProps } from "./split-button.types";
@@ -108,32 +110,41 @@ export function SplitButton({
         <ChevronIcon />
       </button>
 
-      {open &&
-        typeof document !== "undefined" &&
+      {typeof document !== "undefined" &&
         createPortal(
-          <div
-            ref={menuRef}
-            role="menu"
-            aria-label="More options"
-            className="fixed z-[1200] p-(--spacing-2xs) bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35)]"
-            style={{ top: pos.top, left: pos.left, minWidth: pos.width }}
-          >
-            {options.map((opt, i) => (
-              <button
-                key={i}
-                type="button"
-                disabled={opt.disabled}
-                role="menuitem"
-                onClick={() => {
-                  opt.onClick();
-                  setOpen(false);
-                }}
-                className="w-full text-left px-(--spacing-md) py-(--spacing-xs) text-body-callout text-foreground rounded-(--radius-xs) hover:bg-graphite transition-colors disabled:opacity-40 disabled:pointer-events-none"
+          // {open && ...} cru sem AnimatePresence/motion -- mesmo bug ja corrigido no
+          // DropdownMenu/Autocomplete (ver docs/component-import/animation-backport/PLAN.md),
+          // achado aqui tambem na varredura de showcase. Mesmo par scaleIn+transitionStandard
+          // do DropdownMenu (mesma forma de widget: menu de opcoes ancorado no trigger).
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                ref={menuRef}
+                role="menu"
+                aria-label="More options"
+                className="fixed z-[1200] p-(--spacing-2xs) bg-raised border border-rule rounded-(--radius-md) shadow-[0_8px_32px_-8px_oklch(0%_0_0/0.35)]"
+                style={{ top: pos.top, left: pos.left, minWidth: pos.width }}
+                {...scaleIn}
+                transition={transitionStandard}
               >
-                {opt.label}
-              </button>
-            ))}
-          </div>,
+                {options.map((opt, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={opt.disabled}
+                    role="menuitem"
+                    onClick={() => {
+                      opt.onClick();
+                      setOpen(false);
+                    }}
+                    className="w-full text-left px-(--spacing-md) py-(--spacing-xs) text-body-callout text-foreground rounded-(--radius-xs) hover:bg-graphite transition-colors disabled:opacity-40 disabled:pointer-events-none"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>,
           document.body
         )}
     </div>
