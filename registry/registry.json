@@ -3,7 +3,7 @@
   "name": "kikitocn",
   "homepage": "https://cn.kikito.tv",
   "rawBase": "https://raw.githubusercontent.com/devjuanmarcos/kikito-tv-oficial/main/registry",
-  "generatedAt": "2026-08-31T00:47:41.260Z",
+  "generatedAt": "2026-08-31T01:09:36.551Z",
   "items": [
     {
       "name": "utils",
@@ -232,6 +232,19 @@
       ],
       "registryDependencies": [
         "motion",
+        "utils"
+      ]
+    },
+    {
+      "name": "balloon-background",
+      "version": "1.1.0",
+      "title": "Balloon Background",
+      "type": "registry:component",
+      "description": "Floating balloons that pop into particles near the cursor.",
+      "group": "backgrounds",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": [
         "utils"
       ]
     },
@@ -668,6 +681,19 @@
       "dependencies": [],
       "registryDependencies": [
         "input"
+      ]
+    },
+    {
+      "name": "dark-gradient-background",
+      "version": "1.1.0",
+      "title": "Dark Gradient Background",
+      "type": "registry:component",
+      "description": "Full-bleed dark radial gradient backdrop with light streaks.",
+      "group": "backgrounds",
+      "status": "live",
+      "dependencies": [],
+      "registryDependencies": [
+        "utils"
       ]
     },
     {
@@ -2777,6 +2803,21 @@
       "group": "data",
       "status": "live",
       "dependencies": [],
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "warp-background",
+      "version": "1.1.0",
+      "title": "Warp Background",
+      "type": "registry:component",
+      "description": "3D grid backdrop with animated hyperspace light beams.",
+      "group": "backgrounds",
+      "status": "live",
+      "dependencies": [
+        "motion"
+      ],
       "registryDependencies": [
         "utils"
       ]

@@ -231,6 +231,11 @@ export const COMPONENT_META = {
   "newsletter-form":     { title: "Newsletter Form",    group: "inputs",     description: "Email subscription form.",                              status: "live" },
   "spotlight":           { title: "Spotlight",          group: "display",    description: "Cursor-tracking spotlight effect.",                     status: "live" },
   "theme-selector":      { title: "Theme Selector",     group: "display",    description: "Light/dark/system theme switcher.",                     status: "live" },
+
+  // ── Backgrounds ──────────────────────────────────────────────────────
+  "dark-gradient-background": { title: "Dark Gradient Background", group: "backgrounds", description: "Full-bleed dark radial gradient backdrop with light streaks.", status: "live" },
+  "warp-background":          { title: "Warp Background",          group: "backgrounds", description: "3D grid backdrop with animated hyperspace light beams.",      status: "live" },
+  "balloon-background":       { title: "Balloon Background",       group: "backgrounds", description: "Floating balloons that pop into particles near the cursor.", status: "live" },
 };
 
 /** Components to skip (internal/showcase only) */

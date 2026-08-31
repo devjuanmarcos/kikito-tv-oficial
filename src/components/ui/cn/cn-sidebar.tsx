@@ -16,6 +16,7 @@ const GROUP_ICONS: Record<string, string> = {
   layout: "▭",
   overlays: "◆",
   charts: "◑",
+  backgrounds: "▦",
 };
 
 /* ── SidebarGroup ─────────────────────────────────────────────────────── */

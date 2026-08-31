@@ -17,6 +17,7 @@ import { Autocomplete } from "@/components/ui/cn/autocomplete/Autocomplete";
 import { Avatar } from "@/components/ui/cn/avatar/Avatar";
 import { AvatarGroup } from "@/components/ui/cn/avatar-group/AvatarGroup";
 import { Badge } from "@/components/ui/cn/badge/Badge";
+import { BalloonBackground } from "@/components/ui/cn/balloon-background/BalloonBackground";
 import { Banner } from "@/components/ui/cn/banner/Banner";
 import { BarChart } from "@/components/ui/cn/bar-chart/BarChart";
 import { BentoGrid } from "@/components/ui/cn/bento-grid/BentoGrid";
@@ -50,6 +51,7 @@ import { CopyButton } from "@/components/ui/cn/copy-button/CopyButton";
 import { CountdownTimer } from "@/components/ui/cn/countdown-timer/CountdownTimer";
 import { CreditCard } from "@/components/ui/cn/credit-card/CreditCard";
 import { CurrencyInput } from "@/components/ui/cn/currency-input/CurrencyInput";
+import { DarkGradientBackground } from "@/components/ui/cn/dark-gradient-background/DarkGradientBackground";
 import { DataGrid } from "@/components/ui/cn/data-grid/DataGrid";
 import { DataList } from "@/components/ui/cn/data-list/DataList";
 import { DatePicker } from "@/components/ui/cn/date-picker/DatePicker";
@@ -218,6 +220,7 @@ import { UserCard } from "@/components/ui/cn/user-card/UserCard";
 import { VerticalNav } from "@/components/ui/cn/vertical-nav/VerticalNav";
 import { VideoCard } from "@/components/ui/cn/video-card/VideoCard";
 import { VirtualList } from "@/components/ui/cn/virtual-list/VirtualList";
+import { WarpBackground } from "@/components/ui/cn/warp-background/WarpBackground";
 import { WindowFrame } from "@/components/ui/cn/window-frame/WindowFrame";
 import { WordCounter } from "@/components/ui/cn/word-counter/WordCounter";
 
@@ -7754,8 +7757,57 @@ function TextEffectDemo() {
   return <Frame label={`Text Effect — effect="${effect}" · selecione a variante acima`}>{el}</Frame>;
 }
 
+function DarkGradientBackgroundDemo() {
+  return (
+    <Frame label="Backdrop escuro com feixes diagonais e textura de grão" noPad>
+      <DarkGradientBackground className="min-h-0 h-80 flex items-center justify-center rounded-(--radius-lg)">
+        <div className="text-center px-(--spacing-lg)">
+          <h2 className="text-heading-04 font-bold text-white">Build something great</h2>
+          <p className="text-body-paragraph text-white/70 mt-(--spacing-sm) max-w-md">
+            Um backdrop atmosférico pra seções de hero e landing pages.
+          </p>
+        </div>
+      </DarkGradientBackground>
+    </Frame>
+  );
+}
+
+function WarpBackgroundDemo() {
+  return (
+    <Frame label="Grade 3D com feixes de luz subindo pelas 4 bordas" noPad>
+      <div className="flex items-center justify-center p-12">
+        <WarpBackground beamsPerSide={3} className="bg-canvas">
+          <Card className="w-80">
+            <CardBody>
+              <p className="text-body-title font-semibold text-foreground">Parabéns pela promoção!</p>
+              <p className="text-body-callout text-muted mt-(--spacing-xs)">
+                Seu trabalho duro valeu a pena. Estamos animados em ver você dar esse próximo passo.
+              </p>
+            </CardBody>
+          </Card>
+        </WarpBackground>
+      </div>
+    </Frame>
+  );
+}
+
+function BalloonBackgroundDemo() {
+  return (
+    <Frame label="Balões sobem e estouram em partículas perto do cursor" noPad>
+      <BalloonBackground balloonCount={22} height={420} className="rounded-(--radius-lg)">
+        <div className="flex h-full items-center justify-center">
+          <p className="text-body-title font-semibold text-white/90">Mova o mouse pelos balões 🎈</p>
+        </div>
+      </BalloonBackground>
+    </Frame>
+  );
+}
+
 /* ── Registry of demos keyed by group/component ── */
 const DEMOS: Record<string, React.ComponentType> = {
+  "backgrounds/dark-gradient-background": DarkGradientBackgroundDemo,
+  "backgrounds/warp-background": WarpBackgroundDemo,
+  "backgrounds/balloon-background": BalloonBackgroundDemo,
   "charts/chart": ChartDemo,
   "display/text-effect": TextEffectDemo,
   "tokens/colors": ColorsTokens,

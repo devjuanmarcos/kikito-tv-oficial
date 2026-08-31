@@ -1,4 +1,13 @@
-﻿export type CnGroup = "tokens" | "inputs" | "display" | "data" | "feedback" | "layout" | "overlays" | "charts";
+﻿export type CnGroup =
+  | "tokens"
+  | "inputs"
+  | "display"
+  | "data"
+  | "feedback"
+  | "layout"
+  | "overlays"
+  | "charts"
+  | "backgrounds";
 
 export interface PropDoc {
   name: string;
@@ -162,6 +171,7 @@ export const CN_GROUPS: CnGroupMeta[] = [
   { id: "layout", label: "Layout", description: "Structure and arrangement", icon: "🧩" },
   { id: "overlays", label: "Overlays", description: "Modals, popovers and menus", icon: "🪟" },
   { id: "charts", label: "Charts", description: "Data visualization", icon: "📈" },
+  { id: "backgrounds", label: "Backgrounds", description: "Full-bleed decorative backdrops for hero/marketing sections", icon: "🌌" },
 ];
 
 export const CN_REGISTRY: CnComponentMeta[] = [
@@ -9399,6 +9409,61 @@ export const CN_REGISTRY: CnComponentMeta[] = [
         default: "0.05",
         description: "effect='wave': atraso entre o pulso de um caractere e o do próximo, em segundos",
       },
+    ],
+  },
+  // ── backgrounds ──────────────────────────────────────────────────────────
+  {
+    name: "dark-gradient-background",
+    title: "Dark Gradient Background",
+    group: "backgrounds",
+    description:
+      "Full-bleed dark radial gradient backdrop with diagonal light streaks, grain texture and dot pattern overlay.",
+    filePath: "src/components/ui/cn/dark-gradient-background/DarkGradientBackground.tsx",
+    peerDeps: ["@/lib/utils"],
+    keywords: ["gradient background", "dark hero", "backdrop", "fundo escuro", "radial gradient", "grain", "noise"],
+    props: [
+      { name: "children", type: "React.ReactNode", description: "Conteúdo sobreposto ao fundo" },
+      { name: "streakColor", type: "string", default: "'var(--ks-info)'", description: "Cor dos feixes diagonais" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
+    ],
+  },
+  {
+    name: "warp-background",
+    title: "Warp Background",
+    group: "backgrounds",
+    description: "3D grid backdrop with animated rainbow light beams shooting from the edges (hyperspace effect).",
+    filePath: "src/components/ui/cn/warp-background/WarpBackground.tsx",
+    peerDeps: ["@/lib/utils", "motion"],
+    keywords: ["warp", "hyperspace", "3d grid", "beams", "grade 3d", "feixes de luz", "backdrop"],
+    props: [
+      { name: "children", type: "React.ReactNode", required: true, description: "Conteúdo sobreposto ao fundo" },
+      { name: "perspective", type: "number", default: "100", description: "Perspectiva 3D em px" },
+      { name: "beamsPerSide", type: "number", default: "3", description: "Quantidade de feixes por lado" },
+      { name: "beamSize", type: "number", default: "5", description: "Tamanho de cada célula da grade (%)" },
+      { name: "beamDelayMin", type: "number", default: "0", description: "Atraso mínimo antes de repetir, em s" },
+      { name: "beamDelayMax", type: "number", default: "3", description: "Atraso máximo antes de repetir, em s" },
+      { name: "beamDuration", type: "number", default: "3", description: "Duração da subida do feixe, em s" },
+      { name: "gridColor", type: "string", default: "'var(--ks-rule)'", description: "Cor das linhas da grade" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+    ],
+  },
+  {
+    name: "balloon-background",
+    title: "Balloon Background",
+    group: "backgrounds",
+    description: "Floating balloons with string physics that pop into particles when the cursor gets close.",
+    filePath: "src/components/ui/cn/balloon-background/BalloonBackground.tsx",
+    peerDeps: ["@/lib/utils"],
+    keywords: ["balloon", "balao", "confete", "canvas", "particulas", "party", "celebration", "backdrop"],
+    props: [
+      { name: "children", type: "React.ReactNode", description: "Conteúdo sobreposto ao fundo" },
+      { name: "balloonCount", type: "number", default: "30", description: "Quantos balões flutuam ao mesmo tempo" },
+      { name: "colors", type: "BalloonColorSet[]", description: "Paleta de cores { base, light, dark } sorteada por balão" },
+      { name: "width", type: "string | number", default: "'100%'", description: "Largura do container" },
+      { name: "height", type: "string | number", default: "480", description: "Altura do container" },
+      { name: "className", type: "string", description: "Classes CSS extras" },
+      { name: "style", type: "CSSProperties", description: "Estilos inline extras" },
     ],
   },
 ];
