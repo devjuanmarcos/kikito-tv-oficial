@@ -74,7 +74,7 @@ export function Radio({
     return (
       <label
         className={cn(
-          "relative flex flex-col gap-(--spacing-xs) rounded-(--radius-md) border-(length:--border-width-base) border-rule bg-raised cursor-pointer transition-colors duration-[120ms] hover:border-foreground/30",
+          "relative flex flex-col gap-(--spacing-sm) rounded-(--radius-md) border-(length:--border-width-base) border-rule bg-raised cursor-pointer transition-colors duration-[120ms] hover:border-foreground/30",
           "has-[:checked]:border-patina has-[:checked]:bg-patina-soft",
           disabled && "opacity-50 cursor-not-allowed pointer-events-none",
           csz.padding,
@@ -97,18 +97,34 @@ export function Radio({
           }}
           className="sr-only peer"
         />
-        {icon && (
-          <span className={cn("shrink-0 text-patina [&>svg]:w-full [&>svg]:h-full", csz.icon)} aria-hidden="true">
-            {icon}
-          </span>
-        )}
-        <div className="flex items-start justify-between gap-(--spacing-sm)">
+        {/* achado real na varredura de showcase, 2026-08-30: o card nao tinha NENHUM
+            indicador visual de que era um radio -- so borda/fundo mudavam de cor no
+            select, sem dot/check em lugar nenhum. Posicionado absoluto (nao entra no
+            fluxo) pra nao competir com label/preco por espaco na linha. */}
+        <span
+          aria-hidden="true"
+          className="absolute top-(--spacing-md) right-(--spacing-md) w-4 h-4 rounded-full border-(length:--border-width-thin) border-rule flex items-center justify-center peer-checked:border-patina"
+        >
+          <span className="w-[7px] h-[7px] rounded-full bg-patina opacity-0 scale-50 transition-[opacity,transform] duration-[120ms] peer-checked:opacity-100 peer-checked:scale-100" />
+        </span>
+
+        {/* icone inline com o label (nao empilhado acima) -- antes, cards SEM icon
+            (Free/Enterprise) tinham o label comecando mais acima que cards COM icon
+            (Pro), desalinhando visualmente as linhas entre irmaos no mesmo grupo. */}
+        <div className="flex items-center gap-(--spacing-xs) pr-(--spacing-lg)">
+          {icon && (
+            <span className={cn("shrink-0 text-patina [&>svg]:w-full [&>svg]:h-full", csz.icon)} aria-hidden="true">
+              {icon}
+            </span>
+          )}
           <span className={cn("font-semibold text-foreground leading-tight", csz.label)}>{label}</span>
-          {/* sem shrink-0: preço curto ("$19") nunca precisa encolher; preço longo
-              ("Custom", "Sob consulta") quebra linha em vez de estourar a largura
-              do card — achado real na varredura de showcase, 2026-08-30. */}
-          {price && <span className={cn("font-bold text-patina text-right", csz.price)}>{price}</span>}
         </div>
+
+        {/* sem shrink-0: preço curto ("$19") nunca precisa encolher; preço longo
+            ("Custom", "Sob consulta") quebra linha em vez de estourar a largura
+            do card — achado real na varredura de showcase, 2026-08-30. */}
+        {price && <span className={cn("font-bold text-patina", csz.price)}>{price}</span>}
+
         {(description || helperText) && (
           <span id={helperId} className={cn("text-muted leading-normal", csz.desc)}>
             {description ?? helperText}
